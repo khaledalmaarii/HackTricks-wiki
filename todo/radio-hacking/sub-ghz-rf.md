@@ -1,49 +1,50 @@
 # Sub-GHz RF
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝**したい場合や**HackTricksをPDFでダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter**で**@carlospolopm**をフォローする🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-- **ハッキングトリックを共有するには、PRを送信して** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリに。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## ガレージドア
 
-ガレージドアオープナーは通常、300-190 MHzの周波数で動作し、最も一般的な周波数は300 MHz、310 MHz、315 MHz、390 MHzです。この周波数範囲は、他の周波数帯よりも混雑しておらず、他のデバイスからの干渉を受けにくいため、ガレージドアオープナーによく使用されます。
+ガレージドアオープナーは通常、300-190 MHzの範囲で動作し、最も一般的な周波数は300 MHz、310 MHz、315 MHz、390 MHzです。この周波数範囲は、他の周波数帯域よりも混雑が少なく、他のデバイスからの干渉を受けにくいため、ガレージドアオープナーに一般的に使用されます。
 
 ## 車のドア
 
-ほとんどの車のキーフォブは、**315 MHzまたは433 MHz**で動作します。これらはどちらも無線周波数であり、さまざまな異なるアプリケーションで使用されています。これら2つの周波数の主な違いは、433 MHzの方が315 MHzよりも長い射程を持っていることです。これは、433 MHzがリモートキーレスエントリなどのより長い射程を必要とするアプリケーションに適していることを意味します。\
-ヨーロッパでは433.92MHzが一般的であり、米国と日本では315MHzが使用されています。
+ほとんどの車のキーフォブは、**315 MHzまたは433 MHz**のいずれかで動作します。これらはどちらも無線周波数で、さまざまなアプリケーションで使用されています。2つの周波数の主な違いは、433 MHzの方が315 MHzよりも長い範囲を持つことです。つまり、433 MHzはリモートキーなしのエントリーなど、より長い範囲を必要とするアプリケーションに適しています。\
+ヨーロッパでは433.92MHzが一般的に使用されており、アメリカと日本では315MHzです。
 
 ## **ブルートフォース攻撃**
 
 <figure><img src="../../.gitbook/assets/image (1084).png" alt=""><figcaption></figcaption></figure>
 
-各コードを5回送信する代わりに（受信側が受信することを確認するために送信される）、1回だけ送信すると、時間が6分に短縮されます：
+各コードを5回送信する代わりに（受信者が受け取ることを確認するためにこのように送信される）、1回だけ送信すると、時間は6分に短縮されます：
 
 <figure><img src="../../.gitbook/assets/image (622).png" alt=""><figcaption></figcaption></figure>
 
-また、信号間の2 msの待機時間を**削除**すると、時間を**3分に短縮**できます。
+信号間の**2 msの待機**時間を削除すると、**時間を3分に短縮**できます。
 
-さらに、De Bruijn Sequence（潜在的なバイナリ数を送信するために必要なビット数を減らす方法）を使用することで、この**時間をわずか8秒に短縮**できます：
+さらに、デ・ブルイン列（すべての潜在的なバイナリ番号をブルートフォースするために送信する必要のあるビット数を減らす方法）を使用することで、この**時間はわずか8秒に短縮**されます：
 
 <figure><img src="../../.gitbook/assets/image (583).png" alt=""><figcaption></figcaption></figure>
 
-この攻撃の例は、[https://github.com/samyk/opensesame](https://github.com/samyk/opensesame) で実装されています。
+この攻撃の例は、[https://github.com/samyk/opensesame](https://github.com/samyk/opensesame)に実装されています。
 
-**前置詞を要求することで、De Bruijn Sequence**の最適化を回避し、**ローリングコード**はこの攻撃を防ぎます（コードが十分に長く、ブルートフォース攻撃できないと仮定して）。
+**プレアンブルを要求することでデ・ブルイン列の**最適化を回避し、**ロールコードはこの攻撃を防ぎます**（コードがブルートフォースできないほど長いと仮定します）。
 
 ## Sub-GHz攻撃
 
-Flipper Zeroでこれらの信号を攻撃するには、次のチェックを行います：
+これらの信号をFlipper Zeroで攻撃するには、次を確認してください：
 
 {% content-ref url="flipper-zero/fz-sub-ghz.md" %}
 [fz-sub-ghz.md](flipper-zero/fz-sub-ghz.md)
@@ -51,45 +52,46 @@ Flipper Zeroでこれらの信号を攻撃するには、次のチェックを�
 
 ## ローリングコード保護
 
-自動ガレージドアオープナーは通常、ワイヤレスリモコンを使用してガレージドアを開閉します。リモコンはガレージドアオープナーに**無線周波数（RF）信号**を送信し、モーターを作動させてドアを開閉します。
+自動ガレージドアオープナーは通常、ガレージドアを開閉するためにワイヤレスリモコンを使用します。リモコンは**無線周波数（RF）信号**をガレージドアオープナーに送信し、モーターを作動させてドアを開閉します。
 
-誰かが**コードグラバー**として知られるデバイスを使用してRF信号を傍受し、後で使用するために記録することが可能です。これは**リプレイ攻撃**として知られています。この種の攻撃を防ぐために、多くの現代のガレージドアオープナーは、**ローリングコード**システムとして知られるより安全な暗号化方式を使用しています。
+誰かがコードグラバーと呼ばれるデバイスを使用してRF信号を傍受し、後で使用するために記録することが可能です。これは**リプレイ攻撃**として知られています。この種の攻撃を防ぐために、多くの現代のガレージドアオープナーは**ロールコード**システムと呼ばれるより安全な暗号化方法を使用しています。
 
-**RF信号は通常、ローリングコードを使用して**送信されます。つまり、コードは使用ごとに変更されます。これにより、誰かが信号を傍受してガレージへの**不正アクセスを試みることが難しく**なります。
+**RF信号は通常、ロールコードを使用して送信されます**。これは、使用するたびにコードが変わることを意味します。これにより、誰かが信号を**傍受**し、ガレージに**不正アクセス**するために**使用**することが**難しく**なります。
 
-ローリングコードシステムでは、リモコンとガレージドアオープナーには、リモコンを使用するたびに新しいコードを生成する**共有アルゴリズム**があります。ガレージドアオープナーは**正しいコードにのみ応答**し、コードをキャプチャしてガレージへの不正アクセスを試みることがはるかに困難になります。
+ロールコードシステムでは、リモコンとガレージドアオープナーは**共有アルゴリズム**を持ち、リモコンが使用されるたびに**新しいコードを生成**します。ガレージドアオープナーは**正しいコード**にのみ応答し、コードをキャプチャするだけでガレージに不正アクセスすることが非常に難しくなります。
 
-### **Missing Link攻撃**
+### **ミッシングリンク攻撃**
 
-基本的に、リモートがデバイス（たとえば車やガレージ）から**離れた状態で信号をキャプチャ**し、その後デバイスに移動して**キャプチャしたコードを使用して開く**ことができます。
+基本的に、ボタンを聞いて、**リモコンがデバイスの範囲外にある間に信号をキャプチャ**します（例えば、車やガレージ）。その後、デバイスに移動し、**キャプチャしたコードを使用して開けます**。
 
 ### フルリンクジャミング攻撃
 
-攻撃者は、車両や受信機の近くで信号を**ジャム**することができ、その結果、**受信機はコードを「聞く」ことができなくなり**、その後、ジャミングを停止した後に単純にコードを**キャプチャして再生**することができます。
+攻撃者は、**車両または受信機の近くで信号をジャミング**することができるため、**受信機は実際にコードを「聞く」ことができません**。その状態が発生すると、単に**コードをキャプチャして再生**することができます。
 
-被害者はある時点で**車をロックするためにキーを使用**しますが、その後、攻撃は**「閉める」コードを十分に記録**しているはずであり、それらを再送信してドアを開けることができるかもしれません（同じコードを開閉に使用する車があり、異なる周波数で両方のコマンドを受信する車があるため、**周波数の変更が必要**かもしれません）。
+被害者はある時点で**鍵を使って車をロック**しますが、その後攻撃者は**「ドアを閉める」コードを十分に記録**し、再送信してドアを開けることができることを期待します（**周波数の変更が必要な場合があります**。同じコードを使用して開閉する車があり、異なる周波数で両方のコマンドを聞くためです）。
 
 {% hint style="warning" %}
-**ジャミングは機能します**が、車をロックする人が単にドアをテストしてロックされていることを確認すると、車がロック解除されていることに気付くでしょう。さらに、このような攻撃に気づいている場合、車を「ロック」ボタンを押したときにドアがロックされなかったことや、車の**ライト**が「ロック」ボタンを押したときに点滅しなかったことを聞くことさえできます。
+**ジャミングは機能します**が、目立ちます。**車をロックする人が単にドアをテスト**してロックされていることを確認すると、車がロックされていないことに気付くでしょう。さらに、彼らがそのような攻撃を認識している場合、ドアがロック**音**を出さなかったり、車の**ライト**が「ロック」ボタンを押したときに点滅しなかったことを聞くことができるかもしれません。
 {% endhint %}
 
-### **コードグラビング攻撃（別名「RollJam」）**
+### **コードグラビング攻撃（別名「ロールジャム」）**
 
-これはより**巧妙なジャミング技術**です。攻撃者は信号をジャムし、被害者がドアをロックしようとするときに動作しないようにしますが、攻撃者はこのコードを**記録**します。その後、被害者はボタンを押して再度車をロックしようとしますが、車はこの2回目のコードを**記録**します。\
-これをすぐに行うと、**攻撃者は最初のコードを送信**し、**車がロック**します（被害者は2回目の押しで閉じたと思うでしょう）。その後、攻撃者は**2番目の盗まれたコードを送信**して車を開けることができます（**「閉じる車」コードも開くために使用できる**と仮定して）。周波数の変更が必要かもしれません（同じコードを開閉に使用する車があり、異なる周波数で両方のコマンドを受信する車があるため）。
+これはより**ステルスジャミング技術**です。攻撃者は信号をジャミングし、被害者がドアをロックしようとすると機能しませんが、攻撃者は**このコードを記録**します。その後、被害者は**ボタンを押して再度車をロックしようとし、車はこの2番目のコードを**記録します。\
+この後すぐに、**攻撃者は最初のコードを送信**し、**車はロックされます**（被害者は2回目の押下で閉じたと思うでしょう）。その後、攻撃者は**盗まれた2番目のコードを送信して車を開ける**ことができます（**「車を閉じる」コードも使用できると仮定します**）。周波数の変更が必要な場合があります（同じコードを使用して開閉する車があり、異なる周波数で両方のコマンドを聞くためです）。
 
-攻撃者は**車の受信機をジャム**することができますが、車の受信機がたとえば1MHzの広帯域で受信している場合、攻撃者はリモコンが使用する正確な周波数をジャムするのではなく、**そのスペクトラム内の近い周波数をジャム**し、**攻撃者の受信機はリモコン信号をジャム信号なしで受信**できるようにします。
+攻撃者は**車の受信機をジャミングし、自分の受信機をジャミングしない**ことができます。なぜなら、車の受信機が例えば1MHzの広帯域で聞いている場合、攻撃者はリモコンが使用する正確な周波数を**ジャミング**するのではなく、**そのスペクトル内の近い周波数をジャミング**し、**攻撃者の受信機はより小さな範囲でリモコン信号を**ジャミング信号なしで聞くことができるからです。
 
 {% hint style="warning" %}
-他の仕様で見られる実装では、**ローリングコードは送信される合計コードの一部**であることが示されています。つまり、送信されるコードは**24ビットキー**であり、最初の**12ビットがローリングコード**、次の8ビットがコマンド（ロックまたはアンロックなど）、最後の4ビットが**チェックサム**です。このタイプを実装している車両も自然に脆弱性があり、攻撃者は単にローリングコードセグメントを置き換えるだけで、**両方の周波数で任意のローリングコードを使用**できるようになります。
+仕様に見られる他の実装は、**ロールコードが送信される全体のコードの一部**であることを示しています。つまり、送信されるコードは**24ビットキー**で、最初の**12ビットがロールコード**、**次の8ビットがコマンド**（ロックまたはアンロックなど）、最後の4ビットが**チェックサム**です。このタイプを実装している車両は、攻撃者がロールコードセグメントを置き換えるだけで、両方の周波数で**任意のロールコードを使用できるため、自然に脆弱です**。
 {% endhint %}
 
 {% hint style="danger" %}
-被害者が最初のコードを送信する間に攻撃者が最初のコードを送信すると、最初と2番目のコードは無効になります。
+被害者が攻撃者が最初のコードを送信している間に3番目のコードを送信すると、最初と2番目のコードは無効になります。
 {% endhint %}
-### 警報音ジャミング攻撃
 
-車に取り付けられたアフターマーケットのローリングコードシステムに対するテストでは、**同じコードを2回送信**するとすぐに**警報とイモビライザーが作動**し、ユニークな**サービス拒否**の機会が提供されました。皮肉なことに、**警報とイモビライザーを無効にする**手段は、**リモコンを押す**ことであり、攻撃者には**継続的にDoS攻撃を実行**する能力が与えられます。また、この攻撃を**前回の攻撃と組み合わせてさらに多くのコードを取得**することもできます。被害者は攻撃をできるだけ早く停止したいと考えるためです。
+### アラーム音ジャミング攻撃
+
+車に取り付けられたアフターマーケットのロールコードシステムに対するテストでは、**同じコードを2回送信**すると、すぐに**アラーム**とイモビライザーが作動し、ユニークな**サービス拒否**の機会を提供しました。皮肉なことに、**アラーム**とイモビライザーを**無効にする手段**は**リモコンを押す**ことであり、攻撃者に**継続的にDoS攻撃を実行する能力**を提供しました。また、被害者ができるだけ早く攻撃を止めたいと思うため、**前の攻撃と組み合わせてより多くのコードを取得**することもできます。
 
 ## 参考文献
 
@@ -98,16 +100,17 @@ Flipper Zeroでこれらの信号を攻撃するには、次のチェックを�
 * [https://samy.pl/defcon2015/](https://samy.pl/defcon2015/)
 * [https://hackaday.io/project/164566-how-to-hack-a-car/details](https://hackaday.io/project/164566-how-to-hack-a-car/details)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでのAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksで企業を宣伝**したい場合や**HackTricksをPDFでダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[Telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)をフォローする
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出して、あなたのハッキングトリックを共有する
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

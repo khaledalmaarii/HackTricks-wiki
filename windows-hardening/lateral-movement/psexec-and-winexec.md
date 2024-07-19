@@ -1,47 +1,48 @@
 # PsExec/Winexec/ScExec
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい場合**は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)をフォローする。
-* **ハッキングトリックを共有するには、** [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## 動作原理
+## どのように機能するか
 
-以下の手順に従って、サービスバイナリがSMB経由でリモート実行される方法が説明されています：
+プロセスは以下のステップで概説されており、SMBを介してターゲットマシンでリモート実行を達成するためにサービスバイナリがどのように操作されるかを示しています。
 
-1. **ADMIN$共有にサービスバイナリをコピー**します。
-2. バイナリを指すように、リモートマシンにサービスを**作成**します。
-3. サービスを**リモートで起動**します。
-4. 終了時に、サービスが**停止**され、バイナリが削除されます。
+1. **ADMIN$共有にサービスバイナリをSMB経由でコピー**します。
+2. **リモートマシン上にサービスを作成**し、バイナリを指します。
+3. サービスが**リモートで開始**されます。
+4. 終了時に、サービスは**停止され、バイナリは削除**されます。
 
-### **PsExecの手動実行プロセス**
+### **PsExecを手動で実行するプロセス**
 
-msfvenomで作成され、Veilを使用してウイルス対策ソフトの検出を回避するために難読化された実行可能ペイロード（'met8888.exe'という名前）があると仮定し、メータプリターのreverse\_httpペイロードを表す場合、次の手順が実行されます：
+msfvenomで作成され、ウイルス対策検出を回避するためにVeilを使用して難読化された実行可能ペイロード「met8888.exe」を仮定すると、以下のステップが取られます。
 
-* **バイナリのコピー**：実行可能ファイルは、コマンドプロンプトからADMIN$共有にコピーされますが、隠されたままにするためにファイルシステムの任意の場所に配置することもできます。
-* **サービスの作成**：Windowsの`sc`コマンドを使用して、Windowsサービスをリモートでクエリ、作成、削除できるため、「meterpreter」という名前のサービスがアップロードされたバイナリを指すように作成されます。
-* **サービスの開始**：最後のステップは、サービスの開始であり、バイナリが正規のサービスバイナリではなく、期待される応答コードを返さないため、「タイムアウト」エラーが発生する可能性が高いです。このエラーは、主な目標がバイナリの実行であるため、重要ではありません。
+* **バイナリのコピー**: 実行可能ファイルはコマンドプロンプトからADMIN$共有にコピーされますが、ファイルシステムのどこにでも配置して隠すことができます。
+* **サービスの作成**: Windowsの`sc`コマンドを使用して、リモートでWindowsサービスを照会、作成、削除することができ、「meterpreter」という名前のサービスがアップロードされたバイナリを指すように作成されます。
+* **サービスの開始**: 最後のステップはサービスを開始することで、バイナリが本物のサービスバイナリでないため、期待される応答コードを返さず「タイムアウト」エラーが発生する可能性があります。このエラーは、バイナリの実行が主な目的であるため、重要ではありません。
 
 Metasploitリスナーを観察すると、セッションが正常に開始されたことがわかります。
 
-[`sc`コマンドについて詳しく学ぶ](https://technet.microsoft.com/en-us/library/bb490995.aspx)。
+[scコマンドの詳細を学ぶ](https://technet.microsoft.com/en-us/library/bb490995.aspx)。
 
-詳細な手順はこちら：[https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
+詳細な手順については、[https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)を参照してください。
 
-**Windows SysinternalsバイナリPsExec.exeも使用できます：**
+**Windows SysinternalsバイナリPsExec.exeを使用することもできます:**
 
 ![](<../../.gitbook/assets/image (928).png>)
 
-[**SharpLateral**](https://github.com/mertdas/SharpLateral)も使用できます：
+[**SharpLateral**](https://github.com/mertdas/SharpLateral)を使用することもできます:
 
 {% code overflow="wrap" %}
 ```
@@ -49,16 +50,17 @@ SharpLateral.exe redexec HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 ```
 {% endcode %}
 
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong>を使用して、ゼロからヒーローまでAWSハッキングを学ぶ</summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)コレクションをご覧ください
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)で**フォロー**してください。
-* **ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}

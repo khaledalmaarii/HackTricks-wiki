@@ -1,70 +1,71 @@
 # SPI
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい**または **HackTricks をPDFでダウンロードしたい**場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェック！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を手に入れる
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family)コレクションを見る
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)をフォローする
-* **ハッキングトリックを共有するには、** [**HackTricks**](https://github.com/carlospolop/hacktricks)と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出する
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## 基本情報
 
-SPI（Serial Peripheral Interface）は、組み込みシステムで使用される同期シリアル通信プロトコルであり、IC（集積回路）間の短距離通信に使用されます。SPI通信プロトコルは、クロックとチップ選択信号によってオーケストレートされるマスター-スレーブアーキテクチャを使用します。マスター-スレーブアーキテクチャには、通常、EEPROM、センサー、制御デバイスなどの外部ペリフェラルを管理するマスター（通常はマイクロプロセッサ）が含まれ、これらはスレーブと見なされます。
+SPI（シリアルペリフェラルインターフェース）は、IC（集積回路）間の短距離通信に使用される同期シリアル通信プロトコルです。SPI通信プロトコルは、クロックとチップセレクト信号によって調整されるマスター-スレーブアーキテクチャを利用します。マスター-スレーブアーキテクチャは、EEPROM、センサー、制御デバイスなどの外部周辺機器を管理するマスター（通常はマイクロプロセッサ）で構成され、これらはスレーブと見なされます。
 
-複数のスレーブをマスターに接続できますが、スレーブ同士は通信できません。スレーブは、クロックとチップ選択の2つのピンによって管理されます。SPIは同期通信プロトコルであるため、入力および出力ピンはクロック信号に従います。チップ選択は、マスターがスレーブを選択してそれとやり取りするために使用されます。チップ選択が高い場合、スレーブデバイスは選択されず、低い場合はチップが選択され、マスターがスレーブとやり取りします。
+複数のスレーブがマスターに接続できますが、スレーブ同士は通信できません。スレーブは、クロックとチップセレクトの2つのピンによって管理されます。SPIは同期通信プロトコルであるため、入力ピンと出力ピンはクロック信号に従います。チップセレクトは、マスターがスレーブを選択して相互作用するために使用されます。チップセレクトが高いと、スレーブデバイスは選択されず、低いと、チップが選択され、マスターがスレーブと相互作用します。
 
-MOSI（Master Out, Slave In）およびMISO（Master In, Slave Out）はデータの送信と受信に責任があります。データは、MOSIピンを介してスレーブデバイスに送信され、チップ選択が低い状態で保持されます。入力データには、スレーブデバイスのベンダーのデータシートに従って命令、メモリアドレス、またはデータが含まれます。有効な入力後、MISOピンはデータをマスターに送信する責任があります。出力データは、入力が終了した直後の次のクロックサイクルで送信されます。MISOピンは、データが完全に送信されるか、マスターがチップ選択ピンを高に設定するまでデータを送信し続けます（その場合、スレーブは送信を停止し、マスターはそのクロックサイクル以降にリッスンしません）。
+MOSI（マスターアウト、スレーブイン）とMISO（マスターイン、スレーブアウト）は、データの送信と受信を担当します。データは、MOSIピンを通じてスレーブデバイスに送信され、チップセレクトが低く保たれます。入力データには、スレーブデバイスベンダーのデータシートに従った命令、メモリアドレス、またはデータが含まれます。有効な入力があると、MISOピンはマスターにデータを送信します。出力データは、入力が終了した次のクロックサイクルで送信されます。MISOピンは、データが完全に送信されるまで、またはマスターがチップセレクトピンを高く設定するまでデータを送信します（その場合、スレーブは送信を停止し、マスターはその後のクロックサイクルで聞き取らなくなります）。
 
-## EEPROMからファームウェアをダンプする
+## EEPROMからのファームウェアのダンプ
 
-ファームウェアをダンプすることは、ファームウェアを分析し、その中の脆弱性を見つけるのに役立ちます。ファームウェアがインターネット上で利用できないか、モデル番号、バージョンなどの要因の変化により関連性がない場合がよくあります。したがって、物理デバイスからファームウェアを直接抽出することは、脅威を探す際に特定性を持たせるのに役立ちます。
+ファームウェアのダンプは、ファームウェアを分析し、脆弱性を見つけるのに役立ちます。多くの場合、ファームウェアはインターネット上で入手できないか、モデル番号、バージョンなどの要因の変動により無関係です。したがって、物理デバイスから直接ファームウェアを抽出することは、脅威を特定する際に役立ちます。
 
-シリアルコンソールを取得することは役立ちますが、ファイルが読み取り専用であることがよくあります。これは、さまざまな理由により分析が制約される原因となります。たとえば、パッケージの送受信に必要なツールがファームウェアに含まれていない場合があります。そのため、バイナリを抽出してリバースエンジニアリングすることは実現不可能です。したがって、ファームウェア全体をシステムにダンプし、分析のためにバイナリを抽出することは非常に役立ちます。
+シリアルコンソールを取得することは役立ちますが、ファイルが読み取り専用であることがよくあります。これにより、さまざまな理由から分析が制約されます。たとえば、パッケージを送受信するために必要なツールがファームウェアに存在しない場合があります。したがって、バイナリを抽出して逆アセンブルすることは実行可能ではありません。したがって、システムにファームウェア全体をダンプし、分析のためにバイナリを抽出することは非常に役立ちます。
 
-また、レッドチーム活動やデバイスへの物理アクセスを取得する際に、ファームウェアをダンプすることでファイルを変更したり、悪意のあるファイルを注入してからそれをメモリに再フラッシュすることができ、デバイスにバックドアを埋め込むのに役立ちます。したがって、ファームウェアのダンプによって解除される可能性がある数多くの可能性があります。
+また、レッドチーミング中やデバイスへの物理アクセスを取得する際に、ファームウェアをダンプすることでファイルを変更したり、悪意のあるファイルを注入したりして、それをメモリに再フラッシュすることができ、デバイスにバックドアを埋め込むのに役立ちます。したがって、ファームウェアのダンプによって解放される可能性は無数にあります。
 
 ### CH341A EEPROMプログラマーおよびリーダー
 
-このデバイスは、EEPROMからファームウェアをダンプし、ファームウェアファイルでそれらを再フラッシュするための安価なツールです。これは、コンピュータのBIOSチップ（単なるEEPROM）で作業するための人気のある選択肢となっています。このデバイスはUSB経由で接続され、開始するのに最小限のツールが必要です。また、通常、タスクを迅速に完了するため、物理デバイスアクセスでも役立つことがあります。
+このデバイスは、EEPROMからファームウェアをダンプし、ファームウェアファイルで再フラッシュするための手頃なツールです。これは、コンピュータのBIOSチップ（実際にはEEPROM）で作業するための人気の選択肢です。このデバイスはUSB経由で接続され、開始するために最小限のツールが必要です。また、通常は迅速に作業を完了するため、物理デバイスへのアクセスにも役立ちます。
 
 ![drawing](../../.gitbook/assets/board\_image\_ch341a.jpg)
 
-EEPROMメモリをCH341aプログラマーに接続し、デバイスをコンピュータに接続します。デバイスが検出されない場合は、コンピュータにドライバをインストールしてみてください。また、EEPROMが適切な向きで接続されていることを確認してください（通常、VCCピンをUSBコネクタの逆向きに配置します）。そうでないと、ソフトウェアがチップを検出できません。必要に応じて図を参照してください：
+EEPROMメモリをCH341aプログラマーに接続し、デバイスをコンピュータに接続します。デバイスが検出されない場合は、コンピュータにドライバーをインストールしてみてください。また、EEPROMが正しい向きで接続されていることを確認してください（通常、VCCピンをUSBコネクタに対して逆向きに配置します）。そうしないと、ソフトウェアがチップを検出できません。必要に応じて図を参照してください：
 
 ![drawing](../../.gitbook/assets/connect\_wires\_ch341a.jpg) ![drawing](../../.gitbook/assets/eeprom\_plugged\_ch341a.jpg)
 
-最後に、ファームウェアをダンプするためにflashrom、G-Flash（GUI）などのソフトウェアを使用します。G-Flashは、最小限のGUIツールであり、高速でEEPROMを自動的に検出します。これは、ドキュメントをあまりいじらずに迅速にファームウェアを抽出する必要がある場合に役立ちます。
+最後に、flashrom、G-Flash（GUI）などのソフトウェアを使用してファームウェアをダンプします。G-Flashは、最小限のGUIツールで、迅速でEEPROMを自動的に検出します。これは、ファームウェアを迅速に抽出する必要がある場合に役立ち、文書をあまりいじることなく使用できます。
 
 ![drawing](../../.gitbook/assets/connected\_status\_ch341a.jpg)
 
-ファームウェアをダンプした後、バイナリファイルで分析を行うことができます。strings、hexdump、xxd、binwalkなどのツールを使用して、ファームウェアやファイルシステム全体に関する多くの情報を抽出することができます。
+ファームウェアをダンプした後、バイナリファイルの分析を行うことができます。strings、hexdump、xxd、binwalkなどのツールを使用して、ファームウェアやファイルシステム全体に関する多くの情報を抽出できます。
 
-ファームウェアからコンテンツを抽出するには、binwalkを使用できます。Binwalkは16進数のシグネチャを分析し、バイナリファイル内のファイルを識別し、それらを抽出することができます。
+ファームウェアからの内容を抽出するには、binwalkを使用できます。Binwalkは、16進数の署名を分析し、バイナリファイル内のファイルを特定し、それらを抽出することができます。
 ```
 binwalk -e <filename>
 ```
-ファイルは、使用されるツールと構成に応じて、.binまたは.rom形式である可能性があります。
+The can be .bin or .rom as per the tools and configurations used.
 
 {% hint style="danger" %}
-ファームウェアの抽出は繊細なプロセスであり、多くの忍耐が必要です。誤った取り扱いはファームウェアを破損させる可能性があり、デバイスを完全に消去して使用不能にすることさえあります。ファームウェアを抽出しようとする前に、特定のデバイスを研究することをお勧めします。
+ファームウェアの抽出は繊細なプロセスであり、多くの忍耐が必要です。取り扱いを誤ると、ファームウェアが破損したり、完全に消去されてデバイスが使用できなくなる可能性があります。ファームウェアを抽出する前に、特定のデバイスを研究することをお勧めします。
 {% endhint %}
 
 ### Bus Pirate + flashrom
 
 ![](<../../.gitbook/assets/image (910).png>)
 
-Pirate BusのPINOUTが**MOSI**と**MISO**のためのピンを示している場合でも、一部のSPIはピンをDIとDOとして示す場合があることに注意してください。**MOSI -> DI, MISO -> DO**
+Pirate BusのPINOUTがSPIに接続するための**MOSI**および**MISO**のピンを示していても、いくつかのSPIはピンをDIおよびDOとして示す場合があります。**MOSI -> DI, MISO -> DO**
 
 ![](<../../.gitbook/assets/image (360).png>)
 
-WindowsまたはLinuxでは、[**`flashrom`**](https://www.flashrom.org/Flashrom)プログラムを使用して、次のようにフラッシュメモリの内容をダンプできます：
+WindowsまたはLinuxでは、プログラム[**`flashrom`**](https://www.flashrom.org/Flashrom)を使用して、次のようにフラッシュメモリの内容をダンプできます:
 ```bash
 # In this command we are indicating:
 # -VV Verbose
@@ -73,16 +74,17 @@ WindowsまたはLinuxでは、[**`flashrom`**](https://www.flashrom.org/Flashrom
 # -r <file> Image to save in the filesystem
 flashrom -VV -c "W25Q64.V" -p buspirate_spi:dev=COM3 -r flash_content.img
 ```
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手してください
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションをご覧ください
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}

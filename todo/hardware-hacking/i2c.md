@@ -1,22 +1,23 @@
 # I2C
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい** または **HackTricks をPDFでダウンロードしたい** 場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェック！
-* [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)、当社の独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) コレクションを発見する
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f) または [**telegramグループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) をフォローする**.**
-* **ハッキングテクニックを共有するために、** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のGitHubリポジトリにPRを提出する。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Bus Pirate
 
-Bus Pirate が動作しているかをテストするには、+5V を VPU に接続し、3.3V を ADC に接続し、バスパイレートにアクセスします（例えば Tera Term を使用）そして `~` コマンドを使用します：
+Bus Pirateが動作しているかテストするには、+5VをVPUに、3.3VをADCに接続し、バスパイレートにアクセスします（例えばTera Termを使用）し、コマンド`~`を使用します：
 ```bash
 # Use command
 HiZ>~
@@ -55,18 +56,18 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-前のコマンドラインでエラーが0個見つかったと表示されました。これは、購入後やファームウェアをフラッシュした後に動作していることを知るのに非常に役立ちます。
+前のコマンドラインに表示されたように、0エラーが見つかったと記載されています。これは、購入後やファームウェアをフラッシュした後に動作していることを確認するのに非常に便利です。
 
-バスパイレートに接続するには、以下のドキュメントに従うことができます：
+バスパイレートに接続するには、ドキュメントに従ってください：
 
 ![](<../../.gitbook/assets/image (484).png>)
 
-この場合、EPROMに接続しようとしています：ATMEL901 24C256 PU27：
+この場合、ATMEL901 24C256 PU27のEPROMに接続します：
 
 ![](<../../.gitbook/assets/image (964).png>)
 
-バスパイレートと通信するために、Tera Termを使用し、パイレートバスのCOMポートに接続し、Setup --> Serial Port --> Speedを115200に設定しました。\
-次の通信では、バスパイレートをI2C通信用に準備する方法やメモリからの書き込みと読み取り方法について説明しています（コメントは"#"を使用して表示されますが、通信の一部としては期待しないでください）：
+バスパイレートと通信するために、Tera Termを使用してパイレートバスのCOMポートに接続し、Setup --> Serial Port --> Speedを115200に設定しました。\
+以下の通信では、バスパイレートをI2Cで話すために準備する方法と、メモリから読み書きする方法を見つけることができます（コメントは"#"を使用して表示されます。この部分は通信には含まれませんので期待しないでください）：
 ```bash
 # Check communication with buspirate
 i
@@ -167,7 +168,7 @@ NACK
 ```
 ### Sniffer
 
-このシナリオでは、Arduinoと前のEPROMの間のI2C通信をスニッフすることになります。両方のデバイスを通信させ、その後、バスパイレートをSCL、SDA、およびGNDピンに接続する必要があります：
+このシナリオでは、arduinoと前のEPROM間のI2C通信をスニッフィングします。両方のデバイスを通信させ、その後バスパイレートをSCL、SDA、およびGNDピンに接続するだけです：
 
 ![](<../../.gitbook/assets/image (166).png>)
 ```bash
@@ -215,16 +216,17 @@ Sniffer
 Any key to exit
 [0xA0+0x00+0x69+0x41+0x41+0x41+0x20+0x48+0x69+0x20+0x44+0x72+0x65+0x67+0x21+0x20+0x41+0x41+0x41+0x00+]
 ```
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法:
-
-* **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**をフォローする。**
-* **ハッキングトリックを共有するために、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **および** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください。**
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
+{% endhint %}

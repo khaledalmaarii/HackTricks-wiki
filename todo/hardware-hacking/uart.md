@@ -1,28 +1,29 @@
 # UART
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong>を使って、<strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong>！</summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-- **HackTricksで企業を宣伝したい**または**HackTricksをPDFでダウンロードしたい**場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-- [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-- [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)を入手する
-- **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)**に参加するか、[telegramグループ](https://t.me/peass)に参加するか、**Twitter**で**@carlospolopm**をフォローする🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**。**
-- **ハッキングテクニックを共有するために、[HackTricks](https://github.com/carlospolop/hacktricks)と[HackTricks Cloud](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)は、**ダークウェブ**を活用した検索エンジンで、企業やその顧客が**盗難マルウェア**によって**侵害**されていないかをチェックする**無料**機能を提供しています。
+[**WhiteIntel**](https://whiteintel.io) は、**ダークウェブ**を利用した検索エンジンで、企業やその顧客が**盗難マルウェア**によって**侵害**されているかどうかを確認するための**無料**機能を提供しています。
 
-WhiteIntelの主な目標は、情報窃取マルウェアによるアカウント乗っ取りやランサムウェア攻撃に対抗することです。
+WhiteIntelの主な目的は、情報を盗むマルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
 
-彼らのウェブサイトをチェックして、**無料**でエンジンを試すことができます：
+彼らのウェブサイトを確認し、**無料**でエンジンを試すことができます:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -30,80 +31,76 @@ WhiteIntelの主な目標は、情報窃取マルウェアによるアカウン�
 
 ## 基本情報
 
-UARTはシリアルプロトコルであり、コンポーネント間でデータを1ビットずつ転送します。一方、並列通信プロトコルは複数のチャネルを通じてデータを同時に送信します。一般的なシリアルプロトコルには、RS-232、I2C、SPI、CAN、Ethernet、HDMI、PCI Express、USBなどがあります。
+UARTはシリアルプロトコルであり、コンポーネント間でデータを1ビットずつ転送します。対照的に、パラレル通信プロトコルは複数のチャネルを通じてデータを同時に送信します。一般的なシリアルプロトコルには、RS-232、I2C、SPI、CAN、Ethernet、HDMI、PCI Express、USBがあります。
 
-通常、UARTがアイドル状態にあるときは、ラインは高い（論理1の値）に保持されます。次に、データ転送の開始を示すために、送信機が開始ビットを受信機に送信します。この間、信号は低い（論理0の値）に保持されます。次に、送信機は、実際のメッセージを含む5〜8ビットのデータビットを送信し、オプションのパリティビットと1または2ビットのストップビット（論理1の値）が続きます。エラーチェックに使用されるパリティビットは、実際にはほとんど見られません。ストップビット（またはビット）は、送信の終了を示します。
+一般的に、UARTがアイドル状態のとき、ラインは高い状態（論理1の値）に保たれます。次に、データ転送の開始を示すために、送信者は受信者にスタートビットを送信し、その間、信号は低い状態（論理0の値）に保たれます。次に、送信者は実際のメッセージを含む5〜8ビットのデータを送信し、オプションのパリティビットと1または2のストップビット（論理1の値）を続けます。エラー検出に使用されるパリティビットは、実際にはほとんど見られません。ストップビット（またはビット）は、送信の終了を示します。
 
-最も一般的な構成を8N1と呼びます：8ビットのデータ、パリティなし、1ビットのストップビット。たとえば、8N1 UART構成で文字CまたはASCIIの0x43を送信したい場合、次のビットを送信します：0（開始ビット）；0、1、0、0、0、0、1、1（バイナリの0x43の値）、および0（ストップビット）。
+最も一般的な構成を8N1と呼びます：8ビットのデータ、パリティなし、1つのストップビット。たとえば、Cという文字、またはASCIIで0x43を8N1 UART構成で送信したい場合、次のビットを送信します：0（スタートビット）；0、1、0、0、0、0、1、1（0x43のバイナリ値）、および0（ストップビット）。
 
 ![](<../../.gitbook/assets/image (764).png>)
 
 UARTと通信するためのハードウェアツール：
 
-- USBシリアルアダプタ
-- CP2102またはPL2303チップを搭載したアダプタ
-- Bus Pirate、Adafruit FT232H、Shikra、またはAttify Badgeなどの多目的ツール
+* USB-to-serialアダプタ
+* CP2102またはPL2303チップを搭載したアダプタ
+* Bus Pirate、Adafruit FT232H、Shikra、またはAttify Badgeなどの多目的ツール
 
-### UARTポートの識別
+### UARTポートの特定
 
-UARTには4つのポートがあります：**TX**（送信）、**RX**（受信）、**Vcc**（電圧）、および**GND**（グラウンド）。PCBに**`TX`**と**`RX`**の文字が**書かれている**4つのポートを見つけることができるかもしれません。ただし、指示がない場合は、**マルチメーター**または**ロジックアナライザー**を使用して自分で見つける必要があるかもしれません。
+UARTには4つのポートがあります：**TX**（送信）、**RX**（受信）、**Vcc**（電圧）、および**GND**（接地）。PCBに**`TX`**および**`RX`**の文字が**書かれている**4つのポートを見つけることができるかもしれません。しかし、表示がない場合は、**マルチメーター**や**ロジックアナライザー**を使用して自分で見つける必要があるかもしれません。
 
-**マルチメーター**とデバイスの電源を切った状態で：
+**マルチメーター**を使用し、デバイスの電源を切った状態で：
 
-- **GND**ピンを特定するには、**連続性テスト**モードを使用し、バックリードをグラウンドに置き、赤いリードでテストして、マルチメーターから音が聞こえるまで試してください。複数のGNDピンがPCB上に見つかる場合がありますので、UARTに属するものを見つけたかどうかはわかりません。
-- **VCCポート**を特定するには、**DC電圧モード**を設定し、20Vの電圧に設定します。黒いプローブをグラウンドに、赤いプローブをピンに置きます。デバイスの電源を入れます。マルチメーターが3.3Vまたは5Vの定電圧を測定した場合、Vccピンを見つけました。他の電圧が表示される場合は、他のポートで再試行してください。
-- **TX** **ポート**を特定するには、**DC電圧モード**を20Vの電圧に設定し、黒いプローブをグラウンドに、赤いプローブをピンに置き、デバイスの電源を入れます。電圧が数秒間変動した後、Vcc値で安定する場合、おそらくTXポートを見つけました。これは、電源を入れるときにいくつかのデバッグデータを送信するためです。
-- **RXポート**は他の3つに最も近いものであり、UARTピンの中で最も低い電圧変動と最も低い全体的な値を持っています。
+* **GND**ピンを特定するには、**連続性テスト**モードを使用し、黒いリードを接地に置き、赤いリードでテストしてマルチメーターから音が聞こえるまで試します。PCBには複数のGNDピンがあるため、UARTに属するものを見つけたかどうかはわかりません。
+* **VCCポート**を特定するには、**DC電圧モード**を設定し、20Vの電圧に設定します。黒いプローブを接地に、赤いプローブをピンに置き、デバイスの電源を入れます。マルチメーターが3.3Vまたは5Vの一定の電圧を測定した場合、Vccピンを見つけたことになります。他の電圧が得られた場合は、他のポートで再試行します。
+* **TX** **ポート**を特定するには、**DC電圧モード**を20Vに設定し、黒いプローブを接地に、赤いプローブをピンに置き、デバイスの電源を入れます。電圧が数秒間変動し、その後Vcc値で安定する場合、TXポートを見つけた可能性が高いです。これは、電源を入れるとデバッグデータを送信するためです。
+* **RXポート**は他の3つに最も近く、電圧の変動が最も少なく、すべてのUARTピンの中で全体的な値が最も低いです。
 
-TXとRXポートを混同しても何も起こりませんが、GNDとVCCポートを混同すると回路を焼き切る可能性があります。
+TXポートとRXポートを混同しても何も起こりませんが、GNDポートとVCCポートを混同すると回路が壊れる可能性があります。
 
-一部のターゲットデバイスでは、製造業者によってUARTポートが無効にされている場合があります。その場合、基板内の接続を追跡し、いくつかのブレイクアウトポイントを見つけることが役立ちます。UARTの検出がないことと回路の切断を確認する強力なヒントは、デバイスの保証を確認することです。デバイスに保証が付属して出荷された場合、製造業者はいくつかのデバッグインターフェース（この場合はUART）を残し、したがって、UARTを切断し、デバッグ中に再接続する必要があります。これらのブレイクアウトピンは、はんだ付けまたはジャンパーワイヤーで接続できます。
+一部のターゲットデバイスでは、製造元によってRXまたはTX、または両方を無効にすることによりUARTポートが無効にされています。その場合、回路基板の接続を追跡し、ブレークアウトポイントを見つけることが役立ちます。UARTの検出がないことを確認し、回路が壊れていることを示す強い手がかりは、デバイスの保証を確認することです。デバイスが保証付きで出荷されている場合、製造元はデバッグインターフェース（この場合はUART）を残しており、したがってUARTを切断し、デバッグ中に再接続する必要があります。これらのブレークアウトピンは、はんだ付けまたはジャンパーワイヤーで接続できます。
 
-### UARTボーレートの識別
+### UARTボーレートの特定
 
-正しいボーレートを特定する最も簡単な方法は、**TXピンの出力を見てデータを読み取ろうとする**ことです。受信したデータが読めない場合は、データが読めるまで次の可能なボーレートに切り替えてください。これには、USBシリアルアダプタやBus Pirateなどの多目的デバイスと、[baudrate.py](https://github.com/devttys0/baudrate/)などのヘルパースクリプトを使用できます。最も一般的なボーレートは9600、38400、19200、57600、115200です。
+正しいボーレートを特定する最も簡単な方法は、**TXピンの出力を見てデータを読み取る**ことです。受信したデータが読み取れない場合は、次の可能なボーレートに切り替えてデータが読み取れるようになるまで繰り返します。USB-to-serialアダプタやBus Pirateのような多目的デバイスを使用し、[baudrate.py](https://github.com/devttys0/baudrate/)のようなヘルパースクリプトと組み合わせてこれを行うことができます。最も一般的なボーレートは9600、38400、19200、57600、115200です。
 
 {% hint style="danger" %}
-このプロトコルでは、1つのデバイスのTXを他のデバイスのRXに接続する必要があることに注意してください！
+このプロトコルでは、1つのデバイスのTXを他のデバイスのRXに接続する必要があることに注意することが重要です！
 {% endhint %}
 
-## CP210X UART to TTYアダプター
+## CP210X UART to TTYアダプタ
 
-CP210Xチップは、NodeMCU（esp8266搭載）などのプロトタイピングボードでシリアル通信に使用されます。これらのアダプターは比較的安価であり、ターゲットのUARTインターフェースに接続するために使用できます。デバイスには5つのピンがあります：5V、GND、RXD、TXD、3.3V。ターゲットがサポートする電圧に接続するようにして、損傷を防いでください。最後に、アダプターのRXDピンをターゲットのTXDに、アダプターのTXDピンをターゲットのRXDに接続してください。
+CP210Xチップは、NodeMCU（esp8266を搭載）などの多くのプロトタイピングボードでシリアル通信に使用されます。これらのアダプタは比較的安価で、ターゲットのUARTインターフェースに接続するために使用できます。デバイスには5つのピンがあります：5V、GND、RXD、TXD、3.3V。ターゲットがサポートする電圧に接続して、損傷を避けるようにしてください。最後に、アダプタのRXDピンをターゲットのTXDに、アダプタのTXDピンをターゲットのRXDに接続します。
 
-アダプターが検出されない場合は、ホストシステムにCP210Xドライバーがインストールされていることを確認してください。アダプターが検出され、接続されたら、picocom、minicom、またはscreenなどのツールを使用できます。
+アダプタが検出されない場合は、ホストシステムにCP210Xドライバーがインストールされていることを確認してください。アダプタが検出されて接続されると、picocom、minicom、またはscreenなどのツールを使用できます。
 
-Linux/MacOSシステムに接続されたデバイスをリストアップするには：
+Linux/MacOSシステムに接続されているデバイスをリストするには：
 ```
 ls /dev/
 ```
-UART インターフェースとの基本的なやり取りには、次のコマンドを使用します:
+UARTインターフェースとの基本的なインタラクションには、次のコマンドを使用します：
 ```
 picocom /dev/<adapter> --baud <baudrate>
 ```
-以下のコマンドを使用して、minicomを構成します：
-
-```bash
-sudo minicom -s
-```
+minicomの設定には、次のコマンドを使用します：
 ```
 minicom -s
 ```
-`シリアルポートの設定`オプションでボーレートやデバイス名などの設定を構成します。
+設定を`Serial port setup`オプションでボーレートやデバイス名などに構成します。
 
 構成後、`minicom`コマンドを使用してUARTコンソールを開始します。
 
 ## Arduino UNO R3を介したUART（取り外し可能なAtmel 328pチップボード）
 
-UARTシリアルからUSBアダプタが利用できない場合、Arduino UNO R3をクイックハックとして使用できます。通常、どこでも入手できるArduino UNO R3を使用することで、多くの時間を節約できます。
+UARTシリアルからUSBアダプタが利用できない場合、Arduino UNO R3を使って簡単なハックを行うことができます。Arduino UNO R3は通常どこでも入手可能なため、これにより多くの時間を節約できます。
 
-Arduino UNO R3には、ボード自体にUSBからシリアルへのアダプタが内蔵されています。UART接続を取得するには、ボードからAtmel 328pマイクロコントローラチップを抜き取るだけです。このハックは、Atmel 328pがボードにはんだ付けされていないArduino UNO R3バリアント（SMDバージョンが使用されている）で機能します。ArduinoのRXピン（デジタルピン0）をUARTインターフェースのTXピンに、ArduinoのTXピン（デジタルピン1）をUARTインターフェースのRXピンに接続します。
+Arduino UNO R3には、ボード自体にUSBからシリアルへのアダプタが組み込まれています。UART接続を得るには、ボードからAtmel 328pマイクロコントローラーチップを抜き出すだけです。このハックは、Atmel 328pがボードにハンダ付けされていないArduino UNO R3のバリアント（SMDバージョンが使用されています）で機能します。ArduinoのRXピン（デジタルピン0）をUARTインターフェースのTXピンに接続し、ArduinoのTXピン（デジタルピン1）をUARTインターフェースのRXピンに接続します。
 
-最後に、UARTインターフェースに応じてボーレートを設定して、Arduino IDEを使用することをお勧めします。
+最後に、シリアルコンソールを取得するためにArduino IDEを使用することをお勧めします。メニューの`tools`セクションで`Serial Console`オプションを選択し、UARTインターフェースに応じてボーレートを設定します。
 
 ## Bus Pirate
 
-このシナリオでは、プログラムのすべての出力をシリアルモニタに送信しているArduinoのUART通信をスニッフすることになります。
+このシナリオでは、プログラムのすべての印刷をシリアルモニターに送信しているArduinoのUART通信をスニッフィングします。
 ```bash
 # Check the modes
 UART>m
@@ -175,54 +172,55 @@ Escritura inicial completada:
 AAA Hi Dreg! AAA
 waiting a few secs to repeat....
 ```
-## UARTコンソールを使用してファームウェアをダンプする
+## Dumping Firmware with UART Console
 
-UARTコンソールは、ランタイム環境で基礎ファームウェアを操作するための優れた方法を提供します。ただし、UARTコンソールアクセスが読み取り専用の場合、多くの制約が発生する可能性があります。多くの組み込みデバイスでは、ファームウェアはEEPROMに保存され、揮発性メモリを持つプロセッサで実行されます。したがって、ファームウェアは読み取り専用のまま保持されます。製造時の元のファームウェアはEEPROM自体にあり、新しいファイルは揮発性メモリのため失われます。そのため、組み込みファームウェアを操作する際にファームウェアをダンプすることは貴重な取り組みです。
+UART Consoleは、ランタイム環境で基盤となるファームウェアを操作するための優れた方法を提供します。しかし、UART Consoleのアクセスが読み取り専用の場合、多くの制約が生じる可能性があります。多くの組み込みデバイスでは、ファームウェアはEEPROMに保存され、揮発性メモリを持つプロセッサで実行されます。したがって、元のファームウェアは製造時にEEPROM自体にあり、新しいファイルは揮発性メモリのために失われるため、ファームウェアは読み取り専用のまま保持されます。したがって、組み込みファームウェアを扱う際にファームウェアをダンプすることは貴重な努力です。
 
-これを行うための多くの方法があり、SPIセクションではさまざまなデバイスからファームウェアを直接抽出する方法が説明されています。ただし、物理デバイスや外部インタラクションを使用してファームウェアをダンプする前に、まずUARTを使用してファームウェアをダンプすることが推奨されています。
+これを行う方法はいくつかあり、SPIセクションではさまざまなデバイスを使用してEEPROMから直接ファームウェアを抽出する方法を説明しています。ただし、物理デバイスや外部インタラクションを使用してファームウェアをダンプすることはリスクがあるため、最初にUARTを使用してファームウェアをダンプすることをお勧めします。
 
-UARTコンソールからファームウェアをダンプするには、まずブートローダにアクセスする必要があります。多くの人気ベンダーは、Linuxをロードするためにuboot（Universal Bootloader）を使用しているため、ubootにアクセスすることが必要です。
+UART Consoleからファームウェアをダンプするには、まずブートローダーにアクセスする必要があります。多くの人気ベンダーは、Linuxをロードするためのブートローダーとしてuboot（Universal Bootloader）を使用しています。したがって、ubootにアクセスすることが必要です。
 
-ブートローダにアクセスするには、UARTポートをコンピュータに接続し、任意のシリアルコンソールツールを使用し、デバイスへの電源供給を切断します。セットアップが完了したら、Enterキーを押して押し続けます。最後に、デバイスに電源を接続してブートさせます。
+ブートローダーにアクセスするには、UARTポートをコンピュータに接続し、任意のシリアルコンソールツールを使用し、デバイスへの電源供給を切断しておきます。セットアップが完了したら、Enterキーを押して保持します。最後に、デバイスに電源を接続し、ブートさせます。
 
-これにより、ubootのロードが中断され、メニューが表示されます。ubootコマンドを理解し、それらをリストするためにヘルプメニューを使用することが推奨されます。これはおそらく`help`コマンドになるでしょう。異なるベンダーが異なる構成を使用しているため、それぞれを個別に理解する必要があります。
+これを行うことで、ubootのロードが中断され、メニューが表示されます。ubootコマンドを理解し、ヘルプメニューを使用してそれらをリストすることをお勧めします。これが`help`コマンドかもしれません。異なるベンダーが異なる構成を使用しているため、それぞれを個別に理解することが必要です。
 
-通常、ファームウェアをダンプするためのコマンドは次のとおりです：
+通常、ファームウェアをダンプするためのコマンドは：
 ```
 md
 ```
-which stands for "memory dump". This will dump the memory (EEPROM Content) on the screen. It is recommended to log the Serial Console output before starting the proceedure to capture the memory dump.
+which stands for "memory dump". これはメモリ（EEPROMコンテンツ）を画面にダンプします。メモリダンプをキャプチャするために、手順を開始する前にシリアルコンソールの出力をログに記録することをお勧めします。
 
-Finally, just strip out all the unnecessary data from the log file and store the file as `filename.rom` and use binwalk to extract the contents:
+最後に、ログファイルから不要なデータをすべて削除し、ファイルを `filename.rom` として保存し、binwalkを使用して内容を抽出します:
 ```
 binwalk -e <filename.rom>
 ```
-EEPROM内の可能な内容を、hexファイルで見つかったシグネチャに基づいてリストします。
+これは、16進数ファイルに見つかった署名に従って、EEPROMからの可能な内容をリストします。
 
-ただし、使用されている場合でも、ubootがアンロックされているとは限らないことに注意する必要があります。Enterキーが機能しない場合は、Spaceキーなどの異なるキーをチェックしてください。ブートローダーがロックされており中断されない場合、この方法は機能しません。デバイスのubootがブートローダーであるかどうかを確認するには、デバイスのブート時にUARTコンソールの出力をチェックしてください。ブート時にubootと言及されるかもしれません。
+ただし、使用されている場合でも、ubootが常にロック解除されているわけではないことに注意する必要があります。Enterキーが何も反応しない場合は、Spaceキーなどの異なるキーを確認してください。ブートローダーがロックされていて中断されない場合、この方法は機能しません。デバイスのブートローダーがubootであるかどうかを確認するには、デバイスのブート中にUARTコンソールの出力を確認してください。ブート中にubootと表示されるかもしれません。
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)は、**ダークウェブ**を活用した検索エンジンで、企業やその顧客が**盗難マルウェア**によって**侵害**されていないかをチェックするための**無料**機能を提供しています。
+[**WhiteIntel**](https://whiteintel.io)は、**ダークウェブ**に基づいた検索エンジンで、企業やその顧客が**スティーラーマルウェア**によって**侵害された**かどうかを確認するための**無料**機能を提供しています。
 
-WhiteIntelの主な目標は、情報窃取マルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
+WhiteIntelの主な目標は、情報を盗むマルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
 
-彼らのウェブサイトをチェックして、**無料**でエンジンを試すことができます：
+彼らのウェブサイトを確認し、**無料**でエンジンを試すことができます：
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>**htARTE（HackTricks AWS Red Team Expert）**で**ゼロからヒーローまでのAWSハッキング**を学ぶ！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝**したい場合や、**PDFでHackTricksをダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスワッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[NFTs](https://opensea.io/collection/the-peass-family)コレクションを見つける
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)や[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)を**フォロー**してください。
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出して、あなたのハッキングトリックを共有してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}

@@ -1,18 +1,19 @@
-# Checklist - Local Windows Privilege Escalation
+# チェックリスト - ローカルWindows特権昇格
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong>を通じて、ゼロからヒーローまでAWSハッキングを学ぶ</summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝**したい場合や**HackTricksをPDFでダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFTs**](https://opensea.io/collection/the-peass-family)のコレクションを見つける
-* **Discordグループ**に**参加**する💬 ([**Discord group**](https://discord.gg/hRep4RUj7f))または[**telegram group**](https://t.me/peass)に参加するか、**Twitter** 🐦で私たちをフォローする [**@carlospolopm**](https://twitter.com/hacktricks\_live)。
-* **HackTricks**と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出して、あなたのハッキングテクニックを共有する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,110 +23,132 @@ HackTricksをサポートする他の方法：
 
 ***
 
-### **Windowsローカル特権昇格ベクターを探すための最適なツール:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Windowsローカル特権昇格ベクトルを探すための最良のツール:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 ### [システム情報](windows-local-privilege-escalation/#system-info)
 
 * [ ] [**システム情報**](windows-local-privilege-escalation/#system-info)を取得する
-* [ ] スクリプトを使用して**カーネル**の[**脆弱性を検索**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Googleを使用してカーネルの**脆弱性を検索**する
-* [ ] searchsploitを使用してカーネルの**脆弱性を検索**する
-* [ ] [**環境変数**](windows-local-privilege-escalation/#environment)に興味深い情報はありますか？
-* [ ] PowerShell履歴にパスワードはありますか？ [**PowerShell履歴**](windows-local-privilege-escalation/#powershell-history)
-* [ ] [**インターネット設定**](windows-local-privilege-escalation/#internet-settings)に興味深い情報はありますか？
+* [ ] **カーネル**の[**エクスプロイトをスクリプトで検索**](windows-local-privilege-escalation/#version-exploits)
+* [ ] **Googleでカーネルのエクスプロイトを検索する**
+* [ ] **searchsploitでカーネルのエクスプロイトを検索する**
+* [ ] [**環境変数**](windows-local-privilege-escalation/#environment)に興味深い情報はあるか？
+* [ ] [**PowerShellの履歴**](windows-local-privilege-escalation/#powershell-history)にパスワードはあるか？
+* [ ] [**インターネット設定**](windows-local-privilege-escalation/#internet-settings)に興味深い情報はあるか？
 * [ ] [**ドライブ**](windows-local-privilege-escalation/#drives)は？
-* [ ] [**WSUSの脆弱性**](windows-local-privilege-escalation/#wsus)は？
+* [ ] [**WSUSエクスプロイト**](windows-local-privilege-escalation/#wsus)は？
 * [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)は？
 
 ### [ログ/AV列挙](windows-local-privilege-escalation/#enumeration)
 
-* [ ] [**監査**](windows-local-privilege-escalation/#audit-settings)と[**WEF**](windows-local-privilege-escalation/#wef)の設定を確認する
+* [ ] [**監査**](windows-local-privilege-escalation/#audit-settings)および[**WEF**](windows-local-privilege-escalation/#wef)設定を確認する
 * [ ] [**LAPS**](windows-local-privilege-escalation/#laps)を確認する
-* [ ] [**WDigest**](windows-local-privilege-escalation/#wdigest)がアクティブかどうかを確認する
+* [ ] [**WDigest**](windows-local-privilege-escalation/#wdigest)がアクティブか確認する
 * [ ] [**LSA保護**](windows-local-privilege-escalation/#lsa-protection)は？
-* [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)は？
+* [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [ ] [**キャッシュされた資格情報**](windows-local-privilege-escalation/#cached-credentials)は？
-* [ ] いずれかの[**AV**](https://github.com/carlospolop/hacktricks/blob/jp/windows-hardening/windows-av-bypass/README.md)があるかどうかを確認する
-* [ ] [**AppLockerポリシー**](https://github.com/carlospolop/hacktricks/blob/jp/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)は？
-* [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/jp/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)は？
-* [ ] [**ユーザー権限**](windows-local-privilege-escalation/#users-and-groups)は？
-* [ ] [**現在の**ユーザーの**権限**](windows-local-privilege-escalation/#users-and-groups)を確認する
-* [ ] どの特権グループのメンバーですか？ [**特権グループ**](windows-local-privilege-escalation/#privileged-groups)を確認する
-* [ ] これらのトークンのいずれかが有効になっているかどうかを確認する：**SeImpersonatePrivilege、SeAssignPrimaryPrivilege、SeTcbPrivilege、SeBackupPrivilege、SeRestorePrivilege、SeCreateTokenPrivilege、SeLoadDriverPrivilege、SeTakeOwnershipPrivilege、SeDebugPrivilege** [**トークン操作**](windows-local-privilege-escalation/#token-manipulation)は？
+* [ ] 何らかの[**AV**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-av-bypass/README.md)があるか？
+* [ ] [**AppLockerポリシー**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)は？
+* [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)は？
+* [ ] [**ユーザー特権**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] [**現在の**ユーザーの**特権**](windows-local-privilege-escalation/#users-and-groups)を確認する
+* [ ] [**特権グループのメンバー**](windows-local-privilege-escalation/#privileged-groups)か？
+* [ ] [これらのトークンのいずれかが有効か確認する](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [ ] [**ユーザーセッション**](windows-local-privilege-escalation/#logged-users-sessions)は？
-* [ ] [**ユーザーのホーム**](windows-local-privilege-escalation/#home-folders)を確認する（アクセスは？）
-* [ ] [**パスワードポリシー**](windows-local-privilege-escalation/#password-policy)は？
-* [ ] クリップボードの中身は何ですか？ [**クリップボードの内容**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)は？
+* [ ] [**ユーザーホーム**](windows-local-privilege-escalation/#home-folders)を確認する（アクセス？）
+* [ ] [**パスワードポリシー**](windows-local-privilege-escalation/#password-policy)を確認する
+* [ ] [**クリップボードの中身**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)は？
 
 ### [ネットワーク](windows-local-privilege-escalation/#network)
 
-* [ ] **現在の**[**ネットワーク情報**](windows-local-privilege-escalation/#network)を確認する
-* [ ] 外部に制限された**非表示のローカルサービス**を確認する
+* [ ] [**現在の**ネットワーク**情報**](windows-local-privilege-escalation/#network)を確認する
+* [ ] 外部に制限された**隠れたローカルサービス**を確認する
 
 ### [実行中のプロセス](windows-local-privilege-escalation/#running-processes)
 
-* [ ] プロセスのバイナリ[**ファイルとフォルダの権限**](windows-local-privilege-escalation/#file-and-folder-permissions)を確認する
-* [ ] [**メモリパスワードの採掘**](windows-local-privilege-escalation/#memory-password-mining)を行う
-* [ ] [**セキュリティの脆弱なGUIアプリ**](windows-local-privilege-escalation/#insecure-gui-apps)を確認する
-* [ ] `ProcDump.exe`を使用して、**興味深いプロセス**から資格情報を盗むことができますか？（firefox、chromeなど...）
+* [ ] プロセスバイナリの[**ファイルとフォルダの権限**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* [ ] [**メモリパスワードマイニング**](windows-local-privilege-escalation/#memory-password-mining)
+* [ ] [**安全でないGUIアプリ**](windows-local-privilege-escalation/#insecure-gui-apps)
+* [ ] `ProcDump.exe`を介して**興味深いプロセス**で資格情報を盗む？（firefox, chromeなど...）
 
 ### [サービス](windows-local-privilege-escalation/#services)
 
-* [ ] 任意のサービスを**変更**できますか？ [**権限**](windows-local-privilege-escalation/#permissions)を確認する
-* [ ] 任意のサービスが実行する**バイナリ**を**変更**できますか？ [**サービスのバイナリパスの変更**](windows-local-privilege-escalation/#modify-service-binary-path)を確認する
-* [ ] 任意のサービスの**レジストリ**を**変更**できますか？ [**サービスのレジストリ変更権限**](windows-local-privilege-escalation/#services-registry-modify-permissions)を確認する
-* [ ] いずれかの**未引用サービス**バイナリ**パス**を利用できますか？ [**引用されていないサービスパス**](windows-local-privilege-escalation/#unquoted-service-paths)を確認する
+* [ ] [**サービスを変更できるか**？](windows-local-privilege-escalation/#permissions)
+* [ ] [**サービスによって実行される**バイナリを**変更できるか**？](windows-local-privilege-escalation/#modify-service-binary-path)
+* [ ] [**サービスの**レジストリを**変更できるか**？](windows-local-privilege-escalation/#services-registry-modify-permissions)
+* [ ] [**引用符なしのサービス**バイナリ**パスを利用できるか**？](windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**アプリケーション**](windows-local-privilege-escalation/#applications)
 
-* インストールされたアプリケーションに**書き込み**権限がありますか？ [**インストールされたアプリケーションの書き込み権限**](windows-local-privilege-escalation/#write-permissions)を確認する
-* [**起動アプリケーション**](windows-local-privilege-escalation/#run-at-startup)を確認する
-* **脆弱な**[**ドライバー**](windows-local-privilege-escalation/#drivers)を確認する
+* [ ] **インストールされたアプリケーションの**[**書き込み権限**](windows-local-privilege-escalation/#write-permissions)
+* [ ] [**スタートアップアプリケーション**](windows-local-privilege-escalation/#run-at-startup)
+* [ ] **脆弱な**[**ドライバー**](windows-local-privilege-escalation/#drivers)
 
-### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
+### [DLLハイジャック](windows-local-privilege-escalation/#path-dll-hijacking)
 
-* [ ] **PATH**内の**任意のフォルダに書き込めます**か？
-* [ ] **存在しないDLLを読み込もうとする**既知のサービスバイナリはありますか？
-* [ ] **バイナリフォルダに書き込めます**か？
+* [ ] **PATH内の任意のフォルダに書き込めるか**？
+* [ ] **存在しないDLLを読み込もうとする**既知のサービスバイナリはあるか？
+* [ ] **任意のバイナリフォルダに書き込めるか**？
 
 ### [ネットワーク](windows-local-privilege-escalation/#network)
 
-* [ ] ネットワークを列挙します（共有、インターフェース、ルート、隣接者など）
-* [ ] ローカルホスト（127.0.0.1）でリッスンしているネットワークサービスに特に注意します
+* [ ] ネットワークを列挙する（共有、インターフェース、ルート、隣接、...）
+* [ ] localhost (127.0.0.1)でリッスンしているネットワークサービスに特に注意を払う
 
 ### [Windows資格情報](windows-local-privilege-escalation/#windows-credentials)
 
 * [ ] [**Winlogon**](windows-local-privilege-escalation/#winlogon-credentials)資格情報
-* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault)で使用できる資格情報はありますか？
-* [ ] 興味深い[**DPAPI資格情報**](windows-local-privilege-escalation/#dpapi)はありますか？
-* [ ] 保存された[**Wifiネットワーク**](windows-local-privilege-escalation/#wifi)のパスワード
-* [ ] 保存されたRDP接続に関する興味深い情報はありますか？
-* [ ] [**リモートデスクトップ資格情報マネージャー**](windows-local-privilege-escalation/#remote-desktop-credential-manager)のパスワード
-* [ ] [**AppCmd.exe**が存在](windows-local-privilege-escalation/#appcmd-exe)しますか？資格情報は？
-* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)はありますか？DLLサイドローディングは？
+* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault)の資格情報は使用できるか？
+* [ ] 興味深い[**DPAPI資格情報**](windows-local-privilege-escalation/#dpapi)は？
+* [ ] 保存された[**Wifiネットワーク**](windows-local-privilege-escalation/#wifi)のパスワードは？
+* [ ] [**保存されたRDP接続**](windows-local-privilege-escalation/#saved-rdp-connections)に興味深い情報はあるか？
+* [ ] [**最近実行されたコマンド**](windows-local-privilege-escalation/#recently-run-commands)のパスワードは？
+* [ ] [**リモートデスクトップ資格情報マネージャー**](windows-local-privilege-escalation/#remote-desktop-credential-manager)のパスワードは？
+* [ ] [**AppCmd.exe**が存在する](windows-local-privilege-escalation/#appcmd-exe)？資格情報は？
+* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)？DLLサイドローディング？
 
 ### [ファイルとレジストリ（資格情報）](windows-local-privilege-escalation/#files-and-registry-credentials)
 
-* [ ] **Putty:** [**資格情報**](windows-local-privilege-escalation/#putty-creds) **および** [**SSHホストキー**](windows-local-privilege-escalation/#putty-ssh-host-keys)
-* [ ] レジストリにある[**SSHキー**](windows-local-privilege-escalation/#ssh-keys-in-registry)はありますか？
-* [ ] [**無人ファイル**](windows-local-privilege-escalation/#unattended-files)にパスワードはありますか？
-* [ ] [**SAM＆SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups)のバックアップはありますか？
-* [ ] [**クラウド資格情報**](windows-local-privilege-escalation/#cloud-credentials)はありますか？
-* [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml)ファイルはありますか？
-* [ ] [**キャッシュされたGPPパスワード**](windows-local-privilege-escalation/#cached-gpp-pasword)はありますか？
-* [ ] [**IIS Web構成ファイル**](windows-local-privilege-escalation/#iis-web-config)にパスワードはありますか？
-* [ ] [**Webログ**](windows-local-privilege-escalation/#logs)に興味深い情報はありますか？
-* [ ] ユーザーに[**資格情報を要求**](windows-local-privilege-escalation/#ask-for-credentials)したいですか？
-* [ ] リサイクルビン内の[**興味深いファイル**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)はありますか？
-* [ ] 他の[**資格情報を含むレジストリ**](windows-local-privilege-escalation/#inside-the-registry)はありますか？
-* [ ] ブラウザデータ（データベース、履歴、ブックマークなど）内にありますか？
-* [ ] [**ファイルとレジストリ**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry)内の一般的なパスワード検索
-* [ ] パスワードを自動的に検索する[**ツール**](windows-local-privilege-escalation/#tools-that-search-for-passwords)はありますか？
+* [ ] **Putty:** [**資格情報**](windows-local-privilege-escalation/#putty-creds) **と** [**SSHホストキー**](windows-local-privilege-escalation/#putty-ssh-host-keys)
+* [ ] [**レジストリ内のSSHキー**](windows-local-privilege-escalation/#ssh-keys-in-registry)は？
+* [ ] [**無人ファイル**](windows-local-privilege-escalation/#unattended-files)にパスワードは？
+* [ ] [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups)のバックアップは？
+* [ ] [**クラウド資格情報**](windows-local-privilege-escalation/#cloud-credentials)は？
+* [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml)ファイルは？
+* [ ] [**キャッシュされたGPPパスワード**](windows-local-privilege-escalation/#cached-gpp-pasword)は？
+* [ ] [**IIS Web構成ファイル**](windows-local-privilege-escalation/#iis-web-config)にパスワードは？
+* [ ] [**ウェブログ**](windows-local-privilege-escalation/#logs)に興味深い情報はあるか？
+* [ ] ユーザーに[**資格情報を要求する**](windows-local-privilege-escalation/#ask-for-credentials)か？
+* [ ] [**ごみ箱内の興味深いファイル**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)は？
+* [ ] 他の[**資格情報を含むレジストリ**](windows-local-privilege-escalation/#inside-the-registry)は？
+* [ ] [**ブラウザデータ**](windows-local-privilege-escalation/#browsers-history)内（dbs、履歴、ブックマーク、...）は？
+* [ ] [**ファイルとレジストリ内の一般的なパスワード検索**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry)は？
+* [ ] パスワードを自動的に検索するための[**ツール**](windows-local-privilege-escalation/#tools-that-search-for-passwords)
 
-### [漏洩したハンドラ](windows-local-privilege-escalation/#leaked-handlers)
+### [漏洩したハンドラー](windows-local-privilege-escalation/#leaked-handlers)
 
-* [ ] 管理者によって実行されたプロセスのハンドラにアクセスできますか？
+* [ ] 管理者によって実行されるプロセスのハンドラーにアクセスできるか？
 
-### [パイプクライアントの擬似化](windows-local-privilege-escalation/#named-pipe-client-impersonation)
+### [パイプクライアントの偽装](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
-* [ ] それを悪用できるかどうかを確認します
+* [ ] 悪用できるか確認する
+
+**Try Hard Security Group**
+
+<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://discord.gg/tryhardsecurity" %}
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricksをサポートする</summary>
+
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+
+</details>
+{% endhint %}

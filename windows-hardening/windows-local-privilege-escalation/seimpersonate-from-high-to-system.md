@@ -1,23 +1,24 @@
 # SeImpersonate from High To System
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>でAWSハッキングをゼロからヒーローまで学びましょう</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝したい** または **HackTricks をPDFでダウンロードしたい** 場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションを見つける
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f) に参加するか、[**telegramグループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) をフォローする**
-* **ハッキングトリックを共有するために** [**HackTricks**](https://github.com/carlospolop/hacktricks) **と** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリにPRを提出する**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### コード
 
-[こちら](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)からの以下のコードは、**引数としてプロセスIDを指定**し、指定されたプロセスのユーザーとして実行されるCMDを実行できます。\
-高い整合性プロセスで実行すると、**Systemとして実行されているプロセスのPIDを指定**でき（winlogon、wininitなど）、cmd.exeをシステムとして実行できます。
+以下のコードは[こちら](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)からのものです。**引数としてプロセスIDを指定する**ことができ、指定されたプロセスの**ユーザーとして実行されるCMD**が実行されます。\
+高い整合性のプロセスで実行すると、**Systemとして実行されているプロセスのPIDを指定する**ことができ（winlogonやwininitのように）、cmd.exeをSystemとして実行できます。
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -156,7 +157,7 @@ return 0;
 
 ### エラー
 
-時々、システムの擬似化を試みても、次のような出力が表示されて機能しないことがあります:
+場合によっては、Systemを偽装しようとすると、次のような出力が表示されて動作しないことがあります:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -167,22 +168,37 @@ return 0;
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-これは、High Integrity レベルで実行していても**十分な権限がない**ことを意味します。\
-**プロセスエクスプローラー**（またはプロセスハッカーを使用することもできます）を使用して、`svchost.exe` プロセスに対する現在の管理者権限を確認しましょう：
+これは、たとえあなたが高い整合性レベルで実行していても、**十分な権限がない**ことを意味します。\
+現在の`svchost.exe`プロセスに対する管理者権限を**プロセスエクスプローラー**（またはプロセスハッカーを使用することもできます）で確認しましょう：
 
-1. `svchost.exe` のプロセスを選択します
+1. `svchost.exe`のプロセスを選択します
 2. 右クリック --> プロパティ
-3. "セキュリティ" タブ内で、右下の "権限" ボタンをクリックします
-4. "詳細設定" をクリックします
-5. "管理者" を選択し、"編集" をクリックします
-6. "詳細権限を表示" をクリックします
+3. "セキュリティ"タブの右下にある"権限"ボタンをクリックします
+4. "詳細"をクリックします
+5. "Administrators"を選択し、"編集"をクリックします
+6. "詳細な権限を表示"をクリックします
 
 ![](<../../.gitbook/assets/image (437).png>)
 
-前の画像には、"管理者" が選択したプロセスに対して持つすべての特権が含まれています（`svchost.exe` の場合、"Query" 特権のみを持っていることがわかります）
+前の画像には、選択したプロセスに対する"Administrators"のすべての権限が含まれています（`svchost.exe`の場合、彼らは「クエリ」権限しか持っていないことがわかります）
 
-`winlogon.exe` に対する "管理者" の特権を確認してください：
+`winlogon.exe`に対する"Administrators"の権限を確認してください：
 
 ![](<../../.gitbook/assets/image (1102).png>)
 
-そのプロセス内では、"管理者" は "Read Memory" と "Read Permissions" を行うことができ、おそらくこのプロセスで使用されているトークンを偽装することができます。
+そのプロセス内で、"Administrators"は「メモリを読み取る」と「権限を読み取る」ことができ、これによりおそらく管理者はこのプロセスで使用されるトークンを偽装することができます。
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

@@ -1,40 +1,41 @@
-# 書き込み可能なSysパス + Dllハイジャック特権昇格
+# Writable Sys Path +Dll Hijacking Privesc
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>を使って、ゼロからヒーローまでAWSハッキングを学ぶ</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝**したい場合や **HackTricks をPDFでダウンロード** したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* [**公式PEASS＆HackTricksグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)** に参加するか、[telegramグループ](https://t.me/peass) に参加するか、**Twitter** 🐦 で **@carlospolopm** をフォローする
-* **ハッキングテクニックを共有するために、PRを** [**HackTricks**](https://github.com/carlospolop/hacktricks) **と** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **のGitHubリポジトリに提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## はじめに
+## Introduction
 
-**システムパスフォルダに書き込み**できることがわかった場合（ユーザーパスフォルダに書き込める場合は機能しません）、システム内で**特権昇格**が可能かもしれません。
+もしあなたが**システムパスフォルダーに書き込むことができる**ことを発見した場合（ユーザーパスフォルダーに書き込むことができる場合は機能しないことに注意）、システム内で**特権を昇格させる**ことができる可能性があります。
 
-そのためには、**特権を持つサービスまたはプロセス**が**ロードしようとしているライブラリをハイジャック**する **Dll Hijacking** を悪用することができます。そして、そのサービスが存在しない可能性が高いDllをロードしようとするため、システムパスからロードしようとすることができます。
+そのためには、**Dll Hijacking**を悪用することができ、あなたよりも**より多くの特権**を持つサービスやプロセスによって**読み込まれるライブラリをハイジャック**します。そして、そのサービスがおそらくシステム全体に存在しないDllを読み込もうとしているため、書き込むことができるシステムパスからそれを読み込もうとします。
 
-**Dll Hijacking とは何か**の詳細については、以下を参照してください:
+**Dll Hijackingとは何か**についての詳細は、以下を確認してください：
 
 {% content-ref url="./" %}
 [.](./)
 {% endcontent-ref %}
 
-## Dll Hijacking による特権昇格
+## Privesc with Dll Hijacking
 
-### 不足しているDllの検出
+### Finding a missing Dll
 
-最初に必要なのは、**あなたよりも特権のあるプロセス**が**書き込み可能なシステムパスからDllをロード**しようとしているプロセスを**特定**することです。
+最初に必要なのは、**あなたよりも多くの特権**を持つプロセスを**特定する**ことで、そのプロセスがあなたが書き込むことができるシステムパスから**Dllを読み込もうとしている**ことです。
 
-この場合の問題は、おそらくこれらのプロセスがすでに実行されていることです。必要なDllを見つけるには、プロセスがロードされる前にできるだけ早く procmon を起動する必要があります。したがって、不足している.dll を見つけるには:
+この場合の問題は、おそらくそれらのプロセスはすでに実行中であることです。サービスが不足しているDllを見つけるために、プロセスが読み込まれる前にできるだけ早くprocmonを起動する必要があります。したがって、不足している.dllを見つけるために、次のことを行います：
 
-* `C:\privesc_hijacking` フォルダを**作成**し、そのパス `C:\privesc_hijacking` を**システムパス環境変数**に追加します。これは**手動**で行うか、**PS** を使用して行うことができます:
+* フォルダー`C:\privesc_hijacking`を**作成**し、パス`C:\privesc_hijacking`を**システムパス環境変数**に追加します。これを**手動**または**PS**で行うことができます：
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
@@ -51,57 +52,58 @@ $newPath = "$envPath;$folderPath"
 [Environment]::SetEnvironmentVariable("PATH", $newPath, "Machine")
 }
 ```
-* **`procmon`** を起動し、**`Options`** --> **`Enable boot logging`** に移動して、プロンプトで **`OK`** を押します。
-* 次に、**再起動**します。コンピュータが再起動されると、**`procmon`** ができるだけ早くイベントの**記録を開始**します。
-* 一度 **Windows** が**起動したら `procmon` を実行**し、実行中であることを通知され、イベントをファイルに保存するかどうかを尋ねられます。**はい**を選択し、**イベントをファイルに保存**します。
-* **ファイル**が**生成**されたら、開いている **`procmon`** ウィンドウを**閉じ**、イベントファイルを**開きます**。
-* 以下の **フィルター** を追加すると、書き込み可能なシステムパスフォルダから**読み込もうとした**すべての Dll を見つけることができます:
+* **`procmon`** を起動し、**`Options`** --> **`Enable boot logging`** に移動し、プロンプトで **`OK`** を押します。
+* その後、**再起動**します。コンピュータが再起動すると、**`procmon`** はすぐにイベントの **記録** を開始します。
+* **Windows** が **起動したら `procmon`** を再度実行します。実行中であることを知らせ、イベントをファイルに保存するかどうかを **尋ねます**。**はい** と答え、**イベントをファイルに保存**します。
+* **ファイル** が **生成されたら**、開いている **`procmon`** ウィンドウを **閉じ**、**イベントファイル** を **開きます**。
+* これらの **フィルター** を追加すると、書き込み可能なシステムパスフォルダーから **プロセスが読み込もうとした** すべてのDllが見つかります：
 
 <figure><img src="../../../.gitbook/assets/image (945).png" alt=""><figcaption></figcaption></figure>
 
-### 不足している Dlls
+### 見逃したDll
 
-無料の **仮想 (vmware) Windows 11 マシン** でこれを実行した結果は次のとおりです:
+無料の **仮想（vmware）Windows 11マシン** でこれを実行したところ、以下の結果が得られました：
 
 <figure><img src="../../../.gitbook/assets/image (607).png" alt=""><figcaption></figcaption></figure>
 
-この場合、.exe は無用なので無視し、不足している DLL は次のとおりです:
+この場合、.exe は無駄なので無視してください。見逃したDLLは以下のものでした：
 
-| サービス                         | Dll                | CMD line                                                             |
+| サービス                         | Dll                | CMDライン                                                             |
 | ------------------------------- | ------------------ | -------------------------------------------------------------------- |
-| タスク スケジューラ (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
+| タスクスケジューラ (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
 | 診断ポリシーサービス (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
-これを見つけた後、[**WptsExtensions.dll を悪用して権限昇格を行う方法**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll)を説明している興味深いブログ投稿を見つけました。これが今**行うこと**です。
+これを見つけた後、[**WptsExtensions.dllを利用して特権昇格する方法**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll)を説明している興味深いブログ記事を見つけました。これが今から **行うこと** です。
 
 ### 悪用
 
-したがって、特権を昇格するためには、ライブラリ **WptsExtensions.dll** を乗っ取ります。**パス**と**名前**があれば、悪意のある dll を生成するだけです。
+したがって、**特権を昇格させるために**、ライブラリ **WptsExtensions.dll** をハイジャックします。**パス** と **名前** が分かれば、**悪意のあるdllを生成**するだけです。
 
-[**これらの例**](./#creating-and-compiling-dlls)のいずれかを使用してみてください。リバースシェルを取得したり、ユーザーを追加したり、ビーコンを実行したりできます...
+[**これらの例のいずれかを使用してみることができます**](./#creating-and-compiling-dlls)。リバースシェルを取得したり、ユーザーを追加したり、ビーコンを実行したりするペイロードを実行できます...
 
 {% hint style="warning" %}
-すべてのサービスが **`NT AUTHORITY\SYSTEM`** で実行されているわけではないことに注意してください。一部は **`NT AUTHORITY\LOCAL SERVICE`** で実行されており、権限が**少ない**ため、新しいユーザーを作成することはできません。\
-ただし、そのユーザーには **`seImpersonate`** 権限があるため、[**potato suite を使用して権限を昇格**](../roguepotato-and-printspoofer.md)することができます。したがって、この場合、リバースシェルはユーザーを作成しようとするよりも良い選択肢です。
+すべてのサービスが **`NT AUTHORITY\SYSTEM`** で実行されているわけではなく、一部は **`NT AUTHORITY\LOCAL SERVICE`** で実行されており、**権限が少ない**ため、新しいユーザーを作成することはできません。\
+ただし、そのユーザーには **`seImpersonate`** 権限があるため、[**ポテトスイートを使用して特権を昇格させることができます**](../roguepotato-and-printspoofer.md)。したがって、この場合、リバースシェルはユーザーを作成しようとするよりも良い選択です。
 {% endhint %}
 
-執筆時点では、**タスク スケジューラ** サービスは **Nt AUTHORITY\SYSTEM** で実行されています。
+執筆時点で **タスクスケジューラ** サービスは **Nt AUTHORITY\SYSTEM** で実行されています。
 
-悪意のある Dll を生成した後（私の場合は x64 リバースシェルを使用し、シェルを取得しましたが、msfvenom からだったためディフェンダーによって殺されました）、それを書き込み可能なシステムパスに **WptsExtensions.dll** という名前で保存し、コンピュータを**再起動**します（またはサービスを再起動するか、影響を受けるサービス/プログラムを再実行するために必要な操作を実行します）。
+**悪意のあるDllを生成した後**（私の場合はx64リバースシェルを使用し、シェルを取得しましたが、msfvenomからのものであるためDefenderに殺されました）、書き込み可能なシステムパスに **WptsExtensions.dll** という名前で保存し、**コンピュータを再起動**します（またはサービスを再起動するか、影響を受けたサービス/プログラムを再実行するために必要なことを行います）。
 
-サービスが再起動されると、**dll が読み込まれ実行される**はずです（ライブラリが期待どおりに読み込まれたかどうかを確認するために **procmon** のトリックを再利用できます）。
+サービスが再起動されると、**dllが読み込まれ実行されるはずです**（**procmon** トリックを再利用して、**ライブラリが期待通りに読み込まれたかどうかを確認できます）。
+
+{% hint style="success" %}
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>**htARTE (HackTricks AWS Red Team Expert)** で**ゼロからヒーローまでのAWSハッキング**を学びましょう！</summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝**したり、**PDF で HackTricks をダウンロード**したりするには、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェックしてください！
-* [**公式 PEASS & HackTricks スワッグ**](https://peass.creator-spring.com)を手に入れる
-* 独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) コレクションである [**The PEASS Family**](https://opensea.io/collection/the-peass-family) を発見する
-* 💬 [**Discord グループ**](https://discord.gg/hRep4RUj7f) に参加するか、[**telegram グループ**](https://t.me/peass) に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live) をフォローする
-* **HackTricks** と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks) の github リポジトリに PR を提出して、あなたのハッキングトリックを共有する
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* [**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。
 
 </details>
+{% endhint %}

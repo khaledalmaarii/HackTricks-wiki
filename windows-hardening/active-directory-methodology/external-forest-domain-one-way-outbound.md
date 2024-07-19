@@ -1,20 +1,21 @@
-# External Forest Domain - One-Way (Outbound)
+# 外部フォレストドメイン - 一方向（アウトバウンド）
+
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS Red Team Expert）</strong></a><strong>！</strong></summary>
+<summary>HackTricksをサポートする</summary>
 
-HackTricks をサポートする他の方法:
-
-* **HackTricks で企業を宣伝**したい場合や **HackTricks をPDFでダウンロード** したい場合は [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop) をチェック！
-* [**公式PEASS＆HackTricksのグッズ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な [**NFTs**](https://opensea.io/collection/the-peass-family) のコレクションを見つける
-* **💬 [Discordグループ](https://discord.gg/hRep4RUj7f)** に参加するか、[telegramグループ](https://t.me/peass) に参加するか、**Twitter** 🐦 で **@carlospolopm** をフォローする [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **ハッキングテクニックを共有するためにPRを提出して** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) のgithubリポジトリに。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
+{% endhint %}
 
-このシナリオでは、**あなたのドメイン**が**異なるドメイン**からのプリンシパルに一部の**特権**を**委任**しています。
+このシナリオでは、**あなたのドメイン**が**異なるドメイン**のプリンシパルに**いくつかの権限**を**信頼**しています。
 
 ## 列挙
 
@@ -40,41 +41,41 @@ MemberName              : S-1-5-21-1028541967-2937615241-1935644758-1115
 MemberDistinguishedName : CN=S-1-5-21-1028541967-2937615241-1935644758-1115,CN=ForeignSecurityPrincipals,DC=DOMAIN,DC=LOCAL
 ## Note how the members aren't from the current domain (ConvertFrom-SID won't work)
 ```
-## 信頼アカウント攻撃
+## Trust Account Attack
 
-ドメイン **A** とドメイン **B** として識別される2つのドメイン間に信頼関係が確立されると、セキュリティ上の脆弱性が存在します。このセットアップでは、ドメイン **B** がドメイン **A** に対して信頼を拡張します。ここで、ドメイン **B** に関連付けられた特別なアカウントがドメイン **A** に作成され、両方のドメイン間での認証プロセスで重要な役割を果たします。この特別なアカウントは、両ドメイン間のサービスへのアクセスのためにチケットを暗号化するために使用されます。
+セキュリティの脆弱性は、ドメイン **A** とドメイン **B** の間に信頼関係が確立されるときに存在します。ここで、ドメイン **B** はドメイン **A** に対して信頼を拡張します。この設定では、ドメイン **B** のためにドメイン **A** に特別なアカウントが作成され、これは2つのドメイン間の認証プロセスにおいて重要な役割を果たします。このアカウントはドメイン **B** に関連付けられており、ドメイン間でサービスにアクセスするためのチケットを暗号化するために使用されます。
 
-ここで理解する重要な点は、この特別なアカウントのパスワードとハッシュを、ドメイン **A** のドメインコントローラからコマンドラインツールを使用して抽出できるということです。このアクションを実行するためのコマンドは次のとおりです：
+ここで理解すべき重要な点は、この特別なアカウントのパスワードとハッシュが、コマンドラインツールを使用してドメイン **A** のドメインコントローラーから抽出できるということです。このアクションを実行するためのコマンドは次のとおりです:
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.my.domain.local
 ```
-この抽出は、そのアカウントが名前の後に **$** が付いて識別され、ドメイン **A** の "Domain Users" グループに属しているため、このグループに関連付けられた権限を継承しているため可能です。これにより、個人はこのアカウントの資格情報を使用してドメイン **A** に対して認証できます。
+この抽出は、名前の後に**$**が付いたアカウントがアクティブであり、ドメイン**A**の「Domain Users」グループに属しているため、これに関連する権限を継承しているため可能です。これにより、個人はこのアカウントの資格情報を使用してドメイン**A**に対して認証することができます。
 
-**警告:** この状況を利用して、ユーザーとしてドメイン **A** に足場を築くことは可能ですが、権限は限られています。ただし、このアクセス権限はドメイン **A** で列挙を実行するのに十分です。
+**警告:** この状況を利用して、ユーザーとしてドメイン**A**に足場を築くことは可能ですが、権限は限られています。しかし、このアクセスはドメイン**A**での列挙を行うには十分です。
 
-信頼するドメインが `ext.local` であり、信頼されるドメインが `root.local` であるシナリオでは、`root.local` 内に `EXT$` というユーザーアカウントが作成されます。特定のツールを使用することで、Kerberos 信頼キーをダンプし、`root.local` の `EXT$` の資格情報を明らかにすることが可能です。これを達成するためのコマンドは次のとおりです:
+`ext.local`が信頼するドメインで、`root.local`が信頼されたドメインであるシナリオでは、`root.local`内に`EXT$`という名前のユーザーアカウントが作成されます。特定のツールを使用することで、Kerberos信頼キーをダンプし、`root.local`内の`EXT$`の資格情報を明らかにすることが可能です。これを達成するためのコマンドは次のとおりです:
 ```bash
 lsadump::trust /patch
 ```
-以下では、別のツールコマンドを使用して、`root.local`内の`root.local\EXT$`として認証するために抽出されたRC4キーを使用できます：
+これに続いて、抽出したRC4キーを使用して、別のツールコマンドを使用して`root.local`内の`root.local\EXT$`として認証することができます:
 ```bash
 .\Rubeus.exe asktgt /user:EXT$ /domain:root.local /rc4:<RC4> /dc:dc.root.local /ptt
 ```
-この認証ステップは、`root.local`内のサービスを列挙したり、Kerberoast攻撃を実行してサービスアカウントの資格情報を抽出する可能性を開く。
+この認証ステップは、`root.local` 内のサービスを列挙し、さらには悪用する可能性を開きます。たとえば、次のコマンドを使用してサービスアカウントの資格情報を抽出するために Kerberoast 攻撃を実行することができます：
 ```bash
 .\Rubeus.exe kerberoast /user:svc_sql /domain:root.local /dc:dc.root.local
 ```
-### クリアテキスト信頼パスワードの収集
+### 明文の信頼パスワードの収集
 
-前のフローでは、**クリアテキストパスワード**（また、**mimikatzによってダンプされた**）の代わりに信頼ハッシュが使用されました。
+前のフローでは、**明文パスワード**の代わりに信頼ハッシュが使用されました（これは**mimikatzによってダンプされました**）。
 
-クリアテキストパスワードは、mimikatzからの\[ CLEAR ]出力を16進数に変換し、ヌルバイト '\x00' を削除することで取得できます：
+明文パスワードは、mimikatzの\[ CLEAR ]出力を16進数から変換し、ヌルバイト‘\x00’を削除することで取得できます：
 
 ![](<../../.gitbook/assets/image (938).png>)
 
-信頼関係を作成する際、ユーザーが信頼のためにパスワードを入力する必要がある場合があります。このデモンストレーションでは、キーは元の信頼パスワードであり、したがって人間が読めるものです。キーがサイクルする（30日間）、クリアテキストは人間が読めなくなりますが、技術的にはまだ使用可能です。
+信頼関係を作成する際に、ユーザーが信頼のためにパスワードを入力する必要がある場合があります。このデモでは、キーは元の信頼パスワードであり、したがって人間が読み取れるものです。キーがサイクルする（30日ごと）と、明文は人間が読み取れなくなりますが、技術的には依然として使用可能です。
 
-クリアテキストパスワードは、信頼アカウントのKerberosシークレットキーを使用してTGTを要求する代わりに、信頼アカウントとして通常の認証を実行するために使用できます。ここでは、ext.localからroot.localにDomain Adminsのメンバーを問い合わせています：
+明文パスワードは、信頼アカウントとして通常の認証を行うために使用でき、信頼アカウントのKerberos秘密鍵を使用してTGTを要求する代替手段となります。ここでは、ext.localからroot.localに対してDomain Adminsのメンバーをクエリしています：
 
 ![](<../../.gitbook/assets/image (792).png>)
 
@@ -82,16 +83,17 @@ lsadump::trust /patch
 
 * [https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted](https://improsec.com/tech-blog/sid-filter-as-security-boundary-between-domains-part-7-trust-account-attack-from-trusting-to-trusted)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE（HackTricks AWS Red Team Expert）で</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong></a><strong>！</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricksをサポートする他の方法：
-
-* **HackTricksで企業を宣伝**したい場合や**HackTricksをPDFでダウンロード**したい場合は、[**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**公式PEASS＆HackTricksスウォッグ**](https://peass.creator-spring.com)を入手する
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見し、独占的な[**NFT**](https://opensea.io/collection/the-peass-family)コレクションを見つける
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)や[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **HackTricks**および**HackTricks Cloud**のgithubリポジトリにPRを提出して、あなたのハッキングトリックを共有してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
