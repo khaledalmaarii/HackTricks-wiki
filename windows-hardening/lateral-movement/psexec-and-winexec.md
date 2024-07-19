@@ -1,47 +1,48 @@
 # PsExec/Winexec/ScExec
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Kako rade
+## Kako funkcionišu
 
-Proces je opisan u koracima ispod, ilustrujući kako se binarni fajlovi servisa manipulišu kako bi se postiglo udaljeno izvršenje na ciljnoj mašini putem SMB-a:
+Proces je opisan u koracima ispod, ilustrujući kako se binarni fajlovi servisa manipulišu da bi se postigla daljinska izvršenja na ciljnim mašinama putem SMB:
 
-1. **Kopiranje binarnog fajla servisa na ADMIN$ deljenje preko SMB-a** se vrši.
-2. **Kreiranje servisa na udaljenoj mašini** se vrši tako što se pokazuje na binarni fajl.
-3. Servis se **pokreće udaljeno**.
-4. Po završetku, servis se **zaustavlja, a binarni fajl se briše**.
+1. **Kopiranje binarnog fajla servisa na ADMIN$ share preko SMB** se vrši.
+2. **Kreiranje servisa na daljinskoj mašini** se vrši upućivanjem na binarni fajl.
+3. Servis se **pokreće daljinski**.
+4. Po izlasku, servis se **zaustavlja, a binarni fajl se briše**.
 
-### **Proces Ručnog Izvršavanja PsExec-a**
+### **Proces ručnog izvršavanja PsExec**
 
-Pretpostavljajući da postoji izvršni payload (kreiran sa msfvenom i obfuskovan korišćenjem Veil-a kako bi izbegao detekciju antivirusa), nazvan 'met8888.exe', koji predstavlja meterpreter reverse\_http payload, sledeći koraci se preduzimaju:
+Pretpostavljajući da postoji izvršni payload (napravljen sa msfvenom i obfuskovan korišćenjem Veil-a da bi se izbegla antivirusna detekcija), nazvan 'met8888.exe', koji predstavlja meterpreter reverse_http payload, sledeći koraci se preduzimaju:
 
-* **Kopiranje binarnog fajla**: Izvršni fajl se kopira na ADMIN$ deljenje iz komandne linije, iako može biti smešten bilo gde na fajl sistemu kako bi ostao sakriven.
-* **Kreiranje servisa**: Korišćenjem Windows `sc` komande, koja omogućava upitivanje, kreiranje i brisanje Windows servisa udaljeno, kreiran je servis nazvan "meterpreter" koji pokazuje na uploadovani binarni fajl.
-* **Pokretanje servisa**: Poslednji korak uključuje pokretanje servisa, što će verovatno rezultirati "time-out" greškom zbog toga što binarni fajl nije pravi binarni fajl servisa i ne uspeva da vrati očekivani kod odgovora. Ova greška nije bitna jer je primarni cilj izvršenje binarnog fajla.
+* **Kopiranje binarnog fajla**: Izvršni fajl se kopira na ADMIN$ share iz komandne linije, iako može biti smešten bilo gde u fajl sistemu da bi ostao skriven.
+* **Kreiranje servisa**: Korišćenjem Windows `sc` komande, koja omogućava upit, kreiranje i brisanje Windows servisa na daljinu, kreira se servis nazvan "meterpreter" koji upućuje na otpremljeni binarni fajl.
+* **Pokretanje servisa**: Poslednji korak uključuje pokretanje servisa, što će verovatno rezultirati greškom "time-out" zbog toga što binarni fajl nije pravi servisni binarni fajl i ne uspeva da vrati očekivani kod odgovora. Ova greška je beznačajna jer je primarni cilj izvršenje binarnog fajla.
 
-Posmatranjem Metasploit slušaoca otkriće se da je sesija uspešno pokrenuta.
+Posmatranje Metasploit slušatelja će otkriti da je sesija uspešno inicirana.
 
-[Saznajte više o `sc` komandi](https://technet.microsoft.com/en-us/library/bb490995.aspx).
+[Learn more about the `sc` command](https://technet.microsoft.com/en-us/library/bb490995.aspx).
 
 Pronađite detaljnije korake na: [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
-**Takođe možete koristiti Windows Sysinternals binarni PsExec.exe:**
+**Takođe možete koristiti Windows Sysinternals binarni fajl PsExec.exe:**
 
 ![](<../../.gitbook/assets/image (928).png>)
 
-Možete takođe koristiti [**SharpLateral**](https://github.com/mertdas/SharpLateral):
+Takođe možete koristiti [**SharpLateral**](https://github.com/mertdas/SharpLateral):
 
 {% code overflow="wrap" %}
 ```
@@ -49,16 +50,17 @@ SharpLateral.exe redexec HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 ```
 {% endcode %}
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

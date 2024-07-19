@@ -1,28 +1,29 @@
 # UART
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark-web**-om koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **kompromitovani** od strane **malvera za krađu podataka**.
+[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malwares**.
 
-Primarni cilj WhiteIntel-a je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera za krađu informacija.
+Njihov primarni cilj je da se bore protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera za krađu informacija.
 
-Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
+Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -30,50 +31,50 @@ Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno
 
 ## Osnovne informacije
 
-UART je serijski protokol, što znači da prenosi podatke između komponenti po jedan bit u isto vreme. Za razliku od toga, paralelni komunikacioni protokoli prenose podatke istovremeno kroz više kanala. Uobičajeni serijski protokoli uključuju RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express i USB.
+UART je serijski protokol, što znači da prenosi podatke između komponenti jedan po jedan bit. Nasuprot tome, paralelni komunikacioni protokoli prenose podatke simultano kroz više kanala. Uobičajeni serijski protokoli uključuju RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express i USB.
 
-Općenito, linija se drži visoko (na logičkoj vrednosti 1) dok je UART u stanju mirovanja. Zatim, da bi signalizirao početak prenosa podataka, predajnik šalje start bit prijemniku, tokom kojeg se signal drži nisko (na logičkoj vrednosti 0). Zatim, predajnik šalje pet do osam podatkovnih bitova koji sadrže stvarnu poruku, praćenu opcionalnim bitom parnosti i jednim ili dva stop bita (sa logičkom vrednošću 1), zavisno od konfiguracije. Bit parnosti, koji se koristi za proveru grešaka, retko se viđa u praksi. Stop bit (ili bitovi) označavaju kraj prenosa.
+Generalno, linija se drži visoko (na logičkoj vrednosti 1) dok je UART u stanju mirovanja. Zatim, da signalizuje početak prenosa podataka, predajnik šalje start bit prijemniku, tokom kojeg se signal drži nisko (na logičkoj vrednosti 0). Zatim, predajnik šalje pet do osam bitova podataka koji sadrže stvarnu poruku, praćeno opcionalnim paritet bitom i jednim ili dva stop bita (sa logičkom vrednošću 1), u zavisnosti od konfiguracije. Paritet bit, koji se koristi za proveru grešaka, retko se viđa u praksi. Stop bit (ili bitovi) označavaju kraj prenosa.
 
-Najčešća konfiguracija naziva se 8N1: osam podatkovnih bitova, bez parnosti i jedan stop bit. Na primer, ako želimo poslati karakter C, ili 0x43 u ASCII, u UART konfiguraciji 8N1, poslali bismo sledeće bitove: 0 (start bit); 0, 1, 0, 0, 0, 0, 1, 1 (vrednost 0x43 u binarnom obliku) i 0 (stop bit).
+Najčešća konfiguracija se naziva 8N1: osam bitova podataka, bez pariteta i jedan stop bit. Na primer, ako bismo želeli da pošaljemo karakter C, ili 0x43 u ASCII, u 8N1 UART konfiguraciji, poslali bismo sledeće bitove: 0 (start bit); 0, 1, 0, 0, 0, 0, 1, 1 (vrednost 0x43 u binarnom obliku), i 0 (stop bit).
 
 ![](<../../.gitbook/assets/image (764).png>)
 
-Hardverski alati za komunikaciju sa UART-om:
+Hardverski alati za komunikaciju sa UART:
 
-* USB-za-serijski adapter
-* Adapteri sa čipovima CP2102 ili PL2303
-* Višenamenski alat poput: Bus Pirate, Adafruit FT232H, Shikra ili Attify Badge
+* USB-to-serial adapter
+* Adapteri sa CP2102 ili PL2303 čipovima
+* Višenamenski alat kao što su: Bus Pirate, Adafruit FT232H, Shikra ili Attify Badge
 
 ### Identifikacija UART portova
 
-UART ima 4 porta: **TX**(Prenos), **RX**(Prijem), **Vcc**(Napon) i **GND**(Tlo). Možda ćete moći da pronađete 4 porta sa slovima **`TX`** i **`RX`** napisanim na PCB-u. Ali ako nema naznake, možda ćete morati sami da ih pronađete koristeći **multimetar** ili **logički analizator**.
+UART ima 4 porta: **TX**(Transmit), **RX**(Receive), **Vcc**(Voltage) i **GND**(Ground). Možda ćete moći da pronađete 4 porta sa **`TX`** i **`RX`** slovima **napisanim** na PCB-u. Ali ako nema oznake, možda ćete morati da ih pronađete sami koristeći **multimetar** ili **logički analizator**.
 
-Sa **multimetrom** i isključenim uređajem:
+Sa **multimetrom** i uređajem isključenim:
 
-* Da biste identifikovali **GND** pin koristite režim **Test kontinuiteta**, postavite zadnju sondi na tlo i testirajte crvenom sondom dok ne čujete zvuk iz multimetra. Na PCB-u se može naći nekoliko GND pinova, pa možda ste pronašli ili niste onaj koji pripada UART-u.
-* Da biste identifikovali **VCC port**, postavite režim **DC napona** i postavite ga na 20 V napona. Crna sonda na tlo i crvena sonda na pin. Uključite uređaj. Ako multimeter meri konstantni napon od 3.3 V ili 5 V, pronašli ste Vcc pin. Ako dobijete druge napon, pokušajte sa drugim portovima.
-* Da biste identifikovali **TX** **port**, **DC režim napona** do 20 V napona, crna sonda na tlo, crvena sonda na pin, i uključite uređaj. Ako pronađete da napon fluktuira nekoliko sekundi, a zatim se stabilizuje na vrednosti Vcc, verovatno ste pronašli TX port. To je zato što kada se uključi, šalje neke podatke za debagiranje.
-* **RX port** bi trebao biti najbliži od druga 3, ima najmanju fluktuaciju napona i najmanju ukupnu vrednost od svih UART pinova.
+* Da identifikujete **GND** pin, koristite **Continuity Test** mod, stavite crni vodič u uzemljenje i testirajte sa crvenim dok ne čujete zvuk iz multimetra. Nekoliko GND pinova može se naći na PCB-u, tako da možda niste pronašli onaj koji pripada UART-u.
+* Da identifikujete **VCC port**, postavite **DC voltage mode** i podesite ga na 20 V napona. Crni sondu stavite na uzemljenje, a crveni na pin. Uključite uređaj. Ako multimetar meri konstantan napon od 3.3 V ili 5 V, pronašli ste Vcc pin. Ako dobijete druge napone, pokušajte sa drugim portovima.
+* Da identifikujete **TX** **port**, postavite **DC voltage mode** na 20 V napona, crni sondu na uzemljenje, a crveni na pin, i uključite uređaj. Ako primetite da napon fluktuira nekoliko sekundi, a zatim se stabilizuje na Vcc vrednosti, verovatno ste pronašli TX port. Ovo je zato što prilikom uključivanja šalje neke debug podatke.
+* **RX port** biće najbliži ostalim 3, ima najmanju fluktuaciju napona i najnižu ukupnu vrednost svih UART pinova.
 
-Možete da pomešate TX i RX portove i ništa se neće desiti, ali ako pomešate GND i VCC port možete da uništite krug.
+Možete pomešati TX i RX portove i ništa se neće desiti, ali ako pomešate GND i VCC port, mogli biste da oštetite krug.
 
-Na nekim ciljnim uređajima, UART port je onemogućen od strane proizvođača onemogućavanjem RX ili TX ili čak oba. U tom slučaju, može biti korisno pratiti veze na štampanoj ploči i pronaći neku tačku prekida. Jak znak o potvrdi neprepoznavanja UART-a i prekida kola je provera garancije uređaja. Ako je uređaj isporučen sa nekom garancijom, proizvođač ostavlja neke debag interfejse (u ovom slučaju, UART) i stoga, mora da je isključio UART i ponovo ga povezao tokom debagiranja. Ove prekidačke pinove možete povezati lemljenjem ili jumper žicama.
+U nekim ciljnim uređajima, UART port je onemogućen od strane proizvođača onemogućavanjem RX ili TX ili čak oba. U tom slučaju, može biti korisno pratiti veze na štampanoj ploči i pronaći neki breakout point. Jak znak koji potvrđuje da UART nije otkriven i da je krug prekinut je provera garancije uređaja. Ako je uređaj isporučen sa nekom garancijom, proizvođač ostavlja neke debug interfejse (u ovom slučaju, UART) i stoga, mora da je isključio UART i ponovo ga povezao tokom debagovanja. Ovi breakout pinovi mogu se povezati lemljenjem ili jumper žicama.
 
-### Identifikacija Baud Rate-a UART-a
+### Identifikacija UART Baud Rate-a
 
-Najlakši način za identifikaciju ispravnog baud rate-a je da pogledate **izlaz TX pina i pokušate da pročitate podatke**. Ako podaci koje primate nisu čitljivi, pređite na sledeći mogući baud rate dok podaci ne postanu čitljivi. Možete koristiti USB-za-serijski adapter ili višenamenski uređaj poput Bus Pirate-a za ovo, uparen sa pomoćnim skriptom, poput [baudrate.py](https://github.com/devttys0/baudrate/). Najčešći baud rate-ovi su 9600, 38400, 19200, 57600 i 115200.
+Najlakši način da identifikujete ispravnu baud rate je da pogledate **izlaz TX pina i pokušate da pročitate podatke**. Ako podaci koje primate nisu čitljivi, prebacite se na sledeću moguću baud rate dok podaci ne postanu čitljivi. Možete koristiti USB-to-serial adapter ili višenamenski uređaj poput Bus Pirate za to, uparen sa pomoćnim skriptom, kao što je [baudrate.py](https://github.com/devttys0/baudrate/). Najčešće baud rate su 9600, 38400, 19200, 57600 i 115200.
 
 {% hint style="danger" %}
-Važno je napomenuti da u ovom protokolu morate povezati TX jednog uređaja sa RX drugog!
+Važno je napomenuti da u ovom protokolu treba povezati TX jednog uređaja sa RX drugog!
 {% endhint %}
 
 ## CP210X UART to TTY Adapter
 
-Čip CP210X se koristi u mnogim prototipnim pločama poput NodeMCU (sa esp8266) za serijsku komunikaciju. Ovi adapteri su relativno jeftini i mogu se koristiti za povezivanje sa UART interfejsom cilja. Uređaj ima 5 pinova: 5V, GND, RXD, TXD, 3.3V. Pazite da povežete napon podržan od strane cilja kako biste izbegli bilo kakvu štetu. Na kraju povežite RXD pin adaptera sa TXD cilja i TXD pin adaptera sa RXD cilja.
+CP210X čip se koristi u mnogim prototipnim pločama kao što je NodeMCU (sa esp8266) za serijsku komunikaciju. Ovi adapteri su relativno jeftini i mogu se koristiti za povezivanje sa UART interfejsom cilja. Uređaj ima 5 pinova: 5V, GND, RXD, TXD, 3.3V. Uverite se da povežete napon koji podržava cilj kako biste izbegli bilo kakvu štetu. Na kraju povežite RXD pin adaptera sa TXD cilja i TXD pin adaptera sa RXD cilja.
 
-U slučaju da adapter nije detektovan, proverite da li su drajveri CP210X instalirani na host sistemu. Kada je adapter detektovan i povezan, mogu se koristiti alati poput picocom, minicom ili screen.
+U slučaju da adapter nije otkriven, uverite se da su CP210X drajveri instalirani u host sistemu. Kada se adapter otkrije i poveže, alati poput picocom, minicom ili screen mogu se koristiti.
 
-Za listanje uređaja povezanih sa Linux/MacOS sistemima:
+Da biste naveli uređaje povezane na Linux/MacOS sistemima:
 ```
 ls /dev/
 ```
@@ -85,21 +86,21 @@ Za minicom, koristite sledeću komandu za konfiguraciju:
 ```
 minicom -s
 ```
-Konfigurišite podešavanja poput brzine prenosa i imena uređaja u opciji `Podešavanje serijskog porta`.
+Konfigurišite postavke kao što su baudrate i ime uređaja u opciji `Serial port setup`.
 
-Nakon konfiguracije, koristite komandu `minicom` da biste pokrenuli UART konzolu.
+Nakon konfiguracije, koristite komandu `minicom` da pokrenete UART konzolu.
 
-## UART putem Arduino UNO R3 (Uklonjive Atmel 328p ploče sa čipom)
+## UART putem Arduino UNO R3 (uklonljive Atmel 328p čip ploče)
 
-U slučaju da UART serijski do USB adapteri nisu dostupni, Arduino UNO R3 može se koristiti uz brzi trik. Pošto je Arduino UNO R3 obično dostupan bilo gde, ovo može uštedeti puno vremena.
+U slučaju da UART Serial to USB adapteri nisu dostupni, Arduino UNO R3 se može koristiti uz brzi hak. Pošto je Arduino UNO R3 obično dostupan svuda, ovo može uštedeti mnogo vremena.
 
-Arduino UNO R3 ima USB do serijskog adaptera ugrađenog na samoj ploči. Da biste uspostavili UART vezu, jednostavno izvadite Atmel 328p mikrokontroler čip sa ploče. Ovaj trik funkcioniše na varijantama Arduino UNO R3 koje nemaju Atmel 328p zalemljen na ploči (u njoj se koristi SMD verzija). Povežite RX pin Arduina (Digitalni Pin 0) sa TX pinom UART interfejsa i TX pin Arduina (Digitalni Pin 1) sa RX pinom UART interfejsa.
+Arduino UNO R3 ima USB to Serial adapter ugrađen na samoj ploči. Da biste dobili UART vezu, jednostavno izvadite Atmel 328p mikrokontroler čip sa ploče. Ovaj hak funkcioniše na varijantama Arduino UNO R3 koje imaju Atmel 328p koji nije lemljen na ploči (SMD verzija se koristi u njemu). Povežite RX pin Arduina (Digital Pin 0) sa TX pinom UART interfejsa i TX pin Arduina (Digital Pin 1) sa RX pinom UART interfejsa.
 
-Na kraju, preporučuje se korišćenje Arduino IDE-a za dobijanje serijske konzole. U `alatkama` u meniju, izaberite opciju `Serijska konzola` i postavite brzinu prenosa prema UART interfejsu.
+Na kraju, preporučuje se korišćenje Arduino IDE za dobijanje Serial Console. U `tools` sekciji u meniju, izaberite opciju `Serial Console` i postavite baud rate prema UART interfejsu.
 
 ## Bus Pirate
 
-U ovom scenariju ćemo prisluškivati UART komunikaciju Arduina koji šalje sve ispisane poruke programa na serijski monitor.
+U ovom scenariju ćemo prisluškivati UART komunikaciju Arduina koji šalje sve ispise programa na Serial Monitor.
 ```bash
 # Check the modes
 UART>m
@@ -171,54 +172,55 @@ Escritura inicial completada:
 AAA Hi Dreg! AAA
 waiting a few secs to repeat....
 ```
-## Dumpovanje Firmware-a pomoću UART konzole
+## Dumping Firmware with UART Console
 
-UART konzola pruža odličan način rada sa osnovnim firmware-om u okruženju u realnom vremenu. Međutim, kada je pristup UART konzoli samo za čitanje, to može uvesti mnogo ograničenja. Na mnogim ugrađenim uređajima, firmware je smešten u EEPROM-ima i izvršava se u procesorima koji imaju nestalnu memoriju. Stoga se firmware čuva samo za čitanje jer je originalni firmware tokom proizvodnje unutar samog EEPROM-a i bilo koji novi fajlovi bi se izgubili zbog nestalne memorije. Stoga, dumpovanje firmware-a je vredan napor prilikom rada sa ugrađenim firmware-ima.
+UART Console pruža odličan način za rad sa osnovnim firmverom u runtime okruženju. Ali kada je pristup UART Console samo za čitanje, to može uvesti mnogo ograničenja. U mnogim ugrađenim uređajima, firmver se čuva u EEPROM-ima i izvršava u procesorima koji imaju prolaznu memoriju. Stoga, firmver ostaje samo za čitanje jer je originalni firmver tokom proizvodnje unutar EEPROM-a i svi novi fajlovi bi se izgubili zbog prolazne memorije. Stoga, dumpovanje firmvera je dragocen napor dok radite sa ugrađenim firmverima.
 
-Postoji mnogo načina da se to uradi, a odeljak SPI pokriva metode za izvlačenje firmware-a direktno iz EEPROM-a sa različitim uređajima. Iako se preporučuje prvo pokušati dumpovanje firmware-a sa UART-om jer dumpovanje firmware-a sa fizičkim uređajima i spoljnim interakcijama može biti rizično.
+Postoji mnogo načina da se to uradi, a SPI sekcija pokriva metode za ekstrakciju firmvera direktno iz EEPROM-a sa raznim uređajima. Iako, preporučuje se prvo pokušati dumpovanje firmvera sa UART-om, jer dumpovanje firmvera sa fizičkim uređajima i spoljnim interakcijama može biti rizično.
 
-Dumpovanje firmware-a sa UART konzole zahteva prvo pristup bootloaderima. Mnogi popularni proizvođači koriste uboot (Universal Bootloader) kao svoj bootloader za učitavanje Linux-a. Stoga, pristup uboot-u je neophodan.
+Dumpovanje firmvera iz UART Console zahteva prvo dobijanje pristupa bootloader-ima. Mnogi popularni proizvođači koriste uboot (Universal Bootloader) kao svoj bootloader za učitavanje Linux-a. Stoga, dobijanje pristupa uboot-u je neophodno.
 
-Da biste pristupili bootloaderu, povežite UART port sa računarom i koristite bilo koji alat za serijsku konzolu i držite isključeno napajanje uređaja. Kada je postavka spremna, pritisnite taster Enter i držite ga. Na kraju, povežite napajanje uređaja i pustite ga da se podigne.
+Da biste dobili pristup bootloader-u, povežite UART port sa računarom i koristite bilo koji od alata za Serijsku Konzolu i držite napajanje uređaja isključeno. Kada je postavka spremna, pritisnite taster Enter i držite ga. Na kraju, povežite napajanje uređaja i pustite ga da se pokrene.
 
-Ovim ćete prekinuti uboot učitavanje i dobićete meni. Preporučuje se da razumete uboot komande i koristite meni pomoći da ih izlistate. Ovo bi mogla biti `help` komanda. Pošto različiti proizvođači koriste različite konfiguracije, neophodno je razumeti svaku od njih posebno.
+Raditi ovo će prekinuti učitavanje uboot-a i pružiti meni. Preporučuje se da razumete uboot komande i koristite meni pomoći da ih navedete. Ovo može biti komanda `help`. Pošto različiti proizvođači koriste različite konfiguracije, neophodno je razumeti svaku od njih posebno.
 
-Obično, komanda za dumpovanje firmware-a je:
+Obično, komanda za dumpovanje firmvera je:
 ```
 md
 ```
-koji označava "damp memorije". Ovo će izbaciti memoriju (EEPROM sadržaj) na ekran. Preporučuje se beleženje izlaza serijske konzole pre početka postupka kako bi se uhvatilo izbacivanje memorije.
+koji označava "memory dump". Ovo će prikazati memoriju (EEPROM sadržaj) na ekranu. Preporučuje se da se zabeleži izlaz Serial Console pre nego što započnete proceduru za hvatanje memory dump-a.
 
-Na kraju, jednostavno uklonite sav nepotreban sadržaj iz datoteke zapisa i sačuvajte datoteku kao `ime_datoteke.rom` i koristite binwalk za izvlačenje sadržaja:
+Na kraju, jednostavno uklonite sve nepotrebne podatke iz log fajla i sačuvajte fajl kao `filename.rom` i koristite binwalk za ekstrakciju sadržaja:
 ```
 binwalk -e <filename.rom>
 ```
-Ovo će izlistati moguće sadržaje iz EEPROM-a prema potpisima pronađenim u hex datoteci.
+Ovo će navesti moguće sadržaje iz EEPROM-a prema potpisima pronađenim u hex datoteci.
 
-Međutim, važno je napomenuti da nije uvek slučaj da je uboot otključan čak i ako se koristi. Ako taster Enter ne radi ništa, proverite različite tastere poput tastera Space, itd. Ako je bootloader zaključan i ne može se prekinuti, ovaj metod neće raditi. Da biste proverili da li je uboot bootloader za uređaj, proverite izlaz na UART konzoli prilikom pokretanja uređaja. Moglo bi se pomenuti uboot prilikom pokretanja.
+Iako, potrebno je napomenuti da nije uvek slučaj da je uboot otključan čak i ako se koristi. Ako taster Enter ne radi ništa, proverite druge tastere kao što je taster Space, itd. Ako je bootloader zaključan i ne prekida se, ova metoda neće raditi. Da biste proverili da li je uboot bootloader za uređaj, proverite izlaz na UART konzoli tokom pokretanja uređaja. Možda će spomenuti uboot tokom pokretanja.
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač pokretan **dark web-om** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **napadnuti** od strane **malvera za krađu podataka**.
+[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malvera**.
 
-Njihov primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera za krađu informacija.
+Njihov primarni cilj WhiteIntel-a je da se bori protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
 
-Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
+Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podrška HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA ČLANSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

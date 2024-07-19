@@ -1,22 +1,23 @@
 # I2C
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJE**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Bus Pirate
 
-Da biste testirali da li Bus Pirate radi, povežite +5V sa VPU i 3.3V sa ADC i pristupite Bus Pirate-u (na primer, koristeći Tera Term) i koristite komandu `~`:
+Da biste testirali da li Bus Pirate radi, povežite +5V sa VPU i 3.3V sa ADC i pristupite bus pirate-u (koristeći Tera Term na primer) i upotrebite komandu `~`:
 ```bash
 # Use command
 HiZ>~
@@ -55,9 +56,9 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Kao što možete videti u prethodnoj komandnoj liniji, navedeno je da je pronađeno 0 grešaka. Veoma je korisno znati da li uređaj radi nakon kupovine ili nakon ažuriranja firmware-a.
+Kao što možete videti u prethodnoj komandnoj liniji, rečeno je da nije pronađena nijedna greška. Ovo je veoma korisno znati da radi nakon kupovine ili nakon flešovanja firmvera.
 
-Za povezivanje sa Bus Pirate uređajem možete pratiti dokumentaciju:
+Da biste se povezali sa bus pirate, možete pratiti dokumentaciju:
 
 ![](<../../.gitbook/assets/image (484).png>)
 
@@ -65,8 +66,8 @@ U ovom slučaju, povezaću se sa EPROM-om: ATMEL901 24C256 PU27:
 
 ![](<../../.gitbook/assets/image (964).png>)
 
-Za komunikaciju sa Bus Pirate uređajem koristio sam Tera Term povezan sa COM portom piratskog busa uz podešavanje --> Serial Port --> Brzina od 115200.\
-U sledećoj komunikaciji možete pronaći kako pripremiti Bus Pirate uređaj za komunikaciju preko I2C i kako pisati i čitati iz memorije (Komentari se pojavljuju koristeći "#", ne očekujte taj deo u komunikaciji):
+Da bih razgovarao sa bus pirate, koristio sam Tera Term povezan na COM port bus pirata sa podešavanjem --> Serijski port --> Brzina od 115200.\
+U sledećoj komunikaciji možete pronaći kako pripremiti bus pirate za razgovor I2C i kako pisati i čitati iz memorije (Komentari se pojavljuju koristeći "#", ne očekujte taj deo u komunikaciji):
 ```bash
 # Check communication with buspirate
 i
@@ -165,9 +166,9 @@ WRITE: 0xA1 ACK
 READ: 0x42  ACK 0x42  ACK 0x42  ACK 0x20  ACK 0x48  ACK 0x69  ACK 0x20  ACK 0x44  ACK 0x72  ACK 0x65  ACK 0x67  ACK 0x21  ACK 0x20  ACK 0x41  ACK 0x41  ACK 0x41  ACK 0x00  ACK 0xFF  ACK 0xFF  ACK 0xFF
 NACK
 ```
-### Snifer
+### Sniffer
 
-U ovom scenariju ćemo špijunirati I2C komunikaciju između arduina i prethodnog EPROM-a, samo trebate povezati oba uređaja, a zatim povezati bus pirate sa SCL, SDA i GND pinovima:
+U ovom scenariju ćemo presresti I2C komunikaciju između arduino-a i prethodnog EPROM-a, samo treba da povežete oba uređaja i zatim povežete bus pirate na SCL, SDA i GND pinove:
 
 ![](<../../.gitbook/assets/image (166).png>)
 ```bash
@@ -215,16 +216,17 @@ Sniffer
 Any key to exit
 [0xA0+0x00+0x69+0x41+0x41+0x41+0x20+0x48+0x69+0x20+0x44+0x72+0x65+0x67+0x21+0x20+0x41+0x41+0x41+0x00+]
 ```
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini da podržite HackTricks:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJEM**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

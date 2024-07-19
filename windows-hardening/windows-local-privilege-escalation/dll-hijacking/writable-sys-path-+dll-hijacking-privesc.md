@@ -1,40 +1,41 @@
-# Pisanje u Sys putanji + Dll Hijacking Privesc
+# Writable Sys Path +Dll Hijacking Privesc
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Uvod
+## Introduction
 
-Ako ste otkrili da možete **pisati u fascikli System Path** (imajte na umu da ovo neće raditi ako možete pisati u fascikli User Path), moguće je da biste mogli **dosegnuti privilegije** u sistemu.
+Ako ste otkrili da možete **pisati u folderu System Path** (napomena: ovo neće raditi ako možete pisati u folderu User Path) moguće je da možete **povećati privilegije** u sistemu.
 
-Da biste to postigli, možete zloupotrebiti **Dll Hijacking** gde ćete **preoteti biblioteku koja se učitava** od strane servisa ili procesa sa **više privilegija** od vaših, i zato što taj servis učitava Dll koji verovatno ne postoji ni u celom sistemu, pokušaće da ga učita iz System Path gde možete pisati.
+Da biste to uradili, možete zloupotrebiti **Dll Hijacking** gde ćete **oteti biblioteku koja se učitava** od strane servisa ili procesa sa **većim privilegijama** od vaših, i pošto taj servis učitava Dll koji verovatno čak ni ne postoji u celom sistemu, pokušaće da ga učita iz System Path-a gde možete pisati.
 
-Za više informacija o **šta je Dll Hijacking** proverite:
+Za više informacija o **onome što je Dll Hijacking** proverite:
 
 {% content-ref url="./" %}
 [.](./)
 {% endcontent-ref %}
 
-## Privesc sa Dll Hijacking
+## Privesc with Dll Hijacking
 
-### Pronalaženje nedostajućeg Dll-a
+### Finding a missing Dll
 
-Prva stvar koja vam je potrebna je da **identifikujete proces** koji se izvršava sa **više privilegija** od vas, a koji pokušava **učitati Dll iz System Path** u koji možete pisati.
+Prva stvar koju treba da uradite je da **identifikujete proces** koji se izvršava sa **većim privilegijama** od vas i koji pokušava da **učita Dll iz System Path-a** u koji možete pisati.
 
-Problem u ovim slučajevima je što su ti procesi verovatno već pokrenuti. Da biste pronašli koji Dll-ovi nedostaju servisima, treba da pokrenete procmon što je pre moguće (pre nego što se procesi učitaju). Dakle, da biste pronašli nedostajuće .dll-ove uradite:
+Problem u ovim slučajevima je što su ti procesi verovatno već pokrenuti. Da biste saznali koje Dll-ove usluge nemaju, treba da pokrenete procmon što je pre moguće (pre nego što se procesi učitaju). Dakle, da biste pronašli nedostajuće .dll-ove uradite:
 
-* **Napravite** fasciklu `C:\privesc_hijacking` i dodajte putanju `C:\privesc_hijacking` u **System Path env promenljivu**. To možete uraditi **ručno** ili sa **PS**:
+* **Kreirajte** folder `C:\privesc_hijacking` i dodajte putanju `C:\privesc_hijacking` u **System Path env variable**. Ovo možete uraditi **ručno** ili sa **PS**:
 ```powershell
 # Set the folder path to create and check events for
 $folderPath = "C:\privesc_hijacking"
@@ -52,42 +53,57 @@ $newPath = "$envPath;$folderPath"
 }
 ```
 * Pokrenite **`procmon`** i idite na **`Options`** --> **`Enable boot logging`** i pritisnite **`OK`** u prozoru.
-* Zatim, **restartujte** računar. Kada se računar ponovo pokrene, **`procmon`** će početi **snimanje** događaja odmah.
-* Kada se **Windows** pokrene, ponovo **izvršite `procmon`**, reći će vam da je već pokrenut i pitati da li želite da **sačuvate** događaje u datoteku. Recite **da** i **sačuvajte događaje u datoteku**.
-* Nakon što se datoteka generiše, **zatvorite** otvoreni prozor **`procmon`** i **otvorite datoteku sa događajima**.
-* Dodajte ove **filtere** i pronaći ćete sve Dll-ove koje je neki **proces pokušao da učita** iz foldera sa zapisima System Path:
+* Zatim, **ponovo pokrenite**. Kada se računar ponovo pokrene, **`procmon`** će početi **snimati** događaje odmah.
+* Kada se **Windows** **pokrene, ponovo izvršite `procmon`**, reći će vam da je već radio i **pitati vas da li želite da sačuvate** događaje u datoteci. Recite **da** i **sačuvajte događaje u datoteci**.
+* **Nakon** što je **datoteka** **generisana**, **zatvorite** otvoreni **`procmon`** prozor i **otvorite datoteku sa događajima**.
+* Dodajte ove **filtre** i pronaći ćete sve DLL-ove koje je neki **proces pokušao da učita** iz foldera sa zapisivim sistemskim putem:
 
 <figure><img src="../../../.gitbook/assets/image (945).png" alt=""><figcaption></figcaption></figure>
 
-### Propušteni Dll-ovi
+### Propušteni DLL-ovi
 
-Pokretanjem ovoga na besplatnoj **virtuelnoj (vmware) Windows 11 mašini** dobio sam ove rezultate:
+Pokrećući ovo na besplatnoj **virtuelnoj (vmware) Windows 11 mašini** dobio sam ove rezultate:
 
 <figure><img src="../../../.gitbook/assets/image (607).png" alt=""><figcaption></figcaption></figure>
 
-U ovom slučaju, .exe su beskorisni, zanemarite ih, propušteni DLL-ovi su bili od:
+U ovom slučaju .exe su beskorisni, pa ih ignorisite, propušteni DLL-ovi su bili iz:
 
-| Servis                         | Dll                | CMD linija                                                           |
-| ------------------------------- | ------------------ | -------------------------------------------------------------------- |
-| Task Scheduler (Schedule)       | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
+| Usluga                          | DLL                | CMD linija                                                            |
+| ------------------------------- | ------------------ | --------------------------------------------------------------------- |
+| Task Scheduler (Raspored)      | WptsExtensions.dll | `C:\Windows\system32\svchost.exe -k netsvcs -p -s Schedule`          |
 | Diagnostic Policy Service (DPS) | Unknown.DLL        | `C:\Windows\System32\svchost.exe -k LocalServiceNoNetwork -p -s DPS` |
 | ???                             | SharedRes.dll      | `C:\Windows\system32\svchost.exe -k UnistackSvcGroup`                |
 
-Nakon što sam ovo pronašao, pronašao sam ovaj zanimljiv blog post koji takođe objašnjava kako [**zloupotrebiti WptsExtensions.dll za eskalaciju privilegija**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Što je ono što **ćemo sada uraditi**.
+Nakon što sam ovo pronašao, našao sam ovaj zanimljiv blog post koji takođe objašnjava kako da [**zloupotrebljavate WptsExtensions.dll za privesc**](https://juggernaut-sec.com/dll-hijacking/#Windows\_10\_Phantom\_DLL\_Hijacking\_-\_WptsExtensionsdll). Što je ono što **sada planiramo da uradimo**.
 
 ### Eksploatacija
 
-Dakle, da bismo **eskalirali privilegije**, preuzećemo biblioteku **WptsExtensions.dll**. Imajući **putanju** i **ime**, samo treba da **generišemo zlonamerni dll**.
+Dakle, da bismo **povećali privilegije**, planiramo da preuzmemo biblioteku **WptsExtensions.dll**. Imajući **putanju** i **ime**, samo treba da **generišemo maliciozni dll**.
 
-Možete [**pokušati koristiti bilo koji od ovih primera**](./#creating-and-compiling-dlls). Možete pokrenuti payload-ove kao što su: dobiti reverznu ljusku, dodati korisnika, izvršiti beacon...
+Možete [**probati da koristite neki od ovih primera**](./#creating-and-compiling-dlls). Možete pokrenuti payload-e kao što su: dobiti rev shell, dodati korisnika, izvršiti beacon...
 
 {% hint style="warning" %}
-Imajte na umu da **nije svaki servis pokrenut** sa **`NT AUTHORITY\SYSTEM`**, neki se takođe pokreću sa **`NT AUTHORITY\LOCAL SERVICE`** koji ima **manje privilegija** i nećete moći da kreirate novog korisnika zloupotrebom njegovih dozvola.\
-Međutim, taj korisnik ima privilegiju **`seImpersonate`**, pa možete koristiti [**potato suite za eskalaciju privilegija**](../roguepotato-and-printspoofer.md). Dakle, u ovom slučaju reverzna ljuska je bolja opcija nego pokušati kreirati korisnika.
+Imajte na umu da **nisu sve usluge pokrenute** sa **`NT AUTHORITY\SYSTEM`**, neke se takođe pokreću sa **`NT AUTHORITY\LOCAL SERVICE`** što ima **manje privilegija** i nećete moći da kreirate novog korisnika zloupotrebljavajući njegove dozvole.\
+Međutim, taj korisnik ima privilegiju **`seImpersonate`**, tako da možete koristiti [**potato suite za povećanje privilegija**](../roguepotato-and-printspoofer.md). Dakle, u ovom slučaju rev shell je bolja opcija nego pokušaj da se kreira korisnik.
 {% endhint %}
 
-U trenutku pisanja, servis **Task Scheduler** se pokreće sa **Nt AUTHORITY\SYSTEM**.
+U trenutku pisanja, usluga **Task Scheduler** se pokreće sa **Nt AUTHORITY\SYSTEM**.
 
-Nakon što ste **generisali zlonamerni Dll** (_u mom slučaju sam koristio x64 rev shell i dobio sam ljusku nazad ali je defender ubio jer je bio od msfvenom_), sačuvajte ga u zapisima System Path sa imenom **WptsExtensions.dll** i **restartujte** računar (ili ponovo pokrenite servis ili uradite šta god je potrebno da ponovo pokrenete pogođeni servis/program).
+Nakon što je **generisan maliciozni DLL** (_u mom slučaju sam koristio x64 rev shell i dobio sam shell nazad, ali ga je defender ubio jer je bio iz msfvenom_), sačuvajte ga u zapisivom sistemskom putu pod imenom **WptsExtensions.dll** i **ponovo pokrenite** računar (ili ponovo pokrenite uslugu ili uradite šta god je potrebno da ponovo pokrenete pogođenu uslugu/program).
 
-Kada se servis ponovo pokrene, **dll bi trebalo da bude učitan i izvršen** (možete **ponovo koristiti** trik sa **procmon** da proverite da li je **biblioteka učitana kako se očekivalo**).
+Kada se usluga ponovo pokrene, **dll bi trebao biti učitan i izvršen** (možete **ponovo koristiti** **procmon** trik da proverite da li je **biblioteka učitana kako se očekivalo**).
+
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Podržite HackTricks</summary>
+
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitter-u** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+
+</details>
+{% endhint %}
