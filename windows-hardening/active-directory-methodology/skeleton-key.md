@@ -1,54 +1,56 @@
 # Skeleton Key
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS wa HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Shambulio la Skeleton Key
+## Skeleton Key Attack
 
-Shambulio la **Skeleton Key** ni mbinu ya kisasa ambayo inaruhusu wadukuzi kukiuka **uthibitishaji wa Active Directory** kwa **kuingiza nenosiri kuu** kwenye kisimamizi cha kikoa. Hii inawezesha mshambuliaji kuwa **uthibitisho kama mtumiaji yeyote** bila nenosiri lao, kwa ufanisi **kuwapa ufikiaji usiozuiliwa** kwenye kikoa.
+**Shambulio la Skeleton Key** ni mbinu ya kisasa inayowezesha washambuliaji **kuzidi uthibitisho wa Active Directory** kwa **kuingiza nenosiri kuu** kwenye kidhibiti cha eneo. Hii inamwezesha mshambuliaji **kujiwasilisha kama mtumiaji yeyote** bila nenosiri lao, ikitoa **ufikiaji usio na kikomo** kwa eneo hilo.
 
-Inaweza kutekelezwa kwa kutumia [Mimikatz](https://github.com/gentilkiwi/mimikatz). Kutekeleza shambulio hili kunahitaji **haki za Msimamizi wa Kikoa**, na mshambuliaji lazima alenge kila kisimamizi cha kikoa ili kuhakikisha ukiukaji kamili. Walakini, athari ya shambulio ni ya muda, kwani **kuanzisha upya kwa kisimamizi cha kikoa kunasafisha programu hasidi**, na hivyo kuhitaji utekelezaji upya kwa ufikiaji endelevu.
+Inaweza kufanywa kwa kutumia [Mimikatz](https://github.com/gentilkiwi/mimikatz). Ili kutekeleza shambulio hili, **haki za Domain Admin ni lazima**, na mshambuliaji lazima alenge kila kidhibiti cha eneo ili kuhakikisha uvunjaji wa kina. Hata hivyo, athari za shambulio ni za muda mfupi, kwani **kuanzisha upya kidhibiti cha eneo kunafuta malware**, na inahitaji upya wa utekelezaji kwa ufikiaji endelevu.
 
-**Kutekeleza shambulio** kunahitaji amri moja tu: `misc::skeleton`.
+**Kutekeleza shambulio** kunahitaji amri moja: `misc::skeleton`.
 
-## Kupunguza Athari
+## Mitigations
 
-Mbinu za kupunguza athari za shambulio kama hizi ni pamoja na kufuatilia nambari maalum za tukio ambazo zinaonyesha ufungaji wa huduma au matumizi ya mamlaka nyeti. Hasa, kutafuta Tukio la Mfumo ID 7045 au Tukio la Usalama ID 4673 kunaweza kufichua shughuli za shaka. Kwa kuongezea, kukimbia `lsass.exe` kama mchakato uliolindwa kunaweza kuzuia sana juhudi za wadukuzi, kwani hii inahitaji watumie dereva wa mode ya kernel, ikiongeza ugumu wa shambulio.
+Mikakati ya kupunguza dhidi ya mashambulizi kama haya ni pamoja na kufuatilia vitambulisho maalum vya tukio vinavyoashiria usakinishaji wa huduma au matumizi ya mamlaka nyeti. Kwa haswa, kutafuta Kitambulisho cha Tukio la Mfumo 7045 au Kitambulisho cha Tukio la Usalama 4673 kunaweza kufichua shughuli za kushangaza. Zaidi ya hayo, kuendesha `lsass.exe` kama mchakato uliohifadhiwa kunaweza kuzuia kwa kiasi kikubwa juhudi za washambuliaji, kwani hii inawahitaji kutumia dereva wa hali ya kernel, ikiongeza ugumu wa shambulio.
 
-Hapa kuna amri za PowerShell za kuimarisha hatua za usalama:
+Hapa kuna amri za PowerShell za kuboresha hatua za usalama:
 
-- Ili kugundua ufungaji wa huduma za shaka, tumia: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
+- Ili kugundua usakinishaji wa huduma za kushangaza, tumia: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
 
-- Hasa, ili kugundua dereva wa Mimikatz, amri ifuatayo inaweza kutumika: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
+- Kwa haswa, kugundua dereva wa Mimikatz, amri ifuatayo inaweza kutumika: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
 
-- Ili kuimarisha `lsass.exe`, inashauriwa kuwezesha kama mchakato uliolindwa: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
+- Ili kuimarisha `lsass.exe`, inashauriwa kuifanya kuwa mchakato uliohifadhiwa: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
 
-Uhakiki baada ya kuanzisha upya kwa mfumo ni muhimu ili kuhakikisha kuwa hatua za kinga zimefanikiwa kutumika. Hii inaweza kufanikiwa kupitia: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
+Uthibitisho baada ya kuanzisha upya mfumo ni muhimu ili kuhakikisha kuwa hatua za ulinzi zimewekwa kwa mafanikio. Hii inaweza kufanywa kupitia: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
 
-## Marejeo
+## References
 * [https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/](https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS wa HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

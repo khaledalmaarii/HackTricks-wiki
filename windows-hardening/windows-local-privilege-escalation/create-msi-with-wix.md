@@ -1,24 +1,25 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-# Kuunda MSI ya Nia Mbaya na Kupata Mamlaka ya Mzizi
+# Kuunda MSI Mbaya na Kupata Mzizi
 
-Uundaji wa programu ya kusakinisha MSI utafanywa kwa kutumia zana za wixtools, haswa [wixtools](http://wixtoolset.org) zitatumiwa. Ni muhimu kutaja kuwa wajenzi wa MSI mbadala walijaribiwa, lakini hawakuwa na mafanikio katika kesi hii maalum.
+Uundaji wa msanidi wa MSI utafanywa kwa kutumia wixtools, haswa [wixtools](http://wixtoolset.org) itatumika. Inafaa kutaja kwamba waumbaji wengine wa MSI walijaribiwa, lakini hawakuwa na mafanikio katika kesi hii maalum.
 
-Ili kuelewa kikamilifu matumizi ya wix MSI, ni vyema kushauriana na [ukurasa huu](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with). Hapa, unaweza kupata mifano mbalimbali inayoonyesha matumizi ya wix MSI.
+Ili kuelewa kwa kina matumizi ya wix MSI, ni vyema kutafuta [ukurasa huu](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with). Hapa, unaweza kupata mifano mbalimbali inayoonyesha matumizi ya wix MSI.
 
-Lengo ni kuzalisha MSI ambayo itatekeleza faili ya lnk. Ili kufanikisha hili, msimbo wa XML ufuatao unaweza kutumika ([xml kutoka hapa](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)):
+Lengo ni kuzalisha MSI ambayo itatekeleza faili la lnk. Ili kufikia hili, msimbo wa XML ufuatao unaweza kutumika ([xml kutoka hapa](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)):
 ```markup
 <?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -50,38 +51,39 @@ fail_here
 </Product>
 </Wix>
 ```
-Ni muhimu kuelewa kuwa kipengele cha Package kina sifa kama vile InstallerVersion na Compressed, ambazo zinaelezea toleo la msanidi wa programu na kuonyesha ikiwa pakiti imefanywa kwa njia ya kubana au la, mtawalia.
+Ni muhimu kutambua kwamba kipengele cha Package kina sifa kama InstallerVersion na Compressed, zinazoelezea toleo la installer na kuashiria ikiwa kifurushi kimepandwa au la, mtawalia.
 
-Mchakato wa uundaji unahusisha kutumia candle.exe, chombo kutoka wixtools, ili kuzalisha wixobject kutoka msi.xml. Amri ifuatayo inapaswa kutekelezwa:
+Mchakato wa uundaji unahusisha kutumia candle.exe, chombo kutoka wixtools, kutengeneza wixobject kutoka msi.xml. Amri ifuatayo inapaswa kutekelezwa:
 ```
 candle.exe -out C:\tem\wix C:\tmp\Ethereal\msi.xml
 ```
-Kwa kuongezea, ni muhimu kutaja kwamba picha imeambatanishwa katika chapisho hili, ambayo inaonyesha amri na matokeo yake. Unaweza kuitazama kwa mwongozo wa kuona.
+Additionally, it is worth mentioning that an image is provided in the post, which depicts the command and its output. You can refer to it for visual guidance.
 
-Zaidi ya hayo, light.exe, chombo kingine kutoka wixtools, kitatumika kuunda faili ya MSI kutoka kwa wixobject. Amri ya kutekelezwa ni kama ifuatavyo:
+Furthermore, light.exe, another tool from wixtools, will be employed to create the MSI file from the wixobject. The command to be executed is as follows:
 ```
 light.exe -out C:\tm\Ethereal\rick.msi C:\tmp\wix
 ```
-Kama ilivyokuwa kwa amri iliyotangulia, picha imejumuishwa katika chapisho inayoonyesha amri na matokeo yake.
+Similar to the previous command, an image is included in the post illustrating the command and its output.
 
-Tafadhali kumbuka kuwa ingawa muhtasari huu unalenga kutoa habari muhimu, inashauriwa kurejelea chapisho asili kwa maelezo kamili zaidi na maelekezo sahihi.
+Tafadhali kumbuka kwamba ingawa muhtasari huu unalenga kutoa taarifa muhimu, inapendekezwa kurejelea chapisho la asili kwa maelezo zaidi na maagizo sahihi.
 
-## Marejeo
+## References
 * [https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)
 * [https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with)
 [wixtools](http://wixtoolset.org)
 
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

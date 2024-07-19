@@ -1,60 +1,62 @@
 # SmbExec/ScExec
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Jinsi Inavyofanya Kazi
+## How it Works
 
-**Smbexec** ni zana inayotumika kwa utekelezaji wa amri kwa mbali kwenye mifumo ya Windows, sawa na **Psexec**, lakini inakwepa kuweka faili yoyote yenye nia mbaya kwenye mfumo wa lengo.
+**Smbexec** ni chombo kinachotumika kwa ajili ya utekelezaji wa amri kwa mbali kwenye mifumo ya Windows, sawa na **Psexec**, lakini kinakwepa kuweka faili zozote za uhalifu kwenye mfumo wa lengo.
 
-### Mambo Muhimu kuhusu **SMBExec**
+### Key Points about **SMBExec**
 
-- Inafanya kazi kwa kuunda huduma ya muda (kwa mfano, "BTOBTO") kwenye mashine ya lengo kutekeleza amri kupitia cmd.exe (%COMSPEC%), bila kuacha faili yoyote ya binary.
-- Licha ya njia yake ya siri, inazalisha kumbukumbu za tukio kwa kila amri iliyotekelezwa, ikitoa aina fulani ya "shell" isiyo ya mwingiliano.
-- Amri ya kuunganisha kutumia **Smbexec** inaonekana hivi:
+- Inafanya kazi kwa kuunda huduma ya muda (kwa mfano, "BTOBTO") kwenye mashine ya lengo ili kutekeleza amri kupitia cmd.exe (%COMSPEC%), bila kuacha binaries zozote.
+- Licha ya mbinu yake ya siri, inazalisha kumbukumbu za matukio kwa kila amri iliyotekelezwa, ikitoa aina ya "shell" isiyoingiliana.
+- Amri ya kuungana kwa kutumia **Smbexec** inaonekana kama hii:
 ```bash
 smbexec.py WORKGROUP/genericuser:genericpassword@10.10.10.10
 ```
 ### Kutekeleza Amri Bila Binaries
 
-- **Smbexec** inawezesha utekelezaji wa moja kwa moja wa amri kupitia njia ya binPaths ya huduma, ikiondoa haja ya binaries za kimwili kwenye lengo.
-- Njia hii ni muhimu kwa kutekeleza amri za mara moja kwenye lengo la Windows. Kwa mfano, kuiunganisha na moduli ya `web_delivery` ya Metasploit inaruhusu utekelezaji wa mzigo wa nyuma wa Meterpreter uliolengwa na PowerShell.
-- Kwa kuunda huduma ya mbali kwenye mashine ya mshambuliaji na kuweka binPath kutekeleza amri iliyotolewa kupitia cmd.exe, inawezekana kutekeleza mzigo kwa mafanikio, kufikia kurejeshwa na utekelezaji wa mzigo na msikilizaji wa Metasploit, hata kama makosa ya majibu ya huduma yanatokea.
+- **Smbexec** inaruhusu utekelezaji wa amri moja kwa moja kupitia binPaths za huduma, ikiondoa hitaji la binaries za kimwili kwenye lengo.
+- Njia hii ni muhimu kwa kutekeleza amri za mara moja kwenye lengo la Windows. Kwa mfano, kuunganisha nayo moduli ya `web_delivery` ya Metasploit inaruhusu utekelezaji wa payload ya Meterpreter ya PowerShell.
+- Kwa kuunda huduma ya mbali kwenye mashine ya mshambuliaji na binPath iliyowekwa kutekeleza amri iliyotolewa kupitia cmd.exe, inawezekana kutekeleza payload kwa mafanikio, kufikia callback na utekelezaji wa payload na msikilizaji wa Metasploit, hata kama makosa ya majibu ya huduma yanatokea.
 
 ### Mfano wa Amri
 
-Kuunda na kuanza huduma inaweza kufanikiwa kwa kutumia amri zifuatazo:
+Kuunda na kuanzisha huduma kunaweza kufanywa kwa amri zifuatazo:
 ```bash
 sc create [ServiceName] binPath= "cmd.exe /c [PayloadCommand]"
 sc start [ServiceName]
 ```
-Kwa maelezo zaidi angalia [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
+FOr further details check [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
 
-## Marejeo
+## References
 * [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

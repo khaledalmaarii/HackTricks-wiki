@@ -1,24 +1,25 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Nambari ifuatayo **inatumia mamlaka ya SeDebug na SeImpersonate** kuiga kitufe kutoka kwa **mchakato unaofanya kazi kama SYSTEM** na **mamlaka yote ya kitufe**. \
-Katika kesi hii, nambari hii inaweza kuchapishwa na kutumika kama **faili ya huduma ya Windows** ili kuhakikisha kuwa inafanya kazi.\
-Walakini, sehemu kuu ya **nambari ambapo uboreshaji unatokea** iko ndani ya **`Exploit`** **kazi**.\
-Ndani ya kazi hiyo unaweza kuona kuwa **mchakato **_**lsass.exe**_** unatafutwa**, kisha **kitufe chake kinakopiwa**, na hatimaye kitufe hicho kinatumika kuunda _**cmd.exe**_ mpya na mamlaka yote ya kitufe kilichokopiwa.
+Msimbo ufuatao **unatumia mamlaka SeDebug na SeImpersonate** ili nakala ya token kutoka kwa **mchakato unaotembea kama SYSTEM** na ukiwa na **mamlaka yote ya token**. \
+Katika kesi hii, msimbo huu unaweza kukusanywa na kutumika kama **Windows service binary** ili kuangalia kama inafanya kazi.\
+Hata hivyo, sehemu kuu ya **msimbo ambapo kuinua kunatokea** iko ndani ya **`Exploit`** **function**.\
+Ndani ya hiyo kazi unaweza kuona kwamba **mchakato **_**lsass.exe**_** unatafutwa**, kisha **token yake inakopwa**, na hatimaye token hiyo inatumika kuzalisha _**cmd.exe**_ mpya yenye mamlaka yote ya token iliyokopwa.
 
-**Mchakato mwingine** unaofanya kazi kama SYSTEM na mamlaka yote au mengi ya kitufe ni: **services.exe**, **svhost.exe** (mojawapo ya kwanza), **wininit.exe**, **csrss.exe**... (_kumbuka kuwa huwezi kuiga kitufe kutoka kwa mchakato uliolindwa_). Zaidi ya hayo, unaweza kutumia zana [Process Hacker](https://processhacker.sourceforge.io/downloads.php) ikifanya kazi kama msimamizi kuona vitufe vya mchakato.
+**Mchakato mingine** inayotembea kama SYSTEM yenye mamlaka yote au nyingi za token ni: **services.exe**, **svhost.exe** (moja ya za kwanza), **wininit.exe**, **csrss.exe**... (_kumbuka kwamba huwezi kukopa token kutoka kwa mchakato uliohifadhiwa_). Zaidi ya hayo, unaweza kutumia zana [Process Hacker](https://processhacker.sourceforge.io/downloads.php) ikifanya kazi kama msimamizi kuona token za mchakato.
 ```c
 // From https://cboard.cprogramming.com/windows-programming/106768-running-my-program-service.html
 #include <windows.h>
@@ -223,16 +224,17 @@ StartServiceCtrlDispatcher( serviceTable );
 return 0;
 }
 ```
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

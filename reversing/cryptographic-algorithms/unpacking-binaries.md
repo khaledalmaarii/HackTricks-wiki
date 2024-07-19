@@ -1,50 +1,52 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-# Kutambua faili zilizopakiwa
+# Kutambua binaries zilizofungwa
 
-* **Ukosefu wa herufi**: Ni kawaida kukuta kuwa faili zilizopakiwa hazina herufi nyingi
-* Wingi wa **herufi zisizotumiwa**: Pia, wakati programu hasidi inatumia aina fulani ya pakiti ya kibiashara, ni kawaida kukuta wingi wa herufi bila marejeo ya msalaba. Hata kama herufi hizi zipo, haimaanishi kuwa faili haijapakiwa.
-* Unaweza pia kutumia zana fulani kujaribu kupata pakiti gani iliyotumiwa kufunga faili:
+* **ukosefu wa nyuzi**: Ni kawaida kukutana na binaries zilizofungwa ambazo hazina karibu nyuzi yoyote
+* Nyuzi nyingi **zisizotumika**: Pia, wakati malware inatumia aina fulani ya pakka ya kibiashara ni kawaida kukutana na nyuzi nyingi zisizo na marejeo. Hata kama nyuzi hizi zipo, hiyo haimaanishi kwamba binary haijafungwa.
+* Unaweza pia kutumia zana fulani kujaribu kubaini ni pakka ipi ilitumika kufunga binary:
 * [PEiD](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/PEiD-updated.shtml)
 * [Exeinfo PE](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/ExEinfo-PE.shtml)
 * [Language 2000](http://farrokhi.net/language/)
 
-# Mapendekezo ya Msingi
+# Mapendekezo Msingi
 
-* **Anza** kuchambua faili iliyopakiwa **kutoka chini kwenda juu** kwenye IDA. Unpackers hutoka mara tu msimbo uliopakiwa unapoondoka, kwa hivyo ni jambo lisilowezekana kwamba unpacker atapitisha utekelezaji kwa msimbo uliopakiwa mwanzoni.
-* Tafuta **JMP's** au **CALLs** kwa **registri** au **eneo** la **kumbukumbu**. Pia tafuta **kazi zinazosukuma hoja na anwani ya mwelekeo kisha kuita `retn`**, kwa sababu kurudi kwa kazi katika kesi hiyo kunaweza kuita anwani iliyoingizwa tu kwenye steki kabla ya kuita.
-* Weka **kituo cha kusimamisha** kwenye `VirtualAlloc` kwani hii inatenga nafasi kwenye kumbukumbu ambapo programu inaweza kuandika msimbo uliopakiwa. "Kuendesha hadi msimbo wa mtumiaji" au tumia F8 **kufikia thamani ndani ya EAX** baada ya kutekeleza kazi na "**fuata anwani hiyo kwenye kumbukumbu**". Kamwe hujui ikiwa hiyo ndio eneo ambapo msimbo uliopakiwa utahifadhiwa.
-* **`VirtualAlloc`** na thamani "**40**" kama hoja inamaanisha Soma+Andika+Tekeleza (baadhi ya msimbo unahitaji utekelezaji utahamishwa hapa).
-* Wakati wa kufungua msimbo ni kawaida kupata **wito kadhaa** kwa **shughuli za hisabati** na kazi kama **`memcopy`** au **`Virtual`**`Alloc`. Ikiwa utakuta mwenyewe katika kazi ambayo inaonekana tu kufanya shughuli za hisabati na labda `memcopy` kadhaa, mapendekezo ni kujaribu **kupata mwisho wa kazi** (labda JMP au wito kwa baadhi ya usajili) **au** angalau **wito wa kazi ya mwisho** na kukimbia kisha kwa kuwa msimbo si wa kuvutia.
-* Wakati wa kufungua msimbo **tambua** wakati wowote unapobadilisha **eneo la kumbukumbu** kwani mabadiliko ya eneo la kumbukumbu yanaweza kuashiria **kuanza kwa msimbo uliopakiwa**. Unaweza kudump eneo la kumbukumbu kwa urahisi kwa kutumia Process Hacker (mchakato -> mali -> kumbukumbu).
-* Wakati unajaribu kufungua msimbo, njia nzuri ya **kujua ikiwa tayari unafanya kazi na msimbo uliopakiwa** (ili uweze tu kuudump) ni **kuchunguza herufi za faili**. Ikiwa kwa wakati fulani unafanya kuruka (labda kubadilisha eneo la kumbukumbu) na unagundua kuwa **wingi wa herufi umeongezwa**, basi unaweza kujua **unafanya kazi na msimbo uliopakiwa**.\
-Hata hivyo, ikiwa pakiti tayari ina wingi wa herufi, unaweza kuona ni herufi ngapi zina neno "http" na uone ikiwa idadi hii inaongezeka.
-* Unapodump faili ya kutekelezwa kutoka eneo la kumbukumbu, unaweza kurekebisha vichwa fulani kwa kutumia [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases).
+* **Anza** kuchambua binary iliyofungwa **kutoka chini katika IDA na uende juu**. Unpackers huondoka mara tu msimbo uliofunguliwa unapoondoka, hivyo ni vigumu kwa unpacker kuhamasisha utekelezaji kwa msimbo uliofunguliwa mwanzoni.
+* Tafuta **JMP's** au **CALLs** kwa **registers** au **mikoa** ya **kumbukumbu**. Pia tafuta **kazi zinazoweka hoja na mwelekeo wa anwani kisha kuita `retn`**, kwa sababu kurudi kwa kazi katika kesi hiyo kunaweza kuita anwani iliyowekwa tu kwenye stack kabla ya kuitwa.
+* Weka **breakpoint** kwenye `VirtualAlloc` kwani hii inatoa nafasi katika kumbukumbu ambapo programu inaweza kuandika msimbo uliofunguliwa. "enda kwa msimbo wa mtumiaji" au tumia F8 ili **kupata thamani ndani ya EAX** baada ya kutekeleza kazi na "**fuata anwani hiyo katika dump**". Hujui kama hiyo ndiyo mkoa ambapo msimbo uliofunguliwa utaokolewa.
+* **`VirtualAlloc`** ikiwa na thamani "**40**" kama hoja inamaanisha Soma+Andika+Tekeleza (msimbo fulani unaohitaji utekelezaji utaandikwa hapa).
+* **Wakati wa kufungua** msimbo ni kawaida kukutana na **kuita kadhaa** kwa **operesheni za hesabu** na kazi kama **`memcopy`** au **`Virtual`**`Alloc`. Ikiwa unajikuta katika kazi ambayo kwa wazi inafanya tu operesheni za hesabu na labda `memcopy`, mapendekezo ni kujaribu **kupata mwisho wa kazi** (labda JMP au kuita kwa register fulani) **au** angalau **kuita kazi ya mwisho** na uende kwa hiyo kwani msimbo si wa kuvutia.
+* Wakati wa kufungua msimbo **kumbuka** kila wakati unapobadilisha **mkoa wa kumbukumbu** kwani mabadiliko ya mkoa wa kumbukumbu yanaweza kuashiria **kuanza kwa msimbo wa kufungua**. Unaweza kwa urahisi dump mkoa wa kumbukumbu ukitumia Process Hacker (process --> properties --> memory).
+* Wakati wa kujaribu kufungua msimbo njia nzuri ya **kujua kama tayari unafanya kazi na msimbo uliofunguliwa** (hivyo unaweza tu kuudump) ni **kuangalia nyuzi za binary**. Ikiwa katika wakati fulani unafanya jump (labda kubadilisha mkoa wa kumbukumbu) na unagundua kwamba **nyuzi nyingi zaidi zimeongezwa**, basi unaweza kujua **unafanya kazi na msimbo uliofunguliwa**.\
+Hata hivyo, ikiwa pakka tayari ina nyuzi nyingi unaweza kuona ni nyuzi ngapi zina neno "http" na kuona ikiwa nambari hii inaongezeka.
+* Unapodump executable kutoka mkoa wa kumbukumbu unaweza kurekebisha baadhi ya vichwa kwa kutumia [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases).
 
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

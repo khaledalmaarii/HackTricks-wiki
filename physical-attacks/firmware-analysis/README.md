@@ -1,57 +1,58 @@
-# Uchambuzi wa Firmware
+# Firmware Analysis
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## **Utangulizi**
+## **Introduction**
 
-Firmware ni programu muhimu ambayo inawezesha vifaa kufanya kazi kwa usahihi kwa kusimamia na kurahisisha mawasiliano kati ya sehemu za vifaa na programu ambayo watumiaji wanashirikiana nayo. Inahifadhiwa kwenye kumbukumbu ya kudumu, ikiruhusu kifaa kupata maagizo muhimu tangu wakati wa kuwasha, na kusababisha uzinduzi wa mfumo wa uendeshaji. Kuchunguza na kubadilisha firmware ni hatua muhimu katika kutambua udhaifu wa usalama.
+Firmware ni programu muhimu inayowezesha vifaa kufanya kazi ipasavyo kwa kusimamia na kuwezesha mawasiliano kati ya vipengele vya vifaa na programu ambayo watumiaji wanashirikiana nayo. Inahifadhiwa katika kumbukumbu ya kudumu, kuhakikisha kwamba kifaa kinaweza kufikia maagizo muhimu tangu wakati kinapowashwa, na kusababisha uzinduzi wa mfumo wa uendeshaji. Kuchunguza na labda kubadilisha firmware ni hatua muhimu katika kubaini udhaifu wa usalama.
 
-## **Kukusanya Taarifa**
+## **Gathering Information**
 
-**Kukusanya taarifa** ni hatua muhimu ya awali katika kuelewa muundo wa kifaa na teknolojia inayotumia. Mchakato huu unahusisha kukusanya data kuhusu:
+**Kukusanya taarifa** ni hatua ya awali muhimu katika kuelewa muundo wa kifaa na teknolojia zinazotumika. Mchakato huu unahusisha kukusanya data kuhusu:
 
-- Muundo wa CPU na mfumo wa uendeshaji unaotumia
+- Mifumo ya CPU na mfumo wa uendeshaji unaotumika
 - Maelezo ya bootloader
-- Mpangilio wa vifaa na datasheets
-- Takwimu za msingi za nambari na maeneo ya chanzo
+- Mpangilio wa vifaa na karatasi za data
+- Vipimo vya msingi wa msimbo na maeneo ya chanzo
 - Maktaba za nje na aina za leseni
 - Historia za sasisho na vyeti vya udhibiti
-- Mchoro wa muundo na mchoro wa mzunguko
+- Mchoro wa usanifu na mtiririko
 - Tathmini za usalama na udhaifu ulioainishwa
 
-Kwa kusudi hili, zana za **open-source intelligence (OSINT)** ni muhimu, pamoja na uchambuzi wa vipengele vya programu zinazopatikana kupitia mchakato wa ukaguzi wa mwongozo na wa kiotomatiki. Zana kama [Coverity Scan](https://scan.coverity.com) na [Semmle’s LGTM](https://lgtm.com/#explore) zinatoa uchambuzi wa kiwango cha juu ambao unaweza kutumika kutambua masuala yanayowezekana.
+Kwa kusudi hili, zana za **intelligence ya chanzo wazi (OSINT)** ni muhimu, kama vile uchambuzi wa vipengele vyovyote vya programu za chanzo wazi vinavyopatikana kupitia mchakato wa ukaguzi wa mikono na wa kiotomatiki. Zana kama [Coverity Scan](https://scan.coverity.com) na [Semmle’s LGTM](https://lgtm.com/#explore) hutoa uchambuzi wa statiki bure ambao unaweza kutumika kugundua matatizo yanayoweza kutokea.
 
-## **Kupata Firmware**
+## **Acquiring the Firmware**
 
-Kupata firmware kunaweza kufanywa kupitia njia mbalimbali, kila moja ikiwa na kiwango chake cha ugumu:
+Kupata firmware kunaweza kufanywa kwa njia mbalimbali, kila moja ikiwa na ngazi yake ya ugumu:
 
-- **Moja kwa moja** kutoka chanzo (watengenezaji, watengenezaji)
-- **Kuijenga** kutoka kwa maelekezo yaliyotolewa
+- **Moja kwa moja** kutoka kwa chanzo (waendelezaji, watengenezaji)
+- **Kujenga** kutoka kwa maelekezo yaliyotolewa
 - **Kupakua** kutoka kwenye tovuti rasmi za msaada
-- Kutumia **Google dork** kuangalia faili za firmware zilizohifadhiwa
-- Kupata ufikiaji wa **hifadhi ya wingu** moja kwa moja, kwa kutumia zana kama [S3Scanner](https://github.com/sa7mon/S3Scanner)
-- Kuingilia **sasisho** kupitia mbinu za man-in-the-middle
-- **Kuondoa** kutoka kifaa kupitia uhusiano kama **UART**, **JTAG**, au **PICit**
-- **Kuchunguza** ombi la sasisho ndani ya mawasiliano ya kifaa
-- Kutambua na kutumia **vifaa vya sasisho vilivyowekwa kwa nguvu**
-- **Kuchukua** kutoka kwa bootloader au mtandao
-- **Kuondoa na kusoma** kichipu cha kuhifadhi, wakati njia zingine zote zimeshindwa, kwa kutumia zana sahihi za vifaa.
+- Kutumia **Google dork** maswali ya kutafuta faili za firmware zilizohifadhiwa
+- Kufikia **hifadhi ya wingu** moja kwa moja, kwa kutumia zana kama [S3Scanner](https://github.com/sa7mon/S3Scanner)
+- Kukamata **sasisho** kupitia mbinu za mtu katikati
+- **Kutoa** kutoka kwa kifaa kupitia muunganisho kama **UART**, **JTAG**, au **PICit**
+- **Kusikiliza** maombi ya sasisho ndani ya mawasiliano ya kifaa
+- Kutambua na kutumia **nukta za sasisho zilizowekwa**
+- **Kutoa** kutoka kwa bootloader au mtandao
+- **Kuondoa na kusoma** chip ya hifadhi, wakati njia zote zinafeli, kwa kutumia zana sahihi za vifaa
 
-## Kuchambua firmware
+## Analyzing the firmware
 
-Sasa **una firmware**, unahitaji kuchambua habari kuhusu hiyo ili ujue jinsi ya kuishughulikia. Zana tofauti unazoweza kutumia kwa hilo:
+Sasa kwamba una **firmware**, unahitaji kutoa taarifa kuhusu hiyo ili kujua jinsi ya kuitendea. Zana tofauti unazoweza kutumia kwa hiyo:
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -60,24 +61,24 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
-Ikiwa hutapata mengi na zana hizo, angalia **entropy** ya picha na `binwalk -E <bin>`, ikiwa entropy ni ndogo, basi haiwezekani kuwa imefichwa. Ikiwa entropy ni kubwa, inawezekana kuwa imefichwa (au imepakwa kwa njia fulani).
+Ikiwa hujapata mengi na zana hizo, angalia **entropy** ya picha kwa kutumia `binwalk -E <bin>`, ikiwa entropy ni ya chini, basi haiwezekani kuwa imefungwa. Ikiwa entropy ni ya juu, inawezekana imefungwa (au imepandwa kwa njia fulani).
 
-Zaidi ya hayo, unaweza kutumia zana hizi kuondoa **faili zilizojumuishwa ndani ya firmware**:
+Zaidi ya hayo, unaweza kutumia zana hizi kutoa **faili zilizojumuishwa ndani ya firmware**:
 
 {% content-ref url="../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-Au [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) kuangalia faili.
+Au [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) kuchunguza faili hiyo.
 
 ### Kupata Mfumo wa Faili
 
-Kwa zana zilizotajwa hapo awali kama `binwalk -ev <bin>`, unapaswa kuweza **kuchimba mfumo wa faili**.\
-Kawaida, binwalk huichimba ndani ya **folda iliyoitwa kama aina ya mfumo wa faili**, ambayo kawaida ni moja ya zifuatazo: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
+Kwa zana zilizotajwa hapo awali kama `binwalk -ev <bin>` unapaswa kuwa umeweza **kutoa mfumo wa faili**.\
+Binwalk kwa kawaida inatoa ndani ya **kabrasha lililo na jina la aina ya mfumo wa faili**, ambayo kwa kawaida ni moja ya yafuatayo: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
 
-#### Uchimbaji wa Mfumo wa Faili kwa Mikono
+#### Utoaji wa Mfumo wa Faili kwa Mikono
 
-Marafiki, binwalk **hawana herufi ya uchawi ya mfumo wa faili katika saini zao**. Katika kesi hizi, tumia binwalk ku **kupata nafasi ya mfumo wa faili na kuchimba mfumo wa faili uliopakwa kutoka kwenye faili ya binary na kuchimba mfumo wa faili kwa mikono** kulingana na aina yake kwa kutumia hatua zifuatazo.
+Wakati mwingine, binwalk haitakuwa na byte ya kichawi ya mfumo wa faili katika saini zake. Katika kesi hizi, tumia binwalk ili **kupata ofseti ya mfumo wa faili na kuchonga mfumo wa faili ulio pandwa** kutoka kwa binary na **kutoa kwa mikono** mfumo wa faili kulingana na aina yake kwa kutumia hatua zilizo hapa chini.
 ```
 $ binwalk DIR850L_REVB.bin
 
@@ -89,7 +90,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-Chalaza amri ifuatayo ya **dd** ikichonga mfumo wa faili wa Squashfs.
+Kimbia amri hii **dd** ikichonga mfumo wa faili wa Squashfs.
 ```
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
@@ -99,38 +100,38 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536 bytes (8.3 MB, 7.9 MiB) copied, 12.5777 s, 657 kB/s
 ```
-Kwa upande mwingine, amri ifuatayo inaweza pia kutekelezwa.
+Badala yake, amri ifuatayo inaweza pia kutekelezwa.
 
 `$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
-* Kwa squashfs (ilitumiwa katika mfano hapo juu)
+* Kwa squashfs (iliyotumika katika mfano hapo juu)
 
 `$ unsquashfs dir.squashfs`
 
-Faili zitakuwa katika saraka ya "`squashfs-root`" baadaye.
+Faili zitakuwa katika "`squashfs-root`" directory baada ya hapo.
 
-* Faili za kumbukumbu za CPIO
+* Faili za archive za CPIO
 
 `$ cpio -ivd --no-absolute-filenames -F <bin>`
 
-* Kwa mfumo wa jffs2
+* Kwa mifumo ya faili ya jffs2
 
 `$ jefferson rootfsfile.jffs2`
 
-* Kwa mfumo wa ubifs na NAND flash
+* Kwa mifumo ya faili ya ubifs yenye NAND flash
 
 `$ ubireader_extract_images -u UBI -s <start_offset> <bin>`
 
 `$ ubidump.py <bin>`
 
 
-## Uchambuzi wa Firmware
+## Kuchambua Firmware
 
-Baada ya kupata firmware, ni muhimu kuchambua kwa kina muundo wake na udhaifu wake. Mchakato huu unahusisha kutumia zana mbalimbali kuchambua na kutoa data muhimu kutoka kwenye picha ya firmware.
+Mara firmware inapopatikana, ni muhimu kuichambua ili kuelewa muundo wake na uwezekano wa udhaifu. Mchakato huu unahusisha kutumia zana mbalimbali kuchambua na kutoa data muhimu kutoka kwa picha ya firmware.
 
 ### Zana za Uchambuzi wa Awali
 
-Seti ya amri zinapatikana kwa ukaguzi wa awali wa faili ya binary (inayojulikana kama `<bin>`). Amri hizi husaidia kutambua aina za faili, kutoa herufi, kuchambua data ya binary, na kuelewa maelezo ya kugawanya na mfumo wa faili:
+Seti ya amri imetolewa kwa ukaguzi wa awali wa faili ya binary (inayorejelewa kama `<bin>`). Amri hizi husaidia katika kubaini aina za faili, kutoa nyuzi, kuchambua data ya binary, na kuelewa maelezo ya sehemu na mfumo wa faili:
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -139,109 +140,109 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head #useful for finding signatures in the header
 fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
 ```
-Kuamua hali ya kusimbwa kwa picha, **entropy** inachunguzwa kwa kutumia `binwalk -E <bin>`. Entropy ndogo inaonyesha ukosefu wa kusimbwa, wakati entropy kubwa inaashiria uwezekano wa kusimbwa au kusagwa.
+Ili kutathmini hali ya usimbaji wa picha, **entropy** inakaguliwa kwa kutumia `binwalk -E <bin>`. Entropy ya chini inaashiria ukosefu wa usimbaji, wakati entropy ya juu inaonyesha uwezekano wa usimbaji au ufinyanzi.
 
-Kwa ajili ya kuchimbua **faili zilizojumuishwa**, zana na rasilimali kama **file-data-carving-recovery-tools** na hati ya **binvis.io** kwa ukaguzi wa faili zinapendekezwa.
+Kwa ajili ya kutoa **faili zilizojumuishwa**, zana na rasilimali kama vile nyaraka za **file-data-carving-recovery-tools** na **binvis.io** kwa ajili ya ukaguzi wa faili zinapendekezwa.
 
-### Kuchimbua Mfumo wa Faili
+### Kutolewa kwa Faili za Mfumo
 
-Kwa kutumia `binwalk -ev <bin>`, kwa kawaida unaweza kuchimbua mfumo wa faili, mara nyingi kwenye saraka iliyoitwa kwa jina la aina ya mfumo wa faili (k.m., squashfs, ubifs). Hata hivyo, wakati **binwalk** inashindwa kutambua aina ya mfumo wa faili kutokana na kuwepo kwa herufi za uchawi zilizokosekana, uchimbuzi wa mwongozo unahitajika. Hii inahusisha kutumia `binwalk` ili kupata mahali pa mfumo wa faili, kisha kutumia amri ya `dd` ili kuchimba mfumo wa faili:
+Kwa kutumia `binwalk -ev <bin>`, mtu anaweza kawaida kutoa mfumo wa faili, mara nyingi katika saraka iliyopewa jina la aina ya mfumo wa faili (mfano, squashfs, ubifs). Hata hivyo, wakati **binwalk** inashindwa kutambua aina ya mfumo wa faili kutokana na kukosekana kwa byte za uchawi, utoaji wa mikono unahitajika. Hii inahusisha kutumia `binwalk` kutafuta offset ya mfumo wa faili, ikifuatiwa na amri ya `dd` ili kuchonga mfumo wa faili:
 ```bash
 $ binwalk DIR850L_REVB.bin
 
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 ```
-Baadaye, kulingana na aina ya mfumo wa faili (k.m., squashfs, cpio, jffs2, ubifs), amri tofauti hutumiwa kuchambua maudhui kwa mkono.
+Baadaye, kulingana na aina ya mfumo wa faili (mfano, squashfs, cpio, jffs2, ubifs), amri tofauti hutumika kutoa maudhui kwa mikono.
 
 ### Uchambuzi wa Mfumo wa Faili
 
-Baada ya mfumo wa faili kuchambuliwa, utafutaji wa kasoro za usalama unaanza. Tahadhari inalipwa kwa daemons dhaifu za mtandao, vitambulisho vya uthibitishaji vilivyowekwa ngumu, vituo vya API, utendaji wa seva ya sasisho, nambari isiyokamilika, hati za kuanza, na programu zilizokamilishwa kwa uchambuzi nje ya mtandao.
+Mara mfumo wa faili unapotolewa, utafutaji wa kasoro za usalama huanza. Kipaumbele kinatolewa kwa daemons za mtandao zisizo salama, akidi za ndani, mwisho wa API, kazi za seva za sasisho, msimbo usio na muundo, skripti za kuanzisha, na binaries zilizokusanywa kwa uchambuzi wa mbali.
 
-**Maeneo muhimu** na **vitengo** vya ukaguzi ni pamoja na:
+**Mikoa muhimu** na **vitu** vya kukagua ni pamoja na:
 
-- **etc/shadow** na **etc/passwd** kwa vitambulisho vya mtumiaji
+- **etc/shadow** na **etc/passwd** kwa ajili ya akidi za watumiaji
 - Vyeti vya SSL na funguo katika **etc/ssl**
-- Faili za usanidi na hati za hatari za uwezekano
-- Programu zilizojumuishwa kwa uchambuzi zaidi
-- Seva za wavuti za kifaa cha IoT na programu zilizokamilishwa
+- Faili za usanidi na skripti kwa ajili ya uwezekano wa udhaifu
+- Binaries zilizojumuishwa kwa uchambuzi zaidi
+- Seva za wavuti za vifaa vya IoT na binaries
 
-Zana kadhaa zinasaidia kugundua habari nyeti na kasoro za usalama ndani ya mfumo wa faili:
+Zana kadhaa zinasaidia katika kufichua taarifa nyeti na udhaifu ndani ya mfumo wa faili:
 
-- [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) na [**Firmwalker**](https://github.com/craigz28/firmwalker) kwa utafutaji wa habari nyeti
-- [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) kwa uchambuzi kamili wa firmware
-- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go), na [**EMBA**](https://github.com/e-m-b-a/emba) kwa uchambuzi wa tuli na wa kudumu
+- [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) na [**Firmwalker**](https://github.com/craigz28/firmwalker) kwa utafutaji wa taarifa nyeti
+- [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) kwa uchambuzi wa kina wa firmware
+- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go), na [**EMBA**](https://github.com/e-m-b-a/emba) kwa uchambuzi wa statiki na wa dinamik
 
-### Ukaguzi wa Usalama kwenye Programu Zilizokamilishwa
+### Ukaguzi wa Usalama kwenye Binaries Zilizokusanywa
 
-Nambari chanzo na programu zilizokamilishwa zilizopatikana kwenye mfumo wa faili lazima ziangaliwe kwa kasoro za usalama. Zana kama **checksec.sh** kwa programu za Unix na **PESecurity** kwa programu za Windows husaidia kutambua programu zisizolindwa ambazo zinaweza kudukuliwa.
+Msimbo wa chanzo na binaries zilizokusanywa zinazopatikana katika mfumo wa faili lazima zichunguzwe kwa udhaifu. Zana kama **checksec.sh** kwa binaries za Unix na **PESecurity** kwa binaries za Windows husaidia kubaini binaries zisizo na ulinzi ambazo zinaweza kutumiwa.
 
-## Kuiga Firmware kwa Uchambuzi wa Kudumu
+## Kuiga Firmware kwa Uchambuzi wa Dinamik
 
-Mchakato wa kuiga firmware unawezesha **uchambuzi wa kudumu** wa uendeshaji wa kifaa au programu binafsi. Njia hii inaweza kukabili changamoto za vifaa au utegemezi wa usanifu, lakini kuhamisha mfumo wa faili wa msingi au programu maalum kwa kifaa chenye usanifu na mwisho unaolingana, kama Raspberry Pi, au kwa mashine ya kawaida iliyoundwa mapema, inaweza kurahisisha majaribio zaidi.
+Mchakato wa kuiga firmware unaruhusu **uchambuzi wa dinamik** ama wa uendeshaji wa kifaa au programu binafsi. Njia hii inaweza kukutana na changamoto za utegemezi wa vifaa au usanifu, lakini kuhamasisha mfumo wa faili wa mzizi au binaries maalum kwa kifaa chenye usanifu na endianness inayolingana, kama vile Raspberry Pi, au kwa mashine halisi iliyojengwa awali, kunaweza kuwezesha majaribio zaidi.
 
-### Kuiga Programu Binafsi
+### Kuiga Binaries Binafsi
 
-Kwa kuchunguza programu moja, ni muhimu kutambua mwisho wa programu na usanifu wa CPU.
+Kwa ajili ya kuchunguza programu moja, kubaini endianness ya programu na usanifu wa CPU ni muhimu.
 
 #### Mfano na Usanifu wa MIPS
 
-Kuiga programu ya usanifu wa MIPS, mtu anaweza kutumia amri:
+Ili kuiga binary ya usanifu wa MIPS, mtu anaweza kutumia amri:
 ```bash
 file ./squashfs-root/bin/busybox
 ```
-Na kufunga zana za uigaji muundo zinazohitajika:
+Na ili kufunga zana za emulatio zinazohitajika:
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
-Kwa MIPS (big-endian), `qemu-mips` hutumiwa, na kwa mipangilio midogo ya mwisho, `qemu-mipsel` ndiyo chaguo sahihi.
+Kwa MIPS (big-endian), `qemu-mips` inatumika, na kwa binaries za little-endian, `qemu-mipsel` itakuwa chaguo.
 
-#### Uwakilishi wa Mimarobota wa ARM
+#### Uigaji wa Muktadha wa ARM
 
-Kwa mipangilio ya ARM, mchakato ni sawa, na emulator ya `qemu-arm` hutumiwa kwa uwakilishi.
+Kwa binaries za ARM, mchakato ni sawa, huku emulator ya `qemu-arm` ikitumika kwa uigaji.
 
-### Uwakilishi Kamili wa Mfumo
+### Uigaji wa Mfumo Kamili
 
-Zana kama [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit), na zingine, hufanikisha uwakilishi kamili wa firmware, kwa kiotomatiki mchakato na kusaidia katika uchambuzi wa kina.
+Zana kama [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit), na nyingine, zinawezesha uigaji kamili wa firmware, zikifanya mchakato kuwa wa kiotomatiki na kusaidia katika uchambuzi wa dynamic.
 
-## Uchambuzi wa Muda wa Uendeshaji katika Vitendo
+## Uchambuzi wa Dynamic katika Vitendo
 
-Katika hatua hii, mazingira halisi au yaliyowakilishwa ya kifaa hutumiwa kwa uchambuzi. Ni muhimu kuwa na ufikiaji wa kabati kwenye mfumo wa uendeshaji na mfumo wa faili. Uwakilishi huenda usiwe kamili katika kuiga mwingiliano wa vifaa, na hivyo kuhitaji kuanza upya kwa uwakilishi mara kwa mara. Uchambuzi unapaswa kuzingatia mfumo wa faili, kutumia kurasa za wavuti na huduma za mtandao zilizofichuliwa, na kuchunguza udhaifu wa bootloader. Vipimo vya ukamilifu wa firmware ni muhimu ili kutambua udhaifu wa mlango wa nyuma.
+Katika hatua hii, mazingira halisi au ya kuigiza ya kifaa hutumiwa kwa uchambuzi. Ni muhimu kudumisha ufikiaji wa shell kwa OS na mfumo wa faili. Uigaji huenda usifanane kikamilifu na mwingiliano wa vifaa, hivyo inahitajika mara kwa mara kuanzisha upya uigaji. Uchambuzi unapaswa kutembelea mfumo wa faili, kutumia kurasa za wavuti zilizofichuliwa na huduma za mtandao, na kuchunguza udhaifu wa bootloader. Majaribio ya uadilifu wa firmware ni muhimu ili kubaini udhaifu wa backdoor unaoweza kuwepo.
 
-## Mbinu za Uchambuzi wa Muda wa Uendeshaji
+## Mbinu za Uchambuzi wa Wakati wa Uendeshaji
 
-Uchambuzi wa muda wa uendeshaji unahusisha kuingiliana na mchakato au faili katika mazingira yake ya uendeshaji, kwa kutumia zana kama gdb-multiarch, Frida, na Ghidra kwa kuweka alama za kusimamisha na kutambua udhaifu kupitia mbinu za fuzzing na zingine.
+Uchambuzi wa wakati wa uendeshaji unahusisha kuingiliana na mchakato au binary katika mazingira yake ya uendeshaji, kwa kutumia zana kama gdb-multiarch, Frida, na Ghidra kwa kuweka breakpoints na kubaini udhaifu kupitia fuzzing na mbinu nyingine.
 
-## Ushambuliaji wa Faili na Uthibitisho wa Wazo
+## Ukatili wa Binary na Ushahidi wa Dhihirisho
 
-Kuendeleza Wazo la Uthibitisho (PoC) kwa udhaifu uliogunduliwa kunahitaji uelewa wa kina wa muundo wa lengo na programu katika lugha za kiwango cha chini. Ulinzi wa faili wa muda wa uendeshaji katika mifumo iliyowekwa ni nadra, lakini wakati unapokuwepo, mbinu kama Return Oriented Programming (ROP) inaweza kuwa muhimu.
+Kuunda PoC kwa udhaifu ulioainishwa kunahitaji uelewa wa kina wa usanifu wa lengo na programu katika lugha za kiwango cha chini. Ulinzi wa wakati wa uendeshaji wa binary katika mifumo iliyojumuishwa ni nadra, lakini inapokuwepo, mbinu kama Return Oriented Programming (ROP) zinaweza kuwa muhimu.
 
-## Mifumo ya Uendeshaji Tayari kwa Uchambuzi wa Firmware
+## Mifumo ya Uendeshaji Iliyoandaliwa kwa Uchambuzi wa Firmware
 
-Mifumo ya uendeshaji kama [AttifyOS](https://github.com/adi0x90/attifyos) na [EmbedOS](https://github.com/scriptingxss/EmbedOS) hutoa mazingira yaliyowekwa tayari kwa ajili ya upimaji wa usalama wa firmware, ikiwa na zana muhimu.
+Mifumo ya uendeshaji kama [AttifyOS](https://github.com/adi0x90/attifyos) na [EmbedOS](https://github.com/scriptingxss/EmbedOS) hutoa mazingira yaliyoandaliwa mapema kwa ajili ya mtihani wa usalama wa firmware, yakiwa na zana muhimu.
 
-## Mifumo ya Uendeshaji Tayari kwa Uchambuzi wa Firmware
+## Mifumo ya Uendeshaji Iliyoandaliwa Kuchambua Firmware
 
-* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS ni mfumo wa usambazaji uliokusudiwa kukusaidia kufanya tathmini ya usalama na upenyezaji wa vifaa vya Intaneti ya Vitu (IoT). Inakusaidia kuokoa muda kwa kutoa mazingira yaliyowekwa tayari na zana zote muhimu.
-* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Mfumo wa uendeshaji wa upimaji wa usalama wa vifaa vilivyowekwa kwenye Ubuntu 18.04 uliojaa zana za upimaji wa usalama wa firmware.
+* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS ni distro iliyokusudiwa kukusaidia kufanya tathmini ya usalama na mtihani wa penetration wa vifaa vya Internet of Things (IoT). Inakuokoa muda mwingi kwa kutoa mazingira yaliyoandaliwa mapema na zana zote muhimu zilizopakiwa.
+* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Mfumo wa uendeshaji wa mtihani wa usalama wa embedded unaotegemea Ubuntu 18.04 uliojaa zana za mtihani wa usalama wa firmware.
 
-## Firmware Zenye Udhaifu kwa Mazoezi
+## Firmware Zenye Udhaifu za Kufanya Mazoezi
 
-Ili kufanya mazoezi ya kugundua udhaifu katika firmware, tumia miradi ifuatayo ya firmware yenye udhaifu kama mwanzo.
+Ili kufanya mazoezi ya kugundua udhaifu katika firmware, tumia miradi ifuatayo ya firmware yenye udhaifu kama hatua ya kuanzia.
 
 * OWASP IoTGoat
 * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
-* The Damn Vulnerable Router Firmware Project
+* Mradi wa Firmware ya Router yenye Udhaifu
 * [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
-* Damn Vulnerable ARM Router (DVAR)
+* Router ya ARM yenye Udhaifu (DVAR)
 * [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
 * ARM-X
 * [https://github.com/therealsaumil/armx#downloads](https://github.com/therealsaumil/armx#downloads)
 * Azeria Labs VM 2.0
 * [https://azeria-labs.com/lab-vm-2-0/](https://azeria-labs.com/lab-vm-2-0/)
-* Damn Vulnerable IoT Device (DVID)
+* Kifaa cha IoT chenye Udhaifu (DVID)
 * [https://github.com/Vulcainreo/DVID](https://github.com/Vulcainreo/DVID)
 
-## Marejeo
+## Marejeleo
 
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 * [Practical IoT Hacking: The Definitive Guide to Attacking the Internet of Things](https://www.amazon.co.uk/Practical-IoT-Hacking-F-Chantzis/dp/1718500904)
@@ -250,16 +251,17 @@ Ili kufanya mazoezi ya kugundua udhaifu katika firmware, tumia miradi ifuatayo y
 
 * [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exploitation)
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

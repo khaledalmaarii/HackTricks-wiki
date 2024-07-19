@@ -1,53 +1,55 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-**Mchapisho asili ni** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
+**The original post is** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
 
-## Muhtasari
+## Summary
 
-Vipengele viwili vya usajili viligunduliwa kuwa vinaweza kuandikwa na mtumiaji wa sasa:
+Mfunguo mbili za rejista zilipatikana kuwa zinaweza kuandikwa na mtumiaji wa sasa:
 
 - **`HKLM\SYSTEM\CurrentControlSet\Services\Dnscache`**
 - **`HKLM\SYSTEM\CurrentControlSet\Services\RpcEptMapper`**
 
-Ilipendekezwa kuangalia ruhusa za huduma ya **RpcEptMapper** kwa kutumia **regedit GUI**, haswa kichupo cha **Ruhusa Zinazofaa** cha dirisha la **Mipangilio ya Usalama ya Juu**. Njia hii inaruhusu tathmini ya ruhusa zilizotolewa kwa watumiaji au vikundi maalum bila haja ya kuchunguza kila Kuingia Kudhibiti Upatikanaji (ACE) kwa kujitegemea.
+Ilipendekezwa kuangalia ruhusa za huduma ya **RpcEptMapper** kwa kutumia **regedit GUI**, hasa kwenye kichupo cha **Ruhusa za Usalama za Juu**. Njia hii inaruhusu tathmini ya ruhusa zilizotolewa kwa watumiaji au vikundi maalum bila kuangalia kila Kuingilia Kazi ya Upatikanaji (ACE) moja kwa moja.
 
-Picha ilionyesha ruhusa zilizopewa mtumiaji mwenye haki ndogo, ambapo ruhusa ya **Kujenga Subkey** ilikuwa ya kushangaza. Ruhusa hii, inayojulikana pia kama **AppendData/AddSubdirectory**, inalingana na matokeo ya hati.
+Picha ilionyesha ruhusa zilizotolewa kwa mtumiaji mwenye mamlaka ya chini, ambapo ruhusa ya **Kuunda Subkey** ilikuwa ya kutambulika. Ruhusa hii, pia inajulikana kama **AppendData/AddSubdirectory**, inalingana na matokeo ya skripti.
 
-Uwezo wa kubadilisha thamani fulani moja kwa moja, lakini uwezo wa kuunda vijidirisha vipya, ulibainishwa. Mfano ulioonyeshwa ulikuwa jaribio la kubadilisha thamani ya **ImagePath**, ambayo ilisababisha ujumbe wa kukataliwa kwa ufikiaji.
+Uwezo wa kubadilisha baadhi ya thamani moja kwa moja, lakini uwezo wa kuunda subkeys mpya, ulionekana. Mfano ulionyesha ni jaribio la kubadilisha thamani ya **ImagePath**, ambayo ilipelekea ujumbe wa kukataliwa kwa ufikiaji.
 
-Licha ya vizuizi hivi, uwezekano wa kuongeza mamlaka uligunduliwa kupitia uwezekano wa kutumia vijidirisha vya **Performance** ndani ya muundo wa usajili wa huduma ya **RpcEptMapper**, vijidirisha ambavyo havipo kwa chaguo-msingi. Hii inaweza kuwezesha usajili wa DLL na ufuatiliaji wa utendaji.
+Licha ya vikwazo hivi, uwezekano wa kupandisha mamlaka ulitambuliwa kupitia uwezekano wa kutumia subkey ya **Performance** ndani ya muundo wa rejista wa huduma ya **RpcEptMapper**, subkey ambayo haipo kwa kawaida. Hii inaweza kuruhusu usajili wa DLL na ufuatiliaji wa utendaji.
 
-Ushauri juu ya vijidirisha vya **Performance** na matumizi yake kwa ufuatiliaji wa utendaji ulitumiwa, ikisababisha maendeleo ya DLL ya mfano. DLL hii, ikionyesha utekelezaji wa kazi za **OpenPerfData**, **CollectPerfData**, na **ClosePerfData**, ilijaribiwa kupitia **rundll32**, ikithibitisha mafanikio yake ya uendeshaji.
+Hati kuhusu subkey ya **Performance** na matumizi yake kwa ufuatiliaji wa utendaji ilikaguliwa, ikisababisha maendeleo ya DLL ya uthibitisho wa dhana. DLL hii, ikionyesha utekelezaji wa kazi za **OpenPerfData**, **CollectPerfData**, na **ClosePerfData**, ilijaribiwa kupitia **rundll32**, ikithibitisha mafanikio yake ya uendeshaji.
 
-Lengo lilikuwa kulazimisha **huduma ya Msimamizi wa Mwisho wa RPC** kusoma DLL ya Ufundi wa Utendaji iliyoundwa. Uchunguzi ulifunua kuwa kutekeleza maswali ya darasa la WMI yanayohusiana na Data ya Utendaji kupitia PowerShell kulifanya faili ya kumbukumbu kuundwa, kuruhusu utekelezaji wa nambari ya aina yoyote chini ya muktadha wa **LOCAL SYSTEM**, hivyo kutoa mamlaka zilizoongezeka.
+Lengo lilikuwa kulazimisha huduma ya **RPC Endpoint Mapper** kupakia DLL ya Utendaji iliyoundwa. Uangalizi ulionyesha kuwa kutekeleza maswali ya darasa la WMI yanayohusiana na Data ya Utendaji kupitia PowerShell kulisababisha kuundwa kwa faili ya kumbukumbu, ikiruhusu utekelezaji wa msimbo wa kiholela chini ya muktadha wa **LOCAL SYSTEM**, hivyo kutoa mamlaka ya juu.
 
-Uthabiti na athari za udhaifu huu zilisisitizwa, ikionyesha umuhimu wake kwa mikakati ya baada ya kudukua, harakati za pande zote, na kuepuka antivirus/EDR.
+Uthibitisho na athari zinazoweza kutokea za udhaifu huu zilisisitizwa, zikionyesha umuhimu wake kwa mikakati ya baada ya unyakuzi, harakati za pembeni, na kuepuka mifumo ya antivirus/EDR.
 
-Ingawa udhaifu huu ulifunuliwa awali kwa bahati mbaya kupitia hati, ilisisitizwa kuwa unyanyasaji wake unakandamizwa kwa toleo za zamani za Windows (k.m., **Windows 7 / Server 2008 R2**) na unahitaji ufikiaji wa ndani. 
+Ingawa udhaifu huu ulifunuliwa kwa bahati mbaya kupitia skripti, ilisisitizwa kuwa unyakuzi wake unategemea toleo la zamani la Windows (mfano, **Windows 7 / Server 2008 R2**) na unahitaji ufikiaji wa ndani.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

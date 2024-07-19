@@ -1,116 +1,117 @@
-# Vyeti vya AD
+# AD Certificates
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kuvamia AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuvamia kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Utangulizi
+## Introduction
 
-### Vipengele vya Cheti
+### Components of a Certificate
 
-- **Mada** ya cheti inaonyesha mmiliki wake.
-- **Ufunguo wa Umma** unalinganishwa na ufunguo uliohifadhiwa kibinafsi ili kuunganisha cheti na mmiliki wake halali.
-- **Kipindi cha Uhalali**, kilichofafanuliwa na tarehe za **NotBefore** na **NotAfter**, hupima muda halali wa cheti.
-- Nambari ya kipekee ya **Serial**, iliyotolewa na Mamlaka ya Cheti (CA), inatambua kila cheti.
-- **Mtoaji** hurejelea CA ambayo imetoa cheti.
-- **SubjectAlternativeName** inaruhusu majina ya ziada kwa mada, ikiboresha uwezo wa kutambua.
-- **Vikwazo vya Msingi** vinatambua ikiwa cheti ni kwa CA au kifaa cha mwisho na kufafanua vizuizi vya matumizi.
-- **Matumizi ya Upanuzi wa Ufunguo (EKUs)** yanafafanua madhumuni maalum ya cheti, kama vile kusaini kanuni au encryption ya barua pepe, kupitia Identifiers ya Vitu (OIDs).
-- **Algorithimu ya Saini** inabainisha njia ya kusaini cheti.
-- **Saini**, iliyoumbwa na ufunguo wa kibinafsi wa mtoaji, inahakikisha uhalali wa cheti.
+- **Mada** ya cheti inaashiria mmiliki wake.
+- **Funguo la Umma** linapangwa na funguo ya kibinafsi ili kuunganisha cheti na mmiliki wake halali.
+- **Muda wa Uhalali**, ulioainishwa na tarehe za **NotBefore** na **NotAfter**, unaashiria muda wa ufanisi wa cheti.
+- Nambari ya **Serial** ya kipekee, inayotolewa na Mamlaka ya Cheti (CA), inatambulisha kila cheti.
+- **Mtoaji** inahusisha CA ambayo imetoa cheti.
+- **SubjectAlternativeName** inaruhusu majina ya ziada kwa mada, ikiongeza kubadilika kwa utambuzi.
+- **Mipaka ya Msingi** inatambulisha ikiwa cheti ni kwa CA au kitengo cha mwisho na kuainisha vizuizi vya matumizi.
+- **Matumizi ya Funguo Yaliyoongezwa (EKUs)** yanaelezea madhumuni maalum ya cheti, kama vile kusaini msimbo au usimbaji wa barua pepe, kupitia Vitambulisho vya Kitu (OIDs).
+- **Algorithimu ya Saini** inaelezea njia ya kusaini cheti.
+- **Saini**, iliyoundwa kwa funguo ya kibinafsi ya mtoaji, inahakikisha uhalali wa cheti.
 
-### Mambo Maalum
+### Special Considerations
 
-- **Mada za Alternatifu za Majina (SANs)** huongeza ufanisi wa cheti kwa vitambulisho vingi, muhimu kwa seva zenye uwanja mwingi. Mchakato salama wa utoaji ni muhimu kuepuka hatari ya udanganyifu na wadukuzi wanaobadilisha maelezo ya SAN.
+- **Majina Alternatif ya Mada (SANs)** yanapanua matumizi ya cheti kwa vitambulisho vingi, muhimu kwa seva zenye maeneo mengi. Mchakato wa kutoa cheti kwa usalama ni muhimu ili kuepuka hatari za kujifanya kwa washambuliaji wanaoshughulikia spesifikas SAN.
 
-### Mamlaka za Cheti (CAs) katika Active Directory (AD)
+### Certificate Authorities (CAs) in Active Directory (AD)
 
-AD CS inatambua vyeti vya CA katika msitu wa AD kupitia vyombo vilivyotengwa, kila moja ikitoa majukumu ya kipekee:
+AD CS inatambua cheti za CA katika msitu wa AD kupitia vyombo vilivyotengwa, kila kimoja kikihudumu majukumu ya kipekee:
 
-- Kontena ya **Mamlaka ya Uthibitisho** inashikilia vyeti vya mizizi ya CA inayotegemewa.
-- Kontena za **Huduma za Usajili** zinafafanua CA za Kampuni na templeti zao za vyeti.
-- Kitu cha **NTAuthCertificates** kina vyeti vya CA vilivyoidhinishwa kwa uthibitisho wa AD.
-- Kontena ya **AIA (Mamlaka ya Kufikia Taarifa)** inarahisisha uthibitisho wa mnyororo wa vyeti na vyeti vya kati na vya msalaba.
+- **Mamlaka ya Cheti** chombo kinashikilia cheti za CA za msingi zinazotambulika.
+- **Huduma za Usajili** chombo kinaelezea CA za Biashara na templeti zao za cheti.
+- **NTAuthCertificates** kitu kinajumuisha cheti za CA zilizoidhinishwa kwa uthibitishaji wa AD.
+- **AIA (Upatikanaji wa Taarifa za Mamlaka)** chombo kinasaidia uthibitishaji wa mnyororo wa cheti na cheti za CA za kati na za msalaba.
 
-### Upatikanaji wa Cheti: Mchakato wa Ombi la Cheti la Mteja
+### Certificate Acquisition: Client Certificate Request Flow
 
-1. Mchakato wa ombi huanza na wateja kupata CA ya Kampuni.
-2. CSR inaundwa, ikijumuisha ufunguo wa umma na maelezo mengine, baada ya kuzalisha jozi ya ufunguo wa umma-binafsi.
-3. CA inachambua CSR dhidi ya templeti za vyeti zilizopo, ikitoa cheti kulingana na ruhusa za templeti.
-4. Baada ya idhini, CA inasaini cheti kwa ufunguo wake wa kibinafsi na kuirudisha kwa mteja.
+1. Mchakato wa ombi huanza na wateja kutafuta CA ya Biashara.
+2. CSR inaundwa, ikiwa na funguo ya umma na maelezo mengine, baada ya kuunda jozi ya funguo ya umma na ya kibinafsi.
+3. CA inakagua CSR dhidi ya templeti za cheti zilizopo, ikitoa cheti kulingana na ruhusa za templeti.
+4. Baada ya idhini, CA inasaini cheti kwa funguo yake ya kibinafsi na kuirudisha kwa mteja.
 
-### Templeti za Cheti
+### Certificate Templates
 
-Zilizofafanuliwa ndani ya AD, templeti hizi hupanga mipangilio na ruhusa za kutoa vyeti, ikiwa ni pamoja na EKUs zilizoruhusiwa na haki za usajili au marekebisho, muhimu kwa usimamizi wa upatikanaji wa huduma za cheti.
+Zimeainishwa ndani ya AD, templeti hizi zinaelezea mipangilio na ruhusa za kutoa cheti, ikiwa ni pamoja na EKUs zinazoruhusiwa na haki za usajili au mabadiliko, muhimu kwa usimamizi wa ufikiaji wa huduma za cheti.
 
-## Usajili wa Cheti
+## Certificate Enrollment
 
-Mchakato wa usajili wa vyeti huanzishwa na msimamizi ambaye **anaunda templeti ya cheti**, ambayo kisha **inachapishwa** na Mamlaka ya Cheti ya Kampuni (CA). Hii inafanya templeti ipatikane kwa usajili wa mteja, hatua inayofikiwa kwa kuongeza jina la templeti kwenye uga wa `certificatetemplates` wa kitu cha Active Directory.
+Mchakato wa usajili wa cheti huanzishwa na msimamizi ambaye **anaunda templeti ya cheti**, ambayo kisha **inasambazwa** na Mamlaka ya Cheti ya Biashara (CA). Hii inafanya templeti hiyo ipatikane kwa usajili wa mteja, hatua inayofikiwa kwa kuongeza jina la templeti kwenye uwanja wa `certificatetemplates` wa kitu cha Active Directory.
 
-Ili mteja aombe cheti, **haki za usajili** lazima zitolewe. Haki hizi zinafafanuliwa na maelezo ya usalama kwenye templeti ya cheti na Mamlaka ya Cheti ya Kampuni yenyewe. Ruhusa lazima itolewe katika maeneo yote mawili ili ombi liweze kufanikiwa.
+Ili mteja aombe cheti, **haki za usajili** lazima zipewe. Haki hizi zinaainishwa na waelekezi wa usalama kwenye templeti ya cheti na CA ya Biashara yenyewe. Ruhusa lazima zipewe katika maeneo yote mawili ili ombi liwe na mafanikio.
 
-### Haki za Usajili wa Templeti
+### Template Enrollment Rights
 
-Haki hizi zinafafanuliwa kupitia Viingilio vya Kudhibiti Upatikanaji (ACEs), ikieleza ruhusa kama vile:
-- Haki za **Kibali cha Cheti** na **Kibali cha Kiotomatiki cha Cheti**, kila moja ikihusishwa na GUID maalum.
-- **Haki za Upanuzi**, zikiruhusu ruhusa zote za upanuzi.
-- **FullControl/GenericAll**, zinazotoa udhibiti kamili juu ya templeti.
+Haki hizi zinaainishwa kupitia Kuingilia kwa Udhibiti wa Ufikiaji (ACEs), zikielezea ruhusa kama:
+- **Usajili wa Cheti** na **AutoEnrollment ya Cheti**, kila moja ikihusishwa na GUID maalum.
+- **Haki za Kupanuliwa**, zikiruhusu ruhusa zote za ziada.
+- **Udhibiti Kamili/GenericAll**, ikitoa udhibiti kamili juu ya templeti.
 
-### Haki za Usajili wa Mamlaka ya Cheti ya Kampuni
+### Enterprise CA Enrollment Rights
 
-Haki za CA zinafafanuliwa katika maelezo yake ya usalama, yanayopatikana kupitia konsoli ya usimamizi wa Mamlaka ya Cheti. Baadhi ya mipangilio hata inaruhusu watumiaji wenye mamlaka ya chini upatikanaji wa mbali, ambao unaweza kuwa wasiwasi wa usalama.
+Haki za CA zinaelezwa katika waelekezi wake wa usalama, zinazopatikana kupitia konsoli ya usimamizi wa Mamlaka ya Cheti. Mipangilio mingine hata inaruhusu watumiaji wenye mamlaka ya chini kupata mbali, ambayo inaweza kuwa wasiwasi wa usalama.
 
-### Udhibiti wa Utoaji wa Ziada
+### Additional Issuance Controls
 
-Mipangilio fulani inaweza kutumika, kama vile:
-- **Idhini ya Meneja**: Inaweka maombi katika hali ya kusubiri hadi idhini itolewe na meneja wa cheti.
-- **Mawakala wa Usajili na Saini Zilizoidhinishwa**: Hufafanua idadi ya saini zinazohitajika kwenye CSR na Sera muhimu za Maombi OIDs.
+Madhara fulani yanaweza kutumika, kama:
+- **Idhini ya Meneja**: Inatia maombi katika hali ya kusubiri hadi idhini itolewe na meneja wa cheti.
+- **Wakili wa Usajili na Saini Zilizothibitishwa**: Kuainisha idadi ya saini zinazohitajika kwenye CSR na OIDs za Sera ya Maombi zinazohitajika.
 
-### Njia za Kuomba Vyeti
+### Methods to Request Certificates
 
-Vyeti vinaweza kuombwa kupitia:
-1. **Itifaki ya Usajili wa Cheti cha Mteja wa Windows** (MS-WCCE), ikatumia viunganishi vya DCOM.
-2. **Itifaki ya Mbali ya ICertPassage** (MS-ICPR), kupitia mabomba yaliyopewa majina au TCP/IP.
-3. **Kiolesura cha Wavuti cha Usajili wa Cheti**, ikiwa na jukumu la Usajili wa Wavuti wa Mamlaka ya Cheti uliowekwa.
-4. **Huduma ya Usajili wa Cheti** (CES), pamoja na huduma ya Sera ya Usajili wa Cheti (CEP).
-5. **Huduma ya Usajili wa Kifaa cha Mtandao** (NDES) kwa vifaa vya mtandao, ikatumia Itifaki Rahisi ya Usajili wa Cheti (SCEP).
+Cheti zinaweza kuombwa kupitia:
+1. **Protokali ya Usajili wa Cheti ya Mteja wa Windows** (MS-WCCE), ikitumia interfaces za DCOM.
+2. **Protokali ya ICertPassage Remote** (MS-ICPR), kupitia mabomba yaliyopewa majina au TCP/IP.
+3. Kiolesura cha wavuti cha **usajili wa cheti**, na jukumu la Usajili wa Wavuti wa Mamlaka ya Cheti lililosakinishwa.
+4. **Huduma ya Usajili wa Cheti** (CES), kwa kushirikiana na huduma ya Sera ya Usajili wa Cheti (CEP).
+5. **Huduma ya Usajili wa Vifaa vya Mtandao** (NDES) kwa vifaa vya mtandao, ikitumia Protokali ya Usajili wa Cheti Rahisi (SCEP).
 
-Watumiaji wa Windows pia wanaweza kuomba vyeti kupitia GUI (`certmgr.msc` au `certlm.msc`) au zana za mstari wa amri (`certreq.exe` au amri ya `Get-Certificate` ya PowerShell).
+Watumiaji wa Windows wanaweza pia kuomba cheti kupitia GUI (`certmgr.msc` au `certlm.msc`) au zana za mstari wa amri (`certreq.exe` au amri ya PowerShell `Get-Certificate`).
 ```powershell
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
 ## Uthibitisho wa Cheti
 
-Active Directory (AD) inasaidia uthibitisho wa cheti, kwa kiasi kikubwa ikichangia itifaki za **Kerberos** na **Secure Channel (Schannel)**.
+Active Directory (AD) inasaidia uthibitisho wa cheti, hasa ikitumia **Kerberos** na **Secure Channel (Schannel)** protokali.
 
 ### Mchakato wa Uthibitisho wa Kerberos
 
-Katika mchakato wa uthibitisho wa Kerberos, ombi la mtumiaji la Tiketi ya Kutoa Tiketi (TGT) limesainiwa kwa kutumia **ufunguo wa faragha** wa cheti cha mtumiaji. Ombi hili linapitia uthibitisho kadhaa na mwenye kudhibiti kikoa, ikiwa ni pamoja na **uhalali**, **njia**, na **hali ya kufutwa** kwa cheti. Uthibitisho pia unajumuisha kuthibitisha kwamba cheti kinatoka kwa chanzo kinachotegemewa na kuthibitisha uwepo wa mtoaji katika **hifadhi ya cheti ya NTAUTH**. Uthibitisho wa mafanikio husababisha kutolewa kwa TGT. **`NTAuthCertificates`** kitu katika AD, kinapatikana kwenye:
+Katika mchakato wa uthibitisho wa Kerberos, ombi la mtumiaji la Tiketi ya Kutoa Tiketi (TGT) linatiwa saini kwa kutumia **funguo ya faragha** ya cheti cha mtumiaji. Ombi hili hupitia uthibitisho kadhaa na msimamizi wa eneo, ikiwa ni pamoja na **uhalali** wa cheti, **njia**, na **hali ya kufutwa**. Uthibitisho pia unajumuisha kuangalia kwamba cheti kinatoka kwa chanzo kinachotegemewa na kuthibitisha uwepo wa mtoaji katika **duka la cheti la NTAUTH**. Uthibitisho uliofanikiwa unapelekea utoaji wa TGT. Kitu cha **`NTAuthCertificates`** katika AD, kinapatikana kwenye:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
-### Kuanzisha Imani kwa Uthibitisho wa Cheti.
+is central to establishing trust for certificate authentication.
 
-### Uthibitisho wa Mfumo wa Salama (Schannel)
+### Secure Channel (Schannel) Authentication
 
-Schannel inawezesha uhusiano salama wa TLS/SSL, ambapo wakati wa salamu, mteja hutoa cheti ambacho, ikiwa kithibitishwa kwa mafanikio, kinaruhusu ufikiaji. Kufanana kwa cheti na akaunti ya AD inaweza kuhusisha kazi ya **S4U2Self** ya Kerberos au **Jina mbadala la Mada (SAN)** ya cheti, miongoni mwa njia zingine.
+Schannel inarahisisha muunganisho salama wa TLS/SSL, ambapo wakati wa mkutano, mteja anawasilisha cheti ambacho, ikiwa kimefanikiwa kuthibitishwa, kinatoa ruhusa ya ufikiaji. Mchoro wa cheti kwa akaunti ya AD unaweza kujumuisha kazi ya Kerberos **S4U2Self** au **Subject Alternative Name (SAN)** ya cheti, miongoni mwa mbinu nyingine.
 
-### Uchambuzi wa Huduma za Cheti za AD
+### AD Certificate Services Enumeration
 
-Huduma za cheti za AD zinaweza kuchambuliwa kupitia mizizi ya LDAP, ikifunua habari kuhusu **Mamlaka za Cheti za Kampuni (CAs)** na mipangilio yao. Hii inapatikana na mtumiaji yeyote aliyeathibitishwa kwenye kikoa bila mamlaka maalum. Zana kama **[Certify](https://github.com/GhostPack/Certify)** na **[Certipy](https://github.com/ly4k/Certipy)** hutumiwa kwa uchambuzi na tathmini ya hatari katika mazingira ya AD CS.
+Huduma za cheti za AD zinaweza kuorodheshwa kupitia maswali ya LDAP, zikifunua habari kuhusu **Enterprise Certificate Authorities (CAs)** na mipangilio yao. Hii inapatikana na mtumiaji yeyote aliyeidhinishwa na kikoa bila ruhusa maalum. Zana kama **[Certify](https://github.com/GhostPack/Certify)** na **[Certipy](https://github.com/ly4k/Certipy)** zinatumika kwa kuorodhesha na tathmini ya udhaifu katika mazingira ya AD CS.
 
-Amri za kutumia zana hizi ni pamoja na:
+Commands for using these tools include:
 ```bash
 # Enumerate trusted root CA certificates and Enterprise CAs with Certify
 Certify.exe cas
@@ -124,21 +125,22 @@ certipy find -vulnerable -u john@corp.local -p Passw0rd -dc-ip 172.16.126.128
 certutil.exe -TCAInfo
 certutil -v -dstemplate
 ```
-## Marejeo
+## References
 
 * [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalamu wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

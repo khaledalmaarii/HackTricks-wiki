@@ -1,39 +1,42 @@
-# AD CS Uthabiti wa Kikoa
+# AD CS Domain Persistence
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Hii ni muhtasari wa mbinu za uthabiti wa kikoa zilizoshirikiwa katika [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Angalia kwa maelezo zaidi.
+**Hii ni muhtasari wa mbinu za kudumu za kikoa zilizoshirikiwa katika [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**. Angalia kwa maelezo zaidi.
 
-## Kufanya Udanganyifu wa Vyeti na Vyeti vya CA Vilivyoporwa - DPERSIST1
+## Kuunda Vyeti kwa Vyeti vya CA Vilivyoibiwa - DPERSIST1
 
-Unawezaje kujua kwamba cheti ni cheti cha CA?
+Je, unaweza vipi kusema kwamba cheti ni cheti cha CA?
 
-Inaweza kubainika kwamba cheti ni cheti cha CA ikiwa hali kadhaa zinakidhi:
+Inaweza kubainika kwamba cheti ni cheti cha CA ikiwa masharti kadhaa yanatimizwa:
 
-- Cheti hicho kimehifadhiwa kwenye seva ya CA, na ufunguo wake wa kibinafsi umelindwa na DPAPI ya kifaa, au na vifaa kama TPM/HSM ikiwa mfumo wa uendeshaji unaiunga mkono.
-- Vipengele vya Issuer na Subject vya cheti vinalingana na jina la kipekee la CA.
-- Kuna kipengele cha "CA Version" kinachopatikana kwa vyeti vya CA pekee.
-- Cheti halina uga wa Matumizi ya Upanuzi wa Muhimu (EKU).
+- Cheti kimehifadhiwa kwenye seva ya CA, na funguo zake za faragha zimehifadhiwa na DPAPI ya mashine, au na vifaa kama TPM/HSM ikiwa mfumo wa uendeshaji unauunga mkono.
+- Sehemu za Mtoaji na Mhusika za cheti zinakubaliana na jina lililoainishwa la CA.
+- Kiambatisho cha "CA Version" kinapatikana katika vyeti vya CA pekee.
+- Cheti hakina sehemu za Matumizi ya Funguo za Kupanua (EKU).
 
-Ili kuchimbua ufunguo wa kibinafsi wa cheti hiki, zana ya `certsrv.msc` kwenye seva ya CA ndiyo njia inayoungwa mkono kupitia GUI iliyojengwa. Walakini, cheti hiki hakina tofauti na vyeti vingine vilivyohifadhiwa ndani ya mfumo; kwa hivyo, njia kama [tekinolojia ya THEFT2](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) inaweza kutumika kwa uchimbaji.
+Ili kutoa funguo za faragha za cheti hiki, zana ya `certsrv.msc` kwenye seva ya CA ndiyo njia inayoungwa mkono kupitia GUI iliyojengwa ndani. Hata hivyo, cheti hiki hakitofautiani na vingine vilivyohifadhiwa ndani ya mfumo; hivyo, mbinu kama [mbinu ya THEFT2](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) zinaweza kutumika kwa ajili ya kutoa.
 
-Cheti na ufunguo wa kibinafsi pia yanaweza kupatikana kwa kutumia Certipy na amri ifuatayo:
+Cheti na funguo za faragha pia zinaweza kupatikana kwa kutumia Certipy na amri ifuatayo:
 ```bash
 certipy ca 'corp.local/administrator@ca.corp.local' -hashes :123123.. -backup
 ```
-Baada ya kupata cheti cha CA na ufunguo wake wa kibinafsi katika muundo wa `.pfx`, zana kama [ForgeCert](https://github.com/GhostPack/ForgeCert) zinaweza kutumika kuzalisha vyeti halali:
+Upon acquiring the CA certificate and its private key in `.pfx` format, tools like [ForgeCert](https://github.com/GhostPack/ForgeCert) can be utilized to generate valid certificates: 
+
+Baada ya kupata cheti cha CA na funguo zake za faragha katika muundo wa `.pfx`, zana kama [ForgeCert](https://github.com/GhostPack/ForgeCert) zinaweza kutumika kutengeneza vyeti halali:
 ```bash
 # Generating a new certificate with ForgeCert
 ForgeCert.exe --CaCertPath ca.pfx --CaCertPassword Password123! --Subject "CN=User" --SubjectAltName localadmin@theshire.local --NewCertPath localadmin.pfx --NewCertPassword Password123!
@@ -48,27 +51,43 @@ Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /pa
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
 {% hint style="warning" %}
-Mtumiaji anayelengwa kwa udanganyifu wa cheti lazima awe hai na aweze kuthibitisha katika Active Directory ili mchakato ufanikiwe. Udanganyifu wa cheti kwa akaunti maalum kama krbtgt haufanikiwi.
+Mtumiaji anayelengwa kwa ajili ya uongozi wa cheti lazima awe hai na awe na uwezo wa kuthibitisha katika Active Directory ili mchakato ufanikiwe. Uongozi wa cheti kwa akaunti maalum kama krbtgt hauwezi kufanikiwa.
 {% endhint %}
 
-Cheti hiki kilichodanganywa kitakuwa **halali** hadi tarehe ya mwisho iliyotajwa na **muda mrefu kama cheti cha CA kina halali** (kawaida kwa miaka 5 hadi **10+**). Pia ni halali kwa **mashine**, kwa hivyo ikishirikiana na **S4U2Self**, mshambuliaji anaweza **kuendelea kuwa na uwepo kwenye kifaa chochote cha kikoa** kwa muda mrefu kama cheti cha CA kina halali. 
-Zaidi ya hayo, **vyeti vilivyozalishwa** kwa njia hii **haviwezi kufutwa** kwani CA haijui kuhusu vyeti hivyo.
+Cheti hiki kilichofanywa kuwa **halali** hadi tarehe ya mwisho iliyotajwa na **kama cheti cha CA cha mzizi ni halali** (kawaida kutoka miaka 5 hadi **10+**). Pia ni halali kwa **mashine**, hivyo ikichanganywa na **S4U2Self**, mshambuliaji anaweza **kuendelea kuwepo kwenye mashine yoyote ya domain** kwa muda wote ambao cheti cha CA ni halali.\
+Zaidi ya hayo, **vyeti vilivyoundwa** kwa njia hii **haviwezi kufutwa** kwani CA haijui kuhusu hivyo.
 
-## Kuamini Cheti za CA za Udanganyifu - DPERSIST2
+## Kuamini Vyeti vya CA vya Kijanja - DPERSIST2
 
-Kitu cha `NTAuthCertificates` kimeainishwa kuwa na cheti kimoja au zaidi cha **CA** ndani ya sifa yake ya `cacertificate`, ambayo Active Directory (AD) inatumia. Mchakato wa uthibitisho na **kudhibiti kikoa** unahusisha kuangalia kitu cha `NTAuthCertificates` kwa kuingia kulingana na **CA iliyotajwa** katika uga wa Mtoa Cheti wa cheti cha kuthibitisha. Uthibitisho unaendelea ikiwa kuna kulingana.
+Kituo cha `NTAuthCertificates` kimewekwa ili kuwa na cheti kimoja au zaidi vya **CA** ndani ya sifa yake ya `cacertificate`, ambayo Active Directory (AD) inatumia. Mchakato wa uthibitishaji na **kikundi cha kudhibiti domain** unahusisha kuangalia kituo cha `NTAuthCertificates` kwa kuangalia kipengee kinacholingana na **CA iliyotajwa** katika uwanja wa Mtoaji wa **cheti** kinachothibitishwa. Uthibitishaji unaendelea ikiwa mechi imepatikana.
 
-Mshambuliaji anaweza kuongeza cheti cha CA kilichojisaini kwenye kitu cha `NTAuthCertificates`, ikiwa ana udhibiti juu ya kitu hiki cha AD. Kawaida, ni wanachama wa kikundi cha **Enterprise Admin**, pamoja na **Domain Admins** au **Administrators** katika **kikoa cha mizizi cha msitu**, wanaopewa ruhusa ya kuhariri kitu hiki. Wanaweza kuhariri kitu cha `NTAuthCertificates` kwa kutumia `certutil.exe` na amri `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, au kwa kutumia [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).
+Cheti cha CA kilichojisaini mwenyewe kinaweza kuongezwa kwenye kituo cha `NTAuthCertificates` na mshambuliaji, ikiwa wana udhibiti juu ya kituo hiki cha AD. Kawaida, ni wanachama wa kundi la **Enterprise Admin**, pamoja na **Domain Admins** au **Administrators** katika **domain ya mzizi wa msitu**, ndio wanapewa ruhusa ya kubadilisha kitu hiki. Wanaweza kuhariri kituo cha `NTAuthCertificates` wakitumia `certutil.exe` na amri `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126`, au kwa kutumia [**Zana ya Afya ya PKI**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool).
 
-Uwezo huu ni muhimu sana unapotumiwa pamoja na njia iliyoelezwa hapo awali inayohusisha ForgeCert kuzalisha vyeti kwa njia ya kudumu.
+Uwezo huu ni muhimu hasa unapotumika pamoja na njia iliyotajwa hapo awali inayohusisha ForgeCert ili kuunda vyeti kwa njia ya moja kwa moja.
 
-## Usanidi Mbaya wa Nia Mbaya - DPERSIST3
+## Usanidi Mbaya wa Kijanja - DPERSIST3
 
-Fursa za **kudumu** kupitia **marekebisho ya maelezo ya usalama ya sehemu za AD CS** ni nyingi. Marekebisho yaliyoelezwa katika sehemu ya "[Kuongezeka kwa Kikoa](domain-escalation.md)" yanaweza kutekelezwa kwa nia mbaya na mshambuliaji mwenye ufikiaji wa juu. Hii ni pamoja na kuongeza "haki za kudhibiti" (k.m., WriteOwner/WriteDACL/n.k.) kwa sehemu nyeti kama vile:
+Fursa za **kuendelea kuwepo** kupitia **mabadiliko ya descriptor ya usalama ya sehemu za AD CS** ni nyingi. Mabadiliko yaliyotajwa katika sehemu ya "[Domain Escalation](domain-escalation.md)" yanaweza kutekelezwa kwa uovu na mshambuliaji mwenye ufikiaji wa juu. Hii inajumuisha kuongeza "haki za udhibiti" (mfano, WriteOwner/WriteDACL/n.k.) kwa sehemu nyeti kama:
 
-- Kitu cha kompyuta cha AD cha **seva ya CA**
+- Kituo cha **kompyuta ya AD ya seva ya CA**
 - Seva ya **RPC/DCOM ya seva ya CA**
-- Kitu au chombo cha AD cha **mzao wa chini** katika **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (kwa mfano, chombo cha Templeti za Cheti, chombo cha Mamlaka za Uthibitishaji, kitu cha NTAuthCertificates, n.k.)
-- **Vikundi vya AD vilivyopewa haki za kudhibiti AD CS** kwa chaguo-msingi au na shirika (kama kikundi cha kujengwa cha Cert Publishers na wanachama wake)
+- Kila **kituo au kituo cha AD kilichoshuka** katika **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** (kwa mfano, kituo cha Templeti za Cheti, kituo cha Mamlaka ya Uthibitishaji, kituo cha NTAuthCertificates, n.k.)
+- **Makundi ya AD yaliyopewa haki za kudhibiti AD CS** kwa kawaida au na shirika (kama vile kundi la ndani la Watoa Cheti na wanachama wake)
 
-Mfano wa utekelezaji mbaya unaweza kuhusisha mshambuliaji, ambaye ana **ruhusa za juu** katika kikoa, kuongeza ruhusa ya **`WriteOwner`** kwenye templeti ya cheti ya **`User`** ya chaguo-msingi, na mshambuliaji kuwa mkuu wa haki hiyo. Ili kutumia hii, mshambuliaji kwanza angebadilisha umiliki wa templeti ya **`User`** kuwa yeye mwenyewe. Baada ya hapo, **`mspki-certificate-name-flag`** ingewekwa kuwa **1** kwenye templeti kuwezesha **`ENROLLEE_SUPPLIES_SUBJECT`**, kuruhusu mtumiaji kutoa Jina mbadala la Mada katika ombi. Kufuatia hilo, mshambuliaji anaweza **kujiandikisha** kwa kutumia **templeti**, kuchagua jina la **msimamizi wa kikoa** kama jina mbadala, na kutumia cheti kilichopatikana kwa uthibitisho kama DA.
+Mfano wa utekelezaji mbaya ungehusisha mshambuliaji, ambaye ana **idhini za juu** katika domain, kuongeza ruhusa ya **`WriteOwner`** kwenye templeti ya cheti ya **`User`** ya kawaida, huku mshambuliaji akiwa ndiye mwenye haki hiyo. Ili kutumia hili, mshambuliaji angebadilisha kwanza umiliki wa templeti ya **`User`** kuwa wao wenyewe. Baada ya hapo, **`mspki-certificate-name-flag`** ingetengwa kuwa **1** kwenye templeti ili kuwezesha **`ENROLLEE_SUPPLIES_SUBJECT`**, ikiruhusu mtumiaji kutoa Jina Alternatif la Somo katika ombi. Kisha, mshambuliaji angeweza **kujiandikisha** kwa kutumia **templeti**, akichagua jina la **meneja wa domain** kama jina mbadala, na kutumia cheti kilichopatikana kwa uthibitishaji kama DA.
+
+
+{% hint style="success" %}
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki hila za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

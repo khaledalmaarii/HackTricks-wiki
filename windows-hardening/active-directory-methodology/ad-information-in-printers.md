@@ -1,74 +1,76 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inayotangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Kuna blogi kadhaa kwenye mtandao ambazo **zinaonyesha hatari za kuacha wachapishaji wameboreshwa na LDAP na sifa za kuingia za chaguo-msingi/dhaifu**.\
-Hii ni kwa sababu mshambuliaji anaweza **kudanganya wachapishaji kuthibitisha dhidi ya seva ya LDAP ya udanganyifu** (kawaida `nc -vv -l -p 444` inatosha) na kukamata **sifa za wachapishaji kwa maandishi wazi**.
+Kuna blogu kadhaa kwenye Mtandao ambazo **zinabainisha hatari za kuacha printers zikiwa zimewekwa na LDAP zikiwa na** akauti za kuingia za kawaida/dhaifu.\
+Hii ni kwa sababu mshambuliaji anaweza **kudanganya printer kujiandikisha dhidi ya seva ya LDAP isiyo halali** (kawaida `nc -vv -l -p 444` inatosha) na kukamata **akauti za printer kwa maandiko wazi**.
 
-Pia, wachapishaji kadhaa watakuwa na **magogo na majina ya watumiaji** au hata wanaweza **kupakua majina yote ya watumiaji** kutoka kwa Kudhibitiwa na Kudhibitiwa na Kudhibitiwa.
+Pia, printers kadhaa zitakuwa na **kumbukumbu za majina ya watumiaji** au zinaweza hata kuwa na uwezo wa **kupakua majina yote ya watumiaji** kutoka kwa Domain Controller.
 
-Maelezo yote haya **yenye hisia** na **ukosefu wa usalama wa kawaida** hufanya wachapishaji kuwa ya kuvutia sana kwa wadukuzi.
+Taarifa hii **nyeti** na **ukosefu wa usalama** wa kawaida inafanya printers kuwa za kuvutia sana kwa washambuliaji.
 
-Baadhi ya blogi kuhusu mada hiyo:
+Baadhi ya blogu kuhusu mada hiyo:
 
 * [https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/](https://www.ceos3c.com/hacking/obtaining-domain-credentials-printer-netcat/)
 * [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 
-## Usanidi wa Wachapishaji
-- **Mahali**: Orodha ya seva ya LDAP inapatikana kwenye: `Mtandao > Usanidi wa LDAP > Kuweka LDAP`.
-- **Tabia**: Kiolesura kinawezesha marekebisho ya seva ya LDAP bila kuingiza tena sifa za kuingia, lengo likiwa ni urahisi wa mtumiaji lakini kuna hatari za usalama.
-- **Kudukua**: Kudukua kunahusisha kuelekeza anwani ya seva ya LDAP kwa kompyuta iliyodhibitiwa na kutumia kipengele cha "Jaribu Uunganisho" kukamata sifa.
+## Printer Configuration
+- **Location**: Orodha ya seva ya LDAP inapatikana kwenye: `Network > LDAP Setting > Setting Up LDAP`.
+- **Behavior**: Kiolesura kinaruhusu mabadiliko ya seva ya LDAP bila kuingiza tena akauti, ikilenga urahisi wa mtumiaji lakini ikileta hatari za usalama.
+- **Exploit**: Ulaghai unahusisha kuelekeza anwani ya seva ya LDAP kwa mashine iliyo chini ya udhibiti na kutumia kipengele cha "Test Connection" kukamata akauti.
 
-## Kukamata Sifa
+## Capturing Credentials
 
-**Kwa hatua za kina zaidi, tazama [chanzo](https://grimhacker.com/2018/03/09/just-a-printer/) asili.**
+**Kwa hatua za kina zaidi, rejelea [chanzo](https://grimhacker.com/2018/03/09/just-a-printer/).**
 
-### Njia 1: Msikilizaji wa Netcat
-Msikilizaji wa netcat rahisi inaweza kuwa ya kutosha:
+### Method 1: Netcat Listener
+Mkusanyiko rahisi wa netcat unaweza kutosha:
 ```bash
 sudo nc -k -v -l -p 386
 ```
-Hata hivyo, mafanikio ya njia hii hutofautiana.
+Hata hivyo, mafanikio ya mbinu hii yanatofautiana.
 
-### Njia ya 2: Seva kamili ya LDAP na Slapd
-Njia yenye uhakika zaidi inahusisha kuweka seva kamili ya LDAP kwa sababu printer hufanya null bind ikifuatiwa na utafutaji kabla ya kujaribu kuunganisha kitambulisho.
+### Method 2: Full LDAP Server with Slapd
+Njia ya kuaminika zaidi inahusisha kuanzisha seva kamili ya LDAP kwa sababu printer inafanya null bind ikifuatiwa na uchunguzi kabla ya kujaribu kuunganisha akidi.
 
-1. **Kuweka Seva ya LDAP**: Mwongozo unafuata hatua kutoka [chanzo hiki](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
-2. **Hatua muhimu**:
+1. **LDAP Server Setup**: Mwongozo unafuata hatua kutoka [chanzo hiki](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
+2. **Key Steps**:
 - Sakinisha OpenLDAP.
 - Sanidi nenosiri la admin.
-- Ingiza skimu za msingi.
+- Ingiza mifano ya msingi.
 - Weka jina la kikoa kwenye DB ya LDAP.
 - Sanidi LDAP TLS.
-3. **Utekelezaji wa Huduma ya LDAP**: Mara baada ya kuweka, huduma ya LDAP inaweza kutekelezwa kwa kutumia:
+3. **LDAP Service Execution**: Mara tu inapoanzishwa, huduma ya LDAP inaweza kuendeshwa kwa kutumia:
 ```bash
 slapd -d 2
 ```
-## Marejeo
+## References
 * [https://grimhacker.com/2018/03/09/just-a-printer/](https://grimhacker.com/2018/03/09/just-a-printer/)
 
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

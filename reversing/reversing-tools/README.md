@@ -1,100 +1,107 @@
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
-# Mwongozo wa Kudekompili na Kompili Wasm na Wat
+# Mwongozo wa Decompilation ya Wasm na Uundaji wa Wat
 
-Katika ulimwengu wa **WebAssembly**, zana za **kudekompili** na **kukompili** ni muhimu kwa watengenezaji. Mwongozo huu unawasilisha rasilimali za mtandaoni na programu kwa kushughulikia faili za **Wasm (WebAssembly binary)** na **Wat (WebAssembly text)**.
+Katika ulimwengu wa **WebAssembly**, zana za **decompiling** na **compiling** ni muhimu kwa waendelezaji. Mwongo huu unawasilisha baadhi ya rasilimali za mtandaoni na programu za kushughulikia **Wasm (WebAssembly binary)** na **Wat (WebAssembly text)**.
 
 ## Zana za Mtandaoni
 
-- Kwa kudekompili Wasm kuwa Wat, zana inayopatikana kwenye [demonstri ya wasm2wat ya Wabt](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) inakuja kwa manufaa.
-- Kwa kukompili Wat kurudi Wasm, [demonstri ya wat2wasm ya Wabt](https://webassembly.github.io/wabt/demo/wat2wasm/) inatumika.
-- Chaguo lingine la kudekompili linaweza kupatikana kwenye [web-wasmdec](https://wwwg.github.io/web-wasmdec/).
+- Ili **decompile** Wasm hadi Wat, zana inayopatikana kwenye [Wabt's wasm2wat demo](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) inasaidia.
+- Kwa **compiling** Wat kurudi kwa Wasm, [Wabt's wat2wasm demo](https://webassembly.github.io/wabt/demo/wat2wasm/) inatumika.
+- Chaguo lingine la decompilation linaweza kupatikana kwenye [web-wasmdec](https://wwwg.github.io/web-wasmdec/).
 
 ## Suluhisho za Programu
 
-- Kwa suluhisho imara zaidi, [JEB na PNF Software](https://www.pnfsoftware.com/jeb/demo) inatoa huduma nyingi.
-- Mradi wa chanzo wazi [wasmdec](https://github.com/wwwg/wasmdec) pia inapatikana kwa kazi za kudekompili.
+- Kwa suluhisho thabiti zaidi, [JEB by PNF Software](https://www.pnfsoftware.com/jeb/demo) inatoa vipengele vya kina.
+- Mradi wa chanzo wazi [wasmdec](https://github.com/wwwg/wasmdec) pia unapatikana kwa kazi za decompilation.
 
-# Rasilimali za Kudekompili .Net
+# Rasilimali za Decompilation ya .Net
 
-Kudekompili vifungu vya .Net inaweza kufanywa kwa kutumia zana kama:
+Kufanya decompilation ya makusanyo ya .Net kunaweza kufanywa kwa zana kama:
 
-- [ILSpy](https://github.com/icsharpcode/ILSpy), ambayo pia inatoa [programu-jalizi kwa Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode), kuruhusu matumizi kwenye majukwaa tofauti.
-- Kwa kazi zinazohusisha **kudekompili**, **kubadilisha**, na **kukompili**, [dnSpy](https://github.com/0xd4d/dnSpy/releases) inapendekezwa sana. **Bonyeza-kulia** kwenye njia na uchague **Badilisha Njia** kuruhusu mabadiliko ya nambari.
-- [dotPeek ya JetBrains](https://www.jetbrains.com/es-es/decompiler/) ni chaguo lingine kwa kudekompili vifungu vya .Net.
+- [ILSpy](https://github.com/icsharpcode/ILSpy), ambayo pia inatoa [plugin kwa Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode), ikiruhusu matumizi ya majukwaa tofauti.
+- Kwa kazi zinazohusisha **decompilation**, **modification**, na **recompilation**, [dnSpy](https://github.com/0xd4d/dnSpy/releases) inapendekezwa sana. **Kubonyeza-kulia** kwenye njia na kuchagua **Modify Method** kunaruhusu mabadiliko ya msimbo.
+- [JetBrains' dotPeek](https://www.jetbrains.com/es-es/decompiler/) ni chaguo jingine kwa decompiling makusanyo ya .Net.
 
-## Kuboresha Uchunguzi na Kuingiza Kumbukumbu na DNSpy
+## Kuimarisha Ufuatiliaji na Kurekodi kwa DNSpy
 
-### Kuingiza Kumbukumbu na DNSpy
-Kuongeza habari kwenye faili kwa kutumia DNSpy, jumuisha kificho cha .Net kifuatacho:
+### Kurekodi kwa DNSpy
+Ili kurekodi taarifa kwenye faili kwa kutumia DNSpy, jumuisha kipande hiki cha msimbo wa .Net:
 
 %%%cpp
-kutumia System.IO;
-njia = "C:\\inetpub\\temp\\MyTest2.txt";
-File.AppendAllText(njia, "Nenosiri: " + nenosiri + "\n");
+using System.IO;
+path = "C:\\inetpub\\temp\\MyTest2.txt";
+File.AppendAllText(path, "Password: " + password + "\n");
 %%%
 
-### Uchunguzi na DNSpy
-Kwa uchunguzi wenye ufanisi na DNSpy, hatua za mfululizo zinapendekezwa kurekebisha **sifa za Kusanyiko** kwa uchunguzi, kuhakikisha kuwa uboreshaji ambao unaweza kuzuia uchunguzi unalemazwa. Mchakato huu ni pamoja na kubadilisha mipangilio ya `DebuggableAttribute`, kukompili kusanyiko, na kuhifadhi mabadiliko.
+### Ufuatiliaji wa DNSpy
+Kwa ufuatiliaji mzuri na DNSpy, mfululizo wa hatua unashauriwa kubadilisha **sifa za Assembly** kwa ajili ya ufuatiliaji, kuhakikisha kuwa uboreshaji ambao unaweza kuzuia ufuatiliaji umezimwa. Mchakato huu unajumuisha kubadilisha mipangilio ya `DebuggableAttribute`, kurekebisha makusanyo, na kuhifadhi mabadiliko.
 
-Zaidi ya hayo, kwa kuchunguza programu ya .Net inayotekelezwa na **IIS**, kutekeleza `iisreset /noforce` kunasababisha IIS kuanza tena. Kuambatisha DNSpy kwenye mchakato wa IIS kwa uchunguzi, mwongozo unafundisha kuchagua mchakato wa **w3wp.exe** ndani ya DNSpy na kuanza kikao cha uchunguzi.
+Zaidi ya hayo, ili kufuatilia programu ya .Net inayotumiwa na **IIS**, kutekeleza `iisreset /noforce` kunaanzisha upya IIS. Ili kuunganisha DNSpy kwenye mchakato wa IIS kwa ajili ya ufuatiliaji, mwongozo unashauri kuchagua mchakato wa **w3wp.exe** ndani ya DNSpy na kuanzisha kikao cha ufuatiliaji.
 
-Kwa mtazamo kamili wa moduli zilizopakia wakati wa uchunguzi, ufikiaji wa dirisha la **Moduli** katika DNSpy unapendekezwa, ikifuatiwa na kufungua moduli zote na kusorti kusanyiko kwa urahisi wa urambazaji na uchunguzi.
+Kwa mtazamo wa kina wa moduli zilizopakiwa wakati wa ufuatiliaji, kufikia dirisha la **Modules** ndani ya DNSpy kunashauriwa, kisha kufungua moduli zote na kupanga makusanyo kwa urahisi wa urambazaji na ufuatiliaji.
 
-Mwongozo huu unajumuisha kiini cha kudekompili WebAssembly na .Net, kutoa njia kwa watengenezaji kupitia kazi hizi kwa urahisi.
+Mwongo huu unajumuisha kiini cha WebAssembly na decompilation ya .Net, ukitoa njia kwa waendelezaji kuhamasika katika kazi hizi kwa urahisi.
 
-## **Kudekompili Java**
-Kudekompili bytecode ya Java, zana hizi zinaweza kuwa na manufaa sana:
+## **Java Decompiler**
+Ili decompile bytecode ya Java, zana hizi zinaweza kuwa na msaada mkubwa:
 - [jadx](https://github.com/skylot/jadx)
 - [JD-GUI](https://github.com/java-decompiler/jd-gui/releases)
 
-## **Uchunguzi wa DLLs**
+## **Ufuatiliaji wa DLLs**
 ### Kutumia IDA
-- **Rundll32** inapakia kutoka njia maalum kwa toleo la 64-bit na 32-bit.
-- **Windbg** inachaguliwa kama kichunguzi na chaguo la kusimamisha wakati wa kupakia/kupakua maktaba limezimwa.
-- Vigezo vya utekelezaji ni pamoja na njia ya DLL na jina la kazi. Usanidi huu unasimamisha utekelezaji kwa kila upakiaji wa DLL.
+- **Rundll32** inaload kutoka njia maalum kwa toleo la 64-bit na 32-bit.
+- **Windbg** inachaguliwa kama debuggger na chaguo la kusimamisha wakati wa kupakia/kutoa maktaba limewezeshwa.
+- Vigezo vya utekelezaji vinajumuisha njia ya DLL na jina la kazi. Mpangilio huu unasimamisha utekelezaji wakati wa kupakia kila DLL.
 
 ### Kutumia x64dbg/x32dbg
-- Kama IDA, **rundll32** inapakia na marekebisho ya mstari wa amri kwa kufafanua DLL na kazi.
-- Mipangilio inabadilishwa kuvunja kwenye kuingia kwa DLL, kuruhusu kuweka alama ya kuvunja kwenye hatua ya kuingia ya DLL inayotakiwa.
+- Kama IDA, **rundll32** inaload na marekebisho ya mistari ya amri ili kubainisha DLL na kazi.
+- Mipangilio inarekebishwa ili kuvunja kwenye kuingia kwa DLL, ikiruhusu kuweka alama ya kuvunja kwenye kiingilio kinachotakiwa cha DLL.
 
 ### Picha
-- Maeneo ya kusimamisha utekelezaji na usanidi unaonyeshwa kupitia viwambo vya skrini.
+- Mipangilio ya kusimamisha utekelezaji na mipangilio inaonyeshwa kupitia picha za skrini.
 
 ## **ARM & MIPS**
-- Kwa uigaji, [arm_now](https://github.com/nongiach/arm_now) ni rasilimali yenye manufaa.
+- Kwa emulation, [arm_now](https://github.com/nongiach/arm_now) ni rasilimali muhimu.
 
 ## **Shellcodes**
-### Mbinu za Uchunguzi
-- **Blobrunner** na **jmp2it** ni zana za kugawa shellcodes kwenye kumbukumbu na kuzichunguza na Ida au x64dbg.
+### Mbinu za Ufuatiliaji
+- **Blobrunner** na **jmp2it** ni zana za kugawa shellcodes kwenye kumbukumbu na kuziangalia kwa Ida au x64dbg.
 - Blobrunner [toleo](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
-- jmp2it [toleo lililokompiliwa](https://github.com/adamkramer/jmp2it/releases/)
-- **Cutter** inatoa uigaji na ukaguzi wa shellcode kwa kutumia GUI, ikionyesha tofauti katika kushughulikia shellcode kama faili dhidi ya shellcode moja kwa moja.
+- jmp2it [toleo lililotengenezwa](https://github.com/adamkramer/jmp2it/releases/)
+- **Cutter** inatoa emulation na ukaguzi wa shellcode kwa kutumia GUI, ikionyesha tofauti katika usimamizi wa shellcode kama faili dhidi ya shellcode moja kwa moja.
 
-### Kufuta na Uchambuzi
-- **scdbg** inatoa ufahamu juu ya kazi za shellcode na uwezo wa kufuta.
+### Deobfuscation na Uchambuzi
+- **scdbg** inatoa maarifa kuhusu kazi za shellcode na uwezo wa deobfuscation.
 %%%bash
-scdbg.exe -f shellcode # Habari ya msingi
+scdbg.exe -f shellcode # Taarifa za msingi
 scdbg.exe -f shellcode -r # Ripoti ya uchambuzi
-scdbg.exe -f shellcode -i -r # Kuingiza kwa kushirikiana
-scdbg.exe -f shellcode -d # Kudondosha shellcode iliyofuta
-scdbg.exe -f shellcode /findsc # Tafuta kuanzia offset
-scdbg.exe -f shellcode /foff 0x0000004D # Tekeleza kutoka kwa offset
+scdbg.exe -f shellcode -i -r # Vidokezo vya mwingiliano
+scdbg.exe -f shellcode -d # Dump shellcode iliyotafsiriwa
+scdbg.exe -f shellcode /findsc # Pata ofset ya kuanzia
+scdbg.exe -f shellcode /foff 0x0000004D # Tekeleza kutoka ofset
 %%%
 
-- **CyberChef
+- **CyberChef** kwa ajili ya kuondoa shellcode: [CyberChef recipe](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
+
+## **Movfuscator**
+- Obfuscator inayobadilisha maagizo yote kuwa `mov`.
+- Rasilimali muhimu ni pamoja na [ufafanuzi wa YouTube](https://www.youtube.com/watch?v=2VF_wPkiBJY) na [slides za PDF](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
+- **demovfuscator** inaweza kubadilisha obfuscation ya movfuscator, ikihitaji utegemezi kama `libcapstone-dev` na `libz3-dev`, na kufunga [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
+
 ## **Delphi**
 - Kwa binaries za Delphi, [IDR](https://github.com/crypto2011/IDR) inapendekezwa.
 
@@ -102,20 +109,21 @@ scdbg.exe -f shellcode /foff 0x0000004D # Tekeleza kutoka kwa offset
 # Kozi
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) \(Ufichuaji wa binary\)
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) \(Uondoaji wa binary\)
 
 
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

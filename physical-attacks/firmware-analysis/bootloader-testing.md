@@ -1,24 +1,25 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inayotangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-Hatua zifuatazo zinapendekezwa kwa kubadilisha mipangilio ya kuanza kifaa na bootloaders kama U-boot:
+Hatua zifuatazo zinapendekezwa kwa kubadilisha mipangilio ya kuanzisha kifaa na bootloaders kama U-boot:
 
-1. **Pata Shell ya Tafsiri ya Bootloader**:
-- Wakati wa kuanza, bonyeza "0", nafasi, au "codes" nyingine zilizotambuliwa kuipata shell ya tafsiri ya bootloader.
+1. **Fikia Shell ya Mfasiri ya Bootloader**:
+- Wakati wa kuanzisha, bonyeza "0", nafasi, au "mifumo ya uchawi" nyingine iliyotambuliwa ili kufikia shell ya mfasiri ya bootloader.
 
-2. **Badilisha Hoja za Kuanza**:
-- Tekeleza amri zifuatazo kuongeza '`init=/bin/sh`' kwenye hoja za kuanza, kuruhusu utekelezaji wa amri ya shell:
+2. **Badilisha Hoja za Boot**:
+- Tekeleza amri zifuatazo kuongeza '`init=/bin/sh`' kwenye hoja za boot, kuruhusu utekelezaji wa amri ya shell:
 %%%
 #printenv
 #setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh
@@ -26,46 +27,47 @@ Hatua zifuatazo zinapendekezwa kwa kubadilisha mipangilio ya kuanza kifaa na boo
 #boot
 %%%
 
-3. **Sanidi Seva ya TFTP**:
-- Sanidi seva ya TFTP ili kupakia picha kupitia mtandao wa ndani:
+3. **Weka Server ya TFTP**:
+- Sanidi server ya TFTP ili kupakia picha kupitia mtandao wa ndani:
 %%%
 #setenv ipaddr 192.168.2.2 #IP ya ndani ya kifaa
-#setenv serverip 192.168.2.1 #IP ya seva ya TFTP
+#setenv serverip 192.168.2.1 #IP ya server ya TFTP
 #saveenv
 #reset
 #ping 192.168.2.1 #angalia ufikiaji wa mtandao
-#tftp ${loadaddr} uImage-3.6.35 #loadaddr inachukua anwani ya kupakia faili na jina la faili ya picha kwenye seva ya TFTP
+#tftp ${loadaddr} uImage-3.6.35 #loadaddr inachukua anwani ya kupakia faili na jina la picha kwenye server ya TFTP
 %%%
 
 4. **Tumia `ubootwrite.py`**:
-- Tumia `ubootwrite.py` kuandika picha ya U-boot na kusukuma firmware iliyobadilishwa kupata ufikiaji wa msingi.
+- Tumia `ubootwrite.py` kuandika picha ya U-boot na kusukuma firmware iliyobadilishwa ili kupata ufikiaji wa root.
 
-5. **Angalia Vipengele vya Kurekebisha**:
-- Thibitisha ikiwa vipengele vya kurekebisha kama kuingiza kumbukumbu za kina, kupakia mifumo ya uendeshaji isiyojulikana, au kuanza kutoka vyanzo visivyotegemewa vimeamilishwa.
+5. **Angalia Vipengele vya Debug**:
+- Thibitisha ikiwa vipengele vya debug kama vile logging ya kina, kupakia kernels zisizo na uhakika, au kuanzisha kutoka vyanzo visivyoaminika vimewezeshwa.
 
-6. **Tahadhari ya Kuingilia Vifaa**:
-- Kuwa mwangalifu unapounganisha pini moja na ardhi na kuingiliana na vifaa vya SPI au NAND flash wakati wa mfululizo wa kuanza kifaa, haswa kabla ya kernel kujazwa. Angalia karatasi ya data ya chip ya NAND flash kabla ya kufupisha pini.
+6. **Uingiliaji wa Kihardware wa Tahadhari**:
+- Kuwa makini unapounganisha pini moja na ardhi na kuingiliana na SPI au NAND flash chips wakati wa mchakato wa kuanzisha kifaa, hasa kabla ya kernel kufunguka. Kagua karatasi ya data ya NAND flash chip kabla ya kufupisha pini.
 
-7. **Sanidi Seva ya DHCP ya Udanganyifu**:
-- Sanidi seva ya DHCP ya udanganyifu na vigezo vya uovu kwa kifaa kuingiza wakati wa kuanza kwa PXE. Tumia zana kama seva ya ziada ya DHCP ya Metasploit (MSF). Badilisha parameter 'FILENAME' na amri za kuingiza amri kama `'a";/bin/sh;#'` ili jaribu ukaguzi wa kuingiza kwa taratibu za kuanza kifaa.
+7. **Sanidi Server ya DHCP ya Ulaghai**:
+- Sanidi server ya DHCP ya ulaghai yenye vigezo vya uharibifu ili kifaa kiweze kuyakubali wakati wa kuanzisha PXE. Tumia zana kama server ya DHCP ya msaada ya Metasploit (MSF). Badilisha parameter ya 'FILENAME' kwa amri za kuingiza kama `'a";/bin/sh;#'` ili kujaribu uthibitishaji wa ingizo kwa taratibu za kuanzisha kifaa.
 
-**Note**: Hatua zinazohusisha kuingiliana kimwili na pini za kifaa (*zilizowekwa alama na asterisk) zinapaswa kufanywa kwa tahadhari kubwa ili kuepuka kuharibu kifaa.
+**Kumbuka**: Hatua zinazohusisha mwingiliano wa kimwili na pini za kifaa (*zilizowekwa alama na nyota) zinapaswa kushughulikiwa kwa tahadhari kubwa ili kuepuka kuharibu kifaa.
 
 
 ## Marejeo
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inayotangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

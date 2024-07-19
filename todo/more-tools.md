@@ -1,23 +1,24 @@
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
 
-# Timu ya Bluu
+# BlueTeam
 
 * [https://github.com/yarox24/attack\_monitor](https://github.com/yarox24/attack\_monitor)
 * [https://capsule8.com/blog/dont-get-kicked-out-a-tale-of-rootkits-and-other-backdoors/](https://capsule8.com/blog/dont-get-kicked-out-a-tale-of-rootkits-and-other-backdoors/)
@@ -44,7 +45,7 @@ Njia nyingine za kusaidia HackTricks:
 * [https://builtwith.com/](https://builtwith.com)
 * [https://www.spiderfoot.net/](https://www.spiderfoot.net)
 * [https://github.com/zricethezav/gitleaks](https://github.com/zricethezav/gitleaks)
-* [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/sys/tools/subdomainfinder/) : Zana 8 za kutafuta Subdomain, sublist3r, amass na zingine
+* [https://www.nmmapper.com/sys/tools/subdomainfinder/](https://www.nmmapper.com/sys/tools/subdomainfinder/) : Zana 8 za kutafuta subdomain, sublist3r, amass na zaidi
 
 # **WEB**
 
@@ -53,98 +54,102 @@ Njia nyingine za kusaidia HackTricks:
 * [https://github.com/hahwul/XSpear](https://github.com/hahwul/XSpear)
 * [https://github.com/BitTheByte/Monitorizer/](https://github.com/BitTheByte/Monitorizer/)
 * [https://github.com/spinkham/skipfish](https://github.com/spinkham/skipfish)
-* [https://github.com/blark/aiodnsbrute](https://github.com/blark/aiodnsbrute) : Kuvunja jina la uwanja kwa njia isiyo ya kawaida
-* [https://crt.sh/?q=%.yahoo.com](https://crt.sh/?q=%.yahoo.com) : Kuvunja Subdomain
-* [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe): Angalia ikiwa seva za wavuti katika kikoa zinapatikana
-* [https://github.com/aboul3la/Sublist3r](https://github.com/aboul3la/Sublist3r) : Ugunduzi wa Subdomain
-* [https://github.com/gwen001/github-search/blob/master/github-subdomains.py](https://github.com/gwen001/github-search/blob/master/github-subdomains.py) : Ugunduzi wa Subdomain kwenye github
-* [https://github.com/robertdavidgraham/masscan](https://github.com/robertdavidgraham/masscan) : Uchunguzi wa haraka wa bandari
-* [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : Subdomains na URLs kutoka kwenye faili za JS kwenye wavuti
-* [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : Kamusi ya faili za Wavuti
-* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : BurpExtension kuepuka vichupo vingi vya repeater
+* [https://github.com/blark/aiodnsbrute](https://github.com/blark/aiodnsbrute) : Brute force majina ya domain kwa njia ya asynchronous
+* [https://crt.sh/?q=%.yahoo.com](https://crt.sh/?q=%.yahoo.com) : Subdomain bruteforce
+* [https://github.com/tomnomnom/httprobe](https://github.com/tomnomnom/httprobe): Angalia kama seva za wavuti katika domain zinapatikana
+* [https://github.com/aboul3la/Sublist3r](https://github.com/aboul3la/Sublist3r) : Ugunduzi wa subdomain
+* [https://github.com/gwen001/github-search/blob/master/github-subdomains.py](https://github.com/gwen001/github-search/blob/master/github-subdomains.py) : Ugunduzi wa subdomain katika github
+* [https://github.com/robertdavidgraham/masscan](https://github.com/robertdavidgraham/masscan) : Skanning ya port kwa kasi
+* [https://github.com/Threezh1/JSFinder](https://github.com/Threezh1/JSFinder) : Subdomains na URLs kutoka kwa faili za JS katika wavuti
+* [https://github.com/C1h2e1/MyFuzzingDict](https://github.com/C1h2e1/MyFuzzingDict) : Kamusi ya faili za wavuti
+* [https://github.com/TypeError/Bookmarks/blob/master/README.md](https://github.com/TypeError/Bookmarks/blob/master/README.md) : BurpExtension ili kuepuka tab za kurudi
 * [https://github.com/hakluke/hakrawler](https://github.com/hakluke/hakrawler) : Pata mali
 * [https://github.com/izo30/google-dorker](https://github.com/izo30/google-dorker) : Google dorks
-* [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Orodha ya BugBounty ya Wavuti
-* [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Angalia orodha ya kikoa dhidi ya Uelekezaji wa Wazi
-* [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Programu-jalizi ya Burp, uchambuzi wa nje ili kugundua vikoa, subdomains na IPs
+* [https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md](https://github.com/sehno/Bug-bounty/blob/master/bugbounty\_checklist.md) : Orodha ya ukaguzi wa Web BugBounty
+* [https://github.com/Naategh/dom-red](https://github.com/Naategh/dom-red) : Angalia orodha ya domain dhidi ya Open Redirection
+* [https://github.com/prodigysml/Dr.-Watson](https://github.com/prodigysml/Dr.-Watson) : Burp plugin, uchambuzi wa offline kugundua domain, subdomains na IPs
 * [https://github.com/hahwul/WebHackersWeapons](https://github.com/hahwul/WebHackersWeapons): Orodha ya zana tofauti
-* [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : Programu-jalizi ya BurpSuite kutafuta udhaifu (SQLi, XSS, SSTI)
-* [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Kifaa cha Chrome cha kufuatilia kazi za ujumbe wa baada
-* [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : Vipimo vya uthibitishaji wa moja kwa moja (ondoa vidakuzi na jaribu kutuma ombi)
-* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross ni Zana ya Ujenzi, Scanner, na zana ya uchunguzi wa uingiliaji / jaribio la BugBounty. Zana hii ilijengwa kwa ajili ya kujaribu (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI) vulnerabilities
+* [https://github.com/gauravnarwani97/Trishul](https://github.com/gauravnarwani97/Trishul) : BurpSuite Pluging ili kutafuta vulns (SQLi, XSS, SSTI)
+* [https://github.com/fransr/postMessage-tracker](https://github.com/fransr/postMessage-tracker) : Chrome extension kwa ajili ya kufuatilia kazi za post-messages
+* [https://github.com/Quitten/Autorize](https://github.com/Quitten/Autorize) : Majaribio ya uthibitishaji ya kiotomatiki (ondoa cookies na jaribu kutuma ombi)
+* [https://github.com/pikpikcu/xrcross](https://github.com/pikpikcu/xrcross): XRCross ni Ujenzi, Scanner, na zana ya kupenya / BugBounty kupima. Zana hii ilijengwa ili kupima (XSS|SSRF|CORS|SSTI|IDOR|RCE|LFI|SQLI) udhaifu
+
 # Windows
 
-* [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : Harakati za upande
+* [https://github.com/Mr-Un1k0d3r/PoisonHandler](https://github.com/Mr-Un1k0d3r/PoisonHandler) : Harakati za pembeni
 * [https://freddiebarrsmith.com/trix/trix.html](https://freddiebarrsmith.com/trix/trix.html) : LOL bins
-* [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Uthabiti
-* [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Mbinu za Kuingiza Mchakato wa Windows
-* [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Skripti za Timu Nyekundu
-* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : pata upangishaji wa usalama katika Sera ya Kikundi cha Active Directory.
-* [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Ufichaji wa Securestring
-* [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Udukuzi wa PID ya Wazazi
-* [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Ficha Malipo ya Powershell
-* [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : Stealth C2
-* [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Mfululizo wa magogo kuhusu Windows Internals
-* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : Fuatilia nani amefungua hati
-* [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Karatasi ya Kudanganya ya Udukuzi wa Active Directory
+* [https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79](https://gist.github.com/netbiosX/ee35fcd3722e401a38136cff7b751d79) ([https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/](https://pentestlab.blog/2020/01/13/persistence-image-file-execution-options-injection/)): Uendelevu
+* [https://github.com/odzhan/injection](https://github.com/odzhan/injection) : Mbinu za Uingizaji wa Mchakato wa Windows
+* [https://github.com/BankSecurity/Red\_Team](https://github.com/BankSecurity/Red\_Team) : Mipango ya Red Team
+* [https://github.com/l0ss/Grouper2](https://github.com/l0ss/Grouper2) : pata makosa yanayohusiana na usalama katika Sera ya Kundi la Active Directory.
+* [https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring](https://www.wietzebeukema.nl/blog/powershell-obfuscation-using-securestring) : Ufunikaji wa Securestring
+* [https://pentestlab.blog/2020/02/24/parent-pid-spoofing/](https://pentestlab.blog/2020/02/24/parent-pid-spoofing/) : Ujanja wa PID wa mzazi
+* [https://github.com/the-xentropy/xencrypt](https://github.com/the-xentropy/xencrypt) : Ficha payloads za Powershell
+* [https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/](https://shells.systems/introducing-ninja-c2-the-c2-built-for-stealth-red-team-operations/) : C2 ya siri
+* [https://windows-internals.com/faxing-your-way-to-system/](https://windows-internals.com/faxing-your-way-to-system/) : Mfululizo wa kumbukumbu kuhusu Windows Internals
+* [https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/](https://bestestredteam.com/2018/10/02/tracking-pixel-in-microsoft-office-document/) : Fuata nani alifungua hati
+* [https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet](https://github.com/Integration-IT/Active-Directory-Exploitation-Cheat-Sheet) : Karatasi ya udanganyifu ya Active Directory
 
 # Firmware
 
-Zana ambazo ninaona zinaweza kuwa nzuri kwa uchambuzi wa firmware (za moja kwa moja):
+Zana ambazo naona zinaweza kuwa nzuri kwa kuchambua firmware (kiotomatiki):
 
 * [https://github.com/craigz28/firmwalker](https://github.com/craigz28/firmwalker)
 * [https://github.com/fkie-cad/FACT\_core](https://github.com/fkie-cad/FACT\_core)
 * [https://gitlab.com/bytesweep/bytesweep-go](https://gitlab.com/bytesweep/bytesweep-go)
 
-Baada ya kumaliza:
+Post-crema:
 
 * [https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html](https://blog.mindedsecurity.com/2018/09/pentesting-iot-devices-part-1-static.html)
 * [https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html](https://blog.mindedsecurity.com/2018/10/pentesting-iot-devices-part-2-dynamic.html)
 
 Jinsi ya kutoa firmware ikiwa hatuipati mtandaoni: [https://www.youtube.com/watch?v=Kxvpbu9STU4](https://www.youtube.com/watch?v=Kxvpbu9STU4)
 
-Hapa kuna firmware na mapungufu ya usalama ya kuchambua: [https://github.com/scriptingxss/IoTGoat](https://github.com/scriptingxss/IoTGoat)
+Hapa kuna firmware yenye udhaifu wa kuchambua: [https://github.com/scriptingxss/IoTGoat](https://github.com/scriptingxss/IoTGoat)
 
-na hapa kuna metodolojia ya owasp ya kuchambua firmware: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
+na hapa ni metodolojia ya owasp kwa ajili ya kuchambua firmware: [https://github.com/scriptingxss/owasp-fstm](https://github.com/scriptingxss/owasp-fstm)
 
-Uigaji wa Firmware: FIRMADYNE (https://github.com/firmadyne/firmadyne/) ni jukwaa la kiotomatiki la uigaji na uchambuzi wa kina wa firmware za Linux.
+Uigaji wa firmware: FIRMADYNE (https://github.com/firmadyne/firmadyne/) ni jukwaa la kuendesha uigaji na uchambuzi wa dynamic wa firmware inayotegemea Linux.
 
-# NYINGINE
+# OTHER
 
 * [https://twitter.com/HackAndDo/status/1202695084543791117](https://twitter.com/HackAndDo/status/1202695084543791117)
 * [https://github.com/weev3/LKWA](https://github.com/weev3/LKWA)
 * [https://h0mbre.github.io/Learn-C-By-Creating-A-Rootkit/](https://h0mbre.github.io/Learn-C-By-Creating-A-Rootkit/)
 * [https://github.com/skelsec/jackdaw](https://github.com/skelsec/jackdaw)
-* [https://github.com/CoatiSoftware/Sourcetrail](https://github.com/CoatiSoftware/Sourcetrail) : Uchambuzi wa Kanuni za Statis
+* [https://github.com/CoatiSoftware/Sourcetrail](https://github.com/CoatiSoftware/Sourcetrail) : Uchambuzi wa msimbo wa statiki
 * [https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html](https://www.hackerdecabecera.com/2019/12/blectf-capture-flag-en-formato-hardware.html) : Bluetooth LE CTF
-* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : Tarpit ya SSH ambayo inatuma bango lisiloisha polepole.
+* [https://github.com/skeeto/endlessh](https://github.com/skeeto/endlessh) : SSH tarpit inayotuma banner isiyo na mwisho polepole.
 * Zana za AWS na Cloud: [https://github.com/toniblyx/my-arsenal-of-aws-security-tools](https://github.com/toniblyx/my-arsenal-of-aws-security-tools)
-* IFS (Interplanetary File System) kwa ajili ya kudanganya: [https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
-* Huduma za mzunguko wa IP: [https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
-* Rootkit ya Linux: [https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
-* [https://theia-ide.org/](https://theia-ide.org) : IDE mtandaoni
-* [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : Rasilimali za kuanza BugBounties
-* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : Zana za udukuzi wa IOS
+* IFS (Mfumo wa Faili wa Interplanetary) kwa ajili ya phising: [https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/](https://www.trustwave.com/en-us/resources/blogs/spiderlabs-blog/using-the-interplanetary-file-system-for-offensive-operations/)
+* Huduma za kuzungusha IP: [https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212](https://medium.com/@lokeshdlk77/how-to-rotate-ip-address-in-brute-force-attack-e66407259212)
+* Linux rootkit: [https://github.com/aesophor/satanic-rootkit](https://github.com/aesophor/satanic-rootkit)
+* [https://theia-ide.org/](https://theia-ide.org) : IDE ya mtandaoni
+* [https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/](https://github.com/nahamsec/Resources-for-Beginner-Bug-Bounty-Hunters/) : Rasilimali za kuanza kwenye BugBounties
+* [https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab](https://medium.com/macoclock/jailbreak-and-stuff-kickstart-tools-and-techniques-for-ios-application-pentesting-6fa53a3987ab) : Zana za pentesting za IOS
 * [https://github.com/random-robbie/keywords/blob/master/keywords.txt](https://github.com/random-robbie/keywords/blob/master/keywords.txt) : Maneno muhimu
-* [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : Udukuzi wa IoT (Wifi, BLE, SSDP, MDNS)
-* [https://github.com/rackerlabs/scantron](https://github.com/rackerlabs/scantron) : uchunguzi wa kiotomatiki
+* [https://github.com/ElevenPaths/HomePWN](https://github.com/ElevenPaths/HomePWN) : Kuingilia IoT (Wifi, BLE, SSDP, MDNS)
+* [https://github.com/rackerlabs/scantron](https://github.com/rackerlabs/scantron) : kuendesha skanning
 * [https://github.com/doyensec/awesome-electronjs-hacking](https://github.com/doyensec/awesome-electronjs-hacking) : Orodha hii inalenga kufunika mada zinazohusiana na usalama wa Electron.js.
-* [https://github.com/serain/bbrecon](https://github.com/serain/bbrecon) : Habari kuhusu mipango ya BB
+* [https://github.com/serain/bbrecon](https://github.com/serain/bbrecon) : Taarifa kuhusu programu za BB
+
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze udukuzi wa AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 kikundi cha [**Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

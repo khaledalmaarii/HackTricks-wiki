@@ -1,46 +1,46 @@
 # PsExec/Winexec/ScExec
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Jinsi wanavyofanya kazi
+## How do they work
 
-Mchakato umeelezwa kwa hatua zifuatazo, ukionyesha jinsi faili za huduma zinavyodhibitiwa ili kufanikisha utekelezaji wa kijijini kwenye kompyuta ya lengo kupitia SMB:
+Mchakato umeelezwa katika hatua zilizo hapa chini, ukionyesha jinsi binaries za huduma zinavyoshughulikiwa ili kufikia utekelezaji wa mbali kwenye mashine lengwa kupitia SMB:
 
-1. **Nakala ya faili ya huduma kwenye sehemu ya ADMIN$ kupitia SMB** inatekelezwa.
-2. **Uundaji wa huduma kwenye kompyuta ya mbali** unafanywa kwa kuelekeza kwenye faili ya binary.
-3. Huduma inaanza **kijijini**.
-4. Baada ya kumaliza, huduma ina **kamishwa, na faili ya binary inafutwa**.
+1. **Nakili ya binary ya huduma kwenye ADMIN$ share kupitia SMB** inafanywa.
+2. **Uundaji wa huduma kwenye mashine ya mbali** unafanywa kwa kuelekeza kwenye binary.
+3. Huduma inaanzishwa **kwa mbali**.
+4. Baada ya kutoka, huduma inasimamishwa, na binary inafutwa.
 
 ### **Mchakato wa Kutekeleza PsExec kwa Mikono**
 
-Kukubaliwa kuwa kuna mzigo wa utekelezaji (uliotengenezwa na msfvenom na kufichwa kwa kutumia Veil ili kuepuka kugunduliwa na programu ya antivirus), uitwao 'met8888.exe', unaowakilisha mzigo wa kurudi_http wa meterpreter, hatua zifuatazo zinachukuliwa:
+Tukichukulia kuwa kuna payload inayoweza kutekelezwa (iliyoundwa na msfvenom na kufichwa kwa kutumia Veil ili kuepuka kugunduliwa na antivirus), inayoitwa 'met8888.exe', ikiwakilisha payload ya meterpreter reverse_http, hatua zifuatazo zinachukuliwa:
 
-- **Nakala ya binary**: Faili ya utekelezaji inanakiliwa kwenye sehemu ya ADMIN$ kutoka kwenye dirisha la amri, ingawa inaweza kuwekwa mahali popote kwenye mfumo wa faili ili kubaki siri.
+- **Nakili binary**: Executable inanakiliwa kwenye ADMIN$ share kutoka kwa amri ya prompt, ingawa inaweza kuwekwa mahali popote kwenye mfumo wa faili ili kubaki kufichwa.
 
-- **Kuunda huduma**: Kwa kutumia amri ya Windows `sc`, ambayo inaruhusu kuuliza, kuunda, na kufuta huduma za Windows kijijini, huduma iliyoitwa "meterpreter" inaundwa ili kuelekeza kwenye binary iliyopakiwa.
+- **Kuunda huduma**: Kutumia amri ya Windows `sc`, ambayo inaruhusu kuuliza, kuunda, na kufuta huduma za Windows kwa mbali, huduma inayoitwa "meterpreter" inaundwa ili kuelekeza kwenye binary iliyopakiwa.
 
-- **Kuanza huduma**: Hatua ya mwisho inahusisha kuanza huduma, ambayo inaweza kusababisha kosa la "muda wa kumalizika" kutokana na binary kutokuwa binary halisi ya huduma na kushindwa kurudisha nambari ya majibu inayotarajiwa. Kosa hili halina maana kwa kuwa lengo kuu ni utekelezaji wa binary.
+- **Kuanza huduma**: Hatua ya mwisho inahusisha kuanzisha huduma, ambayo huenda ikasababisha kosa la "time-out" kwa sababu binary sio binary halisi ya huduma na inashindwa kurudisha msimbo wa majibu unaotarajiwa. Kosa hili halina umuhimu kwani lengo kuu ni utekelezaji wa binary.
 
-Uangalizi wa msikilizaji wa Metasploit utaonyesha kuwa kikao kimeanzishwa kwa mafanikio.
+Uchunguzi wa msikilizaji wa Metasploit utaonyesha kuwa kikao kimeanzishwa kwa mafanikio.
 
-[Jifunze zaidi kuhusu amri ya `sc`](https://technet.microsoft.com/en-us/library/bb490995.aspx).
+[Learn more about the `sc` command](https://technet.microsoft.com/en-us/library/bb490995.aspx).
 
+Pata hatua za kina zaidi katika: [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
-Pata hatua zaidi za kina hapa: [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
-
-**Unaweza pia kutumia binary ya Windows Sysinternals, PsExec.exe:**
+**Unaweza pia kutumia binary ya Windows Sysinternals PsExec.exe:**
 
 ![](<../../.gitbook/assets/image (165).png>)
 
@@ -52,16 +52,17 @@ SharpLateral.exe redexec HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 ```
 {% endcode %}
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kuhack AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kuhack kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

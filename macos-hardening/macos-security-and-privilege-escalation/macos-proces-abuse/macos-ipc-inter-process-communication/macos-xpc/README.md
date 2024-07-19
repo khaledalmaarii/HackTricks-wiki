@@ -1,49 +1,47 @@
 # macOS XPC
 
-## macOS XPC
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Taarifa Msingi
+## Basic Information
 
-XPC, ambayo inasimama kwa XNU (kernel inayotumiwa na macOS) Mawasiliano kati ya Michakato, ni mfumo wa **mawasiliano kati ya michakato** kwenye macOS na iOS. XPC hutoa njia ya kufanya **wito salama na usio na mpangilio kati ya michakato tofauti** kwenye mfumo. Ni sehemu ya mfumo wa usalama wa Apple, kuruhusu **uundaji wa programu zilizotengwa kwa ruhusa** ambapo kila **sehemu** inaendesha na **ruhusa tu inayohitajika** kufanya kazi yake, hivyo kupunguza uharibifu unaoweza kusababishwa na mchakato uliodukuliwa.
+XPC, ambayo inasimama kwa XNU (kernel inayotumiwa na macOS) mawasiliano kati ya Mchakato, ni mfumo wa **mawasiliano kati ya michakato** kwenye macOS na iOS. XPC inatoa mekanizma ya kufanya **kuitana kwa njia salama, zisizo za moja kwa moja kati ya michakato tofauti** kwenye mfumo. Ni sehemu ya mtindo wa usalama wa Apple, ikiruhusu **kuunda programu zenye mamlaka tofauti** ambapo kila **kipengele** kinakimbia na **idhini tu inazohitaji** kufanya kazi yake, hivyo kupunguza uharibifu unaoweza kutokea kutokana na mchakato ulioathirika.
 
-XPC hutumia aina ya Mawasiliano kati ya Michakato (IPC), ambayo ni seti ya njia za programu tofauti zinazoendesha kwenye mfumo huo kutuma na kupokea data.
+XPC inatumia aina ya Mawasiliano kati ya Mchakato (IPC), ambayo ni seti ya mbinu za programu tofauti zinazokimbia kwenye mfumo mmoja kutuma data mbele na nyuma.
 
 Faida kuu za XPC ni pamoja na:
 
-1. **Usalama**: Kwa kutenganisha kazi katika michakato tofauti, kila mchakato unaweza kupewa ruhusa tu inayohitajika. Hii inamaanisha kwamba hata kama mchakato umedukuliwa, una uwezo mdogo wa kusababisha madhara.
-2. **Uimara**: XPC husaidia kubainisha ajali kwenye sehemu ambapo zinatokea. Ikiwa mchakato unapata ajali, unaweza kuanzishwa upya bila kuathiri sehemu nyingine ya mfumo.
-3. **Utendaji**: XPC inaruhusu urahisi wa ushirikiano, kwani kazi tofauti zinaweza kufanyika wakati mmoja katika michakato tofauti.
+1. **Usalama**: Kwa kutenganisha kazi katika michakato tofauti, kila mchakato unaweza kupewa tu idhini inazohitaji. Hii inamaanisha kwamba hata kama mchakato umeathirika, ina uwezo mdogo wa kufanya madhara.
+2. **Utulivu**: XPC inasaidia kutenga ajali kwenye kipengele ambapo zinatokea. Ikiwa mchakato utaanguka, unaweza kuanzishwa tena bila kuathiri mfumo mzima.
+3. **Utendaji**: XPC inaruhusu urahisi wa ushirikiano, kwani kazi tofauti zinaweza kufanywa kwa wakati mmoja katika michakato tofauti.
 
-Kizuizi pekee ni kwamba **kutenganisha programu katika michakato tofauti** na kuwasiliana kupitia XPC ni **si ufanisi sana**. Lakini katika mifumo ya leo hii haiwezi kugundulika sana na faida ni bora zaidi.
+Pungufu pekee ni kwamba **kutenganisha programu katika michakato kadhaa** na kuwafanya komunikate kupitia XPC ni **kasi kidogo**. Lakini katika mifumo ya leo hii haionekani sana na faida ni bora.
 
-### Huduma za XPC za Maombi Maalum
+## Application Specific XPC services
 
-Sehemu za XPC za programu zipo **ndani ya programu yenyewe**. Kwa mfano, kwenye Safari unaweza kuzipata kwenye **`/Applications/Safari.app/Contents/XPCServices`**. Zina ugani wa **`.xpc`** (kama **`com.apple.Safari.SandboxBroker.xpc`**) na pia ni **vifurushi** pamoja na binary kuu ndani yake: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` na `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
+Vipengele vya XPC vya programu viko **ndani ya programu yenyewe.** Kwa mfano, katika Safari unaweza kuvikuta katika **`/Applications/Safari.app/Contents/XPCServices`**. Vina kiendelezi **`.xpc`** (kama **`com.apple.Safari.SandboxBroker.xpc`**) na pia ni **bundles** na binary kuu ndani yake: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` na `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-Kama unavyofikiria, **sehemu ya XPC itakuwa na ruhusa na mamlaka tofauti** kuliko sehemu zingine za XPC au binary kuu ya programu. ISIPOKUWA ikiwa huduma ya XPC imeundwa na [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) imewekwa kuwa "Kweli" kwenye faili yake ya **Info.plist**. Katika kesi hii, huduma ya XPC itaendeshwa katika **kikao cha usalama sawa na programu** iliyoiita.
+Kama unavyoweza kufikiria, **kipengele cha XPC kitakuwa na idhini na mamlaka tofauti** na vipengele vingine vya XPC au binary kuu ya programu. ISIPOKUWA huduma ya XPC imewekwa na [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) iliyowekwa kuwa “True” katika **Faili yake ya Info.plist**. Katika kesi hii, huduma ya XPC itakimbia katika **sehemu moja ya usalama kama programu** iliyoiita.
 
-Huduma za XPC huanza na **launchd** wakati zinahitajika na **zimezimwa** mara tu kazi zote zinapokamilika ili kuachilia rasilimali za mfumo. **Sehemu za XPC za maombi maalum zinaweza kutumiwa tu na programu**, hivyo kupunguza hatari inayohusiana na udhaifu wowote uwezekanao.
+Huduma za XPC zinaanzishwa na **launchd** inapohitajika na **zinasitishwa** mara tu kazi zote zinapokamilika ili kuachilia rasilimali za mfumo. **Vipengele vya XPC vya programu vinaweza kutumiwa tu na programu**, hivyo kupunguza hatari inayohusiana na udhaifu unaoweza kutokea.
 
-### Huduma za XPC za Mfumo Mzima
+## System Wide XPC services
 
-Huduma za XPC za mfumo mzima zinapatikana kwa watumiaji wote. Huduma hizi, iwe ni launchd au aina ya Mach, zinahitaji **kuainishwa katika faili za plist** zilizoko kwenye saraka maalum kama vile **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, au **`/Library/LaunchAgents`**.
+Huduma za XPC za mfumo mzima zinapatikana kwa watumiaji wote. Huduma hizi, ama launchd au aina ya Mach, zinahitaji kuwa **zimefafanuliwa katika faili za plist** zilizoko katika directories maalum kama **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, au **`/Library/LaunchAgents`**.
 
-Faili hizi za plist zitakuwa na ufunguo unaoitwa **`MachServices`** na jina la huduma, na ufunguo unaoitwa **`Program`** na njia ya binary:
-
+Faili hizi za plists zitakuwa na ufunguo unaoitwa **`MachServices`** wenye jina la huduma, na ufunguo unaoitwa **`Program`** wenye njia ya binary:
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -77,33 +75,82 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
+The ones in **`LaunchDameons`** are run by root. So if an unprivileged process can talk with one of these it could be able to escalate privileges.
 
-Wale katika **`LaunchDameons`** hufanywa na root. Kwa hivyo, ikiwa mchakato usio na mamlaka unaweza kuwasiliana na moja ya hizi, inaweza kuwa na uwezo wa kuongeza mamlaka.
+## XPC Objects
 
-### Ujumbe wa Tukio la XPC
+* **`xpc_object_t`**
 
-Maombi yanaweza **jisajili** kwa ujumbe tofauti wa **tukio**, kuwawezesha kuwa **kuanzishwa kwa ombi** wakati matukio kama hayo yanatokea. **Usanidi** wa huduma hizi unafanywa katika faili za **plist za launchd**, zilizoko katika **miongozo ile ile kama za awali** na zikiwa na ufunguo wa ziada wa **`LaunchEvent`**.
+Kila ujumbe wa XPC ni kitu cha kamusi ambacho kinarahisisha serialization na deserialization. Zaidi ya hayo, `libxpc.dylib` inatangaza aina nyingi za data hivyo inawezekana kuhakikisha kuwa data iliyopokelewa ni ya aina inayotarajiwa. Katika API ya C kila kitu ni `xpc_object_t` (na aina yake inaweza kuangaliwa kwa kutumia `xpc_get_type(object)`).\
+Zaidi ya hayo, kazi `xpc_copy_description(object)` inaweza kutumika kupata uwakilishi wa mfuatano wa kitu ambacho kinaweza kuwa na manufaa kwa madhumuni ya urekebishaji.\
+Vitu hivi pia vina baadhi ya mbinu za kuita kama `xpc_<object>_copy`, `xpc_<object>_equal`, `xpc_<object>_hash`, `xpc_<object>_serialize`, `xpc_<object>_deserialize`...
 
-#### Ukaguzi wa Mchakato wa Kuunganisha XPC
+`xpc_object_t` zinaundwa kwa kuita kazi `xpc_<objetType>_create`, ambayo ndani inaita `_xpc_base_create(Class, Size)` ambapo inaonyeshwa aina ya darasa la kitu (moja ya `XPC_TYPE_*`) na ukubwa wake (B 40 za ziada zitaongezwa kwenye ukubwa kwa metadata). Hii inamaanisha kuwa data ya kitu itaanza kwenye ofset B 40.\
+Kwa hivyo, `xpc_<objectType>_t` ni aina ya subclass ya `xpc_object_t` ambayo itakuwa subclass ya `os_object_t*`.
 
-Wakati mchakato unajaribu kuita njia kupitia uhusiano wa XPC, **huduma ya XPC inapaswa kuhakiki ikiwa mchakato huo una ruhusa ya kuunganisha**. Hapa kuna njia za kawaida za kufanya ukaguzi huo na mitego ya kawaida:
+{% hint style="warning" %}
+Kumbuka kwamba inapaswa kuwa mbunifu anayetumia `xpc_dictionary_[get/set]_<objectType>` kupata au kuweka aina na thamani halisi ya funguo.
+{% endhint %}
+
+* **`xpc_pipe`**
+
+**`xpc_pipe`** ni bomba la FIFO ambalo michakato inaweza kutumia kuwasiliana (mawasiliano hutumia ujumbe wa Mach).\
+Inawezekana kuunda seva ya XPC kwa kuita `xpc_pipe_create()` au `xpc_pipe_create_from_port()` ili kuunda kwa kutumia bandari maalum ya Mach. Kisha, kupokea ujumbe inawezekana kuita `xpc_pipe_receive` na `xpc_pipe_try_receive`.
+
+Kumbuka kwamba kitu cha **`xpc_pipe`** ni **`xpc_object_t`** chenye taarifa katika muundo wake kuhusu bandari mbili za Mach zinazotumika na jina (ikiwa ipo). Jina, kwa mfano, daemon `secinitd` katika plist yake `/System/Library/LaunchDaemons/com.apple.secinitd.plist` inakamilisha bomba linaloitwa `com.apple.secinitd`.
+
+Mfano wa **`xpc_pipe`** ni **bootstrap pipe** iliyoundwa na **`launchd`** ikifanya iwezekane kushiriki bandari za Mach.
+
+* **`NSXPC*`**
+
+Hizi ni vitu vya kiwango cha juu vya Objective-C ambavyo vinaruhusu uabstrakto wa muunganisho wa XPC.\
+Zaidi ya hayo, ni rahisi kurekebisha vitu hivi na DTrace kuliko zile za awali.
+
+* **`GCD Queues`**
+
+XPC inatumia GCD kupitisha ujumbe, zaidi ya hayo inazalisha foleni fulani za dispatch kama `xpc.transactionq`, `xpc.io`, `xpc-events.add-listenerq`, `xpc.service-instance`...
+
+## XPC Services
+
+Hizi ni **bundles zenye kiendelezi `.xpc`** zilizoko ndani ya folda ya **`XPCServices`** ya miradi mingine na katika `Info.plist` zina `CFBundlePackageType` iliyowekwa kuwa **`XPC!`**.\
+Faili hii ina funguo zingine za usanidi kama `ServiceType` ambayo inaweza kuwa Programu, Mtumiaji, Mfumo au `_SandboxProfile` ambayo inaweza kufafanua sandbox au `_AllowedClients` ambayo inaweza kuashiria haki au ID inayohitajika kuwasiliana na seva. hizi na chaguzi zingine za usanidi zitakuwa na manufaa kuunda huduma wakati inazinduliwa.
+
+### Starting a Service
+
+Programu inajaribu **kuungana** na huduma ya XPC kwa kutumia `xpc_connection_create_mach_service`, kisha launchd inapata daemon na kuanzisha **`xpcproxy`**. **`xpcproxy`** inatekeleza vizuizi vilivyowekwa na inazalisha huduma hiyo kwa FDs na bandari za Mach zilizotolewa.
+
+Ili kuboresha kasi ya kutafuta huduma ya XPC, cache inatumika.
+
+Inawezekana kufuatilia vitendo vya `xpcproxy` kwa kutumia:
+```bash
+supraudit S -C -o /tmp/output /dev/auditpipe
+```
+The XPC library inatumia `kdebug` kurekodi vitendo vinavyopiga simu `xpc_ktrace_pid0` na `xpc_ktrace_pid1`. Mifumo inayotumika haijaandikwa, hivyo inahitajika kuiongeza kwenye `/usr/share/misc/trace.codes`. Wana kiambishi `0x29` na kwa mfano moja ni `0x29000004`: `XPC_serializer_pack`.\
+Kifaa `xpcproxy` kinatumia kiambishi `0x22`, kwa mfano: `0x2200001c: xpcproxy:will_do_preexec`.
+
+## XPC Event Messages
+
+Programu zinaweza **kujiandikisha** kwa ujumbe tofauti wa **matukio**, na kuwapa uwezo wa **kuanzishwa kwa mahitaji** wakati matukio kama hayo yanapotokea. **Mipangilio** ya huduma hizi inafanywa katika **faili za plist za launchd**, zilizoko katika **directories sawa na zile za awali** na zinafunguo ya ziada **`LaunchEvent`**.
+
+### XPC Connecting Process Check
+
+Wakati mchakato unajaribu kupiga simu njia kupitia muunganisho wa XPC, **huduma ya XPC inapaswa kuangalia kama mchakato huo unaruhusiwa kuungana**. Hapa kuna njia za kawaida za kuangalia hiyo na mtego wa kawaida:
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-### Idhini ya XPC
+## XPC Authorization
 
-Apple pia inaruhusu programu **kuwezesha baadhi ya haki na jinsi ya kuzipata** ili ikiwa mchakato unaopiga simu una haki hizo, itakuwa **imekuruhusiwa kuita njia** kutoka kwa huduma ya XPC:
+Apple pia inaruhusu programu **kuweka haki fulani na jinsi ya kuzipata** hivyo ikiwa mchakato unaopiga simu unao, itaruhusiwa **kupiga simu njia** kutoka huduma ya XPC:
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-### Mchunguzi wa XPC
+## XPC Sniffer
 
-Ili kuchunguza ujumbe wa XPC, unaweza kutumia [**xpcspy**](https://github.com/hot3eed/xpcspy) ambayo hutumia **Frida**.
-
+Ili kunusa ujumbe wa XPC unaweza kutumia [**xpcspy**](https://github.com/hot3eed/xpcspy) ambayo inatumia **Frida**.
 ```bash
 # Install
 pip3 install xpcspy
@@ -114,11 +161,12 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
+Another possible tool to use is [**XPoCe2**](https://newosxbook.com/tools/XPoCe2.html).
 
-### Mfano wa Kanuni ya Mawasiliano ya XPC
+## Mfano wa Kode ya Mawasiliano ya XPC
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="xpc_server.c" %}
 ```c
 // gcc xpc_server.c -o xpc_server
 
@@ -174,7 +222,7 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
+{% tab title="xpc_client.c" %}
 ```c
 // gcc xpc_client.c -o xpc_client
 
@@ -228,7 +276,6 @@ return 0;
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # Compile the server & client
 gcc xpc_server.c -o xpc_server
@@ -248,11 +295,10 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-
-### Mfano wa Kanuni ya XPC Communication Objective-C
+## XPC Communication Objective-C Code Example
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="oc_xpc_server.m" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
 #include <Foundation/Foundation.h>
@@ -304,7 +350,7 @@ sleep(10); // Fake something is done and then it ends
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
+{% tab title="oc_xpc_client.m" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 #include <Foundation/Foundation.h>
@@ -352,107 +398,26 @@ return 0;
 ```
 {% endtab %}
 {% endtabs %}
+```bash
+# Compile the server & client
+gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
+gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 
-\`\`\`bash # Compile the server & client gcc -framework Foundation oc\_xpc\_server.m -o oc\_xpc\_server gcc -framework Foundation oc\_xpc\_client.m -o oc\_xpc\_client
+# Save server on it's location
+cp oc_xpc_server /tmp
 
-## Save server on it's location
+# Load daemon
+sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons
+sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 
-cp oc\_xpc\_server /tmp
+# Call client
+./oc_xpc_client
 
-## Load daemon
-
-sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
-
-## Call client
-
-./oc\_xpc\_client
-
-## Clean
-
-sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc\_xpc\_server
-
-````
-## Mteja ndani ya kificho cha Dylb
-
-In this technique, we will explore how to create a client inside a Dylb code. Dylb is a macOS framework that allows inter-process communication (IPC) using the XPC protocol.
-
-Katika mbinu hii, tutachunguza jinsi ya kuunda mteja ndani ya kificho cha Dylb. Dylb ni mfumo wa macOS ambao huruhusu mawasiliano kati ya michakato (IPC) kwa kutumia itifaki ya XPC.
-
-### Prerequisites
-
-Before we begin, make sure you have the following:
-
-- A macOS system
-- Xcode installed
-- Basic knowledge of macOS IPC and XPC
-
-### Steps
-
-Follow these steps to create a client inside a Dylb code:
-
-1. Open Xcode and create a new project.
-2. Choose "Command Line Tool" as the project template.
-3. Provide a name for your project and select the desired language (e.g., Swift).
-4. Click "Next" and choose a location to save your project.
-5. In the project navigator, locate the main.swift file and open it.
-6. Import the necessary frameworks for Dylb and XPC:
-
-```swift
-import Dylb
-import XPC
-````
-
-7. Inside the main function, create an XPC connection:
-
-```swift
-let connection = xpc_connection_create_mach_service("com.example.server", nil, 0)
+# Clean
+sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
 ```
-
-Replace "com.example.server" with the Mach service name of the server you want to connect to.
-
-8. Set the event handler for the connection:
-
-```swift
-xpc_connection_set_event_handler(connection) { event in
-    // Handle events here
-}
-```
-
-9. Resume the connection:
-
-```swift
-xpc_connection_resume(connection)
-```
-
-10. Send a message to the server:
-
-```swift
-let message = xpc_dictionary_create(nil, nil, 0)
-xpc_dictionary_set_string(message, "key", "value")
-xpc_connection_send_message(connection, message)
-```
-
-Replace "key" and "value" with the appropriate data you want to send.
-
-11. Handle the response from the server inside the event handler:
-
-```swift
-if xpc_get_type(event) == XPC_TYPE_DICTIONARY {
-    let response = event.takeUnretainedValue()
-    // Handle the response here
-}
-```
-
-12. Build and run your project to test the client inside the Dylb code.
-
-#### Conclusion
-
-By creating a client inside a Dylb code, you can establish communication with a server using XPC. This technique can be useful for various macOS applications that require inter-process communication.
-
-#### Hitimisho
-
-Kwa kuunda mteja ndani ya kificho cha Dylb, unaweza kuweka mawasiliano na seva kwa kutumia XPC. Mbinu hii inaweza kuwa na manufaa kwa programu mbalimbali za macOS ambazo zinahitaji mawasiliano kati ya michakato.
-
+## Mteja ndani ya Dylb code
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -486,17 +451,37 @@ NSLog(@"Done!");
 return;
 }
 ```
+## Remote XPC
+
+Hii kazi inayotolewa na `RemoteXPC.framework` (kutoka `libxpc`) inaruhusu kuwasiliana kupitia XPC kati ya mwenyeji tofauti.\
+Huduma zinazosaidia remote XPC zitakuwa na katika plist yao ufunguo UsesRemoteXPC kama ilivyo katika `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist`. Hata hivyo, ingawa huduma itasajiliwa na `launchd`, ni `UserEventAgent` pamoja na plugins `com.apple.remoted.plugin` na `com.apple.remoteservicediscovery.events.plugin` ambazo zinatoa kazi hiyo.
+
+Zaidi ya hayo, `RemoteServiceDiscovery.framework` inaruhusu kupata taarifa kutoka kwa `com.apple.remoted.plugin` ikionyesha kazi kama `get_device`, `get_unique_device`, `connect`...
+
+Mara tu `connect` inapotumika na socket `fd` ya huduma inakusanywa, inawezekana kutumia darasa `remote_xpc_connection_*`.
+
+Inawezekana kupata taarifa kuhusu huduma za mbali kwa kutumia chombo cha cli `/usr/libexec/remotectl` kwa kutumia vigezo kama:
+```bash
+/usr/libexec/remotectl list # Get bridge devices
+/usr/libexec/remotectl show ...# Get device properties and services
+/usr/libexec/remotectl dumpstate # Like dump withuot indicateing a servie
+/usr/libexec/remotectl [netcat|relay] ... # Expose a service in a port
+...
+```
+Mawasiliano kati ya BridgeOS na mwenyeji hufanyika kupitia kiunganishi maalum cha IPv6. `MultiverseSupport.framework` inaruhusu kuanzisha soketi ambazo `fd` zitatumika kwa mawasiliano.\
+Inawezekana kupata mawasiliano haya kwa kutumia `netstat`, `nettop` au chaguo la chanzo wazi, `netbottom`.
+
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

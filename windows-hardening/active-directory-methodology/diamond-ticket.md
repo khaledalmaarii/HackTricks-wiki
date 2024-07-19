@@ -1,32 +1,33 @@
-# Tiketi ya Almasi
+# Diamond Ticket
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Tiketi ya Almasi
+## Diamond Ticket
 
-**Kama tiketi ya dhahabu**, tiketi ya almasi ni TGT ambayo inaweza kutumika kufikia huduma yoyote kama mtumiaji yeyote. Tiketi ya dhahabu inatengenezwa kabisa nje ya mtandao, imefichwa kwa kutumia hash ya krbtgt ya kikoa hicho, na kisha inapitishwa kwenye kikao cha kuingia ili kutumika. Kwa sababu watumiaji wa kikoa hawafuatilii TGTs ambazo wamezitoa kwa halali, wataikubali kwa furaha TGTs ambazo zimefichwa na hash yao ya krbtgt.
+**Kama tiketi ya dhahabu**, tiketi ya almasi ni TGT ambayo inaweza kutumika **kuingia kwenye huduma yoyote kama mtumiaji yeyote**. Tiketi ya dhahabu inaundwa kabisa mtandaoni, imefungwa kwa hash ya krbtgt ya eneo hilo, na kisha kuingizwa kwenye kikao cha kuingia kwa matumizi. Kwa sababu wasimamizi wa eneo hawafuatilii TGTs ambazo zimepewa kihalali, watakubali kwa furaha TGTs ambazo zimefungwa kwa hash yao ya krbtgt.
 
-Kuna njia mbili za kawaida za kugundua matumizi ya tiketi za dhahabu:
+Kuna mbinu mbili za kawaida kugundua matumizi ya tiketi za dhahabu:
 
-* Tafuta TGS-REQs ambazo hazina AS-REQ inayolingana.
-* Tafuta TGTs ambazo zina thamani za kipumbavu, kama vile muda wa maisha wa miaka 10 wa chaguo-msingi wa Mimikatz.
+* Angalia TGS-REQs ambazo hazina AS-REQ inayolingana.
+* Angalia TGTs ambazo zina thamani za kipumbavu, kama vile muda wa miaka 10 wa Mimikatz.
 
-Tiketi ya almasi inatengenezwa kwa **kubadilisha sehemu za TGT halali ambayo ilitolewa na DC**. Hii inafanikiwa kwa **kuomba** TGT, **kuidondosha** na hash ya krbtgt ya kikoa, **kubadilisha** sehemu zinazohitajika za tiketi, kisha **kuifichua tena**. Hii **inaondoa kasoro mbili zilizotajwa hapo juu** za tiketi ya dhahabu kwa sababu:
+**Tiketi ya almasi** inaundwa kwa **kubadilisha maeneo ya TGT halali ambayo ilitolewa na DC**. Hii inafikiwa kwa **kuomba** **TGT**, **kuifungua** kwa hash ya krbtgt ya eneo, **kubadilisha** maeneo yanayotakiwa ya tiketi, kisha **kuifunga tena**. Hii **inasuluhisha mapungufu mawili yaliyotajwa hapo juu** ya tiketi ya dhahabu kwa sababu:
 
 * TGS-REQs zitakuwa na AS-REQ inayotangulia.
-* TGT ilitolewa na DC ambayo inamaanisha itakuwa na maelezo sahihi yote kutoka kwa sera ya Kerberos ya kikoa. Ingawa haya yanaweza kughushiwa kwa usahihi katika tiketi ya dhahabu, ni ngumu zaidi na inaweza kusababisha makosa.
+* TGT ilitolewa na DC ambayo inamaanisha itakuwa na maelezo yote sahihi kutoka kwenye sera ya Kerberos ya eneo. Ingawa haya yanaweza kuundwa kwa usahihi katika tiketi ya dhahabu, ni ngumu zaidi na yanaweza kuwa na makosa.
 ```bash
 # Get user RID
 powershell Get-DomainUser -Identity <username> -Properties objectsid
@@ -39,16 +40,17 @@ powershell Get-DomainUser -Identity <username> -Properties objectsid
 # /groups are the desired group RIDs (512 being Domain Admins).
 # /krbkey is the krbtgt AES256 hash.
 ```
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

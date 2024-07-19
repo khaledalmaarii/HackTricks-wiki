@@ -1,136 +1,152 @@
-# Shambulio la xpc\_connection\_get\_audit\_token kwenye macOS
+# macOS xpc\_connection\_get\_audit\_token Attack
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze AWS hacking kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikitangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Kwa habari zaidi angalia chapisho la asili:** [**https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/**](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/). Hii ni muhtasari:
+**For further information check the original post:** [**https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/**](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/). This is a summary:
 
-## Taarifa Msingi za Ujumbe wa Mach
+## Mach Messages Basic Info
 
-Ikiwa haujui ni nini Ujumbe wa Mach anza kwa kuangalia ukurasa huu:
+If you don't know what Mach Messages are start checking this page:
 
 {% content-ref url="../../" %}
 [..](../../)
 {% endcontent-ref %}
 
-Kwa sasa kumbuka kwamba ([ufafanuzi kutoka hapa](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
-Ujumbe wa Mach hutumwa juu ya _mach port_, ambayo ni **njia ya mawasiliano ya mpokeaji mmoja, wapelekaji wengi** iliyojengwa ndani ya kernel ya mach. **Michakato mingi inaweza kutuma ujumbe** kwa mach port, lakini wakati wowote **mchakato mmoja tu unaweza kusoma kutoka kwake**. Kama vile vitambulisho vya faili na soketi, mach ports hupewa na kusimamiwa na kernel na michakato huona nambari tu, ambayo wanaweza kutumia kuashiria kernel ni mach ports yao wanayotaka kutumia.
+For the moment remember that ([definition from here](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
+Mach messages are sent over a _mach port_, which is a **single receiver, multiple sender communication** channel built into the mach kernel. **Multiple processes can send messages** to a mach port, but at any point **only a single process can read from it**. Just like file descriptors and sockets, mach ports are allocated and managed by the kernel and processes only see an integer, which they can use to indicate to the kernel which of their mach ports they want to use.
 
-## Uunganisho wa XPC
+## XPC Connection
 
-Ikiwa haujui jinsi uhusiano wa XPC unavyoundwa angalia:
+If you don't know how a XPC connection is established check:
 
 {% content-ref url="../" %}
 [..](../)
 {% endcontent-ref %}
 
-## Muhtasari wa Upungufu
+## Vuln Summary
 
-Jambo linalovutia kujua ni kwamba **kuhakikisha ya XPC ni uhusiano wa moja kwa moja**, lakini inategemea teknolojia ambayo **inaweza kuwa na wapelekaji wengi, hivyo:**
+What is interesting for you to know is that **XPC’s abstraction is a one-to-one connection**, but it is based on top of a technology which **can have multiple senders, so:**
 
-* Mach ports ni mpokeaji mmoja, **wapelekaji wengi**.
-* Audit token ya uhusiano wa XPC ni token ya ukaguzi wa **iliyochukuliwa kutoka ujumbe uliopokelewa hivi karibuni zaidi**.
-* Kupata **audit token** ya uhusiano wa XPC ni muhimu kwa **uchunguzi wa usalama** mengi.
+* Mach ports are single receiver, **multiple sender**.
+* An XPC connection’s audit token is the audit token of **copied from the most recently received message**.
+* Obtaining the **audit token** of an XPC connection is critical to many **security checks**.
 
-Ingawa hali iliyopita inaonekana kuahidi kuna hali ambapo hii haitasababisha matatizo ([kutoka hapa](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
+Although the previous situation sounds promising there are some scenarios where this is not going to cause problems ([from here](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
 
-* Tokeni za ukaguzi mara nyingi hutumiwa kwa ukaguzi wa idhini kuamua ikiwa kukubali uhusiano. Kwa kuwa hii hufanyika kwa kutumia ujumbe kwa bandari ya huduma, **hakuna uhusiano ulioanzishwa bado**. Ujumbe zaidi kwenye bandari hii utashughulikiwa kama maombi ya uhusiano ya ziada. Kwa hivyo **uchunguzi kabla ya kukubali uhusiano sio hatarini** (hii pia inamaanisha kuwa ndani ya `-listener:shouldAcceptNewConnection:` tokeni ya ukaguzi ni salama). Kwa hivyo **tunatafuta uhusiano wa XPC ambao huthibitisha hatua maalum**.
-* Wachambuzi wa matukio ya XPC hushughulikiwa kwa usawazishaji. Hii inamaanisha kuwa mchambuzi wa tukio kwa ujumbe mmoja lazima ukamilike kabla ya kuita kwa ujumbe ufuatao, hata kwenye foleni za kutuma wakati mmoja. Kwa hivyo ndani ya **mchambuzi wa tukio la XPC tokeni ya ukaguzi haiwezi kubadilishwa** na ujumbe wa kawaida (si-jibu!) mwingine.
+* Audit tokens are often used for an authorization check to decide whether to accept a connection. As this happens using a message to the service port, there is **no connection established yet**. More messages on this port will just be handled as additional connection requests. So any **checks before accepting a connection are not vulnerable** (this also means that within `-listener:shouldAcceptNewConnection:` the audit token is safe). We are therefore **looking for XPC connections that verify specific actions**.
+* XPC event handlers are handled synchronously. This means that the event handler for one message must be completed before calling it for the next one, even on concurrent dispatch queues. So inside an **XPC event handler the audit token can not be overwritten** by other normal (non-reply!) messages.
 
-Kuna njia mbili tofauti ambazo hii inaweza kutumika:
+Two different methods this might be exploitable:
 
 1. Variant1:
-* **Shambulio** linajiunga na huduma **A** na huduma **B**
-* Huduma **B** inaweza kuita **kazi ya kipekee** katika huduma **A** ambayo mtumiaji hawezi
-* Huduma **A** inaita **`xpc_connection_get_audit_token`** wakati _**si**_ ndani ya **mchambuzi wa tukio** kwa uhusiano katika **`dispatch_async`**.
-* Kwa hivyo **ujumbe tofauti unaweza kubadilisha Audit Token** kwa sababu unatuma kwa njia ya asinkronasi nje ya mchambuzi wa tukio.
-* Shambulio linapitisha **huduma B haki ya KUTUMA kwa huduma A**.
-* Kwa hivyo svc **B** itakuwa **kutuma** **ujumbe** kwa huduma **A**.
-* **Shambulio** jaribu **kuita** **hatua ya kipekee.** Katika RC svc **A** **huthibitisha** idhini ya **hatua** hii wakati **svc B ilibadilisha Tokeni ya Ukaguzi** (ikimpa shambulio upatikanaji wa kuita hatua ya kipekee).
+* **Exploit** **connects** to service **A** and service **B**
+* Service **B** can call a **privileged functionality** in service A that the user cannot
+* Service **A** calls **`xpc_connection_get_audit_token`** while _**not**_ inside the **event handler** for a connection in a **`dispatch_async`**.
+* So a **different** message could **overwrite the Audit Token** because it's being dispatched asynchronously outside of the event handler.
+* The exploit passes to **service B the SEND right to service A**.
+* So svc **B** will be actually **sending** the **messages** to service **A**.
+* The **exploit** tries to **call** the **privileged action.** In a RC svc **A** **checks** the authorization of this **action** while **svc B overwrote the Audit token** (giving the exploit access to call the privileged action).
 2. Variant 2:
-* Huduma **B** inaweza kuita **kazi ya kipekee** katika huduma A ambayo mtumiaji hawezi
-* Shambulio linajiunga na **huduma A** ambayo **inatuma** shambulio ujumbe ukitarajia jibu katika **bandari ya majibu** maalum.
-* Shambulio inatuma **huduma** B ujumbe ukipitisha **ile bandari ya majibu**.
-* Wakati huduma **B inajibu**, inatuma ujumbe kwa huduma **A**, **wakati** **shambulio** inatuma ujumbe tofauti kwa huduma **A** kujaribu **kufikia kazi ya kipekee** na kutarajia kwamba jibu kutoka kwa huduma B litabadilisha Tokeni ya Ukaguzi katika wakati kamili (Hali ya Mashindano).
+* Service **B** can call a **privileged functionality** in service A that the user cannot
+* Exploit connects with **service A** which **sends** the exploit a **message expecting a response** in a specific **replay** **port**.
+* Exploit sends **service** B a message passing **that reply port**.
+* When service **B replies**, it s**ends the message to service A**, **while** the **exploit** sends a different **message to service A** trying to **reach a privileged functionality** and expecting that the reply from service B will overwrite the Audit token in the perfect moment (Race Condition).
 
-## Variant 1: kuita xpc\_connection\_get\_audit\_token nje ya mchambuzi wa tukio <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
+## Variant 1: calling xpc\_connection\_get\_audit\_token outside of an event handler <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
 
-Skena:
+Scenario:
 
-* Huduma mbili za mach **`A`** na **`B`** ambazo tunaweza kujiunga nazo (kulingana na wasifu wa sanduku la mchanga na ukaguzi kabla ya kukubali uhusiano).
-* _**A**_ lazima awe na **ukaguzi wa idhini** kwa hatua maalum ambayo **`B`** inaweza kupitisha (lakini programu yetu haiwezi).
-* Kwa mfano, ikiwa B ana **haki za kibali** au inaendeshwa kama **root**, inaweza kumruhusu kuuliza A kutekeleza hatua ya kipekee.
-* Kwa ukaguzi huu wa idhini, **`A`** inapata tokeni ya ukaguzi kwa njia ya asinkronasi, kwa mfano kwa kuita `xpc_connection_get_audit_token` kutoka **`dispatch_async`**.
+* Two mach services **`A`** and **`B`** that we can both connect to (based on the sandbox profile and the authorization checks before accepting the connection).
+* _**A**_ must have an **authorization check** for a specific action that **`B`** can pass (but our app can’t).
+* For example, if B has some **entitlements** or is running as **root**, it might allow him to ask A to perform a privileged action.
+* For this authorization check, **`A`** obtains the audit token asynchronously, for example by calling `xpc_connection_get_audit_token` from **`dispatch_async`**.
 
 {% hint style="danger" %}
-Katika kesi hii, muhusika anaweza kusababisha **Hali ya Mashindano** kufanya **shambulio** ambalo **linaiomba A kutekeleza hatua** mara kadhaa wakati **B inatuma ujumbe kwa `A`**. Wakati RC inafanikiwa, **tokeni ya ukaguzi** ya **B** itachapishwa kumbukumbu **wakati** ombi la **shambulio** letu linashughulikiwa na A, ikimpa **upatikanaji wa hatua ya kipekee ambayo B pekee angeweza kuomba**.
+In this case an attacker could trigger a **Race Condition** making a **exploit** that **asks A to perform an action** several times while making **B send messages to `A`**. When the RC is **successful**, the **audit token** of **B** will be copied in memory **while** the request of our **exploit** is being **handled** by A, giving it **access to the privilege action only B could request**.
 {% endhint %}
 
-Hii ilitokea na **`A`** kama `smd` na **`B`** kama `diagnosticd`. Kazi [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) kutoka smb inaweza kutumika kufunga zana mpya ya msaidizi yenye mamlaka (kama **root**). Ikiwa **mchakato unaoendeshwa kama root unawasiliana** na **smd**, hakuna ukaguzi mwingine utafanywa.
+This happened with **`A`** as `smd` and **`B`** as `diagnosticd`. The function [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) from smb an be used to install a new privileged helper toot (as **root**). If a **process running as root contact** **smd**, no other checks will be performed.
 
-Kwa hivyo, huduma **B** ni **`diagnosticd`** kwa sababu inaendeshwa kama **root** na inaweza kutumika kufuatilia mchakato, kwa hivyo mara tu ufuatiliaji umeanza, itaanza **kutuma ujumbe mara nyingi kwa sekunde.**
+Therefore, the service **B** is **`diagnosticd`** because it runs as **root** and can be used to **monitor** a process, so once monitoring has started, it will **send multiple messages per second.**
 
-Kufanya shambulio:
+To perform the attack:
 
-1. Anzisha **uhusiano** kwa huduma iliyoitwa `smd` kwa kutumia itifaki ya XPC ya kawaida.
-2. Unda **uhusiano wa pili** kwa `diagnosticd`. Tofauti na utaratibu wa kawaida, badala ya kuunda na kutuma mach ports mbili mpya, haki ya kutuma ya bandari ya mteja inabadilishwa na nakala ya **haki ya kutuma** inayohusishwa na uhusiano wa `smd`.
-3. Kama matokeo, ujumbe wa XPC unaweza kutumwa kwa `diagnosticd`, lakini majibu kutoka `diagnosticd` yanaelekezwa tena kwa `smd`. Kwa `smd`, inaonekana kana kwamba ujumbe kutoka kwa mtumiaji na `diagnosticd` unatoka kwa uhusiano mmoja.
+1. Initiate a **connection** to the service named `smd` using the standard XPC protocol.
+2. Form a secondary **connection** to `diagnosticd`. Contrary to normal procedure, rather than creating and sending two new mach ports, the client port send right is substituted with a duplicate of the **send right** associated with the `smd` connection.
+3. As a result, XPC messages can be dispatched to `diagnosticd`, but responses from `diagnosticd` are rerouted to `smd`. To `smd`, it appears as though the messages from both the user and `diagnosticd` are originating from the same connection.
 
-![Picha inayoonyesha mchakato wa shambulio](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
+![Image depicting the exploit process](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
 
-4. Hatua inayofuata ni kuagiza `diagnosticd` kuanzisha ufuatiliaji wa mchakato uliochaguliwa (labda wa mtumiaji mwenyewe). Kwa wakati huo huo, mafuriko ya ujumbe wa kawaida wa 1004 hutumwa kwa `smd`. Lengo hapa ni kufunga zana yenye mamlaka.
-5. Hatua hii inachochea hali ya mashindano ndani ya kazi ya `handle_bless`. Wakati ni muhimu: wito wa kazi ya `xpc_connection_get_pid` lazima irudishe PID ya mchakato wa mtumiaji (kwa kuwa zana yenye mamlaka iko kwenye mfuko wa programu ya mtumiaji). Walakini, wito wa kazi ya `xpc_connection_get_audit_token`, hasa ndani ya subroutine ya `connection_is_authorized`, lazima itaje alama ya ukaguzi inayomilikiwa na `diagnosticd`.
+4. The next step involves instructing `diagnosticd` to initiate monitoring of a chosen process (potentially the user's own). Concurrently, a flood of routine 1004 messages is sent to `smd`. The intent here is to install a tool with elevated privileges.
+5. This action triggers a race condition within the `handle_bless` function. The timing is critical: the `xpc_connection_get_pid` function call must return the PID of the user's process (as the privileged tool resides in the user's app bundle). However, the `xpc_connection_get_audit_token` function, specifically within the `connection_is_authorized` subroutine, must reference the audit token belonging to `diagnosticd`.
 
-## Tofauti 2: kusonga majibu
+## Variant 2: reply forwarding
 
-Katika mazingira ya XPC (Mawasiliano kati ya Mchakato), ingawa wakusanyaji wa matukio hawatekelezi kwa wakati mmoja, kushughulikia ujumbe wa majibu kuna tabia ya kipekee. Kwa kusudi hili, kuna njia mbili tofauti za kutuma ujumbe unaotarajia majibu:
+In an XPC (Cross-Process Communication) environment, although event handlers don't execute concurrently, the handling of reply messages has a unique behavior. Specifically, two distinct methods exist for sending messages that expect a reply:
 
-1. **`xpc_connection_send_message_with_reply`**: Hapa, ujumbe wa XPC unapokelewa na kusindika kwenye foleni iliyoteuliwa.
-2. **`xpc_connection_send_message_with_reply_sync`**: Kinyume chake, kwenye njia hii, ujumbe wa XPC unapokelewa na kusindika kwenye foleni ya kutolewa ya sasa.
+1. **`xpc_connection_send_message_with_reply`**: Here, the XPC message is received and processed on a designated queue.
+2. **`xpc_connection_send_message_with_reply_sync`**: Conversely, in this method, the XPC message is received and processed on the current dispatch queue.
 
-Tofauti hii ni muhimu kwa sababu inaruhusu uwezekano wa **pakiti za majibu kuchambuliwa kwa wakati mmoja na utekelezaji wa kusindika wa tukio la XPC**. Hasa, wakati `_xpc_connection_set_creds` inatekeleza kufunga ili kulinda dhidi ya kubadilisha sehemu ya alama ya ukaguzi, haitoi ulinzi huu kwa kitu cha uhusiano mzima. Kwa hivyo, hii inaunda udhaifu ambapo alama ya ukaguzi inaweza kubadilishwa wakati wa kipindi kati ya kuchambua kwa pakiti na utekelezaji wa kusindika tukio lake.
+This distinction is crucial because it allows for the possibility of **reply packets being parsed concurrently with the execution of an XPC event handler**. Notably, while `_xpc_connection_set_creds` does implement locking to safeguard against the partial overwrite of the audit token, it does not extend this protection to the entire connection object. Consequently, this creates a vulnerability where the audit token can be replaced during the interval between the parsing of a packet and the execution of its event handler.
 
-Kutumia udhaifu huu, usanidi ufuatao unahitajika:
+To exploit this vulnerability, the following setup is required:
 
-* Huduma mbili za mach, zinazojulikana kama **`A`** na **`B`**, zote ambazo zinaweza kuanzisha uhusiano.
-* Huduma **`A`** inapaswa kujumuisha ukaguzi wa idhini kwa hatua maalum ambayo tu **`B`** inaweza kutekeleza (programu ya mtumiaji haiwezi).
-* Huduma **`A`** inapaswa kutuma ujumbe unaotarajia majibu.
-* Mtumiaji anaweza kutuma ujumbe kwa **`B`** ambao itajibu.
+* Two mach services, referred to as **`A`** and **`B`**, both of which can establish a connection.
+* Service **`A`** should include an authorization check for a specific action that only **`B`** can perform (the user's application cannot).
+* Service **`A`** should send a message that anticipates a reply.
+* The user can send a message to **`B`** that it will respond to.
 
-Mchakato wa kutumia udhaifu huu unajumuisha hatua zifuatazo:
+The exploitation process involves the following steps:
 
-1. Subiri huduma **`A`** itume ujumbe unaotarajia majibu.
-2. Badala ya kujibu moja kwa moja **`A`**, bandari ya majibu inatekwa na kutumika kutuma ujumbe kwa huduma **`B`**.
-3. Kisha, ujumbe unaojumuisha hatua iliyozuiliwa unatuma, ukitarajia kwamba utasindika kwa wakati mmoja na jibu kutoka **`B`**.
+1. Wait for service **`A`** to send a message that expects a reply.
+2. Instead of replying directly to **`A`**, the reply port is hijacked and used to send a message to service **`B`**.
+3. Subsequently, a message involving the forbidden action is dispatched, with the expectation that it will be processed concurrently with the reply from **`B`**.
 
-Hapa chini ni uwakilishi wa picha wa mazingira ya shambulio yaliyoelezwa:
+Below is a visual representation of the described attack scenario:
 
 !\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 <figure><img src="../../../../../../.gitbook/assets/image (33).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 
-## Matatizo ya Ugunduzi
+## Discovery Problems
 
-* **Vikwazo katika Kutambua Mifano**: Kutafuta mifano ya matumizi ya `xpc_connection_get_audit_token` ilikuwa changamoto, kwa njia za kistatiki na kidinamiki.
-* **Mbinu**: Frida ilitumika kufunga kazi ya `xpc_connection_get_audit_token`, ikichuja wito usiotoka kwa wakusanyaji wa matukio. Walakini, njia hii ilikuwa imezuiliwa kwa mchakato uliofungwa na ilihitaji matumizi ya moja kwa moja.
-* **Zana za Uchambuzi**: Zana kama IDA/Ghidra zilitumika kuchunguza huduma za mach zinazopatikana, lakini mchakato ulichukua muda mrefu, uliogumuza na wito unaohusisha akiba ya pamoja ya dyld.
-* **Vikwazo vya Uandishi wa Script**: Jaribio la kuandika skripti ya uchambuzi kwa wito wa `xpc_connection_get_audit_token` kutoka kwa vitengo vya `dispatch_async` lilizuiliwa na ugumu katika kuchambua vitengo na mwingiliano na akiba ya pamoja ya dyld.
+* **Difficulties in Locating Instances**: Searching for instances of `xpc_connection_get_audit_token` usage was challenging, both statically and dynamically.
+* **Methodology**: Frida was employed to hook the `xpc_connection_get_audit_token` function, filtering calls not originating from event handlers. However, this method was limited to the hooked process and required active usage.
+* **Analysis Tooling**: Tools like IDA/Ghidra were used for examining reachable mach services, but the process was time-consuming, complicated by calls involving the dyld shared cache.
+* **Scripting Limitations**: Attempts to script the analysis for calls to `xpc_connection_get_audit_token` from `dispatch_async` blocks were hindered by complexities in parsing blocks and interactions with the dyld shared cache.
 
-## Marekebisho <a href="#the-fix" id="the-fix"></a>
+## The fix <a href="#the-fix" id="the-fix"></a>
 
-* **Masuala Yaliyoripotiwa**: Ripoti ilitumwa kwa Apple ikielezea masuala ya jumla na maalum yaliyopatikana ndani ya `smd`.
-* **Jibu la Apple**: Apple ilishughulikia suala katika `smd` kwa kubadilisha `xpc_connection_get_audit_token` na `xpc_dictionary_get_audit_token`.
-* **Asili ya Marekebisho**: Kazi ya `xpc_dictionary_get_audit_token` inachukuliwa kuwa salama kwani inapata alama ya ukaguzi moja kwa moja kutoka kwa ujumbe wa mach unaoambatana na ujumbe wa XPC uliopokelewa. Walakini, sio sehemu ya API ya umma, kama `xpc_connection_get_audit_token`.
-* **Ukosefu wa Marekebisho Kamili**: Bado haijulikani kwa nini Apple haikutekeleza marekebisho kamili zaidi, kama kutupa ujumbe usioendana na alama ya ukaguzi iliyohifadhiwa ya uhusiano. Uwezekano wa mabadiliko halali ya alama ya ukaguzi katika hali fulani (k.m., matumizi ya `setuid`) inaweza kuwa sababu.
-* **Hali ya Sasa**: Suala hili linaendelea kuwepo katika iOS 17 na macOS 14, likiwa changamoto kwa wale wanaotafuta kugundua na kuelewa.
+* **Reported Issues**: A report was submitted to Apple detailing the general and specific issues found within `smd`.
+* **Apple's Response**: Apple addressed the issue in `smd` by substituting `xpc_connection_get_audit_token` with `xpc_dictionary_get_audit_token`.
+* **Nature of the Fix**: The `xpc_dictionary_get_audit_token` function is considered secure as it retrieves the audit token directly from the mach message tied to the received XPC message. However, it's not part of the public API, similar to `xpc_connection_get_audit_token`.
+* **Absence of a Broader Fix**: It remains unclear why Apple didn't implement a more comprehensive fix, such as discarding messages not aligning with the saved audit token of the connection. The possibility of legitimate audit token changes in certain scenarios (e.g., `setuid` usage) might be a factor.
+* **Current Status**: The issue persists in iOS 17 and macOS 14, posing a challenge for those seeking to identify and understand it.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

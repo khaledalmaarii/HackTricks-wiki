@@ -1,23 +1,24 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inayotangazwa kwenye HackTricks** au **kupakua HackTricks kwa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi wa PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Kimsingi, zana hii itatusaidia kupata thamani za pembejeo ambazo zinahitaji kutimiza masharti fulani na kuzihesabu kwa mkono itakuwa kuchosha sana. Kwa hivyo, unaweza kuonyesha kwa Z3 masharti ambayo pembejeo zinahitaji kutimiza na itapata thamani fulani (ikiwa inawezekana).
+Kwa msingi, chombo hiki kitatusaidia kupata thamani za mabadiliko ambayo yanahitaji kutimiza masharti fulani na kuhesabu kwa mkono kutakuwa na usumbufu mkubwa. Hivyo, unaweza kuonyesha kwa Z3 masharti ambayo mabadiliko yanahitaji kutimiza na itapata baadhi ya thamani (ikiwa inawezekana).
 
-**Baadhi ya maandishi na mifano imetolewa kutoka [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
+**Baadhi ya maandiko na mifano yameondolewa kutoka [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
-# Operesheni za Msingi
+# Basic Operations
 
 ## Booleans/And/Or/Not
 ```python
@@ -35,60 +36,6 @@ s.check() #If response is "sat" then the model is satifable, if "unsat" somethin
 print(s.model()) #Print valid values to satisfy the model
 ```
 ## Ints/Simplify/Reals
-
-## Ints/Simplify/Reals
-
-### Introduction
-
-### Utangulizi
-
-In this section, we will explore the basic functionalities of the Z3 SMT solver related to integer, real, and simplification theories.
-
-Katika sehemu hii, tutachunguza utendaji wa msingi wa suluhisho la Z3 SMT linalohusiana na nadharia za nambari za asili, halisi, na upunguzaji.
-
-### Integers
-
-### Nambari za Asili
-
-The Z3 SMT solver provides support for solving problems involving integer arithmetic. It can handle operations such as addition, subtraction, multiplication, division, and modulo.
-
-Suluhisho la Z3 SMT linatoa msaada katika kutatua matatizo yanayohusisha hisabati ya nambari za asili. Linaweza kushughulikia operesheni kama vile kuongeza, kutoa, kuzidisha, kugawanya, na modulo.
-
-To declare an integer variable in Z3, we use the `Int` sort. For example, `x = Int('x')` creates an integer variable named `x`.
-
-Kuweka wazi kivinjari cha nambari za asili katika Z3, tunatumia aina ya `Int`. Kwa mfano, `x = Int('x')` inaunda kivinjari cha nambari za asili kinachoitwa `x`.
-
-### Reals
-
-### Nambari Halisi
-
-The Z3 SMT solver also supports solving problems involving real numbers. It can handle operations such as addition, subtraction, multiplication, division, and exponentiation.
-
-Suluhisho la Z3 SMT pia linasaidia kutatua matatizo yanayohusisha nambari halisi. Linaweza kushughulikia operesheni kama vile kuongeza, kutoa, kuzidisha, kugawanya, na kuzidisha kwa nafasi.
-
-To declare a real variable in Z3, we use the `Real` sort. For example, `x = Real('x')` creates a real variable named `x`.
-
-Kuweka wazi kivinjari cha nambari halisi katika Z3, tunatumia aina ya `Real`. Kwa mfano, `x = Real('x')` inaunda kivinjari cha nambari halisi kinachoitwa `x`.
-
-### Simplification
-
-### Upunguzaji
-
-The Z3 SMT solver can simplify expressions involving integers and reals. It can simplify arithmetic expressions, logical expressions, and combinations of both.
-
-Suluhisho la Z3 SMT linaweza kupunguza mielekeo inayohusisha nambari za asili na halisi. Linaweza kupunguza mielekeo ya hisabati, mielekeo ya mantiki, na mchanganyiko wa zote mbili.
-
-To simplify an expression in Z3, we use the `simplify` function. For example, `simplify(x + 2 * y)` simplifies the expression `x + 2 * y`.
-
-Kupunguza mielekeo katika Z3, tunatumia kazi ya `simplify`. Kwa mfano, `simplify(x + 2 * y)` inapunguza mielekeo ya `x + 2 * y`.
-
-### Conclusion
-
-### Hitimisho
-
-In this section, we have learned about the basic functionalities of the Z3 SMT solver related to integer, real, and simplification theories. We have seen how to declare integer and real variables, as well as how to simplify expressions using the `simplify` function.
-
-Katika sehemu hii, tumefahamu kuhusu utendaji wa msingi wa suluhisho la Z3 SMT linalohusiana na nadharia za nambari za asili, halisi, na upunguzaji. Tumeona jinsi ya kuweka wazi kivinjari cha nambari za asili na halisi, pamoja na jinsi ya kupunguza mielekeo kwa kutumia kazi ya `simplify`.
 ```python
 from z3 import *
 
@@ -109,37 +56,6 @@ set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
 ## Kuchapisha Mfano
-
-To print the model of a satisfiability modulo theories (SMT) problem using the Z3 solver, you can use the `model` method. This method returns a string representation of the model.
-
-```python
-s = Solver()
-# ... add constraints to the solver ...
-if s.check() == sat:
-    m = s.model()
-    print(m)
-```
-
-The `model` method returns a model object that represents the satisfying assignment for the variables in the problem. You can access the values of the variables using the `eval` method of the model object.
-
-```python
-# Accessing variable values
-x_value = m.eval(x)
-y_value = m.eval(y)
-```
-
-By default, the `model` method returns a string representation of the model in a human-readable format. However, you can also customize the output format by specifying different options.
-
-For example, you can use the `set_option` method to set the `model_format` option to `2` in order to get the model in SMT-LIB format.
-
-```python
-# Setting the model format option
-set_option("model_format", 2)
-```
-
-This will change the output format of the model to SMT-LIB format, which is a standard format used in SMT solvers.
-
-By printing the model, you can easily analyze and understand the satisfying assignment for the variables in your SMT problem. This can be helpful in debugging and verifying the correctness of your SMT encoding.
 ```python
 from z3 import *
 
@@ -155,7 +71,7 @@ print("%s = %s" % (d.name(), m[d]))
 ```
 # Hesabu ya Mashine
 
-Kompyuta za kisasa na lugha za programu zinatumia hesabu juu ya **biti-vikundi vya ukubwa uliowekwa**. Hesabu ya mashine inapatikana katika Z3Py kama **Bit-Vectors**.
+CPUs za kisasa na lugha za programu za kawaida hutumia hesabu juu ya **bit-vectors zenye ukubwa wa kudumu**. Hesabu ya mashine inapatikana katika Z3Py kama **Bit-Vectors**.
 ```python
 from z3 import *
 
@@ -170,9 +86,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
-## Nambari Zilizosainiwa/Zisizosainiwa
+## Signed/Unsigned Numbers
 
-Z3 inatoa toleo maalum la operesheni za arithmetical ambapo inafanya tofauti ikiwa **bit-vector inachukuliwa kama iliyosainiwa au isiyosainiwa**. Katika Z3Py, waendeshaji **<, <=, >, >=, /, % na >>** yanalingana na toleo **lililosainiwa**. Waendeshaji **isiyosainiwa** yanalingana na **ULT, ULE, UGT, UGE, UDiv, URem na LShR.**
+Z3 inatoa toleo maalum la operesheni za kihesabu ambapo ina umuhimu ikiwa **bit-vector inachukuliwa kama signed au unsigned**. Katika Z3Py, waendeshaji **<, <=, >, >=, /, % na >>** wanalingana na toleo la **signed**. Waendeshaji wa **unsigned** husika ni **ULT, ULE, UGT, UGE, UDiv, URem na LShR.**
 ```python
 from z3 import *
 
@@ -190,11 +106,11 @@ solve(x < 0)
 # using unsigned version of <
 solve(ULT(x, 0))
 ```
-## Kazi
+## Functions
 
-**Kazi zilizotafsiriwa** kama hisabati ambapo **kazi +** ina **tafsiri ya kawaida iliyowekwa** (inahesabu namba mbili). **Kazi zisizotafsiriwa** na vipengele vya kudumu ni **mwenye nguvu sana**; zinaruhusu **tafsiri yoyote** ambayo ni **sambamba** na **vizuizi** juu ya kazi au kipengele.
+**Kazi za tafsiri** kama za hesabu ambapo **kazi +** ina **tafsiri ya kawaida isiyobadilika** (inaongeza nambari mbili). **Kazi zisizo na tafsiri** na constants ni **za kiwango cha juu cha kubadilika**; zinaruhusu **tafsiri yoyote** ambayo ni **sawa** na **vizuizi** juu ya kazi au constant.
 
-Mfano: f ikitekelezwa mara mbili kwa x inatoa x tena, lakini f ikitekelezwa mara moja kwa x ni tofauti na x.
+Mfano: f inatumika mara mbili kwa x inarudi x tena, lakini f inatumika mara moja kwa x ni tofauti na x.
 ```python
 from z3 import *
 
@@ -215,139 +131,7 @@ print(m.model())
 ```
 # Mifano
 
-## Mtekelezaji wa Sudoku
-
-```python
-from z3 import *
-
-def solve_sudoku(grid):
-    # Create a 9x9 grid of integer variables
-    cells = [[Int(f"cell_{i}_{j}") for j in range(9)] for i in range(9)]
-
-    # Add constraints for each cell
-    for i in range(9):
-        for j in range(9):
-            # Each cell must be between 1 and 9
-            cell = cells[i][j]
-            cell_constraint = And(cell >= 1, cell <= 9)
-
-            # Each row must contain unique values
-            row_constraint = Distinct(cells[i])
-
-            # Each column must contain unique values
-            column_constraint = Distinct([cells[k][j] for k in range(9)])
-
-            # Each 3x3 subgrid must contain unique values
-            subgrid_constraint = Distinct([cells[m][n] for m in range(i//3*3, i//3*3+3) for n in range(j//3*3, j//3*3+3)])
-
-            # Combine all constraints for the cell
-            cell_constraints = [cell_constraint, row_constraint, column_constraint, subgrid_constraint]
-
-            # Add the constraints to the solver
-            solver.add(cell_constraints)
-
-    # Add the initial values to the solver
-    for i in range(9):
-        for j in range(9):
-            if grid[i][j] != 0:
-                solver.add(cells[i][j] == grid[i][j])
-
-    # Check if there is a solution
-    if solver.check() == sat:
-        # Get the solution
-        model = solver.model()
-
-        # Print the solution
-        for i in range(9):
-            for j in range(9):
-                print(model[cells[i][j]], end=" ")
-            print()
-    else:
-        print("No solution")
-
-# Example Sudoku grid
-grid = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 7, 9]
-]
-
-# Solve the Sudoku
-solve_sudoku(grid)
-```
-
-## Mtekelezaji wa Sudoku
-
-```python
-from z3 import *
-
-def solve_sudoku(grid):
-    # Unda gridi ya 9x9 ya pembejeo za nambari
-    cells = [[Int(f"cell_{i}_{j}") for j in range(9)] for i in range(9)]
-
-    # Ongeza vikwazo kwa kila pembejeo
-    for i in range(9):
-        for j in range(9):
-            # Kila pembejeo lazima iwe kati ya 1 na 9
-            cell = cells[i][j]
-            cell_constraint = And(cell >= 1, cell <= 9)
-
-            # Kila safu lazima iwe na pembejeo tofauti
-            row_constraint = Distinct(cells[i])
-
-            # Kila nguzo lazima iwe na pembejeo tofauti
-            column_constraint = Distinct([cells[k][j] for k in range(9)])
-
-            # Kila gridi ya 3x3 lazima iwe na pembejeo tofauti
-            subgrid_constraint = Distinct([cells[m][n] for m in range(i//3*3, i//3*3+3) for n in range(j//3*3, j//3*3+3)])
-
-            # Unganisha vikwazo vyote kwa pembejeo
-            cell_constraints = [cell_constraint, row_constraint, column_constraint, subgrid_constraint]
-
-            # Ongeza vikwazo kwa mtekelezaji
-            solver.add(cell_constraints)
-
-    # Ongeza pembejeo za awali kwa mtekelezaji
-    for i in range(9):
-        for j in range(9):
-            if grid[i][j] != 0:
-                solver.add(cells[i][j] == grid[i][j])
-
-    # Angalia kama kuna suluhisho
-    if solver.check() == sat:
-        # Pata suluhisho
-        model = solver.model()
-
-        # Chapisha suluhisho
-        for i in range(9):
-            for j in range(9):
-                print(model[cells[i][j]], end=" ")
-            print()
-    else:
-        print("Hakuna suluhisho")
-
-# Gridi ya Sudoku ya mfano
-grid = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 7, 9]
-]
-
-# Pata suluhisho la Sudoku
-solve_sudoku(grid)
-```
+## Mchambuzi wa Sudoku
 ```python
 # 9x9 matrix of integer variables
 X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
@@ -397,21 +181,22 @@ print_matrix(r)
 else:
 print "failed to solve"
 ```
-## Marejeo
+## References
 
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako inatangazwa kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}

