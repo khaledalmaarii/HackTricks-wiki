@@ -1,19 +1,20 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Très simplement, cet outil nous aidera à trouver des valeurs pour les variables qui doivent satisfaire certaines conditions et les calculer à la main serait très ennuyeux. Par conséquent, vous pouvez indiquer à Z3 les conditions que les variables doivent satisfaire et il trouvera certaines valeurs (si possible).
+Très simplement, cet outil nous aidera à trouver des valeurs pour des variables qui doivent satisfaire certaines conditions et les calculer à la main serait très ennuyeux. Par conséquent, vous pouvez indiquer à Z3 les conditions que les variables doivent satisfaire et il trouvera certaines valeurs (si possible).
 
 **Certains textes et exemples sont extraits de [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
@@ -34,7 +35,7 @@ s.add(And(Or(x,y,Not(z)),y))
 s.check() #If response is "sat" then the model is satifable, if "unsat" something is wrong
 print(s.model()) #Print valid values to satisfy the model
 ```
-## Entiers/Simplifier/Réels
+## Ints/Simplify/Reals
 ```python
 from z3 import *
 
@@ -54,7 +55,7 @@ print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
-## Impression du modèle
+## Impression du Modèle
 ```python
 from z3 import *
 
@@ -68,9 +69,9 @@ print ("x = %s" % m[x])
 for d in m.decls():
 print("%s = %s" % (d.name(), m[d]))
 ```
-# Arithmétique machine
+# Arithmétique Machine
 
-Les processeurs modernes et les langages de programmation grand public utilisent l'arithmétique sur des **vecteurs de bits de taille fixe**. L'arithmétique machine est disponible dans Z3Py sous forme de **vecteurs de bits**.
+Les CPU modernes et les langages de programmation grand public utilisent l'arithmétique sur des **vecteurs de bits de taille fixe**. L'arithmétique machine est disponible dans Z3Py sous forme de **vecteurs de bits**.
 ```python
 from z3 import *
 
@@ -85,9 +86,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
-## Nombres signés/non signés
+## Nombres Signés/Non Signés
 
-Z3 fournit des versions signées spéciales des opérations arithmétiques où il est important de savoir si le **vecteur de bits est traité comme signé ou non signé**. En Z3Py, les opérateurs **<, <=, >, >=, /, % et >>** correspondent aux versions **signées**. Les opérateurs **non signés** correspondants sont **ULT, ULE, UGT, UGE, UDiv, URem et LShR.**
+Z3 fournit des versions spéciales signées des opérations arithmétiques où il est important que le **bit-vector soit traité comme signé ou non signé**. Dans Z3Py, les opérateurs **<, <=, >, >=, /, % et >>** correspondent aux versions **signées**. Les opérateurs **non signés** correspondants sont **ULT, ULE, UGT, UGE, UDiv, URem et LShR.**
 ```python
 from z3 import *
 
@@ -107,9 +108,9 @@ solve(ULT(x, 0))
 ```
 ## Fonctions
 
-Les **fonctions interprétées** telles que l'arithmétique où la **fonction +** a une **interprétation standard fixe** (elle ajoute deux nombres). Les **fonctions non interprétées** et les constantes sont **maximalemen**t flexibles; elles permettent **toute interprétation** qui est **cohérente** avec les **contraintes** sur la fonction ou la constante.
+**Fonctions interprétées** telles que l'arithmétique où la **fonction +** a une **interprétation standard fixe** (elle additionne deux nombres). Les **fonctions non interprétées** et les constantes sont **maximalement flexibles** ; elles permettent **toute interprétation** qui est **cohérente** avec les **contraintes** sur la fonction ou la constante.
 
-Exemple : f appliqué deux fois à x donne à nouveau x, mais f appliqué une fois à x est différent de x.
+Exemple : f appliqué deux fois à x donne x à nouveau, mais f appliqué une fois à x est différent de x.
 ```python
 from z3 import *
 
@@ -185,16 +186,17 @@ print "failed to solve"
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenir HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
+{% endhint %}

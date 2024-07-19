@@ -18,7 +18,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) pour créer et **automatiser des flux de travail** facilement grâce aux **outils communautaires les plus avancés** au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) pour créer et **automatiser des flux de travail** alimentés par les **outils communautaires les plus avancés** au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
@@ -30,7 +30,7 @@ Les artéfacts des navigateurs incluent divers types de données stockées par l
 Voici un résumé des artéfacts de navigateur les plus courants :
 
 * **Historique de Navigation** : Suit les visites des utilisateurs sur les sites web, utile pour identifier les visites sur des sites malveillants.
-* **Données de Complétion Automatique** : Suggestions basées sur des recherches fréquentes, offrant des aperçus lorsqu'elles sont combinées avec l'historique de navigation.
+* **Données de Complétion Automatique** : Suggestions basées sur des recherches fréquentes, offrant des informations lorsqu'elles sont combinées avec l'historique de navigation.
 * **Signets** : Sites enregistrés par l'utilisateur pour un accès rapide.
 * **Extensions et Modules Complémentaires** : Extensions de navigateur ou modules installés par l'utilisateur.
 * **Cache** : Stocke le contenu web (par exemple, images, fichiers JavaScript) pour améliorer les temps de chargement des sites, précieux pour l'analyse judiciaire.
@@ -132,7 +132,7 @@ L'outil [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) perm
 
 ### Gestion des cookies
 
-Les cookies peuvent être explorés à l'aide de [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), avec des métadonnées englobant les noms, les URL, les comptes d'accès, et divers détails temporels. Les cookies persistants sont stockés dans `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, tandis que les cookies de session résident en mémoire.
+Les cookies peuvent être explorés à l'aide de [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), avec des métadonnées englobant les noms, les URL, les comptes d'accès, et divers détails liés au temps. Les cookies persistants sont stockés dans `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, tandis que les cookies de session résident en mémoire.
 
 ### Détails des téléchargements
 
@@ -187,21 +187,22 @@ Ces chemins et commandes sont cruciaux pour accéder et comprendre les données 
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) pour construire et **automatiser facilement des flux de travail** alimentés par les **outils communautaires les plus avancés** au monde.\
+Utilisez [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) pour construire et **automatiser des flux de travail** facilement alimentés par les **outils communautaires les plus avancés** au monde.\
 Accédez dès aujourd'hui :
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenir HackTricks</summary>
 
-D'autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**merch officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection d'**NFTs** exclusifs [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
+{% endhint %}

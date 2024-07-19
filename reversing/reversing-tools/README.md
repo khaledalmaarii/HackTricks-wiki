@@ -1,30 +1,31 @@
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
+{% endhint %}
 
-# Guide de décompilation Wasm et compilation Wat
+# Guide de décompilation Wasm et de compilation Wat
 
-Dans le domaine de **WebAssembly**, les outils de **décompilation** et de **compilation** sont essentiels pour les développeurs. Ce guide présente quelques ressources en ligne et logiciels pour manipuler les fichiers **Wasm (binaire WebAssembly)** et **Wat (texte WebAssembly)**.
+Dans le domaine de **WebAssembly**, les outils pour **décompiler** et **compiler** sont essentiels pour les développeurs. Ce guide présente quelques ressources en ligne et logiciels pour gérer les fichiers **Wasm (WebAssembly binaire)** et **Wat (WebAssembly texte)**.
 
 ## Outils en ligne
 
-- Pour **décompiler** Wasm en Wat, l'outil disponible sur [la démo wasm2wat de Wabt](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) est pratique.
-- Pour **compiler** Wat en Wasm, [la démo wat2wasm de Wabt](https://webassembly.github.io/wabt/demo/wat2wasm/) remplit sa fonction.
-- Une autre option de décompilation est disponible sur [web-wasmdec](https://wwwg.github.io/web-wasmdec/).
+- Pour **décompiler** Wasm en Wat, l'outil disponible sur [la démo wasm2wat de Wabt](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) est très utile.
+- Pour **compiler** Wat en Wasm, [la démo wat2wasm de Wabt](https://webassembly.github.io/wabt/demo/wat2wasm/) sert à cet effet.
+- Une autre option de décompilation peut être trouvée sur [web-wasmdec](https://wwwg.github.io/web-wasmdec/).
 
 ## Solutions logicielles
 
-- Pour une solution plus robuste, [JEB par PNF Software](https://www.pnfsoftware.com/jeb/demo) offre des fonctionnalités étendues.
+- Pour une solution plus robuste, [JEB de PNF Software](https://www.pnfsoftware.com/jeb/demo) offre des fonctionnalités étendues.
 - Le projet open-source [wasmdec](https://github.com/wwwg/wasmdec) est également disponible pour les tâches de décompilation.
 
 # Ressources de décompilation .Net
@@ -32,13 +33,13 @@ Dans le domaine de **WebAssembly**, les outils de **décompilation** et de **com
 La décompilation des assemblies .Net peut être réalisée avec des outils tels que :
 
 - [ILSpy](https://github.com/icsharpcode/ILSpy), qui propose également un [plugin pour Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode), permettant une utilisation multiplateforme.
-- Pour les tâches de **décompilation**, **modification** et **recompilation**, [dnSpy](https://github.com/0xd4d/dnSpy/releases) est vivement recommandé. En cliquant avec le bouton droit sur une méthode et en choisissant **Modifier la méthode**, vous pouvez apporter des modifications au code.
-- [dotPeek de JetBrains](https://www.jetbrains.com/es-es/decompiler/) est une autre alternative pour la décompilation des assemblies .Net.
+- Pour des tâches impliquant **décompilation**, **modification** et **recompilation**, [dnSpy](https://github.com/0xd4d/dnSpy/releases) est fortement recommandé. **Un clic droit** sur une méthode et le choix de **Modifier la méthode** permettent des modifications de code.
+- [dotPeek de JetBrains](https://www.jetbrains.com/es-es/decompiler/) est une autre alternative pour décompiler des assemblies .Net.
 
-## Amélioration du débogage et du journalisation avec DNSpy
+## Amélioration du débogage et de la journalisation avec DNSpy
 
 ### Journalisation DNSpy
-Pour journaliser des informations dans un fichier à l'aide de DNSpy, incorporez le snippet de code .Net suivant :
+Pour enregistrer des informations dans un fichier en utilisant DNSpy, incorporez le snippet de code .Net suivant :
 
 %%%cpp
 using System.IO;
@@ -47,13 +48,13 @@ File.AppendAllText(path, "Mot de passe : " + password + "\n");
 %%%
 
 ### Débogage DNSpy
-Pour un débogage efficace avec DNSpy, une séquence d'étapes est recommandée pour ajuster les **attributs de l'Assembly** pour le débogage, en veillant à ce que les optimisations qui pourraient entraver le débogage soient désactivées. Ce processus inclut la modification des paramètres de `DebuggableAttribute`, la recompilation de l'assembly et l'enregistrement des modifications.
+Pour un débogage efficace avec DNSpy, une séquence d'étapes est recommandée pour ajuster les **attributs d'assembly** pour le débogage, en s'assurant que les optimisations qui pourraient entraver le débogage sont désactivées. Ce processus inclut le changement des paramètres `DebuggableAttribute`, la recompilation de l'assembly et l'enregistrement des modifications.
 
-De plus, pour déboguer une application .Net exécutée par **IIS**, l'exécution de `iisreset /noforce` redémarre IIS. Pour attacher DNSpy au processus IIS pour le débogage, le guide explique comment sélectionner le processus **w3wp.exe** dans DNSpy et démarrer la session de débogage.
+De plus, pour déboguer une application .Net exécutée par **IIS**, exécuter `iisreset /noforce` redémarre IIS. Pour attacher DNSpy au processus IIS pour le débogage, le guide indique de sélectionner le processus **w3wp.exe** dans DNSpy et de commencer la session de débogage.
 
-Pour une vue complète des modules chargés lors du débogage, il est conseillé d'accéder à la fenêtre **Modules** dans DNSpy, puis d'ouvrir tous les modules et de trier les assemblies pour une navigation et un débogage plus faciles.
+Pour une vue complète des modules chargés pendant le débogage, il est conseillé d'accéder à la fenêtre **Modules** dans DNSpy, suivie de l'ouverture de tous les modules et du tri des assemblies pour une navigation et un débogage plus faciles.
 
-Ce guide encapsule l'essence de la décompilation de WebAssembly et .Net, offrant un chemin aux développeurs pour naviguer facilement dans ces tâches.
+Ce guide encapsule l'essence de la décompilation WebAssembly et .Net, offrant un chemin pour les développeurs afin de naviguer ces tâches avec aisance.
 
 ## **Décompilateur Java**
 Pour décompiler le bytecode Java, ces outils peuvent être très utiles :
@@ -64,14 +65,14 @@ Pour décompiler le bytecode Java, ces outils peuvent être très utiles :
 ### Utilisation d'IDA
 - **Rundll32** est chargé à partir de chemins spécifiques pour les versions 64 bits et 32 bits.
 - **Windbg** est sélectionné comme débogueur avec l'option de suspension lors du chargement/déchargement de la bibliothèque activée.
-- Les paramètres d'exécution incluent le chemin de la DLL et le nom de la fonction. Cette configuration arrête l'exécution à chaque chargement de DLL.
+- Les paramètres d'exécution incluent le chemin de la DLL et le nom de la fonction. Cette configuration interrompt l'exécution lors du chargement de chaque DLL.
 
 ### Utilisation de x64dbg/x32dbg
-- Similaire à IDA, **rundll32** est chargé avec des modifications en ligne de commande pour spécifier la DLL et la fonction.
-- Les paramètres sont ajustés pour interrompre à l'entrée de la DLL, permettant de définir un point d'arrêt au point d'entrée de la DLL souhaité.
+- Semblable à IDA, **rundll32** est chargé avec des modifications de ligne de commande pour spécifier la DLL et la fonction.
+- Les paramètres sont ajustés pour se briser à l'entrée de la DLL, permettant de définir un point d'arrêt au point d'entrée de la DLL souhaité.
 
 ### Images
-- Les points d'arrêt d'exécution et les configurations sont illustrés à travers des captures d'écran.
+- Les points d'arrêt d'exécution et les configurations sont illustrés par des captures d'écran.
 
 ## **ARM & MIPS**
 - Pour l'émulation, [arm_now](https://github.com/nongiach/arm_now) est une ressource utile.
@@ -81,25 +82,25 @@ Pour décompiler le bytecode Java, ces outils peuvent être très utiles :
 - **Blobrunner** et **jmp2it** sont des outils pour allouer des shellcodes en mémoire et les déboguer avec Ida ou x64dbg.
 - Blobrunner [versions](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
 - jmp2it [version compilée](https://github.com/adamkramer/jmp2it/releases/)
-- **Cutter** offre une émulation de shellcode basée sur une interface graphique et une inspection, mettant en évidence les différences dans le traitement des shellcodes en tant que fichier par rapport au shellcode direct.
+- **Cutter** offre une émulation et une inspection de shellcode basées sur une interface graphique, mettant en évidence les différences dans le traitement des shellcodes en tant que fichier par rapport à un shellcode direct.
 
-### Déobfuscation et Analyse
-- **scdbg** fournit des informations sur les fonctions des shellcodes et des capacités de déobfuscation.
+### Déobfuscation et analyse
+- **scdbg** fournit des informations sur les fonctions de shellcode et les capacités de déobfuscation.
 %%%bash
 scdbg.exe -f shellcode # Informations de base
 scdbg.exe -f shellcode -r # Rapport d'analyse
 scdbg.exe -f shellcode -i -r # Hooks interactifs
-scdbg.exe -f shellcode -d # Extraction du shellcode décodé
-scdbg.exe -f shellcode /findsc # Rechercher le décalage de départ
+scdbg.exe -f shellcode -d # Dump du shellcode décodé
+scdbg.exe -f shellcode /findsc # Trouver le décalage de départ
 scdbg.exe -f shellcode /foff 0x0000004D # Exécuter à partir du décalage
 %%%
 
-- **CyberChef** pour désassembler les shellcodes : [Recette CyberChef](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
+- **CyberChef** pour désassembler le shellcode : [recette CyberChef](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
 
 ## **Movfuscator**
 - Un obfuscateur qui remplace toutes les instructions par `mov`.
-- Des ressources utiles incluent une [explication YouTube](https://www.youtube.com/watch?v=2VF_wPkiBJY) et des [diapositives PDF](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
-- **demovfuscator** pourrait inverser l'obfuscation du movfuscator, nécessitant des dépendances comme `libcapstone-dev` et `libz3-dev`, et l'installation de [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
+- Les ressources utiles incluent une [explication YouTube](https://www.youtube.com/watch?v=2VF_wPkiBJY) et [des diapositives PDF](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf).
+- **demovfuscator** pourrait inverser l'obfuscation de movfuscator, nécessitant des dépendances comme `libcapstone-dev` et `libz3-dev`, et l'installation de [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md).
 
 ## **Delphi**
 - Pour les binaires Delphi, [IDR](https://github.com/crypto2011/IDR) est recommandé.
@@ -112,16 +113,17 @@ scdbg.exe -f shellcode /foff 0x0000004D # Exécuter à partir du décalage
 
 
 
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
+{% endhint %}

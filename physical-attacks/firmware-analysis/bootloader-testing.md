@@ -1,23 +1,24 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-Les étapes suivantes sont recommandées pour modifier les configurations de démarrage des appareils et les chargeurs de démarrage comme U-boot :
+Les étapes suivantes sont recommandées pour modifier les configurations de démarrage des appareils et les bootloaders comme U-boot :
 
-1. **Accéder à l'interpréteur de shell du chargeur de démarrage** :
-- Pendant le démarrage, appuyez sur "0", espace ou d'autres "codes magiques" identifiés pour accéder à l'interpréteur de shell du chargeur de démarrage.
+1. **Accéder à l'Interpréteur Shell du Bootloader** :
+- Pendant le démarrage, appuyez sur "0", espace, ou d'autres "codes magiques" identifiés pour accéder à l'interpréteur shell du bootloader.
 
-2. **Modifier les arguments de démarrage** :
+2. **Modifier les Arguments de Démarrage** :
 - Exécutez les commandes suivantes pour ajouter '`init=/bin/sh`' aux arguments de démarrage, permettant l'exécution d'une commande shell :
 %%%
 #printenv
@@ -26,7 +27,7 @@ Les étapes suivantes sont recommandées pour modifier les configurations de dé
 #boot
 %%%
 
-3. **Configurer un serveur TFTP** :
+3. **Configurer un Serveur TFTP** :
 - Configurez un serveur TFTP pour charger des images sur un réseau local :
 %%%
 #setenv ipaddr 192.168.2.2 #IP locale de l'appareil
@@ -40,32 +41,33 @@ Les étapes suivantes sont recommandées pour modifier les configurations de dé
 4. **Utiliser `ubootwrite.py`** :
 - Utilisez `ubootwrite.py` pour écrire l'image U-boot et pousser un firmware modifié pour obtenir un accès root.
 
-5. **Vérifier les fonctionnalités de débogage** :
-- Vérifiez si des fonctionnalités de débogage telles que le journalisation verbose, le chargement de noyaux arbitraires ou le démarrage à partir de sources non fiables sont activées.
+5. **Vérifier les Fonctionnalités de Débogage** :
+- Vérifiez si des fonctionnalités de débogage comme la journalisation détaillée, le chargement de noyaux arbitraires, ou le démarrage à partir de sources non fiables sont activées.
 
-6. **Interférence matérielle prudente** :
-- Soyez prudent lorsque vous connectez une broche à la terre et interagissez avec les puces flash SPI ou NAND pendant la séquence de démarrage de l'appareil, en particulier avant la décompression du noyau. Consultez la fiche technique de la puce flash NAND avant de court-circuiter les broches.
+6. **Interférence Matérielle Prudentielle** :
+- Soyez prudent lors de la connexion d'une broche à la terre et de l'interaction avec des puces SPI ou NAND flash pendant la séquence de démarrage de l'appareil, en particulier avant que le noyau ne se décompresse. Consultez la fiche technique de la puce NAND flash avant de court-circuiter des broches.
 
-7. **Configurer un serveur DHCP malveillant** :
+7. **Configurer un Serveur DHCP Malveillant** :
 - Configurez un serveur DHCP malveillant avec des paramètres malveillants pour qu'un appareil les ingère lors d'un démarrage PXE. Utilisez des outils comme le serveur auxiliaire DHCP de Metasploit (MSF). Modifiez le paramètre 'FILENAME' avec des commandes d'injection de commande telles que `'a";/bin/sh;#'` pour tester la validation des entrées pour les procédures de démarrage de l'appareil.
 
-**Remarque** : Les étapes impliquant une interaction physique avec les broches de l'appareil (*marquées d'astérisques) doivent être abordées avec une extrême prudence pour éviter d'endommager l'appareil.
+**Remarque** : Les étapes impliquant une interaction physique avec les broches de l'appareil (*marquées par des astérisques) doivent être abordées avec une extrême prudence pour éviter d'endommager l'appareil.
 
 
 ## Références
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
