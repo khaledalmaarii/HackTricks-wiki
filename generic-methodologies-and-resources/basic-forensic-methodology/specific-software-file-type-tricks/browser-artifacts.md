@@ -19,7 +19,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 \
 [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 구동되는 **워크플로우**를 쉽게 구축하고 **자동화**하세요.\
-오늘 액세스하세요:
+지금 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
@@ -54,25 +54,25 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 각 프로필 폴더 내에서 여러 중요한 파일을 찾을 수 있습니다:
 
-* **places.sqlite**: 기록, 북마크 및 다운로드를 저장합니다. Windows에서 [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)와 같은 도구로 기록 데이터를 접근할 수 있습니다.
+* **places.sqlite**: 기록, 북마크 및 다운로드를 저장합니다. Windows에서 [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html)와 같은 도구를 사용하여 기록 데이터를 접근할 수 있습니다.
 * 특정 SQL 쿼리를 사용하여 기록 및 다운로드 정보를 추출합니다.
 * **bookmarkbackups**: 북마크의 백업을 포함합니다.
 * **formhistory.sqlite**: 웹 양식 데이터를 저장합니다.
 * **handlers.json**: 프로토콜 핸들러를 관리합니다.
 * **persdict.dat**: 사용자 정의 사전 단어입니다.
 * **addons.json** 및 **extensions.sqlite**: 설치된 애드온 및 확장 프로그램에 대한 정보입니다.
-* **cookies.sqlite**: 쿠키 저장소로, Windows에서 [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html)를 통해 검사할 수 있습니다.
+* **cookies.sqlite**: 쿠키 저장소로, Windows에서 [MZCookiesView](https://www.nirsoft.net/utils/mzcv.html)를 사용하여 검사할 수 있습니다.
 * **cache2/entries** 또는 **startupCache**: 캐시 데이터로, [MozillaCacheView](https://www.nirsoft.net/utils/mozilla\_cache\_viewer.html)와 같은 도구를 통해 접근할 수 있습니다.
 * **favicons.sqlite**: 파비콘을 저장합니다.
 * **prefs.js**: 사용자 설정 및 기본 설정입니다.
-* **downloads.sqlite**: 이전 다운로드 데이터베이스로, 현재 places.sqlite에 통합되었습니다.
+* **downloads.sqlite**: 이전 다운로드 데이터베이스로, 현재 places.sqlite에 통합되어 있습니다.
 * **thumbnails**: 웹사이트 썸네일입니다.
 * **logins.json**: 암호화된 로그인 정보입니다.
 * **key4.db** 또는 **key3.db**: 민감한 정보를 보호하기 위한 암호화 키를 저장합니다.
 
 또한, 브라우저의 피싱 방지 설정을 확인하려면 `prefs.js`에서 `browser.safebrowsing` 항목을 검색하여 안전한 탐색 기능이 활성화되었는지 비활성화되었는지 확인할 수 있습니다.
 
-마스터 비밀번호를 복호화하려면 [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)를 사용할 수 있습니다.\
+마스터 비밀번호를 복호화하려고 시도하려면 [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt)를 사용할 수 있습니다.\
 다음 스크립트와 호출을 사용하여 비밀번호 파일을 지정하여 무차별 대입 공격을 수행할 수 있습니다:
 
 {% code title="brute.sh" %}
@@ -98,7 +98,7 @@ Google Chrome은 운영 체제에 따라 사용자 프로필을 특정 위치에
 * **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
 * **MacOS**: `/Users/$USER/Library/Application Support/Google/Chrome/`
 
-이 디렉토리 내에서 대부분의 사용자 데이터는 **Default/** 또는 **ChromeDefaultData/** 폴더에 있습니다. 다음 파일은 중요한 데이터를 포함합니다:
+이 디렉토리 내에서 대부분의 사용자 데이터는 **Default/** 또는 **ChromeDefaultData/** 폴더에 있습니다. 다음 파일들은 중요한 데이터를 포함하고 있습니다:
 
 * **History**: URL, 다운로드 및 검색 키워드를 포함합니다. Windows에서는 [ChromeHistoryView](https://www.nirsoft.net/utils/chrome\_history\_view.html)를 사용하여 기록을 읽을 수 있습니다. "Transition Type" 열은 링크 클릭, 입력된 URL, 양식 제출 및 페이지 새로 고침을 포함한 다양한 의미를 가집니다.
 * **Cookies**: 쿠키를 저장합니다. 검사를 위해 [ChromeCookiesView](https://www.nirsoft.net/utils/chrome\_cookies\_view.html)를 사용할 수 있습니다.
@@ -116,7 +116,7 @@ Google Chrome은 운영 체제에 따라 사용자 프로필을 특정 위치에
 
 ## **SQLite DB Data Recovery**
 
-앞서 언급한 바와 같이 Chrome과 Firefox는 데이터를 저장하기 위해 **SQLite** 데이터베이스를 사용합니다. **삭제된 항목을 복구하는 도구** [**sqlparse**](https://github.com/padfoot999/sqlparse) **또는** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)를 사용할 수 있습니다.
+앞서 언급한 바와 같이, Chrome과 Firefox는 데이터를 저장하기 위해 **SQLite** 데이터베이스를 사용합니다. **삭제된 항목을 복구하는 도구** [**sqlparse**](https://github.com/padfoot999/sqlparse) **또는** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases)를 사용할 수 있습니다.
 
 ## **Internet Explorer 11**
 
@@ -124,7 +124,7 @@ Internet Explorer 11은 다양한 위치에서 데이터 및 메타데이터를 
 
 ### Metadata Storage
 
-Internet Explorer의 메타데이터는 `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`에 저장됩니다 (VX는 V01, V16 또는 V24입니다). 이와 함께 `V01.log` 파일은 `WebcacheVX.data`와의 수정 시간 불일치를 보여줄 수 있으며, 이는 `esentutl /r V01 /d`를 사용하여 수리할 필요가 있음을 나타냅니다. 이 메타데이터는 ESE 데이터베이스에 저장되며, photorec 및 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html)와 같은 도구를 사용하여 복구하고 검사할 수 있습니다. **Containers** 테이블 내에서 각 데이터 세그먼트가 저장된 특정 테이블 또는 컨테이너를 식별할 수 있으며, Skype와 같은 다른 Microsoft 도구의 캐시 세부 정보도 포함됩니다.
+Internet Explorer의 메타데이터는 `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data`에 저장됩니다(VX는 V01, V16 또는 V24). 이와 함께 `V01.log` 파일은 `WebcacheVX.data`와의 수정 시간 불일치를 보여줄 수 있으며, 이는 `esentutl /r V01 /d`를 사용하여 수리가 필요함을 나타냅니다. 이 메타데이터는 ESE 데이터베이스에 저장되어 있으며, photorec 및 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html)와 같은 도구를 사용하여 복구하고 검사할 수 있습니다. **Containers** 테이블 내에서 각 데이터 세그먼트가 저장된 특정 테이블 또는 컨테이너를 식별할 수 있으며, Skype와 같은 다른 Microsoft 도구의 캐시 세부 정보도 포함됩니다.
 
 ### Cache Inspection
 
@@ -136,7 +136,7 @@ Internet Explorer의 메타데이터는 `%userprofile%\Appdata\Local\Microsoft\W
 
 ### Download Details
 
-다운로드 메타데이터는 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html)를 통해 접근할 수 있으며, 특정 컨테이너는 URL, 파일 유형 및 다운로드 위치와 같은 데이터를 보유합니다. 물리적 파일은 `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory` 아래에서 찾을 수 있습니다.
+다운로드 메타데이터는 [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html)를 통해 접근할 수 있으며, 특정 컨테이너는 URL, 파일 유형 및 다운로드 위치와 같은 데이터를 보유합니다. 물리적 파일은 `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`에 있습니다.
 
 ### Browsing History
 
@@ -160,14 +160,14 @@ Microsoft Edge는 사용자 데이터를 `%userprofile%\Appdata\Local\Packages`�
 
 Safari 데이터는 `/Users/$User/Library/Safari`에 저장됩니다. 주요 파일은 다음과 같습니다:
 
-* **History.db**: `history_visits` 및 `history_items` 테이블에 URL 및 방문 타임스탬프가 포함되어 있습니다. `sqlite3`를 사용하여 쿼리합니다.
+* **History.db**: `history_visits` 및 `history_items` 테이블에 URL 및 방문 타임스탬프가 포함되어 있습니다. 쿼리를 위해 `sqlite3`를 사용합니다.
 * **Downloads.plist**: 다운로드된 파일에 대한 정보.
 * **Bookmarks.plist**: 북마크된 URL을 저장합니다.
 * **TopSites.plist**: 가장 자주 방문한 사이트.
 * **Extensions.plist**: Safari 브라우저 확장 목록. `plutil` 또는 `pluginkit`을 사용하여 검색합니다.
 * **UserNotificationPermissions.plist**: 푸시 알림을 허용하는 도메인. `plutil`을 사용하여 구문 분석합니다.
 * **LastSession.plist**: 마지막 세션의 탭. `plutil`을 사용하여 구문 분석합니다.
-* **Browser’s built-in anti-phishing**: `defaults read com.apple.Safari WarnAboutFraudulentWebsites`를 사용하여 확인합니다. 응답이 1이면 기능이 활성화되어 있음을 나타냅니다.
+* **Browser’s built-in anti-phishing**: `defaults read com.apple.Safari WarnAboutFraudulentWebsites`를 사용하여 확인합니다. 1의 응답은 기능이 활성화되어 있음을 나타냅니다.
 
 ## Opera
 
@@ -187,21 +187,22 @@ Opera의 데이터는 `/Users/$USER/Library/Application Support/com.operasoftwar
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
-Get Access Today:
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts)를 사용하여 세계에서 **가장 진보된** 커뮤니티 도구로 **워크플로우를 쉽게 구축하고 자동화**하세요.\
+지금 액세스하세요:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+AWS 해킹을 배우고 연습하세요:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹을 배우고 연습하세요: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-Other ways to support HackTricks:
-
-* If you want to see your **company advertised in HackTricks** or **download HackTricks in PDF** Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
+{% endhint %}

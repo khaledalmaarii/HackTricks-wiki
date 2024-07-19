@@ -1,24 +1,25 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)를 **팔로우**하세요.
-* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-다음 코드는 **SeDebug 및 SeImpersonate 권한을 악용**하여 **SYSTEM으로 실행 중인 프로세스**에서 **모든 토큰 권한을 복사**합니다. \
-이 경우, 이 코드는 **Windows 서비스 이진 파일**로 컴파일되어 작동 여부를 확인하는 데 사용될 수 있습니다.\
-그러나 **승격이 발생하는 코드의 주요 부분**은 **`Exploit`** **함수 내부에 있습니다**.\
-해당 함수 내부에서는 **프로세스 **_**lsass.exe**_**를 검색**한 다음 **토큰을 복사**하고, 마지막으로 해당 토큰을 사용하여 복사된 토큰의 모든 권한을 가진 새로운 _**cmd.exe**_를 생성합니다.
+다음 코드는 **SeDebug 및 SeImpersonate 권한을 이용하여** **SYSTEM으로 실행 중인 프로세스**에서 토큰을 복사합니다. \
+이 경우, 이 코드는 **Windows 서비스 바이너리**로 컴파일되어 작동 여부를 확인할 수 있습니다.\
+그러나 **권한 상승이 발생하는 코드의 주요 부분**은 **`Exploit`** **함수** 내부에 있습니다.\
+해당 함수 내부에서 **프로세스 _**lsass.exe**_**가 검색되고, 그 **토큰이 복사되며**, 마지막으로 그 토큰이 복사된 모든 권한으로 새로운 _**cmd.exe**_를 생성하는 데 사용됩니다.
 
-**다른 프로세스** 중에서도 **모든 또는 대부분의 토큰 권한을 가진 SYSTEM으로 실행되는 프로세스**는 다음과 같습니다: **services.exe**, **svhost.exe** (처음 몇 개 중 하나), **wininit.exe**, **csrss.exe**... (_Protected 프로세스의 토큰은 복사할 수 없다는 점을 기억하세요_). 또한, 관리자 권한으로 실행되는 [Process Hacker](https://processhacker.sourceforge.io/downloads.php) 도구를 사용하여 프로세스의 토큰을 확인할 수 있습니다.
+**SYSTEM으로 실행 중인 다른 프로세스**들로는 **services.exe**, **svhost.exe** (가장 초기 프로세스 중 하나), **wininit.exe**, **csrss.exe** 등이 있습니다... (_보호된 프로세스에서 토큰을 복사할 수 없다는 점을 기억하세요_). 또한, 관리자 권한으로 실행되는 [Process Hacker](https://processhacker.sourceforge.io/downloads.php) 도구를 사용하여 프로세스의 토큰을 확인할 수 있습니다.
 ```c
 // From https://cboard.cprogramming.com/windows-programming/106768-running-my-program-service.html
 #include <windows.h>
@@ -223,16 +224,17 @@ StartServiceCtrlDispatcher( serviceTable );
 return 0;
 }
 ```
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 AWS 해킹을 배워보세요<strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
-* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}

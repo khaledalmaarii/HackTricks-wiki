@@ -1,60 +1,59 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요<strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를** **팔로우**하세요.
-* **Hacking 트릭을 공유하려면 PR을** [**HackTricks**](https://github.com/carlospolop/hacktricks) **및** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github 저장소에 제출**하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Ping 응답에서 TTL:
-127 = Windows
-254 = Cisco
-Lo demás,algunlinux
+핑 응답 TTL:\
+127 = Windows\
+254 = Cisco\
+나머지, 어떤 리눅스
 
-$1$- md5
-$2$ 또는 $2a$ - Blowfish
-$5$- sha256
+$1$- md5\
+$2$ 또는 $2a$ - Blowfish\
+$5$- sha256\
 $6$- sha512
 
-서비스 뒤에 무엇이 있는지 모르는 경우, HTTP GET 요청을 시도해보세요.
+서비스 뒤에 무엇이 있는지 모른다면, HTTP GET 요청을 시도해 보세요.
 
-**UDP 스캔**
+**UDP 스캔**\
 nc -nv -u -z -w 1 \<IP> 160-16
 
-빈 UDP 패킷이 특정 포트로 전송됩니다. UDP 포트가 열려 있으면 대상 컴퓨터에서 응답이 돌아오지 않습니다. UDP 포트가 닫혀 있으면 대상 컴퓨터에서 ICMP 포트 도달 불가 패킷이 전송됩니다.
+특정 포트로 빈 UDP 패킷이 전송됩니다. UDP 포트가 열려 있으면, 대상 머신에서 응답이 전송되지 않습니다. UDP 포트가 닫혀 있으면, 대상 머신에서 ICMP 포트 도달 불가 패킷이 전송되어야 합니다.\
 
-
-UDP 포트 스캔은 종종 신뢰할 수 없으며, 방화벽과 라우터가 ICMP 패킷을 삭제할 수 있습니다.
-스캔에서 잘못된 양성 결과가 발생할 수 있으며, 스캔된 컴퓨터의 모든 UDP 포트가 열려 있다고 표시되는 것을 정기적으로 볼 수 있습니다.
-o 대부분의 포트 스캐너는 사용 가능한 모든 포트를 스캔하지 않으며, 일반적으로 스캔되는 "흥미로운 포트"의 미리 정의된 목록이 있습니다.
+UDP 포트 스캔은 종종 신뢰할 수 없으며, 방화벽과 라우터가 ICMP 패킷을 차단할 수 있습니다. 이로 인해 스캔에서 잘못된 긍정 결과가 발생할 수 있으며, 스캔된 머신에서 모든 UDP 포트가 열려 있는 것으로 표시되는 UDP 포트 스캔을 자주 볼 수 있습니다.\
+대부분의 포트 스캐너는 사용 가능한 모든 포트를 스캔하지 않으며, 일반적으로 스캔되는 "흥미로운 포트"의 미리 설정된 목록을 가지고 있습니다.
 
 # CTF - 트릭
 
-**Windows**에서 파일을 검색하기 위해 **Winzip**을 사용하세요.
-**대체 데이터 스트림**: _dir /r | find ":$DATA"_
+**Windows**에서 **Winzip**을 사용하여 파일을 검색하세요.\
+**대체 데이터 스트림**: _dir /r | find ":$DATA"_\
 ```
 binwalk --dd=".*" <file> #Extract everything
 binwalk -M -e -d=10000 suspicious.pdf #Extract, look inside extracted files and continue extracing (depth of 10000)
 ```
-## 암호화
+## Crypto
 
 **featherduster**\
 
 
-**Base64**(6—>8) —> 0...9, a...z, A…Z,+,/\
+**Basae64**(6—>8) —> 0...9, a...z, A…Z,+,/\
 **Base32**(5 —>8) —> A…Z, 2…7\
 **Base85** (Ascii85, 7—>8) —> 0...9, a...z, A...Z, ., -, :, +, =, ^, !, /, \*, ?, &, <, >, (, ), \[, ], {, }, @, %, $, #\
 **Uuencode** --> "_begin \<mode> \<filename>_"로 시작하고 이상한 문자\
 **Xxencoding** --> "_begin \<mode> \<filename>_"로 시작하고 B64\
 \
-**Vigenere** (빈도 분석) —> [https://www.guballa.de/vigenere-solver](https://www.guballa.de/vigenere-solver)\
+**Vigenere** (주파수 분석) —> [https://www.guballa.de/vigenere-solver](https://www.guballa.de/vigenere-solver)\
 **Scytale** (문자의 오프셋) —> [https://www.dcode.fr/scytale-cipher](https://www.dcode.fr/scytale-cipher)
 
 **25x25 = QR**
@@ -64,21 +63,22 @@ rsatool
 
 Snow --> 공백과 탭을 사용하여 메시지 숨기기
 
-# 문자
+# Characters
 
-%E2%80%AE => RTL 문자 (페이로드를 거꾸로 작성)
+%E2%80%AE => RTL 문자 (페이로드를 거꾸로 씀)
 
+
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 AWS 해킹을 처음부터 전문가까지 배워보세요!</summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고하거나 HackTricks를 PDF로 다운로드**하려면 [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스웨그**](https://peass.creator-spring.com)를 얻으세요.
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요. 독점적인 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션입니다.
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**를** **팔로우**하세요.
-* **HackTricks**와 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 저장소에 PR을 제출하여 여러분의 해킹 기술을 공유하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}

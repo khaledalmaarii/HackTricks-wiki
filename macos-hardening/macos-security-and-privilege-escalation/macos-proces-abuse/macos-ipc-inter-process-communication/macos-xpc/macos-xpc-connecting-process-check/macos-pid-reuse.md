@@ -1,39 +1,40 @@
 # macOS PID 재사용
 
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong>를 통해 **제로**부터 **히어로**까지 **AWS 해킹**을 배우세요!</summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사를 HackTricks에서 광고**하거나 **HackTricks를 PDF로 다운로드**하려면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구매하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **가입**하거나 **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를** **팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** github 저장소로 **PR 제출**하여 **해킹 트릭을 공유**하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter**에서 **팔로우**하세요** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **해킹 트릭을 공유하려면** [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하세요.
 
 </details>
+{% endhint %}
 
 ## PID 재사용
 
-macOS **XPC 서비스**가 **PID**에 기반하여 호출된 프로세스를 확인할 때 **오디트 토큰**이 아닌 경우, PID 재사용 공격에 취약해집니다. 이 공격은 **레이스 컨디션**에 기반하며 **악용** 기능을 **이용하여 XPC 서비스로 메시지를 보내고** 그 **직후**에 **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`**를 실행하는 공격입니다.
+macOS **XPC 서비스**가 **PID**를 기반으로 호출된 프로세스를 확인하고 **감사 토큰**을 사용하지 않을 때, PID 재사용 공격에 취약합니다. 이 공격은 **경쟁 조건**에 기반하며, **익스플로잇**이 **XPC** 서비스에 **메시지를 전송**하여 기능을 **악용**한 후, **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`**를 **허용된** 바이너리로 실행합니다.
 
-이 함수는 **허용된** 이진 파일이 PID를 소유하게 만들지만 **악의적인 XPC 메시지는** 바로 전에 전송되었습니다. 따라서 **XPC** 서비스가 **PID**를 사용하여 **송신자를 인증**하고 **`posix_spawn`** 실행 후에 확인하는 경우, 이는 **인가된** 프로세스에서 온 것으로 생각합니다.
+이 함수는 **허용된 바이너리**가 PID를 소유하게 만들지만, **악의적인 XPC 메시지는** 그 직전에 전송됩니다. 따라서, **XPC** 서비스가 **PID**를 사용하여 발신자를 **인증**하고 **`posix_spawn`** 실행 **후에** 확인하면, 이를 **인증된** 프로세스에서 온 것으로 생각할 것입니다.
 
-### 공격 예시
+### 익스플로잇 예시
 
-만약 **`shouldAcceptNewConnection`** 함수나 해당 함수에서 호출되는 함수가 **`auditToken`**을 호출하는 대신 **`processIdentifier`**를 호출한다면, 프로세스 PID를 확인하고 오디트 토큰을 확인하지 않는 것입니다.\
-예를 들어, 다음 이미지에서 확인할 수 있습니다 (참조에서 가져옴):
+**`shouldAcceptNewConnection`** 함수나 이를 호출하는 함수가 **`auditToken`**을 호출하지 않고 **`processIdentifier`**를 호출하는 경우, 이는 **프로세스 PID를 확인**하고 있다는 것을 의미합니다.\
+예를 들어, 이 이미지에서처럼 (참조에서 가져옴):
 
 <figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-이 예시 공격을 확인하려면 (다시 한번, 참조에서 가져옴):
+이 예시 익스플로잇을 확인하세요 (다시, 참조에서 가져옴) 익스플로잇의 두 부분을 확인할 수 있습니다:
 
-* **여러 번 포크를 생성**하는 부분
-* **각 포크**가 **페이로드**를 XPC 서비스로 **보내면서** 메시지를 보낸 직후 **`posix_spawn`**을 실행합니다.
+* 여러 개의 포크를 **생성하는** 부분
+* **각 포크**는 **메시지를 전송한 후** **`posix_spawn`**을 실행하면서 **페이로드**를 XPC 서비스에 **전송**합니다.
 
 {% hint style="danger" %}
-공격이 작동하려면 ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`**를 설정하거나 공격 내부에 넣는 것이 중요합니다.
+익스플로잇이 작동하려면 ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`**를 설정하거나 익스플로잇 내부에 넣는 것이 중요합니다:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -43,7 +44,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-**`NSTasks`**를 사용하는 첫 번째 옵션은 RC를 악용하기 위해 자식 프로세스를 실행하는 인수입니다.
+첫 번째 옵션은 **`NSTasks`**를 사용하고 인수를 통해 자식 프로세스를 시작하여 RC를 악용하는 것입니다.
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -152,7 +153,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-이 예제는 **`fork`**를 사용하여 **PID 레이스 조건을 악용할 자식 프로세스를 시작한 다음 Hard 링크를 통해 또 다른 레이스 조건을 악용합니다:**
+이 예제는 원시 **`fork`**를 사용하여 **PID 경쟁 조건을 악용할 자식 프로세스를 시작**한 다음 **하드 링크를 통한 또 다른 경쟁 조건을 악용**합니다:
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -292,21 +293,22 @@ return 0;
 
 * [https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html](https://gergelykalman.com/why-you-shouldnt-use-a-commercial-vpn-amateur-hour-with-windscribe.html)
 
-## 참고 자료
+## 참고자료
 
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
 * [https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf](https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf)
 
+{% hint style="success" %}
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team 전문가)로부터 AWS 해킹을 제로부터 영웅까지 배우세요</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks 지원하기</summary>
 
-HackTricks를 지원하는 다른 방법:
-
-* **회사가 HackTricks에 광고되길 원하거나** **PDF로 HackTricks를 다운로드**하고 싶다면 [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* [**공식 PEASS & HackTricks 스왜그**](https://peass.creator-spring.com)를 구입하세요
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)를 발견하세요, 당사의 독점 [**NFTs**](https://opensea.io/collection/the-peass-family) 컬렉션
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f)에 가입하거나 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나** **트위터** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **HackTricks** 및 **HackTricks Cloud** github 저장소에 PR을 제출하여 **해킹 트릭을 공유하세요.**
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
+{% endhint %}
