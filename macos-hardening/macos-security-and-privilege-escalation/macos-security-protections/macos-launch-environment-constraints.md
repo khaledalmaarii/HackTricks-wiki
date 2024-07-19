@@ -1,57 +1,58 @@
-# Ograniczenia uruchamiania/środowiska macOS i pamięć podręczna zaufania
+# macOS Launch/Environment Constraints & Trust Cache
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCJI**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR-y do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
-*
-* .
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Podstawowe informacje
 
-Ograniczenia uruchamiania w macOS zostały wprowadzone w celu zwiększenia bezpieczeństwa poprzez **regulowanie, jak, kto i z jakiego miejsca może zostać uruchomiony proces**. Wprowadzone w macOS Ventura, zapewniają one ramy, które kategoryzują **każdy binarny systemowy do odrębnych kategorii ograniczeń**, zdefiniowanych w **pamięci podręcznej zaufania**, która zawiera binarne systemowe i ich odpowiednie skróty​. Ograniczenia te dotyczą każdego wykonywalnego pliku binarnego w systemie i obejmują zestaw **reguł**, które określają wymagania dotyczące **uruchamiania danego pliku binarnego**. Reguły obejmują ograniczenia własne, które musi spełnić dany plik binarny, ograniczenia rodzica, które muszą być spełnione przez proces nadrzędny, oraz ograniczenia odpowiedzialności, które muszą być przestrzegane przez inne istotne podmioty​.
+Ograniczenia uruchamiania w macOS zostały wprowadzone w celu zwiększenia bezpieczeństwa poprzez **regulowanie, jak, kto i skąd proces może być inicjowany**. Wprowadzone w macOS Ventura, zapewniają ramy, które klasyfikują **każdy systemowy plik binarny w różne kategorie ograniczeń**, które są zdefiniowane w **pamięci zaufania**, liście zawierającej pliki binarne systemu i ich odpowiednie hashe. Ograniczenia te obejmują każdy wykonywalny plik binarny w systemie, co wiąże się z zestawem **reguł** określających wymagania dotyczące **uruchamiania konkretnego pliku binarnego**. Reguły obejmują ograniczenia własne, które musi spełnić plik binarny, ograniczenia rodzica, które musi spełnić jego proces nadrzędny, oraz ograniczenia odpowiedzialności, które muszą być przestrzegane przez inne odpowiednie podmioty.
 
-Mechanizm ten dotyczy również aplikacji firm trzecich poprzez **Ograniczenia środowiskowe**, wprowadzone od macOS Sonoma, które umożliwiają programistom ochronę ich aplikacji poprzez określenie **zbioru kluczy i wartości dla ograniczeń środowiskowych**.
+Mechanizm ten rozszerza się na aplikacje firm trzecich poprzez **Ograniczenia Środowiskowe**, począwszy od macOS Sonoma, umożliwiając programistom ochronę swoich aplikacji poprzez określenie **zestawu kluczy i wartości dla ograniczeń środowiskowych.**
 
-Definiujesz **ograniczenia uruchamiania i bibliotek** w słownikach ograniczeń, które zapisujesz w plikach **właściwości `launchd`**, lub w **oddzielnych plikach** właściwości, które używasz w podpisach kodu.
+Definiujesz **ograniczenia środowiskowe i biblioteczne** w słownikach ograniczeń, które zapisujesz w **plikach listy właściwości `launchd`**, lub w **osobnych plikach listy właściwości**, które używasz w podpisywaniu kodu.
 
-Istnieją 4 rodzaje ograniczeń:
+Istnieją 4 typy ograniczeń:
 
-* **Ograniczenia własne**: Ograniczenia dotyczące **uruchamianego** pliku binarnego.
-* **Ograniczenia procesu nadrzędnego**: Ograniczenia dotyczące **procesu nadrzędnego** (na przykład **`launchd`** uruchamiającego usługę XP)
-* **Ograniczenia odpowiedzialności**: Ograniczenia dotyczące **procesu wywołującego usługę** w komunikacji XPC
-* **Ograniczenia ładowania bibliotek**: Użyj ograniczeń ładowania bibliotek, aby selektywnie opisać kod, który może być ładowany
+* **Ograniczenia własne**: Ograniczenia stosowane do **uruchamianego** pliku binarnego.
+* **Proces nadrzędny**: Ograniczenia stosowane do **rodzica procesu** (na przykład **`launchd`** uruchamiającego usługę XP)
+* **Ograniczenia odpowiedzialności**: Ograniczenia stosowane do **procesu wywołującego usługę** w komunikacji XPC
+* **Ograniczenia ładowania biblioteki**: Użyj ograniczeń ładowania biblioteki, aby selektywnie opisać kod, który może być załadowany
 
-Kiedy proces próbuje uruchomić inny proces - poprzez wywołanie `execve(_:_:_:)` lub `posix_spawn(_:_:_:_:_:_:)` - system operacyjny sprawdza, czy **plik wykonywalny** spełnia **własne ograniczenia**. Sprawdza również, czy **plik wykonywalny procesu nadrzędnego** spełnia ograniczenia **rodzica pliku wykonywalnego**, oraz czy **plik wykonywalny procesu odpowiedzialnego** spełnia ograniczenia **pliku wykonywalnego odpowiedzialnego procesu**. Jeśli któreś z tych ograniczeń uruchamiania nie zostanie spełnione, system operacyjny nie uruchamia programu.
+Gdy proces próbuje uruchomić inny proces — wywołując `execve(_:_:_:)` lub `posix_spawn(_:_:_:_:_:_:)` — system operacyjny sprawdza, czy plik **wykonywalny** **spełnia** swoje **własne ograniczenie własne**. Sprawdza również, czy plik wykonywalny **procesu nadrzędnego** **spełnia** **ograniczenie nadrzędne** pliku wykonywalnego oraz czy plik wykonywalny **procesu odpowiedzialnego** **spełnia ograniczenie procesu odpowiedzialnego** pliku wykonywalnego. Jeśli którekolwiek z tych ograniczeń uruchamiania nie jest spełnione, system operacyjny nie uruchamia programu.
 
 Jeśli podczas ładowania biblioteki jakakolwiek część **ograniczenia biblioteki nie jest prawdziwa**, twój proces **nie ładuje** biblioteki.
 
 ## Kategorie LC
 
-LC składa się z **faktów** i **operacji logicznych** (and, or...), które łączą fakty.
+LC składa się z **faktów** i **operacji logicznych** (i, lub..) łączących fakty.
 
-[**Fakty, które może wykorzystać LC, są udokumentowane**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Na przykład:
+[**Fakty, które LC może wykorzystać, są udokumentowane**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Na przykład:
 
-* is-init-proc: Wartość logiczna wskazująca, czy plik wykonywalny musi być procesem inicjalizacji systemu operacyjnego (`launchd`).
-* is-sip-protected: Wartość logiczna wskazująca, czy plik wykonywalny musi być plikiem chronionym przez System Integrity Protection (SIP).
-* `on-authorized-authapfs-volume:` Wartość logiczna wskazująca, czy system operacyjny załadował plik wykonywalny z autoryzowanego, uwierzytelnionego woluminu APFS.
-* `on-authorized-authapfs-volume`: Wartość logiczna wskazująca, czy system operacyjny załadował plik wykonywalny z autoryzowanego, uwierzytelnionego woluminu APFS.
+* is-init-proc: Wartość logiczna, która wskazuje, czy plik wykonywalny musi być procesem inicjalizacji systemu operacyjnego (`launchd`).
+* is-sip-protected: Wartość logiczna, która wskazuje, czy plik wykonywalny musi być plikiem chronionym przez System Integrity Protection (SIP).
+* `on-authorized-authapfs-volume:` Wartość logiczna, która wskazuje, czy system operacyjny załadował plik wykonywalny z autoryzowanego, uwierzytelnionego woluminu APFS.
+* `on-authorized-authapfs-volume`: Wartość logiczna, która wskazuje, czy system operacyjny załadował plik wykonywalny z autoryzowanego, uwierzytelnionego woluminu APFS.
 * Wolumin Cryptexes
-* `on-system-volume:` Wartość logiczna wskazująca, czy system operacyjny załadował plik wykonywalny z obecnie uruchomionego woluminu systemowego.
+* `on-system-volume:` Wartość logiczna, która wskazuje, czy system operacyjny załadował plik wykonywalny z aktualnie uruchomionego woluminu systemowego.
 * Wewnątrz /System...
 * ...
 
-Gdy binarny plik Apple jest podpisany, **przypisuje go do kategorii LC** w **pamięci podręcznej zaufania**.
+Gdy plik binarny Apple jest podpisany, **przypisuje go do kategorii LC** wewnątrz **pamięci zaufania**.
 
-* **Kategorie LC dla iOS 16** zostały [**odwrócone i udokumentowane tutaj**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
-* Obecne **kategorie LC (macOS 14** - Somona) zostały odwrócone, a ich [**opisy można znaleźć tutaj**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
+* **Kategorie LC iOS 16** zostały [**odwrócone i udokumentowane tutaj**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
+* Aktualne **Kategorie LC (macOS 14 - Sonoma)** zostały odwrócone, a ich [**opisy można znaleźć tutaj**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
 
 Na przykład Kategoria 1 to:
 ```
@@ -59,42 +60,42 @@ Category 1:
 Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
 Parent Constraint: is-init-proc
 ```
-* `(on-authorized-authapfs-volume || on-system-volume)`: Musi znajdować się w woluminie Systemowym lub Cryptexes.
+* `(on-authorized-authapfs-volume || on-system-volume)`: Musi być w woluminie System lub Cryptexes.
 * `launch-type == 1`: Musi być usługą systemową (plist w LaunchDaemons).
-* `validation-category == 1`: Wykonywalny plik systemowy.
+* `validation-category == 1`: Wykonywalny plik systemu operacyjnego.
 * `is-init-proc`: Launchd
 
 ### Odwracanie kategorii LC
 
-Więcej informacji [**o tym tutaj**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), ale w skrócie, są one zdefiniowane w **AMFI (AppleMobileFileIntegrity)**, więc musisz pobrać zestaw narzędzi do rozwoju jądra, aby uzyskać **KEXT**. Symbole zaczynające się od **`kConstraintCategory`** są tymi **interesującymi**. Wyodrębniając je, otrzymasz zakodowany strumień DER (ASN.1), który będziesz musiał zdekodować za pomocą [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) lub biblioteki python-asn1 i jej skryptu `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master), co da ci bardziej zrozumiały ciąg znaków.
+Masz więcej informacji [**na ten temat tutaj**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), ale zasadniczo są one zdefiniowane w **AMFI (AppleMobileFileIntegrity)**, więc musisz pobrać Zestaw Narzędzi do Rozwoju Jądra, aby uzyskać **KEXT**. Symbole zaczynające się od **`kConstraintCategory`** są **interesujące**. Ekstrahując je, otrzymasz strumień zakodowany w DER (ASN.1), który musisz zdekodować za pomocą [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) lub biblioteki python-asn1 i jej skryptu `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master), co da ci bardziej zrozumiały ciąg.
 
-## Ograniczenia środowiska
+## Ograniczenia środowiskowe
 
-To są ustawione Ograniczenia Uruchamiania skonfigurowane w **aplikacjach innych firm**. Deweloper może wybrać **fakty** i **operandy logiczne**, które będą używane w jego aplikacji do ograniczenia dostępu do niej.
+To są Ograniczenia Uruchamiania skonfigurowane w **aplikacjach firm trzecich**. Programista może wybrać **fakty** i **operandy logiczne do użycia** w swojej aplikacji, aby ograniczyć dostęp do niej samej.
 
-Możliwe jest wyliczenie Ograniczeń Środowiska aplikacji za pomocą:
+Możliwe jest enumerowanie Ograniczeń Środowiskowych aplikacji za pomocą:
 ```bash
 codesign -d -vvvv app.app
 ```
-## Pamięć podręczna zaufania
+## Trust Caches
 
-W systemie **macOS** istnieje kilka pamięci podręcznych zaufania:
+W **macOS** istnieje kilka pamięci podręcznych zaufania:
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
 * **`/System/Library/Security/OSLaunchPolicyData`**
 
-Natomiast w systemie iOS wygląda to tak: **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
+A w iOS wygląda to na **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
 
 {% hint style="warning" %}
-W przypadku systemu macOS działającego na urządzeniach Apple Silicon, jeśli podpisany przez Apple plik binarny nie znajduje się w pamięci podręcznej zaufania, AMFI odmówi jego wczytania.
+Na macOS działającym na urządzeniach Apple Silicon, jeśli binarny plik podpisany przez Apple nie znajduje się w pamięci podręcznej zaufania, AMFI odmówi jego załadowania.
 {% endhint %}
 
-### Wyliczanie pamięci podręcznej zaufania
+### Enumerating Trust Caches
 
-Poprzednie pliki pamięci podręcznej zaufania mają format **IMG4** i **IM4P**, przy czym IM4P to sekcja ładunku formatu IMG4.
+Poprzednie pliki pamięci podręcznej zaufania są w formacie **IMG4** i **IM4P**, przy czym IM4P to sekcja ładunku formatu IMG4.
 
-Możesz użyć [**pyimg4**](https://github.com/m1stadev/PyIMG4), aby wyodrębnić ładunek baz danych:
+Możesz użyć [**pyimg4**](https://github.com/m1stadev/PyIMG4) do wyodrębnienia ładunku baz danych:
 
 {% code overflow="wrap" %}
 ```bash
@@ -114,9 +115,9 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(Inną opcją może być użycie narzędzia [**img4tool**](https://github.com/tihmstar/img4tool), które będzie działać nawet na M1, nawet jeśli wersja jest stara i dla x86\_64, jeśli zainstalujesz je w odpowiednich lokalizacjach).
+(Inną opcją może być użycie narzędzia [**img4tool**](https://github.com/tihmstar/img4tool), które będzie działać nawet na M1, nawet jeśli wydanie jest stare, oraz na x86\_64, jeśli zainstalujesz je w odpowiednich lokalizacjach).
 
-Teraz możesz użyć narzędzia [**trustcache**](https://github.com/CRKatri/trustcache), aby uzyskać informacje w czytelnej formie:
+Teraz możesz użyć narzędzia [**trustcache**](https://github.com/CRKatri/trustcache), aby uzyskać informacje w czytelnym formacie:
 ```bash
 # Install
 wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
@@ -140,7 +141,7 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
-Pamięć podręczna zaufania ma następującą strukturę, więc **kategoria LC to czwarta kolumna**.
+Cache zaufania ma następującą strukturę, więc **kategoria LC to 4. kolumna**
 ```c
 struct trust_cache_entry2 {
 uint8_t cdhash[CS_CDHASH_LEN];
@@ -150,48 +151,49 @@ uint8_t constraintCategory;
 uint8_t reserved0;
 } __attribute__((__packed__));
 ```
-Następnie możesz użyć skryptu, takiego jak [**ten**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30), aby wyodrębnić dane.
+Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
 
-Na podstawie tych danych możesz sprawdzić aplikacje o **wartości ograniczeń uruchamiania `0`**, które nie są ograniczone ([**sprawdź tutaj**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056), co oznacza każda wartość).
+From that data you can check the Apps with a **launch constraints value of `0`**, which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
 
-## Zabezpieczenia przed atakami
+## Ataki i ich łagodzenie
 
-Ograniczenia uruchamiania mogłyby złagodzić wiele starszych ataków, **zapewniając, że proces nie zostanie uruchomiony w nieoczekiwanych warunkach**: na przykład z nieoczekiwanych lokalizacji lub wywołany przez nieoczekiwany proces nadrzędny (jeśli tylko launchd powinien go uruchamiać).
+Launch Constrains mogłyby złagodzić kilka starych ataków poprzez **zapewnienie, że proces nie będzie wykonywany w nieoczekiwanych warunkach:** Na przykład z nieoczekiwanych lokalizacji lub wywoływany przez nieoczekiwany proces nadrzędny (jeśli tylko launchd powinien go uruchamiać).
 
-Ponadto, ograniczenia uruchamiania również **łagodzą ataki obniżające wersję**.
+Ponadto, Launch Constraints również **łagodzi ataki typu downgrade.**
 
-Jednakże, **nie łagodzą powszechnych nadużyć XPC**, wstrzykiwania kodu **Electron** ani wstrzykiwania bibliotek **dylib bez weryfikacji biblioteki** (chyba że znane są identyfikatory zespołów, które mogą ładować biblioteki).
+Jednakże, **nie łagodzą one powszechnych nadużyć XPC**, **wstrzyknięć** kodu **Electron** ani **wstrzyknięć dylib** bez walidacji biblioteki (chyba że znane są identyfikatory zespołów, które mogą ładować biblioteki).
 
-### Ochrona przed demonami XPC
+### Ochrona Daemonów XPC
 
-W wydaniu Sonoma istotnym punktem jest **konfiguracja odpowiedzialności** usługi XPC demona. Usługa XPC jest odpowiedzialna za siebie, a nie za klienta łączącego się z nią. Jest to udokumentowane w raporcie zwrotnym FB13206884. Taka konfiguracja może wydawać się wadliwa, ponieważ umożliwia pewne interakcje z usługą XPC:
+W wydaniu Sonoma, istotnym punktem jest **konfiguracja odpowiedzialności** usługi daemon XPC. Usługa XPC jest odpowiedzialna za siebie, w przeciwieństwie do klienta łączącego się, który jest odpowiedzialny. Jest to udokumentowane w raporcie zwrotnym FB13206884. Ta konfiguracja może wydawać się wadliwa, ponieważ pozwala na pewne interakcje z usługą XPC:
 
-- **Uruchamianie usługi XPC**: Jeśli założyć, że jest to błąd, taka konfiguracja nie pozwala na uruchomienie usługi XPC za pomocą kodu atakującego.
-- **Łączenie z aktywną usługą**: Jeśli usługa XPC jest już uruchomiona (może być aktywowana przez swoją pierwotną aplikację), nie ma żadnych barier dla połączenia z nią.
+- **Uruchamianie usługi XPC**: Jeśli uznać to za błąd, ta konfiguracja nie pozwala na inicjowanie usługi XPC za pomocą kodu atakującego.
+- **Łączenie z aktywną usługą**: Jeśli usługa XPC już działa (prawdopodobnie aktywowana przez swoją oryginalną aplikację), nie ma przeszkód w łączeniu się z nią.
 
-Choć wprowadzenie ograniczeń dla usługi XPC może być korzystne, **skracając okno potencjalnych ataków**, nie rozwiązuje to podstawowego problemu. Zapewnienie bezpieczeństwa usługi XPC wymaga przede wszystkim **efektywnej weryfikacji klienta łączącego się**. To jest jedyny sposób na wzmocnienie bezpieczeństwa usługi. Warto również zauważyć, że wspomniana konfiguracja odpowiedzialności jest obecnie funkcjonalna, co może nie być zgodne z zamierzonym projektem.
+Chociaż wprowadzenie ograniczeń na usłudze XPC może być korzystne poprzez **zawężenie okna dla potencjalnych ataków**, nie rozwiązuje to podstawowego problemu. Zapewnienie bezpieczeństwa usługi XPC zasadniczo wymaga **skutecznej walidacji łączącego się klienta**. To pozostaje jedyną metodą na wzmocnienie bezpieczeństwa usługi. Warto również zauważyć, że wspomniana konfiguracja odpowiedzialności jest obecnie operacyjna, co może nie być zgodne z zamierzonym projektem.
 
-### Ochrona przed Electronem
+### Ochrona Electron
 
-Nawet jeśli wymagane jest, aby aplikacja była **otwierana przez LaunchService** (w ograniczeniach rodzica), można to osiągnąć za pomocą polecenia **`open`** (które może ustawiać zmienne środowiskowe) lub za pomocą interfejsu API **Launch Services** (gdzie można wskazać zmienne środowiskowe).
+Nawet jeśli wymagane jest, aby aplikacja była **otwierana przez LaunchService** (w ograniczeniach rodziców). Można to osiągnąć za pomocą **`open`** (które może ustawiać zmienne środowiskowe) lub korzystając z **API Launch Services** (gdzie można wskazać zmienne środowiskowe).
 
-## Odwołania
+## Odniesienia
 
 * [https://youtu.be/f1HA5QhLQ7Y?t=24146](https://youtu.be/f1HA5QhLQ7Y?t=24146)
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
 * [https://eclecticlight.co/2023/06/13/why-wont-a-system-app-or-command-tool-run-launch-constraints-and-trust-caches/](https://eclecticlight.co/2023/06/13/why-wont-a-system-app-or-command-tool-run-launch-constraints-and-trust-caches/)
 * [https://developer.apple.com/videos/play/wwdc2023/10266/](https://developer.apple.com/videos/play/wwdc2023/10266/)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naucz się hakować AWS od zera do bohatera z</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Wsparcie dla HackTricks</summary>
 
-* Czy pracujesz w **firmie zajmującej się cyberbezpieczeństwem**? Chcesz zobaczyć swoją **firmę reklamowaną w HackTricks**? A może chcesz mieć dostęp do **najnowszej wersji PEASS lub pobrać HackTricks w formacie PDF**? Sprawdź [**PLAN SUBSKRYPCYJNY**](https://github.com/sponsors/carlospolop)!
-* Odkryj [**Rodzinę PEASS**](https://opensea.io/collection/the-peass-family), naszą kolekcję ekskluzywnych [**NFT**](https://opensea.io/collection/the-peass-family)
-* Zdobądź [**oficjalne gadżety PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Dołącz do** [**💬**](https://emojipedia.org/speech-balloon/) [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** mnie na **Twitterze** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się swoimi sztuczkami hakerskimi, przesyłając PR do** [**repozytorium hacktricks**](https://github.com/carlospolop/hacktricks) **i** [**repozytorium hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
-*
-* .
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
+{% endhint %}
