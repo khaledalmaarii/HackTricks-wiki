@@ -1,39 +1,40 @@
-# macOS Ponovna upotreba PID-a
+# macOS PID Reuse
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodičnu PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Ponovna upotreba PID-a
+## PID Reuse
 
-Kada macOS **XPC servis** proverava pozvani proces na osnovu **PID-a** a ne na osnovu **audit tokena**, podložan je napadu ponovne upotrebe PID-a. Ovaj napad se zasniva na **trci stanja** gde će **eksploit** slati poruke XPC servisu **zloupotrebljavajući** funkcionalnost i odmah nakon toga izvršiti **`posix_spawn(NULL, ciljni_binarni_fajl, NULL, &attr, ciljni_argv, environ)`** sa **dozvoljenim** binarnim fajlom.
+Kada **XPC servis** na macOS-u proverava pozvani proces na osnovu **PID-a** a ne na osnovu **audit token-a**, ranjiv je na napad ponovne upotrebe PID-a. Ovaj napad se zasniva na **trci** gde će **eksploit** **slati poruke XPC** servisu **zloupotrebljavajući** funkcionalnost i tek **nakon** toga izvršiti **`posix_spawn(NULL, target_binary, NULL, &attr, target_argv, environ)`** sa **dozvoljenim** binarnim fajlom.
 
-Ova funkcija će učiniti da **dozvoljeni binarni fajl preuzme PID** ali će **zlonamerna XPC poruka biti poslata** upravo pre toga. Dakle, ako XPC servis **koristi PID** za **autentifikaciju** pošiljaoca i proverava ga **POSLE** izvršenja **`posix_spawn`**, misliće da dolazi od **ovlašćenog** procesa.
+Ova funkcija će učiniti da **dozvoljeni binarni fajl preuzme PID**, ali bi **maliciozna XPC poruka bila poslata** neposredno pre toga. Dakle, ako **XPC** servis **koristi** **PID** za **autentifikaciju** pošiljaoca i proverava ga **Nakon** izvršenja **`posix_spawn`**, misliće da dolazi iz **ovlašćenog** procesa.
 
-### Primer eksploatacije
+### Primer eksploita
 
-Ako pronađete funkciju **`shouldAcceptNewConnection`** ili funkciju koju poziva **pozivajući** **`processIdentifier`** a ne poziva **`auditToken`**. Visoko je verovatno da proverava PID procesa a ne audit token.\
-Na primer, kao što je prikazano na ovoj slici (preuzeto iz reference):
+Ako pronađete funkciju **`shouldAcceptNewConnection`** ili funkciju koju ona poziva **koja** **poziva** **`processIdentifier`** i ne poziva **`auditToken`**. To verovatno znači da **proverava PID procesa** a ne audit token.\
+Kao na primer na ovoj slici (uzeta iz reference):
 
 <figure><img src="../../../../../../.gitbook/assets/image (306).png" alt="https://wojciechregula.blog/images/2020/04/pid.png"><figcaption></figcaption></figure>
 
-Proverite ovaj primer eksploatacije (ponovo, preuzet iz reference) da biste videli 2 dela eksploatacije:
+Proverite ovaj primer eksploita (ponovo, uzet iz reference) da vidite 2 dela eksploita:
 
 * Jedan koji **generiše nekoliko forkova**
 * **Svaki fork** će **poslati** **payload** XPC servisu dok izvršava **`posix_spawn`** odmah nakon slanja poruke.
 
 {% hint style="danger" %}
-Da bi eksploatacija radila važno je ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ili staviti unutar eksploatacije:
+Za rad eksploita važno je ` export`` `` `**`OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES`** ili staviti unutar eksploita:
 ```objectivec
 asm(".section __DATA,__objc_fork_ok\n"
 "empty:\n"
@@ -43,7 +44,7 @@ asm(".section __DATA,__objc_fork_ok\n"
 
 {% tabs %}
 {% tab title="NSTasks" %}
-Prva opcija je korišćenje **`NSTasks`** i argumenata za pokretanje podprocesa kako bi se iskoristio RC
+Prva opcija koristi **`NSTasks`** i argument za pokretanje dece kako bi iskoristila RC
 ```objectivec
 // Code from https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/
 // gcc -framework Foundation expl.m -o expl
@@ -152,7 +153,7 @@ return 0;
 {% endtab %}
 
 {% tab title="fork" %}
-Ovaj primer koristi sirovi **`fork`** da pokrene **procese koji će iskoristiti trku PID-a** a zatim iskoristiti **još jednu trku uslov preko tvrde veze:**
+Ovaj primer koristi sirovi **`fork`** za pokretanje **dece koja će iskoristiti PID trkačku uslov** i zatim iskoristiti **drugi trkački uslov putem Hard linka:**
 ```objectivec
 // export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
 // gcc -framework Foundation expl.m -o expl
@@ -297,16 +298,17 @@ return 0;
 * [https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/](https://wojciechregula.blog/post/learn-xpc-exploitation-part-2-say-no-to-the-pid/)
 * [https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf](https://saelo.github.io/presentations/warcon18\_dont\_trust\_the\_pid.pdf)
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

@@ -1,57 +1,58 @@
-# Analiza firmware-a
+# Firmware Analysis
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## **Uvod**
+## **Introduction**
 
-Firmware je osnovni softver koji omogućava uređajima pravilan rad upravljanjem i olakšavanjem komunikacije između hardverskih komponenti i softvera sa kojim korisnici interaguju. On se čuva u trajnoj memoriji, obezbeđujući da uređaj može pristupiti vitalnim instrukcijama od trenutka kada se uključi, što dovodi do pokretanja operativnog sistema. Ispitivanje i potencijalna modifikacija firmware-a je ključni korak u identifikaciji bezbednosnih ranjivosti.
+Firmware je osnovni softver koji omogućava uređajima da ispravno funkcionišu upravljajući i olakšavajući komunikaciju između hardverskih komponenti i softvera s kojim korisnici interaguju. Čuva se u trajnoj memoriji, osiguravajući da uređaj može pristupiti vitalnim uputstvima od trenutka kada se uključi, što dovodi do pokretanja operativnog sistema. Istraživanje i potencijalna modifikacija firmvera je ključni korak u identifikaciji sigurnosnih ranjivosti.
 
-## **Prikupljanje informacija**
+## **Gathering Information**
 
-**Prikupljanje informacija** je ključni početni korak u razumevanju sastava uređaja i tehnologija koje koristi. Ovaj proces uključuje prikupljanje podataka o:
+**Prikupljanje informacija** je kritičan početni korak u razumevanju sastava uređaja i tehnologija koje koristi. Ovaj proces uključuje prikupljanje podataka o:
 
-- Arhitekturi CPU-a i operativnom sistemu koji se koristi
-- Specifičnostima bootloader-a
-- Hardverskom rasporedu i tehničkim listovima
+- CPU arhitekturi i operativnom sistemu koji koristi
+- Specifikacijama bootloader-a
+- Rasporedu hardvera i tehničkim listovima
 - Metrikama koda i lokacijama izvora
-- Spoljnim bibliotekama i vrstama licenci
-- Istorijama ažuriranja i regulatornim sertifikatima
-- Arhitektonskim i protokolarnim dijagramima
-- Bezbednosnim procenama i identifikovanim ranjivostima
+- Spoljim bibliotekama i tipovima licenci
+- Istoriji ažuriranja i regulatornim sertifikatima
+- Arhitektonskim i tokovnim dijagramima
+- Procjenama sigurnosti i identifikovanim ranjivostima
 
-Za ove svrhe, alati za **otvorenu obaveštajnu (OSINT)** su neprocenjivi, kao i analiza dostupnih komponenti softvera otvorenog koda kroz ručne i automatske procese pregleda. Alati poput [Coverity Scan](https://scan.coverity.com) i [Semmle’s LGTM](https://lgtm.com/#explore) nude besplatnu statičku analizu koja se može iskoristiti za pronalaženje potencijalnih problema.
+U tu svrhu, **alatke za otvorene izvore (OSINT)** su neprocenjive, kao i analiza bilo kojih dostupnih komponenti otvorenog koda kroz manuelne i automatske procese pregleda. Alati poput [Coverity Scan](https://scan.coverity.com) i [Semmle’s LGTM](https://lgtm.com/#explore) nude besplatnu statičku analizu koja se može iskoristiti za pronalaženje potencijalnih problema.
 
-## **Dobijanje firmware-a**
+## **Acquiring the Firmware**
 
-Dobijanje firmware-a može se pristupiti na različite načine, pri čemu svaki ima svoj nivo složenosti:
+Dobijanje firmvera može se pristupiti na različite načine, svaki sa svojim nivoom složenosti:
 
-- **Direktno** od izvora (programeri, proizvođači)
-- **Izgradnja** prema pruženim instrukcijama
-- **Preuzimanje** sa zvaničnih podrška sajtova
-- Korišćenje **Google dork** upita za pronalaženje smeštenih firmware fajlova
-- Direktan pristup **cloud skladištu**, uz pomoć alata kao što je [S3Scanner](https://github.com/sa7mon/S3Scanner)
-- Presretanje **ažuriranja** putem tehnika man-in-the-middle
-- **Izdvajanje** sa uređaja putem veza kao što su **UART**, **JTAG** ili **PICit**
-- **Snifiranje** zahteva za ažuriranje unutar komunikacije uređaja
-- Identifikacija i korišćenje **hardkodiranih krajnjih tačaka za ažuriranje**
-- **Dumpovanje** iz bootloader-a ili mreže
+- **Direktno** od izvora (razvijača, proizvođača)
+- **Kreiranje** na osnovu datih uputstava
+- **Preuzimanje** sa zvaničnih sajtova podrške
+- Korišćenje **Google dork** upita za pronalaženje hostovanih firmver fajlova
+- Pristupanje **cloud storage** direktno, uz alate poput [S3Scanner](https://github.com/sa7mon/S3Scanner)
+- Presretanje **ažuriranja** putem man-in-the-middle tehnika
+- **Ekstrakcija** sa uređaja putem konekcija kao što su **UART**, **JTAG**, ili **PICit**
+- **Sniffing** za zahteve za ažuriranje unutar komunikacije uređaja
+- Identifikovanje i korišćenje **hardkodiranih krajnjih tačaka za ažuriranje**
+- **Dumping** sa bootloader-a ili mreže
 - **Uklanjanje i čitanje** čipa za skladištenje, kada sve drugo ne uspe, koristeći odgovarajuće hardverske alate
 
-## Analiza firmware-a
+## Analyzing the firmware
 
-Sada kada **imate firmware**, trebate izvući informacije o njemu kako biste znali kako da ga obradite. Različiti alati koje možete koristiti za to:
+Sada kada **imate firmver**, potrebno je da izvučete informacije o njemu kako biste znali kako da ga obradite. Različiti alati koje možete koristiti za to:
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -60,24 +61,24 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head # might find signatures in header
 fdisk -lu <bin> #lists a drives partition and filesystems if multiple
 ```
-Ako ne pronađete mnogo pomoću tih alata, proverite **entropiju** slike pomoću `binwalk -E <bin>`. Ako je entropija niska, verovatno nije šifrovana. Ako je entropija visoka, verovatno je šifrovana (ili kompresovana na neki način).
+Ako ne pronađete mnogo sa tim alatima, proverite **entropiju** slike sa `binwalk -E <bin>`, ako je entropija niska, verovatno nije enkriptovana. Ako je entropija visoka, verovatno je enkriptovana (ili na neki način kompresovana).
 
-Osim toga, možete koristiti ove alate za izdvajanje **fajlova ugrađenih u firmware**:
+Pored toga, možete koristiti ove alate za ekstrakciju **datoteka ugrađenih unutar firmvera**:
 
 {% content-ref url="../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md" %}
 [file-data-carving-recovery-tools.md](../../forensics/basic-forensic-methodology/partitions-file-systems-carving/file-data-carving-recovery-tools.md)
 {% endcontent-ref %}
 
-Ili [**binvis.io**](https://binvis.io/#/) ([kod](https://code.google.com/archive/p/binvis/)) za pregled fajla.
+Ili [**binvis.io**](https://binvis.io/#/) ([code](https://code.google.com/archive/p/binvis/)) za inspekciju datoteke.
 
-### Dobijanje fajl sistema
+### Dobijanje Datotečnog Sistema
 
-Pomoću prethodno pomenutih alata kao što je `binwalk -ev <bin>`, trebali biste biti u mogućnosti da **izvučete fajl sistem**.\
-Binwalk obično izvlači fajl sistem unutar **foldera koji se naziva po tipu fajl sistema**, a obično je jedan od sledećih: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
+Sa prethodno komentarisanim alatima kao što je `binwalk -ev <bin>`, trebali biste biti u mogućnosti da **izvučete datotečni sistem**.\
+Binwalk obično izvlači unutar **foldera nazvanog po tipu datotečnog sistema**, koji obično može biti jedan od sledećih: squashfs, ubifs, romfs, rootfs, jffs2, yaffs2, cramfs, initramfs.
 
-#### Ručno izdvajanje fajl sistema
+#### Ručna Ekstrakcija Datotečnog Sistema
 
-Ponekad, binwalk **nema magični bajt fajl sistema u svojim potpisima**. U tim slučajevima, koristite binwalk da **pronađete offset fajl sistema i izdvojite kompresovani fajl sistem** iz binarnog fajla i **ručno izdvojite** fajl sistem prema njegovom tipu koristeći sledeće korake.
+Ponekad, binwalk neće **imati magični bajt datotečnog sistema u svojim potpisima**. U tim slučajevima, koristite binwalk da **pronađete offset datotečnog sistema i izrezujete kompresovani datotečni sistem** iz binarnog fajla i **ručno ekstraktujete** datotečni sistem prema njegovom tipu koristeći sledeće korake.
 ```
 $ binwalk DIR850L_REVB.bin
 
@@ -89,7 +90,7 @@ DECIMAL HEXADECIMAL DESCRIPTION
 1704052 0x1A0074 PackImg section delimiter tag, little endian size: 32256 bytes; big endian size: 8257536 bytes
 1704084 0x1A0094 Squashfs filesystem, little endian, version 4.0, compression:lzma, size: 8256900 bytes, 2688 inodes, blocksize: 131072 bytes, created: 2016-07-12 02:28:41
 ```
-Pokrenite sledeću **dd komandu** za izdvajanje Squashfs fajl sistema.
+Pokrenite sledeću **dd komandu** za izdvajanje Squashfs datotečnog sistema.
 ```
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
@@ -99,17 +100,17 @@ $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 
 8257536 bytes (8.3 MB, 7.9 MiB) copied, 12.5777 s, 657 kB/s
 ```
-Alternativno, mogla bi se pokrenuti i sledeća komanda.
+Alternativno, sledeća komanda se takođe može izvršiti.
 
 `$ dd if=DIR850L_REVB.bin bs=1 skip=$((0x1A0094)) of=dir.squashfs`
 
-* Za squashfs (korišćeno u prethodnom primeru)
+* Za squashfs (koristi se u gornjem primeru)
 
 `$ unsquashfs dir.squashfs`
 
-Datoteke će se nalaziti u direktorijumu "`squashfs-root`" nakon toga.
+Fajlovi će biti u "`squashfs-root`" direktorijumu nakon toga.
 
-* CPIO arhivske datoteke
+* CPIO arhivski fajlovi
 
 `$ cpio -ivd --no-absolute-filenames -F <bin>`
 
@@ -124,13 +125,13 @@ Datoteke će se nalaziti u direktorijumu "`squashfs-root`" nakon toga.
 `$ ubidump.py <bin>`
 
 
-## Analiza Firmware-a
+## Analiza Firmvera
 
-Kada se dobije firmware, neophodno je da se analizira kako bi se razumela njegova struktura i potencijalne ranjivosti. Ovaj proces uključuje korišćenje različitih alata za analizu i izvlačenje korisnih podataka iz slike firmware-a.
+Kada se firmver dobije, bitno je da se razloži kako bi se razumeo njegova struktura i potencijalne ranjivosti. Ovaj proces uključuje korišćenje raznih alata za analizu i ekstrakciju vrednih podataka iz slike firmvera.
 
-### Alati za početnu analizu
+### Alati za Početnu Analizu
 
-Niz komandi je dostupan za početni pregled binarnog fajla (nazvanog `<bin>`). Ove komande pomažu u identifikaciji vrsta datoteka, izvlačenju stringova, analizi binarnih podataka i razumevanju detalja particija i fajl sistema:
+Set komandi je obezbeđen za početnu inspekciju binarnog fajla (naziva `<bin>`). Ove komande pomažu u identifikaciji tipova fajlova, ekstrakciji stringova, analizi binarnih podataka i razumevanju detalja particija i fajl sistema:
 ```bash
 file <bin>
 strings -n8 <bin>
@@ -139,57 +140,57 @@ hexdump -C -n 512 <bin> > hexdump.out
 hexdump -C <bin> | head #useful for finding signatures in the header
 fdisk -lu <bin> #lists partitions and filesystems, if there are multiple
 ```
-Da biste procenili status enkripcije slike, proverava se **entropija** pomoću `binwalk -E <bin>`. Niska entropija ukazuje na nedostatak enkripcije, dok visoka entropija ukazuje na moguću enkripciju ili kompresiju.
+Da bi se procenio status enkripcije slike, **entropija** se proverava sa `binwalk -E <bin>`. Niska entropija sugeriše nedostatak enkripcije, dok visoka entropija ukazuje na moguću enkripciju ili kompresiju.
 
-Za izdvajanje **ugrađenih datoteka**, preporučuju se alati i resursi poput dokumentacije **file-data-carving-recovery-tools** i alata **binvis.io** za inspekciju datoteka.
+Za ekstrakciju **ugrađenih fajlova**, preporučuju se alati i resursi kao što su dokumentacija **file-data-carving-recovery-tools** i **binvis.io** za inspekciju fajlova.
 
-### Izdvajanje fajl sistema
+### Ekstrakcija Fajl Sistema
 
-Korišćenjem `binwalk -ev <bin>`, obično se može izdvojiti fajl sistem, često u direktorijum sa nazivom fajl sistemskog tipa (npr. squashfs, ubifs). Međutim, kada **binwalk** ne uspe da prepozna tip fajl sistema zbog nedostajućih magičnih bajtova, neophodno je ručno izdvajanje. To uključuje korišćenje `binwalk`-a za pronalaženje offseta fajl sistema, a zatim korišćenje `dd` komande za izdvajanje fajl sistema:
+Korišćenjem `binwalk -ev <bin>`, obično se može ekstraktovati fajl sistem, često u direktorijum nazvan po tipu fajl sistema (npr. squashfs, ubifs). Međutim, kada **binwalk** ne prepozna tip fajl sistema zbog nedostajućih magic bajtova, ručna ekstrakcija je neophodna. To uključuje korišćenje `binwalk` za lociranje ofseta fajl sistema, a zatim `dd` komandu za izdvajanje fajl sistema:
 ```bash
 $ binwalk DIR850L_REVB.bin
 
 $ dd if=DIR850L_REVB.bin bs=1 skip=1704084 of=dir.squashfs
 ```
-Nakon toga, u zavisnosti od tipa fajl sistema (npr. squashfs, cpio, jffs2, ubifs), koriste se različite komande za ručno izvlačenje sadržaja.
+Nakon toga, u zavisnosti od tipa datotečnog sistema (npr., squashfs, cpio, jffs2, ubifs), koriste se različite komande za ručno vađenje sadržaja.
 
-### Analiza fajl sistema
+### Analiza datotečnog sistema
 
-Nakon izvlačenja fajl sistema, započinje se pretraga sigurnosnih propusta. Posebna pažnja se posvećuje nesigurnim mrežnim demonima, unapred definisanim akreditivima, API endpointima, funkcionalnostima servera za ažuriranje, nekompilovanom kodu, skriptama za pokretanje i kompilovanim binarnim fajlovima za offline analizu.
+Sa izvučenim datotečnim sistemom, počinje potraga za sigurnosnim propustima. Pažnja se posvećuje nesigurnim mrežnim demonima, hardkodiranim akreditivima, API krajnjim tačkama, funkcionalnostima servera za ažuriranje, nekompajliranom kodu, skriptama za pokretanje i kompajliranim binarnim datotekama za analizu van mreže.
 
-**Ključne lokacije** i **elementi** koje treba pregledati uključuju:
+**Ključne lokacije** i **stavke** koje treba pregledati uključuju:
 
 - **etc/shadow** i **etc/passwd** za korisničke akreditive
 - SSL sertifikate i ključeve u **etc/ssl**
-- Konfiguracione i skript fajlove za potencijalne ranjivosti
-- Ugrađene binarne fajlove za dalju analizu
-- Uobičajene veb servere i binarne fajlove IoT uređaja
+- Konfiguracione i skriptne datoteke za potencijalne ranjivosti
+- Ugrađene binarne datoteke za dalju analizu
+- Uobičajene web servere i binarne datoteke IoT uređaja
 
-Nekoliko alata pomaže u otkrivanju osetljivih informacija i ranjivosti u fajl sistemu:
+Nekoliko alata pomaže u otkrivanju osetljivih informacija i ranjivosti unutar datotečnog sistema:
 
 - [**LinPEAS**](https://github.com/carlospolop/PEASS-ng) i [**Firmwalker**](https://github.com/craigz28/firmwalker) za pretragu osetljivih informacija
-- [**The Firmware Analysis and Comparison Tool (FACT)**](https://github.com/fkie-cad/FACT\_core) za sveobuhvatnu analizu firmware-a
-- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go) i [**EMBA**](https://github.com/e-m-b-a/emba) za statičku i dinamičku analizu
+- [**Alat za analizu i poređenje firmvera (FACT)**](https://github.com/fkie-cad/FACT\_core) za sveobuhvatnu analizu firmvera
+- [**FwAnalyzer**](https://github.com/cruise-automation/fwanalyzer), [**ByteSweep**](https://gitlab.com/bytesweep/bytesweep), [**ByteSweep-go**](https://gitlab.com/bytesweep/bytesweep-go), i [**EMBA**](https://github.com/e-m-b-a/emba) za statičku i dinamičku analizu
 
-### Provere sigurnosti na kompilovanim binarnim fajlovima
+### Provere sigurnosti na kompajliranim binarnim datotekama
 
-Izvorni kod i kompilovani binarni fajlovi pronađeni u fajl sistemu moraju biti pažljivo pregledani radi otkrivanja ranjivosti. Alati poput **checksec.sh** za Unix binarne fajlove i **PESecurity** za Windows binarne fajlove pomažu u identifikaciji nezaštićenih binarnih fajlova koji mogu biti iskorišćeni.
+I izvorni kod i kompajlirane binarne datoteke pronađene u datotečnom sistemu moraju se pažljivo pregledati zbog ranjivosti. Alati poput **checksec.sh** za Unix binarne datoteke i **PESecurity** za Windows binarne datoteke pomažu u identifikaciji nezaštićenih binarnih datoteka koje bi mogle biti iskorišćene.
 
-## Emulacija firmware-a za dinamičku analizu
+## Emulacija firmvera za dinamičku analizu
 
-Proces emulacije firmware-a omogućava **dinamičku analizu** ili rada uređaja ili pojedinačnog programa. Ovaj pristup može naići na izazove sa hardverom ili zavisnostima od arhitekture, ali prenos fajl sistema korenskog direktorijuma ili određenih binarnih fajlova na uređaj sa odgovarajućom arhitekturom i endianess-om, poput Raspberry Pi-a, ili na prethodno izgrađenu virtuelnu mašinu, može olakšati dalje testiranje.
+Proces emulacije firmvera omogućava **dinamičku analizu** ili rada uređaja ili pojedinačnog programa. Ovaj pristup može naići na izazove sa zavisnostima hardvera ili arhitekture, ali prenos korenskog datotečnog sistema ili specifičnih binarnih datoteka na uređaj sa odgovarajućom arhitekturom i redosledom bajtova, kao što je Raspberry Pi, ili na unapred izgrađenu virtuelnu mašinu, može olakšati dalja testiranja.
 
-### Emulacija pojedinačnih binarnih fajlova
+### Emulacija pojedinačnih binarnih datoteka
 
-Za ispitivanje pojedinačnih programa, ključno je identifikovati endianess i arhitekturu programa.
+Za ispitivanje pojedinačnih programa, identifikacija redosleda bajtova programa i CPU arhitekture je ključna.
 
 #### Primer sa MIPS arhitekturom
 
-Za emulaciju binarnog fajla sa MIPS arhitekturom, može se koristiti komanda:
+Da bi se emulirala binarna datoteka MIPS arhitekture, može se koristiti komanda:
 ```bash
 file ./squashfs-root/bin/busybox
 ```
-I da biste instalirali potrebne alate za emulaciju:
+I da instalirate potrebne alate za emulaciju:
 ```bash
 sudo apt-get install qemu qemu-user qemu-user-static qemu-system-arm qemu-system-mips qemu-system-x86 qemu-utils
 ```
@@ -197,40 +198,40 @@ Za MIPS (big-endian), koristi se `qemu-mips`, a za little-endian binarne datotek
 
 #### Emulacija ARM arhitekture
 
-Za ARM binarne datoteke, proces je sličan, pri čemu se koristi emulator `qemu-arm` za emulaciju.
+Za ARM binarne datoteke, proces je sličan, koristeći emulator `qemu-arm` za emulaciju.
 
 ### Emulacija celog sistema
 
-Alati poput [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit) i drugi olakšavaju potpunu emulaciju firmware-a, automatizujući proces i pomažući u dinamičkoj analizi.
+Alati kao što su [Firmadyne](https://github.com/firmadyne/firmadyne), [Firmware Analysis Toolkit](https://github.com/attify/firmware-analysis-toolkit) i drugi, olakšavaju potpunu emulaciju firmvera, automatizujući proces i pomažući u dinamičkoj analizi.
 
-## Praktična analiza u pokretu
+## Dinamička analiza u praksi
 
-U ovoj fazi koristi se stvarno ili emulirano okruženje uređaja za analizu. Važno je održavati pristup ljusci operativnog sistema i fajl sistemu. Emulacija možda neće savršeno oponašati interakcije sa hardverom, pa će povremeno biti potrebno ponovno pokretanje emulacije. Analiza treba ponovo pregledati fajl sistem, iskoristiti izložene web stranice i mrežne servise, istražiti ranjivosti bootloader-a. Testiranje integriteta firmware-a je ključno za identifikaciju potencijalnih ranjivosti zadnjih vrata.
+U ovoj fazi koristi se stvarno ili emulirano okruženje uređaja za analizu. Ključno je održati pristup shell-u operativnom sistemu i datotečnom sistemu. Emulacija možda neće savršeno oponašati interakcije hardvera, što zahteva povremena ponovna pokretanja emulacije. Analiza treba da ponovo pregleda datotečni sistem, iskoristi izložene veb stranice i mrežne usluge, i istraži ranjivosti bootloader-a. Testovi integriteta firmvera su ključni za identifikaciju potencijalnih ranjivosti backdoor-a.
 
-## Tehnike analize u toku izvršavanja
+## Tehnike analize u vreme izvođenja
 
-Analiza u toku izvršavanja uključuje interakciju sa procesom ili binarnom datotekom u njenom operativnom okruženju, koristeći alate poput gdb-multiarch, Frida i Ghidra za postavljanje prekida i identifikaciju ranjivosti putem fuzzinga i drugih tehnika.
+Analiza u vreme izvođenja uključuje interakciju sa procesom ili binarnom datotekom u njenom operativnom okruženju, koristeći alate kao što su gdb-multiarch, Frida i Ghidra za postavljanje tačaka prekida i identifikaciju ranjivosti kroz fuzzing i druge tehnike.
 
 ## Eksploatacija binarnih datoteka i dokaz koncepta
 
-Razvoj dokaza koncepta za identifikovane ranjivosti zahteva duboko razumevanje ciljne arhitekture i programiranje u jezicima nižeg nivoa. Zaštite binarnih datoteka u ugrađenim sistemima su retke, ali kada su prisutne, mogu biti neophodne tehnike poput Return Oriented Programming (ROP).
+Razvijanje PoC-a za identifikovane ranjivosti zahteva duboko razumevanje ciljne arhitekture i programiranje na jezicima nižeg nivoa. Zaštite u vreme izvođenja u ugrađenim sistemima su retke, ali kada su prisutne, tehnike kao što su Return Oriented Programming (ROP) mogu biti neophodne.
 
-## Pripremljeni operativni sistemi za analizu firmware-a
+## Pripremljeni operativni sistemi za analizu firmvera
 
-Operativni sistemi poput [AttifyOS](https://github.com/adi0x90/attifyos) i [EmbedOS](https://github.com/scriptingxss/EmbedOS) pružaju prekonfigurirana okruženja za testiranje sigurnosti firmware-a, opremljena neophodnim alatima.
+Operativni sistemi kao što su [AttifyOS](https://github.com/adi0x90/attifyos) i [EmbedOS](https://github.com/scriptingxss/EmbedOS) pružaju unapred konfigurisana okruženja za testiranje bezbednosti firmvera, opremljena potrebnim alatima.
 
-## Pripremljeni operativni sistemi za analizu firmware-a
+## Pripremljeni OS-ovi za analizu firmvera
 
-* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS je distribucija namenjena pomoći pri oceni sigurnosti i testiranju prodiranja uređaja Internet of Things (IoT). Uštedeće vam puno vremena pružajući prekonfigurirano okruženje sa svim neophodnim alatima.
-* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Operativni sistem za testiranje sigurnosti ugrađenih sistema zasnovan na Ubuntu 18.04 sa prethodno učitanim alatima za testiranje sigurnosti firmware-a.
+* [**AttifyOS**](https://github.com/adi0x90/attifyos): AttifyOS je distribucija namenjena da vam pomogne u izvođenju procene bezbednosti i pentestingu uređaja Interneta stvari (IoT). Štedi vam mnogo vremena pružajući unapred konfigurisano okruženje sa svim potrebnim alatima.
+* [**EmbedOS**](https://github.com/scriptingxss/EmbedOS): Operativni sistem za testiranje bezbednosti ugrađenih sistema zasnovan na Ubuntu 18.04, unapred učitan alatima za testiranje bezbednosti firmvera.
 
-## Ranjivi firmware-i za vežbanje
+## Ranjivi firmver za vežbanje
 
-Za vežbanje otkrivanja ranjivosti u firmware-u, koristite sledeće projekte ranjivih firmware-a kao polaznu tačku.
+Da biste vežbali otkrivanje ranjivosti u firmveru, koristite sledeće ranjive projekte firmvera kao polaznu tačku.
 
 * OWASP IoTGoat
 * [https://github.com/OWASP/IoTGoat](https://github.com/OWASP/IoTGoat)
-* The Damn Vulnerable Router Firmware Project
+* Projekat Damn Vulnerable Router Firmware
 * [https://github.com/praetorian-code/DVRF](https://github.com/praetorian-code/DVRF)
 * Damn Vulnerable ARM Router (DVAR)
 * [https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html](https://blog.exploitlab.net/2018/01/dvar-damn-vulnerable-arm-router.html)
@@ -246,20 +247,21 @@ Za vežbanje otkrivanja ranjivosti u firmware-u, koristite sledeće projekte ran
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
 * [Practical IoT Hacking: The Definitive Guide to Attacking the Internet of Things](https://www.amazon.co.uk/Practical-IoT-Hacking-F-Chantzis/dp/1718500904)
 
-## Obuka i sertifikacija
+## Obuka i sertifikat
 
 * [https://www.attify-store.com/products/offensive-iot-exploitation](https://www.attify-store.com/products/offensive-iot-exploitation)
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podrška HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitter-u** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

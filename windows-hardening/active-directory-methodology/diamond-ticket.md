@@ -1,32 +1,33 @@
-# Dijamantska karta
+# Diamond Ticket
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Dijamantska karta
+## Diamond Ticket
 
-**Kao zlatna karta**, dijamantska karta je TGT koja se može koristiti za **pristup bilo kojoj usluzi kao bilo koji korisnik**. Zlatna karta se potpuno izrađuje offline, enkriptuje se sa krbtgt hešom tog domena, a zatim se prosleđuje u logon sesiju radi korišćenja. Zato što kontroleri domena ne prate TGT-ove koje su izdali (ili oni), oni će rado prihvatiti TGT-ove koji su enkriptovani sa svojim vlastitim krbtgt hešom.
+**Kao zlatna karta**, dijamantska karta je TGT koja se može koristiti za **pristup bilo kojoj usluzi kao bilo koji korisnik**. Zlatna karta se potpuno forgira van mreže, enkriptovana sa krbtgt hash-om te domene, a zatim se prosledi u sesiju prijavljivanja za korišćenje. Pošto kontroleri domena ne prate TGT-ove koje su legitimno izdale, rado će prihvatiti TGT-ove koji su enkriptovani sa svojim krbtgt hash-om.
 
-Postoje dve uobičajene tehnike za otkrivanje upotrebe zlatnih karata:
+Postoje dve uobičajene tehnike za otkrivanje korišćenja zlatnih karata:
 
-* Potražite TGS-REQ-ove koji nemaju odgovarajući AS-REQ.
-* Potražite TGT-ove koji imaju smešne vrednosti, kao što je podrazumevano trajanje od 10 godina u Mimikatz-u.
+* Tražite TGS-REQ-ove koji nemaju odgovarajući AS-REQ.
+* Tražite TGT-ove koji imaju glupe vrednosti, kao što je podrazumevani vek trajanja od 10 godina u Mimikatz-u.
 
-**Dijamantska karta** se pravi **modifikovanjem polja legitimnog TGT-a koji je izdao DC**. To se postiže **zahtevanjem** TGT-a, **dekriptovanjem** ga sa krbtgt hešom domena, **modifikovanjem** željenih polja karte, a zatim **ponovnim enkriptovanjem**. Ovo **prevazilazi dve prethodno navedene slabosti** zlatne karte jer:
+**Dijamantska karta** se pravi **modifikovanjem polja legitimnog TGT-a koji je izdao DC**. To se postiže **zahtevom** za **TGT**, **dekripcijom** sa krbtgt hash-om domene, **modifikovanjem** željenih polja karte, a zatim **ponovnim enkriptovanjem**. Ovo **prevazilazi dva prethodno pomenuta nedostatka** zlatne karte jer:
 
 * TGS-REQ-ovi će imati prethodni AS-REQ.
-* TGT je izdat od strane DC-a, što znači da će imati sve ispravne detalje iz Kerberos politike domena. Iako se ovi detalji mogu tačno falsifikovati u zlatnoj karti, to je složenije i podložno greškama.
+* TGT je izdao DC što znači da će imati sve tačne detalje iz Kerberos politike domene. Iako se ovi mogu tačno forgirati u zlatnoj karti, to je složenije i otvoreno za greške.
 ```bash
 # Get user RID
 powershell Get-DomainUser -Identity <username> -Properties objectsid
@@ -39,16 +40,17 @@ powershell Get-DomainUser -Identity <username> -Properties objectsid
 # /groups are the desired group RIDs (512 being Domain Admins).
 # /krbkey is the krbtgt AES256 hash.
 ```
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

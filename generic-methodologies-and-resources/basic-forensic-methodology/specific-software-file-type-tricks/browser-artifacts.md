@@ -164,7 +164,7 @@ Safari podaci se čuvaju na `/Users/$User/Library/Safari`. Ključne datoteke ukl
 * **Downloads.plist**: Informacije o preuzetim datotekama.
 * **Bookmarks.plist**: Čuva obeležene URL-ove.
 * **TopSites.plist**: Najčešće posećeni sajtovi.
-* **Extensions.plist**: Lista ekstenzija pretraživača Safari. Koristite `plutil` ili `pluginkit` za preuzimanje.
+* **Extensions.plist**: Lista ekstenzija za Safari pretraživač. Koristite `plutil` ili `pluginkit` za preuzimanje.
 * **UserNotificationPermissions.plist**: Domeni kojima je dozvoljeno slanje obaveštenja. Koristite `plutil` za analizu.
 * **LastSession.plist**: Kartice iz poslednje sesije. Koristite `plutil` za analizu.
 * **Browser’s built-in anti-phishing**: Proverite koristeći `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Odgovor 1 označava da je funkcija aktivna.
@@ -173,7 +173,7 @@ Safari podaci se čuvaju na `/Users/$User/Library/Safari`. Ključne datoteke ukl
 
 Opera podaci se nalaze u `/Users/$USER/Library/Application Support/com.operasoftware.Opera` i deli format Chrome-a za istoriju i preuzimanja.
 
-* **Browser’s built-in anti-phishing**: Proverite tako što ćete videti da li je `fraud_protection_enabled` u datoteci Preferences postavljeno na `true` koristeći `grep`.
+* **Browser’s built-in anti-phishing**: Proverite tako što ćete videti da li je `fraud_protection_enabled` u Preferences datoteci postavljeno na `true` koristeći `grep`.
 
 Ove putanje i komande su ključne za pristup i razumevanje podataka o pretraživanju koje čuvaju različiti web pretraživači.
 
@@ -187,21 +187,22 @@ Ove putanje i komande su ključne za pristup i razumevanje podataka o pretraživ
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) za lako kreiranje i **automatizaciju radnih tokova** pokretanih najnaprednijim **alatom** zajednice.\
+Koristite [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) za lako izgradnju i **automatizaciju radnih tokova** pokretanih najnaprednijim **alatom** zajednice.\
 Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Učite AWS hacking od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podrška HackTricks</summary>
 
-Ostali načini da podržite HackTricks:
-
-* Ako želite da vidite vašu **kompaniju oglašenu u HackTricks** ili **preuzmete HackTricks u PDF** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Pribavite [**službeni PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hacking trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitter-u** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

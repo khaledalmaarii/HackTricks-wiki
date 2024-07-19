@@ -1,116 +1,117 @@
-# AD Sertifikati
+# AD Certificates
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Uvod
+## Introduction
 
-### Komponente Sertifikata
+### Components of a Certificate
 
-- **Subject** sertifikata označava vlasnika.
-- **Javni ključ** je uparen sa privatnim ključem kako bi se sertifikat povezao sa svojim pravim vlasnikom.
-- **Period Važenja**, definisan datumima **NotBefore** i **NotAfter**, označava efektivni period sertifikata.
-- Jedinstveni **Seriski Broj**, koji dodeljuje Sertifikacioni Autoritet (CA), identifikuje svaki sertifikat.
-- **Izdavač** se odnosi na CA koji je izdao sertifikat.
-- **SubjectAlternativeName** omogućava dodatna imena za subjekta, poboljšavajući fleksibilnost identifikacije.
-- **Osnovna Ograničenja** identifikuju da li je sertifikat za CA ili krajnje lice i definišu ograničenja korišćenja.
-- **Proširene Namene Ključeva (EKU)** razgraničavaju specifične svrhe sertifikata, poput potpisa koda ili enkripcije email-ova, putem Identifikatora Objekata (OID).
-- **Algoritam Potpisa** specificira metod potpisa sertifikata.
-- **Potpis**, kreiran sa privatnim ključem izdavača, garantuje autentičnost sertifikata.
+- **Subjekt** sertifikata označava njegovog vlasnika.
+- **Javni ključ** je uparen sa privatno držanim ključem kako bi povezao sertifikat sa njegovim pravim vlasnikom.
+- **Period važenja**, definisan datumima **NotBefore** i **NotAfter**, označava efektivno trajanje sertifikata.
+- Jedinstveni **Serijski broj**, koji obezbeđuje Sertifikacijska vlast (CA), identifikuje svaki sertifikat.
+- **Izdavac** se odnosi na CA koja je izdala sertifikat.
+- **SubjectAlternativeName** omogućava dodatna imena za subjekt, poboljšavajući fleksibilnost identifikacije.
+- **Osnovna ograničenja** identifikuju da li je sertifikat za CA ili krajnji entitet i definišu ograničenja korišćenja.
+- **Proširene svrhe korišćenja ključeva (EKUs)** razdvajaju specifične svrhe sertifikata, kao što su potpisivanje koda ili enkripcija e-pošte, putem Identifikatora objekata (OIDs).
+- **Algoritam potpisa** specificira metodu za potpisivanje sertifikata.
+- **Potpis**, kreiran sa privatnim ključem izdavaoca, garantuje autentičnost sertifikata.
 
-### Posebna Razmatranja
+### Special Considerations
 
-- **Subject Alternative Names (SANs)** proširuju primenljivost sertifikata na više identiteta, ključno za servere sa više domena. Važni su sigurni procesi izdavanja kako bi se izbegli rizici impersonacije od strane napadača koji manipulišu SAN specifikacijom.
+- **Alternativna imena subjekta (SANs)** proširuju primenljivost sertifikata na više identiteta, što je ključno za servere sa više domena. Sigurni procesi izdavanja su od vitalnog značaja kako bi se izbegli rizici od impersonacije od strane napadača koji manipulišu SAN specifikacijom.
 
-### Sertifikacioni Autoriteti (CA) u Active Directory (AD)
+### Certificate Authorities (CAs) in Active Directory (AD)
 
-AD CS priznaje CA sertifikate u AD šumi putem određenih kontejnera, pri čemu svaki obavlja jedinstvene uloge:
+AD CS priznaje CA sertifikate u AD šumi kroz određene kontejnere, od kojih svaki ima jedinstvene uloge:
 
-- Kontejner **Certification Authorities** čuva sertifikate poverenih korenskih CA.
-- Kontejner **Enrolment Services** detaljiše Enterprise CA i njihove šablone sertifikata.
+- Kontejner **Sertifikacione vlasti** sadrži poverljive root CA sertifikate.
+- Kontejner **Usluge upisa** detaljno opisuje Enterprise CA i njihove šablone sertifikata.
 - Objekat **NTAuthCertificates** uključuje CA sertifikate ovlašćene za AD autentifikaciju.
-- Kontejner **AIA (Authority Information Access)** olakšava validaciju lanca sertifikata sa posrednim i presečnim CA sertifikatima.
+- Kontejner **AIA (Authority Information Access)** olakšava validaciju lanca sertifikata sa međusobnim i prekograničnim CA sertifikatima.
 
-### Nabavka Sertifikata: Tok Zahteva za Klijentski Sertifikat
+### Certificate Acquisition: Client Certificate Request Flow
 
-1. Proces zahteva počinje klijenti pronalaženjem Enterprise CA.
-2. Kreira se CSR koji sadrži javni ključ i druge detalje, nakon generisanja para javnog-privatnog ključa.
+1. Proces zahteva počinje kada klijenti pronađu Enterprise CA.
+2. CSR se kreira, sadrži javni ključ i druge detalje, nakon generisanja para javnog-privatnog ključa.
 3. CA procenjuje CSR u odnosu na dostupne šablone sertifikata, izdajući sertifikat na osnovu dozvola šablona.
 4. Nakon odobrenja, CA potpisuje sertifikat svojim privatnim ključem i vraća ga klijentu.
 
-### Šabloni Sertifikata
+### Certificate Templates
 
-Definisani unutar AD-a, ovi šabloni detaljno opisuju postavke i dozvole za izdavanje sertifikata, uključujući dozvoljene EKU i prava za upisivanje ili izmenu, što je ključno za upravljanje pristupom sertifikacionim uslugama.
+Definisani unutar AD, ovi šabloni opisuju podešavanja i dozvole za izdavanje sertifikata, uključujući dozvoljene EKUs i prava na upis ili modifikaciju, što je ključno za upravljanje pristupom uslugama sertifikata.
 
-## Upisivanje Sertifikata
+## Certificate Enrollment
 
-Proces upisivanja sertifikata pokreće administrator koji **kreira šablon sertifikata**, koji zatim **objavljuje** Enterprise Sertifikacioni Autoritet (CA). Ovo čini šablon dostupnim za upisivanje klijenata, korak koji se postiže dodavanjem imena šablona u polje `certificatetemplates` objekta Active Directory-a.
+Proces upisa sertifikata pokreće administrator koji **kreira šablon sertifikata**, koji zatim **objavljuje** Enterprise Sertifikacijska vlast (CA). Ovo čini šablon dostupnim za upis klijenata, što se postiže dodavanjem imena šablona u polje `certificatetemplates` objekta Active Directory.
 
-Da bi klijent zatražio sertifikat, moraju mu biti dodeljena **prava upisivanja**. Ova prava se definišu sigurnosnim deskriptorima na šablonu sertifikata i samom Enterprise CA. Dozvole moraju biti dodeljene na oba mesta da bi zahtev bio uspešan.
+Da bi klijent zatražio sertifikat, **prava na upis** moraju biti dodeljena. Ova prava definišu se sigurnosnim descriptorima na šablonu sertifikata i samoj Enterprise CA. Dozvole moraju biti dodeljene na oba mesta kako bi zahtev bio uspešan.
 
-### Prava Upisivanja na Šablonu
+### Template Enrollment Rights
 
-Ova prava se specificiraju putem Unosa Kontrole Pristupa (ACE), detaljišući dozvole poput:
-- **Certificate-Enrollment** i **Certificate-AutoEnrollment** prava, svako povezano sa specifičnim GUID-ovima.
-- **ExtendedRights**, dozvoljavajući sve proširene dozvole.
-- **FullControl/GenericAll**, pružajući potpunu kontrolu nad šablonom.
+Ova prava su specificirana kroz Unose kontrole pristupa (ACEs), detaljno opisujući dozvole kao što su:
+- **Prava na upis sertifikata** i **automatski upis sertifikata**, svako povezano sa specifičnim GUID-ovima.
+- **Proširena prava**, omogućavajući sve proširene dozvole.
+- **Potpuna kontrola/GenericAll**, pružajući potpunu kontrolu nad šablonom.
 
-### Prava Upisivanja na Enterprise CA
+### Enterprise CA Enrollment Rights
 
-Prava CA su opisana u njegovom sigurnosnom deskriptoru, pristupačnom putem konzole za upravljanje Sertifikacionim Autoritetom. Neka podešavanja čak omogućavaju korisnicima sa niskim privilegijama dalji pristup, što može biti sigurnosna briga.
+Prava CA su opisana u njenom sigurnosnom descriptoru, dostupnom putem konzole za upravljanje Sertifikacionom vlasti. Neka podešavanja čak omogućavaju korisnicima sa niskim privilegijama daljinski pristup, što može biti bezbednosna briga.
 
-### Dodatne Kontrole Izdavanja
+### Additional Issuance Controls
 
-Mogu se primeniti određene kontrole, kao što su:
-- **Odobrenje Menadžera**: Stavlja zahteve u stanje čekanja dok ih ne odobri menadžer sertifikata.
-- **Agenti za Upisivanje i Ovlašćeni Potpisi**: Specificiraju broj potrebnih potpisa na CSR i neophodne Aplikacione Politike OID-ova.
+Određene kontrole mogu se primeniti, kao što su:
+- **Odobrenje menadžera**: Postavlja zahteve u stanje čekanja dok ih ne odobri menadžer sertifikata.
+- **Agenti za upis i ovlašćeni potpisi**: Specifikuju broj potrebnih potpisa na CSR-u i potrebne OIDs za aplikacione politike.
 
-### Metode zahteva za Sertifikate
+### Methods to Request Certificates
 
 Sertifikati se mogu zatražiti putem:
-1. **Windows Protokol za Upisivanje Klijentskih Sertifikata** (MS-WCCE), korišćenjem DCOM interfejsa.
-2. **ICertPassage Remote Protokol** (MS-ICPR), putem imenovanih cevi ili TCP/IP-a.
-3. **Veb Interfejs za Upisivanje Sertifikata**, sa instaliranom ulogom Certificate Authority Web Enrollment.
-4. **Servis za Upisivanje Sertifikata** (CES), u saradnji sa servisom za Politiku Upisivanja Sertifikata (CEP).
-5. **Servis za Upisivanje Mrežnih Uređaja** (NDES) za mrežne uređaje, korišćenjem Protokola Jednostavnog Upisivanja Sertifikata (SCEP).
+1. **Protokola za upis sertifikata Windows klijenta** (MS-WCCE), koristeći DCOM interfejse.
+2. **ICertPassage Remote Protocol** (MS-ICPR), putem imenovanih cevi ili TCP/IP.
+3. **Web interfejsa za upis sertifikata**, sa instaliranom ulogom Web upisa sertifikata.
+4. **Usluge upisa sertifikata** (CES), u kombinaciji sa uslugom politike upisa sertifikata (CEP).
+5. **Usluge upisa mrežnih uređaja** (NDES) za mrežne uređaje, koristeći Protokol za jednostavno upisivanje sertifikata (SCEP).
 
-Windows korisnici takođe mogu zatražiti sertifikate putem GUI-a (`certmgr.msc` ili `certlm.msc`) ili alatki komandne linije (`certreq.exe` ili PowerShell-ove komande `Get-Certificate`).
+Windows korisnici takođe mogu zatražiti sertifikate putem GUI-a (`certmgr.msc` ili `certlm.msc`) ili alata komandne linije (`certreq.exe` ili PowerShell-ove komande `Get-Certificate`).
 ```powershell
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
-## Proces autentifikacije sertifikata
+## Sertifikatna Autentifikacija
 
-Active Directory (AD) podržava autentifikaciju putem sertifikata, koristeći pretežno protokole **Kerberos** i **Secure Channel (Schannel)**.
+Active Directory (AD) podržava sertifikatnu autentifikaciju, prvenstveno koristeći **Kerberos** i **Secure Channel (Schannel)** protokole.
 
-### Proces Kerberos autentifikacije
+### Kerberos Proces Autentifikacije
 
-U procesu Kerberos autentifikacije, zahtev korisnika za Ticket Granting Ticket (TGT) potpisuje se korišćenjem **privatnog ključa** korisnikovog sertifikata. Ovaj zahtev prolazi kroz nekoliko validacija od strane kontrolera domena, uključujući **validnost**, **putanju** i **status opoziva** sertifikata. Validacije takođe uključuju proveru da li sertifikat potiče od pouzdanog izvora i potvrdu prisustva izdavaoca u **NTAUTH skladištu sertifikata**. Uspešne validacije rezultiraju izdavanjem TGT-a. Objekat **`NTAuthCertificates`** u AD-u, nalazi se na:
+U Kerberos procesu autentifikacije, zahtev korisnika za Ticket Granting Ticket (TGT) se potpisuje koristeći **privatni ključ** korisnikovog sertifikata. Ovaj zahtev prolazi kroz nekoliko validacija od strane kontrolera domena, uključujući **validnost** sertifikata, **putanju** i **status opoziva**. Validacije takođe uključuju proveru da li sertifikat dolazi iz pouzdanog izvora i potvrđivanje prisustva izdavaoca u **NTAUTH sertifikat skladištu**. Uspešne validacije rezultiraju izdavanjem TGT-a. **`NTAuthCertificates`** objekat u AD, nalazi se na:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
-je ključno za uspostavljanje poverenja za autentikaciju sertifikata.
+is central to establishing trust for certificate authentication.
 
-### Autentikacija sigurnosnog kanala (Schannel)
+### Secure Channel (Schannel) Authentication
 
-Schannel olakšava sigurne TLS/SSL veze, gde tokom rukovanja klijent predstavlja sertifikat koji, ako se uspešno validira, odobrava pristup. Mapiranje sertifikata na AD nalog može uključivati Kerberosovu funkciju **S4U2Self** ili **Subject Alternative Name (SAN)** sertifikata, među ostalim metodama.
+Schannel olakšava sigurne TLS/SSL veze, gde tokom rukovanja, klijent predstavlja sertifikat koji, ako se uspešno validira, odobrava pristup. Mapiranje sertifikata na AD nalog može uključivati Kerberosovu **S4U2Self** funkciju ili **Subject Alternative Name (SAN)** sertifikata, među drugim metodama.
 
-### Enumeracija AD sertifikacionih servisa
+### AD Certificate Services Enumeration
 
-AD-ovi sertifikacioni servisi mogu biti enumerisani putem LDAP upita, otkrivajući informacije o **Enterprise Certificate Authorities (CAs)** i njihovim konfiguracijama. Ovo je dostupno svakom korisniku autentifikovanom u domenu bez posebnih privilegija. Alati poput **[Certify](https://github.com/GhostPack/Certify)** i **[Certipy](https://github.com/ly4k/Certipy)** se koriste za enumeraciju i procenu ranjivosti u okruženjima AD CS.
+AD-ove sertifikacione usluge mogu se enumerisati putem LDAP upita, otkrivajući informacije o **Enterprise Certificate Authorities (CAs)** i njihovim konfiguracijama. Ovo je dostupno svakom korisniku koji je autentifikovan u domenu bez posebnih privilegija. Alati kao što su **[Certify](https://github.com/GhostPack/Certify)** i **[Certipy](https://github.com/ly4k/Certipy)** se koriste za enumeraciju i procenu ranjivosti u AD CS okruženjima.
 
-Komande za korišćenje ovih alata uključuju:
+Commands for using these tools include:
 ```bash
 # Enumerate trusted root CA certificates and Enterprise CAs with Certify
 Certify.exe cas
@@ -129,16 +130,17 @@ certutil -v -dstemplate
 * [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJATELJSTVO**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

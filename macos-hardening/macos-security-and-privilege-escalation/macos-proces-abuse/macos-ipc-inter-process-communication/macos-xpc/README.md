@@ -1,49 +1,47 @@
 # macOS XPC
 
-## macOS XPC
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Osnovne informacije
+## Basic Information
 
-XPC, što je skraćenica za XNU (jezgro koje koristi macOS) inter-procesnu komunikaciju, je okvir za **komunikaciju između procesa** na macOS-u i iOS-u. XPC pruža mehanizam za izvršavanje **bezbednih, asinhronih poziva metoda između različitih procesa** na sistemu. To je deo Apple-ovog sigurnosnog paradigme, koji omogućava **kreiranje aplikacija sa odvojenim privilegijama** gde svaki **komponent** radi sa **samo dozvolama koje su mu potrebne** da obavi svoj posao, čime se ograničava potencijalna šteta od kompromitovanog procesa.
+XPC, što znači XNU (jezgro koje koristi macOS) međuprocesna komunikacija, je okvir za **komunikaciju između procesa** na macOS-u i iOS-u. XPC pruža mehanizam za **sigurne, asinhrone pozive metoda između različitih procesa** na sistemu. To je deo Apple-ove sigurnosne paradigme, koja omogućava **kreiranje aplikacija sa odvojenim privilegijama** gde svaki **komponent** radi sa **samo onim dozvolama koje su mu potrebne** da obavi svoj posao, čime se ograničava potencijalna šteta od kompromitovanog procesa.
 
-XPC koristi oblik Inter-Procesne Komunikacije (IPC), koji je skup metoda za različite programe koji se izvršavaju na istom sistemu kako bi slali podatke napred i nazad.
+XPC koristi oblik međuprocesne komunikacije (IPC), što je skup metoda za različite programe koji rade na istom sistemu da šalju podatke napred-nazad.
 
-Glavne prednosti XPC-a uključuju:
+Primarne prednosti XPC-a uključuju:
 
-1. **Bezbednost**: Razdvajanjem posla u različite procese, svaki proces može dobiti samo dozvole koje su mu potrebne. To znači da čak i ako je proces kompromitovan, ima ograničene mogućnosti da nanese štetu.
-2. **Stabilnost**: XPC pomaže izolaciju rušenja na komponentu gde se događaju. Ako se proces sruši, može se ponovo pokrenuti bez uticaja na ostatak sistema.
-3. **Performanse**: XPC omogućava jednostavnu konkurentnost, jer različiti zadaci mogu se izvršavati istovremeno u različitim procesima.
+1. **Sigurnost**: Razdvajanjem posla u različite procese, svaki proces može dobiti samo one dozvole koje su mu potrebne. To znači da čak i ako je proces kompromitovan, ima ograničenu sposobnost da nanese štetu.
+2. **Stabilnost**: XPC pomaže da se srušavanja izoluju na komponentu gde se dešavaju. Ako proces padne, može se ponovo pokrenuti bez uticaja na ostatak sistema.
+3. **Performanse**: XPC omogućava laku konkurentnost, jer se različiti zadaci mogu izvoditi istovremeno u različitim procesima.
 
-Jedini **nedostatak** je da **razdvajanje aplikacije u nekoliko procesa** koji komuniciraju putem XPC-a je **manje efikasno**. Ali u današnjim sistemima to je gotovo neprimetno, a prednosti su veće.
+Jedini **nedostatak** je što je **razdvajanje aplikacije u nekoliko procesa** koji komuniciraju putem XPC **manje efikasno**. Ali u današnjim sistemima to gotovo nije primetno i prednosti su bolje.
 
-### XPC servisi specifični za aplikaciju
+## Application Specific XPC services
 
-XPC komponente aplikacije su **unutar same aplikacije**. Na primer, u Safari-ju ih možete pronaći u **`/Applications/Safari.app/Contents/XPCServices`**. Imaju ekstenziju **`.xpc`** (kao **`com.apple.Safari.SandboxBroker.xpc`**) i **takođe su paketi** sa glavnim binarnim fajlom unutar njega: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` i `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
+XPC komponente aplikacije su **unutar same aplikacije.** Na primer, u Safariju ih možete pronaći u **`/Applications/Safari.app/Contents/XPCServices`**. Imaju ekstenziju **`.xpc`** (kao **`com.apple.Safari.SandboxBroker.xpc`**) i **takođe su paketi** sa glavnim binarnim fajlom unutar njega: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` i `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-Kao što možda mislite, **XPC komponenta će imati različite privilegije i dozvole** od drugih XPC komponenti ili glavnog binarnog fajla aplikacije. OSIM ako je XPC servis konfigurisan sa [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) postavljenim na "True" u svom **Info.plist** fajlu. U tom slučaju, XPC servis će se izvršavati u **istoj sigurnosnoj sesiji kao aplikacija** koja ga je pozvala.
+Kao što možda mislite, **XPC komponenta će imati različite privilegije i ovlašćenja** od drugih XPC komponenti ili glavnog binarnog fajla aplikacije. OSIM ako je XPC usluga konfigurisana sa [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) postavljenim na “True” u svom **Info.plist** fajlu. U ovom slučaju, XPC usluga će raditi u **istoim sigurnosnoj sesiji kao aplikacija** koja je pozvala.
 
-XPC servisi se **pokreću** pomoću **launchd** kada su potrebni i **zaustavljaju** se kada su sve zadatke **završili** kako bi se oslobodili sistemski resursi. **XPC komponente specifične za aplikaciju mogu koristiti samo aplikacija**, čime se smanjuje rizik od potencijalnih ranjivosti.
+XPC usluge se **pokreću** od strane **launchd** kada je to potrebno i **zatvaraju** se kada su svi zadaci **završeni** kako bi se oslobodili sistemski resursi. **Komponente XPC specifične za aplikaciju mogu koristiti samo aplikacija**, čime se smanjuje rizik povezan sa potencijalnim ranjivostima.
 
-### XPC servisi na nivou sistema
+## System Wide XPC services
 
-XPC servisi na nivou sistema su dostupni svim korisnicima. Ovi servisi, bilo da su u pitanju launchd ili Mach-tip, moraju biti **definisani u plist** fajlovima koji se nalaze u određenim direktorijumima kao što su **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, ili **`/Library/LaunchAgents`**.
+Sistemske XPC usluge su dostupne svim korisnicima. Ove usluge, bilo launchd ili Mach-tip, moraju biti **definisane u plist** fajlovima smeštenim u određenim direktorijumima kao što su **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`**, ili **`/Library/LaunchAgents`**.
 
-Ovi plist fajlovi će imati ključ pod nazivom **`MachServices`** sa imenom servisa, i ključ pod nazivom **`Program`** sa putanjom do binarnog fajla:
-
+Ovi plist fajlovi će imati ključ pod nazivom **`MachServices`** sa imenom usluge, i ključ pod nazivom **`Program`** sa putanjom do binarnog fajla:
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -77,33 +75,82 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
+The ones in **`LaunchDameons`** se pokreću kao root. Dakle, ako neprivilegovan proces može da komunicira sa jednim od ovih, mogao bi da eskalira privilegije.
 
-Oni u **`LaunchDameons`** direktorijumu se pokreću kao root. Dakle, ako neprivilegovani proces može da komunicira sa jednim od njih, mogao bi da dobije privilegije.
+## XPC Objekti
 
-### XPC Event poruke
+* **`xpc_object_t`**
 
-Aplikacije mogu **pretplatiti** na različite događajne **poruke**, omogućavajući im da se **iniciraju po potrebi** kada se takvi događaji dese. **Postavljanje** ovih usluga se vrši u **launchd plist fajlovima**, smeštenim u **istim direktorijumima kao i prethodni**, i sadrže dodatni ključ **`LaunchEvent`**.
+Svaka XPC poruka je objekat rečnika koji pojednostavljuje serijalizaciju i deserializaciju. Štaviše, `libxpc.dylib` definiše većinu tipova podataka, tako da je moguće osigurati da su primljeni podaci očekivanog tipa. U C API-ju svaki objekat je `xpc_object_t` (i njegov tip se može proveriti koristeći `xpc_get_type(object)`).\
+Pored toga, funkcija `xpc_copy_description(object)` može se koristiti za dobijanje string reprezentacije objekta koja može biti korisna za svrhe debagovanja.\
+Ovi objekti takođe imaju neke metode koje se mogu pozvati kao što su `xpc_<object>_copy`, `xpc_<object>_equal`, `xpc_<object>_hash`, `xpc_<object>_serialize`, `xpc_<object>_deserialize`...
 
-#### Provera povezanog XPC procesa
+`xpc_object_t` se kreiraju pozivanjem `xpc_<objetType>_create` funkcije, koja interno poziva `_xpc_base_create(Class, Size)` gde se navodi tip klase objekta (jedan od `XPC_TYPE_*`) i veličina objekta (neka dodatna 40B će biti dodata veličini za metapodatke). Što znači da će podaci objekta početi na offsetu 40B.\
+Dakle, `xpc_<objectType>_t` je neka vrsta podklase `xpc_object_t` koja bi bila podklasa `os_object_t*`.
 
-Kada proces pokuša da pozove metod putem XPC konekcije, **XPC servis treba da proveri da li je taj proces dozvoljen da se poveže**. Evo uobičajenih načina za proveru i uobičajenih zamki:
+{% hint style="warning" %}
+Napomena da bi developer trebao koristiti `xpc_dictionary_[get/set]_<objectType>` da dobije ili postavi tip i stvarnu vrednost ključa.
+{% endhint %}
+
+* **`xpc_pipe`**
+
+**`xpc_pipe`** je FIFO cev koju procesi mogu koristiti za komunikaciju (komunikacija koristi Mach poruke).\
+Moguće je kreirati XPC server pozivom `xpc_pipe_create()` ili `xpc_pipe_create_from_port()` da bi se kreirao koristeći specifičnu Mach port. Zatim, da bi primili poruke, moguće je pozvati `xpc_pipe_receive` i `xpc_pipe_try_receive`.
+
+Napomena da je objekat **`xpc_pipe`** **`xpc_object_t`** sa informacijama u svojoj strukturi o dva korišćena Mach porta i imenu (ako postoji). Ime, na primer, demon `secinitd` u svom plist-u `/System/Library/LaunchDaemons/com.apple.secinitd.plist` konfiguriše cev nazvanu `com.apple.secinitd`.
+
+Primer **`xpc_pipe`** je **bootstrap pipe** koju kreira **`launchd`** čime se omogućava deljenje Mach portova.
+
+* **`NSXPC*`**
+
+Ovo su objekti visokog nivoa u Objective-C koji omogućavaju apstrakciju XPC veza.\
+Štaviše, lakše je debagovati ove objekte sa DTrace nego prethodne.
+
+* **`GCD Queues`**
+
+XPC koristi GCD za slanje poruka, štaviše generiše određene redove za raspoređivanje kao što su `xpc.transactionq`, `xpc.io`, `xpc-events.add-listenerq`, `xpc.service-instance`...
+
+## XPC Servisi
+
+Ovo su **paketi sa `.xpc`** ekstenzijom smešteni unutar **`XPCServices`** foldera drugih projekata i u `Info.plist` imaju `CFBundlePackageType` postavljen na **`XPC!`**.\
+Ovaj fajl ima druge konfiguracione ključeve kao što su `ServiceType` koji može biti Application, User, System ili `_SandboxProfile` koji može definisati sandbox ili `_AllowedClients` koji može ukazivati na prava ili ID potrebne za kontaktiranje servisa. Ove i druge konfiguracione opcije će biti korisne za konfiguraciju servisa prilikom pokretanja.
+
+### Pokretanje Servisa
+
+Aplikacija pokušava da **poveže** sa XPC servisom koristeći `xpc_connection_create_mach_service`, zatim launchd locira demon i pokreće **`xpcproxy`**. **`xpcproxy`** sprovodi konfigurisana ograničenja i pokreće servis sa obezbeđenim FDs i Mach portovima.
+
+Da bi se poboljšala brzina pretrage XPC servisa, koristi se keš.
+
+Moguće je pratiti akcije `xpcproxy` koristeći:
+```bash
+supraudit S -C -o /tmp/output /dev/auditpipe
+```
+XPC biblioteka koristi `kdebug` za logovanje akcija pozivajući `xpc_ktrace_pid0` i `xpc_ktrace_pid1`. Kodovi koje koristi nisu dokumentovani, pa je potrebno dodati ih u `/usr/share/misc/trace.codes`. Imaju prefiks `0x29`, a na primer jedan je `0x29000004`: `XPC_serializer_pack`.\
+Utiliti `xpcproxy` koristi prefiks `0x22`, na primer: `0x2200001c: xpcproxy:will_do_preexec`.
+
+## XPC Event Messages
+
+Aplikacije mogu **pretplatiti** na različite događaje **poruke**, omogućavajući im da budu **inicirane na zahtev** kada se takvi događaji dogode. **Podešavanje** za ove usluge se vrši u **launchd plist datotekama**, smeštenim u **iste direktorijume kao prethodne** i sadrže dodatni **`LaunchEvent`** ključ.
+
+### XPC Connecting Process Check
+
+Kada proces pokuša da pozove metodu putem XPC veze, **XPC usluga treba da proveri da li je taj proces dozvoljen da se poveže**. Evo uobičajenih načina da se to proveri i uobičajenih zamki:
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-### XPC Autorizacija
+## XPC Authorization
 
-Apple takođe omogućava aplikacijama da **konfigurišu određena prava i način njihovog dobijanja**, tako da ako pozivajući proces ima ta prava, biće **dozvoljeno pozivanje metoda** iz XPC servisa:
+Apple takođe omogućava aplikacijama da **konfigurišu neka prava i kako ih dobiti**, tako da ako pozivajući proces ima ta prava, biće **dozvoljeno da pozove metodu** iz XPC usluge:
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-### XPC Sniffer
+## XPC Sniffer
 
-Da biste prisluškivali XPC poruke, možete koristiti [**xpcspy**](https://github.com/hot3eed/xpcspy) koji koristi **Frida**.
-
+Da biste presreli XPC poruke, možete koristiti [**xpcspy**](https://github.com/hot3eed/xpcspy) koji koristi **Frida**.
 ```bash
 # Install
 pip3 install xpcspy
@@ -114,11 +161,12 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
+Još jedan mogući alat za korišćenje je [**XPoCe2**](https://newosxbook.com/tools/XPoCe2.html).
 
-### XPC Komunikacija C Primer koda
+## XPC komunikacija C kod primer
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="xpc_server.c" %}
 ```c
 // gcc xpc_server.c -o xpc_server
 
@@ -174,7 +222,7 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
+{% tab title="xpc_client.c" %}
 ```c
 // gcc xpc_client.c -o xpc_client
 
@@ -206,8 +254,6 @@ return 0;
 {% endtab %}
 
 {% tab title="xyz.hacktricks.service.plist" %}
-xyz.hacktricks.service.plist je datoteka koja se koristi za konfigurisanje XPC servisa na macOS operativnom sistemu. XPC (Cross-Process Communication) je mehanizam koji omogućava komunikaciju između različitih procesa na macOS-u. Ova datoteka definiše parametre i postavke za XPC servis, kao što su putanja do izvršne datoteke, argumenti komandne linije i okruženje. Kada se pokrene XPC servis, macOS koristi ovu datoteku za konfigurisanje servisa i uspostavljanje komunikacije sa drugim procesima.
-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -230,7 +276,6 @@ xyz.hacktricks.service.plist je datoteka koja se koristi za konfigurisanje XPC s
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # Compile the server & client
 gcc xpc_server.c -o xpc_server
@@ -250,11 +295,10 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-
-### Primer koda za XPC komunikaciju u Objective-C-u
+## XPC komunikacija Primer Objective-C koda
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="oc_xpc_server.m" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
 #include <Foundation/Foundation.h>
@@ -306,7 +350,7 @@ sleep(10); // Fake something is done and then it ends
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
+{% tab title="oc_xpc_client.m" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 #include <Foundation/Foundation.h>
@@ -332,14 +376,6 @@ return 0;
 {% endtab %}
 
 {% tab title="xyz.hacktricks.svcoc.plist" %}
-xyz.hacktricks.svcoc.plist je konfiguracioni fajl za XPC servis na macOS-u. XPC (XPC Services) je mehanizam za interprocesnu komunikaciju (IPC) koji omogućava komunikaciju između različitih procesa na macOS-u. Ovaj fajl definiše kako će se XPC servis pokrenuti i konfigurisati.
-
-Da biste iskoristili XPC servis, možete izmeniti ovaj fajl kako biste promenili način na koji se servis pokreće ili konfiguriše. Na primer, možete promeniti putanju do izvršnog fajla servisa ili dodati dodatne argumente za pokretanje.
-
-Važno je napomenuti da izmena ovog fajla može dovesti do neispravnog rada XPC servisa ili čak do sigurnosnih propusta. Stoga, pre nego što izmenite ovaj fajl, preporučuje se da pažljivo proučite dokumentaciju i razumete kako XPC servisi funkcionišu na macOS-u. Takođe, preporučuje se da napravite rezervnu kopiju originalnog fajla pre izmene kako biste mogli da se vratite na prethodno stanje ako nešto pođe po zlu.
-
-Ukratko, xyz.hacktricks.svcoc.plist je konfiguracioni fajl za XPC servis na macOS-u koji definiše način pokretanja i konfiguracije servisa. Izmenom ovog fajla možete prilagoditi ponašanje XPC servisa, ali budite oprezni da ne izazovete neispravan rad ili sigurnosne propuste.
-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -362,73 +398,26 @@ Ukratko, xyz.hacktricks.svcoc.plist je konfiguracioni fajl za XPC servis na macO
 ```
 {% endtab %}
 {% endtabs %}
+```bash
+# Compile the server & client
+gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
+gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 
-\`\`\`bash # Compile the server & client gcc -framework Foundation oc\_xpc\_server.m -o oc\_xpc\_server gcc -framework Foundation oc\_xpc\_client.m -o oc\_xpc\_client
+# Save server on it's location
+cp oc_xpc_server /tmp
 
-## Save server on it's location
+# Load daemon
+sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons
+sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 
-cp oc\_xpc\_server /tmp
+# Call client
+./oc_xpc_client
 
-## Load daemon
-
-sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
-
-## Call client
-
-./oc\_xpc\_client
-
-## Clean
-
-sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc\_xpc\_server
-
-````
-## Klijent unutar Dylb koda
-
-### Opis
-
-Dylb je biblioteka za dinamičko učitavanje koda na macOS operativnom sistemu. Ova biblioteka omogućava izvršavanje koda unutar drugih procesa. Kada se koristi u kombinaciji sa XPC (Inter-procesna komunikacija) mehanizmom, Dylb može biti iskorišćen za postizanje privilegija eskalacije i zloupotrebu procesa na macOS sistemu.
-
-### Klijent unutar Dylb koda
-
-Klijent unutar Dylb koda je tehnika koja omogućava izvršavanje koda unutar ciljnog procesa putem Dylb biblioteke. Ova tehnika se koristi za komunikaciju sa XPC servisima unutar ciljnog procesa i izvršavanje određenih funkcionalnosti.
-
-Da bi se koristila ova tehnika, potrebno je prvo učitati Dylb biblioteku unutar ciljnog procesa. Zatim se može uspostaviti komunikacija sa XPC servisima i izvršiti odgovarajuće funkcije.
-
-Ova tehnika može biti korisna u situacijama kada je potrebno izvršiti određene zadatke unutar ciljnog procesa, kao što je prikupljanje informacija ili izvršavanje određenih komandi.
-
-### Primer koda
-
-```c
-#include <dlfcn.h>
-#include <stdio.h>
-
-int main() {
-    void* handle = dlopen("/path/to/dylb/library.dylib", RTLD_LAZY);
-    if (handle == NULL) {
-        printf("Failed to load Dylb library\n");
-        return 1;
-    }
-
-    // Učitavanje funkcije iz Dylb biblioteke
-    void (*executeCode)(void) = dlsym(handle, "executeCode");
-    if (executeCode == NULL) {
-        printf("Failed to find executeCode function\n");
-        dlclose(handle);
-        return 1;
-    }
-
-    // Izvršavanje funkcije unutar ciljnog procesa
-    executeCode();
-
-    dlclose(handle);
-    return 0;
-}
-````
-
-#### Zaključak
-
-Korišćenje klijenta unutar Dylb koda omogućava izvršavanje koda unutar ciljnog procesa putem Dylb biblioteke. Ova tehnika može biti korisna za postizanje privilegija eskalacije i zloupotrebu procesa na macOS sistemu.
-
+# Clean
+sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
+```
+## Клијент унутар Dylb кода
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -462,17 +451,37 @@ NSLog(@"Done!");
 return;
 }
 ```
+## Remote XPC
+
+Ova funkcionalnost koju pruža `RemoteXPC.framework` (iz `libxpc`) omogućava komunikaciju putem XPC između različitih hostova.\
+Servisi koji podržavaju daljinski XPC će imati u svom plist ključ UsesRemoteXPC kao što je slučaj sa `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist`. Međutim, iako će servis biti registrovan sa `launchd`, to je `UserEventAgent` sa pluginovima `com.apple.remoted.plugin` i `com.apple.remoteservicediscovery.events.plugin` koji pruža funkcionalnost.
+
+Štaviše, `RemoteServiceDiscovery.framework` omogućava dobijanje informacija iz `com.apple.remoted.plugin` izlažući funkcije kao što su `get_device`, `get_unique_device`, `connect`...
+
+Kada se koristi connect i socket `fd` servisa se prikupi, moguće je koristiti klasu `remote_xpc_connection_*`.
+
+Moguće je dobiti informacije o daljinskim servisima koristeći cli alat `/usr/libexec/remotectl` koristeći parametre kao:
+```bash
+/usr/libexec/remotectl list # Get bridge devices
+/usr/libexec/remotectl show ...# Get device properties and services
+/usr/libexec/remotectl dumpstate # Like dump withuot indicateing a servie
+/usr/libexec/remotectl [netcat|relay] ... # Expose a service in a port
+...
+```
+Komunikacija između BridgeOS-a i hosta se odvija putem posvećenog IPv6 interfejsa. `MultiverseSupport.framework` omogućava uspostavljanje soketa čiji će `fd` biti korišćen za komunikaciju.\
+Moguće je pronaći te komunikacije koristeći `netstat`, `nettop` ili otvorenu opciju, `netbottom`.
+
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

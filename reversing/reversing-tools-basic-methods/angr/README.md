@@ -1,18 +1,19 @@
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje trikove hakovanja slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}
 
-Deo ovog šešira je zasnovan na [angr dokumentaciji](https://docs.angr.io/_/downloads/en/stable/pdf/).
+Deo ovog cheat sheeta zasniva se na [angr dokumentaciji](https://docs.angr.io/_/downloads/en/stable/pdf/).
 
 # Instalacija
 ```bash
@@ -22,125 +23,7 @@ python3 -m venv ang
 source ang/bin/activate
 pip install angr
 ```
-# Osnovne radnje
-
-## Load Binary
-
-## Učitaj binarni fajl
-
-To load a binary file into an Angr project, you can use the `angr.Project` class. This class represents the entire binary and provides various methods and attributes to interact with it.
-
-Da biste učitali binarni fajl u Angr projekat, možete koristiti klasu `angr.Project`. Ova klasa predstavlja ceo binarni fajl i pruža različite metode i atribute za interakciju sa njim.
-
-```python
-import angr
-
-# Load the binary
-project = angr.Project("/path/to/binary")
-```
-
-## Analyze Functions
-
-## Analiziraj funkcije
-
-To analyze the functions in a binary, you can use the `project.analyses.CFGFast` class. This class constructs a control flow graph (CFG) of the binary and provides methods to analyze the functions.
-
-Da biste analizirali funkcije u binarnom fajlu, možete koristiti klasu `project.analyses.CFGFast`. Ova klasa konstruiše graf toka kontrole (CFG) binarnog fajla i pruža metode za analizu funkcija.
-
-```python
-from angrutils import plot_cfg
-
-# Analyze the functions
-cfg = project.analyses.CFGFast()
-
-# Plot the CFG
-plot_cfg(cfg, "/path/to/output.png")
-```
-
-## Find Functions by Name
-
-## Pronađi funkcije po imenu
-
-To find functions in a binary by their name, you can use the `project.kb.functions` attribute. This attribute is a dictionary that maps function names to their corresponding addresses.
-
-Da biste pronašli funkcije u binarnom fajlu po njihovom imenu, možete koristiti atribut `project.kb.functions`. Ovaj atribut je rečnik koji mapira imena funkcija na njihove odgovarajuće adrese.
-
-```python
-# Find functions by name
-function_address = project.kb.functions["function_name"].addr
-```
-
-## Find Functions by Address
-
-## Pronađi funkcije po adresi
-
-To find functions in a binary by their address, you can use the `project.kb.functions` attribute. This attribute is a dictionary that maps function addresses to their corresponding names.
-
-Da biste pronašli funkcije u binarnom fajlu po njihovoj adresi, možete koristiti atribut `project.kb.functions`. Ovaj atribut je rečnik koji mapira adrese funkcija na njihova odgovarajuća imena.
-
-```python
-# Find functions by address
-function_name = project.kb.functions.function_name.addr
-```
-
-## Find Basic Blocks
-
-## Pronađi osnovne blokove
-
-To find basic blocks in a function, you can use the `function.blocks` attribute. This attribute is a dictionary that maps block addresses to their corresponding basic block objects.
-
-Da biste pronašli osnovne blokove u funkciji, možete koristiti atribut `function.blocks`. Ovaj atribut je rečnik koji mapira adrese blokova na njihove odgovarajuće objekte osnovnih blokova.
-
-```python
-# Find basic blocks
-basic_block = function.blocks[block_address]
-```
-
-## Analyze Basic Blocks
-
-## Analiziraj osnovne blokove
-
-To analyze the basic blocks in a function, you can use the `project.analyses.CFGFast` class. This class constructs a control flow graph (CFG) of the function and provides methods to analyze the basic blocks.
-
-Da biste analizirali osnovne blokove u funkciji, možete koristiti klasu `project.analyses.CFGFast`. Ova klasa konstruiše graf toka kontrole (CFG) funkcije i pruža metode za analizu osnovnih blokova.
-
-```python
-from angrutils import plot_cfg
-
-# Analyze the basic blocks
-cfg = project.analyses.CFGFast(function)
-
-# Plot the CFG
-plot_cfg(cfg, "/path/to/output.png")
-```
-
-## Find Instructions
-
-## Pronađi instrukcije
-
-To find instructions in a basic block, you can use the `block.capstone.insns` attribute. This attribute is a list of Capstone instruction objects representing the instructions in the basic block.
-
-Da biste pronašli instrukcije u osnovnom bloku, možete koristiti atribut `block.capstone.insns`. Ovaj atribut je lista objekata instrukcija Capstone koji predstavljaju instrukcije u osnovnom bloku.
-
-```python
-# Find instructions
-instructions = block.capstone.insns
-```
-
-## Analyze Instructions
-
-## Analiziraj instrukcije
-
-To analyze the instructions in a basic block, you can use the `block.capstone.insns` attribute. This attribute is a list of Capstone instruction objects representing the instructions in the basic block.
-
-Da biste analizirali instrukcije u osnovnom bloku, možete koristiti atribut `block.capstone.insns`. Ovaj atribut je lista objekata instrukcija Capstone koji predstavljaju instrukcije u osnovnom bloku.
-
-```python
-# Analyze the instructions
-for instruction in block.capstone.insns:
-    # Perform analysis on each instruction
-    pass
-```
+# Osnovne Akcije
 ```python
 import angr
 import monkeyhex # this will format numerical results in hexadecimal
@@ -158,47 +41,9 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
-# Učitani podaci
+# Učitane i glavne informacije o objektu
 
-### Overview
-
-### Pregled
-
-The loaded data section provides information about the data that has been loaded into the program during its execution. This can include files, libraries, and other resources that are necessary for the program to run.
-
-Odeljak o učitanim podacima pruža informacije o podacima koji su učitani u program tokom njegovog izvršavanja. To može uključivati datoteke, biblioteke i druge resurse koji su neophodni za pokretanje programa.
-
-### Loaded Files
-
-### Učitane datoteke
-
-This subsection lists the files that have been loaded into the program. It provides information such as the file name, its base address in memory, and its size.
-
-Ovaj pododeljak navodi datoteke koje su učitane u program. Pruža informacije kao što su naziv datoteke, njen bazni adresni prostor u memoriji i njena veličina.
-
-### Loaded Libraries
-
-### Učitane biblioteke
-
-This subsection lists the libraries that have been loaded into the program. It provides information such as the library name, its base address in memory, and its size.
-
-Ovaj pododeljak navodi biblioteke koje su učitane u program. Pruža informacije kao što su naziv biblioteke, njen bazni adresni prostor u memoriji i njena veličina.
-
-### Loaded Resources
-
-### Učitani resursi
-
-This subsection lists any additional resources that have been loaded into the program. This can include things like images, sound files, or configuration files.
-
-Ovaj pododeljak navodi sve dodatne resurse koji su učitani u program. To može uključivati slike, zvučne datoteke ili konfiguracione datoteke.
-
-## Main Object Information
-
-## Informacije o glavnom objektu
-
-The main object information section provides details about the main object of the program. This can include information such as the entry point of the program, its base address in memory, and its size.
-
-Odeljak sa informacijama o glavnom objektu pruža detalje o glavnom objektu programa. To može uključivati informacije kao što su tačka ulaska u program, njegov bazni adresni prostor u memoriji i njegova veličina.
+## Učitani podaci
 ```python
 #LOADED DATA
 proj.loader #<Loaded true, maps [0x400000:0x5004000]>
@@ -221,11 +66,7 @@ proj.loader.all_elf_objects #Get all ELF objects loaded (Linux)
 proj.loader.all_pe_objects #Get all binaries loaded (Windows)
 proj.loader.find_object_containing(0x400000)#Get object loaded in an address "<ELF Object fauxware, maps [0x400000:0x60105f]>"
 ```
-## Glavni cilj
-
-The main objective of the angr framework is to provide a powerful and flexible platform for analyzing binary programs. It is designed to assist in reverse engineering, vulnerability discovery, and exploit development. The framework offers a wide range of features and tools that can be used to automate various tasks in the analysis process.
-
-## Glavni cilj angr okvira je da pruži moćnu i fleksibilnu platformu za analizu binarnih programa. Dizajniran je da pomogne u obrnutom inženjeringu, otkrivanju ranjivosti i razvoju eksploatacija. Okvir nudi širok spektar funkcionalnosti i alata koji se mogu koristiti za automatizaciju različitih zadataka u procesu analize.
+## Glavni objekat
 ```python
 #Main Object (main binary loaded)
 obj = proj.loader.main_object #<ELF Object true, maps [0x400000:0x60721f]>
@@ -240,26 +81,6 @@ obj.plt['strcmp'] #Get plt address of a funcion (0x400550)
 obj.reverse_plt[0x400550] #Get function from plt address ('strcmp')
 ```
 ## Simboli i Relokacije
-
-Simboli i relokacije su ključni koncepti u statičkoj analizi i reverznom inženjeringu. Oni nam pomažu da razumemo kako se programi sastoje od različitih delova i kako se ti delovi međusobno povezuju.
-
-### Simboli
-
-Simboli su identifikatori koji se koriste za predstavljanje različitih delova programa, kao što su funkcije, promenljive ili konstante. Svaki simbol ima svoje ime i adrese u memoriji gde se nalazi. Oni nam omogućavaju da pristupimo određenim delovima programa i manipulišemo njima.
-
-### Relokacije
-
-Relokacije su informacije koje nam govore kako se delovi programa povezuju i kako se adrese simbola prilagođavaju tokom izvršavanja. Kada se program kompajlira, adrese simbola se često ne mogu odrediti unapred, pa se koriste relokacije kako bi se te adrese prilagodile prilikom izvršavanja programa.
-
-Relokacije su posebno važne u dinamički povezanim programima, gde se delovi programa učitavaju u memoriju tokom izvršavanja. One nam omogućavaju da pravilno povežemo simbole i izvršimo program bez grešaka.
-
-### Analiza simbola i relokacija
-
-Analiza simbola i relokacija je važan korak u reverznom inženjeringu. Ona nam omogućava da razumemo strukturu programa, identifikujemo ključne delove i prilagodimo ih našim potrebama.
-
-Postoje različiti alati i tehnike koje se koriste za analizu simbola i relokacija, kao što je Angr. Ovi alati nam omogućavaju da vizualizujemo simbole i relokacije, pristupimo njihovim adresama i manipulišemo njima kako bismo bolje razumeli program i izvršili odgovarajuće promene.
-
-Ukratko, simboli i relokacije su ključni koncepti u statičkoj analizi i reverznom inženjeringu. Razumevanje njihove uloge i primene nam pomaže da efikasno analiziramo i manipulišemo programima.
 ```python
 strcmp = proj.loader.find_symbol('strcmp') #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 
@@ -277,66 +98,6 @@ main_strcmp.is_import #True
 main_strcmp.resolvedby #<Symbol "strcmp" in libc.so.6 at 0x1089cd0>
 ```
 ## Blokovi
-
----
-
-### Basic Block
-
-#### Osnovni blok
-
-A basic block is a sequence of instructions with a single entry point and a single exit point. It is a fundamental unit of analysis in reverse engineering and program analysis.
-
-Osnovni blok je sekvenca instrukcija sa jednim ulaznim i jednim izlaznim tačkom. To je osnovna jedinica analize u reverznom inženjeringu i analizi programa.
-
----
-
-### Super Block
-
-#### Super blok
-
-A super block is a collection of basic blocks that are executed together as a single unit. It is formed by merging multiple basic blocks that have a common execution path.
-
-Super blok je kolekcija osnovnih blokova koji se izvršavaju zajedno kao jedna jedinica. Formira se spajanjem više osnovnih blokova koji imaju zajednički put izvršavanja.
-
----
-
-### Function
-
-#### Funkcija
-
-A function is a sequence of instructions that performs a specific task within a program. It has a defined entry point and may have multiple exit points.
-
-Funkcija je sekvenca instrukcija koja obavlja određeni zadatak unutar programa. Ima definisanu ulaznu tačku i može imati više izlaznih tačaka.
-
----
-
-### Procedure
-
-#### Procedura
-
-A procedure is a collection of functions that are related and perform a specific task together. It is often used to organize and modularize code.
-
-Procedura je kolekcija funkcija koje su povezane i zajedno obavljaju određeni zadatak. Često se koristi za organizaciju i modularizaciju koda.
-
----
-
-### Module
-
-#### Modul
-
-A module is a self-contained unit of code that can be independently compiled and executed. It typically consists of multiple procedures and functions.
-
-Modul je samostalna jedinica koda koja se može nezavisno kompajlirati i izvršavati. Obično se sastoji od više procedura i funkcija.
-
----
-
-### Program
-
-#### Program
-
-A program is a collection of modules that work together to perform a specific task. It is the highest level of abstraction in software development.
-
-Program je kolekcija modula koji zajedno rade kako bi obavili određeni zadatak. To je najviši nivo apstrakcije u razvoju softvera.
 ```python
 #Blocks
 block = proj.factory.block(proj.entry) #Get the block of the entrypoint fo the binary
@@ -344,9 +105,9 @@ block.pp() #Print disassembly of the block
 block.instructions #"0xb" Get number of instructions
 block.instruction_addrs #Get instructions addresses "[0x401670, 0x401672, 0x401675, 0x401676, 0x401679, 0x40167d, 0x40167e, 0x40167f, 0x401686, 0x40168d, 0x401694]"
 ```
-# Dinamička analiza
+# Dinamička Analiza
 
-## Upravljanje simulacijom, stanja
+## Menadžer Simulacije, Stanja
 ```python
 #Live States
 #This is useful to modify content in a live analysis
@@ -371,11 +132,11 @@ simgr.active[0].regs.rip #Get RIP from the last state
 ```
 ## Pozivanje funkcija
 
-* Možete proslediti listu argumenata kroz `args` i rečnik okruženja kroz `env` u `entry_state` i `full_init_state`. Vrednosti u ovim strukturama mogu biti stringovi ili bitvektori, i biće serijalizovane u stanje kao argumenti i okruženje za simuliranu izvršnu datoteku. Podrazumevani `args` je prazna lista, pa ako program koji analizirate očekuje da pronađe barem `argv[0]`, uvek ga treba obezbediti!
-* Ako želite da `argc` bude simboličan, možete proslediti simbolički bitvektor kao `argc` konstruktorima `entry_state` i `full_init_state`. Budite oprezni, međutim: ako to uradite, trebali biste dodati i ograničenje na rezultujuće stanje da vaša vrednost za argc ne može biti veća od broja argumenata koje ste prosledili u `args`.
-* Da biste koristili pozivno stanje, trebali biste ga pozvati sa `.call_state(addr, arg1, arg2, ...)`, gde je `addr` adresa funkcije koju želite pozvati, a `argN` je N-ti argument te funkcije, ili kao python celobrojni broj, string ili niz, ili kao bitvektor. Ako želite da se alocira memorija i da zapravo prosledite pokazivač na objekat, trebali biste ga umotati u PointerWrapper, tj. `angr.PointerWrapper("point to me!")`. Rezultati ove API mogu biti malo nepredvidivi, ali radimo na tome.
+* Možete proslediti listu argumenata kroz `args` i rečnik promenljivih okruženja kroz `env` u `entry_state` i `full_init_state`. Vrednosti u ovim strukturama mogu biti stringovi ili bitvektori, i biće serijalizovane u stanje kao argumenti i okruženje za simuliranu izvršavanje. Podrazumevani `args` je prazna lista, tako da ako program koji analizirate očekuje da pronađe barem `argv[0]`, uvek biste to trebali obezbediti!
+* Ako želite da `argc` bude simboličan, možete proslediti simbolički bitvektor kao `argc` konstruktorima `entry_state` i `full_init_state`. Budite oprezni, međutim: ako to uradite, takođe biste trebali dodati ograničenje na rezultantno stanje da vaša vrednost za argc ne može biti veća od broja argumenata koje ste prosledili u `args`.
+* Da biste koristili stanje poziva, trebali biste ga pozvati sa `.call_state(addr, arg1, arg2, ...)`, gde je `addr` adresa funkcije koju želite da pozovete, a `argN` je N-ti argument za tu funkciju, bilo kao python ceo broj, string, ili niz, ili bitvektor. Ako želite da imate alociranu memoriju i zapravo prosledite pokazivač na objekat, trebali biste ga obaviti u PointerWrapper, tj. `angr.PointerWrapper("point to me!")`. Rezultati ovog API-ja mogu biti pomalo nepredvidivi, ali radimo na tome.
 
-## BitVektori
+## Bitvektori
 ```python
 #BitVectors
 state = proj.factory.entry_state()
@@ -384,19 +145,7 @@ state.solver.eval(bv) #Convert BV to python int
 bv.zero_extend(30) #Will add 30 zeros on the left of the bitvector
 bv.sign_extend(30) #Will add 30 zeros or ones on the left of the BV extending the sign
 ```
-## Simbolički BitVectors i Ograničenja
-
-Simbolički BitVectors su ključni koncept u angr alatu. Oni predstavljaju simboličke vrijednosti koje se koriste za modeliranje i analizu programa. Simbolički BitVectors se sastoje od bitova koji mogu biti simbolički ili konkretne vrijednosti.
-
-Ograničenja su izrazi koji se primjenjuju na simboličke BitVectors kako bi se postavile određene uvjete ili ograničenja na njihove vrijednosti. Ograničenja se koriste za definiranje uvjeta koje program mora zadovoljiti kako bi se postigao određeni rezultat.
-
-Korištenje simboličkih BitVectors i ograničenja omogućava angr alatu da analizira program na simboličkoj razini, što omogućava pronalaženje ranjivosti, generiranje testnih slučajeva i rješavanje problema vezanih uz programsku logiku.
-
-U angr alatu, simbolički BitVectors i ograničenja se koriste za izgradnju simboličkog izvršavanja programa, što omogućava analizu programa bez stvarnog izvršavanja koda. Ovo je korisno za pronalaženje ranjivosti i generiranje testnih slučajeva bez potrebe za stvarnim pokretanjem programa.
-
-Kroz simboličko izvršavanje, angr alat može generirati putove izvršavanja programa i analizirati njihove uvjete. Ovo omogućava pronalaženje ranjivosti, kao što su prekoračenje bafera ili neispravna provjera korisničkog unosa.
-
-Korištenje simboličkih BitVectors i ograničenja u angr alatu zahtijeva razumijevanje njihovih osnovnih metoda i funkcionalnosti. Ova dokumentacija pruža detaljan pregled ove teme i objašnjava kako koristiti simboličke BitVectors i ograničenja u angr alatu za analizu programa.
+## Simbolički BitVektori i Ograničenja
 ```python
 x = state.solver.BVS("x", 64) #Symbolic variable BV of length 64
 y = state.solver.BVS("y", 64)
@@ -430,25 +179,7 @@ solver.eval_exact(expression, n) #n solutions to the given expression, throwing 
 solver.min(expression) #minimum possible solution to the given expression.
 solver.max(expression) #maximum possible solution to the given expression.
 ```
-## Hookovanje
-
-Hookovanje je tehnika koja omogućava da se izvršavanje programa preusmeri na drugu funkciju ili deo koda. Ovo se može koristiti u cilju nadgledanja ili modifikacije ponašanja programa. Postoje različite vrste hookovanja, uključujući funkcionalno hookovanje, sistemsko hookovanje i mrežno hookovanje.
-
-### Funkcionalno hookovanje
-
-Funkcionalno hookovanje se koristi za preusmeravanje izvršavanja programa na drugu funkciju. Ovo se može koristiti za nadgledanje ili modifikaciju ulaznih i izlaznih podataka programa. Primeri funkcionalnog hookovanja uključuju hookovanje funkcija za čitanje i pisanje fajlova ili hookovanje funkcija za mrežnu komunikaciju.
-
-### Sistemsko hookovanje
-
-Sistemsko hookovanje se koristi za preusmeravanje izvršavanja programa na sistemski nivo. Ovo se može koristiti za nadgledanje ili modifikaciju sistemskih poziva ili događaja. Primeri sistemskog hookovanja uključuju hookovanje sistemskih poziva za praćenje aktivnosti fajl sistema ili hookovanje događaja za nadgledanje promena u registru.
-
-### Mrežno hookovanje
-
-Mrežno hookovanje se koristi za preusmeravanje mrežnog saobraćaja na drugu destinaciju. Ovo se može koristiti za nadgledanje ili modifikaciju mrežnih paketa. Primeri mrežnog hookovanja uključuju hookovanje mrežnih protokola za analizu ili modifikaciju podataka koji se prenose preko mreže.
-
-### Implementacija hookovanja
-
-Postoji nekoliko načina za implementaciju hookovanja, uključujući upotrebu posebnih biblioteka ili alata. Jedan od popularnih alata za hookovanje je Angr, koji omogućava analizu i manipulaciju binarnih fajlova. Angr pruža mogućnost hookovanja funkcija i sistemskih poziva, kao i nadgledanje i modifikaciju izvršavanja programa.
+## Hooking
 ```python
 >>> stub_func = angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'] # this is a CLASS
 >>> proj.hook(0x10000, stub_func())  # hook with an instance of the class
@@ -466,20 +197,25 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-Osim toga, možete koristiti `proj.hook_symbol(name, hook)` pružajući ime simbola kao prvi argument kako biste povezali adresu na kojoj se simbol nalazi.
+Pored toga, možete koristiti `proj.hook_symbol(name, hook)`, pružajući ime simbola kao prvi argument, da povežete adresu na kojoj simbol živi
 
 # Primeri
 
+
+
+
+
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podrška HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite videti **oglašavanje vaše kompanije u HackTricks-u** ili **preuzeti HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

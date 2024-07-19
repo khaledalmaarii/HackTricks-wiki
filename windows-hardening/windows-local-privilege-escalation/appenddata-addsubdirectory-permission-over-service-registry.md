@@ -1,53 +1,55 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite videti **vašu kompaniju oglašenu na HackTricks-u** ili **preuzeti HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
 **Originalni post je** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
 
-## Rezime
+## Sažetak
 
-Dve registarske ključeve je moguće pisati od strane trenutnog korisnika:
+Otkrivena su dva ključa u registru koja su mogla biti pisana od strane trenutnog korisnika:
 
 - **`HKLM\SYSTEM\CurrentControlSet\Services\Dnscache`**
 - **`HKLM\SYSTEM\CurrentControlSet\Services\RpcEptMapper`**
 
-Predloženo je proveriti dozvole servisa **RpcEptMapper** koristeći **regedit GUI**, posebno prozor **Advanced Security Settings** i karticu **Effective Permissions**. Ovaj pristup omogućava procenu dodeljenih dozvola specifičnim korisnicima ili grupama bez potrebe za pregledanjem svakog pojedinačnog Access Control Entry (ACE).
+Preporučeno je da se provere dozvole servisa **RpcEptMapper** koristeći **regedit GUI**, posebno karticu **Effective Permissions** u prozoru **Advanced Security Settings**. Ovaj pristup omogućava procenu dodeljenih dozvola određenim korisnicima ili grupama bez potrebe da se ispituje svaki Access Control Entry (ACE) pojedinačno.
 
-Prikazane su dozvole dodeljene korisniku sa niskim privilegijama, među kojima je značajna dozvola **Create Subkey**. Ova dozvola, takođe poznata kao **AppendData/AddSubdirectory**, odgovara nalazima skripte.
+Snimak ekrana je pokazao dozvole dodeljene korisniku sa niskim privilegijama, među kojima je bila istaknuta dozvola **Create Subkey**. Ova dozvola, takođe poznata kao **AppendData/AddSubdirectory**, odgovara nalazima skripte.
 
-Primećeno je da nije moguće direktno menjati određene vrednosti, ali je moguće kreirati nove podključeve. Primer je dat pokušaja izmene vrednosti **ImagePath**, koji je rezultirao porukom o odbijanju pristupa.
+Primećena je nemogućnost direktne izmene određenih vrednosti, ali mogućnost kreiranja novih podključeva. Primer koji je istaknut bio je pokušaj izmene vrednosti **ImagePath**, što je rezultiralo porukom o odbijenom pristupu.
 
-Uprkos ovim ograničenjima, identifikovana je mogućnost eskalacije privilegija putem mogućnosti iskorišćavanja podključa **Performance** unutar registarske strukture servisa **RpcEptMapper**, podključa koji nije prisutan podrazumevano. Ovo bi omogućilo registraciju DLL fajlova i praćenje performansi.
+Uprkos ovim ograničenjima, identifikovana je potencijalna mogućnost eskalacije privilegija kroz mogućnost korišćenja podključa **Performance** unutar registracione strukture servisa **RpcEptMapper**, podključa koji nije prisutan po defaultu. Ovo bi omogućilo registraciju DLL-a i praćenje performansi.
 
-Konsultovana je dokumentacija o podključu **Performance** i njegovoj upotrebi za praćenje performansi, što je dovelo do razvoja DLL-a kao dokaza koncepta. Ovaj DLL, koji demonstrira implementaciju funkcija **OpenPerfData**, **CollectPerfData** i **ClosePerfData**, testiran je putem **rundll32**, potvrđujući njegovu operativnu uspešnost.
+Konsultovana je dokumentacija o podključe **Performance** i njegovoj upotrebi za praćenje performansi, što je dovelo do razvoja dokaza o konceptu DLL-a. Ovaj DLL, koji demonstrira implementaciju funkcija **OpenPerfData**, **CollectPerfData** i **ClosePerfData**, testiran je putem **rundll32**, potvrđujući njegovu operativnu uspešnost.
 
-Cilj je bio prisiliti **RPC Endpoint Mapper servis** da učita izrađeni Performance DLL. Posmatranjem je otkriveno da izvršavanje WMI klasnih upita koji se odnose na Performance Data putem PowerShell-a rezultira kreiranjem log fajla, omogućavajući izvršavanje proizvoljnog koda pod **LOCAL SYSTEM** kontekstom, čime se dodeljuju povišene privilegije.
+Cilj je bio primorati **RPC Endpoint Mapper service** da učita kreirani Performance DLL. Posmatranja su pokazala da izvršavanje WMI klasa upita vezanih za Performance Data putem PowerShell-a rezultira kreiranjem log fajla, omogućavajući izvršavanje proizvoljnog koda pod kontekstom **LOCAL SYSTEM**, čime se dodeljuju povišene privilegije.
 
-Istaknuta je postojanost i potencijalne posledice ove ranjivosti, naglašavajući njenu relevantnost za post-eksploatacijske strategije, lateralno kretanje i izbegavanje antivirusnih/EDR sistema.
+Istaknuta je postojanost i potencijalne posledice ove ranjivosti, naglašavajući njenu relevantnost za strategije post-eksploatacije, lateralno kretanje i izbegavanje antivirusnih/EDR sistema.
 
-Iako je ranjivost prvobitno otkrivena nenamerno putem skripte, naglašeno je da je njeno iskorišćavanje ograničeno na zastarele verzije Windows-a (npr. **Windows 7 / Server 2008 R2**) i zahteva lokalni pristup.
+Iako je ranjivost prvobitno otkrivena nenamerno kroz skriptu, naglašeno je da je njena eksploatacija ograničena na zastarele verzije Windows-a (npr. **Windows 7 / Server 2008 R2**) i zahteva lokalni pristup.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite videti **vašu kompaniju oglašenu na HackTricks-u** ili **preuzeti HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

@@ -1,25 +1,26 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Veoma jednostavno, ovaj alat će nam pomoći da pronađemo vrednosti za promenljive koje treba da zadovolje neke uslove, a ručno ih izračunavanje bi bilo veoma dosadno. Zato možete navesti Z3 uslove koje promenljive treba da zadovolje i on će pronaći neke vrednosti (ako je moguće).
+Veoma jednostavno, ovaj alat će nam pomoći da pronađemo vrednosti za promenljive koje treba da zadovolje određene uslove, a ručno izračunavanje bi bilo veoma dosadno. Stoga, možete Z3 ukazati na uslove koje promenljive treba da zadovolje i on će pronaći neke vrednosti (ako je moguće).
 
-**Neki tekstovi i primeri su izvučeni sa [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
+**Neki tekstovi i primeri su preuzeti sa [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
-# Osnovne operacije
+# Osnovne Operacije
 
-## Booleans/And/Or/Not
+## Booleovi/And/Or/Not
 ```python
 #pip3 install z3-solver
 from z3 import *
@@ -34,7 +35,7 @@ s.add(And(Or(x,y,Not(z)),y))
 s.check() #If response is "sat" then the model is satifable, if "unsat" something is wrong
 print(s.model()) #Print valid values to satisfy the model
 ```
-## Celi brojevi/Pojednostavljivanje/Realni brojevi
+## Ints/Simplify/Reals
 ```python
 from z3 import *
 
@@ -54,11 +55,7 @@ print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
-## Ispisivanje modela
-
-To print the model, you can use the `model` object obtained from the solver. The `model` object contains the assignments for each variable in the formula. 
-
-Za ispisivanje modela, možete koristiti `model` objekat dobijen od rešavača. `Model` objekat sadrži dodeljene vrednosti za svaku promenljivu u formuli.
+## Štampanje modela
 ```python
 from z3 import *
 
@@ -72,9 +69,9 @@ print ("x = %s" % m[x])
 for d in m.decls():
 print("%s = %s" % (d.name(), m[d]))
 ```
-# Mašinska aritmetika
+# Mašinska Aritmetika
 
-Moderne CPU i popularni programski jezici koriste aritmetiku nad **bit-vektorima fiksne veličine**. Mašinska aritmetika je dostupna u Z3Py kao **Bit-Vektori**.
+Moderni CPU-i i mainstream programski jezici koriste aritmetiku nad **fiksno velikim bit-vektorima**. Mašinska aritmetika je dostupna u Z3Py kao **Bit-Vektori**.
 ```python
 from z3 import *
 
@@ -89,9 +86,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
-## Potpisani/Nepotpisani brojevi
+## Potpisani/Ne potpisani brojevi
 
-Z3 pruža posebne potpisane verzije aritmetičkih operacija gde je važno da li se **bit-vektor tretira kao potpisan ili nepotpisan**. U Z3Py, operatori **<, <=, >, >=, /, % i >>** odgovaraju **potpisanim** verzijama. Odgovarajući **nepotpisani** operatori su **ULT, ULE, UGT, UGE, UDiv, URem i LShR.**
+Z3 pruža posebne potpisane verzije aritmetičkih operacija gde je važno da li se **bit-vektor tretira kao potpisan ili ne potpisan**. U Z3Py, operatori **<, <=, >, >=, /, % i >>** odgovaraju **potpisanim** verzijama. Odgovarajući **ne potpisani** operatori su **ULT, ULE, UGT, UGE, UDiv, URem i LShR.**
 ```python
 from z3 import *
 
@@ -109,11 +106,11 @@ solve(x < 0)
 # using unsigned version of <
 solve(ULT(x, 0))
 ```
-## Funkcije
+## Functions
 
-**Tumačene funkcije** kao što je aritmetika, gde **funkcija +** ima **fiksnu standardnu interpretaciju** (sabira dva broja). **Neterpretirane funkcije** i konstante su **maksimalno fleksibilne**; dozvoljavaju **bilo koju interpretaciju** koja je **konzistentna** sa **ograničenjima** nad funkcijom ili konstantom.
+**Interpretirane funkcije** kao što su aritmetičke gde **funkcija +** ima **fiksnu standardnu interpretaciju** (sabira dva broja). **Neinterpretirane funkcije** i konstante su **maksimalno fleksibilne**; omogućavaju **bilo koju interpretaciju** koja je **dosledna** sa **ograničenjima** nad funkcijom ili konstantom.
 
-Primer: dva puta primenjena funkcija f na x rezultuje ponovo x, ali jednom primenjena funkcija f na x je različita od x.
+Primer: f primenjena dva puta na x rezultira ponovo u x, ali f primenjena jednom na x je drugačija od x.
 ```python
 from z3 import *
 
@@ -134,73 +131,7 @@ print(m.model())
 ```
 # Primeri
 
-## Rešavač Sudoku-a
-
-```python
-from z3 import *
-
-def solve_sudoku(grid):
-    # Kreiranje Z3 konteksta
-    solver = Solver()
-
-    # Definisanje promenljivih za svako polje u mreži
-    cells = [[Int(f"cell_{i}_{j}") for j in range(9)] for i in range(9)]
-
-    # Dodavanje ograničenja za vrednosti polja
-    for i in range(9):
-        for j in range(9):
-            # Vrednosti polja moraju biti između 1 i 9
-            solver.add(And(cells[i][j] >= 1, cells[i][j] <= 9))
-
-    # Dodavanje ograničenja za redove
-    for i in range(9):
-        solver.add(Distinct(cells[i]))
-
-    # Dodavanje ograničenja za kolone
-    for j in range(9):
-        solver.add(Distinct([cells[i][j] for i in range(9)]))
-
-    # Dodavanje ograničenja za kvadrante
-    for i in range(0, 9, 3):
-        for j in range(0, 9, 3):
-            solver.add(Distinct([cells[x][y] for x in range(i, i + 3) for y in range(j, j + 3)]))
-
-    # Dodavanje početnih vrednosti iz mreže
-    for i in range(9):
-        for j in range(9):
-            if grid[i][j] != 0:
-                solver.add(cells[i][j] == grid[i][j])
-
-    # Rešavanje Sudoku-a
-    if solver.check() == sat:
-        model = solver.model()
-        solution = [[model.evaluate(cells[i][j]).as_long() for j in range(9)] for i in range(9)]
-        return solution
-    else:
-        return None
-
-# Primer rešavanja Sudoku-a
-grid = [
-    [5, 3, 0, 0, 7, 0, 0, 0, 0],
-    [6, 0, 0, 1, 9, 5, 0, 0, 0],
-    [0, 9, 8, 0, 0, 0, 0, 6, 0],
-    [8, 0, 0, 0, 6, 0, 0, 0, 3],
-    [4, 0, 0, 8, 0, 3, 0, 0, 1],
-    [7, 0, 0, 0, 2, 0, 0, 0, 6],
-    [0, 6, 0, 0, 0, 0, 2, 8, 0],
-    [0, 0, 0, 4, 1, 9, 0, 0, 5],
-    [0, 0, 0, 0, 8, 0, 0, 7, 9]
-]
-
-solution = solve_sudoku(grid)
-if solution is not None:
-    for row in solution:
-        print(row)
-else:
-    print("No solution found.")
-```
-
-## Rešavač Sudoku-a
+## Rešavač Sudokua
 ```python
 # 9x9 matrix of integer variables
 X = [ [ Int("x_%s_%s" % (i+1, j+1)) for j in range(9) ]
@@ -255,16 +186,17 @@ print "failed to solve"
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

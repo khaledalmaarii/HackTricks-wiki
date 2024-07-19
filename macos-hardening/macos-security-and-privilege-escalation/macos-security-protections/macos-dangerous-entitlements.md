@@ -1,77 +1,78 @@
-# macOS Opasna Ovlašćenja & TCC dozvole
+# macOS Dangerous Entitlements & TCC perms
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**Porodiču PEASS**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-
-{% hint style="warning" %}
-Imajte na umu da ovlašćenja koja počinju sa **`com.apple`** nisu dostupna trećim licima, samo ih Apple može odobriti.
 {% endhint %}
 
-## Visok
+{% hint style="warning" %}
+Napomena: ovlašćenja koja počinju sa **`com.apple`** nisu dostupna trećim stranama, samo Apple može da ih dodeli.
+{% endhint %}
+
+## High
 
 ### `com.apple.rootless.install.heritable`
 
-Ovlašćenje **`com.apple.rootless.install.heritable`** omogućava **zaobilazak SIP-a**. Proverite [ovde za više informacija](macos-sip.md#com.apple.rootless.install.heritable).
+Ovlašćenje **`com.apple.rootless.install.heritable`** omogućava **obiđite SIP**. Proverite [ovo za više informacija](macos-sip.md#com.apple.rootless.install.heritable).
 
 ### **`com.apple.rootless.install`**
 
-Ovlašćenje **`com.apple.rootless.install`** omogućava **zaobilazak SIP-a**. Proverite [ovde za više informacija](macos-sip.md#com.apple.rootless.install).
+Ovlašćenje **`com.apple.rootless.install`** omogućava **obiđite SIP**. Proverite [ovo za više informacija](macos-sip.md#com.apple.rootless.install).
 
 ### **`com.apple.system-task-ports` (ranije nazvano `task_for_pid-allow`)**
 
-Ovo ovlašćenje omogućava dobijanje **task porta za bilo** koji proces, osim kernela. Proverite [**ovde za više informacija**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
+Ovo ovlašćenje omogućava dobijanje **task porta za bilo koji** proces, osim jezgra. Proverite [**ovo za više informacija**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.get-task-allow`
 
-Ovo ovlašćenje omogućava drugim procesima sa ovlašćenjem **`com.apple.security.cs.debugger`** da dobiju task port procesa pokrenutog binarnim fajlom sa ovim ovlašćenjem i **ubace kod u njega**. Proverite [**ovde za više informacija**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
+Ovo ovlašćenje omogućava drugim procesima sa ovlašćenjem **`com.apple.security.cs.debugger`** da dobiju task port procesa koji pokreće binarni fajl sa ovim ovlašćenjem i **ubace kod u njega**. Proverite [**ovo za više informacija**](../macos-proces-abuse/macos-ipc-inter-process-communication/).
 
 ### `com.apple.security.cs.debugger`
 
-Aplikacije sa ovlašćenjem za Alat za Debugovanje mogu pozvati `task_for_pid()` da dobiju validan task port za nepotpisane i treće strane aplikacije sa ovlašćenjem `Get Task Allow` postavljenim na `true`. Međutim, čak i sa ovlašćenjem za alat za debugovanje, debugger **ne može dobiti task portove** procesa koji **nemaju ovlašćenje za Get Task Allow**, i koji su stoga zaštićeni Sistemskom Integritetnom Zaštitom. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
+Aplikacije sa ovlašćenjem Debugging Tool mogu pozvati `task_for_pid()` da dobiju važeći task port za nesignirane i treće strane aplikacije sa ovlašćenjem `Get Task Allow` postavljenim na `true`. Međutim, čak i sa ovlašćenjem alata za debagovanje, debager **ne može dobiti task portove** procesa koji **nemaju ovlašćenje `Get Task Allow`**, i koji su stoga zaštićeni zaštitom integriteta sistema. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_debugger).
 
 ### `com.apple.security.cs.disable-library-validation`
 
-Ovo ovlašćenje omogućava **učitavanje okvira, dodataka ili biblioteka bez potpisa od strane Apple-a ili potpisanog istim Team ID-em** kao glavni izvršni fajl, tako da napadač može zloupotrebiti neko proizvoljno učitavanje biblioteke da ubaci kod. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
+Ovo ovlašćenje omogućava **učitavanje okvira, dodataka ili biblioteka bez da budu potpisani od strane Apple-a ili potpisani sa istim Team ID** kao glavni izvršni fajl, tako da napadač može zloupotrebiti učitavanje neke proizvoljne biblioteke da ubaci kod. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-library-validation).
 
 ### `com.apple.private.security.clear-library-validation`
 
-Ovo ovlašćenje je vrlo slično **`com.apple.security.cs.disable-library-validation`** ali **umesto** direktnog onemogućavanja validacije biblioteke, omogućava procesu da **pozove `csops` sistemski poziv da je onemogući**.\
-Proverite [**ovde za više informacija**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
+Ovo ovlašćenje je veoma slično **`com.apple.security.cs.disable-library-validation`** ali **umesto** da **direktno onemogući** validaciju biblioteka, omogućava procesu da **pozove `csops` sistemski poziv da ga onemogući**.\
+Proverite [**ovo za više informacija**](https://theevilbit.github.io/posts/com.apple.private.security.clear-library-validation/).
 
 ### `com.apple.security.cs.allow-dyld-environment-variables`
 
-Ovo ovlašćenje omogućava **korišćenje DYLD okruženjskih promenljivih** koje se mogu koristiti za ubacivanje biblioteka i koda. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
+Ovo ovlašćenje omogućava **korišćenje DYLD promenljivih okruženja** koje se mogu koristiti za ubacivanje biblioteka i koda. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-dyld-environment-variables).
 
 ### `com.apple.private.tcc.manager` ili `com.apple.rootless.storage`.`TCC`
 
-[**Prema ovom blogu**](https://objective-see.org/blog/blog\_0x4C.html) **i** [**ovom blogu**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), ova ovlašćenja omogućavaju **modifikaciju** baze podataka **TCC**.
+[**Prema ovom blogu**](https://objective-see.org/blog/blog\_0x4C.html) **i** [**ovom blogu**](https://wojciechregula.blog/post/play-the-music-and-bypass-tcc-aka-cve-2020-29621/), ova ovlašćenja omogućavaju **modifikaciju** **TCC** baze podataka.
 
 ### **`system.install.apple-software`** i **`system.install.apple-software.standar-user`**
 
-Ova ovlašćenja omogućavaju **instaliranje softvera bez traženja dozvole** korisnika, što može biti korisno za **eskaciju privilegija**.
+Ova ovlašćenja omogućavaju **instalaciju softvera bez traženja dozvola** od korisnika, što može biti korisno za **povećanje privilegija**.
 
 ### `com.apple.private.security.kext-management`
 
-Ovlašćenje potrebno za traženje od kernela da učita kernel ekstenziju.
+Ovlašćenje potrebno za traženje od **jezgra da učita kernel ekstenziju**.
 
 ### **`com.apple.private.icloud-account-access`**
 
-Ovlašćenje **`com.apple.private.icloud-account-access`** omogućava komunikaciju sa **`com.apple.iCloudHelper`** XPC servisom koji će **pružiti iCloud tokene**.
+Ovlašćenje **`com.apple.private.icloud-account-access`** omogućava komunikaciju sa **`com.apple.iCloudHelper`** XPC servisom koji će **obezbediti iCloud tokene**.
 
-**iMovie** i **Garageband** imali su ovo ovlašćenje.
+**iMovie** i **Garageband** su imale ovo ovlašćenje.
 
-Za više **informacija** o eksploataciji za **dobijanje icloud tokena** iz tog ovlašćenja pogledajte predavanje: [**#OBTS v5.0: "Šta se dešava na vašem Mac-u, ostaje na Apple-ovom iCloud-u?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
+Za više **informacija** o eksploatu za **dobijanje iCloud tokena** iz tog ovlašćenja proverite predavanje: [**#OBTS v5.0: "Šta se dešava na vašem Mac-u, ostaje na Apple-ovom iCloud-u?!" - Wojciech Regula**](https://www.youtube.com/watch?v=\_6e2LhmxVc0)
 
 ### `com.apple.private.tcc.manager.check-by-audit-token`
 
@@ -79,15 +80,15 @@ TODO: Ne znam šta ovo omogućava
 
 ### `com.apple.private.apfs.revert-to-snapshot`
 
-TODO: U [**ovom izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno za** ažuriranje SSV-zaštićenih sadržaja nakon ponovnog pokretanja. Ako znate kako, pošaljite PR molim vas!
+TODO: U [**ovoj izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno za** ažuriranje SSV-zaštićenog sadržaja nakon ponovnog pokretanja. Ako znate kako, pošaljite PR, molim vas!
 
 ### `com.apple.private.apfs.create-sealed-snapshot`
 
-TODO: U [**ovom izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno za** ažuriranje SSV-zaštićenih sadržaja nakon ponovnog pokretanja. Ako znate kako, pošaljite PR molim vas!
+TODO: U [**ovoj izveštaju**](https://jhftss.github.io/The-Nightmare-of-Apple-OTA-Update/) **se pominje da bi ovo moglo biti korišćeno za** ažuriranje SSV-zaštićenog sadržaja nakon ponovnog pokretanja. Ako znate kako, pošaljite PR, molim vas!
 
 ### `keychain-access-groups`
 
-Ovo ovlašćenje nabraja **keychain** grupe kojima aplikacija ima pristup:
+Ovo ovlašćenje lista **keychain** grupe kojima aplikacija ima pristup:
 ```xml
 <key>keychain-access-groups</key>
 <array>
@@ -100,31 +101,33 @@ Ovo ovlašćenje nabraja **keychain** grupe kojima aplikacija ima pristup:
 ```
 ### **`kTCCServiceSystemPolicyAllFiles`**
 
-Daje dozvole za **Pristup celom disku**, jednu od najviših dozvola koje možete imati u TCC-u.
+Daje **Potpunu pristup disku** dozvole, jedna od najviših TCC dozvola koje možete imati.
 
 ### **`kTCCServiceAppleEvents`**
 
-Omogućava aplikaciji slanje događaja drugim aplikacijama koje se često koriste za **automatizaciju zadataka**. Kontrolišući druge aplikacije, može zloupotrebiti dozvole date tim drugim aplikacijama.
+Omogućava aplikaciji da šalje događaje drugim aplikacijama koje se obično koriste za **automatizaciju zadataka**. Kontrolisanjem drugih aplikacija, može zloupotrebiti dozvole koje su dodeljene tim drugim aplikacijama.
 
-Na primer, može ih naterati da zatraže korisnikovu lozinku:
+Kao što je navođenje njih da traže od korisnika njegovu lozinku:
+
+{% code overflow="wrap" %}
 ```bash
 osascript -e 'tell app "App Store" to activate' -e 'tell app "App Store" to activate' -e 'tell app "App Store" to display dialog "App Store requires your password to continue." & return & return default answer "" with icon 1 with hidden answer with title "App Store Alert"'
 ```
 {% endcode %}
 
-Ili ih naterati da izvrše **proizvoljne radnje**.
+Ili da ih natera da izvrše **arbitrarne radnje**.
 
 ### **`kTCCServiceEndpointSecurityClient`**
 
-Dozvoljava, između ostalih dozvola, da **piše u korisničku TCC bazu podataka**.
+Omogućava, između ostalog, da **piše u TCC bazu podataka korisnika**.
 
 ### **`kTCCServiceSystemPolicySysAdminFiles`**
 
-Dozvoljava **promenu** atributa **`NFSHomeDirectory`** korisnika koji menja putanju njegovog matičnog foldera i time omogućava **zaobilazak TCC**.
+Omogućava da **promeni** **`NFSHomeDirectory`** atribut korisnika koji menja putanju svog domaćeg foldera i tako omogućava da **obiđe TCC**.
 
 ### **`kTCCServiceSystemPolicyAppBundles`**
 
-Dozvoljava modifikaciju fajlova unutar aplikacija (unutar app.app), što je **podrazumevano zabranjeno**.
+Omogućava modifikaciju fajlova unutar aplikacija (unutar app.app), što je **podrazumevano zabranjeno**.
 
 <figure><img src="../../../.gitbook/assets/image (31).png" alt=""><figcaption></figcaption></figure>
 
@@ -132,28 +135,28 @@ Moguće je proveriti ko ima ovaj pristup u _System Settings_ > _Privacy & Securi
 
 ### `kTCCServiceAccessibility`
 
-Proces će moći da **zloupotrebi macOS funkcije pristupačnosti**, što znači da na primer može da pritisne tasterske prečice. Tako bi mogao da zatraži pristup kontroli aplikacije poput Findera i odobri dijalog sa ovlašćenjem.
+Proces će moći da **zloupotrebi macOS funkcije pristupa**, što znači da će, na primer, moći da pritisne tastere. Tako bi mogao da zatraži pristup za kontrolu aplikacije kao što je Finder i odobri dijalog sa ovom dozvolom.
 
-## Srednje
+## Medium
 
 ### `com.apple.security.cs.allow-jit`
 
-Ovo ovlašćenje omogućava da se **kreira memorija koja je upisiva i izvršna** prosleđivanjem `MAP_JIT` zastavice funkciji sistema `mmap()`. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
+Ova dozvola omogućava da se **kreira memorija koja je zapisiva i izvršna** prosleđivanjem `MAP_JIT` oznake `mmap()` sistemskoj funkciji. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-jit).
 
 ### `com.apple.security.cs.allow-unsigned-executable-memory`
 
-Ovo ovlašćenje omogućava **zamenu ili zakrpu C koda**, korišćenje dugo zastarelog **`NSCreateObjectFileImageFromMemory`** (što je suštinski nesigurno), ili korišćenje **DVDPlayback** okvira. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
+Ova dozvola omogućava da se **prepiše ili zakrpi C kod**, koristi dugo zastareli **`NSCreateObjectFileImageFromMemory`** (koji je fundamentalno nesiguran), ili koristi **DVDPlayback** okvir. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_allow-unsigned-executable-memory).
 
 {% hint style="danger" %}
-Uključivanje ovog ovlašćenja izlaže vašu aplikaciju uobičajenim ranjivostima u jezicima sa kodom koji nije siguran za memoriju. Pažljivo razmislite da li vaša aplikacija zahteva ovaj izuzetak.
+Uključivanje ove dozvole izlaže vašu aplikaciju uobičajenim ranjivostima u jezicima koji nisu sigurni za memoriju. Pažljivo razmotrite da li vaša aplikacija treba ovu izuzetak.
 {% endhint %}
 
 ### `com.apple.security.cs.disable-executable-page-protection`
 
-Ovo ovlašćenje omogućava da se **modifikuju sekcije sopstvenih izvršnih fajlova** na disku kako bi se prinudno izašlo. Proverite [**ovde za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
+Ova dozvola omogućava da se **modifikuju sekcije vlastitih izvršnih fajlova** na disku kako bi se prisilno izašlo. Proverite [**ovo za više informacija**](https://developer.apple.com/documentation/bundleresources/entitlements/com\_apple\_security\_cs\_disable-executable-page-protection).
 
 {% hint style="danger" %}
-Ovlašćenje za Onemogućavanje Zaštite Izvršne Memorije je ekstremno ovlašćenje koje uklanja osnovnu sigurnosnu zaštitu iz vaše aplikacije, čime se omogućava napadaču da prepiše izvršni kod vaše aplikacije bez otkrivanja. Preferirajte uža ovlašćenja ako je moguće.
+Dozvola za onemogućavanje zaštite izvršne memorije je ekstremna dozvola koja uklanja fundamentalnu sigurnosnu zaštitu iz vaše aplikacije, čineći mogućim da napadač prepisuje izvršni kod vaše aplikacije bez otkrivanja. Preferirajte uže dozvole ako je moguće.
 {% endhint %}
 
 ### `com.apple.security.cs.allow-relative-library-loads`
@@ -162,31 +165,32 @@ TODO
 
 ### `com.apple.private.nullfs_allow`
 
-Ovo ovlašćenje omogućava montiranje nullfs fajl sistema (podrazumevano zabranjeno). Alat: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
+Ova dozvola omogućava montiranje nullfs fajl sistema (zabranjeno podrazumevano). Alat: [**mount\_nullfs**](https://github.com/JamaicanMoose/mount\_nullfs/tree/master).
 
 ### `kTCCServiceAll`
 
-Prema ovom blog postu, ovo TCC ovlašćenje obično se nalazi u obliku:
+Prema ovom blog postu, ova TCC dozvola obično se nalazi u formi:
 ```
 [Key] com.apple.private.tcc.allow-prompting
 [Value]
 [Array]
 [String] kTCCServiceAll
 ```
-Dozvoli procesu da **zatraži sve TCC dozvole**.
+Dozvolite procesu da **zatraži sve TCC dozvole**.
 
 ### **`kTCCServicePostEvent`**
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
-* Ako želite da vidite svoju **kompaniju reklamiranu na HackTricks-u** ili da **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRIJAVU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
-
+</details>
+{% endhint %}
 </details>

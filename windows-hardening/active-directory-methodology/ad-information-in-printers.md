@@ -1,24 +1,25 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Postoji nekoliko blogova na internetu koji **ističu opasnosti ostavljanja štampača konfigurisanih sa LDAP-om sa podrazumevanim/slabim** prijavljivanjem.\
-To je zato što napadač može **prevariti štampač da se autentifikuje protiv lažnog LDAP servera** (obično je dovoljan `nc -vv -l -p 444`) i da uhvati štampač **poverljive informacije o korisnicima u čistom tekstu**.
+Postoji nekoliko blogova na internetu koji **ističu opasnosti ostavljanja štampača konfiguranih sa LDAP sa podrazumevanjem/slabim** lozinkama.\
+To je zato što bi napadač mogao **prevariti štampač da se autentifikuje protiv lažnog LDAP servera** (tipično je `nc -vv -l -p 444` dovoljno) i da uhvati **lozinke štampača u čistom tekstu**.
 
-Takođe, neki štampači će sadržati **logove sa korisničkim imenima** ili čak moći **preuzeti sva korisnička imena** sa kontrolera domena.
+Takođe, nekoliko štampača će sadržati **logove sa korisničkim imenima** ili čak mogu biti u mogućnosti da **preuzmu sva korisnička imena** sa Kontrolera domena.
 
-Sve ove **poverljive informacije** i uobičajeni **nedostatak bezbednosti** čine štampače veoma interesantnim za napadače.
+Sve ove **osetljive informacije** i uobičajeni **nedostatak sigurnosti** čine štampače veoma zanimljivim za napadače.
 
 Neki blogovi o ovoj temi:
 
@@ -26,30 +27,32 @@ Neki blogovi o ovoj temi:
 * [https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856](https://medium.com/@nickvangilder/exploiting-multifunction-printers-during-a-penetration-test-engagement-28d3840d8856)
 
 ## Konfiguracija štampača
-- **Lokacija**: Lista LDAP servera se nalazi na: `Mreža > Postavke LDAP > Postavljanje LDAP-a`.
-- **Ponašanje**: Interfejs omogućava izmenu LDAP servera bez ponovnog unošenja akreditiva, ciljajući na korisničku udobnost ali postavljajući rizike po bezbednost.
-- **Eksploatacija**: Eksploatacija uključuje preusmeravanje adrese LDAP servera na kontrolisani uređaj i iskorišćavanje funkcije "Test Connection" za hvatanje akreditiva.
+- **Lokacija**: Lista LDAP servera se nalazi na: `Network > LDAP Setting > Setting Up LDAP`.
+- **Ponašanje**: Interfejs omogućava izmene LDAP servera bez ponovnog unosa lozinki, što je usmereno na pogodnost korisnika, ali predstavlja sigurnosne rizike.
+- **Eksploatacija**: Eksploatacija uključuje preusmeravanje adrese LDAP servera na kontrolisanu mašinu i korišćenje funkcije "Test Connection" za hvatanje lozinki.
 
-## Hvatanje akreditiva
+## Hvatanje lozinki
 
 **Za detaljnije korake, pogledajte originalni [izvor](https://grimhacker.com/2018/03/09/just-a-printer/).**
 
 ### Metoda 1: Netcat Listener
-Jednostavan netcat listener može biti dovoljan:
+Jednostavan netcat listener bi mogao biti dovoljan:
 ```bash
 sudo nc -k -v -l -p 386
 ```
-### Metoda 2: Potpuni LDAP server sa Slapd-om
-Pouzdaniji pristup uključuje postavljanje potpunog LDAP servera jer štampač izvršava null bind zatim upit pre nego što pokuša vezivanje za akreditive.
+Međutim, uspeh ove metode varira.
 
-1. **Postavljanje LDAP servera**: Vodič prati korake sa [ovog izvora](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
-2. **Ključni koraci**:
+### Metoda 2: Potpuni LDAP Server sa Slapd
+Pouzdaniji pristup uključuje postavljanje potpunog LDAP servera jer štampač izvršava null bind nakon čega sledi upit pre nego što pokuša vezivanje kredencijala.
+
+1. **Podešavanje LDAP Servera**: Vodič prati korake iz [ovog izvora](https://www.server-world.info/en/note?os=Fedora_26&p=openldap).
+2. **Ključni Koraci**:
 - Instalirajte OpenLDAP.
-- Konfigurišite administratorsku lozinku.
+- Konfigurišite admin lozinku.
 - Uvezite osnovne šeme.
-- Postavite ime domena na LDAP DB.
+- Postavite naziv domena na LDAP DB.
 - Konfigurišite LDAP TLS.
-3. **Izvršavanje LDAP servisa**: Kada je postavljen, LDAP servis se može pokrenuti korišćenjem:
+3. **Izvršenje LDAP Usluge**: Kada je postavljen, LDAP usluga se može pokrenuti koristeći:
 ```bash
 slapd -d 2
 ```
@@ -57,16 +60,17 @@ slapd -d 2
 * [https://grimhacker.com/2018/03/09/just-a-printer/](https://grimhacker.com/2018/03/09/just-a-printer/)
 
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

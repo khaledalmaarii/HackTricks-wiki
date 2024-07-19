@@ -1,54 +1,56 @@
 # Skeleton Key
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Napad Skeleton Key
+## Skeleton Key Attack
 
-Napad **Skeleton Key** je sofisticirana tehnika koja omogućava napadačima da **zaobiđu autentifikaciju Active Directory-ja** ubacivanjem glavne lozinke u kontroler domena. Ovo omogućava napadaču da se **autentifikuje kao bilo koji korisnik** bez njihove lozinke, efektivno im **dajući neograničen pristup** domenu.
+**Skeleton Key napad** je sofisticirana tehnika koja omogućava napadačima da **obiđu Active Directory autentifikaciju** tako što **ubacuju glavnu lozinku** u kontroler domena. Ovo omogućava napadaču da **autentifikuje kao bilo koji korisnik** bez njihove lozinke, efektivno **dajući im neograničen pristup** domenu.
 
-Može se izvesti pomoću alata [Mimikatz](https://github.com/gentilkiwi/mimikatz). Da bi se izveo ovaj napad, **neophodna su administratorska prava domena**, a napadač mora ciljati svaki kontroler domena kako bi osigurao sveobuhvatno probijanje. Međutim, efekat napada je privremen, jer **ponovno pokretanje kontrolera domena uklanja malver**, što zahteva ponovnu implementaciju za trajni pristup.
+Može se izvesti korišćenjem [Mimikatz](https://github.com/gentilkiwi/mimikatz). Da bi se izveo ovaj napad, **prava Domain Admin su preduslov**, a napadač mora ciljati svaki kontroler domena kako bi osigurao sveobuhvatan proboj. Međutim, efekat napada je privremen, jer **ponovno pokretanje kontrolera domena eliminiše malware**, što zahteva ponovnu implementaciju za održavanje pristupa.
 
 **Izvršavanje napada** zahteva jednu komandu: `misc::skeleton`.
 
-## Mere zaštite
+## Mitigations
 
-Strategije zaštite od ovakvih napada uključuju praćenje određenih ID-ova događaja koji ukazuju na instalaciju servisa ili korišćenje osetljivih privilegija. Konkretno, traženje ID-a događaja sistema 7045 ili ID-a događaja bezbednosti 4673 može otkriti sumnjive aktivnosti. Dodatno, pokretanje `lsass.exe` kao zaštićenog procesa može značajno ometati napore napadača, jer zahteva korišćenje drajvera u režimu jezgra, što povećava složenost napada.
+Strategije ublažavanja protiv ovakvih napada uključuju praćenje specifičnih ID-eva događaja koji ukazuju na instalaciju usluga ili korišćenje osetljivih privilegija. Konkretno, praćenje System Event ID 7045 ili Security Event ID 4673 može otkriti sumnjive aktivnosti. Pored toga, pokretanje `lsass.exe` kao zaštićenog procesa može značajno otežati napadačima, jer to zahteva korišćenje drajvera u kernel modu, povećavajući složenost napada.
 
-Evo PowerShell komandi za poboljšanje sigurnosnih mera:
+Evo PowerShell komandi za poboljšanje bezbednosnih mera:
 
-- Za otkrivanje instalacije sumnjivih servisa koristite: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
+- Da biste otkrili instalaciju sumnjivih usluga, koristite: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
 
-- Konkretno, za otkrivanje Mimikatz-ovog drajvera, može se koristiti sledeća komanda: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
+- Konkretno, da biste otkrili Mimikatz-ov drajver, može se koristiti sledeća komanda: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
 
-- Za ojačavanje `lsass.exe`, preporučuje se omogućavanje kao zaštićenog procesa: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
+- Da biste ojačali `lsass.exe`, preporučuje se da ga omogućite kao zaštićen proces: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
 
-Provera nakon ponovnog pokretanja sistema je ključna kako bi se osiguralo da su zaštitne mere uspešno primenjene. To se može postići pomoću: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
+Verifikacija nakon ponovnog pokretanja sistema je ključna kako bi se osiguralo da su zaštitne mere uspešno primenjene. To se može postići kroz: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
 
-## Reference
+## References
 * [https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/](https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
