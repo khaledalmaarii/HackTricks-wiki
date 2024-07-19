@@ -1,16 +1,19 @@
 # macOS Gatekeeper / Quarantine / XProtect
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking de AWS desde cero hasta héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* ¿Trabajas en una **empresa de ciberseguridad**? ¿Quieres ver tu **empresa anunciada en HackTricks**? o ¿quieres tener acceso a la **última versión de PEASS o descargar HackTricks en PDF**? ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivos
-* Obtén el [**merch oficial de PEASS y HackTricks**](https://peass.creator-spring.com)
-* **Únete al** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **sígueme en** **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte tus trucos de hacking enviando PRs al** [**repositorio de hacktricks**](https://github.com/carlospolop/hacktricks) **y al** [**repositorio de hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -24,13 +27,13 @@ El mecanismo clave de Gatekeeper radica en su proceso de **verificación**. Veri
 
 Además, Gatekeeper refuerza el control y la seguridad del usuario al **solicitar a los usuarios que aprueben la apertura** del software descargado por primera vez. Esta salvaguarda ayuda a prevenir que los usuarios ejecuten inadvertidamente código ejecutable potencialmente dañino que pueden haber confundido con un archivo de datos inofensivo.
 
-### Firmas de Aplicaciones
+### Application Signatures
 
 Las firmas de aplicaciones, también conocidas como firmas de código, son un componente crítico de la infraestructura de seguridad de Apple. Se utilizan para **verificar la identidad del autor del software** (el desarrollador) y para asegurar que el código no ha sido alterado desde que fue firmado por última vez.
 
 Así es como funciona:
 
-1. **Firmar la Aplicación:** Cuando un desarrollador está listo para distribuir su aplicación, **firma la aplicación utilizando una clave privada**. Esta clave privada está asociada con un **certificado que Apple emite al desarrollador** cuando se inscribe en el Programa de Desarrolladores de Apple. El proceso de firma implica crear un hash criptográfico de todas las partes de la aplicación y cifrar este hash con la clave privada del desarrollador.
+1. **Firmar la Aplicación:** Cuando un desarrollador está listo para distribuir su aplicación, **firma la aplicación usando una clave privada**. Esta clave privada está asociada con un **certificado que Apple emite al desarrollador** cuando se inscribe en el Programa de Desarrolladores de Apple. El proceso de firma implica crear un hash criptográfico de todas las partes de la aplicación y cifrar este hash con la clave privada del desarrollador.
 2. **Distribuir la Aplicación:** La aplicación firmada se distribuye a los usuarios junto con el certificado del desarrollador, que contiene la clave pública correspondiente.
 3. **Verificar la Aplicación:** Cuando un usuario descarga e intenta ejecutar la aplicación, su sistema operativo Mac utiliza la clave pública del certificado del desarrollador para descifrar el hash. Luego recalcula el hash basado en el estado actual de la aplicación y lo compara con el hash descifrado. Si coinciden, significa que **la aplicación no ha sido modificada** desde que el desarrollador la firmó, y el sistema permite que la aplicación se ejecute.
 
@@ -38,9 +41,9 @@ Las firmas de aplicaciones son una parte esencial de la tecnología Gatekeeper d
 
 A partir de macOS Catalina, **Gatekeeper también verifica si la aplicación ha sido notarizada** por Apple, añadiendo una capa adicional de seguridad. El proceso de notarización verifica la aplicación en busca de problemas de seguridad conocidos y código malicioso, y si estas verificaciones son satisfactorias, Apple añade un ticket a la aplicación que Gatekeeper puede verificar.
 
-#### Verificar Firmas
+#### Check Signatures
 
-Al verificar alguna **muestra de malware**, siempre debes **verificar la firma** del binario, ya que el **desarrollador** que la firmó puede estar ya **relacionado** con **malware.**
+Al verificar alguna **muestra de malware**, siempre debes **comprobar la firma** del binario, ya que el **desarrollador** que lo firmó puede estar ya **relacionado** con **malware.**
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -149,14 +152,14 @@ spctl --assess -v /Applications/App.app
 ```
 ### Archivos en Cuarentena
 
-Al **descargar** una aplicación o archivo, aplicaciones específicas de macOS como navegadores web o clientes de correo electrónico **adjuntan un atributo de archivo extendido**, comúnmente conocido como la "**bandera de cuarentena**," al archivo descargado. Este atributo actúa como una medida de seguridad para **marcar el archivo** como proveniente de una fuente no confiable (internet), y potencialmente portadora de riesgos. Sin embargo, no todas las aplicaciones adjuntan este atributo; por ejemplo, el software común de clientes de BitTorrent generalmente omite este proceso.
+Al **descargar** una aplicación o archivo, aplicaciones específicas de macOS como navegadores web o clientes de correo electrónico **adjuntan un atributo de archivo extendido**, comúnmente conocido como el "**flag de cuarentena**," al archivo descargado. Este atributo actúa como una medida de seguridad para **marcar el archivo** como proveniente de una fuente no confiable (internet), y potencialmente portadora de riesgos. Sin embargo, no todas las aplicaciones adjuntan este atributo; por ejemplo, el software común de clientes de BitTorrent generalmente omite este proceso.
 
-**La presencia de una bandera de cuarentena señala la función de seguridad Gatekeeper de macOS cuando un usuario intenta ejecutar el archivo**.
+**La presencia de un flag de cuarentena señala la función de seguridad Gatekeeper de macOS cuando un usuario intenta ejecutar el archivo**.
 
-En el caso de que la **bandera de cuarentena no esté presente** (como con archivos descargados a través de algunos clientes de BitTorrent), **las verificaciones de Gatekeeper pueden no realizarse**. Por lo tanto, los usuarios deben tener precaución al abrir archivos descargados de fuentes menos seguras o desconocidas.
+En el caso de que el **flag de cuarentena no esté presente** (como con archivos descargados a través de algunos clientes de BitTorrent), **las verificaciones de Gatekeeper pueden no realizarse**. Por lo tanto, los usuarios deben tener precaución al abrir archivos descargados de fuentes menos seguras o desconocidas.
 
 {% hint style="info" %}
-**Verificar** la **validez** de las firmas de código es un proceso **intensivo en recursos** que incluye generar **hashes** criptográficos del código y todos sus recursos empaquetados. Además, verificar la validez del certificado implica hacer una **verificación en línea** a los servidores de Apple para ver si ha sido revocado después de haber sido emitido. Por estas razones, una verificación completa de la firma de código y la notarización es **impráctica de ejecutar cada vez que se lanza una aplicación**.
+**Verificar** la **validez** de las firmas de código es un proceso **intensivo en recursos** que incluye generar **hashes** criptográficos del código y todos sus recursos empaquetados. Además, verificar la validez del certificado implica hacer una **verificación en línea** a los servidores de Apple para ver si ha sido revocado después de ser emitido. Por estas razones, una verificación completa de la firma de código y la notarización es **impráctica de ejecutar cada vez que se lanza una aplicación**.
 
 Por lo tanto, estas verificaciones **solo se realizan al ejecutar aplicaciones con el atributo de cuarentena.**
 {% endhint %}
@@ -164,10 +167,10 @@ Por lo tanto, estas verificaciones **solo se realizan al ejecutar aplicaciones c
 {% hint style="warning" %}
 Este atributo debe ser **establecido por la aplicación que crea/descarga** el archivo.
 
-Sin embargo, los archivos que están en sandbox tendrán este atributo establecido en cada archivo que creen. Y las aplicaciones no sandbox pueden establecerlo ellas mismas, o especificar la clave [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information_property_list/lsfilequarantineenabled?language=objc) en el **Info.plist**, lo que hará que el sistema establezca el atributo extendido `com.apple.quarantine` en los archivos creados,
+Sin embargo, los archivos que están en sandbox tendrán este atributo establecido en cada archivo que creen. Y las aplicaciones no sandbox pueden establecerlo ellas mismas, o especificar la clave [**LSFileQuarantineEnabled**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/lsfilequarantineenabled?language=objc) en el **Info.plist**, lo que hará que el sistema establezca el atributo extendido `com.apple.quarantine` en los archivos creados,
 {% endhint %}
 
-Además, todos los archivos creados por un proceso que llama a **`qtn_proc_apply_to_self`** están en cuarentena. O la API **`qtn_file_apply_to_path`** agrega el atributo de cuarentena a una ruta de archivo especificada.
+Además, todos los archivos creados por un proceso que llama a **`qtn_proc_apply_to_self`** están en cuarentena. O la API **`qtn_file_apply_to_path`** añade el atributo de cuarentena a una ruta de archivo especificada.
 
 Es posible **verificar su estado y habilitar/deshabilitar** (se requiere root) con:
 ```bash
