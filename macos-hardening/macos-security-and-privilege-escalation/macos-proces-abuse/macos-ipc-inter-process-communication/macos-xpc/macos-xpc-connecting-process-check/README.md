@@ -1,60 +1,61 @@
-# Provera povezivanja procesa u macOS XPC-u
+# macOS XPC Connecting Process Check
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Provera povezivanja procesa u XPC-u
+## XPC Connecting Process Check
 
-Kada se uspostavi veza sa XPC servisom, server će proveriti da li je veza dozvoljena. Ovo su provere koje obično vrši:
+Kada se uspostavi veza sa XPC servisom, server će proveriti da li je veza dozvoljena. Ovo su provere koje bi obično izvršio:
 
-1. Provera da li je povezani **proces potpisan Apple-ovim** sertifikatom (koji se dodeljuje samo od strane Apple-a).
-* Ako ovo **nije verifikovano**, napadač može kreirati **lažni sertifikat** koji odgovara bilo kojoj drugoj proveri.
-2. Provera da li je povezani proces potpisan **sertifikatom organizacije** (verifikacija ID-a tima).
-* Ako ovo **nije verifikovano**, **bilo koji razvojni sertifikat** od Apple-a može se koristiti za potpisivanje i povezivanje sa servisom.
-3. Provera da li povezani proces **sadrži odgovarajući bundle ID**.
-* Ako ovo **nije verifikovano**, bilo koji alat **potpisan od iste organizacije** može se koristiti za interakciju sa XPC servisom.
-4. (4 ili 5) Provera da li povezani proces ima **odgovarajući broj verzije softvera**.
-* Ako ovo **nije verifikovano**, stari, nesigurni klijenti koji su podložni ubacivanju procesa mogu se koristiti za povezivanje sa XPC servisom čak i uz ostale provere.
-5. (4 ili 5) Provera da li povezani proces ima ojačano izvršavanje sa opasnim privilegijama (poput onih koje omogućavaju učitavanje proizvoljnih biblioteka ili korišćenje DYLD env varijabli).
-1. Ako ovo **nije verifikovano**, klijent može biti **podložan ubacivanju koda**.
-6. Provera da li povezani proces ima **privilegiju** koja mu omogućava povezivanje sa servisom. Ovo se odnosi na Apple binarne fajlove.
-7. **Verifikacija** se mora **bazirati** na **audit token-u klijenta** koji se povezuje, **umesto** na njegovom ID-u procesa (**PID**) jer prvo sprečava **napade ponovnom upotrebom PID-a**.
-* Razvojni programeri **retko koriste** API poziv za audit token jer je **privatan**, pa Apple može **promeniti** to u bilo kom trenutku. Takođe, korišćenje privatnih API-ja nije dozvoljeno u aplikacijama Mac App Store-a.
-* Ako se koristi metoda **`processIdentifier`**, može biti ranjiva
-* Treba koristiti **`xpc_dictionary_get_audit_token`** umesto **`xpc_connection_get_audit_token`**, jer poslednja može biti [ranjiva u određenim situacijama](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
+1. Proveri da li je **proces koji se povezuje potpisan Apple-ovim** sertifikatom (samo ga Apple izdaje).
+* Ako ovo **nije verifikovano**, napadač bi mogao da kreira **lažni sertifikat** koji bi odgovarao bilo kojoj drugoj proveri.
+2. Proveri da li je proces koji se povezuje potpisan **sertifikatom organizacije** (verifikacija tim ID-a).
+* Ako ovo **nije verifikovano**, **bilo koji developerski sertifikat** od Apple-a može se koristiti za potpisivanje i povezivanje sa servisom.
+3. Proveri da li proces koji se povezuje **sadrži odgovarajući bundle ID**.
+* Ako ovo **nije verifikovano**, bilo koji alat **potpisan od iste organizacije** mogao bi se koristiti za interakciju sa XPC servisom.
+4. (4 ili 5) Proveri da li proces koji se povezuje ima **odgovarajući broj verzije softvera**.
+* Ako ovo **nije verifikovano**, stari, nesigurni klijenti, ranjivi na injekciju procesa mogli bi se koristiti za povezivanje sa XPC servisom čak i uz druge provere.
+5. (4 ili 5) Proveri da li proces koji se povezuje ima ojačanu runtime bez opasnih prava (kao što su ona koja omogućavaju učitavanje proizvoljnih biblioteka ili korišćenje DYLD env varijabli).
+* Ako ovo **nije verifikovano**, klijent bi mogao biti **ranjiv na injekciju koda**.
+6. Proveri da li proces koji se povezuje ima **pravo** koje mu omogućava povezivanje sa servisom. Ovo se primenjuje na Apple binarne datoteke.
+7. **Verifikacija** mora biti **zasnovana** na **audit token-u klijenta** **umesto** na njegovom ID-u procesa (**PID**) jer prvi sprečava **napade ponovne upotrebe PID-a**.
+* Programeri **retko koriste audit token** API poziv jer je **privatan**, tako da Apple može **promeniti** u bilo kojem trenutku. Pored toga, korišćenje privatnog API-ja nije dozvoljeno u aplikacijama Mac App Store-a.
+* Ako se koristi metoda **`processIdentifier`**, može biti ranjiva.
+* **`xpc_dictionary_get_audit_token`** treba koristiti umesto **`xpc_connection_get_audit_token`**, jer bi poslednji mogao biti [ranjiv u određenim situacijama](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/).
 
-### Napadi na komunikaciju
+### Communication Attacks
 
-Za više informacija o napadu ponovnom upotrebom PID-a pogledajte:
+Za više informacija o napadu ponovne upotrebe PID-a proverite:
 
 {% content-ref url="macos-pid-reuse.md" %}
 [macos-pid-reuse.md](macos-pid-reuse.md)
 {% endcontent-ref %}
 
-Za više informacija o napadu **`xpc_connection_get_audit_token`** pogledajte:
+Za više informacija o napadu **`xpc_connection_get_audit_token`** proverite:
 
 {% content-ref url="macos-xpc_connection_get_audit_token-attack.md" %}
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
 {% endcontent-ref %}
 
-### Prevencija napada na Trustcache - Downgrade
+### Trustcache - Downgrade Attacks Prevention
 
-Trustcache je defanzivna metoda koja je uvedena u Apple Silicon mašinama i čuva bazu podataka CDHSAH Apple binarnih fajlova, tako da se mogu izvršavati samo dozvoljeni, nepromenjeni binarni fajlovi. Ovo sprečava izvršavanje verzija sa nižim nivoom sigurnosti.
+Trustcache je odbrambena metoda uvedena u Apple Silicon mašinama koja čuva bazu podataka CDHSAH Apple binarnih datoteka tako da samo dozvoljene neizmenjene binarne datoteke mogu biti izvršene. Što sprečava izvršavanje verzija sa smanjenim nivoom.
 
-### Primeri koda
+### Code Examples
 
-Server će implementirati ovu **verifikaciju** u funkciji nazvanoj **`shouldAcceptNewConnection`**.
+Server će implementirati ovu **verifikaciju** u funkciji pod nazivom **`shouldAcceptNewConnection`**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -65,9 +66,9 @@ return YES;
 ```
 {% endcode %}
 
-Objekat NSXPCConnection ima **privatno** svojstvo **`auditToken`** (ono koje treba koristiti, ali se može promeniti) i **javno** svojstvo **`processIdentifier`** (ono koje ne treba koristiti).
+Objekat NSXPCConnection ima **privatnu** osobinu **`auditToken`** (onu koja bi trebala da se koristi, ali može da se promeni) i **javnu** osobinu **`processIdentifier`** (onu koja ne bi trebala da se koristi).
 
-Povezani proces može se proveriti na sledeći način:
+Povezani proces može se verifikovati sa nečim poput:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -91,7 +92,7 @@ SecTaskValidateForRequirement(taskRef, (__bridge CFStringRef)(requirementString)
 ```
 {% endcode %}
 
-Ako programer ne želi da proverava verziju klijenta, on može barem proveriti da klijent nije podložan ubacivanju procesa:
+Ako programer ne želi da proveri verziju klijenta, mogao bi da proveri da klijent nije podložan injekciji procesa barem:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -110,16 +111,17 @@ return Yes; // Accept connection
 ```
 {% endcode %}
 
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

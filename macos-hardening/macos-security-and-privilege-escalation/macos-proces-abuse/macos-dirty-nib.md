@@ -1,86 +1,88 @@
-# macOS Prljavi NIB
+# macOS Dirty NIB
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Za dalje detalje o tehnici pogledajte originalni post na: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** Evo sažetka:
+**Za više detalja o tehnici pogledajte originalni post sa: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** Evo sažetak:
 
-NIB fajlovi, deo Apple-ovog razvojnog ekosistema, služe za definisanje **UI elemenata** i njihovih interakcija u aplikacijama. Obuhvataju serijalizovane objekte kao što su prozori i dugmad, i učitavaju se pri izvršavanju. Uprkos njihovoj trenutnoj upotrebi, Apple sada preporučuje Storyboards za sveobuhvatniju vizualizaciju UI toka.
+NIB datoteke, deo Apple-ovog razvojnog ekosistema, namenjene su definisanju **UI elemenata** i njihovim interakcijama u aplikacijama. One obuhvataju serijalizovane objekte kao što su prozori i dugmad, i učitavaju se u vreme izvođenja. I pored njihove stalne upotrebe, Apple sada preporučuje Storyboards za sveobuhvatniju vizualizaciju UI toka.
 
-### Bezbednosne brige sa NIB fajlovima
-Važno je napomenuti da **NIB fajlovi mogu predstavljati bezbednosni rizik**. Imaju potencijal da **izvršavaju proizvoljne komande**, a izmene NIB fajlova unutar aplikacije ne sprečavaju Gatekeeper da izvrši aplikaciju, što predstavlja značajnu pretnju.
+### Bezbednosne brige sa NIB datotekama
+Važno je napomenuti da **NIB datoteke mogu predstavljati bezbednosni rizik**. One imaju potencijal da **izvrše proizvoljne komande**, a izmene u NIB datotekama unutar aplikacije ne sprečavaju Gatekeeper da izvrši aplikaciju, što predstavlja značajnu pretnju.
 
-### Proces zloupotrebe prljavog NIB-a
-#### Kreiranje i podešavanje NIB fajla
-1. **Početno podešavanje**:
-- Kreirajte novi NIB fajl koristeći XCode.
-- Dodajte objekat na interfejs, postavljajući mu klasu na `NSAppleScript`.
-- Podesite početno svojstvo `source` putem User Defined Runtime Attributes.
+### Proces injekcije Dirty NIB
+#### Kreiranje i postavljanje NIB datoteke
+1. **Početna konfiguracija**:
+- Kreirajte novu NIB datoteku koristeći XCode.
+- Dodajte objekat u interfejs, postavljajući njegovu klasu na `NSAppleScript`.
+- Konfigurišite početnu `source` osobinu putem korisnički definisanih runtime atributa.
 
-2. **Kod za izvršavanje**:
-- Podešavanje omogućava pokretanje AppleScript-a po potrebi.
-- Integrišite dugme za aktiviranje objekta `Apple Script`, posebno pokretanje selektora `executeAndReturnError:`.
+2. **Gadget za izvršenje koda**:
+- Konfiguracija omogućava pokretanje AppleScript-a na zahtev.
+- Integrisati dugme za aktiviranje `Apple Script` objekta, posebno pokrećući `executeAndReturnError:` selektor.
 
 3. **Testiranje**:
-- Jednostavan AppleScript za testiranje:
+- Jednostavan Apple Script za testiranje:
 ```bash
 set theDialogText to "PWND"
 display dialog theDialogText
 ```
-- Testirajte pokretanjem u XCode debuggeru i klikom na dugme.
+- Testirajte pokretanjem u XCode debageru i klikom na dugme.
 
 #### Ciljanje aplikacije (Primer: Pages)
 1. **Priprema**:
-- Kopirajte ciljanu aplikaciju (npr. Pages) u poseban direktorijum (npr. `/tmp/`).
-- Pokrenite aplikaciju da zaobiđete probleme sa Gatekeeper-om i keširajte je.
+- Kopirajte ciljanju aplikaciju (npr. Pages) u poseban direktorijum (npr. `/tmp/`).
+- Pokrenite aplikaciju da biste izbegli probleme sa Gatekeeper-om i keširali je.
 
-2. **Pisanje preko NIB fajla**:
-- Zamenite postojeći NIB fajl (npr. About Panel NIB) sa izrađenim DirtyNIB fajlom.
+2. **Prepisivanje NIB datoteke**:
+- Zamenite postojeću NIB datoteku (npr. About Panel NIB) sa kreiranom DirtyNIB datotekom.
 
-3. **Izvršavanje**:
-- Pokrenite izvršavanje interakcijom sa aplikacijom (npr. izborom stavke menija `About`).
+3. **Izvršenje**:
+- Pokrenite izvršenje interakcijom sa aplikacijom (npr. odabirom `About` menija).
 
-#### Dokaz o konceptu: Pristupanje korisničkim podacima
-- Izmenite AppleScript da pristupite i izvučete korisničke podatke, kao što su fotografije, bez pristanka korisnika.
+#### Dokaz koncepta: Pristup korisničkim podacima
+- Izmenite AppleScript da pristupi i izvuče korisničke podatke, kao što su fotografije, bez pristanka korisnika.
 
-### Primer koda: Zlonamerni .xib fajl
-- Pristupite i pregledajte [**primer zlonamernog .xib fajla**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) koji demonstrira izvršavanje proizvoljnog koda.
+### Uzorak koda: Maliciozna .xib datoteka
+- Pristupite i pregledajte [**uzorak maliciozne .xib datoteke**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) koja demonstrira izvršavanje proizvoljnog koda.
 
-### Adresiranje ograničenja pokretanja
-- Ograničenja pokretanja sprečavaju izvršavanje aplikacije sa neočekivanih lokacija (npr. `/tmp`).
-- Moguće je identifikovati aplikacije koje nisu zaštićene ograničenjima pokretanja i ciljati ih za ubacivanje NIB fajla.
+### Rešavanje ograničenja pokretanja
+- Ograničenja pokretanja sprečavaju izvršavanje aplikacija iz neočekivanih lokacija (npr. `/tmp`).
+- Moguće je identifikovati aplikacije koje nisu zaštićene Ograničenjima pokretanja i ciljati ih za injekciju NIB datoteka.
 
-### Dodatne macOS zaštite
-Od macOS Sonoma verzije nadalje, modifikacije unutar App bundle-ova su ograničene. Međutim, ranije metode su uključivale:
-1. Kopiranje aplikacije na drugu lokaciju (npr. `/tmp/`).
-2. Preimenovanje direktorijuma unutar App bundle-a da bi se zaobišle početne zaštite.
-3. Nakon pokretanja aplikacije da se registruje kod Gatekeeper-a, modifikovanje App bundle-a (npr. zamena MainMenu.nib sa Dirty.nib).
-4. Vraćanje preimenovanih direktorijuma i ponovno pokretanje aplikacije da bi se izvršio ubačeni NIB fajl.
+### Dodatne zaštite macOS-a
+Od macOS Sonoma nadalje, izmene unutar App bundle-a su ograničene. Međutim, ranije metode su uključivale:
+1. Kopiranje aplikacije na drugo mesto (npr. `/tmp/`).
+2. Preimenovanje direktorijuma unutar app bundle-a da bi se zaobišle početne zaštite.
+3. Nakon pokretanja aplikacije da se registruje sa Gatekeeper-om, izmena app bundle-a (npr. zamena MainMenu.nib sa Dirty.nib).
+4. Ponovno preimenovanje direktorijuma i ponovo pokretanje aplikacije da bi se izvršila injektovana NIB datoteka.
 
-**Napomena**: Nedavne macOS nadogradnje su umanjile ovu eksploataciju sprečavanjem modifikacija fajlova unutar App bundle-a nakon keširanja od strane Gatekeeper-a, čime je eksploatacija postala neefikasna.
+**Napomena**: Nedavne ažuriranja macOS-a su ublažila ovu eksploataciju sprečavanjem izmene datoteka unutar app bundle-a nakon keširanja Gatekeeper-a, čime je eksploatacija postala neefikasna.
 
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

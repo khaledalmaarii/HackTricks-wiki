@@ -1,35 +1,36 @@
-# macOS Pesak
+# macOS Sandbox
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Osnovne informacije
+## Basic Information
 
-macOS Pesak (inicijalno nazvan Seatbelt) **ograničava aplikacije** koje se izvršavaju unutar peska na **dozvoljene akcije navedene u profilu peska** sa kojim se aplikacija izvršava. Ovo pomaže da se osigura da **aplikacija pristupa samo očekivanim resursima**.
+MacOS Sandbox (prvobitno nazvan Seatbelt) **ograničava aplikacije** koje se izvršavaju unutar sandboxes na **dozvoljene radnje specificirane u Sandbox profilu** sa kojim aplikacija radi. Ovo pomaže da se osigura da **aplikacija pristupa samo očekivanim resursima**.
 
-Bilo koja aplikacija sa **ovlašćenjem** **`com.apple.security.app-sandbox`** će biti izvršena unutar peska. **Apple binarni fajlovi** se obično izvršavaju unutar peska i kako bi se objavili u **App Store-u**, **ovo ovlašćenje je obavezno**. Dakle, većina aplikacija će biti izvršena unutar peska.
+Svaka aplikacija sa **entitlement** **`com.apple.security.app-sandbox`** će biti izvršena unutar sandboxes. **Apple binarni** fajlovi se obično izvršavaju unutar Sandbox-a i da bi se objavili unutar **App Store-a**, **ova dozvola je obavezna**. Tako da će većina aplikacija biti izvršena unutar sandboxes.
 
-Da bi se kontrolisalo šta proces može ili ne može da radi, **Pesak ima kuke** u svim **sistemskim pozivima** širom jezgra. **Zavisno** o **ovlašćenjima** aplikacije, Pesak će **dozvoliti** određene akcije.
+Da bi se kontrolisalo šta proces može ili ne može da radi, **Sandbox ima hook-ove** u svim **syscalls** kroz kernel. **U zavisnosti** od **entitlements** aplikacije, Sandbox će **dozvoliti** određene radnje.
 
-Neki važni komponenti Peska su:
+Neki važni sastavni delovi Sandbox-a su:
 
-* **Kernel ekstenzija** `/System/Library/Extensions/Sandbox.kext`
-* **Privatni okvir** `/System/Library/PrivateFrameworks/AppSandbox.framework`
-* **Demon** koji se izvršava u korisničkom prostoru `/usr/libexec/sandboxd`
-* **Kontejneri** `~/Library/Containers`
+* **kernel ekstenzija** `/System/Library/Extensions/Sandbox.kext`
+* **privatni framework** `/System/Library/PrivateFrameworks/AppSandbox.framework`
+* **daemon** koji se izvršava u userland-u `/usr/libexec/sandboxd`
+* **kontejneri** `~/Library/Containers`
 
-Unutar foldera kontejnera možete pronaći **folder za svaku aplikaciju koja se izvršava u pesku** sa imenom identifikatora paketa (bundle id):
+Unutar foldera kontejnera možete pronaći **folder za svaku aplikaciju izvršenu u sandbox-u** sa imenom bundle id-a:
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -40,7 +41,7 @@ drwx------@ 4 username  staff  128 Mar 25 14:14 com.apple.Accessibility-Settings
 drwx------@ 4 username  staff  128 Mar 25 14:10 com.apple.ActionKit.BundledIntentHandler
 [...]
 ```
-Unutar svake fascikle sa identifikacijom paketa možete pronaći **plist** i **Data direktorijum** aplikacije:
+Unutar svake fascikle sa bundle id možete pronaći **plist** i **Data directory** aplikacije:
 ```bash
 cd /Users/username/Library/Containers/com.apple.Safari
 ls -la
@@ -64,7 +65,7 @@ drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
 {% hint style="danger" %}
-Imajte na umu da čak i ako su simboličke veze tu da "pobegnu" iz Sandbox-a i pristupe drugim fasciklama, aplikacija i dalje mora **imati dozvole** da im pristupi. Ove dozvole se nalaze unutar **`.plist`** fajla.
+Imajte na umu da čak i ako su simboličke veze tu da "pobegnu" iz Sandbox-a i pristupe drugim folderima, aplikacija i dalje mora **imati dozvole** da im pristupi. Ove dozvole su unutar **`.plist`**.
 {% endhint %}
 ```bash
 # Get permissions
@@ -114,12 +115,12 @@ AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
 [...]
 ```
 {% hint style="warning" %}
-Sve što je kreirano/izmenjeno od strane aplikacije u pesku će dobiti **atribut karantina**. Ovo će sprečiti prostor peska da pokrene Gatekeeper ako aplikacija u pesku pokuša da izvrši nešto sa **`open`**.
+Sve što kreira/menja aplikacija u Sandbox-u dobiće **atribut karantina**. To će sprečiti prostor sandboksovanja aktiviranjem Gatekeeper-a ako aplikacija u sandboksu pokuša da izvrši nešto sa **`open`**.
 {% endhint %}
 
-### Profili peska
+### Sandbox Profili
 
-Profil peska su konfiguracioni fajlovi koji ukazuju šta će biti **dozvoljeno/zabranjeno** u tom **pesku**. Koristi se jezik profila peska (SBPL), koji koristi [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programski jezik.
+Sandbox profili su konfiguracione datoteke koje označavaju šta će biti **dozvoljeno/zabranjeno** u tom **Sandbox-u**. Koristi **Sandbox Profile Language (SBPL)**, koja koristi [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programski jezik.
 
 Ovde možete pronaći primer:
 ```scheme
@@ -140,100 +141,28 @@ Ovde možete pronaći primer:
 )
 ```
 {% hint style="success" %}
-Pogledajte ovaj [**istraživački rad**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **da biste proverili više akcija koje mogu biti dozvoljene ili odbijene.**
+Proverite ovo [**istraživanje**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **da biste proverili više akcija koje mogu biti dozvoljene ili zabranjene.**
 {% endhint %}
 
-Važne **sistemske usluge** takođe se izvršavaju unutar svojih sopstvenih prilagođenih **sandbox-ova**, kao što je `mdnsresponder` usluga. Ove prilagođene **sandbox profile** možete videti unutar:
+Važne **sistemske usluge** takođe rade unutar svojih prilagođenih **sandbox**-a, kao što je usluga `mdnsresponder`. Možete pregledati ove prilagođene **sandbox profile** unutar:
 
 * **`/usr/share/sandbox`**
 * **`/System/Library/Sandbox/Profiles`**&#x20;
-* Ostali sandbox profili mogu se proveriti na [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
+* Ostale sandbox profile možete proveriti na [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
 
-Aplikacije iz **App Store-a** koriste profil **`/System/Library/Sandbox/Profiles/application.sb`**. U ovom profilu možete proveriti kako ovlašćenja poput **`com.apple.security.network.server`** omogućavaju procesu korišćenje mreže.
+**App Store** aplikacije koriste **profil** **`/System/Library/Sandbox/Profiles/application.sb`**. Možete proveriti u ovom profilu kako ovlašćenja kao što je **`com.apple.security.network.server`** omogućavaju procesu da koristi mrežu.
 
 SIP je Sandbox profil nazvan platform\_profile u /System/Library/Sandbox/rootless.conf
 
 ### Primeri Sandbox Profila
 
-Da biste pokrenuli aplikaciju sa **određenim sandbox profilom**, možete koristiti:
+Da biste pokrenuli aplikaciju sa **specifičnim sandbox profilom**, možete koristiti:
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
+{% tabs %}
+{% tab title="touch" %}
 {% code title="touch.sb" %}
-
-```plaintext
-(version 1)
-(deny default)
-(allow file-read-metadata)
-(allow file-write-metadata)
-(allow file-read-data (literal "/private/var/tmp/"))
-(allow file-write-data (literal "/private/var/tmp/"))
-(allow file-read-data (regex #"^/private/var/folders/[^/]+/[^/]+/[C,T]/"))
-(allow file-write-data (regex #"^/private/var/folders/[^/]+/[^/]+/[C,T]/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/C/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/C/C/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/T/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/T/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/C/T/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/C/T/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/T/T/C/T/"))
-(allow file-read-data (literal "/private/var/folders/[^/]+/[^/]+/[^/]+/C/T/C/T/"))
-(allow file-write-data (literal "/private/var/folders/[^/]+/[^/]+/[^/
 ```scheme
 (version 1)
 (deny default)
@@ -266,6 +195,8 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
+{% endcode %}
+
 {% code title="touch3.sb" %}
 ```scheme
 (version 1)
@@ -280,50 +211,50 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-Napomena da **Apple-ov** **softver** koji se pokreće na **Windowsu** **nema dodatne sigurnosne mere**, kao što je sandboxing aplikacija.
+Napomena da **Apple-ov** **softver** koji radi na **Windows-u** **nema dodatne bezbednosne mere**, kao što je sandboxing aplikacija.
 {% endhint %}
 
 Primeri zaobilaženja:
 
 * [https://lapcatsoftware.com/articles/sandbox-escape.html](https://lapcatsoftware.com/articles/sandbox-escape.html)
-* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (mogu da pišu datoteke van sandboxa čije ime počinje sa `~$`).
+* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (mogu da pišu datoteke van sandbox-a čije ime počinje sa `~$`).
 
-### Profili macOS Sandbox-a
+### MacOS Sandbox Profili
 
-macOS čuva sistemske profile sandbox-a na dve lokacije: **/usr/share/sandbox/** i **/System/Library/Sandbox/Profiles**.
+macOS čuva sistemske sandbox profile na dve lokacije: **/usr/share/sandbox/** i **/System/Library/Sandbox/Profiles**.
 
-Ako treća strana aplikacija ima _**com.apple.security.app-sandbox**_ privilegiju, sistem primenjuje profil **/System/Library/Sandbox/Profiles/application.sb** na taj proces.
+I ako treća strana aplikacija nosi _**com.apple.security.app-sandbox**_ pravo, sistem primenjuje **/System/Library/Sandbox/Profiles/application.sb** profil na taj proces.
 
 ### **iOS Sandbox Profil**
 
-Podrazumevani profil se naziva **container** i nemamo SBPL tekstualnu reprezentaciju. U memoriji, ovaj sandbox je predstavljen kao binarno stablo Dozvoli/Odbij za svaku dozvolu iz sandbox-a.
+Podrazumevani profil se zove **container** i nemamo SBPL tekstualnu reprezentaciju. U memoriji, ovaj sandbox je predstavljen kao binarno stablo Dozvoli/Zabranjeno za svaku dozvolu iz sandbox-a.
 
-### Debugiranje i zaobilaženje Sandbox-a
+### Debug & Zaobilaženje Sandbox-a
 
-Na macOS-u, za razliku od iOS-a gde su procesi od početka sandbox-ovani od strane jezgra, **procesi moraju sami da se odluče za sandbox**. To znači da na macOS-u, proces nije ograničen sandbox-om sve dok aktivno ne odluči da uđe u njega.
+Na macOS-u, za razliku od iOS-a gde su procesi sandbox-ovani od samog početka od strane jezgra, **procesi moraju sami da se prijave za sandbox**. To znači da na macOS-u, proces nije ograničen sandbox-om dok aktivno ne odluči da uđe u njega.
 
-Procesi automatski dobijaju Sandbox kada se pokrenu iz korisničkog prostora ako imaju privilegiju: `com.apple.security.app-sandbox`. Za detaljno objašnjenje ovog procesa pogledajte:
+Procesi se automatski sandbox-uju iz korisničkog prostora kada počnu ako imaju pravo: `com.apple.security.app-sandbox`. Za detaljno objašnjenje ovog procesa pogledajte:
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
 {% endcontent-ref %}
 
-### **Provera privilegija PID-a**
+### **Proveri PID Privilegije**
 
-[**Prema ovome**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), **`sandbox_check`** (to je `__mac_syscall`), može proveriti **da li je operacija dozvoljena ili ne** od strane sandbox-a za određeni PID.
+[**Prema ovome**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), **`sandbox_check`** (to je `__mac_syscall`), može da proveri **da li je operacija dozvoljena ili ne** od strane sandbox-a u određenom PID-u.
 
-Alatka [**sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) može proveriti da li PID može izvršiti određenu radnju:
+[**alat sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) može da proveri da li PID može da izvrši određenu akciju:
 ```bash
 sbtool <pid> mach #Check mac-ports (got from launchd with an api)
 sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
-### Prilagođeni SBPL u aplikacijama App Store-a
+### Custom SBPL u aplikacijama iz App Store-a
 
-Moguće je da kompanije svoje aplikacije pokreću **sa prilagođenim Sandbox profilima** (umesto sa podrazumevanim). Za to je potrebno koristiti privilegiju **`com.apple.security.temporary-exception.sbpl`** koju mora odobriti Apple.
+Moguće je da kompanije pokreću svoje aplikacije **sa prilagođenim Sandbox profilima** (umesto sa podrazumevanim). Potrebno je koristiti pravo **`com.apple.security.temporary-exception.sbpl`** koje mora biti odobreno od strane Apple-a.
 
-Moguće je proveriti definiciju ove privilegije u **`/System/Library/Sandbox/Profiles/application.sb:`**
+Moguće je proveriti definiciju ovog prava u **`/System/Library/Sandbox/Profiles/application.sb:`**
 ```scheme
 (sandbox-array-entitlement
 "com.apple.security.temporary-exception.sbpl"
@@ -331,18 +262,19 @@ Moguće je proveriti definiciju ove privilegije u **`/System/Library/Sandbox/Pro
 (let* ((port (open-input-string string)) (sbpl (read port)))
 (with-transparent-redirection (eval sbpl)))))
 ```
-Ovo će **proceniti string nakon ovog ovlašćenja** kao Sandbox profil.
+Ovo će **evalirati string nakon ovog prava** kao Sandbox profil.
+
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Podržite HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**PLANOVE ZA PRETPLATU**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
+{% endhint %}

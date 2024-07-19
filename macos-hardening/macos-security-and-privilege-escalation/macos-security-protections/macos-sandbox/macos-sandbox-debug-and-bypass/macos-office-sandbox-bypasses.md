@@ -1,73 +1,78 @@
-# Bypassi za macOS Office Sandbox
+# macOS Office Sandbox Bypasses
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
-
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter-u** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Bypass Sandbox-a u Word-u putem Launch Agents
+### Word Sandbox bypass via Launch Agents
 
-Aplikacija koristi **prilagođeni Sandbox** koristeći privilegiju **`com.apple.security.temporary-exception.sbpl`** i ovaj prilagođeni sandbox omogućava pisanje fajlova bilo gde, sve dok ime fajla počinje sa `~$`: `(require-any (require-all (vnode-type REGULAR-FILE) (regex #"(^|/)~$[^/]+$")))`
+Aplikacija koristi **prilagođeni Sandbox** koristeći pravo **`com.apple.security.temporary-exception.sbpl`** i ovaj prilagođeni sandbox omogućava pisanje fajlova bilo gde sve dok ime fajla počinje sa `~$`: `(require-any (require-all (vnode-type REGULAR-FILE) (regex #"(^|/)~$[^/]+$")))`
 
-Stoga, izbegavanje je bilo jednostavno kao **pisanje `plist`** LaunchAgent-a u `~/Library/LaunchAgents/~$escape.plist`.
+Stoga, bekstvo je bilo lako kao **pisanje `plist`** LaunchAgent-a u `~/Library/LaunchAgents/~$escape.plist`.
 
-Pogledajte [**originalni izveštaj ovde**](https://www.mdsec.co.uk/2018/08/escaping-the-sandbox-microsoft-office-on-macos/).
+Check the [**original report here**](https://www.mdsec.co.uk/2018/08/escaping-the-sandbox-microsoft-office-on-macos/).
 
-### Bypass Sandbox-a u Word-u putem Login stavki i zip-a
+### Word Sandbox bypass via Login Items and zip
 
-Zapamtite da od prvog bekstva, Word može pisati proizvoljne fajlove čije ime počinje sa `~$`, iako nakon zakrpe prethodne ranjivosti nije bilo moguće pisati u `/Library/Application Scripts` ili u `/Library/LaunchAgents`.
+Zapamtite da iz prvog bekstva, Word može pisati proizvoljne fajlove čija imena počinju sa `~$` iako nakon zakrpe prethodne ranjivosti nije bilo moguće pisati u `/Library/Application Scripts` ili u `/Library/LaunchAgents`.
 
-Otkriveno je da je iz sandbox-a moguće kreirati **Login stavku** (aplikacije koje će se izvršiti kada se korisnik prijavi). Međutim, ove aplikacije **neće se izvršiti osim ako** nisu **notarizovane** i nije moguće dodati argumente (tako da ne možete pokrenuti reverznu ljusku koristeći **`bash`**).
+Otkriveno je da je iz sandbox-a moguće kreirati **Login Item** (aplikacije koje će se izvršiti kada se korisnik prijavi). Međutim, ove aplikacije **neće se izvršiti osim ako** nisu **notarizovane** i **nije moguće dodati argumente** (tako da ne možete samo pokrenuti reverznu ljusku koristeći **`bash`**).
 
-Od prethodnog bypass-a Sandbox-a, Microsoft je onemogućio opciju pisanja fajlova u `~/Library/LaunchAgents`. Međutim, otkriveno je da ako stavite **zip fajl kao Login stavku**, `Archive Utility` će ga samo **otpakovati** na trenutnoj lokaciji. Dakle, pošto podrazumevano folder `LaunchAgents` iz `~/Library` nije kreiran, bilo je moguće **zapakovati plist u `LaunchAgents/~$escape.plist`** i **postaviti** zip fajl u **`~/Library`** tako da će prilikom dekompresije stići do odredišta trajnosti.
+Iz prethodnog Sandbox zaobilaženja, Microsoft je onemogućio opciju pisanja fajlova u `~/Library/LaunchAgents`. Međutim, otkriveno je da ako stavite **zip fajl kao Login Item**, `Archive Utility` će jednostavno **raspakovati** na trenutnoj lokaciji. Dakle, pošto po defaultu folder `LaunchAgents` iz `~/Library` nije kreiran, bilo je moguće **zipovati plist u `LaunchAgents/~$escape.plist`** i **staviti** zip fajl u **`~/Library`** tako da kada se raspakuje, doći će do odredišta za postojanost.
 
-Pogledajte [**originalni izveštaj ovde**](https://objective-see.org/blog/blog\_0x4B.html).
+Check the [**original report here**](https://objective-see.org/blog/blog\_0x4B.html).
 
-### Bypass Sandbox-a u Word-u putem Login stavki i .zshenv
+### Word Sandbox bypass via Login Items and .zshenv
 
-(Zapamtite da od prvog bekstva, Word može pisati proizvoljne fajlove čije ime počinje sa `~$`).
+(Zapamtite da iz prvog bekstva, Word može pisati proizvoljne fajlove čija imena počinju sa `~$`).
 
-Međutim, prethodna tehnika je imala ograničenje, ako folder **`~/Library/LaunchAgents`** postoji jer ga je neki drugi softver kreirao, ona bi propala. Zato je otkrivena druga Login stavka za ovo.
+Međutim, prethodna tehnika imala je ograničenje, ako folder **`~/Library/LaunchAgents`** postoji jer ga je neka druga aplikacija kreirala, to bi propalo. Tako je otkrivena drugačija lanac Login Items za ovo.
 
-Napadač bi mogao kreirati fajlove **`.bash_profile`** i **`.zshenv`** sa payload-om za izvršavanje, a zatim ih zapakovati i **zapisati zip u korisnički folder** žrtve: **`~/~$escape.zip`**.
+Napadač bi mogao kreirati fajlove **`.bash_profile`** i **`.zshenv`** sa teretom za izvršavanje, a zatim ih zipovati i **pisati zip u folder korisnika žrtve**: **`~/~$escape.zip`**.
 
-Zatim, dodajte zip fajl u **Login stavke**, a zatim i **aplikaciju Terminal**. Kada se korisnik ponovo prijavi, zip fajl će biti dekompresovan u korisnički fajl, prebrisavajući **`.bash_profile`** i **`.zshenv`** i stoga će terminal izvršiti jedan od ovih fajlova (zavisno od toga da li se koristi bash ili zsh).
+Zatim, dodajte zip fajl u **Login Items** i zatim aplikaciju **`Terminal`**. Kada se korisnik ponovo prijavi, zip fajl bi bio raspakovan u korisničkom folderu, prepisujući **`.bash_profile`** i **`.zshenv`** i stoga će terminal izvršiti jedan od ovih fajlova (u zavisnosti od toga da li se koristi bash ili zsh).
 
-Pogledajte [**originalni izveštaj ovde**](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c).
+Check the [**original report here**](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c).
 
-### Bypass Sandbox-a u Word-u sa Open i env promenljivama
+### Word Sandbox Bypass with Open and env variables
 
-Iz sandbox procesa i dalje je moguće pozvati druge procese koristeći alatku **`open`**. Osim toga, ovi procesi će se izvršavati **unutar svog sopstvenog sandbox-a**.
+Iz sandboxovanih procesa još uvek je moguće pozvati druge procese koristeći **`open`** alat. Štaviše, ovi procesi će se izvršavati **unutar svog vlastitog sandbox-a**.
 
-Otkriveno je da open alatka ima opciju **`--env`** za pokretanje aplikacije sa **specifičnim env promenljivama**. Stoga je bilo moguće kreirati **`.zshenv` fajl** unutar foldera **unutar** sandbox-a i koristiti `open` sa `--env` postavljajući **`HOME` promenljivu** na taj folder otvarajući tu `Terminal` aplikaciju, koja će izvršiti `.zshenv` fajl (iz nekog razloga bilo je potrebno i postaviti promenljivu `__OSINSTALL_ENVIROMENT`).
+Otkriveno je da open alat ima opciju **`--env`** za pokretanje aplikacije sa **specifičnim env** varijablama. Stoga, bilo je moguće kreirati **`.zshenv` fajl** unutar foldera **unutar** **sandbox-a** i koristiti `open` sa `--env` postavljajući **`HOME` varijablu** na taj folder otvarajući aplikaciju `Terminal`, koja će izvršiti `.zshenv` fajl (iz nekog razloga takođe je bilo potrebno postaviti varijablu `__OSINSTALL_ENVIROMENT`).
 
-Pogledajte [**originalni izveštaj ovde**](https://perception-point.io/blog/technical-analysis-of-cve-2021-30864/).
+Check the [**original report here**](https://perception-point.io/blog/technical-analysis-of-cve-2021-30864/).
 
-### Bypass Sandbox-a u Word-u sa Open i stdin
+### Word Sandbox Bypass with Open and stdin
 
-Alatka **`open`** takođe podržava parametar **`--stdin`** (a nakon prethodnog bypass-a više nije bilo moguće koristiti `--env`).
+Alat **`open`** takođe podržava parametar **`--stdin`** (i nakon prethodnog zaobilaženja više nije bilo moguće koristiti `--env`).
 
-Stvar je u tome da čak i ako je **`python`** potpisan od strane Apple-a, **neće izvršiti** skriptu sa **`quarantine`** atributom. Međutim, bilo je moguće proslediti mu skriptu putem stdin-a tako da neće proveravati da li je karantinirana ili ne:&#x20;
+Stvar je u tome da čak i ako je **`python`** potpisan od strane Apple-a, **neće izvršiti** skriptu sa **`quarantine`** atributom. Međutim, bilo je moguće proslediti mu skriptu iz stdin-a tako da neće proveravati da li je bila u karantinu ili ne:&#x20;
 
-1. Ubacite fajl **`~$exploit.py`** sa proizvoljnim Python komandama.
-2. Pokrenite _open_ **`–stdin='~$exploit.py' -a Python`**, što pokreće Python aplikaciju sa našim ubačenim fajlom kao standardni ulaz. Python srećno izvršava naš kod i pošto je to podproces _launchd_-a, nije vezan za Word-ova pravila sandbox-a.
+1. Postavite **`~$exploit.py`** fajl sa proizvoljnim Python komandama.
+2. Pokrenite _open_ **`–stdin='~$exploit.py' -a Python`**, što pokreće Python aplikaciju sa našim postavljenim fajlom kao njenim standardnim ulazom. Python rado izvršava naš kod, a pošto je to podproces _launchd_, nije vezan za pravila Word-ovog sandbox-a.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Drugi načini podrške HackTricks-u:
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-* Ako želite da vidite **vašu kompaniju reklamiranu na HackTricks-u** ili **preuzmete HackTricks u PDF formatu** proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitter
+</details>
+{% endhint %}
