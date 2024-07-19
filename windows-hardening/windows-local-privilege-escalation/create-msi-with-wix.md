@@ -1,24 +1,25 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 # Kötü Amaçlı MSI Oluşturma ve Root Elde Etme
 
-MSI yükleyicinin oluşturulması, özellikle [wixtools](http://wixtoolset.org) kullanılarak yapılacaktır. Alternatif MSI oluşturucuları denendi, ancak bu özel durumda başarılı olunamadı.
+MSI yükleyicisinin oluşturulması wixtools kullanılarak yapılacaktır, özellikle [wixtools](http://wixtoolset.org) kullanılacaktır. Alternatif MSI oluşturucularının denendiği, ancak bu özel durumda başarılı olunamadığı belirtilmelidir.
 
-Wix MSI kullanım örneklerinin kapsamlı bir anlayışını elde etmek için [bu sayfayı](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with) incelemeniz önerilir. Burada, wix MSI kullanımını gösteren çeşitli örnekler bulabilirsiniz.
+Wix MSI kullanım örnekleri hakkında kapsamlı bir anlayış için, [bu sayfaya](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with) danışılması önerilir. Burada, wix MSI kullanımını gösteren çeşitli örnekler bulabilirsiniz.
 
-Amaç, lnk dosyasını çalıştıracak bir MSI oluşturmaktır. Bunun için aşağıdaki XML kodu kullanılabilir ([buradan xml alındı](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)):
+Amaç, lnk dosyasını çalıştıracak bir MSI oluşturmaktır. Bunu başarmak için aşağıdaki XML kodu kullanılabilir ([xml buradan](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)):
 ```markup
 <?xml version="1.0"?>
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
@@ -50,21 +51,21 @@ fail_here
 </Product>
 </Wix>
 ```
-Önemli bir nokta, Paket öğesinin InstallerVersion ve Compressed gibi öznitelikler içerdiğidir. InstallerVersion, yükleyicinin sürümünü belirtirken, Compressed özniteliği paketin sıkıştırılıp sıkıştırılmadığını belirtir.
+Önemli bir nokta, Package öğesinin InstallerVersion ve Compressed gibi öznitelikler içerdiğidir; bu öznitelikler, yükleyici sürümünü belirtir ve paketin sıkıştırılıp sıkıştırılmadığını gösterir.
 
-Oluşturma süreci, msi.xml'den wixobject oluşturmak için wixtools'tan bir araç olan candle.exe'nin kullanılmasını içerir. Aşağıdaki komutun çalıştırılması gerekmektedir:
+Oluşturma süreci, msi.xml'den bir wixobject oluşturmak için wixtools'tan candle.exe aracını kullanmayı içerir. Aşağıdaki komut çalıştırılmalıdır:
 ```
 candle.exe -out C:\tem\wix C:\tmp\Ethereal\msi.xml
 ```
-Ayrıca, gönderide komutu ve çıktısını gösteren bir resim bulunmaktadır. Görsel rehberlik için buna başvurabilirsiniz.
+Ayrıca, gönderide komut ve çıktısını gösteren bir görüntü sağlandığına değinmekte fayda var. Görsel rehberlik için buna başvurabilirsiniz.
 
-Bunun yanı sıra, wixtools'un başka bir aracı olan light.exe, MSI dosyasını wixobject'ten oluşturmak için kullanılacaktır. Yürütülecek komut aşağıdaki gibidir:
+Ayrıca, wixobject'ten MSI dosyası oluşturmak için wixtools'tan başka bir araç olan light.exe kullanılacaktır. Çalıştırılacak komut aşağıdaki gibidir:
 ```
 light.exe -out C:\tm\Ethereal\rick.msi C:\tmp\wix
 ```
-Benzer şekilde, komutu ve çıktısını gösteren bir resim bu gönderiye dahil edilmiştir.
+Benzer şekilde, önceki komutla birlikte, komutu ve çıktısını gösteren bir resim gönderide yer almaktadır.
 
-Bu özetin değerli bilgiler sağlamayı amaçladığını lütfen unutmayın, daha kapsamlı ayrıntılar ve doğru talimatlar için orijinal gönderiye başvurmanız önerilir.
+Lütfen bu özetin değerli bilgiler sağlamayı amaçladığını, ancak daha kapsamlı ayrıntılar ve doğru talimatlar için orijinal gönderiye başvurulmasının önerildiğini unutmayın.
 
 ## Referanslar
 * [https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)
@@ -72,16 +73,17 @@ Bu özetin değerli bilgiler sağlamayı amaçladığını lütfen unutmayın, d
 [wixtools](http://wixtoolset.org)
 
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** isterseniz [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

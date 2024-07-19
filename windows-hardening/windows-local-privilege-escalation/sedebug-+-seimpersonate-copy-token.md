@@ -1,24 +1,25 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimizden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** katkıda bulunun.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Aşağıdaki kod, **SeDebug ve SeImpersonate ayrıcalıklarını** kullanarak, **SİSTEM olarak çalışan bir işlemdeki** ve **tüm token ayrıcalıklarına sahip** olan tokeni kopyalamak için kullanılır. \
-Bu durumda, bu kod bir **Windows hizmeti ikili** olarak derlenebilir ve çalışıp çalışmadığını kontrol etmek için kullanılabilir.\
-Ancak, **yükseltmenin gerçekleştiği kodun ana kısmı** **`Exploit`** **fonksiyonu içindedir**.\
-Bu fonksiyonun içinde, **_lsass.exe_** **işlemi aranır**, ardından **tokeni kopyalanır** ve son olarak bu token kullanılarak kopyalanan tokenin tüm ayrıcalıklarına sahip yeni bir **_cmd.exe_** başlatılır.
+Aşağıdaki kod **SeDebug ve SeImpersonate ayrıcalıklarını kullanarak** bir **SYSTEM olarak çalışan süreçten** token'ı kopyalar ve **tüm token ayrıcalıklarına** sahiptir. \
+Bu durumda, bu kod bir **Windows hizmeti ikili dosyası** olarak derlenip çalıştığını kontrol etmek için kullanılabilir.\
+Ancak, **yükseltmenin gerçekleştiği ana kod kısmı** **`Exploit`** **fonksiyonu** içindedir.\
+O fonksiyonun içinde **_lsass.exe_** adlı **sürecin arandığını**, ardından **token'ının kopyalandığını** ve nihayetinde o token'ın kopyalanan token'ın tüm ayrıcalıklarıyla yeni bir _**cmd.exe**_ başlatmak için kullanıldığını görebilirsiniz.
 
-Tüm veya çoğu token ayrıcalığına sahip **diğer SİSTEM olarak çalışan işlemler**: **services.exe**, **svhost.exe** (ilklerden biri), **wininit.exe**, **csrss.exe**... (_Unutmayın, bir Korumalı işlemden bir token kopyalayamazsınız_). Ayrıca, bir işlemin tokenlerini görmek için yönetici olarak çalışan [Process Hacker](https://processhacker.sourceforge.io/downloads.php) aracını kullanabilirsiniz.
+**SYSTEM olarak çalışan ve tüm veya çoğu token ayrıcalığına sahip diğer süreçler**: **services.exe**, **svhost.exe** (ilklerden biri), **wininit.exe**, **csrss.exe**... (_korumalı bir süreçten token kopyalayamayacağınızı unutmayın_). Ayrıca, bir sürecin token'larını görmek için yönetici olarak çalışan [Process Hacker](https://processhacker.sourceforge.io/downloads.php) aracını kullanabilirsiniz.
 ```c
 // From https://cboard.cprogramming.com/windows-programming/106768-running-my-program-service.html
 #include <windows.h>
@@ -223,16 +224,17 @@ StartServiceCtrlDispatcher( serviceTable );
 return 0;
 }
 ```
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin.**
-* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

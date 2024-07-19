@@ -1,15 +1,15 @@
 # Tarayıcı Artifaktları
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
@@ -18,7 +18,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <figure><img src="../../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=browser-artifacts) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturun ve otomatikleştirin.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
@@ -40,7 +40,7 @@ En yaygın tarayıcı artifaktlarının bir özeti:
 * **İndirmeler**: Tarayıcı aracılığıyla indirilen dosyaların kayıtları.
 * **Form Verileri**: Web formlarına girilen bilgiler, gelecekteki otomatik doldurma önerileri için saklanır.
 * **Küçük Resimler**: Web sitelerinin önizleme resimleri.
-* **Özel Sözlük.txt**: Kullanıcı tarafından tarayıcının sözlüğüne eklenen kelimeler.
+* **Özel Dictionary.txt**: Kullanıcı tarafından tarayıcının sözlüğüne eklenen kelimeler.
 
 ## Firefox
 
@@ -70,10 +70,10 @@ Her profil klasöründe, birkaç önemli dosya bulabilirsiniz:
 * **logins.json**: Şifrelenmiş giriş bilgileri.
 * **key4.db** veya **key3.db**: Hassas bilgileri güvence altına almak için şifreleme anahtarlarını saklar.
 
-Ayrıca, tarayıcının anti-phishing ayarlarını kontrol etmek için `prefs.js` içinde `browser.safebrowsing` girişlerini arayarak güvenli tarama özelliklerinin etkin veya devre dışı olup olmadığını belirleyebilirsiniz.
+Ayrıca, tarayıcının anti-phishing ayarlarını kontrol etmek için `prefs.js` içinde `browser.safebrowsing` girişlerini arayarak güvenli tarama özelliklerinin etkinleştirilip etkinleştirilmediğini kontrol edebilirsiniz.
 
 Ana şifreyi çözmeye çalışmak için [https://github.com/unode/firefox\_decrypt](https://github.com/unode/firefox\_decrypt) kullanabilirsiniz.\
-Aşağıdaki betik ve çağrı ile bir şifre dosyasını zorlamak için belirtebilirsiniz:
+Aşağıdaki betik ve çağrı ile bir şifre dosyasını brute force yapmak için belirtebilirsiniz:
 
 {% code title="brute.sh" %}
 ```bash
@@ -116,7 +116,7 @@ Bu dizinler içinde, çoğu kullanıcı verisi **Default/** veya **ChromeDefault
 
 ## **SQLite DB Veri Kurtarma**
 
-Önceki bölümlerde gözlemleyebileceğiniz gibi, hem Chrome hem de Firefox verileri saklamak için **SQLite** veritabanları kullanır. **Silinmiş girişleri kurtarmak için** [**sqlparse**](https://github.com/padfoot999/sqlparse) **veya** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases) **aracını kullanmak mümkündür.**
+Önceki bölümlerde gözlemleyebileceğiniz gibi, hem Chrome hem de Firefox verileri saklamak için **SQLite** veritabanları kullanır. **Silinmiş girişleri kurtarmak için** [**sqlparse**](https://github.com/padfoot999/sqlparse) **veya** [**sqlparse\_gui**](https://github.com/mdegrazia/SQLite-Deleted-Records-Parser/releases) aracını kullanmak mümkündür.
 
 ## **Internet Explorer 11**
 
@@ -124,15 +124,15 @@ Internet Explorer 11, verilerini ve meta verilerini çeşitli konumlarda yöneti
 
 ### Meta Veri Saklama
 
-Internet Explorer için meta veriler `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` içinde saklanır (VX V01, V16 veya V24 olabilir). Bununla birlikte, `V01.log` dosyası `WebcacheVX.data` ile değişiklik zamanı tutarsızlıklarını gösterebilir ve bu, `esentutl /r V01 /d` kullanarak onarım gerektirdiğini gösterir. Bu meta veriler, bir ESE veritabanında yer alır ve photorec ve [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) gibi araçlar kullanılarak kurtarılabilir ve incelenebilir. **Containers** tablosunda, her veri segmentinin saklandığı belirli tablolar veya konteynerler, diğer Microsoft araçları için önbellek detayları da dahil olmak üzere, ayırt edilebilir.
+Internet Explorer için meta veriler `%userprofile%\Appdata\Local\Microsoft\Windows\WebCache\WebcacheVX.data` içinde saklanır (VX V01, V16 veya V24 olabilir). Bununla birlikte, `V01.log` dosyası, `WebcacheVX.data` ile değişiklik zamanı tutarsızlıklarını gösterebilir ve bu, `esentutl /r V01 /d` kullanarak onarım gerektirdiğini gösterir. Bu meta veriler, bir ESE veritabanında yer alır ve photorec ve [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html) gibi araçlar kullanılarak kurtarılabilir ve incelenebilir. **Containers** tablosunda, her veri segmentinin saklandığı belirli tablolar veya konteynerler, diğer Microsoft araçları için önbellek detayları da dahil olmak üzere, ayırt edilebilir.
 
 ### Önbellek İncelemesi
 
-[IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) aracı, önbellek incelemesi için kullanılabilir ve önbellek verilerinin çıkarılacağı klasör konumunu gerektirir. Önbellek için meta veriler dosya adı, dizin, erişim sayısı, URL kaynağı ve önbellek oluşturma, erişim, değiştirme ve sona erme zamanlarını gösteren zaman damgalarını içerir.
+[IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) aracı, önbellek incelemesi için kullanılabilir ve önbellek verilerinin çıkarılacağı klasör konumunu gerektirir. Önbellek için meta veriler, dosya adı, dizin, erişim sayısı, URL kaynağı ve önbellek oluşturma, erişim, değiştirme ve sona erme zamanlarını gösteren zaman damgalarını içerir.
 
 ### Çerez Yönetimi
 
-Çerezler [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) kullanılarak incelenebilir ve meta veriler isimler, URL'ler, erişim sayıları ve çeşitli zamanla ilgili detayları kapsar. Kalıcı çerezler `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies` içinde saklanırken, oturum çerezleri bellekte bulunur.
+Çerezler, [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) kullanılarak incelenebilir ve meta veriler isimler, URL'ler, erişim sayıları ve çeşitli zamanla ilgili detayları kapsar. Kalıcı çerezler `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies` içinde saklanırken, oturum çerezleri bellekte bulunur.
 
 ### İndirme Detayları
 
@@ -171,7 +171,7 @@ Safari verileri `/Users/$User/Library/Safari` içinde saklanır. Ana dosyalar ş
 
 ## Opera
 
-Opera'nın verileri `/Users/$USER/Library/Application Support/com.operasoftware.Opera` içinde yer alır ve geçmiş ile indirmeler için Chrome'un formatını paylaşır.
+Opera'nın verileri `/Users/$USER/Library/Application Support/com.operasoftware.Opera` içinde yer alır ve geçmiş ve indirmeler için Chrome'un formatını paylaşır.
 
 * **Tarayıcının yerleşik anti-phishing**: `Preferences` dosyasında `fraud_protection_enabled` değerinin `true` olarak ayarlandığını kontrol ederek doğrulayın.
 
@@ -192,16 +192,17 @@ Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert) ile sıfırdan kahramana AWS hacking öğrenin!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **HackTricks'te şirketinizi tanıtmak** veya **HackTricks'i PDF olarak indirmek** istiyorsanız [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) alın
-* [**PEASS Ailesini**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'ler**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
 * **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
-* Hacking ipuçlarınızı [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.
+* **Hacking ipuçlarını [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.**
 
 </details>
+{% endhint %}

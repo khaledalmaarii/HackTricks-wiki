@@ -1,62 +1,68 @@
-# macOS Kernel Uzantıları
+# macOS Kernel Extensions
+
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* **Bir ** **cybersecurity şirketinde mi çalışıyorsunuz? **Şirketinizi **HackTricks'te** görmek ister misiniz? **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**The PEASS Ailesi**](https://opensea.io/collection/the-peass-family) 'ni keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonu
-* [**PEASS ve HackTricks'in resmi ürünlerini**](https://peass.creator-spring.com) edinin
-* **Discord** [**💬**](https://emojipedia.org/speech-balloon/) **grubuna katılın** veya [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live) 'u takip edin.
-* **Hacking püf noktalarınızı göndererek PR göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## Temel Bilgiler
 
-Kernel uzantıları (Kexts), ana işletim sistemine ek işlevsellik sağlayan **`.kext`** uzantılı **paketler** olan ve **doğrudan macOS çekirdek alanına yüklenen** bileşenlerdir.
+Kernel uzantıları (Kexts), **macOS çekirdek alanına doğrudan yüklenen** ve ana işletim sistemine ek işlevsellik sağlayan **`.kext`** uzantısına sahip **paketlerdir**.
 
 ### Gereksinimler
 
-Bu kadar güçlü olduğundan açıkça **bir çekirdek uzantısını yüklemek karmaşıktır**. Bir çekirdek uzantısının yüklenmesi gereken **gereksinimler** şunlardır:
+Açıkça, bu kadar güçlü olduğu için **bir kernel uzantısını yüklemek karmaşıktır**. Bir kernel uzantısının yüklenebilmesi için karşılaması gereken **gereksinimler** şunlardır:
 
-* **Kurtarma moduna girildiğinde**, çekirdek **uzantıların yüklenmesine izin verilmelidir**:
-  
+* **kurtarma moduna** girerken, kernel **uzantılarının yüklenmesine izin verilmelidir**:
+
 <figure><img src="../../../.gitbook/assets/image (327).png" alt=""><figcaption></figcaption></figure>
 
-* Çekirdek uzantısı, yalnızca **Apple** tarafından **verilebilen bir çekirdek kodu imzalama sertifikası ile imzalanmış olmalıdır**. Şirketi ve neden gerekli olduğunu detaylı olarak inceleyecek olan Apple.
-* Çekirdek uzantısı ayrıca **notarized** olmalıdır, Apple tarafından kötü amaçlı yazılım açısından kontrol edilebilir.
-* Ardından, **root** kullanıcısı, çekirdek uzantısını **yükleyebilen** ve paket içindeki dosyaların **root'a ait olması gereken** kişidir.
-* Yükleme işlemi sırasında, paketin **korunan bir kök olmayan konumda hazırlanmış olması gerekir**: `/Library/StagedExtensions` (`com.apple.rootless.storage.KernelExtensionManagement` iznini gerektirir).
-* Son olarak, yüklemeye çalışıldığında, kullanıcı [**bir onay isteği alacaktır**](https://developer.apple.com/library/archive/technotes/tn2459/\_index.html) ve kabul edilirse, bilgisayarın yüklenmesi için **yeniden başlatılması gerekir**.
+* Kernel uzantısı, yalnızca **Apple tarafından verilebilen** bir kernel kod imzalama sertifikası ile **imzalanmış olmalıdır**. Şirketi ve neden gerekli olduğunu detaylı bir şekilde inceleyecek olan kimdir.
+* Kernel uzantısı ayrıca **notarize edilmelidir**, Apple bunu kötü amaçlı yazılım için kontrol edebilecektir.
+* Ardından, **root** kullanıcısı **kernel uzantısını yükleyebilen** kişidir ve paket içindeki dosyalar **root'a ait olmalıdır**.
+* Yükleme sürecinde, paket **korumalı bir kök olmayan konumda** hazırlanmalıdır: `/Library/StagedExtensions` (bu, `com.apple.rootless.storage.KernelExtensionManagement` iznini gerektirir).
+* Son olarak, yüklemeye çalışırken, kullanıcı [**bir onay isteği alacaktır**](https://developer.apple.com/library/archive/technotes/tn2459/_index.html) ve kabul edilirse, bilgisayar **yeniden başlatılmalıdır**.
 
-### Yükleme işlemi
+### Yükleme süreci
 
-Catalina'da böyleydi: **Doğrulama** işlemi **userland** 'da gerçekleşir. Ancak, yalnızca **`com.apple.private.security.kext-management`** iznine sahip uygulamalar, çekirdeğe bir uzantı yüklemesini **istemek** için **çekirdeğe başvurabilir**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
+Catalina'da böyleydi: **doğrulama** sürecinin **kullanıcı alanında** gerçekleştiğini belirtmek ilginçtir. Ancak, yalnızca **`com.apple.private.security.kext-management`** iznine sahip uygulamalar **kernel'den bir uzantıyı yüklemesini isteyebilir**: `kextcache`, `kextload`, `kextutil`, `kextd`, `syspolicyd`
 
-1. **`kextutil`** cli, bir uzantının yüklenmesi için **doğrulama** işlemini **başlatır**
-* Bir **Mach hizmeti** kullanarak **`kextd`** ile iletişim kuracaktır.
-2. **`kextd`**, **imza** gibi birçok şeyi kontrol edecektir.
-* **`syspolicyd`** ile iletişim kurarak uzantının **yüklenip yüklenemeyeceğini kontrol edecektir**.
-3. **`syspolicyd`**, uzantının daha önce yüklenmediyse **kullanıcıya bir onay isteği gönderecektir**.
-* **`syspolicyd`**, sonucu **`kextd`** 'ye bildirecektir**
-4. **`kextd`**, sonunda çekirdeğe uzantıyı yüklemesini **söyleyebilecektir**
+1. **`kextutil`** cli **bir uzantıyı yüklemek için** **doğrulama** sürecini **başlatır**
+* **`kextd`** ile **Mach servisi** kullanarak iletişim kuracaktır.
+2. **`kextd`** birkaç şeyi kontrol edecektir, örneğin **imzayı**
+* Uzantının **yüklenip yüklenemeyeceğini kontrol etmek için** **`syspolicyd`** ile iletişim kuracaktır.
+3. **`syspolicyd`**, uzantı daha önce yüklenmemişse **kullanıcıya** **soracaktır**.
+* **`syspolicyd`**, sonucu **`kextd`**'ye bildirecektir.
+4. **`kextd`** nihayetinde **kernel'e uzantıyı yüklemesini söyleyebilecektir**.
 
-**`kextd`** mevcut değilse, **`kextutil`** aynı kontrolleri yapabilir.
+Eğer **`kextd`** mevcut değilse, **`kextutil`** aynı kontrolleri gerçekleştirebilir.
 
 ## Referanslar
 
 * [https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/](https://www.makeuseof.com/how-to-enable-third-party-kernel-extensions-apple-silicon-mac/)
 * [https://www.youtube.com/watch?v=hGKOskSiaQo](https://www.youtube.com/watch?v=hGKOskSiaQo)
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* **Bir ** **cybersecurity şirketinde mi çalışıyorsunuz? **Şirketinizi **HackTricks'te** görmek ister misiniz? **PEASS'ın en son sürümüne veya HackTricks'i PDF olarak indirmek ister misiniz?** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**The PEASS Ailesi**](https://opensea.io/collection/the-peass-family) 'ni keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonu
-* [**PEASS ve HackTricks'in resmi ürünlerini**](https://peass.creator-spring.com) edinin
-* **Discord** [**💬**](https://emojipedia.org/speech-balloon/) **grubuna katılın** veya [**telegram grubuna**](https://t.me/peass) veya **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live) 'u takip edin.
-* **Hacking püf noktalarınızı göndererek PR göndererek** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud) **paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

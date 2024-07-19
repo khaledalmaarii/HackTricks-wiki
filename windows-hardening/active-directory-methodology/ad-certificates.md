@@ -1,118 +1,117 @@
-# AD Sertifikaları
+# AD Certificates
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme becerilerinizi sıfırdan ileri seviyeye taşıyın</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı yapmak** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **katkıda bulunun**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Giriş
+## Introduction
 
-### Bir Sertifikanın Bileşenleri
+### Components of a Certificate
 
-- Sertifikanın **Konusu**, sahibini belirtir.
-- Bir sertifikayı sahibiyle ilişkilendirmek için bir **Genel Anahtar**, özel olarak tutulan bir anahtarla eşleştirilir.
-- **Geçerlilik Süresi**, **NotBefore** ve **NotAfter** tarihleriyle belirlenir ve sertifikanın etkin süresini işaretler.
+- Sertifikanın **Sahibi**, sertifikanın sahibini belirtir.
+- **Açık Anahtar**, sertifikayı gerçek sahibine bağlamak için özel bir anahtarla eşleştirilir.
+- **Geçerlilik Süresi**, **NotBefore** ve **NotAfter** tarihleri ile tanımlanır ve sertifikanın etkin süresini işaret eder.
 - Sertifika Otoritesi (CA) tarafından sağlanan benzersiz bir **Seri Numarası**, her sertifikayı tanımlar.
-- **Düzenleyen**, sertifikayı veren CA'ya atıfta bulunur.
-- **SubjectAlternativeName**, kimlik esnekliğini artıran konu için ek isimlere izin verir.
-- **Temel Kısıtlamalar**, sertifikanın bir CA veya son kullanıcı için olup olmadığını belirler ve kullanım kısıtlamalarını tanımlar.
-- **Genişletilmiş Anahtar Kullanımları (EKU'lar)**, Nesne Tanımlayıcıları (OID'ler) aracılığıyla sertifikanın belirli amaçlarını, kod imzalama veya e-posta şifreleme gibi, belirtir.
+- **Verici**, sertifikayı veren CA'yı ifade eder.
+- **SubjectAlternativeName**, kimlik tanımlama esnekliğini artırarak konu için ek adlar sağlar.
+- **Temel Kısıtlamalar**, sertifikanın bir CA veya son varlık için olup olmadığını tanımlar ve kullanım kısıtlamalarını belirler.
+- **Genişletilmiş Anahtar Kullanımları (EKU'lar)**, sertifikanın belirli amaçlarını, örneğin kod imzalama veya e-posta şifreleme, Nesne Tanımlayıcıları (OID'ler) aracılığıyla belirler.
 - **İmza Algoritması**, sertifikayı imzalamak için kullanılan yöntemi belirtir.
-- İmza, düzenleyenin özel anahtarıyla oluşturulur ve sertifikanın otantikliğini garanti eder.
+- **İmza**, vericinin özel anahtarı ile oluşturulur ve sertifikanın doğruluğunu garanti eder.
 
-### Özel Düşünceler
+### Special Considerations
 
-- **Subject Alternative Names (SAN'lar)**, bir sertifikayı birden fazla kimliğe uygulanabilir hale getirir ve birden çok alan adına sahip sunucular için önemlidir. SAN belirtisini manipüle ederek saldırganların taklit risklerini önlemek için güvenli verme süreçleri önemlidir.
+- **Subject Alternative Names (SAN'lar)**, bir sertifikanın birden fazla kimliğe uygulanabilirliğini genişletir, bu da birden fazla alan adı olan sunucular için kritik öneme sahiptir. Güvenli verilme süreçleri, saldırganların SAN spesifikasyonunu manipüle ederek kimlik taklit etme risklerini önlemek için hayati öneme sahiptir.
 
-### Active Directory (AD) içindeki Sertifika Otoriteleri (CA'lar)
+### Certificate Authorities (CAs) in Active Directory (AD)
 
-AD CS, AD ormanında CA sertifikalarını belirli konteynerler aracılığıyla tanır ve her biri benzersiz rolleri olan:
+AD CS, AD ormanında CA sertifikalarını belirlenmiş konteynerler aracılığıyla tanır; her biri benzersiz roller üstlenir:
 
-- **Sertifikasyon Otoriteleri** konteyneri, güvenilen kök CA sertifikalarını içerir.
-- **Kayıt Hizmetleri** konteyneri, Kurumsal CA'ları ve sertifika şablonlarını ayrıntılı olarak belirtir.
+- **Sertifika Otoriteleri** konteyneri, güvenilir kök CA sertifikalarını tutar.
+- **Kayıt Hizmetleri** konteyneri, Kurumsal CA'ları ve sertifika şablonlarını detaylandırır.
 - **NTAuthCertificates** nesnesi, AD kimlik doğrulaması için yetkilendirilmiş CA sertifikalarını içerir.
-- **AIA (Yetkilendirme Bilgi Erişimi)** konteyneri, ara ve çapraz CA sertifikalarıyla sertifika zinciri doğrulamasını kolaylaştırır.
+- **AIA (Otorite Bilgi Erişimi)** konteyneri, ara ve çapraz CA sertifikaları ile sertifika zinciri doğrulamasını kolaylaştırır.
 
-### Sertifika Edinme: İstemci Sertifikası İstek Akışı
+### Certificate Acquisition: Client Certificate Request Flow
 
-1. İstek süreci, istemcilerin bir Kurumsal CA bulmasiyla başlar.
-2. Bir CSR oluşturulur, bir genel anahtar ve diğer ayrıntıları içerir, genel-özel anahtar çifti oluşturulduktan sonra.
-3. CA, CSR'yi mevcut sertifika şablonlarına karşı değerlendirir ve şablonun izinlerine dayanarak sertifikayı verir.
-4. Onaylandıktan sonra, CA sertifikayı özel anahtarıyla imzalar ve istemciye geri gönderir.
+1. İstek süreci, istemcilerin bir Kurumsal CA bulmasıyla başlar.
+2. Bir açık anahtar ve diğer detayları içeren bir CSR oluşturulur, ardından bir açık-özel anahtar çifti oluşturulur.
+3. CA, mevcut sertifika şablonlarına karşı CSR'yi değerlendirir ve şablonun izinlerine dayanarak sertifikayı verir.
+4. Onaylandığında, CA sertifikayı özel anahtarı ile imzalar ve istemciye geri gönderir.
 
-### Sertifika Şablonları
+### Certificate Templates
 
-AD içinde tanımlanan bu şablonlar, sertifikaların verilmesi için ayarları ve izinleri belirtir. Bu, sertifika hizmetlerine erişimi yönetmek için kritik olan izinli EKU'ları ve kayıt veya değiştirme haklarını içerir.
+AD içinde tanımlanan bu şablonlar, sertifika vermek için ayarları ve izinleri belirler; izin verilen EKU'lar ve kayıt veya değişiklik hakları dahil, sertifika hizmetlerine erişimi yönetmek için kritik öneme sahiptir.
 
-## Sertifika Kaydı
+## Certificate Enrollment
 
-Sertifikalar için kayıt süreci, bir yönetici tarafından **bir sertifika şablonu oluşturularak başlatılır** ve ardından Kurumsal Sertifika Otoritesi (CA) tarafından **yayınlanır**. Bu, şablonun adını bir Active Directory nesnesinin `certificatetemplates` alanına ekleyerek istemci kaydını mümkün kılar.
+Sertifikalar için kayıt süreci, bir yöneticinin **bir sertifika şablonu oluşturması** ile başlar; bu şablon daha sonra bir Kurumsal Sertifika Otoritesi (CA) tarafından **yayınlanır**. Bu, şablonu istemci kaydı için kullanılabilir hale getirir; bu adım, şablonun adını bir Active Directory nesnesinin `certificatetemplates` alanına ekleyerek gerçekleştirilir.
 
-Bir istemcinin bir sertifika talep etmesi için **kayıt hakları** verilmelidir. Bu haklar, sertifika şablonunun ve Kurumsal CA'nın güvenlik tanımlayıcıları tarafından belirlenir. İstek başarılı olması için her iki konumda da izinlerin verilmesi gerekir.
+Bir istemcinin sertifika talep edebilmesi için, **kayıt hakları** verilmelidir. Bu haklar, sertifika şablonundaki güvenlik tanımlayıcıları ve Kurumsal CA'nın kendisi tarafından tanımlanır. Bir talebin başarılı olması için her iki konumda da izinler verilmelidir.
 
-### Şablon Kayıt Hakları
+### Template Enrollment Rights
 
-Bu haklar, Erişim Kontrol Girişleri (ACE'ler) aracılığıyla belirtilir ve şunları içerir:
-- **Certificate-Enrollment** ve **Certificate-AutoEnrollment** hakları, her biri belirli GUID'lerle ilişkilidir.
-- **ExtendedRights**, tüm genişletilmiş izinlere izin verir.
-- **FullControl/GenericAll**, şablona tam kontrol sağlar.
+Bu haklar, belirli izinleri detaylandıran Erişim Kontrol Girişleri (ACE'ler) aracılığıyla belirtilir:
+- **Sertifika-Kayıt** ve **Sertifika-OtomatikKayıt** hakları, her biri belirli GUID'lerle ilişkilidir.
+- **GenişletilmişHaklar**, tüm genişletilmiş izinlere izin verir.
+- **TamKontrol/GenişTüm**, şablon üzerinde tam kontrol sağlar.
 
-### Kurumsal CA Kayıt Hakları
+### Enterprise CA Enrollment Rights
 
-CA'nın hakları, Sertifika Otoritesi yönetim konsolu üzerinden erişilebilen güvenlik tanımlayıcısıyla belirtilir. Bazı ayarlar, düşük ayrıcalıklı kullanıcılara uzaktan erişim izni verir, bu da bir güvenlik endişesi olabilir.
+CA'nın hakları, Sertifika Otoritesi yönetim konsolu aracılığıyla erişilebilen güvenlik tanımlayıcısında belirtilmiştir. Bazı ayarlar, düşük ayrıcalıklı kullanıcıların uzaktan erişim sağlamasına bile izin verebilir, bu da bir güvenlik endişesi olabilir.
 
-### Ek Verme Kontrolleri
+### Additional Issuance Controls
 
-Belirli kontroller uygulanabilir, örneğin:
-- **Yönetici Onayı**: İstekleri onaylanana kadar beklemeye alır.
-- **Kayıt Ajanları ve Yetkili İmzalar**: CSR üzerinde gereken imzaların sayısını ve gerekli Uygulama Politikası OID'lerini belirtir.
+Bazı kontroller uygulanabilir, örneğin:
+- **Yönetici Onayı**: Talepleri, bir sertifika yöneticisi tarafından onaylanana kadar beklemede tutar.
+- **Kayıt Ajanları ve Yetkili İmzalar**: Bir CSR üzerindeki gerekli imza sayısını ve gerekli Uygulama Politika OID'lerini belirtir.
 
-### Sertifikaları Talep Etme Yöntemleri
+### Methods to Request Certificates
 
-Sertifikalar aşağıdaki yöntemlerle talep edilebilir:
-1. **Windows İstemci Sertifika Kayıt Protokolü** (MS-WCCE), DCOM arabirimlerini kullanarak.
+Sertifikalar şu yöntemlerle talep edilebilir:
+1. **Windows İstemci Sertifika Kayıt Protokolü** (MS-WCCE), DCOM arayüzlerini kullanarak.
 2. **ICertPassage Uzak Protokolü** (MS-ICPR), adlandırılmış borular veya TCP/IP aracılığıyla.
-3. **Sertifika kayıt web arayüzü**, Sertifika Otoritesi Web Kaydı rolü yüklü olduğunda.
-4. **Sertifika Kayıt Hizmeti** (CES), Sertifika Kayıt Politikası (CEP) hizmetiyle birlikte kullanılır.
-5. Ağ cihazları için **Ağ Cihazı Kayıt Hizmeti** (NDES), Basit Sertifika Kayıt Protokolü (SCEP) kullanılarak.
+3. **Sertifika kayıt web arayüzü**, Sertifika Otoritesi Web Kayıt rolü yüklü olduğunda.
+4. **Sertifika Kayıt Hizmeti** (CES), Sertifika Kayıt Politikası (CEP) hizmeti ile birlikte.
+5. **Ağ Cihazı Kayıt Hizmeti** (NDES) için ağ cihazları, Basit Sertifika Kayıt Protokolü (SCEP) kullanarak.
 
-Windows kullanıcıları, GUI (`certmgr.msc` veya `certlm.msc`) veya komut satırı araçları (`certreq.exe` veya PowerShell'ın `Get-Certificate` komutu) aracılığıyla da sertifikalar talep edebilir.
+Windows kullanıcıları ayrıca GUI (`certmgr.msc` veya `certlm.msc`) veya komut satırı araçları (`certreq.exe` veya PowerShell'in `Get-Certificate` komutu) aracılığıyla sertifika talep edebilir.
 ```powershell
 # Example of requesting a certificate using PowerShell
 Get-Certificate -Template "User" -CertStoreLocation "cert:\\CurrentUser\\My"
 ```
-## Sertifika Kimlik Doğrulama
+## Sertifika Kimlik Doğrulaması
 
-Active Directory (AD), öncelikle **Kerberos** ve **Secure Channel (Schannel)** protokollerini kullanarak sertifika kimlik doğrulamayı destekler.
+Active Directory (AD), esasen **Kerberos** ve **Secure Channel (Schannel)** protokollerini kullanarak sertifika kimlik doğrulamasını destekler.
 
 ### Kerberos Kimlik Doğrulama Süreci
 
-Kerberos kimlik doğrulama sürecinde, bir kullanıcının Bilet Verme Biletine (TGT) yönelik isteği, kullanıcının sertifikasının **özel anahtarı** kullanılarak imzalanır. Bu istek, sertifikanın **geçerlilik**, **yol** ve **iptal durumu** gibi bir dizi doğrulama işleminden geçer. Doğrulamalar arasında sertifikayı güvenilir bir kaynaktan aldığı ve yayıncının **NTAUTH sertifika deposu**'nda bulunduğu doğrulanır. Başarılı doğrulamalar sonucunda bir TGT verilir. AD'deki **`NTAuthCertificates`** nesnesi, aşağıdaki konumda bulunur:
+Kerberos kimlik doğrulama sürecinde, bir kullanıcının Ticket Granting Ticket (TGT) talebi, kullanıcının sertifikasının **özel anahtarı** ile imzalanır. Bu talep, alan denetleyicisi tarafından sertifikanın **geçerliliği**, **yolu** ve **iptal durumu** dahil olmak üzere birkaç doğrulamadan geçer. Doğrulamalar ayrıca sertifikanın güvenilir bir kaynaktan geldiğini doğrulamayı ve vericinin **NTAUTH sertifika deposunda** varlığını onaylamayı içerir. Başarılı doğrulamalar, bir TGT'nin verilmesiyle sonuçlanır. AD'deki **`NTAuthCertificates`** nesnesi, şu konumda bulunur:
 ```bash
 CN=NTAuthCertificates,CN=Public Key Services,CN=Services,CN=Configuration,DC=<domain>,DC=<com>
 ```
-# AD Sertifikaları
+is central to establishing trust for certificate authentication.
 
-Sertifika kimlik doğrulaması için güveni sağlamak için merkezi bir rol oynar.
+### Secure Channel (Schannel) Authentication
 
-### Güvenli Kanal (Schannel) Kimlik Doğrulaması
+Schannel, güvenli TLS/SSL bağlantılarını kolaylaştırır; burada bir el sıkışma sırasında, istemci, başarılı bir şekilde doğrulanırsa erişimi yetkilendiren bir sertifika sunar. Bir sertifikanın bir AD hesabına eşlenmesi, Kerberos'un **S4U2Self** fonksiyonu veya sertifikanın **Subject Alternative Name (SAN)** gibi diğer yöntemleri içerebilir.
 
-Schannel, el sıkışma sırasında başarılı bir şekilde doğrulanan bir sertifika sunan istemci tarafından erişimi yetkilendiren güvenli TLS/SSL bağlantılarını kolaylaştırır. Bir sertifikanın bir AD hesabına eşlenmesi, diğer yöntemler arasında Kerberos'un **S4U2Self** işlevi veya sertifikanın **Alternatif Konu Adı (SAN)** kullanılarak gerçekleştirilebilir.
+### AD Certificate Services Enumeration
 
-### AD Sertifika Hizmetleri Sorgulama
+AD'nin sertifika hizmetleri, LDAP sorguları aracılığıyla sıralanabilir ve **Enterprise Certificate Authorities (CAs)** ve bunların yapılandırmaları hakkında bilgi açığa çıkarır. Bu, özel ayrıcalıklara sahip olmadan herhangi bir alan kimlik doğrulamalı kullanıcı tarafından erişilebilir. **[Certify](https://github.com/GhostPack/Certify)** ve **[Certipy](https://github.com/ly4k/Certipy)** gibi araçlar, AD CS ortamlarında sıralama ve zafiyet değerlendirmesi için kullanılır.
 
-AD'nin sertifika hizmetleri, LDAP sorguları aracılığıyla sorgulanabilir ve **Kurumsal Sertifika Yetkilileri (CA'lar)** ve yapılandırmaları hakkında bilgi ortaya çıkarabilir. Bu, özel ayrıcalıklara sahip olmadan herhangi bir etki alanı doğrulama yetkisine sahip kullanıcı tarafından erişilebilir. AD CS ortamlarında sorgulama ve zafiyet değerlendirmesi için **[Certify](https://github.com/GhostPack/Certify)** ve **[Certipy](https://github.com/ly4k/Certipy)** gibi araçlar kullanılır.
-
-Bu araçları kullanmak için kullanılan komutlar:
+Bu araçları kullanmak için komutlar şunlardır:
 ```bash
 # Enumerate trusted root CA certificates and Enterprise CAs with Certify
 Certify.exe cas
@@ -131,16 +130,17 @@ certutil -v -dstemplate
 * [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)
 * [https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html](https://comodosslstore.com/blog/what-is-ssl-tls-client-authentication-how-does-it-work.html)
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'da takip edin.**
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

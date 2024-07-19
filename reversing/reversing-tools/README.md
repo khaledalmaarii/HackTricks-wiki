@@ -1,125 +1,129 @@
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong>!</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünleri**](https://peass.creator-spring.com)'ni edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 # Wasm Decompilation and Wat Compilation Guide
 
-**WebAssembly** alanında, **decompile** ve **compile** işlemleri için araçlar geliştiriciler için önemlidir. Bu kılavuz, **Wasm (WebAssembly ikili)** ve **Wat (WebAssembly metin)** dosyalarını işlemek için bazı çevrimiçi kaynaklar ve yazılımlar tanıtır.
+**WebAssembly** alanında, **decompiling** ve **compiling** için araçlar geliştiriciler için gereklidir. Bu kılavuz, **Wasm (WebAssembly binary)** ve **Wat (WebAssembly text)** dosyalarını işlemek için bazı çevrimiçi kaynaklar ve yazılımlar tanıtmaktadır.
 
-## Çevrimiçi Araçlar
+## Online Tools
 
-- Wasm'ı Wat'a **decompile** etmek için, [Wabt'in wasm2wat demo](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) aracı kullanışlıdır.
-- Wat'ı Wasm'a **compile** etmek için, [Wabt'in wat2wasm demo](https://webassembly.github.io/wabt/demo/wat2wasm/) kullanılabilir.
-- Başka bir decompile seçeneği [web-wasmdec](https://wwwg.github.io/web-wasmdec/) adresinde bulunabilir.
+- Wasm'ı Wat'a **decompile** etmek için [Wabt'nin wasm2wat demo](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) aracı kullanışlıdır.
+- Wat'ı tekrar Wasm'a **compile** etmek için [Wabt'nin wat2wasm demo](https://webassembly.github.io/wabt/demo/wat2wasm/) amaca hizmet eder.
+- Başka bir decompilation seçeneği [web-wasmdec](https://wwwg.github.io/web-wasmdec/) adresinde bulunabilir.
 
-## Yazılım Çözümleri
+## Software Solutions
 
-- Daha güçlü bir çözüm için, [PNF Software tarafından geliştirilen JEB](https://www.pnfsoftware.com/jeb/demo) kapsamlı özellikler sunar.
-- Açık kaynaklı proje [wasmdec](https://github.com/wwwg/wasmdec) decompile görevleri için kullanılabilir.
+- Daha sağlam bir çözüm için, [PNF Software tarafından JEB](https://www.pnfsoftware.com/jeb/demo) geniş özellikler sunmaktadır.
+- Açık kaynak projesi [wasmdec](https://github.com/wwwg/wasmdec) de decompilation görevleri için mevcuttur.
 
-# .Net Decompilation Kaynakları
+# .Net Decompilation Resources
 
-.Net derlemelerini decompile etmek için şu araçlar kullanılabilir:
+.Net bileşenlerini decompile etmek için şu araçlar kullanılabilir:
 
-- [ILSpy](https://github.com/icsharpcode/ILSpy), aynı zamanda [Visual Studio Code için eklenti](https://github.com/icsharpcode/ilspy-vscode) sunan, çapraz platform kullanımına izin veren bir araçtır.
-- **Decompile**, **modification** ve **recompilation** görevlerini içeren işlemler için, [dnSpy](https://github.com/0xd4d/dnSpy/releases) şiddetle önerilir. Bir yönteme sağ tıklayarak **Modify Method** seçeneğiyle kod değişiklikleri yapılabilir.
-- [JetBrains' dotPeek](https://www.jetbrains.com/es-es/decompiler/), .Net derlemelerini decompile etmek için başka bir alternatiftir.
+- [ILSpy](https://github.com/icsharpcode/ILSpy), ayrıca [Visual Studio Code için bir eklenti](https://github.com/icsharpcode/ilspy-vscode) sunarak çapraz platform kullanımına olanak tanır.
+- **decompilation**, **modification** ve **recompilation** ile ilgili görevler için [dnSpy](https://github.com/0xd4d/dnSpy/releases) şiddetle tavsiye edilir. Bir yönteme **sağ tıklamak** ve **Modify Method** seçeneğini seçmek, kod değişikliklerine olanak tanır.
+- [JetBrains'in dotPeek](https://www.jetbrains.com/es-es/decompiler/) .Net bileşenlerini decompile etmek için başka bir alternatiftir.
 
-## Hata Ayıklama ve Günlüklemeyi DNSpy ile Geliştirme
+## DNSpy ile Hata Ayıklama ve Günlükleme Geliştirme
 
 ### DNSpy Günlükleme
-DNSpy kullanarak bilgileri bir dosyaya kaydetmek için, aşağıdaki .Net kod parçasını dahil edin:
+DNSpy kullanarak bir dosyaya bilgi kaydetmek için aşağıdaki .Net kod parçasını ekleyin:
 
 %%%cpp
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
-File.AppendAllText(path, "Password: " + password + "\n");
+File.AppendAllText(path, "Şifre: " + password + "\n");
 %%%
 
 ### DNSpy Hata Ayıklama
-DNSpy ile etkili bir hata ayıklama için, hata ayıklamayı engelleyebilecek optimizasyonların devre dışı bırakıldığı **Assembly attributes** ayarlarını düzenlemek için bir dizi adım önerilir. Bu işlem, `DebuggableAttribute` ayarlarını değiştirmeyi, derlemeyi yeniden yapmayı ve değişiklikleri kaydetmeyi içerir.
+DNSpy ile etkili bir hata ayıklama için, hata ayıklamayı engelleyebilecek optimizasyonların devre dışı bırakılmasını sağlamak için **Assembly attributes** ayarlarını ayarlamak üzere bir dizi adım önerilmektedir. Bu süreç, `DebuggableAttribute` ayarlarını değiştirmeyi, bileşeni yeniden derlemeyi ve değişiklikleri kaydetmeyi içerir.
 
-Ayrıca, **IIS** tarafından çalıştırılan bir .Net uygulamasını hata ayıklamak için, IIS'i yeniden başlatmak için `iisreset /noforce` komutunu çalıştırmak gerekmektedir. DNSpy'ı hata ayıklama için IIS sürecine bağlamak için, kılavuz, DNSpy içinde **w3wp.exe** sürecini seçmeyi ve hata ayıklama oturumunu başlatmayı anlatır.
+Ayrıca, **IIS** tarafından çalıştırılan bir .Net uygulamasını hata ayıklamak için `iisreset /noforce` komutunu çalıştırmak IIS'i yeniden başlatır. DNSpy'ı hata ayıklama için IIS sürecine eklemek için, DNSpy içinde **w3wp.exe** sürecini seçip hata ayıklama oturumunu başlatmak talimatları verilmektedir.
 
-Hata ayıklama sırasında yüklenen modüllerin kapsamlı bir görünümü için, DNSpy'daki **Modules** penceresine erişmek ve tüm modülleri açmak ve gezinme ve hata ayıklama için derlemeleri sıralamak önerilir.
+Hata ayıklama sırasında yüklü modüllerin kapsamlı bir görünümü için, DNSpy'deki **Modules** penceresine erişmek ve ardından tüm modülleri açmak ve bileşenleri daha kolay gezinme ve hata ayıklama için sıralamak önerilmektedir.
 
-Bu kılavuz, WebAssembly ve .Net decompilation'ın özünü kapsar ve geliştiricilere bu görevleri kolaylıkla yönetmeleri için bir yol sunar.
+Bu kılavuz, WebAssembly ve .Net decompilation'ın özünü kapsar ve geliştiricilerin bu görevleri kolayca geçmelerine bir yol sunar.
 
 ## **Java Decompiler**
-Java bytecode'ı decompile etmek için şu araçlar çok yardımcı olabilir:
+Java bytecode'unu decompile etmek için bu araçlar çok yardımcı olabilir:
 - [jadx](https://github.com/skylot/jadx)
 - [JD-GUI](https://github.com/java-decompiler/jd-gui/releases)
 
 ## **DLL'leri Hata Ayıklama**
-### IDA Kullanımı
-- 64-bit ve 32-bit sürümler için belirli yollardan **Rundll32** yüklenir.
-- **Windbg**, hata ayıklama için seçilen ve kütüphane yükleme/boşaltma üzerinde askıya alma seçeneği etkinleştirilen hata ayıklayıcıdır.
-- Yürütme parametreleri DLL yolunu ve işlev adını içerir. Bu yapılandırma, her DLL yüklenmesinde yürütmeyi duraklatır.
+### IDA Kullanarak
+- **Rundll32**, 64-bit ve 32-bit sürümleri için belirli yollar üzerinden yüklenir.
+- **Windbg**, kütüphane yükleme/boşaltma sırasında askıya alma seçeneği ile hata ayıklayıcı olarak seçilir.
+- Çalıştırma parametreleri DLL yolu ve fonksiyon adını içerir. Bu yapılandırma, her DLL'nin yüklenmesi sırasında yürütmeyi durdurur.
 
-### x64dbg/x32dbg Kullanımı
-- IDA'ya benzer şekilde, **rundll32** DLL ve işlevi belirtmek için komut satırı değişiklikleriyle yüklenir.
-- Ayarlar, DLL girişinde duraklamaya izin veren şekilde ayarlanır ve istenen DLL giriş noktasında kesme noktası ayarlamaya izin verir.
+### x64dbg/x32dbg Kullanarak
+- IDA'ya benzer şekilde, **rundll32** komut satırı değişiklikleri ile DLL ve fonksiyonu belirtmek için yüklenir.
+- DLL girişinde kırılma ayarları ayarlanır, böylece istenen DLL giriş noktasında kesme noktası ayarlanabilir.
 
-### Görüntüler
-- Yürütme duraklama noktaları ve yapılandırmaları ekran görüntüleriyle gösterilir.
+### Görseller
+- Yürütme durdurma noktaları ve yapılandırmalar ekran görüntüleri ile gösterilmektedir.
 
 ## **ARM & MIPS**
-- Emülasyon için [arm_now](https://github.com/nongiach/arm_now) kullanışlı bir kaynaktır.
+- Emülasyon için, [arm_now](https://github.com/nongiach/arm_now) yararlı bir kaynaktır.
 
-## **Shellcode'lar**
+## **Shellcodes**
 ### Hata Ayıklama Teknikleri
-- **Blobrunner** ve **jmp2it**, bellekte shellcode tahsis etmek ve Ida veya x64dbg ile hata ayıklamak için araçlardır.
+- **Blobrunner** ve **jmp2it**, shellcode'ları bellekte tahsis etmek ve bunları Ida veya x64dbg ile hata ayıklamak için araçlardır.
 - Blobrunner [sürümleri](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)
-- jmp2it [derlenmiş sürümü](https://github.com/adamkramer/jmp2it/releases/)
-- **Cutter**, GUI tabanlı shellcode emülasyonu ve incelemesi sunar, dosya olarak shellcode ile doğrudan shellcode arasındaki farkları vurgular.
+- jmp2it [derlenmiş versiyon](https://github.com/adamkramer/jmp2it/releases/)
+- **Cutter**, GUI tabanlı shellcode emülasyonu ve incelemesi sunarak, shellcode'un dosya olarak işlenmesi ile doğrudan shellcode'un işlenmesi arasındaki farkları vurgular.
 
 ### Deobfuscation ve Analiz
-- **scdbg**, shellcode işlevlerine ve deobfuscation yeteneklerine içgörü sağlar.
+- **scdbg**, shellcode fonksiyonları ve deobfuscation yetenekleri hakkında bilgiler sağlar.
 %%%bash
-scdbg.exe -f shellcode # Temel bilgiler
+scdbg.exe -f shellcode # Temel bilgi
 scdbg.exe -f shellcode -r # Analiz raporu
 scdbg.exe -f shellcode -i -r # Etkileşimli kancalar
-scdbg.exe -f shellcode -d # Kod çözülmüş shellcode'u dök
+scdbg.exe -f shellcode -d # Çözülmüş shellcode'u dök
 scdbg.exe -f shellcode /findsc # Başlangıç ofsetini bul
 scdbg.exe -f shellcode /foff 0x0000004D # Ofsetten çalıştır
 %%%
 
-- Shellcode'u disassemble etmek için **CyberChef**: [CyberChef tarifi](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
+- Shellcode'u ayrıştırmak için **CyberChef**: [CyberChef tarifi](https://gchq.github.io/CyberChef/#recipe=To_Hex%28'Space',0%29Disassemble_x86%28'32','Full%20x86%20architecture',16,0,true,true%29)
 
 ## **Movfuscator**
 - Tüm talimatları `mov` ile değiştiren bir obfuscator.
-- Faydalı kaynaklar arasında bir [YouTube açıklaması](https://www.youtube.com/watch?v=2VF_wPkiBJY) ve [PDF sl
+- Yararlı kaynaklar arasında [YouTube açıklaması](https://www.youtube.com/watch?v=2VF_wPkiBJY) ve [PDF slaytlar](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas_2015_the_movfuscator.pdf) bulunmaktadır.
+- **demovfuscator**, movfuscator'ın obfuscation'ını tersine çevirebilir, `libcapstone-dev` ve `libz3-dev` gibi bağımlılıklar gerektirir ve [keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) yüklenmelidir.
+
 ## **Delphi**
-- Delphi ikili dosyaları için [IDR](https://github.com/crypto2011/IDR) önerilir.
+- Delphi ikili dosyaları için [IDR](https://github.com/crypto2011/IDR) önerilmektedir.
 
 
-# Kurslar
+# Courses
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) \(Binary deobfuscation\)
 
 
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile öğrenin!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github depolarına **PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

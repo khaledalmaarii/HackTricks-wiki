@@ -1,39 +1,40 @@
-# AD CS Alan Kalıcılığı
+# AD CS Domain Persistence
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramanla öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Bu, [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf) adresinde paylaşılan alan kalıcılığı tekniklerinin özeti**. Daha fazla ayrıntı için kontrol edin.
+**Bu, [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf) adresinde paylaşılan alan kalıcılığı tekniklerinin bir özetidir.** Daha fazla ayrıntı için kontrol edin.
 
-## Çalıntı CA Sertifikaları ile Sertifikaları Sahteleme - DPERSIST1
+## Çalınan CA Sertifikaları ile Sertifika Sahteciliği - DPERSIST1
 
-Bir sertifikanın bir CA sertifikası olduğunu nasıl anlarsınız?
+Bir sertifikanın CA sertifikası olduğunu nasıl anlarsınız?
 
-Bir sertifikanın bir CA sertifikası olduğu belirlenebilir, eğer şu koşullar sağlanıyorsa:
+Bir sertifikanın CA sertifikası olduğu, birkaç koşulun sağlanması durumunda belirlenebilir:
 
-- Sertifika, özel anahtarının makinenin DPAPI'si veya işletim sistemi bunu destekliyorsa TPM/HSM gibi donanım tarafından güvence altına alınmış şekilde CA sunucusunda depolanır.
-- Sertifikanın İhraç Eden ve Konu alanları, CA'nın ayırt edici adıyla eşleşir.
-- "CA Sürümü" uzantısı yalnızca CA sertifikalarında bulunur.
-- Sertifikada Genişletilmiş Anahtar Kullanımı (EKU) alanları bulunmaz.
+- Sertifika, CA sunucusunda depolanır ve özel anahtarı makinenin DPAPI'si veya işletim sistemi bunu destekliyorsa TPM/HSM gibi bir donanım tarafından korunur.
+- Sertifikanın Hem Verici (Issuer) hem de Konu (Subject) alanları CA'nın ayırt edici adıyla eşleşir.
+- CA sertifikalarında yalnızca "CA Version" uzantısı bulunur.
+- Sertifika, Genişletilmiş Anahtar Kullanımı (EKU) alanlarından yoksundur.
 
-Bu sertifikanın özel anahtarını çıkarmak için, CA sunucusundaki `certsrv.msc` aracı, yerleşik GUI üzerinden desteklenen yöntemdir. Bununla birlikte, bu sertifika sistemde depolanan diğer sertifikalardan farklı değildir; bu nedenle, çıkarma için [THEFT2 tekniği](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) gibi yöntemler uygulanabilir.
+Bu sertifikanın özel anahtarını çıkarmak için, CA sunucusundaki `certsrv.msc` aracı, yerleşik GUI aracılığıyla desteklenen yöntemdir. Ancak, bu sertifika sistemde depolanan diğerlerinden farklı değildir; bu nedenle, çıkarım için [THEFT2 tekniği](certificate-theft.md#user-certificate-theft-via-dpapi-theft2) gibi yöntemler uygulanabilir.
 
-Sertifika ve özel anahtar ayrıca aşağıdaki komutla Certipy kullanılarak elde edilebilir:
+Sertifika ve özel anahtar, aşağıdaki komut ile Certipy kullanılarak da elde edilebilir:
 ```bash
 certipy ca 'corp.local/administrator@ca.corp.local' -hashes :123123.. -backup
 ```
-`.pfx` formatında CA sertifikası ve özel anahtar elde edildikten sonra, [ForgeCert](https://github.com/GhostPack/ForgeCert) gibi araçlar kullanılarak geçerli sertifikalar oluşturulabilir:
+CA sertifikası ve özel anahtarını `.pfx` formatında edindikten sonra, geçerli sertifikalar oluşturmak için [ForgeCert](https://github.com/GhostPack/ForgeCert) gibi araçlar kullanılabilir:
 ```bash
 # Generating a new certificate with ForgeCert
 ForgeCert.exe --CaCertPath ca.pfx --CaCertPassword Password123! --Subject "CN=User" --SubjectAltName localadmin@theshire.local --NewCertPath localadmin.pfx --NewCertPassword Password123!
@@ -48,42 +49,42 @@ Rubeus.exe asktgt /user:localdomain /certificate:C:\ForgeCert\localadmin.pfx /pa
 certipy auth -pfx administrator_forged.pfx -dc-ip 172.16.126.128
 ```
 {% hint style="warning" %}
-Sertifika sahteciliği için hedeflenen kullanıcının etkin ve Active Directory'de kimlik doğrulama yapabilme yeteneğine sahip olması gerekmektedir. krbtgt gibi özel hesaplar için sertifika sahteciliği etkisizdir.
+Sertifika sahteciliği hedeflenen kullanıcının aktif olması ve Active Directory'de kimlik doğrulama yapabilmesi gerekmektedir. krbtgt gibi özel hesaplar için sertifika sahteciliği etkisizdir.
 {% endhint %}
 
-Bu sahte sertifika, belirtilen bitiş tarihine kadar **geçerli** olacak ve **kök CA sertifikası geçerli olduğu sürece** (genellikle 5 ila **10+ yıl**) geçerli olacaktır. Ayrıca, **makinelere** yönelik olarak da geçerlidir, bu nedenle **S4U2Self** ile birleştirildiğinde, saldırgan CA sertifikası geçerli olduğu sürece herhangi bir etki alanı makinesinde **kalıcılık sağlayabilir**.\
-Ayrıca, bu yöntemle **üretilen sertifikaların iptal edilemeyeceği** unutulmamalıdır çünkü CA bunlardan haberdar değildir.
+Bu sahte sertifika, belirtilen son tarihine kadar **geçerli** olacak ve **kök CA sertifikası geçerli olduğu sürece** (genellikle 5 ila **10+ yıl** arasında) geçerliliğini koruyacaktır. Ayrıca, **makineler** için de geçerlidir, bu nedenle **S4U2Self** ile birleştirildiğinde, bir saldırgan **herhangi bir alan makinesinde kalıcılığı sürdürebilir** kök CA sertifikası geçerli olduğu sürece.\
+Ayrıca, bu yöntemle **oluşturulan sertifikalar** **iptal edilemez** çünkü CA bunlardan haberdar değildir.
 
-## Güvenilmez CA Sertifikalarına Güvenme - DPERSIST2
+## Sahte CA Sertifikalarına Güvenme - DPERSIST2
 
-`NTAuthCertificates` nesnesi, içinde bir veya daha fazla **CA sertifikası** içeren `cacertificate` özelliğine sahiptir ve Active Directory (AD) bunu kullanır. **Erişim denetleyicisi**, kimlik doğrulayan **sertifikadaki İhraç Eden** alanında belirtilen CA ile eşleşen bir girişin `NTAuthCertificates` nesnesini kontrol eder. Eşleşme bulunursa kimlik doğrulama devam eder.
+`NTAuthCertificates` nesnesi, Active Directory'nin (AD) kullandığı `cacertificate` niteliği içinde bir veya daha fazla **CA sertifikası** içerecek şekilde tanımlanmıştır. **Alan denetleyicisi** tarafından yapılan doğrulama süreci, kimlik doğrulama **sertifikası** için İhraççı alanında belirtilen **CA ile eşleşen** bir girişi kontrol etmeyi içerir. Eşleşme bulunursa kimlik doğrulama devam eder.
 
-Bir saldırgan, bu AD nesnesi üzerinde kontrol sahibi olduktan sonra, `NTAuthCertificates` nesnesine bir öz imzalı CA sertifikası ekleyebilir. Normalde, yalnızca **Enterprise Admin** grubunun üyeleri, **Domain Admins** veya **Administrators** ile **forest root’unun etki alanındaki** bu nesneyi değiştirme izni verilir. `certutil.exe` kullanarak `NTAuthCertificates` nesnesini düzenleyebilirler. Komutu `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126` veya [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool) kullanarak düzenleyebilirler.
+Bir saldırgan, bu AD nesnesi üzerinde kontrol sahibi olduğu sürece `NTAuthCertificates` nesnesine kendinden imzalı bir CA sertifikası ekleyebilir. Normalde, yalnızca **Enterprise Admin** grubunun üyeleri ile **Domain Admins** veya **orman kök alanındaki** **Yönetici**'ler bu nesneyi değiştirme iznine sahiptir. `certutil.exe` kullanarak `NTAuthCertificates` nesnesini `certutil.exe -dspublish -f C:\Temp\CERT.crt NTAuthCA126` komutuyla veya [**PKI Health Tool**](https://docs.microsoft.com/en-us/troubleshoot/windows-server/windows-security/import-third-party-ca-to-enterprise-ntauth-store#method-1---import-a-certificate-by-using-the-pki-health-tool) kullanarak düzenleyebilirler.
 
-Bu yetenek, ForgeCert ile dinamik olarak sertifikalar oluşturmak için kullanılan bir yöntemle birlikte kullanıldığında özellikle önemlidir.
+Bu yetenek, daha önce belirtilen ForgeCert yöntemini kullanarak dinamik olarak sertifikalar oluşturmakla birleştirildiğinde özellikle önemlidir.
 
-## Kötü Amaçlı Yapılandırma - DPERSIST3
+## Kötü Amaçlı Yanlış Yapılandırma - DPERSIST3
 
-AD CS bileşenlerinin **güvenlik tanımlayıcılarının değiştirilmesi** yoluyla **kalıcılık** için fırsatlar bolca bulunmaktadır. "[Etki Alanı Yükseltme](domain-escalation.md)" bölümünde açıklanan değişiklikler, yükseltilmiş erişime sahip bir saldırgan tarafından kötü amaçlı olarak uygulanabilir. Bu, şunlar gibi hassas bileşenlere "kontrol hakları" (örneğin, WriteOwner/WriteDACL vb.) eklemeyi içerir:
+AD CS bileşenlerinin **güvenlik tanımlayıcıları** üzerinde **kalıcılık** sağlama fırsatları bolca mevcuttur. "[Domain Escalation](domain-escalation.md)" bölümünde açıklanan değişiklikler, yükseltilmiş erişime sahip bir saldırgan tarafından kötü niyetle uygulanabilir. Bu, aşağıdaki gibi hassas bileşenlere "kontrol hakları" (örneğin, WriteOwner/WriteDACL/vb.) eklenmesini içerir:
 
 - **CA sunucusunun AD bilgisayar** nesnesi
 - **CA sunucusunun RPC/DCOM sunucusu**
-- **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** içindeki herhangi bir **alt nesne veya konteyner** (örneğin, Sertifika Şablonları konteyneri, Sertifika Yetkilileri konteyneri, NTAuthCertificates nesnesi vb.)
-- Varsayılan olarak veya kuruluş tarafından **AD CS'yi kontrol etme yetkisi verilen AD grupları** (örneğin, yerleşik Cert Publishers grubu ve üyelerinden herhangi biri)
+- **`CN=Public Key Services,CN=Services,CN=Configuration,DC=<DOMAIN>,DC=<COM>`** içindeki herhangi bir **torun AD nesnesi veya konteyner** (örneğin, Sertifika Şablonları konteyneri, Sertifikasyon Otoriteleri konteyneri, NTAuthCertificates nesnesi vb.)
+- **AD CS'yi kontrol etme haklarına sahip AD grupları**, varsayılan olarak veya organizasyon tarafından (örneğin, yerleşik Sertifika Yayıncıları grubu ve üyeleri)
 
-Kötü amaçlı uygulamanın bir örneği, etki alanında **yükseltilmiş izinlere** sahip olan bir saldırganın, varsayılan **`User`** sertifika şablonuna **`WriteOwner`** iznini, saldırganın kendisini hak sahibi olarak eklemesiyle eklemesini içerebilir. Bunun için saldırgan önce **`User`** şablonunun sahipliğini kendisine değiştirir. Bundan sonra, şablonda **`ENROLLEE_SUPPLIES_SUBJECT`**'i etkinleştirmek için **`mspki-certificate-name-flag`** 1 olarak ayarlanır ve bir kullanıcının talepte Alternatif Bir İsim sağlamasına izin verilir. Ardından, saldırgan **şablonda** kullanarak, bir **etki alanı yöneticisi** adını alternatif bir isim olarak seçebilir ve elde edilen sertifikayı DA olarak kimlik doğrulama için kullanabilir.
+Kötü niyetli bir uygulama örneği, alan içinde **yükseltilmiş izinlere** sahip bir saldırganın, **`User`** sertifika şablonuna **`WriteOwner`** iznini eklemesi olacaktır; burada saldırgan, bu hakkın sahibi olur. Bunu istismar etmek için, saldırgan önce **`User`** şablonunun sahipliğini kendisine değiştirecektir. Ardından, **`mspki-certificate-name-flag`** şablonda **1** olarak ayarlanacak ve **`ENROLLEE_SUPPLIES_SUBJECT`** etkinleştirilecektir; bu, bir kullanıcının talepte bir Subject Alternative Name sağlamasına olanak tanır. Sonrasında, saldırgan **şablonu** kullanarak, alternatif ad olarak bir **alan yöneticisi** adı seçerek **kayıt** olabilir ve elde edilen sertifikayı DA olarak kimlik doğrulama için kullanabilir.
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahraman olmak için AWS hackleme öğrenin!</summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'yi desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı yapmak veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz olan [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u takip edin.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

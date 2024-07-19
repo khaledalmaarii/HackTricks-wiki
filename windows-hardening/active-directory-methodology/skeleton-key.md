@@ -1,54 +1,56 @@
 # Skeleton Key
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme becerilerinizi sıfırdan kahraman seviyesine çıkarın</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>ile</strong>!</summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamını görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Skeleton Key Saldırısı
+## Skeleton Key Attack
 
-**Skeleton Key saldırısı**, saldırganların bir **ana parola enjekte ederek** etkin dizin kimlik doğrulamasını **atlamalarına** olanak tanıyan sofistike bir tekniktir. Bu, saldırganın herhangi bir kullanıcı olarak **parola olmadan kimlik doğrulama yapmasına** ve etkin dizine **sınırsız erişim sağlamasına** olanak tanır.
+**Skeleton Key saldırısı**, saldırganların **Active Directory kimlik doğrulamasını atlamasına** olanak tanıyan sofistike bir tekniktir; bu, **alan denetleyicisine bir ana şifre enjekte ederek** gerçekleştirilir. Bu, saldırgana **herhangi bir kullanıcı olarak kimlik doğrulama** yapma yetkisi verir ve böylece **alana sınırsız erişim** sağlar.
 
-Bu saldırı [Mimikatz](https://github.com/gentilkiwi/mimikatz) kullanılarak gerçekleştirilebilir. Bu saldırıyı gerçekleştirmek için **Etki Alanı Yöneticisi hakları gereklidir** ve saldırganın kapsamlı bir ihlal için her etkin dizin denetleyicisini hedeflemesi gerekir. Bununla birlikte, saldırının etkisi geçicidir, çünkü **etkin dizin denetleyicisinin yeniden başlatılması kötü amaçlı yazılımı ortadan kaldırır** ve sürekli erişim için yeniden uygulama gerektirir.
+Bu saldırı [Mimikatz](https://github.com/gentilkiwi/mimikatz) kullanılarak gerçekleştirilebilir. Bu saldırıyı gerçekleştirmek için **Domain Admin hakları gereklidir** ve saldırganın kapsamlı bir ihlal sağlamak için her alan denetleyicisini hedef alması gerekir. Ancak, saldırının etkisi geçicidir; çünkü **alan denetleyicisinin yeniden başlatılması kötü amaçlı yazılımı ortadan kaldırır**, bu da sürdürülebilir erişim için yeniden uygulanmasını gerektirir.
 
 **Saldırıyı gerçekleştirmek** için tek bir komut gereklidir: `misc::skeleton`.
 
-## Hafifletme
+## Mitigations
 
-Bu tür saldırılara karşı hafifletme stratejileri, hizmetlerin kurulumunu veya hassas yetkilerin kullanımını gösteren belirli olay kimliklerini izlemeyi içerir. Özellikle, Sistem Olay Kimliği 7045 veya Güvenlik Olay Kimliği 4673'ü aramak şüpheli faaliyetleri ortaya çıkarabilir. Ayrıca, saldırganların çabalarını önemli ölçüde engellemek için `lsass.exe`'yi korumalı bir süreç olarak çalıştırmak da önerilir, çünkü bu, saldırının karmaşıklığını artıran bir çekirdek mod sürücüsü kullanmalarını gerektirir.
+Bu tür saldırılara karşı önleme stratejileri, hizmetlerin kurulumu veya hassas ayrıcalıkların kullanımıyla ilgili belirli olay kimliklerini izlemeyi içerir. Özellikle, Sistem Olay Kimliği 7045 veya Güvenlik Olay Kimliği 4673'ü aramak, şüpheli faaliyetleri ortaya çıkarabilir. Ayrıca, `lsass.exe`'yi korunan bir işlem olarak çalıştırmak, saldırganların çabalarını önemli ölçüde engelleyebilir; çünkü bu, bir çekirdek modu sürücüsü kullanmalarını gerektirir ve saldırının karmaşıklığını artırır.
 
-İşte güvenlik önlemlerini geliştirmek için PowerShell komutları:
+Güvenlik önlemlerini artırmak için PowerShell komutları şunlardır:
 
-- Şüpheli hizmetlerin kurulumunu tespit etmek için şu komutu kullanın: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
+- Şüpheli hizmetlerin kurulumunu tespit etmek için: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*"}`
 
 - Özellikle Mimikatz'ın sürücüsünü tespit etmek için aşağıdaki komut kullanılabilir: `Get-WinEvent -FilterHashtable @{Logname='System';ID=7045} | ?{$_.message -like "*Kernel Mode Driver*" -and $_.message -like "*mimidrv*"}`
 
-- `lsass.exe`'yi güçlendirmek için, onu korumalı bir süreç olarak etkinleştirmek önerilir: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
+- `lsass.exe`'yi güçlendirmek için, onu korunan bir işlem olarak etkinleştirmek önerilir: `New-ItemProperty HKLM:\SYSTEM\CurrentControlSet\Control\Lsa -Name RunAsPPL -Value 1 -Verbose`
 
-Koruyucu önlemlerin başarıyla uygulandığını doğrulamak için sistem yeniden başlatmasından sonra doğrulama önemlidir. Bunun için şu komut kullanılabilir: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
+Sistem yeniden başlatıldıktan sonra doğrulama, koruma önlemlerinin başarıyla uygulandığından emin olmak için kritik öneme sahiptir. Bu, şu şekilde gerçekleştirilebilir: `Get-WinEvent -FilterHashtable @{Logname='System';ID=12} | ?{$_.message -like "*protected process*`
 
-## Referanslar
+## References
 * [https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/](https://blog.netwrix.com/2022/11/29/skeleton-key-attack-active-directory/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme becerilerinizi sıfırdan kahraman seviyesine çıkarın</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>ile</strong>!</summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamını görmek** veya HackTricks'i **PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

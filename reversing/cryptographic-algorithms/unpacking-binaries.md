@@ -1,50 +1,36 @@
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin.
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 
 # Paketlenmiş ikili dosyaları tanımlama
 
-* **Dize eksikliği**: Paketlenmiş ikili dosyalarda neredeyse hiç dize bulunmadığı sıkça görülür.
-* Birçok **kullanılmayan dize**: Ayrıca, bir kötü amaçlı yazılımın ticari bir paketleme aracı kullandığı durumlarda, çapraz referans olmayan birçok dize bulmak yaygındır. Bu dizelerin var olması, ikili dosyanın paketlenmediği anlamına gelmez.
-* Bir ikili dosyanın hangi paketleyicinin kullanıldığını bulmak için bazı araçlar da kullanabilirsiniz:
+* **string eksikliği**: Paketlenmiş ikili dosyalarda neredeyse hiç string bulmamak yaygındır.
+* Birçok **kullanılmayan string**: Ayrıca, bir kötü amaçlı yazılım bazı ticari paketleyiciler kullanıyorsa, çapraz referanssız birçok string bulmak yaygındır. Bu stringler mevcut olsa bile, bu durum ikili dosyanın paketlenmediği anlamına gelmez.
+* Bir ikili dosyayı paketlemek için hangi paketleyicinin kullanıldığını bulmaya çalışmak için bazı araçlar kullanabilirsiniz:
 * [PEiD](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/PEiD-updated.shtml)
 * [Exeinfo PE](http://www.softpedia.com/get/Programming/Packers-Crypters-Protectors/ExEinfo-PE.shtml)
 * [Language 2000](http://farrokhi.net/language/)
 
 # Temel Öneriler
 
-* Paketlenmiş ikili dosyayı analiz etmeye başlamak için IDA'da alttan yukarı doğru hareket etmek en iyisidir. Paketleyici, açılmış kod çıkış yaptığında unpacker da çıkış yapar, bu yüzden unpacker'ın başlangıçta açılmış kodun yürütmesine geçmesi olası değildir.
-* **JMP'leri** veya **CALL'ları** **registerlara** veya **bellek bölgelerine** arayın. Ayrıca, argümanları iten ve bir adres yönüne çağrı yapan **fonksiyonları** arayın ve ardından `retn` çağrısı yapın, çünkü bu durumda fonksiyonun dönüşü, çağrılmadan önce yığıta itilen adresi çağırabilir.
-* `VirtualAlloc` üzerine bir **kesme noktası** koyun, çünkü bu, programın açılmış kodu yazabileceği bellekte yer ayırır. Fonksiyonu çalıştırdıktan sonra EAX içindeki değere ulaşmak için "kullanıcı koduna çalış" veya F8'i kullanarak "**dökümdeki o adrese gidin**". Açılmış kodun kaydedileceği bölge olup olmadığını asla bilemezsiniz.
-* **`VirtualAlloc`** ile "**40**" değeri bir argüman olarak kullanıldığında, Oku+Yaz+Çalıştır anlamına gelir (buraya yürütme gerektiren bazı kodlar kopyalanacak).
-* Kodu açarken, genellikle **birçok aritmetik işlem** ve **`memcopy`** veya **`VirtualAlloc`** gibi fonksiyonlara yapılan **birçok çağrı** bulunur. Yalnızca aritmetik işlemler gerçekleştiren ve belki de bazı `memcopy` işlemleri yapan bir fonksiyonda bulunuyorsanız, öneri, fonksiyonun sonunu (belki bir JMP veya bir kayda çağrı) **bulmaya çalışmak** veya en azından **son fonksiyona yapılan çağrıyı bulmak** ve ona kadar çalıştırmaktır, çünkü kod ilginç değildir.
-* Kodu açarken, bir bellek bölgesini değiştirdiğinizde **bellek bölgesi değişikliğini** not edin, çünkü bellek bölgesi değişikliği, açılmış kodun başlangıcını gösterebilir. Bir bellek bölgesini Process Hacker kullanarak kolayca dökümleyebilirsiniz (process --> properties --> memory).
-* Kodu açmaya çalışırken, bir ikili dosyanın dizelerini kontrol ederek **zaten açılmış kodla çalışıp çalışmadığınızı** (bu durumda sadece dökümleyebilirsiniz) iyi bir şekilde anlayabilirsiniz. Bir noktada bir sıçrama yaparsanız (bellek bölgesini değiştirerek olabilir) ve **daha fazla dize eklendiğini fark ederseniz**, o zaman **açılmış kodla çalıştığınızı** bilebilirsiniz.\
-Ancak, eğer paketleyicide zaten birçok dize bulunuyorsa, "http" kelimesini içeren dize sayısını görebilir ve bu sayının artıp artmadığını kontrol edebilirsiniz.
-* Bir bellek bölgesinden bir yürütülebilir dökümlediğinizde, bazı başlıkları düzeltmek için [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases) kullanabilirsiniz.
-
-
-<details>
-
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
-
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin.
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**'u takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
-
-</details>
+* Paketlenmiş ikili dosyayı **IDA'da alttan başlayarak analiz etmeye** başlayın ve yukarı doğru ilerleyin. Unpackers, unpacked kod çıkış yaptığında çıkış yapar, bu nedenle unpacker'ın başlangıçta unpacked koda yürütme geçirmesi olası değildir.
+* **register'lara** veya **bellek** **bölgelerine** **JMP** veya **CALL** arayın. Ayrıca, **argümanları ve bir adres yönlendirmesi iten fonksiyonlar arayın ve ardından `retn` çağırın**, çünkü bu durumda fonksiyonun dönüşü, çağrılmadan önce yığına itilen adresi çağırabilir.
+* `VirtualAlloc` üzerinde bir **breakpoint** koyun, çünkü bu, programın unpacked kod yazabileceği bellek alanını ayırır. "Kullanıcı koduna çalıştır" veya fonksiyonu çalıştırdıktan sonra **EAX içindeki değere ulaşmak için F8** kullanın ve "**dump'taki o adresi takip edin**". Unpacked kodun kaydedileceği bölge olup olmadığını asla bilemezsiniz.
+* **`VirtualAlloc`**'un "**40**" değerini argüman olarak alması, Okuma+Yazma+Çalıştırma anlamına gelir (buraya kopyalanacak bazı çalıştırılması gereken kod var).
+* **Kodu unpack ederken**, **aritmetik işlemler** ve **`memcopy`** veya **`Virtual`**`Alloc` gibi fonksiyonlara **birçok çağrı** bulmak normaldir. Eğer yalnızca aritmetik işlemler gerçekleştiren ve belki de bazı `memcopy` yapan bir fonksiyonda bulursanız, öneri, **fonksiyonun sonunu bulmaya çalışmaktır** (belki bir JMP veya bazı register'lara çağrı) **veya** en azından **son fonksiyona çağrıya** kadar koşmak, çünkü kod ilginç değildir.
+* Kodu unpack ederken, **bellek bölgesini değiştirdiğinizde** not alın, çünkü bir bellek bölgesi değişikliği **unpacking kodunun başlangıcını** gösterebilir. Process Hacker kullanarak bir bellek bölgesini kolayca dump edebilirsiniz (işlem --> özellikler --> bellek).
+* Kodu unpack etmeye çalışırken, **zaten unpacked kodla çalışıp çalışmadığınızı bilmenin** iyi bir yolu, **ikili dosyanın stringlerini kontrol etmektir**. Eğer bir noktada bir atlama yaparsanız (belki bellek bölgesini değiştirerek) ve **çok daha fazla string eklendiğini** fark ederseniz, o zaman **unpacked kodla çalıştığınızı** bilebilirsiniz.\
+Ancak, eğer paketleyici zaten birçok string içeriyorsa, "http" kelimesini içeren string sayısını görebilir ve bu sayının artıp artmadığını kontrol edebilirsiniz.
+* Bir bellek bölgesinden bir yürütülebilir dosyayı dump ettiğinizde, bazı başlıkları [PE-bear](https://github.com/hasherezade/pe-bear-releases/releases) kullanarak düzeltebilirsiniz.

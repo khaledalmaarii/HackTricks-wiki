@@ -1,49 +1,47 @@
 # macOS XPC
 
-## macOS XPC
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a> <strong>ile!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* Şirketinizi HackTricks'te **reklamınızı görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'u **takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek** paylaşın.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Temel Bilgiler
+## Temel Bilgiler
 
-XPC, macOS ve iOS üzerindeki işlemler arası iletişim anlamına gelen XNU (macOS tarafından kullanılan çekirdek) İşlem İletişimi'nin kısaltmasıdır. XPC, sistemdeki farklı işlemler arasında **güvenli, asenkron yöntem çağrıları yapma** mekanizması sağlar. Bu, Apple'ın güvenlik paradigmasının bir parçası olup, her **bileşenin** yalnızca işini yapmak için gereken **izinlere sahip olduğu** ayrıcalıklı uygulamaların oluşturulmasına olanak tanır ve bu şekilde bir sürecin tehlikeye girmesinden kaynaklanabilecek potansiyel zararı sınırlar.
+XPC, macOS tarafından kullanılan XNU (çekirdek) arasındaki İletişim için bir çerçevedir ve macOS ve iOS'ta **işlemler arası iletişim** sağlar. XPC, sistemdeki farklı işlemler arasında **güvenli, asenkron yöntem çağrıları yapma** mekanizması sunar. Bu, her bir **bileşenin** işini yapmak için **gereken izinlerle** çalıştığı **ayrılmış ayrıcalıklarla uygulamalar** oluşturulmasına olanak tanıyarak, tehlikeye atılmış bir işlemin potansiyel zararını sınırlamaktadır.
 
-XPC, aynı sistemde çalışan farklı programların veri alışverişi yapabilmesi için kullanılan bir İşlem İletişimi (IPC) yöntemi kullanır.
+XPC, aynı sistemde çalışan farklı programların veri göndermesi ve alması için bir dizi yöntem olan İşlemler Arası İletişim (IPC) biçimini kullanır.
 
-XPC'nin temel faydaları şunlardır:
+XPC'nin başlıca faydaları şunlardır:
 
-1. **Güvenlik**: İşleri farklı süreçlere ayırarak, her sürece yalnızca ihtiyaç duyduğu izinler verilebilir. Bu, bir sürecin bile ele geçirilmiş olsa bile zarar verme yeteneğini sınırlar.
-2. **Kararlılık**: XPC, çökmeleri oluştuğu bileşene izole eder. Bir süreç çöktüğünde, sistemdeki diğer bölümleri etkilemeden yeniden başlatılabilir.
-3. **Performans**: XPC, farklı süreçlerde aynı anda farklı görevlerin çalıştırılmasına olanak tanır, bu nedenle kolay bir eşzamanlılık sağlar.
+1. **Güvenlik**: Çalışmayı farklı işlemlere ayırarak, her bir işleme yalnızca ihtiyaç duyduğu izinler verilebilir. Bu, bir işlem tehlikeye atılsa bile, zarar verme yeteneğinin sınırlı olduğu anlamına gelir.
+2. **Kararlılık**: XPC, çökme durumlarını meydana geldiği bileşene izole etmeye yardımcı olur. Bir işlem çökerse, sistemin geri kalanını etkilemeden yeniden başlatılabilir.
+3. **Performans**: XPC, farklı görevlerin farklı işlemlerde aynı anda çalıştırılmasına olanak tanıyarak kolay bir eşzamanlılık sağlar.
 
-Tek **dezavantaj**, bir uygulamayı birkaç sürece ayırarak bunları XPC aracılığıyla iletişim kurmalarını sağlamaktır ve bu daha az verimli olabilir. Ancak günümüz sistemlerinde bunun neredeyse fark edilmez olduğu ve faydaların daha iyi olduğu söylenebilir.
+Tek **dezavantaj**, **bir uygulamayı birkaç işleme ayırmanın** ve bunların XPC aracılığıyla iletişim kurmasının **daha az verimli** olmasıdır. Ancak günümüz sistemlerinde bu neredeyse fark edilmez ve faydalar daha iyidir.
 
-### Uygulama Özel XPC Hizmetleri
+## Uygulama Özel XPC hizmetleri
 
-Bir uygulamanın XPC bileşenleri, **uygulamanın kendisi içindedir**. Örneğin, Safari'de bunları **`/Applications/Safari.app/Contents/XPCServices`** dizininde bulabilirsiniz. Bunlar **`.xpc`** uzantısına sahiptir (örneğin **`com.apple.Safari.SandboxBroker.xpc`**) ve ana ikili dosyanın içinde de bir paket olarak bulunur: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` ve bir `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
+Bir uygulamanın XPC bileşenleri **uygulamanın kendisinin içindedir.** Örneğin, Safari'de bunları **`/Applications/Safari.app/Contents/XPCServices`** dizininde bulabilirsiniz. **`.xpc`** uzantısına sahiptirler (örneğin **`com.apple.Safari.SandboxBroker.xpc`**) ve ana ikili dosya ile birlikte paketlenmiştir: `/Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/MacOS/com.apple.Safari.SandboxBroker` ve bir `Info.plist: /Applications/Safari.app/Contents/XPCServices/com.apple.Safari.SandboxBroker.xpc/Contents/Info.plist`
 
-Bir XPC bileşeninin diğer XPC bileşenlerinden veya ana uygulama ikili dosyasından farklı yetkilendirmelere ve ayrıcalıklara sahip olacağını düşünebilirsiniz. ANCAK, bir XPC hizmeti, **Info.plist** dosyasındaki [**JoinExistingSession**](https://developer.apple.com/documentation/bundleresources/information\_property\_list/xpcservice/joinexistingsession) ayarı "True" olarak yapılandırılmışsa, XPC hizmeti, onu çağıran uygulama ile **aynı güvenlik oturumunda** çalışır.
+Bir **XPC bileşeninin diğer XPC bileşenlerinden veya ana uygulama ikili dosyasından farklı haklara ve ayrıcalıklara sahip olacağını** düşünebilirsiniz. **EXCEPT** bir XPC hizmeti, **Info.plist** dosyasında **JoinExistingSession** [**True**](https://developer.apple.com/documentation/bundleresources/information_property_list/xpcservice/joinexistingsession) olarak ayarlandığında. Bu durumda, XPC hizmeti, onu çağıran uygulama ile **aynı güvenlik oturumunda** çalışacaktır.
 
-XPC hizmetleri, gerektiğinde **launchd** tarafından **başlatılır** ve tüm görevler tamamlandığında sistem kaynaklarını serbest bırakmak için **kapatılır**. **Uygulama özel XPC bileşenleri yalnızca uygulama tarafından kullanılabilir**, bu da potansiyel güvenlik açıklarına ilişkin riski azaltır.
+XPC hizmetleri, gerektiğinde **launchd** tarafından **başlatılır** ve tüm görevler **tamamlandığında** sistem kaynaklarını serbest bırakmak için **kapalı** tutulur. **Uygulama özel XPC bileşenleri yalnızca uygulama tarafından kullanılabilir**, böylece potansiyel güvenlik açıklarıyla ilişkili riski azaltır.
 
-### Sistem Genelindeki XPC Hizmetleri
+## Sistem Genelinde XPC hizmetleri
 
-Sistem genelindeki XPC hizmetleri tüm kullanıcılara erişilebilir. Bu hizmetler, launchd veya Mach türünde olabilir ve **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`** veya **`/Library/LaunchAgents`** gibi belirli dizinlerde bulunan plist dosyalarında **tanımlanması** gerekmektedir.
+Sistem genelindeki XPC hizmetleri tüm kullanıcılar tarafından erişilebilir. Bu hizmetler, ya launchd ya da Mach türünde olup, **`/System/Library/LaunchDaemons`**, **`/Library/LaunchDaemons`**, **`/System/Library/LaunchAgents`** veya **`/Library/LaunchAgents`** gibi belirli dizinlerde bulunan plist dosyalarında **tanımlanmalıdır**.
 
-Bu plist dosyalarında, hizmetin adını içeren **`MachServices`** adında bir anahtar ve ikili dosyanın yolunu içeren **`Program`** adında bir anahtar bulunur:
-
+Bu plist dosyalarında, hizmetin adıyla birlikte **`MachServices`** adında bir anahtar ve ikili dosyanın yolunu içeren **`Program`** adında bir anahtar bulunacaktır:
 ```xml
 cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 
@@ -77,33 +75,82 @@ cat /Library/LaunchDaemons/com.jamf.management.daemon.plist
 </dict>
 </plist>
 ```
+The ones in **`LaunchDameons`** root tarafından çalıştırılır. Yani, yetkisiz bir işlem bunlardan biriyle iletişim kurabiliyorsa, yetkileri artırma olanağına sahip olabilir.
 
-**`LaunchDameons`** içindekiler root tarafından çalıştırılır. Bu nedenle, bir yetkisiz işlem bunlardan biriyle iletişim kurabilirse, ayrıcalıkları yükseltebilir.
+## XPC Nesneleri
 
-### XPC Olay Mesajları
+* **`xpc_object_t`**
 
-Uygulamalar, farklı olay mesajlarına **abone olabilir** ve böyle olaylar gerçekleştiğinde **istenildiği zaman başlatılabilir**. Bu hizmetlerin kurulumu, **önceki dosyalarla aynı dizinlerde bulunan** ve ek bir **`LaunchEvent`** anahtarını içeren **l**aunchd plist dosyalarında yapılır.
+Her XPC mesajı, serileştirme ve serileştirmeyi basitleştiren bir sözlük nesnesidir. Ayrıca, `libxpc.dylib` çoğu veri türünü tanımlar, bu nedenle alınan verilerin beklenen türde olması sağlanabilir. C API'sinde her nesne bir `xpc_object_t`'dir (ve türü `xpc_get_type(object)` kullanılarak kontrol edilebilir).\
+Ayrıca, `xpc_copy_description(object)` fonksiyonu, hata ayıklama amaçları için yararlı olabilecek nesnenin bir dize temsilini almak için kullanılabilir.\
+Bu nesnelerin ayrıca `xpc_<object>_copy`, `xpc_<object>_equal`, `xpc_<object>_hash`, `xpc_<object>_serialize`, `xpc_<object>_deserialize` gibi çağrılacak bazı yöntemleri vardır...
 
-#### XPC Bağlantı Süreci Kontrolü
+`xpc_object_t` nesneleri, `xpc_<objetType>_create` fonksiyonu çağrılarak oluşturulur; bu, içsel olarak `_xpc_base_create(Class, Size)` fonksiyonunu çağırır ve burada nesnenin sınıf türü (bir `XPC_TYPE_*` türü) ve boyutu belirtilir (metadata için ekstra 40B eklenir). Bu, nesnenin verilerinin 40B'lik bir ofsetten başlayacağı anlamına gelir.\
+Bu nedenle, `xpc_<objectType>_t`, `xpc_object_t`'nin bir alt sınıfı gibi bir şeydir ve bu da `os_object_t*`'nin bir alt sınıfı olacaktır.
 
-Bir işlem, bir XPC bağlantısı aracılığıyla bir yöntemi çağırmaya çalıştığında, **XPC hizmeti bu işlemin bağlanmasına izin verip vermediğini kontrol etmelidir**. İşte bunu kontrol etmek için yaygın kullanılan yöntemler ve yaygın hatalar:
+{% hint style="warning" %}
+Anahtarın türünü ve gerçek değerini almak veya ayarlamak için `xpc_dictionary_[get/set]_<objectType>` kullananın geliştirici olması gerektiğini unutmayın.
+{% endhint %}
+
+* **`xpc_pipe`**
+
+Bir **`xpc_pipe`**, işlemlerin iletişim kurmak için kullanabileceği bir FIFO borusudur (iletişim Mach mesajlarını kullanır).\
+Bir XPC sunucusu oluşturmak için `xpc_pipe_create()` veya belirli bir Mach portu kullanarak oluşturmak için `xpc_pipe_create_from_port()` çağrısı yapılabilir. Ardından, mesajları almak için `xpc_pipe_receive` ve `xpc_pipe_try_receive` çağrılabilir.
+
+**`xpc_pipe`** nesnesinin, kullanılan iki Mach portu ve adı (varsa) hakkında bilgileri içeren bir **`xpc_object_t`** olduğunu unutmayın. Örneğin, plist'inde `/System/Library/LaunchDaemons/com.apple.secinitd.plist` bulunan `secinitd` daemon'u, `com.apple.secinitd` adında bir boru yapılandırır.
+
+Bir **`xpc_pipe`** örneği, Mach portlarını paylaşmayı mümkün kılan **`launchd`** tarafından oluşturulan **bootstrap pipe**'dır.
+
+* **`NSXPC*`**
+
+Bunlar, XPC bağlantılarının soyutlanmasını sağlayan Objective-C yüksek seviyeli nesnelerdir.\
+Ayrıca, bu nesneleri DTrace ile hata ayıklamak, önceki nesnelerden daha kolaydır.
+
+* **`GCD Kuyrukları`**
+
+XPC, mesajları iletmek için GCD kullanır, ayrıca `xpc.transactionq`, `xpc.io`, `xpc-events.add-listenerq`, `xpc.service-instance` gibi belirli dağıtım kuyrukları oluşturur...
+
+## XPC Hizmetleri
+
+Bunlar, diğer projelerin **`XPCServices`** klasöründe bulunan **`.xpc`** uzantılı paketlerdir ve `Info.plist` dosyasında `CFBundlePackageType` **`XPC!`** olarak ayarlanmıştır.\
+Bu dosya, uygulama, kullanıcı, sistem veya bir sandbox tanımlayabilen `_SandboxProfile` gibi diğer yapılandırma anahtarlarına sahiptir veya hizmete erişmek için gerekli olan haklar veya kimlikleri belirtebilecek `_AllowedClients` anahtarına sahiptir. Bu ve diğer yapılandırma seçenekleri, hizmet başlatıldığında yapılandırmak için yararlı olacaktır.
+
+### Bir Hizmeti Başlatma
+
+Uygulama, `xpc_connection_create_mach_service` kullanarak bir XPC hizmetine **bağlanmaya** çalışır, ardından launchd daemon'u bulur ve **`xpcproxy`**'yi başlatır. **`xpcproxy`**, yapılandırılmış kısıtlamaları uygular ve sağlanan FD'ler ve Mach portları ile hizmeti başlatır.
+
+XPC hizmetinin arama hızını artırmak için bir önbellek kullanılır.
+
+`xpcproxy`'nin eylemlerini izlemek mümkündür:
+```bash
+supraudit S -C -o /tmp/output /dev/auditpipe
+```
+XPC kütüphanesi, `xpc_ktrace_pid0` ve `xpc_ktrace_pid1` çağrılarıyla eylemleri günlüğe kaydetmek için `kdebug` kullanır. Kullandığı kodlar belgelenmemiştir, bu nedenle bunları `/usr/share/misc/trace.codes` dosyasına eklemek gereklidir. `0x29` ön ekine sahiptirler ve örneğin biri `0x29000004`: `XPC_serializer_pack`'dır.\
+`xpcproxy` aracı `0x22` ön ekini kullanır, örneğin: `0x2200001c: xpcproxy:will_do_preexec`.
+
+## XPC Olay Mesajları
+
+Uygulamalar, böyle olaylar gerçekleştiğinde **talep üzerine başlatılmalarını** sağlayan farklı olay **mesajlarına** **abone** olabilirler. Bu hizmetlerin **kurulumu**, **önceki dosyalarla aynı dizinlerde** bulunan **launchd plist dosyalarında** yapılır ve ekstra bir **`LaunchEvent`** anahtarı içerir.
+
+### XPC Bağlantı Süreci Kontrolü
+
+Bir süreç, bir XPC bağlantısı aracılığıyla bir yöntemi çağırmaya çalıştığında, **XPC hizmeti o sürecin bağlanmasına izin verilip verilmediğini kontrol etmelidir**. Bunu kontrol etmenin yaygın yolları ve yaygın tuzaklar şunlardır:
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-### XPC Yetkilendirme
+## XPC Yetkilendirmesi
 
-Apple, uygulamaların **bazı hakları yapılandırmasına ve nasıl elde edileceğine** izin verir, böylece çağrılan işlem bu haklara sahipse XPC hizmetinden bir yöntemi **çağırmasına izin verilir**:
+Apple, uygulamaların **bazı hakları yapılandırmalarına ve bunları nasıl alacaklarına** izin verir, böylece çağıran süreç bu haklara sahipse, XPC hizmetinden bir yöntemi **çağırmasına izin verilir**:
 
 {% content-ref url="macos-xpc-authorization.md" %}
 [macos-xpc-authorization.md](macos-xpc-authorization.md)
 {% endcontent-ref %}
 
-### XPC Sniffer
+## XPC Sniffer
 
-XPC mesajlarını dinlemek için [**xpcspy**](https://github.com/hot3eed/xpcspy) kullanabilirsiniz, bu da **Frida** kullanır.
-
+XPC mesajlarını dinlemek için [**xpcspy**](https://github.com/hot3eed/xpcspy) kullanabilirsiniz, bu araç **Frida** kullanır.
 ```bash
 # Install
 pip3 install xpcspy
@@ -114,11 +161,12 @@ xpcspy -U -r -W <bundle-id>
 ## Using filters (i: for input, o: for output)
 xpcspy -U <prog-name> -t 'i:com.apple.*' -t 'o:com.apple.*' -r
 ```
+Başka bir kullanılabilir araç [**XPoCe2**](https://newosxbook.com/tools/XPoCe2.html).
 
-### XPC İletişimi C Kodu Örneği
+## XPC İletişim C Kodu Örneği
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="xpc_server.c" %}
 ```c
 // gcc xpc_server.c -o xpc_server
 
@@ -174,7 +222,7 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="undefined" %}
+{% tab title="xpc_client.c" %}
 ```c
 // gcc xpc_client.c -o xpc_client
 
@@ -206,12 +254,6 @@ return 0;
 {% endtab %}
 
 {% tab title="xyz.hacktricks.service.plist" %}
-xyz.hacktricks.service.plist dosyası, macOS'ta XPC hizmetlerini başlatmak için kullanılan bir örnek bir property list dosyasıdır. Bu dosya, bir XPC hizmetinin nasıl başlatılacağını ve hangi işlevleri yerine getireceğini tanımlar.
-
-Bu plist dosyasında, `Label` anahtarı, hizmetin benzersiz bir kimlik etiketi olarak kullanılacak bir dizedir. `MachServices` anahtarı, hizmetin hangi Mach servislerine erişebileceğini belirtir. `ProgramArguments` anahtarı, hizmetin çalıştırılacak uygulamanın yolu ve argümanlarını içerir.
-
-Bu plist dosyasını kullanarak, bir XPC hizmetini başlatabilir ve hizmetin sağladığı işlevleri kullanabilirsiniz. Bu, macOS'ta inter-process iletişimi sağlamak ve hizmetler arasında veri paylaşımını kolaylaştırmak için yaygın olarak kullanılan bir yöntemdir.
-
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -234,7 +276,6 @@ Bu plist dosyasını kullanarak, bir XPC hizmetini başlatabilir ve hizmetin sa�
 ```
 {% endtab %}
 {% endtabs %}
-
 ```bash
 # Compile the server & client
 gcc xpc_server.c -o xpc_server
@@ -254,11 +295,10 @@ sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.service.plist
 sudo rm /Library/LaunchDaemons/xyz.hacktricks.service.plist /tmp/xpc_server
 ```
-
-### XPC İletişimi Objective-C Kod Örneği
+## XPC İletişimi Objective-C Kod Örneği
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="oc_xpc_server.m" %}
 ```objectivec
 // gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
 #include <Foundation/Foundation.h>
@@ -311,40 +351,6 @@ sleep(10); // Fake something is done and then it ends
 {% endtab %}
 
 {% tab title="oc_xpc_client.m" %}
-oc\_xpc\_client.m dosyası
-
-```objective-c
-#import <Foundation/Foundation.h>
-#import <xpc/xpc.h>
-
-int main(int argc, const char * argv[]) {
-    @autoreleasepool {
-        xpc_connection_t connection = xpc_connection_create_mach_service("com.apple.securityd", NULL, XPC_CONNECTION_MACH_SERVICE_PRIVILEGED);
-        xpc_connection_set_event_handler(connection, ^(xpc_object_t event) {
-            xpc_type_t type = xpc_get_type(event);
-            if (type == XPC_TYPE_DICTIONARY) {
-                const char *description = xpc_dictionary_get_string(event, "description");
-                if (description) {
-                    printf("Received event: %s\n", description);
-                }
-            }
-        });
-        xpc_connection_resume(connection);
-        dispatch_main();
-    }
-    return 0;
-}
-```
-
-Bu örnek, Objective-C kullanarak macOS'ta XPC (Inter-Process Communication) istemcisi oluşturmayı göstermektedir. XPC, farklı süreçler arasında iletişim kurmak için kullanılan bir mekanizmadır. Bu örnekte, "com.apple.securityd" adlı bir Mach servisine bağlanan bir XPC bağlantısı oluşturulur. Bağlantıya bir olay işleyici atanır ve olaylar alındığında ekrana yazdırılır.
-
-Bu örneği derlemek ve çalıştırmak için aşağıdaki adımları izleyebilirsiniz:
-
-1. Bir Objective-C projesi oluşturun ve `oc_xpc_client.m` dosyasını projenize ekleyin.
-2. Projenizi derleyin ve çalıştırın.
-
-Bu örnek, XPC istemcisi oluşturmanın temel bir örneğini sunmaktadır. Daha fazla özellik eklemek veya farklı bir XPC servisiyle iletişim kurmak için kodu özelleştirebilirsiniz.
-
 ```objectivec
 // gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 #include <Foundation/Foundation.h>
@@ -367,15 +373,9 @@ NSLog(@"Received response: %@", response);
 return 0;
 }
 ```
+{% endtab %}
 
-Bu dosya, macOS'ta XPC hizmetlerini başlatmak için kullanılan bir örnek bir önyükleme ajanıdır. XPC, farklı süreçler arasında iletişim kurmak için kullanılan bir IPC (Inter-Process Communication) mekanizmasıdır. Bu plist dosyası, bir XPC hizmetini başlatmak için gerekli olan yapılandırmayı içerir.
-
-Bu dosyayı kullanarak, bir XPC hizmetini başlatmak için gerekli olan parametreleri belirleyebilirsiniz. Örneğin, hedeflenen hizmetin kimlik bilgilerini, çalıştırılacak komutları ve diğer yapılandırma ayarlarını belirleyebilirsiniz.
-
-Bu plist dosyasını kullanarak, hedeflenen bir XPC hizmetini kötüye kullanabilir ve ayrıcalık yükseltme saldırıları gerçekleştirebilirsiniz. Ancak, bu tür saldırılar yasa dışıdır ve yalnızca yasal izinlerle gerçekleştirilmelidir.
-
-Bu dosyanın kullanımıyla ilgili daha fazla bilgi için, macOS XPC hizmetlerini kötüye kullanma konusundaki ilgili bölüme bakabilirsiniz.
-
+{% tab title="xyz.hacktricks.svcoc.plist" %}
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"> <plist version="1.0">
@@ -398,39 +398,26 @@ Bu dosyanın kullanımıyla ilgili daha fazla bilgi için, macOS XPC hizmetlerin
 ```
 {% endtab %}
 {% endtabs %}
+```bash
+# Compile the server & client
+gcc -framework Foundation oc_xpc_server.m -o oc_xpc_server
+gcc -framework Foundation oc_xpc_client.m -o oc_xpc_client
 
-\`\`\`bash # Compile the server & client gcc -framework Foundation oc\_xpc\_server.m -o oc\_xpc\_server gcc -framework Foundation oc\_xpc\_client.m -o oc\_xpc\_client
+# Save server on it's location
+cp oc_xpc_server /tmp
 
-## Save server on it's location
+# Load daemon
+sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons
+sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
 
-cp oc\_xpc\_server /tmp
+# Call client
+./oc_xpc_client
 
-## Load daemon
-
-sudo cp xyz.hacktricks.svcoc.plist /Library/LaunchDaemons sudo launchctl load /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
-
-## Call client
-
-./oc\_xpc\_client
-
-## Clean
-
-sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc\_xpc\_server
-
-````
+# Clean
+sudo launchctl unload /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist
+sudo rm /Library/LaunchDaemons/xyz.hacktricks.svcoc.plist /tmp/oc_xpc_server
+```
 ## Dylb kodu içindeki İstemci
-
-Bu bölümde, Dylb kodu içindeki istemci hakkında bilgi verilecektir.
-
-Dylb, macOS'ta kullanılan bir IPC (İşlem Arası İletişim) mekanizmasıdır. Bu mekanizma, farklı süreçler arasında iletişim kurmak için kullanılır. Dylb kodu, bir istemci ve bir sunucu olmak üzere iki bileşenden oluşur.
-
-İstemci, Dylb sunucusuna bağlanarak talepler gönderir ve yanıtları alır. İstemci, sunucuyla iletişim kurmak için belirli bir protokolü takip eder. Bu protokol, istemcinin sunucuya hangi talepleri gönderebileceğini ve nasıl yanıtlar alabileceğini belirler.
-
-Dylb kodu içindeki istemci, genellikle bir uygulama tarafından kullanılır. Uygulama, Dylb istemcisini kullanarak başka bir süreçle iletişim kurabilir ve veri alışverişi yapabilir. Bu, uygulamanın farklı süreçler arasında bilgi paylaşmasını sağlar.
-
-Dylb kodu içindeki istemci, güvenlik açıklarına neden olabilecek potansiyel bir noktadır. İstismarcılar, istemci tarafında hatalar bulup bunları kullanarak ayrıcalık yükseltme saldırıları gerçekleştirebilirler. Bu nedenle, Dylb kodu içindeki istemciyi güvenli bir şekilde uygulamak önemlidir.
-
-Bu bölümde, Dylb kodu içindeki istemci hakkında daha fazla bilgi ve güvenlik önlemleri bulabilirsiniz.
 ```objectivec
 // gcc -dynamiclib -framework Foundation oc_xpc_client.m -o oc_xpc_client.dylib
 // gcc injection example:
@@ -463,18 +450,38 @@ NSLog(@"Done!");
 
 return;
 }
-````
+```
+## Remote XPC
+
+`RemoteXPC.framework` (from `libxpc`) tarafından sağlanan bu işlevsellik, farklı ana bilgisayarlar aracılığıyla XPC ile iletişim kurmayı sağlar.\
+Uzaktan XPC'yi destekleyen hizmetler, plist'lerinde `UsesRemoteXPC` anahtarına sahip olacaktır; bu, `/System/Library/LaunchDaemons/com.apple.SubmitDiagInfo.plist` dosyasında olduğu gibi. Ancak, hizmet `launchd` ile kaydedilmiş olsa da, işlevselliği sağlayan `UserEventAgent`'dir; bu, `com.apple.remoted.plugin` ve `com.apple.remoteservicediscovery.events.plugin` eklentilerini içerir.
+
+Ayrıca, `RemoteServiceDiscovery.framework`, `com.apple.remoted.plugin`'den bilgi almayı sağlar ve `get_device`, `get_unique_device`, `connect` gibi işlevleri açığa çıkarır...
+
+Bağlantı kullanıldığında ve hizmetin soket `fd`'si toplandığında, `remote_xpc_connection_*` sınıfı kullanılabilir.
+
+Uzaktan hizmetler hakkında bilgi almak için `/usr/libexec/remotectl` cli aracını kullanarak şu parametreler ile bilgi almak mümkündür:
+```bash
+/usr/libexec/remotectl list # Get bridge devices
+/usr/libexec/remotectl show ...# Get device properties and services
+/usr/libexec/remotectl dumpstate # Like dump withuot indicateing a servie
+/usr/libexec/remotectl [netcat|relay] ... # Expose a service in a port
+...
+```
+BridgeOS ile ana bilgisayar arasındaki iletişim, özel bir IPv6 arayüzü üzerinden gerçekleşir. `MultiverseSupport.framework`, iletişim için kullanılacak `fd`'ye sahip soketlerin kurulmasına olanak tanır.\
+Bu iletişimleri `netstat`, `nettop` veya açık kaynak seçeneği `netbottom` kullanarak bulmak mümkündür.
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hackleme becerilerini sıfırdan kahraman seviyesine öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINA**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'ı takip edin**.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına **PR göndererek paylaşın**.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

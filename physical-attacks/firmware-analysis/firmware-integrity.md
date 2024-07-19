@@ -1,58 +1,60 @@
-<details>
-
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
-
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u takip edin.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.
-
-</details>
-
-## Firmware Bütünlüğü
-
-**Özel firmware ve/veya derlenmiş ikili dosyalar, bütünlük veya imza doğrulama açıklarını sömürmek için yüklenebilir**. Geri kapı bağlama kabuk derlemesi için aşağıdaki adımlar izlenebilir:
-
-1. Firmware-mod-kit (FMK) kullanılarak firmware çıkarılabilir.
-2. Hedef firmware mimarisi ve bit düzeni belirlenmelidir.
-3. Buildroot veya diğer uygun yöntemler kullanılarak çapraz derleyici oluşturulabilir.
-4. Geri kapı, çapraz derleyici kullanılarak derlenebilir.
-5. Geri kapı, çıkarılan firmware'in /usr/bin dizinine kopyalanabilir.
-6. Uygun QEMU ikili dosyası, çıkarılan firmware kök dosya sistemine kopyalanabilir.
-7. Geri kapı, chroot ve QEMU kullanılarak emüle edilebilir.
-8. Geri kapı, netcat aracılığıyla erişilebilir hale getirilebilir.
-9. QEMU ikili dosyası, çıkarılan firmware kök dosya sisteminden kaldırılmalıdır.
-10. Değiştirilmiş firmware, FMK kullanılarak yeniden paketlenebilir.
-11. Geri kapılı firmware, firmware analiz aracı (FAT) ile emüle edilerek test edilebilir ve netcat kullanılarak hedef geri kapı IP ve portuna bağlanılabilir.
-
-Eğer dinamik analiz, önyükleme yükleyicisi manipülasyonu veya donanım güvenlik testi yoluyla zaten kök kabuk elde edildiyse, implantlar veya ters kabuklar gibi önceden derlenmiş kötü amaçlı ikili dosyalar çalıştırılabilir. Metasploit çerçevesi ve 'msfvenom' gibi otomatik yük/implant araçları, aşağıdaki adımlar kullanılarak kullanılabilir:
-
-1. Hedef firmware mimarisi ve bit düzeni belirlenmelidir.
-2. Msfvenom, hedef yükü, saldırgan ana bilgisayar IP'si, dinleme port numarası, dosya türü, mimari, platform ve çıktı dosyasını belirtmek için kullanılabilir.
-3. Yük, etkilenen cihaza aktarılabilir ve yürütme izinlerine sahip olduğu doğrulanabilir.
-4. Metasploit, gelen istekleri işlemek için msfconsole'yi başlatarak ve ayarları yüklemeye göre yapılandırarak gelen istekleri işlemek için hazırlanabilir.
-5. Meterpreter ters kabuk, etkilenen cihazda çalıştırılabilir.
-6. Açılan Meterpreter oturumları izlenebilir.
-7. Saldırı sonrası faaliyetler gerçekleştirilebilir.
-
-Mümkünse, başlangıç betiklerindeki zafiyetler, cihazın yeniden başlatmalar arasında sürekli erişim elde etmek için sömürülebilir. Bu zafiyetler, başlangıç betiklerinin, SD kartlarında ve kök dosya sistemleri dışında veri depolamak için kullanılan flash birimlerinde yer alan güvenilmeyen bağlanmış konumlarla ilişkili kodlara başvurduğunda ortaya çıkar.
-
-## Referanslar
-* Daha fazla bilgi için [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/) adresini kontrol edin.
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahraman olmak için</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek isterseniz** veya **HackTricks'i PDF olarak indirmek isterseniz** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* Özel [**NFT'lerden**](https://opensea.io/collection/the-peass-family) oluşan koleksiyonumuz [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)'u takip edin.
-* **Hacking hilelerinizi** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+
+## Firmware Integrity
+
+**Özel firmware ve/veya derlenmiş ikili dosyalar, bütünlük veya imza doğrulama hatalarını istismar etmek için yüklenebilir.** Aşağıdaki adımlar arka kapı bind shell derlemesi için izlenebilir:
+
+1. Firmware, firmware-mod-kit (FMK) kullanılarak çıkarılabilir.
+2. Hedef firmware mimarisi ve endianlığı belirlenmelidir.
+3. Ortam için Buildroot veya diğer uygun yöntemler kullanılarak bir çapraz derleyici oluşturulabilir.
+4. Arka kapı, çapraz derleyici kullanılarak oluşturulabilir.
+5. Arka kapı, çıkarılan firmware /usr/bin dizinine kopyalanabilir.
+6. Uygun QEMU ikili dosyası, çıkarılan firmware rootfs'ye kopyalanabilir.
+7. Arka kapı, chroot ve QEMU kullanılarak taklit edilebilir.
+8. Arka kapıya netcat aracılığıyla erişilebilir.
+9. QEMU ikili dosyası, çıkarılan firmware rootfs'den kaldırılmalıdır.
+10. Değiştirilen firmware, FMK kullanılarak yeniden paketlenebilir.
+11. Arka kapılı firmware, firmware analiz aracı (FAT) ile taklit edilerek ve hedef arka kapı IP'sine ve portuna netcat kullanarak bağlanarak test edilebilir.
+
+Eğer dinamik analiz, önyükleyici manipülasyonu veya donanım güvenlik testi yoluyla bir root shell elde edilmişse, implantlar veya ters shell gibi önceden derlenmiş kötü niyetli ikili dosyalar çalıştırılabilir. Metasploit çerçevesi ve 'msfvenom' gibi otomatik yük/implant araçları aşağıdaki adımlar kullanılarak kullanılabilir:
+
+1. Hedef firmware mimarisi ve endianlığı belirlenmelidir.
+2. Msfvenom, hedef yükü, saldırgan ana bilgisayar IP'sini, dinleme port numarasını, dosya türünü, mimariyi, platformu ve çıktı dosyasını belirtmek için kullanılabilir.
+3. Yük, ele geçirilmiş cihaza aktarılabilir ve yürütme izinlerinin olduğundan emin olunabilir.
+4. Metasploit, msfconsole başlatarak ve ayarları yükleye göre yapılandırarak gelen istekleri işlemek için hazırlanabilir.
+5. Meterpreter ters shell, ele geçirilmiş cihazda çalıştırılabilir.
+6. Meterpreter oturumları açıldıkça izlenebilir.
+7. İstismar sonrası faaliyetler gerçekleştirilebilir.
+
+Mümkünse, başlangıç betiklerinde bulunan zafiyetler, yeniden başlatmalar arasında bir cihaza kalıcı erişim sağlamak için istismar edilebilir. Bu zafiyetler, başlangıç betiklerinin, güvenilmeyen montajlı konumlarda bulunan kodlara atıfta bulunması, [sembolik bağlantı](https://www.chromium.org/chromium-os/chromiumos-design-docs/hardening-against-malicious-stateful-data) yapması veya bunlara bağımlı olması durumunda ortaya çıkar; bu konumlar, kök dosya sistemleri dışında veri depolamak için kullanılan SD kartlar ve flash hacimleri gibi yerlerdir.
+
+## References
+* For further information check [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

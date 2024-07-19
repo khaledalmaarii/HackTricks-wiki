@@ -1,136 +1,152 @@
 # macOS xpc\_connection\_get\_audit\_token Saldırısı
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>A'dan Z'ye AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek hacking ipuçlarını paylaşın.
 
 </details>
+{% endhint %}
 
-**Daha fazla bilgi için orijinal yazıya bakın:** [**https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/**](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/). Bu bir özet:
+**Daha fazla bilgi için orijinal gönderiyi kontrol edin:** [**https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/**](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/). Bu bir özet:
 
-## Mach Mesajları Temel Bilgileri
+## Mach Mesajları Temel Bilgiler
 
-Mach Mesajlarının ne olduğunu bilmiyorsanız, bu sayfayı kontrol etmeye başlayın:
+Mach Mesajlarının ne olduğunu bilmiyorsanız bu sayfayı kontrol etmeye başlayın:
 
 {% content-ref url="../../" %}
 [..](../../)
 {% endcontent-ref %}
 
-Şu anda ([buradan tanım](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
-Mach mesajları, mach çekirdeğine yerleştirilmiş **tek alıcı, çok gönderen iletişim** kanalı olan bir _mach portu_ üzerinden gönderilir. **Birden fazla işlem**, bir mach porta mesaj gönderebilir, ancak herhangi bir zamanda **yalnızca bir işlem** onu okuyabilir. Dosya tanımlayıcıları ve soketler gibi, mach portları çekirdek tarafından tahsis edilir ve yönetilir ve işlemler yalnızca bir tamsayı görür, bu tamsayıyı kullanarak hangi mach portlarının kullanılacağını çekirdeğe belirtebilirler.
+Şu anda hatırlamanız gereken ([buradan tanım](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):\
+Mach mesajları, mach çekirdeğine entegre edilmiş **tek alıcı, çoklu gönderici iletişim** kanalı olan bir _mach portu_ üzerinden gönderilir. **Birden fazla işlem,** bir mach portuna mesaj gönderebilir, ancak herhangi bir noktada **yalnızca bir işlem ondan okuyabilir**. Dosya tanımlayıcıları ve soketler gibi, mach portları çekirdek tarafından tahsis edilir ve yönetilir ve işlemler yalnızca hangi mach portlarını kullanmak istediklerini belirtmek için kullanabilecekleri bir tamsayı görürler.
 
 ## XPC Bağlantısı
 
-Bir XPC bağlantısının nasıl kurulduğunu bilmiyorsanız kontrol edin:
+XPC bağlantısının nasıl kurulduğunu bilmiyorsanız kontrol edin:
 
 {% content-ref url="../" %}
 [..](../)
 {% endcontent-ref %}
 
-## Zafiyet Özeti
+## Açıklar Özeti
 
-Bilmeniz gereken ilginç şey şudur ki **XPC'nin soyutlaması birbirine bağlı bir bağlantıdır**, ancak **çoklu göndericiye sahip olabilen bir teknoloji üzerine kuruludur, bu nedenle:**
+Bilmeniz gereken ilginç bir şey, **XPC'nin soyutlamasının bire bir bağlantı** olmasıdır, ancak bu, **birden fazla göndericiye sahip olabilen bir teknoloji üzerine kuruludur, bu nedenle:**
 
-* Mach portları tek alıcı, **çoklu gönderici**dir.
-* Bir XPC bağlantısının denetim belgesi, **en son alınan mesajdan kopyalanır**.
-* Bir XPC bağlantısının **denetim belgesini elde etmek**, birçok **güvenlik denetimleri** için kritiktir.
+* Mach portları tek alıcı, **çoklu gönderici**.
+* Bir XPC bağlantısının denetim belirteci, **en son alınan mesajdan kopyalanan** denetim belirtecidir.
+* Bir XPC bağlantısının **denetim belirtecini** elde etmek, birçok **güvenlik kontrolü** için kritik öneme sahiptir.
 
-Önceki durum umut verici görünse de, bu duruma neden olmayacak bazı senaryolar vardır ([buradan](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
+Önceki durum umut verici görünse de, bunun sorun yaratmayacağı bazı senaryolar vardır ([buradan](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing)):
 
-* Denetim belgeleri genellikle bir bağlantıyı kabul edip etmeyeceğine karar vermek için bir yetkilendirme kontrolü için kullanılır. Bu, bir hizmet bağlantısına bir mesaj kullanılarak gerçekleştiğinden, henüz **bağlantı kurulmamıştır**. Bu bağlantı noktasındaki daha fazla mesajlar yalnızca ek bağlantı istekleri olarak ele alınır. Bu nedenle, **bağlantıyı kabul etmeden önce yapılan kontrollerde zafiyet yoktur** (bu ayrıca `-listener:shouldAcceptNewConnection:` içinde denetim belgesinin güvenli olduğu anlamına gelir). Bu nedenle **belirli eylemleri doğrulayan XPC bağlantıları arıyoruz**.
-* XPC olay işleyicileri eşzamanlı olarak işlenir. Bu, bir mesaj için olay işleyicisinin bir sonraki mesaj için çağrılması gerektiği anlamına gelir, hatta eşzamanlı dağıtım kuyruklarında bile. Bu nedenle **XPC olay işleyicisi içinde denetim belgesi normal (yanıt olmayan!) mesajlar tarafından üzerine yazılamaz**.
+* Denetim belirteçleri genellikle bir bağlantıyı kabul edip etmeyeceğine karar vermek için bir yetkilendirme kontrolü için kullanılır. Bu, hizmet portuna bir mesaj gönderilerek gerçekleştiğinden, **henüz bir bağlantı kurulmamıştır**. Bu porttaki daha fazla mesaj, yalnızca ek bağlantı talepleri olarak işlenecektir. Bu nedenle, bir bağlantıyı kabul etmeden önceki **kontroller savunmasız değildir** (bu, `-listener:shouldAcceptNewConnection:` içinde denetim belirtecinin güvenli olduğu anlamına gelir). Bu nedenle, **belirli eylemleri doğrulayan XPC bağlantılarını arıyoruz**.
+* XPC olay işleyicileri senkronize bir şekilde işlenir. Bu, bir mesaj için olay işleyicisinin, bir sonraki mesaj için çağrılmadan önce tamamlanması gerektiği anlamına gelir, hatta eşzamanlı dağıtım kuyruklarında bile. Bu nedenle, bir **XPC olay işleyicisinde denetim belirteci diğer normal (yanıt vermeyen!) mesajlar tarafından üzerine yazılamaz**.
 
-Bu, nasıl sömürülebileceğine dair iki farklı yöntem vardır:
+İki farklı yöntem bu şekilde istismar edilebilir:
 
-1. Varyant1:
-* **Sömürü**, hizmet **A** ve hizmet **B'ye bağlanır**
-* Hizmet **B**, kullanıcının yapamayacağı bir **ayrıcalıklı işlevi** hizmet **A'da** çağırabilir
-* Hizmet **A**, bir **`dispatch_async`** içinde olmadan **`xpc_connection_get_audit_token`** çağırırken **denetim belgesini alır**.
-* Bu nedenle **farklı** bir mesaj, olay işleyicisi dışında asenkron olarak gönderildiğinden **Denetim Belgesi üzerine yazılabilir**.
-* Sömürü, **hizmet A'ya SEND hakkını hizmet B'ye geçirir**.
-* Bu nedenle svc **B**, mesajları aslında hizmet **A'ya gönderir**.
-* **Sömürü**, **ayrıcalıklı eylemi çağırmaya çalışır**. Bir RC'de svc **A**, bu **eylemin yetkilendirmesini kontrol ederken svc B Denetim belgesini üzerine yazmıştır** (sömürünün ayrıcalıklı eylemi çağırma erişimine sahip olmasını sağlar).
+1. Varyant 1:
+* **Saldırı** **A** hizmetine ve **B** hizmetine **bağlanır**
+* **B** hizmeti, kullanıcının yapamayacağı **ayrıcalıklı bir işlevselliği** A hizmetinde çağırabilir
+* **A** hizmeti, bir **`dispatch_async`** içinde **bağlantı işleyicisinde _**değil**_ken **`xpc_connection_get_audit_token`** çağrısını yapar.
+* Böylece, **farklı** bir mesaj **Denetim Belirtecini** **üzerine yazabilir** çünkü olay işleyicisi dışında asenkron olarak dağıtılmaktadır.
+* Saldırı, **B hizmetine A hizmetine gönderme hakkını** verir.
+* Böylece **B** hizmeti aslında **A** hizmetine **mesajlar** **gönderiyor**.
+* **Saldırı**, **ayrıcalıklı eylemi çağırmaya** çalışır. Bir RC'de **A hizmeti**, bu **eylemin** yetkilendirmesini **kontrol ederken**, **B hizmeti Denetim belirtecini** üzerine yazar (saldırıya, ayrıcalıklı eylemi çağırma erişimi verir).
 2. Varyant 2:
-* Hizmet **B**, kullanıcının yapamayacağı bir **ayrıcalıklı işlevi** hizmet **A'da** çağırabilir
-* Sömürü, **hizmet A'ya bağlanır** ve hizmetten bir yanıt bekleyen bir **mesajı belirli bir yanıt portuna gönderir**.
-* Sömürü, **hizmet B'ye** bu yanıt portunu geçiren bir mesaj gönderir.
-* Hizmet **B yanıt verdiğinde**, **mesajı hizmet A'ya gönderirken**, **sömürü** ayrıcalıklı bir işlevi **ulaşmaya çalışan farklı bir mesajı hizmet A'ya gönderir** ve hizmet B'den gelen yanıtın Denetim Belgesini mükemmel anda üzerine yazmasını bekler (Yarış Koşulu).
+* **B** hizmeti, kullanıcının yapamayacağı **ayrıcalıklı bir işlevselliği** A hizmetinde çağırabilir
+* Saldırı, **A hizmetiyle** bağlantı kurar ve **bir yanıt bekleyen** bir **mesaj** gönderir.
+* Saldırı, **B hizmetine** o yanıt portunu geçerek bir mesaj gönderir.
+* **B hizmeti yanıt verdiğinde**, **A hizmetine mesaj gönderir**, **bu sırada** **saldırı** ayrıcalıklı bir işlevselliğe ulaşmaya çalışarak **A hizmetine farklı bir mesaj gönderir** ve B'den gelen yanıtın Denetim belirtecini mükemmel bir anda üzerine yazmasını bekler (Race Condition).
 
-## Varyant 1: xpc\_connection\_get\_audit\_token'ın olay işleyicisi dışında çağrılması <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
+## Varyant 1: xpc\_connection\_get\_audit\_token'ı bir olay işleyicisi dışında çağırma <a href="#variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler" id="variant-1-calling-xpc_connection_get_audit_token-outside-of-an-event-handler"></a>
 
 Senaryo:
 
-* Bağlanabileceğimiz iki mach hizmet **`A`** ve **`B`** (kum havuzu profili ve bağlantıyı kabul etmeden önce yetkilendirme kontrollerine dayalı).
-* _**A**_'nın, **`B`**'nin geçebileceği belirli bir eylem için bir **yetkilendirme kontrolü** olmalı (ancak uygulamamız yapamaz).
-* Örneğin, B'nin bazı **ayrıcalıkları** veya **root** olarak çalışıyor olması, A'dan ayrıcalıklı bir eylem gerçekleştirmesine izin verebilir.
-* Bu yetkilendirme kontrolü için **`A`**, denetim belgesini örneğin `dispatch_async`'den çağırarak asenkron olarak alır.
+* Bağlanabileceğimiz iki mach hizmeti **`A`** ve **`B`** (sandbox profiline ve bağlantıyı kabul etmeden önceki yetkilendirme kontrollerine dayanarak).
+* _**A**_ belirli bir eylem için bir **yetkilendirme kontrolüne** sahip olmalıdır ki **`B`** bunu geçebilir (ancak uygulamamız geçemez).
+* Örneğin, B bazı **haklara** sahip veya **root** olarak çalışıyorsa, A'dan ayrıcalıklı bir eylemi gerçekleştirmesini istemesine izin verebilir.
+* Bu yetkilendirme kontrolü için, **`A`** denetim belirtecini asenkron olarak alır, örneğin `dispatch_async`'dan **`xpc_connection_get_audit_token`** çağrısı yaparak.
 
 {% hint style="danger" %}
-Bu durumda bir saldırgan, **B'nin A'dan bir eylem gerçekleştirmesini isteyen bir sömürü** oluşturabilirken **B'nin A'ya mesaj göndermesini sağlar**. RC başarılı olduğunda, **B'nin denetim belgesi** hafızada **kopyalanırken**, **sömürü** isteği **A tarafından işlenirken**, ayrıcalıklı eyleme **erişim sağlar**.
+Bu durumda bir saldırgan, **A'dan bir eylem gerçekleştirmesini** istemek için **B'nin A'ya mesajlar göndermesini** sağlarken **Race Condition** tetikleyebilir. RC **başarılı olduğunda**, **B'nin denetim belirteci** bellekte **kopyalanacak** ve **saldırımızın** isteği A tarafından **işlenirken** yalnızca B'nin talep edebileceği ayrıcalıklı eyleme **erişim** sağlayacaktır.
 {% endhint %}
 
-Bu, **`A`** olarak `smd` ve **`B`** olarak `diagnosticd` ile gerçekleşti. smb'den [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) işlevi, yeni bir ayrıcalıklı yardımcı aracı (root olarak) yüklemek için kullanılabilir. **Root** olarak çalışan bir işlem **smd'ye** ulaşırsa, başka hiçbir kontrol yapılmaz.
+Bu, **`A`** olarak `smd` ve **`B`** olarak `diagnosticd` ile gerçekleşti. [`SMJobBless`](https://developer.apple.com/documentation/servicemanagement/1431078-smjobbless?language=objc) fonksiyonu, yeni bir ayrıcalıklı yardımcı araç yüklemek için kullanılabilir (root olarak). Eğer **root olarak çalışan bir işlem** **smd** ile iletişime geçerse, başka kontroller yapılmayacaktır.
 
-Bu nedenle, hizmet **B**, **root** olarak çalıştığından ve bir işlemi **izlemek** için kullanılabileceğinden **`diagnosticd`**'dir, bu nedenle izleme başladığında saniyede **çoklu mesaj gönderecektir.**
+Bu nedenle, **B hizmeti** **`diagnosticd`**'dir çünkü root olarak çalışır ve bir işlemi **izlemek** için kullanılabilir, bu nedenle izleme başladıktan sonra, **saniyede birden fazla mesaj gönderir.**
 
 Saldırıyı gerçekleştirmek için:
 
 1. Standart XPC protokolünü kullanarak `smd` adlı hizmete bir **bağlantı** başlatın.
-2. `diagnosticd`'ye ikincil bir **bağlantı** oluşturun. Normal prosedürün aksine, iki yeni mach port oluşturmak ve göndermek yerine, istemci portu gönderme hakkı, `smd` bağlantısıyla ilişkilendirilen **gönderme hakkının bir kopyası ile değiştirilir**.
-3. Sonuç olarak, XPC mesajları `diagnosticd`'ye gönderilebilir, ancak `diagnosticd`'den gelen yanıtlar `smd`'ye yönlendirilir. `smd` için, hem kullanıcıdan hem de `diagnosticd`'den gelen mesajların aynı bağlantıdan geldiği görünmektedir.
+2. `diagnosticd`'ye ikincil bir **bağlantı** oluşturun. Normal prosedürün aksine, iki yeni mach portu oluşturmak ve göndermek yerine, istemci port gönderme hakkı, `smd` bağlantısıyla ilişkili **gönderme hakkının** bir kopyasıyla değiştirilir.
+3. Sonuç olarak, XPC mesajları `diagnosticd`'ye dağıtılabilir, ancak `diagnosticd`'en gelen yanıtlar `smd`'ye yönlendirilir. `smd` için, hem kullanıcıdan hem de `diagnosticd`'den gelen mesajların aynı bağlantıdan geldiği görünmektedir.
 
-![Sömürü sürecini tasvir eden resim](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
+![Saldırı sürecini gösteren bir resim](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/exploit.png)
 
-4. Bir sonraki adım, `diagnosticd`'ye seçilen bir işlemin (muhtemelen kullanıcının kendi işlemi) izlemesini başlatmasını istemektir. Eş zamanlı olarak, `smd`'ye rutin 1004 mesajının bir seliği gönderilir. Buradaki amaç, ayrıcalıklı ayrıcalıklarla bir araç yüklemektir.
-5. Bu eylem, `handle_bless` işlevi içinde bir yarış koşulunu tetikler. Zamanlama kritiktir: `xpc_connection_get_pid` işlevi çağrısı, kullanıcının işlem PID'sini döndürmelidir (çünkü ayrıcalıklı araç kullanıcının uygulama paketinde bulunmaktadır). Ancak, `xpc_connection_get_audit_token` işlevi, özellikle `connection_is_authorized` alt rutini içinde, `diagnosticd`'ye ait denetim belgesine başvurmalıdır.
+4. Bir sonraki adım, `diagnosticd`'ye seçilen bir işlemi izlemeye başlaması için talimat vermektir (potansiyel olarak kullanıcının kendi işlemi). Aynı anda, `smd`'ye rutin 1004 mesajlarının bir seli gönderilir. Buradaki amaç, ayrıcalıklı yetkilere sahip bir aracı yüklemektir.
+5. Bu eylem, `handle_bless` fonksiyonu içinde bir yarış koşulunu tetikler. Zamanlama kritik öneme sahiptir: `xpc_connection_get_pid` fonksiyonu, kullanıcının işleminin PID'sini döndürmelidir (çünkü ayrıcalıklı araç kullanıcının uygulama paketinde bulunur). Ancak, `xpc_connection_get_audit_token` fonksiyonu, özellikle `connection_is_authorized` alt rutininde, `diagnosticd`'ye ait denetim belirtecini referans almalıdır.
 
 ## Varyant 2: yanıt yönlendirme
 
-Bir XPC (Çapraz İşlem İletişimi) ortamında, olay işleyicileri eşzamanlı olarak yürütülmezken, yanıt iletilerinin işlenmesi benzersiz bir davranışa sahiptir. Özellikle, yanıt bekleyen iletilerin gönderilmesi için iki farklı yöntem bulunmaktadır:
+XPC (Çapraz İşlem İletişimi) ortamında, olay işleyicileri eşzamanlı olarak çalışmasa da, yanıt mesajlarının işlenmesi benzersiz bir davranış sergiler. Özellikle, yanıt bekleyen mesajlar göndermenin iki farklı yöntemi vardır:
 
-1. **`xpc_connection_send_message_with_reply`**: Burada, XPC ileti alınır ve belirlenmiş bir sıra üzerinde işlenir.
-2. **`xpc_connection_send_message_with_reply_sync`**: Buna karşılık, bu yöntemde XPC ileti mevcut dağıtım sırasında alınır ve işlenir.
+1. **`xpc_connection_send_message_with_reply`**: Burada, XPC mesajı belirlenen bir kuyrukta alınır ve işlenir.
+2. **`xpc_connection_send_message_with_reply_sync`**: Tersine, bu yöntemde XPC mesajı mevcut dağıtım kuyruğunda alınır ve işlenir.
 
-Bu ayrım, **yanıt paketlerinin XPC olay işleyicisinin yürütülmesiyle eşzamanlı olarak ayrıştırılmasına olanak tanır**. Özellikle, `_xpc_connection_set_creds`, denetim belgesinin kısmi üzerine yazılmasına karşı koruma sağlamak için kilit mekanizması uygular, ancak bu korumayı tüm bağlantı nesnesine genişletmez. Sonuç olarak, bir paketin ayrıştırılması ve olay işleyicisinin yürütülmesi arasındaki aralıkta denetim belgesinin değiştirilebileceği bir zafiyet oluşturur.
+Bu ayrım, **yanıt paketlerinin bir XPC olay işleyicisinin yürütülmesiyle eşzamanlı olarak ayrıştırılma olasılığını** sağladığı için kritik öneme sahiptir. Özellikle, `_xpc_connection_set_creds` denetim belirtecinin kısmi olarak üzerine yazılmasını önlemek için kilitleme uygulasa da, bu korumayı tüm bağlantı nesnesine genişletmez. Sonuç olarak, bu, bir paketin ayrıştırılması ile olay işleyicisinin yürütülmesi arasındaki aralıkta denetim belirtecinin değiştirilmesine olanak tanıyan bir zayıflık yaratır.
 
-Bu zafiyeti sömürmek için aşağıdaki kurulum gereklidir:
+Bu zayıflığı istismar etmek için aşağıdaki kurulum gereklidir:
 
-* İki mach hizmeti, **`A`** ve **`B`** olarak adlandırılan, her ikisi de bir bağlantı kurabilir.
-* Hizmet **`A`**, yalnızca **`B`**'nin gerçekleştirebileceği belirli bir eylem için bir yetkilendirme kontrolü içermelidir (kullanıcının uygulaması yapamaz).
-* Hizmet **`A`**, yanıt bekleyen bir ileti göndermelidir.
-* Kullanıcı, **`B`**'ye yanıt vereceği bir ileti gönderebilir.
+* **`A`** ve **`B`** olarak adlandırılan iki mach hizmeti, her ikisi de bir bağlantı kurabilir.
+* **`A`** hizmetinin yalnızca **`B`**'nin gerçekleştirebileceği belirli bir eylem için bir yetkilendirme kontrolü içermesi gerekir (kullanıcının uygulaması bunu yapamaz).
+* **`A`** hizmeti, bir yanıt bekleyen bir mesaj göndermelidir.
+* Kullanıcı, **`B`**'ye yanıt vereceği bir mesaj gönderebilir.
 
-Sömürü süreci aşağıdaki adımları içerir:
+İstismar süreci aşağıdaki adımları içerir:
 
-1. Hizmet **`A`**'nın yanıt bekleyen bir ileti göndermesini bekleyin.
-2. Yanıtı doğrudan **`A`**'ya yanıtlamak yerine, yanıt bağlantı noktası ele geçirilir ve **`B`**'ye bir ileti göndermek için kullanılır.
-3. Ardından, yasak eylemi içeren bir ileti gönderilir ve bu ileti, **`B`**'den gelen yanıtla eşzamanlı olarak işlenmesi beklenir.
+1. **`A`** hizmetinin yanıt bekleyen bir mesaj göndermesini bekleyin.
+2. **`A`**'ya doğrudan yanıt vermek yerine, yanıt portu ele geçirilir ve **`B`** hizmetine bir mesaj göndermek için kullanılır.
+3. Ardından, yasaklı eylemi içeren bir mesaj gönderilir ve bunun **`B`**'den gelen yanıtla eşzamanlı olarak işleneceği beklenir.
 
-Yukarıda tanımlanan saldırı senaryosunun görsel temsili aşağıda verilmiştir:
+Aşağıda, tanımlanan saldırı senaryosunun görsel bir temsili bulunmaktadır:
 
-![https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png](../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
+!\[https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png]\(../../../../../../.gitbook/assets/image (1) (1) (1) (1) (1) (1) (1).png)
 
 <figure><img src="../../../../../../.gitbook/assets/image (33).png" alt="https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/variant2.png" width="563"><figcaption></figcaption></figure>
 
 ## Keşif Problemleri
 
-* **Örneklerin Bulunmasındaki Zorluklar**: `xpc_connection_get_audit_token` kullanımı örneklerini hem statik hem de dinamik olarak aramak zorlu oldu.
-* **Metodoloji**: `xpc_connection_get_audit_token` işlevini kancalamak için Frida kullanıldı, ancak bu yöntem, olay işleyicilerinden kaynaklanmayan çağrıları filtrelemekle sınırlıydı ve etkin kullanım gerektiriyordu.
-* **Analiz Araçları**: Ulaşılabilir mach hizmetlerini incelemek için IDA/Ghidra gibi araçlar kullanıldı, ancak bu süreç, dyld paylaşılan önbelleği içeren çağrılar tarafından karmaşık hale getirilmiş ve zaman alıcıydı.
-* **Betik Sınırlamaları**: `dispatch_async` bloklarından `xpc_connection_get_audit_token` çağrıları için analiz betiği oluşturma girişimleri, blokların ayrıştırılmasındaki karmaşıklıklar ve dyld paylaşılan önbelleği ile etkileşimler nedeniyle engellendi.
+* **Örneklerin Bulunmasındaki Zorluklar**: `xpc_connection_get_audit_token` kullanım örneklerini bulmak, hem statik hem de dinamik olarak zordu.
+* **Metodoloji**: `xpc_connection_get_audit_token` fonksiyonunu yakalamak için Frida kullanıldı, olay işleyicilerinden gelmeyen çağrıları filtreledi. Ancak, bu yöntem yalnızca yakalanan işlem için geçerliydi ve aktif kullanım gerektiriyordu.
+* **Analiz Araçları**: Ulaşılabilir mach hizmetlerini incelemek için IDA/Ghidra gibi araçlar kullanıldı, ancak bu süreç zaman alıcıydı ve dyld paylaşılan önbelleği ile ilgili çağrılarla karmaşık hale geldi.
+* **Betik Sınırlamaları**: `dispatch_async` bloklarından `xpc_connection_get_audit_token` çağrılarını analiz etmek için betik yazma girişimleri, blokların ayrıştırılması ve dyld paylaşılan önbelleği ile etkileşimdeki karmaşıklıklar nedeniyle engellendi.
 
-## Düzeltme <a href="#the-fix" id="the-fix"></a>
+## Çözüm <a href="#the-fix" id="the-fix"></a>
 
-* **Bildirilen Sorunlar**: `smd` içinde bulunan genel ve özgün sorunları detaylandıran bir rapor Apple'a sunuldu.
-* **Apple'ın Yanıtı**: Apple, `smd` içindeki sorunu, `xpc_connection_get_audit_token`'ı `xpc_dictionary_get_audit_token` ile değiştirerek ele aldı.
-* **Düzeltmenin Doğası**: `xpc_dictionary_get_audit_token` işlevi, denetim belgesini doğrudan alır ve alınan XPC iletiyle ilişkili mach ileti üzerinden denetim belgesini alır. Bununla birlikte, `xpc_connection_get_audit_token` gibi genel API'nın bir parçası değildir.
-* **Daha Kapsamlı Bir Düzeltmenin Eksikliği**: Neden Apple'ın bağlantının kaydedilen denetim belgesiyle uyuşmayan iletileri atma gibi daha kapsamlı bir düzeltme uygulamadığı belirsizdir. Bazı senaryolarda (örneğin, `setuid` kullanımı) meşru denetim belgesi değişikliklerinin olasılığı bir faktör olabilir.
-* **Mevcut Durum**: Sorun, iOS 17 ve macOS 14'te devam etmekte olup, bu sorunu tanımlamak ve anlamak isteyenler için bir zorluk oluşturmaktadır.
+* **Rapor Edilen Sorunlar**: Apple'a `smd` içindeki genel ve özel sorunları detaylandıran bir rapor gönderildi.
+* **Apple'ın Yanıtı**: Apple, `smd` içindeki sorunu `xpc_connection_get_audit_token`'ı `xpc_dictionary_get_audit_token` ile değiştirerek ele aldı.
+* **Çözümün Doğası**: `xpc_dictionary_get_audit_token` fonksiyonu, alınan XPC mesajına bağlı mach mesajından doğrudan denetim belirtecini alması nedeniyle güvenli kabul edilir. Ancak, `xpc_connection_get_audit_token` gibi kamu API'sinin bir parçası değildir.
+* **Daha Kapsamlı Bir Çözümün Yokluğu**: Apple'ın, bağlantının kaydedilen denetim belirteciyle uyumlu olmayan mesajları atma gibi daha kapsamlı bir çözüm uygulamamasının nedeninin ne olduğu belirsizdir. Belirli senaryolarda (örneğin, `setuid` kullanımı) meşru denetim belirteci değişikliklerinin olabileceği bir faktör olabilir.
+* **Mevcut Durum**: Sorun, iOS 17 ve macOS 14'te devam etmekte olup, bunu tanımlamaya ve anlamaya çalışanlar için bir zorluk teşkil etmektedir.
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks'i Destekleyin</summary>
+
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek hacking ipuçlarını paylaşın.
+
+</details>
+{% endhint %}
