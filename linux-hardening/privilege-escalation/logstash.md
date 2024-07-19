@@ -1,25 +1,30 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
 ## Logstash
 
-Logstash використовується для **збору, перетворення та розподілу журналів** через систему, відому як **конвеєри**. Ці конвеєри складаються з **вхідних**, **фільтруючих** та **вихідних** етапів. Цікавий аспект виникає, коли Logstash працює на скомпрометованій машині.
+Logstash використовується для **збирання, перетворення та відправки логів** через систему, відому як **потоки**. Ці потоки складаються з етапів **входу**, **фільтрації** та **виходу**. Цікавий аспект виникає, коли Logstash працює на скомпрометованій машині.
 
-### Конфігурація конвеєра
+### Налаштування потоку
 
-Конвеєри налаштовуються в файлі **/etc/logstash/pipelines.yml**, який перераховує місця розташування конфігурацій конвеєрів:
+Потоки налаштовуються у файлі **/etc/logstash/pipelines.yml**, який перераховує місця розташування конфігурацій потоків:
 ```yaml
 # Define your pipelines here. Multiple pipelines can be defined.
 # For details on multiple pipelines, refer to the documentation:
@@ -31,21 +36,21 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Цей файл розкриває місцезнаходження файлів **.conf**, що містять конфігурації конвеєрів. При використанні модуля виведення **Elasticsearch**, зазвичай **конвеєри** включають **облікові дані Elasticsearch**, які часто мають широкі привілеї через необхідність Logstash писати дані в Elasticsearch. Джокери в шляхах конфігурації дозволяють Logstash виконувати всі відповідні конвеєри в призначеному каталозі.
+Цей файл розкриває, де розташовані **.conf** файли, що містять конфігурації конвеєра. При використанні **Elasticsearch output module** зазвичай **конвеєри** включають **Elasticsearch credentials**, які часто мають великі привілеї через необхідність Logstash записувати дані в Elasticsearch. Шаблони в шляхах конфігурації дозволяють Logstash виконувати всі відповідні конвеєри в призначеній директорії.
 
 ### Підвищення привілеїв через записувані конвеєри
 
-Для спроби підвищення привілеїв спочатку ідентифікуйте користувача, під яким працює служба Logstash, зазвичай користувач **logstash**. Переконайтеся, що ви відповідаєте **одному** з цих критеріїв:
+Щоб спробувати підвищення привілеїв, спочатку визначте користувача, під яким працює служба Logstash, зазвичай це користувач **logstash**. Переконайтеся, що ви відповідаєте **одному** з цих критеріїв:
 
-- Маєте **право на запис** до файлу конфігурації конвеєра **.conf** **або**
-- Файл **/etc/logstash/pipelines.yml** використовує джокер, і ви можете записувати в цільову теку
+- Маєте **доступ на запис** до файлу конвеєра **.conf** **або**
+- Файл **/etc/logstash/pipelines.yml** використовує шаблон, і ви можете записувати в цільову папку
 
-Додатково повинні бути виконані **одна** з цих умов:
+Крім того, повинна бути виконана **одна** з цих умов:
 
-- Можливість перезапуску служби Logstash **або**
-- У файлі **/etc/logstash/logstash.yml** встановлено **config.reload.automatic: true**
+- Можливість перезапустити службу Logstash **або**
+- Файл **/etc/logstash/logstash.yml** має **config.reload.automatic: true** встановленим
 
-З урахуванням джокера в конфігурації, створення файлу, який відповідає цьому джокеру, дозволяє виконання команд. Наприклад:
+З огляду на шаблон у конфігурації, створення файлу, що відповідає цьому шаблону, дозволяє виконувати команди. Наприклад:
 ```bash
 input {
 exec {
@@ -61,26 +66,31 @@ codec => rubydebug
 }
 }
 ```
-Тут **інтервал** визначає частоту виконання у секундах. У даному прикладі команда **whoami** виконується кожні 120 секунд, а її вивід спрямовується в **/tmp/output.log**.
+Тут **interval** визначає частоту виконання в секундах. У наведеному прикладі команда **whoami** виконується кожні 120 секунд, а її вивід направляється до **/tmp/output.log**.
 
-З **config.reload.automatic: true** в **/etc/logstash/logstash.yml**, Logstash автоматично виявлятиме та застосує нові або змінені конфігурації конвеєрів без необхідності перезапуску. Якщо немає метасимволів, зміни все одно можна вносити до існуючих конфігурацій, але рекомендується бути обережним, щоб уникнути перебоїв.
+З **config.reload.automatic: true** у **/etc/logstash/logstash.yml**, Logstash автоматично виявлятиме та застосовуватиме нові або змінені конфігурації конвеєра без необхідності перезавантаження. Якщо немає шаблону, зміни все ще можуть бути внесені в існуючі конфігурації, але слід бути обережним, щоб уникнути збоїв.
 
 
-## Посилання
-
-* [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
-
+## References
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити свою **компанію рекламовану в HackTricks** або **завантажити HackTricks у PDF** Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github репозиторіїв.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

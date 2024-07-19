@@ -1,56 +1,64 @@
-# Збройовий Дистролес
+# Weaponizing Distroless
 
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Експерт з червоної команди HackTricks AWS)</strong></a><strong>!</strong></summary>
+<dotsilp>
 
-Інші способи підтримки HackTricks:
+<oummpr>SupportHackTricks</smmay>
 
-* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## Що таке Дистролес
+## Що таке Distroless
 
-Контейнер Distroless - це тип контейнера, який **містить лише необхідні залежності для запуску конкретного додатка**, без будь-якого додаткового програмного забезпечення або інструментів, які не є обов'язковими. Ці контейнери призначені бути **легкими** та **безпечними** наскільки це можливо, і вони спрямовані на **мінімізацію поверхні атаки**, видаляючи будь-які зайві компоненти.
+Контейнер distroless — це тип контейнера, який **містить лише необхідні залежності для запуску конкретного застосунку**, без будь-якого додаткового програмного забезпечення або інструментів, які не є необхідними. Ці контейнери розроблені, щоб бути **легкими** та **безпечними** наскільки це можливо, і вони прагнуть **мінімізувати поверхню атаки**, видаляючи будь-які непотрібні компоненти.
 
-Контейнери Distroless часто використовуються в **виробничих середовищах, де безпека та надійність є найважливішими**.
+Контейнери distroless часто використовуються в **виробничих середовищах, де безпека та надійність є найважливішими**.
 
-Деякі **приклади** **контейнерів Distroless**:
+Деякі **приклади** **контейнерів distroless**:
 
 * Надано **Google**: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
 * Надано **Chainguard**: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
 
-## Збройовий Дистролес
+## Озброєння Distroless
 
-Метою збройованого контейнера Distroless є можливість **виконання довільних бінарних файлів та навантажень навіть за обмежень**, що випливають з **Distroless** (відсутність загальних бінарних файлів у системі) та також захистів, які часто зустрічаються в контейнерах, таких як **тільки для читання** або **без виконання** в `/dev/shm`.
+Мета озброєння контейнера distroless полягає в тому, щоб мати можливість **виконувати довільні двійкові файли та корисні навантаження, навіть з обмеженнями**, які накладає **distroless** (відсутність загальних двійкових файлів у системі), а також захистами, які зазвичай зустрічаються в контейнерах, такими як **тільки для читання** або **без виконання** в `/dev/shm`.
 
 ### Через пам'ять
 
-З'явиться приблизно в 2023 році...
+Приблизно в якийсь момент 2023 року...
 
-### Через існуючі бінарні файли
+### Через існуючі двійкові файли
 
 #### openssl
 
-****[**У цьому пості**](https://www.form3.tech/engineering/content/exploiting-distroless-images) пояснюється, що бінарний файл **`openssl`** часто зустрічається в цих контейнерах, ймовірно, тому що він **необхідний** для програмного забезпечення, яке буде запущено всередині контейнера.
+****[**У цьому пості,**](https://www.form3.tech/engineering/content/exploiting-distroless-images) пояснюється, що двійковий файл **`openssl`** часто зустрічається в цих контейнерах, можливо, тому що він **потрібен** програмному забезпеченню, яке буде працювати всередині контейнера.
+{% hnt stye="acceas" %}
+AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
-Зловживанням бінарним файлом **`openssl`** можливо **виконати довільні дії**.
+<dtil>
 
-<details>
+<ummr>SupportHackTricks</smmay>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Експерт з червоної команди HackTricks AWS)</strong></a><strong>!</strong></summary>
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

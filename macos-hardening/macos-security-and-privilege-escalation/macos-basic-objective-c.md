@@ -1,26 +1,40 @@
 # macOS Objective-C
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію в рекламі на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Objective-C
 
 {% hint style="danger" %}
-Зверніть увагу, що програми, написані на Objective-C, **зберігають** свої оголошення класів **під час** **компіляції** у [бінарні файли Mach-O](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Такі оголошення класів **включають** ім'я та тип:
+Зверніть увагу, що програми, написані на Objective-C, **зберігають** свої оголошення класів **під час** **компіляції** в [Mach-O бінарні файли](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Такі оголошення класів **включають** ім'я та тип:
 {% endhint %}
 
-* Клас
+* Класу
 * Методи класу
 * Змінні екземпляра класу
 
@@ -28,6 +42,8 @@
 ```bash
 class-dump Kindle.app
 ```
+Зверніть увагу, що ці імена можуть бути обфусковані, щоб ускладнити реверсування бінарного файлу.
+
 ## Класи, Методи та Об'єкти
 
 ### Інтерфейс, Властивості та Методи
@@ -61,9 +77,9 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **Об'єкт та метод виклику**
+### **Об'єкт та виклик методу**
 
-Для створення екземпляра класу викликається метод **`alloc`**, який **виділяє пам'ять** для кожного **властивості** та **обнуляє** ці виділення. Потім викликається метод **`init`**, який **ініціалізує властивості** до **необхідних значень**.
+Щоб створити екземпляр класу, викликається метод **`alloc`**, який **виділяє пам'ять** для кожної **властивості** та **обнуляє** ці виділення. Потім викликається **`init`**, який **ініціалізує властивості** до **необхідних значень**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -75,15 +91,15 @@ MyVehicle *newVehicle = [MyVehicle new];
 // [myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]
 [newVehicle addWheels:4];
 ```
-### **Класові методи**
+### **Методи класу**
 
-Класові методи визначаються з **плюсом** (+), а не з дефісом (-), який використовується для методів екземпляра. Наприклад, метод класу **NSString** **`stringWithString`**:
+Методи класу визначаються з **плюсом** (+), а не з дефісом (-), який використовується з методами екземпляра. Як метод класу **NSString** **`stringWithString`**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
 ### Setter & Getter
 
-Для **встановлення** та **отримання** властивостей, ви можете зробити це за допомогою **крапкової нотації** або так, ніби ви **викликаєте метод**:
+Щоб **встановити** та **отримати** властивості, ви можете зробити це за допомогою **нотації з крапкою** або так, ніби ви **викликаєте метод**:
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -93,9 +109,9 @@ newVehicle.numberOfWheels = 2;
 NSLog(@"Number of wheels: %i", newVehicle.numberOfWheels);
 NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
-### **Інстансні змінні**
+### **Змінні екземпляра**
 
-Замість методів установки та отримання ви можете використовувати інстансні змінні. Ці змінні мають ту саму назву, що й властивості, але починаються з "\_":
+Альтернативно методам сеттерів і геттерів ви можете використовувати змінні екземпляра. Ці змінні мають таку ж назву, як і властивості, але починаються з "\_":
 ```objectivec
 - (void)makeLongTruck {
 _numberOfWheels = +10000;
@@ -104,9 +120,9 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 ```
 ### Протоколи
 
-Протоколи - це набір оголошень методів (без властивостей). Клас, який реалізує протокол, реалізує оголошені методи.
+Протоколи - це набір декларацій методів (без властивостей). Клас, який реалізує протокол, реалізує оголошені методи.
 
-Існує 2 типи методів: **обов'язкові** та **необов'язкові**. За **замовчуванням** метод є **обов'язковим** (але ви також можете вказати це за допомогою тегу **`@required`**). Щоб вказати, що метод є необов'язковим, використовуйте **`@optional`**.
+Існує 2 типи методів: **обов'язкові** та **додаткові**. За **замовчуванням** метод є **обов'язковим** (але ви також можете вказати це за допомогою тегу **`@required`**). Щоб вказати, що метод є додатковим, використовуйте **`@optional`**.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -116,7 +132,7 @@ NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 - (void) method3; //optional
 @end
 ```
-### Все разом
+### Всі разом
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -179,7 +195,7 @@ NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUT
 ```
 {% endcode %}
 
-Основні класи є **незмінними**, тому для додавання рядка до існуючого потрібно **створити новий NSString**.
+Базові класи є **незмінними**, тому для додавання рядка до існуючого потрібно **створити новий NSString**.
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -187,7 +203,7 @@ NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published 
 ```
 {% endcode %}
 
-Або ви також можете використовувати клас рядка **mutable**:
+Або ви також можете використовувати клас **mutable** рядка:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -198,8 +214,6 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-{% endcode %}
-
 #### Номер
 
 {% code overflow="wrap" %}
@@ -223,7 +237,7 @@ NSNumber *noNumber = @NO; // equivalent to [NSNumber numberWithBool:NO]
 ```
 {% endcode %}
 
-#### Масив, набори та словники
+#### Масиви, Набори та Словники
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -271,9 +285,13 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 [mutFruitColorsDictionary setObject:@"green" forKey:@"apple"];
 [mutFruitColorsDictionary removeObjectForKey:@"grape"];
 ```
-### Блоки
+{% endcode %}
 
-Блоки - це **функції, які ведуть себе як об'єкти**, тому їх можна передавати в функції або **зберігати** в **масивах** або **словниках**. Крім того, вони можуть **представляти значення, якщо їм передаються значення**, тому це схоже на лямбди.
+### Blocks
+
+Блоки — це **функції, які поводяться як об'єкти**, тому їх можна передавати функціям або **зберігати** в **масивах** або **словниках**. Також вони можуть **представляти значення, якщо їм надано значення**, тому це схоже на лямбди.
+
+{% code overflow="wrap" %}
 ```objectivec
 returnType (^blockName)(argumentType1, argumentType2, ...) = ^(argumentType1 param1, argumentType2 param2, ...){
 //Perform operations here
@@ -337,29 +355,49 @@ if ([fileManager removeItemAtPath:@"/path/to/file1.txt" error:nil]) {
 NSLog(@"Removed successfully");
 }
 ```
-Це також можливо керувати файлами, використовуючи об'єкти `NSURL` замість об'єктів `NSString`. Назви методів схожі, але з `URL` замість `Path`.
-```objectivec
-NSURL *fileSrc = [NSURL fileURLWithPath:@"/path/to/file1.txt"];
-NSURL *fileDst = [NSURL fileURLWithPath:@"/path/to/file2.txt"];
-[fileManager moveItemAtURL:fileSrc toURL:fileDst error: nil];
-```
-Більшість базових класів мають метод `writeToFile:<path> atomically:<YES> encoding:<encoding> error:nil`, який дозволяє їм бути безпосередньо записаними в файл:
-```objectivec
-NSString* tmp = @"something temporary";
-[tmp writeToFile:@"/tmp/tmp1.txt" atomically:YES encoding:NSASCIIStringEncoding error:nil];
-```
 {% endcode %}
+
+Також можливо керувати файлами **використовуючи об'єкти `NSURL` замість об'єктів `NSString`**. Імена методів подібні, але **з `URL` замість `Path`**.
+```objectivec
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

@@ -1,41 +1,43 @@
-# Захисні програми для macOS
+# macOS Defensive Apps
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Експерт з червоної команди HackTricks AWS)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити **рекламу вашої компанії на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-## Брандмауери
+## Firewalls
 
-* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): Він буде моніторити кожне з'єднання, створене кожним процесом. Залежно від режиму (тихе дозволення з'єднань, тихе відмова від з'єднання та сповіщення) він **покаже вам сповіщення** кожного разу, коли встановлюється нове з'єднання. Також має дуже зручний графічний інтерфейс для перегляду всієї цієї інформації.
-* [**LuLu**](https://objective-see.org/products/lulu.html): Брандмауер Objective-See. Це базовий брандмауер, який буде сповіщати вас про підозрілі з'єднання (він має графічний інтерфейс, але він не такий красивий, як у Little Snitch).
+* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): Він буде моніторити кожне з'єднання, яке здійснює кожен процес. Залежно від режиму (тихе дозволення з'єднань, тихе відмовлення з'єднання та сповіщення) він **показуватиме вам сповіщення** щоразу, коли встановлюється нове з'єднання. Він також має дуже зручний графічний інтерфейс для перегляду всієї цієї інформації.
+* [**LuLu**](https://objective-see.org/products/lulu.html): Брандмауер Objective-See. Це базовий брандмауер, який сповіщатиме вас про підозрілі з'єднання (він має графічний інтерфейс, але не такий вишуканий, як у Little Snitch).
 
-## Виявлення постійності
+## Persistence detection
 
-* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Додаток Objective-See, який буде шукати в кількох місцях, де **зловмисне програмне забезпечення може зберігатися** (це інструмент одноразового використання, а не служба моніторингу).
-* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Подібно до KnockKnock, він моніторить процеси, які генерують постійність.
+* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Додаток Objective-See, який шукатиме в кількох місцях, де **шкідливе ПЗ може зберігатися** (це одноразовий інструмент, а не сервіс моніторингу).
+* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Як KnockKnock, моніторячи процеси, які генерують збереження.
 
-## Виявлення кейлогерів
+## Keyloggers detection
 
-* [**ReiKey**](https://objective-see.org/products/reikey.html): Додаток Objective-See для пошуку **кейлогерів**, які встановлюють клавіатурні "події натискання клавіш"&#x20;
-
-## Виявлення вимагання викупу
-
-* [**RansomWhere**](https://objective-see.org/products/ransomwhere.html): Додаток Objective-See для виявлення дій з **шифрування файлів**.
-
-## Виявлення мікрофону та вебкамери
-
-* [**OverSight**](https://objective-see.org/products/oversight.html): Додаток Objective-See для виявлення **додатків, які починають використовувати вебкамеру та мікрофон.**
-
-## Виявлення внесення процесу
-
-* [**Shield**](https://theevilbit.github.io/shield/): Додаток, який **виявляє різні техніки внесення процесу**.
+* [**ReiKey**](https://objective-see.org/products/reikey.html): Додаток Objective-See для виявлення **кейлогерів**, які встановлюють "event taps" клавіатури.

