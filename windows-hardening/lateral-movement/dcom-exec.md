@@ -1,16 +1,19 @@
 # DCOM Exec
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong> sıfırdan kahramana AWS hacking öğrenin </strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Bir **siber güvenlik şirketinde** mi çalışıyorsunuz? **şirketinizin HackTricks'te reklamını görmek** mi istiyorsunuz? veya **PEASS'in en son sürümüne erişim** mi istiyorsunuz ya da HackTricks'i **PDF olarak indirmek** mi istiyorsunuz? [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**PEASS Ailesini**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimizin**](https://opensea.io/collection/the-peass-family) koleksiyonu
-* [**resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* **Katılın** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bana** **Twitter'da** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Hacking ipuçlarınızı paylaşın,** [**hacktricks repo'suna**](https://github.com/carlospolop/hacktricks) **ve** [**hacktricks-cloud repo'suna**](https://github.com/carlospolop/hacktricks-cloud) **PR göndererek.**
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,9 +25,9 @@
 
 ## MMC20.Application
 
-**Bu teknik hakkında daha fazla bilgi için [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/) adresindeki orijinal gönderiyi kontrol edin.**
+**Bu teknik hakkında daha fazla bilgi için [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/) orijinal gönderisini kontrol edin.**
 
-Dağıtılmış Bileşen Nesne Modeli (DCOM) nesneleri, nesnelerle ağ tabanlı etkileşimler için ilginç bir yetenek sunar. Microsoft, hem DCOM hem de Bileşen Nesne Modeli (COM) için kapsamlı belgeler sağlar, [DCOM için buradan](https://msdn.microsoft.com/en-us/library/cc226801.aspx) ve [COM için buradan](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx) erişilebilir. DCOM uygulamalarının bir listesi PowerShell komutu kullanılarak alınabilir:
+Dağıtılmış Bileşen Nesne Modeli (DCOM) nesneleri, nesnelerle ağ tabanlı etkileşimler için ilginç bir yetenek sunar. Microsoft, hem DCOM hem de Bileşen Nesne Modeli (COM) için kapsamlı belgeler sağlar; DCOM için [buradan](https://msdn.microsoft.com/en-us/library/cc226801.aspx) ve COM için [buradan](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx) erişilebilir. DCOM uygulamalarının bir listesi PowerShell komutu kullanılarak alınabilir:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
