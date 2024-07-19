@@ -1,22 +1,23 @@
 # I2C
 
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositorys einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}
 
 ## Bus Pirate
 
-Um zu testen, ob ein Bus Pirate funktioniert, verbinden Sie +5V mit VPU und 3,3V mit ADC und greifen Sie auf den Bus Pirate zu (verwenden Sie beispielsweise Tera Term) und verwenden Sie den Befehl `~`:
+Um zu testen, ob ein Bus Pirate funktioniert, verbinden Sie +5V mit VPU und 3.3V mit ADC und greifen Sie auf den Bus Pirate zu (zum Beispiel mit Tera Term) und verwenden Sie den Befehl `~`:
 ```bash
 # Use command
 HiZ>~
@@ -55,9 +56,9 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Wie Sie im vorherigen Befehlszeilen-Output sehen können, wurde angezeigt, dass 0 Fehler gefunden wurden. Dies ist sehr nützlich, um zu wissen, dass es funktioniert, nachdem Sie es gekauft haben oder nachdem Sie eine Firmware geflasht haben.
+Wie Sie in der vorherigen Befehlszeile sehen können, wurde angezeigt, dass 0 Fehler gefunden wurden. Dies ist sehr nützlich, um zu wissen, dass es nach dem Kauf oder nach dem Flashen einer Firmware funktioniert.
 
-Um sich mit dem Bus Pirate zu verbinden, können Sie die Dokumentation befolgen:
+Um sich mit dem Bus Pirate zu verbinden, können Sie die Dokumentation folgen:
 
 ![](<../../.gitbook/assets/image (484).png>)
 
@@ -65,8 +66,8 @@ In diesem Fall werde ich mich mit einem EPROM verbinden: ATMEL901 24C256 PU27:
 
 ![](<../../.gitbook/assets/image (964).png>)
 
-Um mit dem Bus Pirate zu kommunizieren, habe ich Tera Term verwendet, das mit dem COM-Port des Bus Pirate unter Setup --> Serial Port --> Geschwindigkeit von 115200 verbunden ist.\
-In der folgenden Kommunikation finden Sie, wie Sie den Bus Pirate vorbereiten können, um I2C zu kommunizieren und wie Sie aus dem Speicher schreiben und lesen können (Kommentare erscheinen mit "#", erwarten Sie diesen Teil nicht in der Kommunikation):
+Um mit dem Bus Pirate zu kommunizieren, habe ich Tera Term verwendet, das mit dem COM-Port des Bus Pirate verbunden ist, mit einem Setup --> Serielle Schnittstelle --> Geschwindigkeit von 115200.\
+In der folgenden Kommunikation finden Sie, wie Sie den Bus Pirate vorbereiten, um I2C zu sprechen, und wie Sie aus dem Speicher lesen und schreiben (Kommentare erscheinen mit "#", erwarten Sie diesen Teil nicht in der Kommunikation):
 ```bash
 # Check communication with buspirate
 i
@@ -167,7 +168,7 @@ NACK
 ```
 ### Sniffer
 
-In diesem Szenario werden wir die I2C-Kommunikation zwischen dem Arduino und dem vorherigen EPROM abhören. Sie müssen nur beide Geräte miteinander verbinden und dann den Bus Pirate mit den SCL-, SDA- und GND-Pins verbinden:
+In diesem Szenario werden wir die I2C-Kommunikation zwischen dem Arduino und dem vorherigen EPROM abhören. Sie müssen nur beide Geräte miteinander kommunizieren und dann den Bus Pirate an die SCL-, SDA- und GND-Pins anschließen:
 
 ![](<../../.gitbook/assets/image (166).png>)
 ```bash
@@ -215,16 +216,17 @@ Sniffer
 Any key to exit
 [0xA0+0x00+0x69+0x41+0x41+0x41+0x20+0x48+0x69+0x20+0x44+0x72+0x65+0x67+0x21+0x20+0x41+0x41+0x41+0x00+]
 ```
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}

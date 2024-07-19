@@ -1,76 +1,78 @@
 # Hardware Hacking
 
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}
 
 ## JTAG
 
-JTAG ermöglicht eine Boundary-Scan-Durchführung. Der Boundary-Scan analysiert bestimmte Schaltkreise, einschließlich eingebetteter Boundary-Scan-Zellen und Register für jeden Pin.
+JTAG ermöglicht es, einen Boundary-Scan durchzuführen. Der Boundary-Scan analysiert bestimmte Schaltungen, einschließlich eingebetteter Boundary-Scan-Zellen und Register für jeden Pin.
 
-Der JTAG-Standard definiert **spezifische Befehle für die Durchführung von Boundary-Scans**, darunter:
+Der JTAG-Standard definiert **spezifische Befehle für die Durchführung von Boundary-Scans**, einschließlich der folgenden:
 
-* **BYPASS** ermöglicht es Ihnen, einen bestimmten Chip zu testen, ohne den Overhead durch andere Chips zu durchlaufen.
-* **SAMPLE/PRELOAD** nimmt eine Stichprobe der Daten auf, die das Gerät beim normalen Betrieb eingeben und verlassen.
-* **EXTEST** setzt und liest Pin-Zustände.
+* **BYPASS** ermöglicht es, einen bestimmten Chip ohne den Overhead anderer Chips zu testen.
+* **SAMPLE/PRELOAD** nimmt eine Probe der Daten auf, die das Gerät beim normalen Betriebsmodus ein- und ausgeben.
+* **EXTEST** setzt und liest den Zustand der Pins.
 
 Es kann auch andere Befehle unterstützen, wie:
 
 * **IDCODE** zur Identifizierung eines Geräts
-* **INTEST** für den internen Test des Geräts
+* **INTEST** für die interne Prüfung des Geräts
 
-Sie könnten auf diese Anweisungen stoßen, wenn Sie ein Tool wie den JTAGulator verwenden.
+Du könntest auf diese Anweisungen stoßen, wenn du ein Tool wie den JTAGulator verwendest.
 
-### Der Testzugriffsport
+### Der Testzugangspunkt
 
-Boundary-Scans umfassen Tests des vieradrigen **Testzugriffsports (TAP)**, einem universellen Port, der Zugriff auf die in ein Bauteil integrierten **JTAG-Testunterstützungsfunktionen** bietet. TAP verwendet die folgenden fünf Signale:
+Boundary-Scans umfassen Tests des vieradrigen **Test Access Port (TAP)**, einem universellen Port, der **Zugriff auf die JTAG-Testunterstützungs**funktionen bietet, die in ein Bauteil integriert sind. TAP verwendet die folgenden fünf Signale:
 
-* Testtakt-Eingang (**TCK**) Der TCK ist die **Taktfrequenz**, die definiert, wie oft der TAP-Controller eine einzelne Aktion ausführt (sprich, zum nächsten Zustand in der Zustandsmaschine springt).
-* Testmodusauswahl (**TMS**) Eingang TMS steuert die **endliche Zustandsmaschine**. Bei jedem Takt des Takts überprüft der JTAG-TAP-Controller des Geräts die Spannung am TMS-Pin. Wenn die Spannung unter einem bestimmten Schwellenwert liegt, wird das Signal als niedrig betrachtet und als 0 interpretiert, während es als hoch und als 1 interpretiert wird, wenn die Spannung über einem bestimmten Schwellenwert liegt.
-* Testdateneingang (**TDI**) TDI ist der Pin, der **Daten über die Scan-Zellen in den Chip sendet**. Jeder Hersteller ist dafür verantwortlich, das Kommunikationsprotokoll über diesen Pin zu definieren, da JTAG dies nicht vorgibt.
-* Testdatenausgang (**TDO**) TDO ist der Pin, der **Daten aus dem Chip sendet**.
-* Testreset (**TRST**) Eingang Der optionale TRST setzt die endliche Zustandsmaschine **auf einen bekannten guten Zustand** zurück. Alternativ, wenn das TMS für fünf aufeinanderfolgende Taktzyklen auf 1 gehalten wird, ruft es einen Reset auf, genauso wie der TRST-Pin, weshalb TRST optional ist.
+* Testtakt-Eingang (**TCK**) Der TCK ist der **Takt**, der definiert, wie oft der TAP-Controller eine einzelne Aktion ausführt (mit anderen Worten, zum nächsten Zustand in der Zustandsmaschine springt).
+* Testmodus-Auswahl (**TMS**) Eingang TMS steuert die **endliche Zustandsmaschine**. Bei jedem Taktimpuls überprüft der JTAG TAP-Controller des Geräts die Spannung am TMS-Pin. Wenn die Spannung unter einem bestimmten Schwellenwert liegt, wird das Signal als niedrig betrachtet und als 0 interpretiert, während das Signal als hoch betrachtet und als 1 interpretiert wird, wenn die Spannung über einem bestimmten Schwellenwert liegt.
+* Testdaten-Eingang (**TDI**) TDI ist der Pin, der **Daten in den Chip über die Scan-Zellen** sendet. Jeder Anbieter ist dafür verantwortlich, das Kommunikationsprotokoll über diesen Pin zu definieren, da JTAG dies nicht definiert.
+* Testdaten-Ausgang (**TDO**) TDO ist der Pin, der **Daten aus dem Chip** sendet.
+* Test-Reset (**TRST**) Eingang Der optionale TRST setzt die endliche Zustandsmaschine **auf einen bekannten guten Zustand** zurück. Alternativ, wenn der TMS fünf aufeinanderfolgende Taktzyklen lang auf 1 gehalten wird, wird ein Reset ausgelöst, ähnlich wie es der TRST-Pin tun würde, weshalb TRST optional ist.
 
-Manchmal werden Sie diese Pins auf der Leiterplatte markiert finden. In anderen Fällen müssen Sie sie **finden**.
+Manchmal kannst du diese Pins auf der PCB markiert finden. In anderen Fällen musst du sie **finden**.
 
 ### Identifizierung von JTAG-Pins
 
-Der schnellste, aber teuerste Weg, JTAG-Ports zu erkennen, ist die Verwendung des **JTAGulators**, eines speziell für diesen Zweck erstellten Geräts (obwohl es **auch UART-Pinbelegungen erkennen** kann).
+Der schnellste, aber teuerste Weg, JTAG-Ports zu erkennen, ist die Verwendung des **JTAGulator**, eines Geräts, das speziell für diesen Zweck entwickelt wurde (obwohl es **auch UART-Pinouts erkennen kann**).
 
-Es verfügt über **24 Kanäle**, die Sie mit den Pins der Boards verbinden können. Anschließend führt es einen **BF-Angriff** aller möglichen Kombinationen durch, indem es **IDCODE**- und **BYPASS**-Boundary-Scan-Befehle sendet. Wenn es eine Antwort erhält, zeigt es den Kanal für jedes JTAG-Signal an.
+Es hat **24 Kanäle**, die du mit den Pins der Platine verbinden kannst. Dann führt es einen **BF-Angriff** auf alle möglichen Kombinationen durch, indem es **IDCODE** und **BYPASS** Boundary-Scan-Befehle sendet. Wenn es eine Antwort erhält, zeigt es den Kanal an, der jedem JTAG-Signal entspricht.
 
-Ein kostengünstigerer, aber viel langsamerer Weg, JTAG-Pinbelegungen zu identifizieren, besteht darin, das [**JTAGenum**](https://github.com/cyphunk/JTAGenum/) auf einem Arduino-kompatiblen Mikrocontroller zu laden.
+Eine günstigere, aber viel langsamere Methode zur Identifizierung von JTAG-Pinouts ist die Verwendung von [**JTAGenum**](https://github.com/cyphunk/JTAGenum/), das auf einem Arduino-kompatiblen Mikrocontroller geladen ist.
 
-Mit **JTAGenum** würden Sie zunächst die Pins des Prüfgeräts definieren, die Sie für die Auflistung verwenden werden. Sie müssten das Pinout-Diagramm des Geräts konsultieren und dann diese Pins mit den Testpunkten auf Ihrem Zielgerät verbinden.
+Mit **JTAGenum** würdest du zuerst **die Pins des Prüfgeräts definieren**, die du für die Enumeration verwenden wirst. Du müsstest das Pinout-Diagramm des Geräts konsultieren und dann diese Pins mit den Testpunkten deines Zielgeräts verbinden.
 
-Ein **dritter Weg**, um JTAG-Pins zu identifizieren, besteht darin, die Leiterplatte auf eine der Pinbelegungen zu überprüfen. In einigen Fällen könnten Leiterplatten bequemerweise die **Tag-Connect-Schnittstelle** bereitstellen, was ein deutlicher Hinweis darauf ist, dass die Platine auch einen JTAG-Anschluss hat. Sie können sehen, wie diese Schnittstelle aussieht unter [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/). Darüber hinaus könnten die **Datenblätter der Chipsätze auf der Leiterplatte** Pinbelegungsdiagramme enthalten, die auf JTAG-Schnittstellen hinweisen.
+Eine **dritte Methode** zur Identifizierung von JTAG-Pins besteht darin, die **PCB zu inspizieren** und nach einem der Pinouts zu suchen. In einigen Fällen bieten PCBs möglicherweise bequem die **Tag-Connect-Schnittstelle**, was ein klares Indiz dafür ist, dass die Platine auch einen JTAG-Anschluss hat. Du kannst sehen, wie diese Schnittstelle aussieht unter [https://www.tag-connect.com/info/](https://www.tag-connect.com/info/). Darüber hinaus könnte die Inspektion der **Datenblätter der Chipsätze auf der PCB** Pinout-Diagramme offenbaren, die auf JTAG-Schnittstellen hinweisen.
 
 ## SDW
 
-SWD ist ein ARM-spezifisches Protokoll, das für das Debuggen entwickelt wurde.
+SWD ist ein ARM-spezifisches Protokoll, das für das Debugging entwickelt wurde.
 
-Die SWD-Schnittstelle erfordert **zwei Pins**: ein bidirektionales **SWDIO**-Signal, das dem JTAG-Äquivalent von **TDI und TDO-Pins** entspricht, und einen Takt, **SWCLK**, der dem **TCK** in JTAG entspricht. Viele Geräte unterstützen den **Serial Wire oder JTAG Debug Port (SWJ-DP)**, eine kombinierte JTAG- und SWD-Schnittstelle, die es ermöglicht, entweder eine SWD- oder JTAG-Sonde mit dem Ziel zu verbinden.
+Die SWD-Schnittstelle benötigt **zwei Pins**: ein bidirektionales **SWDIO**-Signal, das dem JTAG-**TDI- und TDO-Pin** entspricht, und einen Takt, **SWCLK**, der dem **TCK** in JTAG entspricht. Viele Geräte unterstützen den **Serial Wire oder JTAG Debug Port (SWJ-DP)**, eine kombinierte JTAG- und SWD-Schnittstelle, die es dir ermöglicht, entweder eine SWD- oder JTAG-Sonde an das Ziel anzuschließen.
+
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}

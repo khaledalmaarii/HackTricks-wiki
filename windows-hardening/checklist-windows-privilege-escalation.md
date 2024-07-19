@@ -1,18 +1,19 @@
-# Checklist - Local Windows Privilege Escalation
+# Checklist - Lokale Windows Privilegieneskalation
+
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,114 +23,114 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 ***
 
-### **Bestes Tool zur Suche nach Windows lokalen Privilegieneskalationsvektoren:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Beste Tool zur Suche nach Windows lokalen Privilegieneskalationsvektoren:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
-### [Systeminformationen](windows-local-privilege-escalation/#system-info)
+### [Systeminfo](windows-local-privilege-escalation/#system-info)
 
-* [ ] Erhalten Sie [**Systeminformationen**](windows-local-privilege-escalation/#system-info)
-* [ ] Suchen Sie nach **Kernel** [**Exploits mit Skripten**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Verwenden Sie **Google, um nach** Kernel-**Exploits zu suchen**
-* [ ] Verwenden Sie **searchsploit, um nach** Kernel-**Exploits zu suchen**
+* [ ] Erhalte [**Systeminformationen**](windows-local-privilege-escalation/#system-info)
+* [ ] Suche nach **Kernel** [**Exploits mit Skripten**](windows-local-privilege-escalation/#version-exploits)
+* [ ] Verwende **Google, um nach** Kernel **Exploits zu suchen**
+* [ ] Verwende **searchsploit, um nach** Kernel **Exploits zu suchen**
 * [ ] Interessante Informationen in [**Umgebungsvariablen**](windows-local-privilege-escalation/#environment)?
-* [ ] Passwörter im [**PowerShell-Verlauf**](windows-local-privilege-escalation/#powershell-history)?
-* [ ] Interessante Informationen in [**Interneteinstellungen**](windows-local-privilege-escalation/#internet-settings)?
+* [ ] Passwörter in [**PowerShell-Historie**](windows-local-privilege-escalation/#powershell-history)?
+* [ ] Interessante Informationen in [**Internet-Einstellungen**](windows-local-privilege-escalation/#internet-settings)?
 * [ ] [**Laufwerke**](windows-local-privilege-escalation/#drives)?
 * [ ] [**WSUS-Exploit**](windows-local-privilege-escalation/#wsus)?
 * [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)?
 
-### [Protokollierung/AV-Auflistung](windows-local-privilege-escalation/#enumeration)
+### [Protokollierung/AV-Enumeration](windows-local-privilege-escalation/#enumeration)
 
-* [ ] Überprüfen Sie die [**Audit-**](windows-local-privilege-escalation/#audit-settings)und [**WEF-Einstellungen**](windows-local-privilege-escalation/#wef)
-* [ ] Überprüfen Sie [**LAPS**](windows-local-privilege-escalation/#laps)
-* [ ] Überprüfen Sie, ob [**WDigest** ](windows-local-privilege-escalation/#wdigest)aktiv ist
+* [ ] Überprüfe [**Audit**](windows-local-privilege-escalation/#audit-settings) und [**WEF**](windows-local-privilege-escalation/#wef) Einstellungen
+* [ ] Überprüfe [**LAPS**](windows-local-privilege-escalation/#laps)
+* [ ] Überprüfe, ob [**WDigest**](windows-local-privilege-escalation/#wdigest) aktiv ist
 * [ ] [**LSA-Schutz**](windows-local-privilege-escalation/#lsa-protection)?
 * [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
-* [ ] [**Gecachte Anmeldeinformationen**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Überprüfen Sie, ob ein [**AV-Programm**](https://github.com/carlospolop/hacktricks/blob/de/windows-hardening/windows-av-bypass/README.md) vorhanden ist
-* [ ] [**AppLocker-Richtlinie**](https://github.com/carlospolop/hacktricks/blob/de/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
-* [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/de/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
-* [ ] [**Benutzerrechte**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Überprüfen Sie die [**aktuellen** Benutzer-**Rechte**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Sind Sie [**Mitglied einer privilegierten Gruppe**](windows-local-privilege-escalation/#privileged-groups)?
-* [ ] Überprüfen Sie, ob Sie eine dieser Berechtigungen aktiviert haben: **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [ ] [**Zwischengespeicherte Anmeldeinformationen**](windows-local-privilege-escalation/#cached-credentials)?
+* [ ] Überprüfe, ob ein [**AV**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-av-bypass/README.md) vorhanden ist
+* [ ] [**AppLocker-Richtlinie**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
+* [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
+* [ ] [**Benutzerprivilegien**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Überprüfe [**aktuelle** Benutzer **privilegien**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Bist du [**Mitglied einer privilegierten Gruppe**](windows-local-privilege-escalation/#privileged-groups)?
+* [ ] Überprüfe, ob du [eines dieser Tokens aktiviert hast](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [ ] [**Benutzersitzungen**](windows-local-privilege-escalation/#logged-users-sessions)?
-* [ ] Überprüfen Sie [**Benutzer-Homeverzeichnisse**](windows-local-privilege-escalation/#home-folders) (Zugriff?)
-* [ ] Überprüfen Sie die [**Kennwortrichtlinie**](windows-local-privilege-escalation/#password-policy)
-* [ ] Was ist [**im Zwischenspeicher**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] Überprüfe [**Benutzerverzeichnisse**](windows-local-privilege-escalation/#home-folders) (Zugriff?)
+* [ ] Überprüfe [**Passwortrichtlinie**](windows-local-privilege-escalation/#password-policy)
+* [ ] Was ist [**im Clipboard**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
 ### [Netzwerk](windows-local-privilege-escalation/#network)
 
-* Überprüfen Sie die **aktuellen** [**Netzwerkinformationen**](windows-local-privilege-escalation/#network)
-* Überprüfen Sie **versteckte lokale Dienste**, die nach außen hin eingeschränkt sind
+* [ ] Überprüfe **aktuelle** [**Netzwerkinformationen**](windows-local-privilege-escalation/#network)
+* [ ] Überprüfe **versteckte lokale Dienste**, die auf das Internet beschränkt sind
 
-### [Laufende Prozesse](windows-local-privilege-escalation/#running-processes)
+### [Ausgeführte Prozesse](windows-local-privilege-escalation/#running-processes)
 
-* Prozessbinärdateien [**Datei- und Ordnerberechtigungen**](windows-local-privilege-escalation/#file-and-folder-permissions)
-* [**Passwort-Mining im Speicher**](windows-local-privilege-escalation/#memory-password-mining)
-* [**Unsichere GUI-Apps**](windows-local-privilege-escalation/#insecure-gui-apps)
-* Stehlen Sie Anmeldeinformationen mit **interessanten Prozessen** über `ProcDump.exe` ? (Firefox, Chrome, etc ...)
+* [ ] Prozesse Binärdateien [**Datei- und Ordnersicherheitsberechtigungen**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* [ ] [**Speicherpasswort-Mining**](windows-local-privilege-escalation/#memory-password-mining)
+* [ ] [**Unsichere GUI-Apps**](windows-local-privilege-escalation/#insecure-gui-apps)
+* [ ] Stehle Anmeldeinformationen mit **interessanten Prozessen** über `ProcDump.exe` ? (firefox, chrome, etc ...)
 
 ### [Dienste](windows-local-privilege-escalation/#services)
 
-* [Können Sie einen **Dienst ändern**?](windows-local-privilege-escalation/#permissions)
-* [Können Sie die **ausgeführte** Binärdatei eines Dienstes **ändern**?](windows-local-privilege-escalation/#modify-service-binary-path)
-* [Können Sie das **Registrierungs**-**ändern** eines Dienstes **ändern**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* Können Sie von einem **nicht in Anführungszeichen gesetzten Dienst**-Binärpfad profitieren?]\(windows-local-privilege-escalation/#unquoted-service-paths)
+* [ ] [Kannst du **irgendeinen Dienst** **modifizieren**?](windows-local-privilege-escalation/#permissions)
+* [ ] [Kannst du **die Binärdatei** modifizieren, die von einem **Dienst** **ausgeführt** wird?](windows-local-privilege-escalation/#modify-service-binary-path)
+* [ ] [Kannst du **die Registrierung** eines **Dienstes** **modifizieren**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
+* [ ] [Kannst du von einem **nicht zitierten Dienst** Binärdateipfad profitieren?](windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**Anwendungen**](windows-local-privilege-escalation/#applications)
 
-* **Schreib**berechtigungen für installierte Anwendungen]\(windows-local-privilege-escalation/#write-permissions)
-* [**Startanwendungen**](windows-local-privilege-escalation/#run-at-startup)
-* **Anfällige** [**Treiber**](windows-local-privilege-escalation/#drivers)
+* [ ] **Schreib** [**Berechtigungen für installierte Anwendungen**](windows-local-privilege-escalation/#write-permissions)
+* [ ] [**Startup-Anwendungen**](windows-local-privilege-escalation/#run-at-startup)
+* [ ] **Verwundbare** [**Treiber**](windows-local-privilege-escalation/#drivers)
 
-### [DLL Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
+### [DLL-Hijacking](windows-local-privilege-escalation/#path-dll-hijacking)
 
-* [ ] Können Sie **in jedem Ordner innerhalb des PATH schreiben**?
-* [ ] Gibt es einen bekannten Dienst-Binary, der versucht, eine **nicht vorhandene DLL zu laden**?
-* [ ] Können Sie **in einem Binärdateiordner schreiben**?
+* [ ] Kannst du **in einen beliebigen Ordner im PATH schreiben**?
+* [ ] Gibt es eine bekannte Dienst-Binärdatei, die **versucht, eine nicht existierende DLL zu laden**?
+* [ ] Kannst du **in einen beliebigen** **Binärordner** **schreiben**?
 
 ### [Netzwerk](windows-local-privilege-escalation/#network)
 
-* [ ] Netzwerk enumerieren (Freigaben, Schnittstellen, Routen, Nachbarn, ...)
-* [ ] Besonderes Augenmerk auf Netzwerkdienste richten, die auf localhost (127.0.0.1) lauschen
+* [ ] Enumere das Netzwerk (Freigaben, Schnittstellen, Routen, Nachbarn, ...)
+* [ ] Achte besonders auf Netzwerkdienste, die auf localhost (127.0.0.1) hören
 
 ### [Windows-Anmeldeinformationen](windows-local-privilege-escalation/#windows-credentials)
 
-* [ ] [**Winlogon** ](windows-local-privilege-escalation/#winlogon-credentials)Anmeldeinformationen
-* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) Anmeldeinformationen, die Sie verwenden könnten?
+* [ ] [**Winlogon**](windows-local-privilege-escalation/#winlogon-credentials) Anmeldeinformationen
+* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) Anmeldeinformationen, die du verwenden könntest?
 * [ ] Interessante [**DPAPI-Anmeldeinformationen**](windows-local-privilege-escalation/#dpapi)?
-* [ ] Passwörter von gespeicherten [**WLAN-Netzwerken**](windows-local-privilege-escalation/#wifi)?
+* [ ] Passwörter von gespeicherten [**Wifi-Netzwerken**](windows-local-privilege-escalation/#wifi)?
 * [ ] Interessante Informationen in [**gespeicherten RDP-Verbindungen**](windows-local-privilege-escalation/#saved-rdp-connections)?
 * [ ] Passwörter in [**kürzlich ausgeführten Befehlen**](windows-local-privilege-escalation/#recently-run-commands)?
 * [ ] [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager) Passwörter?
-* [ ] [**AppCmd.exe** vorhanden](windows-local-privilege-escalation/#appcmd-exe)? Anmeldeinformationen?
-* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL Side Loading?
+* [ ] [**AppCmd.exe** existiert](windows-local-privilege-escalation/#appcmd-exe)? Anmeldeinformationen?
+* [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL-Seitenladung?
 
 ### [Dateien und Registrierung (Anmeldeinformationen)](windows-local-privilege-escalation/#files-and-registry-credentials)
 
 * [ ] **Putty:** [**Anmeldeinformationen**](windows-local-privilege-escalation/#putty-creds) **und** [**SSH-Hostschlüssel**](windows-local-privilege-escalation/#putty-ssh-host-keys)
 * [ ] [**SSH-Schlüssel in der Registrierung**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
 * [ ] Passwörter in [**unbeaufsichtigten Dateien**](windows-local-privilege-escalation/#unattended-files)?
-* [ ] Irgendein [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) Backup?
+* [ ] Gibt es ein [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) Backup?
 * [ ] [**Cloud-Anmeldeinformationen**](windows-local-privilege-escalation/#cloud-credentials)?
 * [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) Datei?
-* [ ] [**Gecachtes GPP-Passwort**](windows-local-privilege-escalation/#cached-gpp-pasword)?
+* [ ] [**Zwischengespeichertes GPP-Passwort**](windows-local-privilege-escalation/#cached-gpp-pasword)?
 * [ ] Passwort in [**IIS-Webkonfigurationsdatei**](windows-local-privilege-escalation/#iis-web-config)?
-* [ ] Interessante Informationen in [**Web** **Protokollen**](windows-local-privilege-escalation/#logs)?
-* [ ] Möchten Sie [**Benutzer um Anmeldeinformationen bitten**](windows-local-privilege-escalation/#ask-for-credentials)?
+* [ ] Interessante Informationen in [**Webprotokollen**](windows-local-privilege-escalation/#logs)?
+* [ ] Möchtest du [**nach Anmeldeinformationen**](windows-local-privilege-escalation/#ask-for-credentials) beim Benutzer fragen?
 * [ ] Interessante [**Dateien im Papierkorb**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
-* [ ] Andere [**Registrierung mit Anmeldeinformationen**](windows-local-privilege-escalation/#inside-the-registry)?
-* [ ] In [**Browserdaten**](windows-local-privilege-escalation/#browsers-history) (Datenbanken, Verlauf, Lesezeichen, ...)?
-* [ ] [**Generische Passwortsuche**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in Dateien und Registrierung
-* [ ] [**Tools**](windows-local-privilege-escalation/#tools-that-search-for-passwords) zum automatischen Suchen von Passwörtern
+* [ ] Andere [**Registrierungen mit Anmeldeinformationen**](windows-local-privilege-escalation/#inside-the-registry)?
+* [ ] Innerhalb [**von Browserdaten**](windows-local-privilege-escalation/#browsers-history) (Datenbanken, Verlauf, Lesezeichen, ...)?
+* [ ] [**Allgemeine Passwortsuche**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in Dateien und Registrierung
+* [ ] [**Tools**](windows-local-privilege-escalation/#tools-that-search-for-passwords), um automatisch nach Passwörtern zu suchen
 
-### [Ausgelaufene Handler](windows-local-privilege-escalation/#leaked-handlers)
+### [Leckende Handler](windows-local-privilege-escalation/#leaked-handlers)
 
-* [ ] Haben Sie Zugriff auf einen Handler eines Prozesses, der von einem Administrator ausgeführt wird?
+* [ ] Hast du Zugriff auf einen Handler eines Prozesses, der von einem Administrator ausgeführt wird?
 
-### [Pipe-Client-Imitation](windows-local-privilege-escalation/#named-pipe-client-impersonation)
+### [Pipe-Client-Impersonation](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
-* [ ] Überprüfen, ob Sie es missbrauchen können
+* [ ] Überprüfe, ob du es ausnutzen kannst
 
 **Try Hard Security Group**
 
@@ -137,16 +138,17 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}
