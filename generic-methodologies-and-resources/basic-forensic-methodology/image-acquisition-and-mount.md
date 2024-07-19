@@ -1,22 +1,25 @@
-# Bildakquise & Mount
+# Image Acquisition & Mount
+
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? oder möchten Sie Zugriff auf die **neueste Version des PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [HackTricks-Repository](https://github.com/carlospolop/hacktricks) und das [HackTricks-Cloud-Repository](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
 {% embed url="https://websec.nl/" %}
 
-## Akquise
+## Acquisition
 
 ### DD
 ```bash
@@ -31,13 +34,13 @@ dcfldd if=/dev/sdc of=/media/usb/pc.image hash=sha256 hashwindow=1M hashlog=/med
 ```
 ### FTK Imager
 
-Sie können den [**FTK-Imager hier herunterladen**](https://accessdata.com/product-download/debian-and-ubuntu-x64-3-1-1).
+Sie können [**den FTK Imager hier herunterladen**](https://accessdata.com/product-download/debian-and-ubuntu-x64-3-1-1).
 ```bash
 ftkimager /dev/sdb evidence --e01 --case-number 1 --evidence-number 1 --description 'A description' --examiner 'Your name'
 ```
 ### EWF
 
-Sie können ein Festplattenabbild mithilfe der [**ewf tools**](https://github.com/libyal/libewf) generieren.
+Sie können ein Festplattenabbild mit den [**ewf tools**](https://github.com/libyal/libewf) erstellen.
 ```bash
 ewfacquire /dev/sdb
 #Name: evidence
@@ -58,7 +61,7 @@ ewfacquire /dev/sdb
 
 ### Mehrere Typen
 
-In **Windows** können Sie versuchen, die kostenlose Version von Arsenal Image Mounter ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) zu verwenden, um **das forensische Image zu mounten**.
+In **Windows** können Sie die kostenlose Version von Arsenal Image Mounter ([https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)) versuchen, um das **forensische Image** zu **mounten**.
 
 ### Raw
 ```bash
@@ -86,12 +89,12 @@ mount output/ewf1 -o ro,norecovery /mnt
 ```
 ### ArsenalImageMounter
 
-Es handelt sich um eine Windows-Anwendung zum Einhängen von Volumes. Sie können sie hier herunterladen [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
+Es ist eine Windows-Anwendung zum Einbinden von Volumes. Sie können es hier herunterladen [https://arsenalrecon.com/downloads/](https://arsenalrecon.com/downloads/)
 
 ### Fehler
 
-* **`cannot mount /dev/loop0 read-only`** in diesem Fall müssen Sie die Flags **`-o ro,norecovery`** verwenden
-* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** in diesem Fall ist das Einhängen fehlgeschlagen, da der Offset des Dateisystems sich vom Offset des Disk-Images unterscheidet. Sie müssen die Sektorengröße und den Startsektor finden:
+* **`cannot mount /dev/loop0 read-only`** in diesem Fall müssen Sie die Flags **`-o ro,norecovery`** verwenden.
+* **`wrong fs type, bad option, bad superblock on /dev/loop0, missing codepage or helper program, or other error.`** in diesem Fall ist das Einbinden fehlgeschlagen, da der Offset des Dateisystems anders ist als der des Disk-Images. Sie müssen die Sektorgröße und den Startsektor finden:
 ```bash
 fdisk -l disk.img
 Disk disk.img: 102 MiB, 106954648 bytes, 208896 sectors
@@ -104,7 +107,7 @@ Disk identifier: 0x00495395
 Device        Boot Start    End Sectors  Size Id Type
 disk.img1       2048 208895  206848  101M  1 FAT12
 ```
-Beachten Sie, dass die Sektorgröße **512** beträgt und der Start bei **2048** liegt. Mounten Sie dann das Image wie folgt:
+Beachten Sie, dass die Sektorgröße **512** und der Start **2048** ist. Mounten Sie das Image dann wie folgt:
 ```bash
 mount disk.img /mnt -o ro,offset=$((2048*512))
 ```
@@ -112,14 +115,17 @@ mount disk.img /mnt -o ro,offset=$((2048*512))
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? oder möchten Sie Zugriff auf die **neueste Version des PEASS erhalten oder HackTricks im PDF-Format herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [HackTricks-Repository](https://github.com/carlospolop/hacktricks) und das [HackTricks-Cloud-Repository](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}

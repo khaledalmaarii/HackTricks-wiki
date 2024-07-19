@@ -1,86 +1,88 @@
 # Einführung in x64
 
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichen.
 
 </details>
+{% endhint %}
 
 ## **Einführung in x64**
 
-x64, auch bekannt als x86-64, ist eine 64-Bit-Prozessorarchitektur, die hauptsächlich in Desktop- und Server-Computing verwendet wird. Ursprünglich von der von Intel produzierten x86-Architektur abgeleitet und später von AMD unter dem Namen AMD64 übernommen, ist sie heute die vorherrschende Architektur in Personalcomputern und Servern.
+x64, auch bekannt als x86-64, ist eine 64-Bit-Prozessorarchitektur, die überwiegend in Desktop- und Servercomputing verwendet wird. Sie stammt von der x86-Architektur, die von Intel produziert wurde und später von AMD unter dem Namen AMD64 übernommen wurde. Sie ist heute die vorherrschende Architektur in Personalcomputern und Servern.
 
 ### **Register**
 
-x64 erweitert die x86-Architektur und verfügt über **16 allgemeine Register**, die als `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi` und `r8` bis `r15` bezeichnet sind. Jedes dieser Register kann einen **64-Bit** (8-Byte) Wert speichern. Diese Register verfügen auch über 32-Bit-, 16-Bit- und 8-Bit-Teilregister für Kompatibilität und spezifische Aufgaben.
+x64 baut auf der x86-Architektur auf und verfügt über **16 allgemeine Register**, die `rax`, `rbx`, `rcx`, `rdx`, `rbp`, `rsp`, `rsi`, `rdi` sowie `r8` bis `r15` bezeichnet werden. Jedes dieser Register kann einen **64-Bit** (8-Byte) Wert speichern. Diese Register haben auch 32-Bit-, 16-Bit- und 8-Bit-Subregister für Kompatibilität und spezifische Aufgaben.
 
-1. **`rax`** - Traditionell für **Rückgabewerte** von Funktionen verwendet.
+1. **`rax`** - Traditionell verwendet für **Rückgabewerte** von Funktionen.
 2. **`rbx`** - Oft als **Basisregister** für Speicheroperationen verwendet.
-3. **`rcx`** - Häufig für **Schleifenzähler** verwendet.
-4. **`rdx`** - Wird in verschiedenen Rollen einschließlich erweiterter arithmetischer Operationen verwendet.
-5. **`rbp`** - **Basiszeiger** für den Stapelrahmen.
-6. **`rsp`** - **Stapelpointer**, der die Spitze des Stapels verfolgt.
-7. **`rsi`** und **`rdi`** - Für **Quell-** und **Zielindizes** in Zeichenketten-/Speicheroperationen verwendet.
+3. **`rcx`** - Häufig verwendet für **Schleifenzähler**.
+4. **`rdx`** - In verschiedenen Rollen verwendet, einschließlich erweiterter arithmetischer Operationen.
+5. **`rbp`** - **Basiszeiger** für den Stackrahmen.
+6. **`rsp`** - **Stackzeiger**, der den oberen Teil des Stacks verfolgt.
+7. **`rsi`** und **`rdi`** - Verwendet für **Quell-** und **Zielindizes** in String-/Speicheroperationen.
 8. **`r8`** bis **`r15`** - Zusätzliche allgemeine Register, die in x64 eingeführt wurden.
 
 ### **Aufrufkonvention**
 
 Die x64-Aufrufkonvention variiert zwischen Betriebssystemen. Zum Beispiel:
 
-* **Windows**: Die ersten **vier Parameter** werden in den Registern **`rcx`**, **`rdx`**, **`r8`** und **`r9`** übergeben. Weitere Parameter werden auf den Stapel geschoben. Der Rückgabewert befindet sich in **`rax`**.
-* **System V (üblicherweise in UNIX-ähnlichen Systemen verwendet)**: Die ersten **sechs ganzzahligen oder Zeigerparameter** werden in den Registern **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** und **`r9`** übergeben. Der Rückgabewert befindet sich ebenfalls in **`rax`**.
+* **Windows**: Die ersten **vier Parameter** werden in den Registern **`rcx`**, **`rdx`**, **`r8`** und **`r9`** übergeben. Weitere Parameter werden auf den Stack geschoben. Der Rückgabewert befindet sich in **`rax`**.
+* **System V (häufig in UNIX-ähnlichen Systemen verwendet)**: Die ersten **sechs ganzzahligen oder Zeigerparameter** werden in den Registern **`rdi`**, **`rsi`**, **`rdx`**, **`rcx`**, **`r8`** und **`r9`** übergeben. Der Rückgabewert befindet sich ebenfalls in **`rax`**.
 
-Wenn die Funktion mehr als sechs Eingaben hat, werden die **restlichen auf dem Stapel übergeben**. **RSP**, der Stapelpointer, muss **16 Byte ausgerichtet** sein, was bedeutet, dass die Adresse, auf die er zeigt, vor jedem Aufruf durch 16 teilbar sein muss. Das bedeutet, dass normalerweise sichergestellt werden müsste, dass RSP in unserem Shellcode ordnungsgemäß ausgerichtet ist, bevor wir einen Funktionsaufruf tätigen. In der Praxis funktionieren Systemaufrufe jedoch viele Male, auch wenn diese Anforderung nicht erfüllt ist.
+Wenn die Funktion mehr als sechs Eingaben hat, werden die **restlichen auf dem Stack übergeben**. **RSP**, der Stackzeiger, muss **16 Byte ausgerichtet** sein, was bedeutet, dass die Adresse, auf die er zeigt, vor einem Aufruf durch 16 teilbar sein muss. Das bedeutet, dass wir normalerweise sicherstellen müssen, dass RSP in unserem Shellcode richtig ausgerichtet ist, bevor wir einen Funktionsaufruf machen. In der Praxis funktionieren Systemaufrufe jedoch oft, auch wenn diese Anforderung nicht erfüllt ist.
 
 ### Aufrufkonvention in Swift
 
-Swift hat seine eigene **Aufrufkonvention**, die unter [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64) gefunden werden kann.
+Swift hat seine eigene **Aufrufkonvention**, die in [**https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64**](https://github.com/apple/swift/blob/main/docs/ABI/CallConvSummary.rst#x86-64) zu finden ist.
 
-### **Gemeinsame Anweisungen**
+### **Häufige Anweisungen**
 
-x64-Anweisungen verfügen über einen umfangreichen Satz, der die Kompatibilität mit früheren x86-Anweisungen beibehält und neue einführt.
+x64-Anweisungen haben einen umfangreichen Satz, der die Kompatibilität mit früheren x86-Anweisungen aufrechterhält und neue einführt.
 
-* **`mov`**: **Verschiebt** einen Wert von einem **Register** oder einer **Speicherstelle** an eine andere.
-* Beispiel: `mov rax, rbx` — Verschiebt den Wert von `rbx` nach `rax`.
-* **`push`** und **`pop`**: Werte auf/ vom **Stapel** schieben oder poppen.
-* Beispiel: `push rax` — Schiebt den Wert in `rax` auf den Stapel.
-* Beispiel: `pop rax` — Popt den obersten Wert vom Stapel in `rax`.
-* **`add`** und **`sub`**: **Additions-** und **Subtraktionsoperationen**.
+* **`mov`**: **Bewege** einen Wert von einem **Register** oder **Speicherort** zu einem anderen.
+* Beispiel: `mov rax, rbx` — Bewegt den Wert von `rbx` nach `rax`.
+* **`push`** und **`pop`**: Werte auf den **Stack** schieben oder vom Stack abziehen.
+* Beispiel: `push rax` — Schiebt den Wert in `rax` auf den Stack.
+* Beispiel: `pop rax` — Zieht den obersten Wert vom Stack in `rax`.
+* **`add`** und **`sub`**: **Addition** und **Subtraktion**.
 * Beispiel: `add rax, rcx` — Addiert die Werte in `rax` und `rcx` und speichert das Ergebnis in `rax`.
-* **`mul`** und **`div`**: **Multiplikations-** und **Divisionsoperationen**. Hinweis: Diese haben spezifische Verhaltensweisen in Bezug auf die Operandennutzung.
-* **`call`** und **`ret`**: Zum **Aufrufen** und **Zurückkehren von Funktionen** verwendet.
-* **`int`**: Wird verwendet, um einen Software-**Interrupt** auszulösen. Z.B. wurde `int 0x80` für Systemaufrufe in 32-Bit-x86-Linux verwendet.
-* **`cmp`**: **Vergleicht** zwei Werte und setzt die Flags der CPU basierend auf dem Ergebnis.
+* **`mul`** und **`div`**: **Multiplikation** und **Division**. Hinweis: Diese haben spezifische Verhaltensweisen bezüglich der Operandenverwendung.
+* **`call`** und **`ret`**: Verwendet, um **Funktionen aufzurufen** und **von Funktionen zurückzukehren**.
+* **`int`**: Wird verwendet, um eine Software-**Unterbrechung** auszulösen. Z.B. wurde `int 0x80` für Systemaufrufe in 32-Bit x86 Linux verwendet.
+* **`cmp`**: **Vergleicht** zwei Werte und setzt die CPU-Flags basierend auf dem Ergebnis.
 * Beispiel: `cmp rax, rdx` — Vergleicht `rax` mit `rdx`.
-* **`je`, `jne`, `jl`, `jge`, ...**: **Bedingte Sprung**-Anweisungen, die die Steuerung basierend auf den Ergebnissen eines vorherigen `cmp` oder Tests ändern.
-* Beispiel: Nach einer `cmp rax, rdx`-Anweisung, `je label` — Springt zu `label`, wenn `rax` gleich `rdx` ist.
-* **`syscall`**: Wird für **Systemaufrufe** in einigen x64-Systemen (wie modernem Unix) verwendet.
+* **`je`, `jne`, `jl`, `jge`, ...**: **Bedingte Sprunganweisungen**, die den Kontrollfluss basierend auf den Ergebnissen eines vorherigen `cmp` oder Tests ändern.
+* Beispiel: Nach einer `cmp rax, rdx`-Anweisung springt `je label` — Springt zu `label`, wenn `rax` gleich `rdx` ist.
+* **`syscall`**: Wird für **Systemaufrufe** in einigen x64-Systemen (wie modernen Unix) verwendet.
 * **`sysenter`**: Eine optimierte **Systemaufruf**-Anweisung auf einigen Plattformen.
 
 ### **Funktionsprolog**
 
-1. **Altes Basisregister auf den Stapel schieben**: `push rbp` (speichert das Basisregister des Aufrufers)
-2. **Aktuellen Stapelpointer in das Basisregister verschieben**: `mov rbp, rsp` (richtet das neue Basisregister für die aktuelle Funktion ein)
-3. **Platz auf dem Stapel für lokale Variablen reservieren**: `sub rsp, <Größe>` (wobei `<Größe>` die Anzahl der benötigten Bytes ist)
+1. **Schiebe den alten Basiszeiger**: `push rbp` (speichert den Basiszeiger des Aufrufers)
+2. **Bewege den aktuellen Stackzeiger zum Basiszeiger**: `mov rbp, rsp` (richtet den neuen Basiszeiger für die aktuelle Funktion ein)
+3. **Allokiere Platz auf dem Stack für lokale Variablen**: `sub rsp, <size>` (wobei `<size>` die benötigte Anzahl von Bytes ist)
 
 ### **Funktionsepilog**
 
-1. **Aktuelles Basisregister in den Stapelpointer verschieben**: `mov rsp, rbp` (lokale Variablen freigeben)
-2. **Altes Basisregister vom Stapel poppen**: `pop rbp` (stellt das Basisregister des Aufrufers wieder her)
-3. **Rückkehr**: `ret` (gibt die Steuerung an den Aufrufer zurück)
+1. **Bewege den aktuellen Basiszeiger zum Stackzeiger**: `mov rsp, rbp` (deallokiert lokale Variablen)
+2. **Pop den alten Basiszeiger vom Stack**: `pop rbp` (stellt den Basiszeiger des Aufrufers wieder her)
+3. **Rückkehr**: `ret` (gibt die Kontrolle an den Aufrufer zurück)
+
 ## macOS
 
 ### syscalls
 
-Es gibt verschiedene Klassen von syscalls, die Sie [**hier finden können**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
+Es gibt verschiedene Klassen von Syscalls, die Sie [**hier finden können**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/osfmk/mach/i386/syscall\_sw.h)**:**
 ```c
 #define SYSCALL_CLASS_NONE	0	/* Invalid */
 #define SYSCALL_CLASS_MACH	1	/* Mach */
@@ -89,7 +91,7 @@ Es gibt verschiedene Klassen von syscalls, die Sie [**hier finden können**](htt
 #define SYSCALL_CLASS_DIAG	4	/* Diagnostics */
 #define SYSCALL_CLASS_IPC	5	/* Mach IPC */
 ```
-Dann kannst du jede Syscall-Nummer [**in dieser URL**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
+Dann können Sie jede Syscall-Nummer [**in dieser URL**](https://opensource.apple.com/source/xnu/xnu-1504.3.12/bsd/kern/syscalls.master)**:**
 ```c
 0	AUE_NULL	ALL	{ int nosys(void); }   { indirect syscall }
 1	AUE_EXIT	ALL	{ void exit(int rval); }
@@ -106,13 +108,13 @@ Dann kannst du jede Syscall-Nummer [**in dieser URL**](https://opensource.apple.
 12	AUE_CHDIR	ALL	{ int chdir(user_addr_t path); }
 [...]
 ```
-So um den `open`-Syscall (**5**) aus der **Unix/BSD-Klasse** aufzurufen, müssen Sie `0x2000000` hinzufügen:
+Um den `open` syscall (**5**) aus der **Unix/BSD-Klasse** aufzurufen, müssen Sie ihn hinzufügen: `0x2000000`
 
-Daher wäre die Syscall-Nummer zum Aufrufen von open `0x2000005`
+Die syscall-Nummer, um open aufzurufen, wäre `0x2000005`
 
 ### Shellcodes
 
-Zum Kompilieren:
+Um zu kompilieren:
 
 {% code overflow="wrap" %}
 ```bash
@@ -207,7 +209,7 @@ syscall
 ```
 {% endtab %}
 
-{% tab title="mit Stapel" %}
+{% tab title="mit Stack" %}
 ```armasm
 bits 64
 global _main
@@ -226,9 +228,9 @@ syscall
 {% endtab %}
 {% endtabs %}
 
-#### Lesen mit cat
+#### Mit cat lesen
 
-Das Ziel ist es, `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` auszuführen, daher ist das zweite Argument (x1) ein Array von Parametern (was im Speicher einem Stapel von Adressen entspricht).
+Das Ziel ist es, `execve("/bin/cat", ["/bin/cat", "/etc/passwd"], NULL)` auszuführen, sodass das zweite Argument (x1) ein Array von Parametern ist (was im Speicher einen Stack der Adressen bedeutet).
 ```armasm
 bits 64
 section .text
@@ -297,9 +299,9 @@ sh_path:        db "/bin/sh", 0
 sh_c_option:    db "-c", 0
 touch_command:  db "touch /tmp/lalala", 0
 ```
-#### Bind-Shell
+#### Bind shell
 
-Bind-Shell von [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) auf **Port 4444**.
+Bind shell von [https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html](https://packetstormsecurity.com/files/151731/macOS-TCP-4444-Bind-Shell-Null-Free-Shellcode.html) in **Port 4444**
 ```armasm
 section .text
 global _main
@@ -374,9 +376,9 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
-#### Umgekehrte Shell
+#### Reverse Shell
 
-Umgekehrte Shell von [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Umgekehrte Shell zu **127.0.0.1:4444**
+Reverse shell von [https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html](https://packetstormsecurity.com/files/151727/macOS-127.0.0.1-4444-Reverse-Shell-Shellcode.html). Reverse shell zu **127.0.0.1:4444**
 ```armasm
 section .text
 global _main
@@ -438,16 +440,17 @@ mov  rax, r8
 mov  al, 0x3b
 syscall
 ```
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks beworben sehen möchten** oder **HackTricks im PDF-Format herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}

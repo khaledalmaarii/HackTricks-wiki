@@ -1,82 +1,96 @@
-# Geräte in anderen Organisationen einschreiben
+# Geräte in anderen Organisationen registrieren
+
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks unterstützen</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Einführung
 
-Wie [**zuvor erwähnt**](./#what-is-mdm-mobile-device-management)**,** wird zur Einschreibung eines Geräts in eine Organisation **nur eine Seriennummer benötigt, die zu dieser Organisation gehört**. Sobald das Gerät eingeschrieben ist, installieren mehrere Organisationen sensible Daten auf dem neuen Gerät: Zertifikate, Anwendungen, WLAN-Passwörter, VPN-Konfigurationen [und so weiter](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
-Daher kann dies ein gefährlicher Einstiegspunkt für Angreifer sein, wenn der Einschreibungsprozess nicht richtig geschützt ist.
+Wie [**bereits erwähnt**](./#what-is-mdm-mobile-device-management)**,** um ein Gerät in eine Organisation einzuschreiben, **wird nur eine Seriennummer benötigt, die zu dieser Organisation gehört**. Sobald das Gerät registriert ist, installieren mehrere Organisationen sensible Daten auf dem neuen Gerät: Zertifikate, Anwendungen, WLAN-Passwörter, VPN-Konfigurationen [und so weiter](https://developer.apple.com/enterprise/documentation/Configuration-Profile-Reference.pdf).\
+Daher könnte dies ein gefährlicher Einstiegspunkt für Angreifer sein, wenn der Registrierungsprozess nicht korrekt geschützt ist.
 
-**Im Folgenden finden Sie eine Zusammenfassung der Forschungsergebnisse [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Weitere technische Details finden Sie dort!**
+**Die folgende Zusammenfassung basiert auf der Forschung [https://duo.com/labs/research/mdm-me-maybe](https://duo.com/labs/research/mdm-me-maybe). Überprüfen Sie sie für weitere technische Details!**
 
-## Überblick über DEP und MDM-Binäranalyse
+## Übersicht über DEP und MDM Binäranalyse
 
-Diese Forschung untersucht die mit dem Device Enrollment Program (DEP) und dem Mobile Device Management (MDM) auf macOS verbundenen Binärdateien. Zu den wichtigsten Komponenten gehören:
+Diese Forschung befasst sich mit den Binärdateien, die mit dem Device Enrollment Program (DEP) und Mobile Device Management (MDM) auf macOS verbunden sind. Wichtige Komponenten sind:
 
 - **`mdmclient`**: Kommuniziert mit MDM-Servern und löst DEP-Check-ins auf macOS-Versionen vor 10.13.4 aus.
-- **`profiles`**: Verwaltet Konfigurationsprofile und löst DEP-Check-ins auf macOS-Versionen 10.13.4 und höher aus.
-- **`cloudconfigurationd`**: Verwaltet DEP-API-Kommunikation und ruft Geräte-Einschreibungsprofile ab.
+- **`profiles`**: Verwaltet Konfigurationsprofile und löst DEP-Check-ins auf macOS-Versionen 10.13.4 und später aus.
+- **`cloudconfigurationd`**: Verwaltet DEP-API-Kommunikationen und ruft Geräteanmeldungsprofile ab.
 
-DEP-Check-ins verwenden die Funktionen `CPFetchActivationRecord` und `CPGetActivationRecord` aus dem privaten Configuration Profiles-Framework, um den Aktivierungsdatensatz abzurufen, wobei `CPFetchActivationRecord` über XPC mit `cloudconfigurationd` zusammenarbeitet.
+DEP-Check-ins nutzen die Funktionen `CPFetchActivationRecord` und `CPGetActivationRecord` aus dem privaten Konfigurationsprofil-Framework, um den Aktivierungsdatensatz abzurufen, wobei `CPFetchActivationRecord` mit `cloudconfigurationd` über XPC koordiniert.
 
-## Reverse Engineering des Tesla-Protokolls und des Absinthe-Schemas
+## Tesla-Protokoll und Absinthe-Schema Reverse Engineering
 
-Der DEP-Check-in beinhaltet, dass `cloudconfigurationd` eine verschlüsselte, signierte JSON-Payload an _iprofiles.apple.com/macProfile_ sendet. Die Payload enthält die Seriennummer des Geräts und die Aktion "RequestProfileConfiguration". Das verwendete Verschlüsselungsschema wird intern als "Absinthe" bezeichnet. Die Entschlüsselung dieses Schemas ist komplex und erfordert zahlreiche Schritte, was zur Erforschung alternativer Methoden führte, um beliebige Seriennummern in der Anforderung des Aktivierungsdatensatzes einzufügen.
+Der DEP-Check-in umfasst, dass `cloudconfigurationd` eine verschlüsselte, signierte JSON-Nutzlast an _iprofiles.apple.com/macProfile_ sendet. Die Nutzlast enthält die Seriennummer des Geräts und die Aktion "RequestProfileConfiguration". Das verwendete Verschlüsselungsschema wird intern als "Absinthe" bezeichnet. Das Entschlüsseln dieses Schemas ist komplex und umfasst zahlreiche Schritte, was zur Erkundung alternativer Methoden führte, um willkürliche Seriennummern in die Anfrage des Aktivierungsdatensatzes einzufügen.
 
 ## Proxying von DEP-Anfragen
 
-Versuche, DEP-Anfragen an _iprofiles.apple.com_ mit Tools wie Charles Proxy abzufangen und zu ändern, wurden durch die Verschlüsselung der Payload und die SSL/TLS-Sicherheitsmaßnahmen behindert. Durch Aktivieren der Konfiguration `MCCloudConfigAcceptAnyHTTPSCertificate` kann jedoch die Überprüfung des Serverzertifikats umgangen werden, obwohl die verschlüsselte Natur der Payload eine Änderung der Seriennummer ohne den Entschlüsselungsschlüssel verhindert.
+Versuche, DEP-Anfragen an _iprofiles.apple.com_ mit Tools wie Charles Proxy abzufangen und zu modifizieren, wurden durch die Verschlüsselung der Nutzlast und SSL/TLS-Sicherheitsmaßnahmen behindert. Das Aktivieren der Konfiguration `MCCloudConfigAcceptAnyHTTPSCertificate` ermöglicht jedoch das Umgehen der Serverzertifikatsvalidierung, obwohl die verschlüsselte Natur der Nutzlast weiterhin eine Modifikation der Seriennummer ohne den Entschlüsselungsschlüssel verhindert.
 
 ## Instrumentierung von System-Binärdateien, die mit DEP interagieren
 
-Die Instrumentierung von System-Binärdateien wie `cloudconfigurationd` erfordert das Deaktivieren des System Integrity Protection (SIP) auf macOS. Mit deaktiviertem SIP können Tools wie LLDB verwendet werden, um sich an Systemprozesse anzuhängen und möglicherweise die Seriennummer zu ändern, die in den DEP-API-Interaktionen verwendet wird. Diese Methode ist vorzuziehen, da sie die Komplexität von Berechtigungen und Code-Signierung vermeidet.
+Die Instrumentierung von System-Binärdateien wie `cloudconfigurationd` erfordert das Deaktivieren des System Integrity Protection (SIP) auf macOS. Mit deaktiviertem SIP können Tools wie LLDB verwendet werden, um sich an Systemprozesse anzuhängen und möglicherweise die in DEP-API-Interaktionen verwendete Seriennummer zu ändern. Diese Methode ist vorzuziehen, da sie die Komplexität von Berechtigungen und Code-Signierung vermeidet.
 
-**Ausnutzung der Instrumentierung von Binärdateien:**
-Die Modifikation der DEP-Anforderungspayload vor der JSON-Serialisierung in `cloudconfigurationd` erwies sich als wirksam. Der Prozess umfasste:
+**Ausnutzung der Binärinstrumentierung:**
+Die Modifikation der DEP-Anfrage-Nutzlast vor der JSON-Serialisierung in `cloudconfigurationd` erwies sich als effektiv. Der Prozess umfasste:
 
-1. Anhängen von LLDB an `cloudconfigurationd`.
-2. Lokalisieren des Punkts, an dem die Systemseriennummer abgerufen wird.
-3. Einfügen einer beliebigen Seriennummer in den Speicher, bevor die Payload verschlüsselt und gesendet wird.
+1. Anheften von LLDB an `cloudconfigurationd`.
+2. Lokalisierung des Punktes, an dem die Systemseriennummer abgerufen wird.
+3. Einspeisen einer willkürlichen Seriennummer in den Speicher, bevor die Nutzlast verschlüsselt und gesendet wird.
 
-Diese Methode ermöglichte das Abrufen vollständiger DEP-Profile für beliebige Seriennummern und zeigte eine potenzielle Sicherheitslücke auf.
+Diese Methode ermöglichte das Abrufen vollständiger DEP-Profile für willkürliche Seriennummern und demonstrierte eine potenzielle Schwachstelle.
 
 ### Automatisierung der Instrumentierung mit Python
 
-Der Ausnutzungsprozess wurde mit Python und der LLDB-API automatisiert, sodass beliebige Seriennummern programmgesteuert eingefügt und entsprechende DEP-Profile abgerufen werden konnten.
+Der Ausnutzungsprozess wurde mit Python unter Verwendung der LLDB-API automatisiert, was es ermöglichte, programmgesteuert willkürliche Seriennummern einzufügen und die entsprechenden DEP-Profile abzurufen.
 
-### Mögliche Auswirkungen von DEP- und MDM-Schwachstellen
+### Potenzielle Auswirkungen von DEP- und MDM-Schwachstellen
 
-Die Forschung hat erhebliche Sicherheitsbedenken aufgezeigt:
+Die Forschung hob erhebliche Sicherheitsbedenken hervor:
 
-1. **Informationspreisgabe**: Durch Bereitstellung einer DEP-registrierten Seriennummer können sensible organisatorische Informationen, die im DEP-Profil enthalten sind, abgerufen werden.
-2. **Betrügerische DEP-Einschreibung**: Ohne ordnungsgemäße Authentifizierung kann ein Angreifer mit einer DEP-registrierten Seriennummer ein betrügerisches Gerät in den MDM-Server einer Organisation einschreiben und möglicherweise Zugriff auf sensible Daten und Netzwerkressourcen erhalten.
-
-Zusammenfassend lässt sich sagen, dass DEP und MDM leistungsstarke Tools zur Verwaltung von Apple-Geräten in Unternehmensumgebungen bieten, aber auch potenzielle Angriffsvektoren darstellen, die gesichert und überwacht werden müssen.
-
-
+1. **Informationsoffenlegung**: Durch die Bereitstellung einer DEP-registrierten Seriennummer können sensible organisatorische Informationen, die im DEP-Profil enthalten sind, abgerufen werden.
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks unterstützen</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

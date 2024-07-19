@@ -1,24 +1,25 @@
-# macOS Funktion Hooking
+# macOS Function Hooking
+
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}
 
-## Funktionen Interposing
+## Funktionsinterposition
 
-Erstellen Sie eine **dylib** mit einem **`__interpose`**-Abschnitt (oder einem Abschnitt mit dem Flag **`S_INTERPOSING`**), der Tupel von **Funktionszeigern** enthält, die auf die **ursprünglichen** und **Ersatz**-Funktionen verweisen.
+Erstellen Sie eine **dylib** mit einem **`__interpose`** Abschnitt (oder einem Abschnitt, der mit **`S_INTERPOSING`** gekennzeichnet ist), der Tupel von **Funktionszeigern** enthält, die auf die **ursprünglichen** und die **Ersatz**-Funktionen verweisen.
 
-Dann **injizieren** Sie die dylib mit **`DYLD_INSERT_LIBRARIES`** (das Interposing muss vor dem Laden der Hauptanwendung erfolgen). Offensichtlich gelten hier auch die [**Einschränkungen**, die für die Verwendung von **`DYLD_INSERT_LIBRARIES`** gelten](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
+Dann **injektieren** Sie die dylib mit **`DYLD_INSERT_LIBRARIES`** (die Interposition muss erfolgen, bevor die Hauptanwendung geladen wird). Offensichtlich gelten die [**Einschränkungen** für die Verwendung von **`DYLD_INSERT_LIBRARIES`** auch hier](../macos-proces-abuse/macos-library-injection/#check-restrictions).&#x20;
 
 ### Interpose printf
 
@@ -56,39 +57,9 @@ printf("Hello World!\n");
 return 0;
 }
 ```
-```c
-#include <stdio.h>
-#include <stdlib.h>
-#include <dlfcn.h>
+{% endtab %}
 
-typedef int (*orig_open_type)(const char *pathname, int flags);
-typedef FILE *(*orig_fopen_type)(const char *pathname, const char *mode);
-
-int open(const char *pathname, int flags) {
-    orig_open_type orig_open;
-    orig_open = (orig_open_type)dlsym(RTLD_NEXT, "open");
-    printf("Opening file: %s\n", pathname);
-    return orig_open(pathname, flags);
-}
-
-FILE *fopen(const char *pathname, const char *mode) {
-    orig_fopen_type orig_fopen;
-    orig_fopen = (orig_fopen_type)dlsym(RTLD_NEXT, "fopen");
-    printf("Opening file: %s\n", pathname);
-    return orig_fopen(pathname, mode);
-}
-```
-
-This code demonstrates how to use function hooking in macOS using the `dlsym` function from the `dlfcn.h` library. The `open` and `fopen` functions are hooked by defining new functions with the same name. The original functions are then obtained using `dlsym` and called within the hooked functions. In this example, whenever `open` or `fopen` is called, the pathname of the file being opened is printed to the console before the original function is executed.
-
-To compile and run this code, use the following commands:
-
-```bash
-gcc -shared -o interpose2.dylib interpose2.c -ldl
-DYLD_INSERT_LIBRARIES=interpose2.dylib ls
-```
-
-The `DYLD_INSERT_LIBRARIES` environment variable is used to specify the dynamic library to be loaded into the target process. In this case, the `interpose2.dylib` library is loaded into the `ls` command, causing the hooked functions to be used instead of the original ones.
+{% tab title="interpose2.c" %}
 ```c
 // Just another way to define an interpose
 // gcc -dynamiclib interpose2.c -o interpose2.dylib
@@ -125,19 +96,19 @@ Hello from interpose
 
 In ObjectiveC wird eine Methode wie folgt aufgerufen: **`[myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]`**
 
-Es werden das **Objekt**, die **Methode** und die **Parameter** benötigt. Wenn eine Methode aufgerufen wird, wird eine **Nachricht gesendet**, indem die Funktion **`objc_msgSend`** verwendet wird: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
+Es werden das **Objekt**, die **Methode** und die **Parameter** benötigt. Und wenn eine Methode aufgerufen wird, wird eine **Nachricht gesendet** mit der Funktion **`objc_msgSend`**: `int i = ((int (*)(id, SEL, NSString *, NSString *))objc_msgSend)(someObject, @selector(method1p1:p2:), value1, value2);`
 
-Das Objekt ist **`someObject`**, die Methode ist **`@selector(method1p1:p2:)`** und die Argumente sind **value1** und **value2**.
+Das Objekt ist **`someObject`**, die Methode ist **`@selector(method1p1:p2:)`** und die Argumente sind **value1**, **value2**.
 
-Durch die Struktur der Objekte ist es möglich, auf ein **Array von Methoden** zuzugreifen, in dem die **Namen** und **Zeiger** auf den Methodencode **gespeichert** sind.
+Folgt man den Objektstrukturen, ist es möglich, auf ein **Array von Methoden** zuzugreifen, wo die **Namen** und **Zeiger** auf den Methodencode **lokalisiert** sind.
 
 {% hint style="danger" %}
-Beachten Sie, dass Methoden und Klassen basierend auf ihren Namen abgerufen werden, daher werden diese Informationen in der Binärdatei gespeichert und können mit `otool -ov </path/bin>` oder [`class-dump </path/bin>`](https://github.com/nygard/class-dump) abgerufen werden.
+Beachten Sie, dass Methoden und Klassen basierend auf ihren Namen zugegriffen werden, diese Informationen werden im Binärformat gespeichert, sodass es möglich ist, sie mit `otool -ov </path/bin>` oder [`class-dump </path/bin>`](https://github.com/nygard/class-dump) abzurufen.
 {% endhint %}
 
-### Zugriff auf die Rohmethoden
+### Zugriff auf die rohen Methoden
 
-Es ist möglich, Informationen über die Methoden wie Namen, Anzahl der Parameter oder Adresse abzurufen, wie im folgenden Beispiel:
+Es ist möglich, auf die Informationen der Methoden wie Name, Anzahl der Parameter oder Adresse zuzugreifen, wie im folgenden Beispiel:
 ```objectivec
 // gcc -framework Foundation test.m -o test
 
@@ -205,10 +176,10 @@ return 0;
 ```
 ### Method Swizzling mit method\_exchangeImplementations
 
-Die Funktion **`method_exchangeImplementations`** ermöglicht es, die **Adresse** der **Implementierung** einer **Funktion durch eine andere** zu **ändern**.
+Die Funktion **`method_exchangeImplementations`** ermöglicht es, die **Adresse** der **Implementierung** von **einer Funktion für die andere** zu **ändern**.
 
 {% hint style="danger" %}
-Wenn eine Funktion aufgerufen wird, wird stattdessen die andere Funktion **ausgeführt**.
+Wenn also eine Funktion aufgerufen wird, wird **die andere ausgeführt**.
 {% endhint %}
 ```objectivec
 //gcc -framework Foundation swizzle_str.m -o swizzle_str
@@ -254,16 +225,16 @@ return 0;
 }
 ```
 {% hint style="warning" %}
-In diesem Fall könnte der **Implementierungscode der legitimen** Methode, wenn er den **Methodennamen überprüft**, diese Swizzling erkennen und verhindern, dass sie ausgeführt wird.
+In diesem Fall könnte der **Implementierungscode der legitimen** Methode, wenn er den **Methodennamen** **überprüft**, dieses Swizzling **erkennen** und dessen Ausführung **verhindern**.
 
 Die folgende Technik hat diese Einschränkung nicht.
 {% endhint %}
 
 ### Method Swizzling mit method\_setImplementation
 
-Das vorherige Format ist seltsam, weil du die Implementierung von 2 Methoden änderst, eine von der anderen. Mit der Funktion **`method_setImplementation`** kannst du die Implementierung einer Methode für eine andere ändern.
+Das vorherige Format ist seltsam, da Sie die Implementierung von 2 Methoden gegeneinander ändern. Mit der Funktion **`method_setImplementation`** können Sie die **Implementierung** einer **Methode für die andere** **ändern**.
 
-Denke nur daran, die Adresse der Implementierung der Originalmethode zu speichern, wenn du sie aus der neuen Implementierung aufrufen möchtest, bevor du sie überschreibst, da es später viel komplizierter sein wird, diese Adresse zu finden.
+Denken Sie nur daran, die **Adresse der Implementierung der ursprünglichen** Methode zu **speichern**, wenn Sie sie aus der neuen Implementierung aufrufen möchten, bevor Sie sie überschreiben, da es später viel komplizierter sein wird, diese Adresse zu finden.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <objc/runtime.h>
@@ -315,17 +286,17 @@ return 0;
 }
 }
 ```
-## Methodik des Hooking-Angriffs
+## Hooking-Angriffsmethodik
 
-Auf dieser Seite wurden verschiedene Möglichkeiten zum Hooken von Funktionen diskutiert. Allerdings erforderten sie das **Ausführen von Code innerhalb des Prozesses, um anzugreifen**.
+Auf dieser Seite wurden verschiedene Möglichkeiten zur Hooking von Funktionen diskutiert. Sie beinhalteten jedoch **das Ausführen von Code innerhalb des Prozesses, um anzugreifen**.
 
-Um dies zu erreichen, ist die einfachste Technik die Injektion eines [Dyld über Umgebungsvariablen oder Hijacking](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Allerdings denke ich, dass dies auch über [Dylib-Prozessinjektion](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port) möglich ist.
+Um dies zu tun, ist die einfachste Technik, die zu verwenden ist, das Injizieren eines [Dyld über Umgebungsvariablen oder Hijacking](../macos-dyld-hijacking-and-dyld\_insert\_libraries.md). Ich nehme jedoch an, dass dies auch über [Dylib-Prozessinjektion](macos-ipc-inter-process-communication/#dylib-process-injection-via-task-port) erfolgen könnte.
 
-Beide Optionen sind jedoch **auf ungeschützte** Binärdateien/Prozesse beschränkt. Überprüfen Sie jede Technik, um mehr über die Einschränkungen zu erfahren.
+Beide Optionen sind jedoch **begrenzt** auf **unprotected** Binaries/Prozesse. Überprüfen Sie jede Technik, um mehr über die Einschränkungen zu erfahren.
 
-Ein Funktion-Hooking-Angriff ist jedoch sehr spezifisch. Ein Angreifer würde dies tun, um sensible Informationen aus einem Prozess zu stehlen (sonst würde man einfach einen Prozessinjektionsangriff durchführen). Und diese sensiblen Informationen könnten sich in von Benutzern heruntergeladenen Apps wie MacPass befinden.
+Ein Hooking-Angriff ist jedoch sehr spezifisch; ein Angreifer wird dies tun, um **sensible Informationen aus einem Prozess zu stehlen** (ansonsten würden Sie einfach einen Prozessinjektionsangriff durchführen). Und diese sensiblen Informationen könnten sich in von Benutzern heruntergeladenen Apps wie MacPass befinden.
 
-Der Angriffsvektor des Angreifers wäre also entweder eine Schwachstelle zu finden oder die Signatur der Anwendung zu entfernen und die **`DYLD_INSERT_LIBRARIES`** Umgebungsvariable über die Info.plist der Anwendung einzufügen, indem man etwas wie: einfügt.
+Der Angreifer-Vektor wäre also, entweder eine Schwachstelle zu finden oder die Signatur der Anwendung zu entfernen, die **`DYLD_INSERT_LIBRARIES`**-Umgebungsvariable über die Info.plist der Anwendung einzufügen und etwas hinzuzufügen wie:
 ```xml
 <key>LSEnvironment</key>
 <dict>
@@ -333,7 +304,7 @@ Der Angriffsvektor des Angreifers wäre also entweder eine Schwachstelle zu find
 <string>/Applications/Application.app/Contents/malicious.dylib</string>
 </dict>
 ```
-und dann **registrieren Sie die Anwendung erneut**:
+und dann die Anwendung **neu registrieren**:
 
 {% code overflow="wrap" %}
 ```bash
@@ -341,13 +312,13 @@ und dann **registrieren Sie die Anwendung erneut**:
 ```
 {% endcode %}
 
-Fügen Sie in diese Bibliothek den Hooking-Code ein, um die Informationen zu exfiltrieren: Passwörter, Nachrichten...
+Fügen Sie in dieser Bibliothek den Hooking-Code hinzu, um die Informationen zu exfiltrieren: Passwörter, Nachrichten...
 
 {% hint style="danger" %}
-Beachten Sie, dass in neueren Versionen von macOS, wenn Sie die Signatur der Anwendungsdatei entfernen und sie zuvor ausgeführt wurde, macOS die Anwendung nicht mehr ausführt.
+Beachten Sie, dass in neueren Versionen von macOS, wenn Sie die **Signatur** der Anwendungsbinärdatei entfernen und sie zuvor ausgeführt wurde, macOS die Anwendung **nicht mehr ausführen wird**.
 {% endhint %}
 
-#### Beispielbibliothek
+#### Bibliotheksbeispiel
 ```objectivec
 // gcc -dynamiclib -framework Foundation sniff.m -o sniff.dylib
 
@@ -387,16 +358,17 @@ real_setPassword = method_setImplementation(real_Method, fake_IMP);
 
 * [https://nshipster.com/method-swizzling/](https://nshipster.com/method-swizzling/)
 
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}

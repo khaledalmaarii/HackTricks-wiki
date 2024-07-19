@@ -1,33 +1,35 @@
 # PID-Namespace
 
+{% hint style="success" %}
+Lerne & übe AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie das Hacken von AWS von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}
+{% endhint %}
 
-## Grundlegende Informationen
+## Grundinformationen
 
-Der PID (Process IDentifier)-Namespace ist eine Funktion im Linux-Kernel, die Prozessisolierung ermöglicht, indem sie einer Gruppe von Prozessen eine eigene Reihe eindeutiger PIDs zuweist, die von den PIDs in anderen Namespaces getrennt sind. Dies ist besonders nützlich bei der Containerisierung, wo die Prozessisolierung für Sicherheit und Ressourcenmanagement unerlässlich ist.
+Der PID (Process IDentifier) Namespace ist eine Funktion im Linux-Kernel, die Prozessisolierung bietet, indem sie einer Gruppe von Prozessen ermöglicht, ihren eigenen Satz von einzigartigen PIDs zu haben, die von den PIDs in anderen Namespaces getrennt sind. Dies ist besonders nützlich in der Containerisierung, wo Prozessisolierung für Sicherheit und Ressourcenmanagement entscheidend ist.
 
-Wenn ein neuer PID-Namespace erstellt wird, wird dem ersten Prozess in diesem Namespace die PID 1 zugewiesen. Dieser Prozess wird zum "init"-Prozess des neuen Namespaces und ist für die Verwaltung anderer Prozesse innerhalb des Namespaces verantwortlich. Jeder nachfolgende Prozess, der innerhalb des Namespaces erstellt wird, hat eine eindeutige PID innerhalb dieses Namespaces, und diese PIDs sind unabhängig von den PIDs in anderen Namespaces.
+Wenn ein neuer PID-Namespace erstellt wird, erhält der erste Prozess in diesem Namespace die PID 1. Dieser Prozess wird zum "init"-Prozess des neuen Namespaces und ist verantwortlich für die Verwaltung anderer Prozesse innerhalb des Namespaces. Jeder nachfolgende Prozess, der innerhalb des Namespaces erstellt wird, hat eine einzigartige PID innerhalb dieses Namespaces, und diese PIDs sind unabhängig von PIDs in anderen Namespaces.
 
-Aus der Sicht eines Prozesses innerhalb eines PID-Namespace kann er nur andere Prozesse im selben Namespace sehen. Er ist sich nicht bewusst von Prozessen in anderen Namespaces und kann nicht mit ihnen mithilfe herkömmlicher Prozessverwaltungstools (z. B. `kill`, `wait`, usw.) interagieren. Dies bietet eine Isolierungsebene, die verhindert, dass Prozesse sich gegenseitig beeinträchtigen.
+Aus der Perspektive eines Prozesses innerhalb eines PID-Namespace kann dieser nur andere Prozesse im selben Namespace sehen. Er ist sich der Prozesse in anderen Namespaces nicht bewusst und kann nicht mit ihnen über traditionelle Prozessmanagement-Tools (z. B. `kill`, `wait` usw.) interagieren. Dies bietet ein Maß an Isolation, das hilft, zu verhindern, dass Prozesse sich gegenseitig stören.
 
-### Wie es funktioniert:
+### So funktioniert es:
 
-1. Wenn ein neuer Prozess erstellt wird (z. B. durch Verwendung des `clone()`-Systemaufrufs), kann der Prozess einem neuen oder vorhandenen PID-Namespace zugewiesen werden. **Wenn ein neuer Namespace erstellt wird, wird der Prozess zum "init"-Prozess dieses Namespaces**.
-2. Der **Kernel** pflegt eine **Zuordnung zwischen den PIDs im neuen Namespace und den entsprechenden PIDs** im Eltern-Namespace (d. h. dem Namespace, aus dem der neue Namespace erstellt wurde). Diese Zuordnung **ermöglicht es dem Kernel, PIDs bei Bedarf zu übersetzen**, z. B. beim Senden von Signalen zwischen Prozessen in verschiedenen Namespaces.
-3. **Prozesse innerhalb eines PID-Namespace können nur andere Prozesse im selben Namespace sehen und mit ihnen interagieren**. Sie sind sich nicht bewusst von Prozessen in anderen Namespaces, und ihre PIDs sind innerhalb ihres Namespaces eindeutig.
-4. Wenn ein **PID-Namespace zerstört wird** (z. B. wenn der "init"-Prozess des Namespaces beendet wird), werden **alle Prozesse innerhalb dieses Namespaces beendet**. Dadurch wird sichergestellt, dass alle mit dem Namespace verbundenen Ressourcen ordnungsgemäß bereinigt werden.
+1. Wenn ein neuer Prozess erstellt wird (z. B. durch Verwendung des `clone()`-Systemaufrufs), kann der Prozess einem neuen oder bestehenden PID-Namespace zugewiesen werden. **Wenn ein neuer Namespace erstellt wird, wird der Prozess zum "init"-Prozess dieses Namespaces**.
+2. Der **Kernel** verwaltet eine **Zuordnung zwischen den PIDs im neuen Namespace und den entsprechenden PIDs** im übergeordneten Namespace (d. h. dem Namespace, aus dem der neue Namespace erstellt wurde). Diese Zuordnung **ermöglicht es dem Kernel, PIDs bei Bedarf zu übersetzen**, z. B. beim Senden von Signalen zwischen Prozessen in verschiedenen Namespaces.
+3. **Prozesse innerhalb eines PID-Namespace können nur andere Prozesse im selben Namespace sehen und mit ihnen interagieren**. Sie sind sich der Prozesse in anderen Namespaces nicht bewusst, und ihre PIDs sind innerhalb ihres Namespaces einzigartig.
+4. Wenn ein **PID-Namespace zerstört wird** (z. B. wenn der "init"-Prozess des Namespaces beendet wird), **werden alle Prozesse innerhalb dieses Namespaces beendet**. Dies stellt sicher, dass alle mit dem Namespace verbundenen Ressourcen ordnungsgemäß bereinigt werden.
 
 ## Labor:
 
@@ -39,54 +41,38 @@ sudo unshare -pf --mount-proc /bin/bash
 ```
 <details>
 
-<summary>Fehler: bash: fork: Kann keinen Speicher zuweisen</summary>
+<summary>Fehler: bash: fork: Kann Speicher nicht zuweisen</summary>
 
-Wenn `unshare` ohne die Option `-f` ausgeführt wird, tritt ein Fehler aufgrund der Art und Weise auf, wie Linux neue PID (Process ID) Namespaces behandelt. Die wichtigsten Details und die Lösung sind wie folgt:
+Wenn `unshare` ohne die Option `-f` ausgeführt wird, tritt ein Fehler auf, der auf die Art und Weise zurückzuführen ist, wie Linux neue PID (Prozess-ID) Namespaces behandelt. Die wichtigsten Details und die Lösung sind unten aufgeführt:
 
-1. **Problem Erklärung**:
-- Der Linux-Kernel ermöglicht es einem Prozess, neue Namespaces mit dem `unshare`-Systemaufruf zu erstellen. Der Prozess, der die Erstellung eines neuen PID-Namespaces initiiert (als "unshare"-Prozess bezeichnet), tritt jedoch nicht in den neuen Namespace ein; nur seine Kindprozesse tun dies.
-- Wenn `%unshare -p /bin/bash%` ausgeführt wird, wird `/bin/bash` im selben Prozess wie `unshare` gestartet. Folglich befinden sich `/bin/bash` und seine Kindprozesse im ursprünglichen PID-Namespace.
-- Der erste Kindprozess von `/bin/bash` im neuen Namespace wird PID 1. Wenn dieser Prozess beendet wird, löst er die Bereinigung des Namespaces aus, wenn keine anderen Prozesse vorhanden sind, da PID 1 die spezielle Rolle hat, verwaiste Prozesse zu übernehmen. Der Linux-Kernel deaktiviert dann die PID-Zuweisung in diesem Namespace.
+1. **Problemerklärung**:
+- Der Linux-Kernel erlaubt es einem Prozess, neue Namespaces mit dem Systemaufruf `unshare` zu erstellen. Der Prozess, der die Erstellung eines neuen PID-Namespace initiiert (als "unshare" Prozess bezeichnet), tritt jedoch nicht in den neuen Namespace ein; nur seine Kindprozesse tun dies.
+- Das Ausführen von `%unshare -p /bin/bash%` startet `/bin/bash` im selben Prozess wie `unshare`. Folglich befinden sich `/bin/bash` und seine Kindprozesse im ursprünglichen PID-Namespace.
+- Der erste Kindprozess von `/bin/bash` im neuen Namespace wird PID 1. Wenn dieser Prozess beendet wird, löst er die Bereinigung des Namespaces aus, wenn keine anderen Prozesse vorhanden sind, da PID 1 die besondere Rolle hat, verwaiste Prozesse zu übernehmen. Der Linux-Kernel deaktiviert dann die PID-Zuweisung in diesem Namespace.
 
-2. **Konsequenz**:
-- Das Beenden von PID 1 in einem neuen Namespace führt zur Bereinigung des `PIDNS_HASH_ADDING`-Flags. Dies führt dazu, dass die Funktion `alloc_pid` beim Erstellen eines neuen Prozesses keinen neuen PID zuweisen kann und den Fehler "Kann keinen Speicher zuweisen" erzeugt.
+2. **Folge**:
+- Das Beenden von PID 1 in einem neuen Namespace führt zur Bereinigung des `PIDNS_HASH_ADDING`-Flags. Dies führt dazu, dass die Funktion `alloc_pid` bei der Erstellung eines neuen Prozesses fehlschlägt, was den Fehler "Kann Speicher nicht zuweisen" erzeugt.
 
 3. **Lösung**:
-- Das Problem kann behoben werden, indem die Option `-f` zusammen mit `unshare` verwendet wird. Diese Option bewirkt, dass `unshare` nach der Erstellung des neuen PID-Namespaces einen neuen Prozess forkt.
-- Durch die Ausführung von `%unshare -fp /bin/bash%` wird sichergestellt, dass der `unshare`-Befehl selbst PID 1 im neuen Namespace wird. `/bin/bash` und seine Kindprozesse sind dann sicher in diesem neuen Namespace enthalten, was das vorzeitige Beenden von PID 1 verhindert und eine normale PID-Zuweisung ermöglicht.
+- Das Problem kann gelöst werden, indem die Option `-f` mit `unshare` verwendet wird. Diese Option sorgt dafür, dass `unshare` einen neuen Prozess nach der Erstellung des neuen PID-Namespace forked.
+- Das Ausführen von `%unshare -fp /bin/bash%` stellt sicher, dass der `unshare`-Befehl selbst PID 1 im neuen Namespace wird. `/bin/bash` und seine Kindprozesse sind dann sicher in diesem neuen Namespace enthalten, wodurch das vorzeitige Beenden von PID 1 verhindert wird und eine normale PID-Zuweisung ermöglicht wird.
 
-Durch die Gewährleistung, dass `unshare` mit der `-f`-Flag ausgeführt wird, wird der neue PID-Namespace korrekt verwaltet, sodass `/bin/bash` und seine Unterprozesse ohne den Fehler bei der Speicherzuweisung ausgeführt werden können.
+Durch die Sicherstellung, dass `unshare` mit dem `-f`-Flag ausgeführt wird, wird der neue PID-Namespace korrekt aufrechterhalten, sodass `/bin/bash` und seine Unterprozesse ohne den Speicherzuweisungsfehler arbeiten können.
 
 </details>
 
-Durch das Einbinden einer neuen Instanz des `/proc`-Dateisystems, wenn Sie den Parameter `--mount-proc` verwenden, stellen Sie sicher, dass der neue Mount-Namespace eine **genaue und isolierte Ansicht der prozessspezifischen Informationen für diesen Namespace** hat.
+Durch das Einhängen einer neuen Instanz des `/proc`-Dateisystems, wenn Sie den Parameter `--mount-proc` verwenden, stellen Sie sicher, dass der neue Mount-Namespace eine **genaue und isolierte Sicht auf die Prozessinformationen hat, die spezifisch für diesen Namespace sind**.
 
 #### Docker
 ```bash
 docker run -ti --name ubuntu1 -v /usr:/ubuntu1 ubuntu bash
 ```
-### Überprüfen Sie, in welchem Namespace sich Ihr Prozess befindet
-
-Um festzustellen, in welchem Namespace sich Ihr Prozess befindet, können Sie den folgenden Befehl verwenden:
-
-```bash
-ls -l /proc/<PID>/ns
-```
-
-Ersetzen Sie `<PID>` durch die Prozess-ID, für die Sie den Namespace überprüfen möchten. Dieser Befehl listet die Symbolic Links zu den verschiedenen Namespaces auf, in denen der Prozess vorhanden ist.
-
-Wenn Sie beispielsweise den PID 1234 überprüfen möchten, führen Sie den folgenden Befehl aus:
-
-```bash
-ls -l /proc/1234/ns
-```
-
-Die Ausgabe zeigt die verschiedenen Namespaces an, in denen der Prozess vorhanden ist.
+### &#x20;Überprüfen, in welchem Namespace sich Ihr Prozess befindet
 ```bash
 ls -l /proc/self/ns/pid
 lrwxrwxrwx 1 root root 0 Apr  3 18:45 /proc/self/ns/pid -> 'pid:[4026532412]'
 ```
-### Alle PID-Namespaces finden
+### Finde alle PID-Namensräume
 
 {% code overflow="wrap" %}
 ```bash
@@ -94,29 +80,31 @@ sudo find /proc -maxdepth 3 -type l -name pid -exec readlink {} \; 2>/dev/null |
 ```
 {% endcode %}
 
-Beachten Sie, dass der Root-Benutzer aus dem ursprünglichen (Standard-) PID-Namespace alle Prozesse sehen kann, auch diejenigen in neuen PID-Namensräumen. Deshalb können wir alle PID-Namensräume sehen.
+Beachten Sie, dass der Root-Benutzer aus dem ursprünglichen (Standard-)PID-Namespace alle Prozesse sehen kann, selbst die in neuen PID-Namensräumen, weshalb wir alle PID-Namensräume sehen können.
 
-### Betreten Sie einen PID-Namespace
+### Betreten eines PID-Namensraums
 ```bash
 nsenter -t TARGET_PID --pid /bin/bash
 ```
-Wenn Sie sich innerhalb eines PID-Namespaces befinden, können Sie immer noch alle Prozesse sehen. Und der Prozess aus diesem PID-NS kann das neue Bash im PID-NS sehen.
+Wenn Sie in einen PID-Namespace vom Standard-Namespace eintreten, können Sie weiterhin alle Prozesse sehen. Und der Prozess aus diesem PID-Namespace kann die neue Bash im PID-Namespace sehen.
 
-Außerdem können Sie nur **in einen anderen Prozess-PID-Namespace eintreten, wenn Sie root sind**. Und Sie können **nicht** in einen anderen Namespace **eintreten**, ohne einen Zeiger darauf zu haben (wie z.B. `/proc/self/ns/pid`).
+Außerdem können Sie **nur in einen anderen Prozess-PID-Namespace eintreten, wenn Sie root sind**. Und Sie **können** **nicht** **in** einen anderen Namespace **ohne einen Deskriptor** eintreten, der darauf verweist (wie `/proc/self/ns/pid`).
 
-## Referenzen
+## References
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}

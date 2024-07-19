@@ -1,55 +1,43 @@
 # macOS Defensive Apps
 
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Firewalls
 
-* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): Es überwacht jede Verbindung, die von jedem Prozess hergestellt wird. Je nach Modus (stille Erlaubnis von Verbindungen, stille Verweigerung von Verbindungen und Alarm) zeigt es Ihnen jedes Mal, wenn eine neue Verbindung hergestellt wird, einen Alarm an. Es hat auch eine sehr schöne GUI, um alle diese Informationen anzuzeigen.
-* [**LuLu**](https://objective-see.org/products/lulu.html): Objective-See-Firewall. Dies ist eine grundlegende Firewall, die Sie über verdächtige Verbindungen informiert (sie hat eine GUI, ist aber nicht so fancy wie die von Little Snitch).
+* [**Little Snitch**](https://www.obdev.at/products/littlesnitch/index.html): Es überwacht jede Verbindung, die von jedem Prozess hergestellt wird. Abhängig vom Modus (stille Erlaubung von Verbindungen, stille Ablehnung von Verbindungen und Warnung) wird es **dir eine Warnung anzeigen**, jedes Mal, wenn eine neue Verbindung hergestellt wird. Es hat auch eine sehr schöne GUI, um all diese Informationen zu sehen.
+* [**LuLu**](https://objective-see.org/products/lulu.html): Objective-See Firewall. Dies ist eine grundlegende Firewall, die dich bei verdächtigen Verbindungen warnt (sie hat eine GUI, ist aber nicht so schick wie die von Little Snitch).
 
-## Erkennung von Persistenz
+## Persistenz-Erkennung
 
-* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Objective-See-Anwendung, die an verschiedenen Orten nachsucht, wo sich **Malware möglicherweise beharrt** (es handelt sich um ein One-Shot-Tool, keinen Überwachungsdienst).
-* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Ähnlich wie KnockKnock, indem es Prozesse überwacht, die Persistenz erzeugen.
+* [**KnockKnock**](https://objective-see.org/products/knockknock.html): Objective-See-Anwendung, die an mehreren Orten nachsieht, wo **Malware persistieren könnte** (es ist ein Einmal-Tool, kein Überwachungsdienst).
+* [**BlockBlock**](https://objective-see.org/products/blockblock.html): Wie KnockKnock, indem Prozesse überwacht werden, die Persistenz erzeugen.
 
-## Erkennung von Keyloggern
+## Keylogger-Erkennung
 
-* [**ReiKey**](https://objective-see.org/products/reikey.html): Objective-See-Anwendung zum Auffinden von **Keyloggern**, die Tastatur-"Event Taps" installieren.
-
-## Erkennung von Ransomware
-
-* [**RansomWhere**](https://objective-see.org/products/ransomwhere.html): Objective-See-Anwendung zur Erkennung von **Dateiverschlüsselungsaktionen**.
-
-## Erkennung von Mikrofon und Webcam
-
-* [**OverSight**](https://objective-see.org/products/oversight.html): Objective-See-Anwendung zur Erkennung von **Anwendungen, die Webcam und Mikrofon verwenden**.
-
-## Erkennung von Process Injection
-
-* [**Shield**](https://theevilbit.github.io/shield/): Anwendung, die verschiedene **Process-Injection-Techniken erkennt**.
-
-<details>
-
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories einreichen.
-
-</details>
+* [**ReiKey**](https://objective-see.org/products/reikey.html): Objective-See-Anwendung zur Auffindung von **Keyloggern**, die "Event Taps" für die Tastatur installieren.

@@ -27,7 +27,7 @@ Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ### Grundlegende Informationen
 
-Zunächst wird empfohlen, ein **USB** mit **gut bekannten Binärdateien und Bibliotheken darauf** zu haben (Sie können einfach Ubuntu herunterladen und die Ordner _/bin_, _/sbin_, _/lib,_ und _/lib64_ kopieren), dann das USB-Laufwerk einbinden und die Umgebungsvariablen ändern, um diese Binärdateien zu verwenden:
+Zunächst wird empfohlen, ein **USB** mit **gut bekannten Binaries und Bibliotheken darauf** zu haben (Sie können einfach Ubuntu herunterladen und die Ordner _/bin_, _/sbin_, _/lib,_ und _/lib64_ kopieren), dann das USB-Laufwerk einbinden und die Umgebungsvariablen ändern, um diese Binaries zu verwenden:
 ```bash
 export PATH=/mnt/usb/bin:/mnt/usb/sbin
 export LD_LIBRARY_PATH=/mnt/usb/lib:/mnt/usb/lib64
@@ -64,7 +64,7 @@ Um den Speicher des laufenden Systems zu erhalten, wird empfohlen, [**LiME**](ht
 Um es zu **kompilieren**, müssen Sie den **gleichen Kernel** verwenden, den die Zielmaschine verwendet.
 
 {% hint style="info" %}
-Denken Sie daran, dass Sie **LiME oder etwas anderes** nicht auf der Zielmaschine installieren können, da dies mehrere Änderungen daran vornehmen würde
+Denken Sie daran, dass Sie **LiME oder irgendetwas anderes** nicht auf der Zielmaschine installieren können, da dies mehrere Änderungen daran vornehmen würde
 {% endhint %}
 
 Wenn Sie also eine identische Version von Ubuntu haben, können Sie `apt-get install lime-forensics-dkms` verwenden.\
@@ -88,7 +88,7 @@ LiME kann auch verwendet werden, um den **Dump über das Netzwerk zu senden**, a
 Zunächst müssen Sie das **System herunterfahren**. Dies ist nicht immer eine Option, da das System manchmal ein Produktionsserver ist, den sich das Unternehmen nicht leisten kann, herunterzufahren.\
 Es gibt **2 Möglichkeiten**, das System herunterzufahren: ein **normales Herunterfahren** und ein **"Stecker ziehen" Herunterfahren**. Das erste ermöglicht es den **Prozessen, wie gewohnt zu beenden** und das **Dateisystem** zu **synchronisieren**, aber es ermöglicht auch, dass mögliche **Malware** **Beweise zerstört**. Der "Stecker ziehen"-Ansatz kann **einige Informationsverluste** mit sich bringen (nicht viele Informationen werden verloren gehen, da wir bereits ein Abbild des Speichers erstellt haben) und die **Malware wird keine Gelegenheit haben**, etwas dagegen zu unternehmen. Daher, wenn Sie **verdächtigen**, dass es **Malware** geben könnte, führen Sie einfach den **`sync`** **Befehl** auf dem System aus und ziehen Sie den Stecker.
 
-#### Erstellen eines Abbilds der Festplatte
+#### Ein Abbild der Festplatte erstellen
 
 Es ist wichtig zu beachten, dass Sie **bevor Sie Ihren Computer mit etwas, das mit dem Fall zu tun hat, verbinden**, sicherstellen müssen, dass er als **nur lesen** gemountet wird, um zu vermeiden, dass Informationen verändert werden.
 ```bash
@@ -236,7 +236,7 @@ ls -l /usr/lib/cron/tabs/ /Library/LaunchAgents/ /Library/LaunchDaemons/ ~/Libra
 ```
 ### Dienste
 
-Pfad, wo Malware als Dienst installiert werden könnte:
+Pfade, an denen Malware als Dienst installiert werden könnte:
 
 * **/etc/inittab**: Ruft Initialisierungsskripte wie rc.sysinit auf und leitet weiter zu Startskripten.
 * **/etc/rc.d/** und **/etc/rc.boot/**: Enthalten Skripte für den Dienststart, wobei letzteres in älteren Linux-Versionen zu finden ist.
@@ -245,7 +245,7 @@ Pfad, wo Malware als Dienst installiert werden könnte:
 * **/etc/systemd/system**: Ein Verzeichnis für System- und Dienstmanager-Skripte.
 * **/etc/systemd/system/multi-user.target.wants/**: Enthält Links zu Diensten, die in einem Multi-User-Runlevel gestartet werden sollen.
 * **/usr/local/etc/rc.d/**: Für benutzerdefinierte oder Drittanbieter-Dienste.
-* **\~/.config/autostart/**: Für benutzerspezifische automatische Startanwendungen, die ein Versteck für benutzerspezifische Malware sein können.
+* **\~/.config/autostart/**: Für benutzerspezifische automatische Startanwendungen, die ein Versteck für benutzergerichtete Malware sein können.
 * **/lib/systemd/system/**: Systemweite Standard-Einheitendateien, die von installierten Paketen bereitgestellt werden.
 
 ### Kernel-Module
@@ -269,7 +269,7 @@ Linux verwendet verschiedene Dateien, um Programme automatisch beim Benutzer-Log
 Linux-Systeme verfolgen Benutzeraktivitäten und Systemereignisse durch verschiedene Protokolldateien. Diese Protokolle sind entscheidend für die Identifizierung von unbefugtem Zugriff, Malware-Infektionen und anderen Sicherheitsvorfällen. Wichtige Protokolldateien umfassen:
 
 * **/var/log/syslog** (Debian) oder **/var/log/messages** (RedHat): Erfassen systemweite Nachrichten und Aktivitäten.
-* **/var/log/auth.log** (Debian) oder **/var/log/secure** (RedHat): Protokollieren Authentifizierungsversuche, erfolgreiche und fehlgeschlagene Logins.
+* **/var/log/auth.log** (Debian) oder **/var/log/secure** (RedHat): Protokollieren Authentifizierungsversuche, erfolgreiche und fehlgeschlagene Anmeldungen.
 * Verwenden Sie `grep -iE "session opened for|accepted password|new session|not in sudoers" /var/log/auth.log`, um relevante Authentifizierungsereignisse zu filtern.
 * **/var/log/boot.log**: Enthält Systemstartnachrichten.
 * **/var/log/maillog** oder **/var/log/mail.log**: Protokolliert Aktivitäten des E-Mail-Servers, nützlich zur Verfolgung von E-Mail-bezogenen Diensten.
@@ -389,7 +389,7 @@ Um Dateisystemversionen zu vergleichen und Änderungen zu identifizieren, verwen
 ```bash
 git diff --no-index --diff-filter=A path/to/old_version/ path/to/new_version/
 ```
-* **Für modifizierte Inhalte** listen Sie Änderungen auf, während Sie bestimmte Zeilen ignorieren:
+* **Für modifizierte Inhalte**, listen Sie Änderungen auf, während Sie bestimmte Zeilen ignorieren:
 ```bash
 git diff --no-index --diff-filter=M path/to/old_version/ path/to/new_version/ | grep -E "^\+" | grep -v "Installed-Time"
 ```
@@ -415,24 +415,25 @@ git diff --no-index --diff-filter=D path/to/old_version/ path/to/new_version/
 * [https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203](https://git-scm.com/docs/git-diff#Documentation/git-diff.txt---diff-filterACDMRTUXB82308203)
 * **Buch: Malware Forensics Field Guide for Linux Systems: Digital Forensics Field Guides**
 
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-Arbeiten Sie in einem **Cybersecurity-Unternehmen**? Möchten Sie, dass Ihr **Unternehmen in HackTricks beworben wird**? Oder möchten Sie Zugang zur **neueste Version von PEASS oder HackTricks im PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-
-* Entdecken Sie [**Die PEASS-Familie**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Erhalten Sie die [**offiziellen PEASS & HackTricks Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-
-**Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das** [**hacktricks-Repo**](https://github.com/carlospolop/hacktricks) **und das** [**hacktricks-cloud-Repo**](https://github.com/carlospolop/hacktricks-cloud) **einreichen.**
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (3) (1) (1) (1) (1) (1) (1).png" alt=""><figcaption></figcaption></figure>
 
 \
-Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows zu erstellen und zu automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
-Zugang heute erhalten:
+Nutze [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.\
+Erhalte heute Zugang:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}

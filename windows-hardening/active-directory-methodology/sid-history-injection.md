@@ -1,28 +1,31 @@
-# SID-History-Injektion
+# SID-History Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks repo](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud) senden**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## SID-History-Injektionsangriff
+## SID-History Injection Angriff
 
-Der Fokus des **SID-History-Injektionsangriffs** besteht darin, die **Benutzermigration zwischen Domänen** zu unterstützen und gleichzeitig den fortgesetzten Zugriff auf Ressourcen aus der früheren Domäne sicherzustellen. Dies wird erreicht, indem die vorherige Sicherheitskennung (SID) des Benutzers in die SID-History seines neuen Kontos aufgenommen wird. Beachtenswert ist, dass dieser Prozess manipuliert werden kann, um unbefugten Zugriff zu gewähren, indem die SID einer hochprivilegierten Gruppe (wie Enterprise Admins oder Domain Admins) aus der übergeordneten Domäne in die SID-History aufgenommen wird. Diese Ausnutzung gewährt Zugriff auf alle Ressourcen innerhalb der übergeordneten Domäne.
+Der Fokus des **SID-History Injection Angriffs** liegt darauf, **Benutzermigrationen zwischen Domänen** zu unterstützen und gleichzeitig den Zugriff auf Ressourcen der vorherigen Domäne zu gewährleisten. Dies wird erreicht, indem **der vorherige Sicherheitsbezeichner (SID) des Benutzers in die SID-Historie** seines neuen Kontos aufgenommen wird. Bemerkenswert ist, dass dieser Prozess manipuliert werden kann, um unbefugten Zugriff zu gewähren, indem die SID einer hochprivilegierten Gruppe (wie Enterprise Admins oder Domain Admins) aus der übergeordneten Domäne zur SID-Historie hinzugefügt wird. Diese Ausnutzung gewährt Zugriff auf alle Ressourcen innerhalb der übergeordneten Domäne.
 
-Es gibt zwei Methoden, um diesen Angriff auszuführen: durch die Erstellung eines **Golden Tickets** oder eines **Diamond Tickets**.
+Es gibt zwei Methoden, um diesen Angriff auszuführen: durch die Erstellung eines **Golden Ticket** oder eines **Diamond Ticket**.
 
-Um die SID der Gruppe **"Enterprise Admins"** zu ermitteln, muss zunächst die SID der Stamm-Domäne ermittelt werden. Nach der Identifizierung kann die SID der Enterprise Admins-Gruppe konstruiert werden, indem `-519` an die SID der Stamm-Domäne angehängt wird. Wenn beispielsweise die SID der Stamm-Domäne `S-1-5-21-280534878-1496970234-700767426` lautet, wäre die resultierende SID für die Gruppe "Enterprise Admins" `S-1-5-21-280534878-1496970234-700767426-519`.
+Um die SID der **"Enterprise Admins"** Gruppe zu bestimmen, muss zunächst die SID der Root-Domäne gefunden werden. Nach der Identifizierung kann die SID der Enterprise Admins Gruppe konstruiert werden, indem `-519` an die SID der Root-Domäne angehängt wird. Wenn die SID der Root-Domäne beispielsweise `S-1-5-21-280534878-1496970234-700767426` ist, wäre die resultierende SID für die "Enterprise Admins" Gruppe `S-1-5-21-280534878-1496970234-700767426-519`.
 
-Sie können auch die **Domain Admins**-Gruppen verwenden, die mit **512** enden.
+Sie könnten auch die **Domain Admins** Gruppen verwenden, die mit **512** enden.
 
-Eine andere Möglichkeit, die SID einer Gruppe der anderen Domäne (zum Beispiel "Domain Admins") zu finden, besteht darin:
+Eine andere Möglichkeit, die SID einer Gruppe der anderen Domäne (zum Beispiel "Domain Admins") zu finden, ist:
 ```powershell
 Get-DomainGroup -Identity "Domain Admins" -Domain parent.io -Properties ObjectSid
 ```
@@ -47,13 +50,13 @@ mimikatz.exe "kerberos::golden /user:Administrator /domain:<current_domain> /sid
 ```
 {% endcode %}
 
-Für weitere Informationen zu Golden Tickets siehe:
+Für weitere Informationen zu goldenen Tickets siehe:
 
 {% content-ref url="golden-ticket.md" %}
 [golden-ticket.md](golden-ticket.md)
 {% endcontent-ref %}
 
-### Diamond Ticket (Rubeus + KRBTGT-AES256)
+### Diamant Ticket (Rubeus + KRBTGT-AES256)
 
 {% code overflow="wrap" %}
 ```powershell
@@ -67,7 +70,7 @@ Rubeus.exe golden /rc4:<krbtgt hash> /domain:<child_domain> /sid:<child_domain_s
 ```
 {% endcode %}
 
-Für weitere Informationen zu Diamond-Tickets siehe:
+Für weitere Informationen zu Diamond Tickets siehe:
 
 {% content-ref url="diamond-ticket.md" %}
 [diamond-ticket.md](diamond-ticket.md)
@@ -81,7 +84,7 @@ ls \\mcorp-dc.moneycorp.local\c$
 ```
 {% endcode %}
 
-Skalieren Sie zu DA oder Root oder Enterprise Admin, indem Sie den KRBTGT-Hash der kompromittierten Domäne verwenden:
+Erhöhen Sie die Berechtigungen auf DA des Root- oder Enterprise-Administrators unter Verwendung des KRBTGT-Hashes der kompromittierten Domäne:
 
 {% code overflow="wrap" %}
 ```bash
@@ -103,7 +106,7 @@ Mit den erlangten Berechtigungen aus dem Angriff können Sie beispielsweise eine
 [dcsync.md](dcsync.md)
 {% endcontent-ref %}
 
-### Von Linux aus
+### Von Linux
 
 #### Manuell mit [ticketer.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/ticketer.py)
 
@@ -131,19 +134,19 @@ psexec.py <child_domain>/Administrator@dc.root.local -k -no-pass -target-ip 10.1
 
 #### Automatisch mit [raiseChild.py](https://github.com/SecureAuthCorp/impacket/blob/master/examples/raiseChild.py)
 
-Dies ist ein Impacket-Skript, das den **automatischen Aufstieg vom Kind- zum Elterndomäne** automatisiert. Das Skript benötigt:
+Dies ist ein Impacket-Skript, das **die Eskalation vom Kind- zum Eltern-Domain automatisiert**. Das Skript benötigt:
 
-* Ziel-Domänencontroller
-* Anmeldeinformationen für einen Administratorbenutzer in der Kinddomäne
+* Ziel-Domain-Controller
+* Anmeldedaten für einen Admin-Benutzer in der Kind-Domain
 
-Der Ablauf ist wie folgt:
+Der Ablauf ist:
 
-* Ermittelt die SID für die Gruppe "Enterprise-Administratoren" der Elterndomäne
-* Ruft den Hash für das KRBTGT-Konto in der Kinddomäne ab
+* Erhält die SID für die Enterprise Admins-Gruppe der Eltern-Domain
+* Ruft den Hash für das KRBTGT-Konto in der Kind-Domain ab
 * Erstellt ein Golden Ticket
-* Meldet sich in der Elterndomäne an
-* Ruft Anmeldeinformationen für das Administrator-Konto in der Elterndomäne ab
-* Wenn der Schalter `target-exec` angegeben ist, authentifiziert es sich beim Domänencontroller der Elterndomäne über Psexec.
+* Meldet sich bei der Eltern-Domain an
+* Ruft die Anmeldedaten für das Administrator-Konto in der Eltern-Domain ab
+* Wenn der `target-exec`-Schalter angegeben ist, authentifiziert es sich beim Domain-Controller der Eltern-Domain über Psexec.
 ```bash
 raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 ```
@@ -151,14 +154,17 @@ raiseChild.py -target-exec 10.10.10.10 <child_domain>/username
 * [https://adsecurity.org/?p=1772](https://adsecurity.org/?p=1772)
 * [https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/](https://www.sentinelone.com/blog/windows-sid-history-injection-exposure-blog/)
 
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks repo](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud repo](https://github.com/carlospolop/hacktricks-cloud)** einreichen.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}

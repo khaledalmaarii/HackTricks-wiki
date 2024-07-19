@@ -1,56 +1,64 @@
-# Bewaffnung von Distroless
+# Weaponizing Distroless
 
-<details>
+{% hnnt styte=" acceas" %}
+GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
+Lernen & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<dotsilp>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
+<oummpr>SupportHackTricks</smmay>
 
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+*Überprüfen Sie das [**Abonnement**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
+* **Teilen Sie Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Was ist Distroless
 
-Ein Distroless-Container ist ein Container-Typ, der nur die erforderlichen Abhängigkeiten zum Ausführen einer bestimmten Anwendung enthält, ohne zusätzliche Software oder Tools, die nicht erforderlich sind. Diese Container sind darauf ausgelegt, so leichtgewichtig und sicher wie möglich zu sein und die Angriffsfläche zu minimieren, indem sie unnötige Komponenten entfernen.
+Ein distroless Container ist eine Art von Container, der **nur die notwendigen Abhängigkeiten enthält, um eine bestimmte Anwendung auszuführen**, ohne zusätzliche Software oder Tools, die nicht erforderlich sind. Diese Container sind darauf ausgelegt, so **leichtgewichtig** und **sicher** wie möglich zu sein, und sie zielen darauf ab, die **Angriffsfläche zu minimieren**, indem sie unnötige Komponenten entfernen.
 
-Distroless-Container werden häufig in Produktionsumgebungen eingesetzt, in denen Sicherheit und Zuverlässigkeit oberste Priorität haben.
+Distroless-Container werden häufig in **Produktionsumgebungen eingesetzt, in denen Sicherheit und Zuverlässigkeit von größter Bedeutung sind**.
 
-Einige **Beispiele** für **Distroless-Container** sind:
+Einige **Beispiele** für **distroless Container** sind:
 
 * Bereitgestellt von **Google**: [https://console.cloud.google.com/gcr/images/distroless/GLOBAL](https://console.cloud.google.com/gcr/images/distroless/GLOBAL)
 * Bereitgestellt von **Chainguard**: [https://github.com/chainguard-images/images/tree/main/images](https://github.com/chainguard-images/images/tree/main/images)
 
-## Bewaffnung von Distroless
+## Weaponizing Distroless
 
-Das Ziel der Bewaffnung eines Distroless-Containers besteht darin, beliebige Binärdateien und Payloads auszuführen, auch unter Berücksichtigung der Einschränkungen von Distroless (Fehlen gängiger Binärdateien im System) und der in Containern häufig vorkommenden Schutzmechanismen wie **Read-Only** oder **No-Execute** in `/dev/shm`.
+Das Ziel, einen distroless Container zu waffen, besteht darin, **willkürliche Binärdateien und Payloads auszuführen, selbst mit den Einschränkungen**, die durch **distroless** (Fehlen gängiger Binärdateien im System) und auch durch Schutzmaßnahmen, die häufig in Containern zu finden sind, wie **schreibgeschützt** oder **nicht ausführbar** in `/dev/shm`, impliziert werden.
 
-### Über den Speicher
+### Durch den Speicher
 
-Kommt irgendwann 2023...
+Kommt irgendwann im Jahr 2023...
 
 ### Über vorhandene Binärdateien
 
 #### openssl
 
-****[**In diesem Beitrag**](https://www.form3.tech/engineering/content/exploiting-distroless-images) wird erklärt, dass die Binärdatei **`openssl`** häufig in diesen Containern zu finden ist, möglicherweise weil sie von der Software benötigt wird, die innerhalb des Containers ausgeführt wird.
+****[**In diesem Beitrag,**](https://www.form3.tech/engineering/content/exploiting-distroless-images) wird erklärt, dass die Binärdatei **`openssl`** häufig in diesen Containern zu finden ist, möglicherweise weil sie **benötigt** wird von der Software, die im Container ausgeführt werden soll.
+{% hnt stye="acceas" %}
+AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
+Lernen & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
 
-Durch Missbrauch der **`openssl`**-Binärdatei ist es möglich, beliebige Dinge auszuführen.
+<dtil>
 
-<details>
+<ummr>SupportHackTricks</smmay>
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+*Überprüfen Sie das [**Abonnement**](https://github.com/sponsors/carlospolop)!
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!haktick\_ive\
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
-
+{% endhint %}
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
