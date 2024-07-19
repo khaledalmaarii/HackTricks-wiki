@@ -92,7 +92,7 @@ done < $passfile
 
 ## Google Chrome
 
-Google Chrome speichert Benutzerprofile an bestimmten Orten, abhängig vom Betriebssystem:
+Google Chrome speichert Benutzerprofile an spezifischen Orten, abhängig vom Betriebssystem:
 
 * **Linux**: `~/.config/google-chrome/`
 * **Windows**: `C:\Users\XXX\AppData\Local\Google\Chrome\User Data\`
@@ -107,7 +107,7 @@ Innerhalb dieser Verzeichnisse sind die meisten Benutzerdaten in den Ordnern **D
 * **Web Data**: Enthält Formularhistorie.
 * **Favicons**: Speichert Website-Favicons.
 * **Login Data**: Enthält Anmeldeinformationen wie Benutzernamen und Passwörter.
-* **Current Session**/**Current Tabs**: Daten über die aktuelle Browsersitzung und geöffnete Tabs.
+* **Current Session**/**Current Tabs**: Daten über die aktuelle Browsersitzung und offene Tabs.
 * **Last Session**/**Last Tabs**: Informationen über die während der letzten Sitzung aktiven Seiten, bevor Chrome geschlossen wurde.
 * **Extensions**: Verzeichnisse für Browsererweiterungen und Add-ons.
 * **Thumbnails**: Speichert Website-Thumbnails.
@@ -128,11 +128,11 @@ Metadaten für Internet Explorer werden in `%userprofile%\Appdata\Local\Microsof
 
 ### Cache-Inspektion
 
-Das Tool [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) ermöglicht die Inspektion des Caches und erfordert den Speicherort des Cache-Datenextraktionsordners. Die Metadaten für den Cache umfassen Dateinamen, Verzeichnis, Zugriffsanzahl, URL-Ursprung und Zeitstempel, die die Erstellung, den Zugriff, die Modifikation und die Ablaufzeiten des Caches anzeigen.
+Das Tool [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html) ermöglicht die Inspektion des Caches und erfordert den Speicherort des Cache-Datenextraktionsordners. Metadaten für den Cache umfassen Dateinamen, Verzeichnis, Zugriffsanzahl, URL-Ursprung und Zeitstempel, die die Erstellung, den Zugriff, die Modifikation und die Ablaufzeiten des Caches anzeigen.
 
 ### Cookie-Verwaltung
 
-Cookies können mit [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) erkundet werden, wobei die Metadaten Namen, URLs, Zugriffsanzahlen und verschiedene zeitbezogene Details umfassen. Persistente Cookies werden in `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies` gespeichert, während Sitzungscookies im Speicher verbleiben.
+Cookies können mit [IECookiesView](https://www.nirsoft.net/utils/iecookies.html) erkundet werden, wobei die Metadaten Namen, URLs, Zugriffsanzahl und verschiedene zeitbezogene Details umfassen. Persistente Cookies werden in `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies` gespeichert, während Sitzungscookies im Speicher verbleiben.
 
 ### Download-Details
 
@@ -144,7 +144,7 @@ Um den Browserverlauf zu überprüfen, kann [BrowsingHistoryView](https://www.ni
 
 ### Eingetippte URLs
 
-Eingetippte URLs und deren Nutzungszeiten werden im Registrierungsbereich unter `NTUSER.DAT` bei `Software\Microsoft\InternetExplorer\TypedURLs` und `Software\Microsoft\InternetExplorer\TypedURLsTime` gespeichert, wobei die letzten 50 vom Benutzer eingegebenen URLs und deren letzte Eingabezeiten verfolgt werden.
+Eingetippte URLs und deren Nutzungszeiten werden im Registrierungseditor unter `NTUSER.DAT` bei `Software\Microsoft\InternetExplorer\TypedURLs` und `Software\Microsoft\InternetExplorer\TypedURLsTime` gespeichert, wobei die letzten 50 vom Benutzer eingegebenen URLs und deren letzte Eingabezeiten verfolgt werden.
 
 ## Microsoft Edge
 
@@ -165,7 +165,7 @@ Safari-Daten werden unter `/Users/$User/Library/Safari` gespeichert. Wichtige Da
 * **Bookmarks.plist**: Speichert die Lesezeichen-URLs.
 * **TopSites.plist**: Am häufigsten besuchte Seiten.
 * **Extensions.plist**: Liste der Safari-Browsererweiterungen. Verwenden Sie `plutil` oder `pluginkit`, um sie abzurufen.
-* **UserNotificationPermissions.plist**: Domains, die berechtigt sind, Benachrichtigungen zu senden. Verwenden Sie `plutil`, um sie zu parsen.
+* **UserNotificationPermissions.plist**: Domains, die Benachrichtigungen senden dürfen. Verwenden Sie `plutil`, um sie zu parsen.
 * **LastSession.plist**: Tabs aus der letzten Sitzung. Verwenden Sie `plutil`, um sie zu parsen.
 * **Browser’s built-in anti-phishing**: Überprüfen Sie mit `defaults read com.apple.Safari WarnAboutFraudulentWebsites`. Eine Antwort von 1 zeigt an, dass die Funktion aktiv ist.
 
@@ -192,16 +192,17 @@ Zugang heute erhalten:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Erlernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie möchten, dass Ihr **Unternehmen in HackTricks beworben wird** oder **HackTricks im PDF-Format herunterladen** möchten, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich die [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**Die PEASS-Familie**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}

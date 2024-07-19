@@ -1,21 +1,6 @@
-<details>
+# Überprüfen Sie mögliche Aktionen innerhalb der GUI-Anwendung
 
-<summary><strong>Lernen Sie AWS-Hacking von Grund auf mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
-
-</details>
-
-
-# Überprüfen möglicher Aktionen innerhalb der GUI-Anwendung
-
-**Gängige Dialogfelder** sind Optionen zum **Speichern einer Datei**, **Öffnen einer Datei**, Auswahl einer Schriftart, einer Farbe... Die meisten von ihnen bieten eine vollständige Explorer-Funktionalität an. Dies bedeutet, dass Sie auf Explorer-Funktionen zugreifen können, wenn Sie auf diese Optionen zugreifen können:
+**Gemeinsame Dialoge** sind Optionen wie **eine Datei speichern**, **eine Datei öffnen**, eine Schriftart oder eine Farbe auswählen... Die meisten von ihnen bieten **eine vollständige Explorer-Funktionalität**. Das bedeutet, dass Sie auf Explorer-Funktionen zugreifen können, wenn Sie auf diese Optionen zugreifen können:
 
 * Schließen/Schließen als
 * Öffnen/Öffnen mit
@@ -24,20 +9,20 @@ Andere Möglichkeiten, HackTricks zu unterstützen:
 * Suchen
 * Scannen
 
-Sie sollten überprüfen, ob Sie Folgendes tun können:
+Sie sollten überprüfen, ob Sie:
 
-* Dateien ändern oder neue Dateien erstellen
-* Symbolische Links erstellen
-* Zugriff auf eingeschränkte Bereiche erhalten
-* Andere Apps ausführen
+* Dateien ändern oder neue Dateien erstellen können
+* Symbolische Links erstellen können
+* Zugriff auf eingeschränkte Bereiche erhalten können
+* Andere Apps ausführen können
 
 ## Befehlsausführung
 
-Vielleicht können Sie **mit der Option `Öffnen mit`** eine Art Shell öffnen/ausführen.
+Vielleicht **können Sie mit einer `Öffnen mit`-Option** eine Art Shell öffnen/ausführen.
 
 ### Windows
 
-Zum Beispiel _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ finden Sie weitere Binärdateien, die zum Ausführen von Befehlen (und zum Ausführen unerwarteter Aktionen) verwendet werden können, hier: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
+Zum Beispiel _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ finden Sie hier weitere Binärdateien, die verwendet werden können, um Befehle auszuführen (und unerwartete Aktionen durchzuführen): [https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 ### \*NIX __
 
@@ -45,15 +30,15 @@ _bash, sh, zsh..._ Mehr hier: [https://gtfobins.github.io/](https://gtfobins.git
 
 # Windows
 
-## Umgehen von Pfadbeschränkungen
+## Umgehung von Pfadbeschränkungen
 
-* **Umgebungsvariablen**: Es gibt viele Umgebungsvariablen, die auf einen bestimmten Pfad verweisen
+* **Umgebungsvariablen**: Es gibt viele Umgebungsvariablen, die auf einen bestimmten Pfad zeigen
 * **Andere Protokolle**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **Symbolische Links**
-* **Verknüpfungen**: STRG+N (neue Sitzung öffnen), STRG+R (Befehle ausführen), STRG+UMSCHALT+ESC (Task-Manager), Windows+E (Explorer öffnen), STRG-B, STRG-I (Favoriten), STRG-H (Verlauf), STRG-L, STRG-O (Datei/Öffnen-Dialog), STRG-P (Drucken-Dialog), STRG-S (Speichern unter)
+* **Verknüpfungen**: STRG+N (neue Sitzung öffnen), STRG+R (Befehle ausführen), STRG+SHIFT+ESC (Task-Manager), Windows+E (Explorer öffnen), STRG-B, STRG-I (Favoriten), STRG-H (Verlauf), STRG-L, STRG-O (Datei/Öffnen-Dialog), STRG-P (Drucken-Dialog), STRG-S (Speichern unter)
 * Verstecktes Administrationsmenü: STRG-ALT-F8, STRG-ESC-F9
 * **Shell-URIs**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
-* **UNC-Pfade**: Pfade zum Verbinden mit freigegebenen Ordnern. Sie sollten versuchen, sich mit dem C$ der lokalen Maschine zu verbinden ("\\\127.0.0.1\c$\Windows\System32")
+* **UNC-Pfade**: Pfade zum Verbinden mit freigegebenen Ordnern. Sie sollten versuchen, sich mit dem C$ des lokalen Computers zu verbinden ("\\\127.0.0.1\c$\Windows\System32")
 * **Weitere UNC-Pfade:**
 
 | UNC                       | UNC            | UNC                  |
@@ -76,7 +61,7 @@ Registrierungseditor: [https://sourceforge.net/projects/uberregedit/](https://so
 
 ## Zugriff auf das Dateisystem über den Browser
 
-| PATH                | PATH              | PATH               | PATH                |
+| PFAD                | PFAD              | PFAD               | PFAD                |
 | ------------------- | ----------------- | ------------------ | ------------------- |
 | File:/C:/windows    | File:/C:/windows/ | File:/C:/windows\\ | File:/C:\windows    |
 | File:/C:\windows\\  | File:/C:\windows/ | File://C:/windows  | File://C:/windows/  |
@@ -88,40 +73,41 @@ Registrierungseditor: [https://sourceforge.net/projects/uberregedit/](https://so
 
 ## Verknüpfungen
 
-* Sticky Keys – SHIFT 5 Mal drücken
-* Mouse Keys – SHIFT+ALT+NUMLOCK
-* Hoher Kontrast – SHIFT+ALT+DRUCK
-* Umschalttasten – NUMLOCK 5 Sekunden lang gedrückt halten
-* Filtertasten – Rechte SHIFT 12 Sekunden lang gedrückt halten
+* Sticky Keys – Drücken Sie SHIFT 5 Mal
+* Mauszeiger – SHIFT+ALT+NUMLOCK
+* Hoher Kontrast – SHIFT+ALT+PRINTSCN
+* Umschalt-Tasten – Halten Sie NUMLOCK 5 Sekunden lang gedrückt
+* Filtertasten – Halten Sie die rechte SHIFT-Taste 12 Sekunden lang gedrückt
 * WINDOWS+F1 – Windows-Suche
 * WINDOWS+D – Desktop anzeigen
-* WINDOWS+E – Windows Explorer starten
+* WINDOWS+E – Windows-Explorer starten
 * WINDOWS+R – Ausführen
-* WINDOWS+U – Center für erleichterten Zugriff
-* WINDOWS+F – Suche
+* WINDOWS+U – Eingabehilfen-Center
+* WINDOWS+F – Suchen
 * SHIFT+F10 – Kontextmenü
-* CTRL+SHIFT+ESC – Task-Manager
-* CTRL+ALT+DEL – Begrüßungsbildschirm in neueren Windows-Versionen
-* F1 – Hilfe F3 – Suche
+* STRG+SHIFT+ESC – Task-Manager
+* STRG+ALT+ENTF – Startbildschirm in neueren Windows-Versionen
+* F1 – Hilfe F3 – Suchen
 * F6 – Adressleiste
 * F11 – Vollbildmodus in Internet Explorer umschalten
-* CTRL+H – Internet Explorer-Verlauf
-* CTRL+T – Internet Explorer – Neuer Tab
-* CTRL+N – Internet Explorer – Neue Seite
-* CTRL+O – Datei öffnen
-* CTRL+S – Speichern CTRL+N – Neue RDP / Citrix
-## Wischgesten
+* STRG+H – Internet Explorer Verlauf
+* STRG+T – Internet Explorer – Neuer Tab
+* STRG+N – Internet Explorer – Neue Seite
+* STRG+O – Datei öffnen
+* STRG+S – Speichern STRG+N – Neues RDP / Citrix
 
-* Wischen Sie von der linken Seite nach rechts, um alle geöffneten Fenster anzuzeigen, minimieren Sie die KIOSK-App und greifen Sie direkt auf das gesamte Betriebssystem zu.
-* Wischen Sie von der rechten Seite nach links, um das Aktionscenter zu öffnen, minimieren Sie die KIOSK-App und greifen Sie direkt auf das gesamte Betriebssystem zu.
-* Wischen Sie von oben, um die Titelleiste für eine im Vollbildmodus geöffnete App sichtbar zu machen.
+## Wischen
+
+* Wischen Sie von der linken Seite nach rechts, um alle offenen Fenster zu sehen, minimieren Sie die KIOSK-App und greifen Sie direkt auf das gesamte Betriebssystem zu;
+* Wischen Sie von der rechten Seite nach links, um das Aktionscenter zu öffnen, minimieren Sie die KIOSK-App und greifen Sie direkt auf das gesamte Betriebssystem zu;
+* Wischen Sie von der oberen Kante, um die Titelleiste für eine im Vollbildmodus geöffnete App sichtbar zu machen;
 * Wischen Sie von unten nach oben, um die Taskleiste in einer Vollbild-App anzuzeigen.
 
 ## Internet Explorer Tricks
 
-### 'Bild-Toolbar'
+### 'Bildwerkzeugleiste'
 
-Es handelt sich um eine Symbolleiste, die oben links auf dem Bild erscheint, wenn darauf geklickt wird. Sie können speichern, drucken, per E-Mail senden, "Eigene Bilder" im Explorer öffnen. Der Kiosk muss Internet Explorer verwenden.
+Es ist eine Werkzeugleiste, die oben links im Bild erscheint, wenn es angeklickt wird. Sie können Speichern, Drucken, Mailto und "Meine Bilder" im Explorer öffnen. Der Kiosk muss Internet Explorer verwenden.
 
 ### Shell-Protokoll
 
@@ -146,16 +132,16 @@ Geben Sie diese URLs ein, um eine Explorer-Ansicht zu erhalten:
 * `Shell:Windows`
 * `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Systemsteuerung
 * `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Mein Computer
-* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Meine Netzwerkumgebung
+* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Meine Netzwerkplätze
 * `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> Internet Explorer
 
 ## Dateierweiterungen anzeigen
 
-Weitere Informationen finden Sie auf dieser Seite: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
+Überprüfen Sie diese Seite für weitere Informationen: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
 
 # Browser-Tricks
 
-Sichern Sie iKat-Versionen:
+Backup iKat-Versionen:
 
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\
@@ -167,115 +153,116 @@ Quelle: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811
 
 ## Gesten und Tasten
 
-* Wischen Sie mit vier (oder fünf) Fingern nach oben / Doppelklicken Sie auf die Home-Taste: Um die Multitasking-Ansicht anzuzeigen und die App zu wechseln
+* Wischen Sie mit vier (oder fünf) Fingern nach oben / Doppeltippen auf die Home-Taste: Um die Multitasking-Ansicht anzuzeigen und die App zu wechseln
 
-* Wischen Sie mit vier oder fünf Fingern in eine Richtung: Um zur nächsten/vorherigen App zu wechseln
+* Wischen Sie in eine oder andere Richtung mit vier oder fünf Fingern: Um zur nächsten/vorherigen App zu wechseln
 
-* Zoomen Sie mit fünf Fingern auf dem Bildschirm / Berühren Sie die Home-Taste / Wischen Sie mit einem Finger von unten schnell nach oben: Um auf den Startbildschirm zuzugreifen
+* Kneifen Sie den Bildschirm mit fünf Fingern / Berühren Sie die Home-Taste / Wischen Sie mit einem Finger schnell von unten nach oben: Um auf die Startseite zuzugreifen
 
-* Wischen Sie mit einem Finger von unten etwa 1-2 Zoll (langsam): Das Dock wird angezeigt
+* Wischen Sie mit einem Finger von unten am Bildschirm nur 1-2 Zoll (langsam): Die Dock-Leiste wird angezeigt
 
 * Wischen Sie mit einem Finger von oben auf dem Display nach unten: Um Ihre Benachrichtigungen anzuzeigen
 
-* Wischen Sie mit einem Finger von oben rechts auf dem Bildschirm nach unten: Um das Kontrollzentrum des iPad Pro anzuzeigen
+* Wischen Sie mit einem Finger in die obere rechte Ecke des Bildschirms: Um das Kontrollzentrum des iPad Pro zu sehen
 
-* Wischen Sie mit einem Finger von links auf dem Bildschirm 1-2 Zoll: Um die Ansicht "Heute" anzuzeigen
+* Wischen Sie mit einem Finger von der linken Seite des Bildschirms 1-2 Zoll: Um die Heute-Ansicht zu sehen
 
 * Wischen Sie schnell mit einem Finger von der Mitte des Bildschirms nach rechts oder links: Um zur nächsten/vorherigen App zu wechseln
 
-* Drücken und halten Sie die Ein/**Aus**/Standby-Taste in der oberen rechten Ecke des **iPad +** Bewegen Sie den Schieberegler "Ausschalten" ganz nach rechts: Um das Gerät auszuschalten
+* Drücken und halten Sie die Ein-/Ausschalttaste/Standby-Taste in der oberen rechten Ecke des **iPad +** Bewegen Sie den Schieberegler **zum Ausschalten** ganz nach rechts: Um auszuschalten
 
-* Drücken Sie die Ein/**Aus**/Standby-Taste in der oberen rechten Ecke des **iPad und die Home-Taste einige Sekunden lang**: Um das Gerät hart auszuschalten
+* Drücken Sie die Ein-/Ausschalttaste/Standby-Taste in der oberen rechten Ecke des **iPad und die Home-Taste für einige Sekunden**: Um einen harten Ausschaltvorgang zu erzwingen
 
-* Drücken Sie die Ein/**Aus**/Standby-Taste in der oberen rechten Ecke des **iPad und die Home-Taste schnell**: Um einen Screenshot aufzunehmen, der unten links auf dem Display angezeigt wird. Drücken Sie beide Tasten gleichzeitig sehr kurz, da sonst ein hartes Ausschalten durchgeführt wird.
+* Drücken Sie die Ein-/Ausschalttaste/Standby-Taste in der oberen rechten Ecke des **iPad und die Home-Taste schnell**: Um einen Screenshot zu machen, der in der unteren linken Ecke des Displays angezeigt wird. Drücken Sie beide Tasten gleichzeitig sehr kurz, da bei längerem Halten ein harter Ausschaltvorgang durchgeführt wird.
 
 ## Verknüpfungen
 
-Sie sollten eine iPad-Tastatur oder einen USB-Tastaturadapter haben. Es werden nur Verknüpfungen angezeigt, die beim Verlassen der Anwendung helfen können.
+Sie sollten eine iPad-Tastatur oder einen USB-Tastaturadapter haben. Nur Verknüpfungen, die beim Verlassen der Anwendung helfen könnten, werden hier angezeigt.
 
 | Taste | Name         |
-| ----- | ------------ |
-| ⌘     | Befehl       |
-| ⌥     | Option (Alt) |
-| ⇧     | Umschalt     |
-| ↩     | Eingabe      |
-| ⇥     | Tab          |
-| ^     | Steuerung    |
-| ←     | Linke Pfeiltaste   |
-| →     | Rechte Pfeiltaste  |
-| ↑     | Obere Pfeiltaste     |
-| ↓     | Untere Pfeiltaste   |
+| --- | ------------ |
+| ⌘   | Befehl      |
+| ⌥   | Option (Alt) |
+| ⇧   | Shift        |
+| ↩   | Eingabe       |
+| ⇥   | Tab          |
+| ^   | Steuerung      |
+| ←   | Linker Pfeil   |
+| →   | Rechter Pfeil  |
+| ↑   | Aufwärtspfeil     |
+| ↓   | Abwärtspfeil     |
 
 ### Systemverknüpfungen
 
-Diese Verknüpfungen gelten für die visuellen Einstellungen und Soundeinstellungen, abhängig von der Verwendung des iPads.
+Diese Verknüpfungen sind für die visuellen Einstellungen und Toneinstellungen, abhängig von der Verwendung des iPads.
 
 | Verknüpfung | Aktion                                                                         |
-| ----------- | ------------------------------------------------------------------------------ |
-| F1          | Bildschirm dimmen                                                              |
-| F2          | Bildschirm erhellen                                                            |
-| F7          | Zurück zum vorherigen Song                                                      |
-| F8          | Wiedergabe/Pause                                                               |
-| F9          | Nächster Song                                                                  |
-| F10         | Stummschalten                                                                   |
-| F11         | Lautstärke verringern                                                          |
-| F12         | Lautstärke erhöhen                                                             |
-| ⌘ Leertaste | Eine Liste der verfügbaren Sprachen anzeigen; um eine auszuwählen, tippen Sie erneut auf die Leertaste. |
+| -------- | ------------------------------------------------------------------------------ |
+| F1       | Bildschirm dimmen                                                                    |
+| F2       | Bildschirm aufhellen                                                                |
+| F7       | Einen Song zurück                                                                  |
+| F8       | Abspielen/Pause                                                                     |
+| F9       | Song überspringen                                                                      |
+| F10      | Stummschalten                                                                           |
+| F11      | Lautstärke verringern                                                                |
+| F12      | Lautstärke erhöhen                                                                |
+| ⌘ Leertaste  | Eine Liste verfügbarer Sprachen anzeigen; um eine auszuwählen, drücken Sie die Leertaste erneut. |
 
 ### iPad-Navigation
 
 | Verknüpfung                                           | Aktion                                                  |
-| ----------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                    | Zum Startbildschirm wechseln                            |
-| ⌘⇧H (Befehl-Umschalt-H)                               | Zum Startbildschirm wechseln                            |
-| ⌘ (Leertaste)                                         | Spotlight öffnen                                       |
-| ⌘⇥ (Befehl-Tab)                                       | Liste der zuletzt verwendeten Apps anzeigen             |
-| ⌘\~                                                   | Zur letzten App wechseln                               |
-| ⌘⇧3 (Befehl-Umschalt-3)                               | Screenshot (erscheint unten links zum Speichern oder Bearbeiten) |
-| ⌘⇧4                                                   | Screenshot aufnehmen und im Editor öffnen              |
-| ⌘ gedrückt halten                                      | Liste der für die App verfügbaren Verknüpfungen anzeigen |
-| ⌘⌥D (Befehl-Option/Alt-D)                             | Das Dock aufrufen                                      |
-| ^⌥H (Steuerung-Option-H)                              | Home-Taste                                              |
-| ^⌥H H (Steuerung-Option-H-H)                          | Multitasking-Leiste anzeigen                            |
-| ^⌥I (Steuerung-Option-i)                              | Elementauswahl                                          |
-| Escape                                                | Zurück-Schaltfläche                                     |
-| → (Rechte Pfeiltaste)                                 | Nächstes Element                                        |
-| ← (Linke Pfeiltaste)                                  | Vorheriges Element                                      |
-| ↑↓ (Obere Pfeiltaste, Untere Pfeiltaste)              | Gleichzeitig auf ausgewähltes Element tippen            |
-| ⌥ ↓ (Option-Untere Pfeiltaste)                        | Nach unten scrollen                                    |
-| ⌥↑ (Option-Obere Pfeiltaste)                          | Nach oben scrollen                                     |
-| ⌥← oder ⌥→ (Option-Linke Pfeiltaste oder Option-Rechte Pfeiltaste) | Nach links oder rechts scrollen                         |
-| ^⌥S (Steuerung-Option-S)                              | VoiceOver-Sprache ein- oder ausschalten                 |
-| ⌘⇧⇥ (Befehl-Umschalt-Tab)                             | Zur vorherigen App wechseln                            |
-| ⌘⇥ (Befehl-Tab)                                       | Zur ursprünglichen App zurückwechseln                  |
-| ←+→, dann Option + ← oder Option+→                    | Durch das Dock navigieren                              |
+| -------------------------------------------------- | ------------------------------------------------------- |
+| ⌘H                                                 | Gehe zur Startseite                                              |
+| ⌘⇧H (Befehl-Shift-H)                              | Gehe zur Startseite                                              |
+| ⌘ (Leertaste)                                          | Spotlight öffnen                                          |
+| ⌘⇥ (Befehl-Tab)                                   | Liste der letzten zehn verwendeten Apps                                 |
+| ⌘\~                                                | Gehe zur letzten App                                       |
+| ⌘⇧3 (Befehl-Shift-3)                              | Screenshot (schwebt unten links, um zu speichern oder zu handeln) |
+| ⌘⇧4                                                | Screenshot und im Editor öffnen                    |
+| Drücken und halten Sie ⌘                                   | Liste der verfügbaren Verknüpfungen für die App                 |
+| ⌘⌥D (Befehl-Option/Alt-D)                         | Dock anzeigen                                      |
+| ^⌥H (Steuerung-Option-H)                             | Home-Taste                                             |
+| ^⌥H H (Steuerung-Option-H-H)                         | Multitasking-Leiste anzeigen                                      |
+| ^⌥I (Steuerung-Option-i)                             | Elementauswahl                                            |
+| Escape                                             | Zurück-Taste                                             |
+| → (Rechter Pfeil)                                    | Nächstes Element                                               |
+| ← (Linker Pfeil)                                     | Vorheriges Element                                           |
+| ↑↓ (Aufwärtspfeil, Abwärtspfeil)                          | Ausgewähltes Element gleichzeitig antippen                        |
+| ⌥ ↓ (Option-Abwärtspfeil)                            | Nach unten scrollen                                             |
+| ⌥↑ (Option-Aufwärtspfeil)                               | Nach oben scrollen                                               |
+| ⌥← oder ⌥→ (Option-Linker Pfeil oder Option-Rechter Pfeil) | Nach links oder rechts scrollen                                    |
+| ^⌥S (Steuerung-Option-S)                             | VoiceOver-Sprachausgabe ein- oder ausschalten                         |
+| ⌘⇧⇥ (Befehl-Shift-Tab)                            | Zur vorherigen App wechseln                              |
+| ⌘⇥ (Befehl-Tab)                                   | Zur ursprünglichen App zurückwechseln                         |
+| ←+→, dann Option + ← oder Option+→                   | Durch das Dock navigieren                                   |
+
 ### Safari-Verknüpfungen
 
-| Verknüpfung             | Aktion                                           |
+| Verknüpfung                | Aktion                                           |
 | ----------------------- | ------------------------------------------------ |
-| ⌘L (Befehl-L)           | Ort öffnen                                       |
-| ⌘T                       | Neuen Tab öffnen                                 |
-| ⌘W                       | Aktuellen Tab schließen                          |
-| ⌘R                       | Aktuellen Tab aktualisieren                      |
-| ⌘.                       | Laden des aktuellen Tabs stoppen                 |
-| ^⇥                       | Zum nächsten Tab wechseln                        |
-| ^⇧⇥ (Strg-Umschalt-Tab) | Zum vorherigen Tab wechseln                      |
-| ⌘L                       | Texteingabe/URL-Feld auswählen und bearbeiten     |
-| ⌘⇧T (Befehl-Umschalt-T)  | Zuletzt geschlossenen Tab öffnen (mehrmals möglich) |
-| ⌘\[                      | Eine Seite in der Browserverlauf zurückgehen     |
-| ⌘]                       | Eine Seite in der Browserverlauf vorwärts gehen  |
-| ⌘⇧R                      | Lesemodus aktivieren                             |
+| ⌘L (Befehl-L)          | Standort öffnen                                    |
+| ⌘T                      | Neuen Tab öffnen                                   |
+| ⌘W                      | Den aktuellen Tab schließen                            |
+| ⌘R                      | Den aktuellen Tab aktualisieren                          |
+| ⌘.                      | Das Laden des aktuellen Tabs stoppen                     |
+| ^⇥                      | Zum nächsten Tab wechseln                           |
+| ^⇧⇥ (Steuerung-Shift-Tab) | Zum vorherigen Tab wechseln                         |
+| ⌘L                      | Das Texteingabefeld/URL-Feld auswählen, um es zu ändern     |
+| ⌘⇧T (Befehl-Shift-T)   | Letzten geschlossenen Tab öffnen (kann mehrmals verwendet werden) |
+| ⌘\[                     | Gehe eine Seite in deinem Browserverlauf zurück      |
+| ⌘]                      | Gehe eine Seite in deinem Browserverlauf vorwärts   |
+| ⌘⇧R                     | Reader-Modus aktivieren                             |
 
 ### Mail-Verknüpfungen
 
-| Verknüpfung                   | Aktion                           |
+| Verknüpfung                   | Aktion                       |
 | -------------------------- | ---------------------------- |
-| ⌘L                         | Ort öffnen                    |
-| ⌘T                         | Neuen Tab öffnen              |
-| ⌘W                         | Aktuellen Tab schließen       |
-| ⌘R                         | Aktuellen Tab aktualisieren   |
-| ⌘.                         | Laden des aktuellen Tabs stoppen |
-| ⌘⌥F (Befehl-Option/Alt-F) | In deinem Posteingang suchen |
+| ⌘L                         | Standort öffnen                |
+| ⌘T                         | Neuen Tab öffnen               |
+| ⌘W                         | Den aktuellen Tab schließen        |
+| ⌘R                         | Den aktuellen Tab aktualisieren      |
+| ⌘.                         | Das Laden des aktuellen Tabs stoppen |
+| ⌘⌥F (Befehl-Option/Alt-F) | In deinem Posteingang suchen       |
 
 # Referenzen
 
@@ -283,18 +270,3 @@ Diese Verknüpfungen gelten für die visuellen Einstellungen und Soundeinstellun
 * [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
 * [https://thesweetsetup.com/best-ipad-keyboard-shortcuts/](https://thesweetsetup.com/best-ipad-keyboard-shortcuts/)
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
-
-
-<details>
-
-<summary><strong>Lernen Sie AWS-Hacking von Null auf Held mit</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Andere Möglichkeiten, HackTricks zu unterstützen:
-
-* Wenn Sie Ihr **Unternehmen in HackTricks bewerben möchten** oder **HackTricks als PDF herunterladen möchten**, überprüfen Sie die [**ABONNEMENTPLÄNE**](https://github.com/sponsors/carlospolop)!
-* Holen Sie sich das [**offizielle PEASS & HackTricks-Merchandise**](https://peass.creator-spring.com)
-* Entdecken Sie [**The PEASS Family**](https://opensea.io/collection/the-peass-family), unsere Sammlung exklusiver [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Teilen Sie Ihre Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repositories senden.
-
-</details>
