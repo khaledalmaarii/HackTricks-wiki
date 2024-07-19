@@ -1,30 +1,33 @@
-# Abuso dei Token
+# Abusing Tokens
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata su HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione esclusiva di [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Token
+## Tokens
 
-Se **non sai cos'è un Token di Accesso Windows**, leggi questa pagina prima di continuare:
+Se non **sai cosa sono i Windows Access Tokens**, leggi questa pagina prima di continuare:
 
 {% content-ref url="../access-tokens.md" %}
 [access-tokens.md](../access-tokens.md)
 {% endcontent-ref %}
 
-**Potresti essere in grado di elevare i privilegi abusando dei token che possiedi già**
+**Forse potresti essere in grado di elevare i privilegi abusando dei token che hai già**
 
 ### SeImpersonatePrivilege
 
-Questo è un privilegio detenuto da qualsiasi processo che consente l'impersonificazione (ma non la creazione) di qualsiasi token, a condizione che se ne possa ottenere un handle. Un token privilegiato può essere acquisito da un servizio Windows (DCOM) inducendolo a eseguire l'autenticazione NTLM contro un exploit, consentendo successivamente l'esecuzione di un processo con privilegi di **SYSTEM**. Questa vulnerabilità può essere sfruttata utilizzando vari strumenti, come [juicy-potato](https://github.com/ohpe/juicy-potato), [RogueWinRM](https://github.com/antonioCoco/RogueWinRM) (che richiede la disabilitazione di winrm), [SweetPotato](https://github.com/CCob/SweetPotato) e [PrintSpoofer](https://github.com/itm4n/PrintSpoofer).
+Questo è un privilegio detenuto da qualsiasi processo che consente l'impersonificazione (ma non la creazione) di qualsiasi token, a condizione che si possa ottenere un handle. Un token privilegiato può essere acquisito da un servizio Windows (DCOM) inducendolo a eseguire l'autenticazione NTLM contro un exploit, abilitando successivamente l'esecuzione di un processo con privilegi di SYSTEM. Questa vulnerabilità può essere sfruttata utilizzando vari strumenti, come [juicy-potato](https://github.com/ohpe/juicy-potato), [RogueWinRM](https://github.com/antonioCoco/RogueWinRM) (che richiede che winrm sia disabilitato), [SweetPotato](https://github.com/CCob/SweetPotato) e [PrintSpoofer](https://github.com/itm4n/PrintSpoofer).
 
 {% content-ref url="../roguepotato-and-printspoofer.md" %}
 [roguepotato-and-printspoofer.md](../roguepotato-and-printspoofer.md)
@@ -36,23 +39,23 @@ Questo è un privilegio detenuto da qualsiasi processo che consente l'impersonif
 
 ### SeAssignPrimaryPrivilege
 
-È molto simile a **SeImpersonatePrivilege**, utilizzerà lo **stesso metodo** per ottenere un token privilegiato.\
-Quindi, questo privilegio consente di **assegnare un token primario** a un processo nuovo/in sospensione. Con il token di impersonificazione privilegiato è possibile derivare un token primario (DuplicateTokenEx).\
-Con il token, è possibile creare un **nuovo processo** con 'CreateProcessAsUser' o creare un processo sospeso e **impostare il token** (in generale, non è possibile modificare il token primario di un processo in esecuzione).
+È molto simile a **SeImpersonatePrivilege**, utilizzerà il **stesso metodo** per ottenere un token privilegiato.\
+Quindi, questo privilegio consente **di assegnare un token primario** a un nuovo processo/sospeso. Con il token di impersonificazione privilegiato puoi derivare un token primario (DuplicateTokenEx).\
+Con il token, puoi creare un **nuovo processo** con 'CreateProcessAsUser' o creare un processo sospeso e **impostare il token** (in generale, non puoi modificare il token primario di un processo in esecuzione).
 
 ### SeTcbPrivilege
 
-Se hai abilitato questo token, puoi utilizzare **KERB\_S4U\_LOGON** per ottenere un **token di impersonificazione** per qualsiasi altro utente senza conoscere le credenziali, **aggiungere un gruppo arbitrario** (amministratori) al token, impostare il **livello di integrità** del token a "**medio**" e assegnare questo token al **thread corrente** (SetThreadToken).
+Se hai abilitato questo token puoi utilizzare **KERB\_S4U\_LOGON** per ottenere un **token di impersonificazione** per qualsiasi altro utente senza conoscere le credenziali, **aggiungere un gruppo arbitrario** (amministratori) al token, impostare il **livello di integrità** del token su "**medio**" e assegnare questo token al **thread corrente** (SetThreadToken).
 
 ### SeBackupPrivilege
 
-Il sistema è portato a **concedere tutti i diritti di accesso in lettura** a qualsiasi file (limitato alle operazioni di lettura) con questo privilegio. Viene utilizzato per **leggere gli hash delle password degli account Amministratori locali** dal registro, a seguito del quale, strumenti come "**psexec**" o "**wmicexec**" possono essere utilizzati con l'hash (tecnica Pass-the-Hash). Tuttavia, questa tecnica fallisce in due condizioni: quando l'account Amministratore locale è disabilitato, o quando è in atto una policy che rimuove i diritti amministrativi dagli Amministratori locali che si connettono in remoto.\
+Il sistema è indotto a **concedere a tutti l'accesso in lettura** a qualsiasi file (limitato alle operazioni di lettura) da questo privilegio. Viene utilizzato per **leggere gli hash delle password degli account Administrator locali** dal registro, dopo di che, strumenti come "**psexec**" o "**wmiexec**" possono essere utilizzati con l'hash (tecnica Pass-the-Hash). Tuttavia, questa tecnica fallisce in due condizioni: quando l'account Local Administrator è disabilitato, o quando è in atto una politica che rimuove i diritti amministrativi dagli amministratori locali che si connettono in remoto.\
 Puoi **abusare di questo privilegio** con:
 
 * [https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1](https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1)
 * [https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug](https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug)
 * seguendo **IppSec** in [https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec](https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec)
-* O come spiegato nella sezione **elevare i privilegi con gli Operatori di Backup** di:
+* O come spiegato nella sezione **elevare i privilegi con Backup Operators** di:
 
 {% content-ref url="../../active-directory-methodology/privileged-groups-and-token-privileges.md" %}
 [privileged-groups-and-token-privileges.md](../../active-directory-methodology/privileged-groups-and-token-privileges.md)
@@ -60,30 +63,30 @@ Puoi **abusare di questo privilegio** con:
 
 ### SeRestorePrivilege
 
-Il permesso di **accesso in scrittura** a qualsiasi file di sistema, indipendentemente dalla lista di controllo degli accessi (ACL) del file, è fornito da questo privilegio. Apre numerose possibilità di escalation, inclusa la capacità di **modificare servizi**, eseguire DLL Hijacking e impostare **debugger** tramite Image File Execution Options tra varie altre tecniche.
+Il permesso per **l'accesso in scrittura** a qualsiasi file di sistema, indipendentemente dall'Access Control List (ACL) del file, è fornito da questo privilegio. Apre numerose possibilità di elevazione, inclusa la capacità di **modificare i servizi**, eseguire DLL Hijacking e impostare **debugger** tramite le Opzioni di Esecuzione del File Immagine tra varie altre tecniche.
 
 ### SeCreateTokenPrivilege
 
 SeCreateTokenPrivilege è un permesso potente, particolarmente utile quando un utente possiede la capacità di impersonare token, ma anche in assenza di SeImpersonatePrivilege. Questa capacità si basa sulla possibilità di impersonare un token che rappresenta lo stesso utente e il cui livello di integrità non supera quello del processo corrente.
 
 **Punti Chiave:**
-- **Impersonificazione senza SeImpersonatePrivilege:** È possibile sfruttare SeCreateTokenPrivilege per l'EoP impersonando token in condizioni specifiche.
-- **Condizioni per l'Impersonificazione del Token:** L'impersonificazione riuscita richiede che il token di destinazione appartenga allo stesso utente e abbia un livello di integrità inferiore o uguale a quello del processo che tenta l'impersonificazione.
-- **Creazione e Modifica di Token di Impersonificazione:** Gli utenti possono creare un token di impersonificazione e potenziarlo aggiungendo l'SID (Identificatore di Sicurezza) di un gruppo privilegiato.
+- **Impersonificazione senza SeImpersonatePrivilege:** È possibile sfruttare SeCreateTokenPrivilege per EoP impersonando token in specifiche condizioni.
+- **Condizioni per l'Impersonificazione del Token:** L'impersonificazione riuscita richiede che il token di destinazione appartenga allo stesso utente e abbia un livello di integrità che è minore o uguale al livello di integrità del processo che tenta l'impersonificazione.
+- **Creazione e Modifica di Token di Impersonificazione:** Gli utenti possono creare un token di impersonificazione e migliorarlo aggiungendo un SID (Identificatore di Sicurezza) di un gruppo privilegiato.
 
 ### SeLoadDriverPrivilege
 
-Questo privilegio consente di **caricare e scaricare i driver dei dispositivi** con la creazione di una voce di registro con valori specifici per `ImagePath` e `Type`. Poiché l'accesso in scrittura diretta a `HKLM` (HKEY_LOCAL_MACHINE) è limitato, è necessario utilizzare `HKCU` (HKEY_CURRENT_USER) al suo posto. Tuttavia, per rendere `HKCU` riconoscibile al kernel per la configurazione del driver, è necessario seguire un percorso specifico.
+Questo privilegio consente di **caricare e scaricare driver di dispositivo** con la creazione di una voce di registro con valori specifici per `ImagePath` e `Type`. Poiché l'accesso in scrittura diretto a `HKLM` (HKEY_LOCAL_MACHINE) è ristretto, deve essere utilizzato `HKCU` (HKEY_CURRENT_USER). Tuttavia, per rendere `HKCU` riconoscibile dal kernel per la configurazione del driver, deve essere seguita una specifica path.
 
-Questo percorso è `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, dove `<RID>` è l'Identificatore Relativo dell'utente corrente. All'interno di `HKCU`, è necessario creare l'intero percorso e impostare due valori:
+Questo percorso è `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, dove `<RID>` è l'Identificatore Relativo dell'utente corrente. All'interno di `HKCU`, deve essere creato l'intero percorso e devono essere impostati due valori:
 - `ImagePath`, che è il percorso del binario da eseguire
 - `Type`, con un valore di `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 
 **Passaggi da Seguire:**
-1. Accedere a `HKCU` anziché a `HKLM` a causa dell'accesso in scrittura limitato.
-2. Creare il percorso `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` all'interno di `HKCU`, dove `<RID>` rappresenta l'Identificatore Relativo dell'utente corrente.
-3. Impostare `ImagePath` sul percorso di esecuzione del binario.
-4. Assegnare il `Type` come `SERVICE_KERNEL_DRIVER` (`0x00000001`).
+1. Accedi a `HKCU` invece di `HKLM` a causa dell'accesso in scrittura ristretto.
+2. Crea il percorso `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` all'interno di `HKCU`, dove `<RID>` rappresenta l'Identificatore Relativo dell'utente corrente.
+3. Imposta `ImagePath` sul percorso di esecuzione del binario.
+4. Assegna `Type` come `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 ```python
 # Example Python code to set the registry values
 import winreg as reg
@@ -95,11 +98,11 @@ reg.SetValueEx(key, "ImagePath", 0, reg.REG_SZ, "path_to_binary")
 reg.SetValueEx(key, "Type", 0, reg.REG_DWORD, 0x00000001)
 reg.CloseKey(key)
 ```
-Altri modi per abusare di questo privilegio sono disponibili in [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege)
+More ways to abuse this privilege in [https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege](https://www.ired.team/offensive-security-experiments/active-directory-kerberos-abuse/privileged-accounts-and-token-privileges#seloaddriverprivilege)
 
 ### SeTakeOwnershipPrivilege
 
-Questo è simile a **SeRestorePrivilege**. La sua funzione principale consente a un processo di **assumere la proprietà di un oggetto**, aggirando il requisito di accesso discrezionale esplicito attraverso la fornitura dei diritti di accesso WRITE_OWNER. Il processo prevede prima di tutto di garantire la proprietà della chiave di registro prevista per scopi di scrittura, per poi modificare il DACL per abilitare le operazioni di scrittura.
+Questo è simile a **SeRestorePrivilege**. La sua funzione principale consente a un processo di **assumere la proprietà di un oggetto**, eludendo il requisito di accesso discrezionale esplicito attraverso la fornitura di diritti di accesso WRITE_OWNER. Il processo prevede prima di assicurarsi la proprietà della chiave di registro prevista per scopi di scrittura, quindi di modificare il DACL per abilitare le operazioni di scrittura.
 ```bash
 takeown /f 'C:\some\file.txt' #Now the file is owned by you
 icacls 'C:\some\file.txt' /grant <your_username>:F #Now you have full access
@@ -117,13 +120,13 @@ c:\inetpub\wwwwroot\web.config
 ```
 ### SeDebugPrivilege
 
-Questo privilegio permette di **debuggare altri processi**, inclusa la lettura e scrittura in memoria. Diverse strategie di iniezione di memoria, capaci di eludere la maggior parte degli antivirus e delle soluzioni di prevenzione delle intrusioni degli host, possono essere utilizzate con questo privilegio.
+Questo privilegio consente di **debuggare altri processi**, inclusa la lettura e scrittura nella memoria. Possono essere impiegate varie strategie per l'iniezione di memoria, capaci di eludere la maggior parte delle soluzioni antivirus e di prevenzione delle intrusioni host, con questo privilegio.
 
 #### Dump della memoria
 
-Potresti utilizzare [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) dalla [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) per **catturare la memoria di un processo**. In particolare, questo può essere applicato al processo **Local Security Authority Subsystem Service ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))**, che è responsabile di memorizzare le credenziali degli utenti una volta che un utente ha effettuato correttamente l'accesso a un sistema.
+Puoi utilizzare [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) dalla [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) per **catturare la memoria di un processo**. In particolare, questo può applicarsi al processo **Local Security Authority Subsystem Service ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))**, che è responsabile della memorizzazione delle credenziali degli utenti una volta che un utente ha effettuato l'accesso con successo a un sistema.
 
-Successivamente puoi caricare questo dump in mimikatz per ottenere le password:
+Puoi quindi caricare questo dump in mimikatz per ottenere le password:
 ```
 mimikatz.exe
 mimikatz # log
@@ -132,58 +135,61 @@ mimikatz # sekurlsa::logonpasswords
 ```
 #### RCE
 
-Se desideri ottenere una shell `NT SYSTEM` potresti utilizzare:
+Se vuoi ottenere una shell `NT SYSTEM` puoi usare:
 
-- ****[**SeDebugPrivilege-Exploit (C++)**](https://github.com/bruno-1337/SeDebugPrivilege-Exploit)****
-- ****[**SeDebugPrivilegePoC (C#)**](https://github.com/daem0nc0re/PrivFu/tree/main/PrivilegedOperations/SeDebugPrivilegePoC)****
-- ****[**psgetsys.ps1 (Script Powershell)**](https://raw.githubusercontent.com/decoder-it/psgetsystem/master/psgetsys.ps1)****
+* ****[**SeDebugPrivilege-Exploit (C++)**](https://github.com/bruno-1337/SeDebugPrivilege-Exploit)****
+* ****[**SeDebugPrivilegePoC (C#)**](https://github.com/daem0nc0re/PrivFu/tree/main/PrivilegedOperations/SeDebugPrivilegePoC)****
+* ****[**psgetsys.ps1 (Powershell Script)**](https://raw.githubusercontent.com/decoder-it/psgetsystem/master/psgetsys.ps1)****
 ```powershell
 # Get the PID of a process running as NT SYSTEM
 import-module psgetsys.ps1; [MyProcess]::CreateProcessFromParent(<system_pid>,<command_to_execute>)
 ```
-## Verifica dei privilegi
+## Controlla i privilegi
 ```
 whoami /priv
 ```
-I **token che appaiono come Disabilitati** possono essere abilitati, è possibile abusare dei token _Abilitati_ e _Disabilitati_.
+I **token che appaiono come Disabilitati** possono essere abilitati, puoi effettivamente abusare dei token _Abilitati_ e _Disabilitati_.
 
 ### Abilita tutti i token
 
-Se hai token disabilitati, puoi utilizzare lo script [**EnableAllTokenPrivs.ps1**](https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/master/EnableAllTokenPrivs.ps1) per abilitare tutti i token:
+Se hai token disabilitati, puoi usare lo script [**EnableAllTokenPrivs.ps1**](https://raw.githubusercontent.com/fashionproof/EnableAllTokenPrivs/master/EnableAllTokenPrivs.ps1) per abilitare tutti i token:
 ```powershell
 .\EnableAllTokenPrivs.ps1
 whoami /priv
 ```
-Oppure lo **script** incorporato in questo [**post**](https://www.leeholmes.com/adjusting-token-privileges-in-powershell/).
+Or the **script** embed in this [**post**](https://www.leeholmes.com/adjusting-token-privileges-in-powershell/).
 
-## Tabella
+## Table
 
-Elenco completo dei privilegi del token su [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin), di seguito verranno elencati solo i modi diretti per sfruttare il privilegio per ottenere una sessione di amministratore o leggere file sensibili.
+Full token privileges cheatsheet at [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin), summary below will only list direct ways to exploit the privilege to obtain an admin session or read sensitive files.
 
-| Privilegio                 | Impatto      | Strumento               | Percorso di esecuzione                                                                                                                                                                                                                                                                                                                            | Osservazioni                                                                                                                                                                                                                                                                                                                  |
+| Privilege                  | Impact      | Tool                    | Execution path                                                                                                                                                                                                                                                                                                                                     | Remarks                                                                                                                                                                                                                                                                                                                        |
 | -------------------------- | ----------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`SeAssignPrimaryToken`** | _**Admin**_ | Strumento di terze parti | _"Consentirebbe a un utente di impersonare token e ottenere privilegi di sistema nt utilizzando strumenti come potato.exe, rottenpotato.exe e juicypotato.exe"_                                                                                                                                                                                                      | Grazie a [Aurélien Chalot](https://twitter.com/Defte\_) per l'aggiornamento. Cercherò di riformularlo in qualcosa di più simile a una ricetta presto.                                                                                                                                                                                        |
-| **`SeBackup`**             | **Minaccia**  | _**Comandi integrati**_ | Leggere file sensibili con `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- Potrebbe essere più interessante se si possono leggere %WINDIR%\MEMORY.DMP<br><br>- <code>SeBackupPrivilege</code> (e robocopy) non è utile quando si tratta di file aperti.<br><br>- Robocopy richiede sia SeBackup che SeRestore per funzionare con il parametro /b.</p>                                                                      |
-| **`SeCreateToken`**        | _**Admin**_ | Strumento di terze parti | Creare token arbitrari inclusi i diritti di amministratore locale con `NtCreateToken`.                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
-| **`SeDebug`**              | _**Admin**_ | **PowerShell**          | Duplicare il token di `lsass.exe`.                                                                                                                                                                                                                                                                                                                   | Script da trovare su [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
-| **`SeLoadDriver`**         | _**Admin**_ | Strumento di terze parti | <p>1. Caricare un driver kernel difettoso come <code>szkg64.sys</code><br>2. Sfruttare la vulnerabilità del driver<br><br>In alternativa, il privilegio può essere utilizzato per scaricare driver correlati alla sicurezza con il comando integrato <code>ftlMC</code>. ad es.: <code>fltMC sysmondrv</code></p>                                                                           | <p>1. La vulnerabilità di <code>szkg64</code> è elencata come <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. Il codice di exploit di <code>szkg64</code> è stato creato da <a href="https://twitter.com/parvezghh">Parvez Anwar</a></p> |
-| **`SeRestore`**            | _**Admin**_ | **PowerShell**          | <p>1. Avviare PowerShell/ISE con il privilegio SeRestore presente.<br>2. Abilitare il privilegio con <a href="https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeRestorePrivilege.ps1">Enable-SeRestorePrivilege</a>).<br>3. Rinominare utilman.exe in utilman.old<br>4. Rinominare cmd.exe in utilman.exe<br>5. Bloccare la console e premere Win+U</p> | <p>L'attacco potrebbe essere rilevato da alcuni software AV.</p><p>Il metodo alternativo si basa sulla sostituzione dei binari di servizio memorizzati in "Program Files" utilizzando lo stesso privilegio</p>                                                                                                                                                            |
-| **`SeTakeOwnership`**      | _**Admin**_ | _**Comandi integrati**_ | <p>1. <code>takeown.exe /f "%windir%\system32"</code><br>2. <code>icalcs.exe "%windir%\system32" /grant "%username%":F</code><br>3. Rinominare cmd.exe in utilman.exe<br>4. Bloccare la console e premere Win+U</p>                                                                                                                                       | <p>L'attacco potrebbe essere rilevato da alcuni software AV.</p><p>Il metodo alternativo si basa sulla sostituzione dei binari di servizio memorizzati in "Program Files" utilizzando lo stesso privilegio.</p>                                                                                                                                                           |
-| **`SeTcb`**                | _**Admin**_ | Strumento di terze parti | <p>Manipolare i token per includere i diritti di amministratore locale. Potrebbe richiedere SeImpersonate.</p><p>Da verificare.</p>                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                                                                                                |
+| **`SeAssignPrimaryToken`** | _**Admin**_ | 3rd party tool          | _"Consentirebbe a un utente di impersonare i token e privesc al sistema nt utilizzando strumenti come potato.exe, rottenpotato.exe e juicypotato.exe"_                                                                                                                                                                                                      | Thank you [Aurélien Chalot](https://twitter.com/Defte\_) for the update. I will try to re-phrase it to something more recipe-like soon.                                                                                                                                                                                        |
+| **`SeBackup`**             | **Threat**  | _**Built-in commands**_ | Leggi file sensibili con `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- Potrebbe essere più interessante se puoi leggere %WINDIR%\MEMORY.DMP<br><br>- <code>SeBackupPrivilege</code> (e robocopy) non è utile quando si tratta di file aperti.<br><br>- Robocopy richiede sia SeBackup che SeRestore per funzionare con il parametro /b.</p>                                                                      |
+| **`SeCreateToken`**        | _**Admin**_ | 3rd party tool          | Crea token arbitrari inclusi i diritti di amministratore locale con `NtCreateToken`.                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
+| **`SeDebug`**              | _**Admin**_ | **PowerShell**          | Duplica il token `lsass.exe`.                                                                                                                                                                                                                                                                                                                   | Script da trovare su [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
+| **`SeLoadDriver`**         | _**Admin**_ | 3rd party tool          | <p>1. Carica un driver del kernel difettoso come <code>szkg64.sys</code><br>2. Sfrutta la vulnerabilità del driver<br><br>In alternativa, il privilegio può essere utilizzato per scaricare driver relativi alla sicurezza con il comando incorporato <code>ftlMC</code>. i.e.: <code>fltMC sysmondrv</code></p>                                                                           | <p>1. La vulnerabilità <code>szkg64</code> è elencata come <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. Il <code>szkg64</code> <a href="https://www.greyhathacker.net/?p=1025">codice di exploit</a> è stato creato da <a href="https://twitter.com/parvezghh">Parvez Anwar</a></p> |
+| **`SeRestore`**            | _**Admin**_ | **PowerShell**          | <p>1. Avvia PowerShell/ISE con il privilegio SeRestore presente.<br>2. Abilita il privilegio con <a href="https://github.com/gtworek/PSBits/blob/master/Misc/EnableSeRestorePrivilege.ps1">Enable-SeRestorePrivilege</a>).<br>3. Rinomina utilman.exe in utilman.old<br>4. Rinomina cmd.exe in utilman.exe<br>5. Blocca la console e premi Win+U</p> | <p>L'attacco potrebbe essere rilevato da alcuni software antivirus.</p><p>Il metodo alternativo si basa sulla sostituzione dei file binari di servizio memorizzati in "Program Files" utilizzando lo stesso privilegio</p>                                                                                                                                                            |
+| **`SeTakeOwnership`**      | _**Admin**_ | _**Built-in commands**_ | <p>1. <code>takeown.exe /f "%windir%\system32"</code><br>2. <code>icalcs.exe "%windir%\system32" /grant "%username%":F</code><br>3. Rinomina cmd.exe in utilman.exe<br>4. Blocca la console e premi Win+U</p>                                                                                                                                       | <p>L'attacco potrebbe essere rilevato da alcuni software antivirus.</p><p>Il metodo alternativo si basa sulla sostituzione dei file binari di servizio memorizzati in "Program Files" utilizzando lo stesso privilegio.</p>                                                                                                                                                           |
+| **`SeTcb`**                | _**Admin**_ | 3rd party tool          | <p>Manipola i token per avere diritti di amministratore locale inclusi. Potrebbe richiedere SeImpersonate.</p><p>Da verificare.</p>                                                                                                                                                                                                                                     |                                                                                                                                                                                                                                                                                                                                |
 
-## Riferimenti
+## Reference
 
-* Dai un'occhiata a questa tabella che definisce i token di Windows: [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin)
-* Dai un'occhiata a [**questo documento**](https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt) sull'elevazione dei privilegi con i token.
+* Take a look to this table defining Windows tokens: [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin)
+* Take a look to [**this paper**](https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt) about privesc with tokens.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la **tua azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione del PEASS o scaricare HackTricks in PDF**? Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

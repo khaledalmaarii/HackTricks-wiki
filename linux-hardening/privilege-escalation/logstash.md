@@ -1,23 +1,28 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 
 ## Logstash
 
-Logstash viene utilizzato per **raccogliere, trasformare e inviare log** attraverso un sistema noto come **pipeline**. Queste pipeline sono composte da fasi di **input**, **filtro** e **output**. Un aspetto interessante si presenta quando Logstash opera su una macchina compromessa.
+Logstash viene utilizzato per **raccogliere, trasformare e inviare log** attraverso un sistema noto come **pipeline**. Queste pipeline sono composte da fasi di **input**, **filter** e **output**. Un aspetto interessante si presenta quando Logstash opera su una macchina compromessa.
 
-### Configurazione della pipeline
+### Configurazione della Pipeline
 
 Le pipeline sono configurate nel file **/etc/logstash/pipelines.yml**, che elenca le posizioni delle configurazioni delle pipeline:
 ```yaml
@@ -31,21 +36,21 @@ path.config: "/etc/logstash/conf.d/*.conf"
 path.config: "/usr/share/logstash/pipeline/1*.conf"
 pipeline.workers: 6
 ```
-Questo file rivela dove sono posizionati i file **.conf**, contenenti le configurazioni delle pipeline. Quando si utilizza un modulo di output **Elasticsearch**, è comune che le **pipeline** includano le **credenziali Elasticsearch**, che spesso possiedono privilegi estesi a causa della necessità di Logstash di scrivere dati su Elasticsearch. I caratteri jolly nei percorsi di configurazione consentono a Logstash di eseguire tutte le pipeline corrispondenti nella directory designata.
+Questo file rivela dove si trovano i file **.conf**, contenenti configurazioni dei pipeline. Quando si utilizza un **modulo di output Elasticsearch**, è comune che i **pipeline** includano **credenziali Elasticsearch**, che spesso possiedono ampi privilegi a causa della necessità di Logstash di scrivere dati su Elasticsearch. I caratteri jolly nei percorsi di configurazione consentono a Logstash di eseguire tutti i pipeline corrispondenti nella directory designata.
 
 ### Escalation dei privilegi tramite pipeline scrivibili
 
-Per tentare l'escalation dei privilegi, identificare prima l'utente sotto il quale viene eseguito il servizio Logstash, di solito l'utente **logstash**. Assicurarsi di soddisfare **una** di queste condizioni:
+Per tentare un'escalation dei privilegi, prima identifica l'utente sotto il quale il servizio Logstash è in esecuzione, tipicamente l'utente **logstash**. Assicurati di soddisfare **uno** di questi criteri:
 
-- Possedere **accesso in scrittura** a un file **.conf** della pipeline **o**
-- Il file **/etc/logstash/pipelines.yml** utilizza un carattere jolly e si può scrivere nella cartella di destinazione
+- Possedere **accesso in scrittura** a un file **.conf** del pipeline **oppure**
+- Il file **/etc/logstash/pipelines.yml** utilizza un carattere jolly e puoi scrivere nella cartella di destinazione
 
 Inoltre, **una** di queste condizioni deve essere soddisfatta:
 
-- Capacità di riavviare il servizio Logstash **o**
-- Il file **/etc/logstash/logstash.yml** ha impostato **config.reload.automatic: true**
+- Capacità di riavviare il servizio Logstash **oppure**
+- Il file **/etc/logstash/logstash.yml** ha **config.reload.automatic: true** impostato
 
-Dato un carattere jolly nella configurazione, la creazione di un file che corrisponde a questo carattere jolly consente l'esecuzione di comandi. Ad esempio:
+Data la presenza di un carattere jolly nella configurazione, creare un file che corrisponde a questo carattere jolly consente l'esecuzione di comandi. Ad esempio:
 ```bash
 input {
 exec {
@@ -63,24 +68,29 @@ codec => rubydebug
 ```
 Qui, **interval** determina la frequenza di esecuzione in secondi. Nell'esempio fornito, il comando **whoami** viene eseguito ogni 120 secondi, con il suo output diretto a **/tmp/output.log**.
 
-Con **config.reload.automatic: true** in **/etc/logstash/logstash.yml**, Logstash rileverà automaticamente e applicherà nuove o modificate configurazioni di pipeline senza bisogno di riavvio. Se non è presente un carattere jolly, è comunque possibile apportare modifiche alle configurazioni esistenti, ma si consiglia cautela per evitare interruzioni.
+Con **config.reload.automatic: true** in **/etc/logstash/logstash.yml**, Logstash rileverà e applicherà automaticamente nuove o modificate configurazioni della pipeline senza necessità di riavvio. Se non c'è un carattere jolly, le modifiche possono comunque essere apportate alle configurazioni esistenti, ma si consiglia cautela per evitare interruzioni.
 
 
 ## Riferimenti
-
-* [https://insinuator.net/2021/01/pentesting-the-elk-stack/](https://insinuator.net/2021/01/pentesting-the-elk-stack/)
-
+{% hint style="success" %}
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos github.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

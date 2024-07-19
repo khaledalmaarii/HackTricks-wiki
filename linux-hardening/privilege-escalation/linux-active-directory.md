@@ -1,28 +1,31 @@
-# Active Directory Linux
+# Linux Active Directory
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? O vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-Una macchina Linux può essere presente anche all'interno di un ambiente Active Directory.
+Una macchina linux può essere presente anche all'interno di un ambiente Active Directory.
 
-Una macchina Linux in un AD potrebbe **memorizzare diversi ticket CCACHE all'interno di file. Questi ticket possono essere utilizzati e abusati come qualsiasi altro ticket Kerberos**. Per leggere questi ticket è necessario essere il proprietario dell'utente del ticket o **root** all'interno della macchina.
+Una macchina linux in un AD potrebbe **memorizzare diversi ticket CCACHE all'interno di file. Questi ticket possono essere utilizzati e abusati come qualsiasi altro ticket kerberos**. Per leggere questi ticket sarà necessario essere l'utente proprietario del ticket o **root** all'interno della macchina.
 
 ## Enumerazione
 
-### Enumerazione AD da Linux
+### Enumerazione AD da linux
 
-Se hai accesso a un AD in Linux (o bash in Windows) puoi provare [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) per enumerare l'AD.
+Se hai accesso a un AD in linux (o bash in Windows) puoi provare [https://github.com/lefayjey/linWinPwn](https://github.com/lefayjey/linWinPwn) per enumerare l'AD.
 
-Puoi anche controllare la seguente pagina per imparare **altre modalità per enumerare l'AD da Linux**:
+Puoi anche controllare la seguente pagina per apprendere **altri modi per enumerare l'AD da linux**:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -30,7 +33,7 @@ Puoi anche controllare la seguente pagina per imparare **altre modalità per enu
 
 ### FreeIPA
 
-FreeIPA è un'**alternativa** open-source a Microsoft Windows **Active Directory**, principalmente per ambienti **Unix**. Combina un **directory LDAP completa** con un centro di distribuzione delle chiavi MIT **Kerberos** per la gestione simile ad Active Directory. Utilizzando il sistema di certificati Dogtag **Certificate System** per la gestione dei certificati CA & RA, supporta l'autenticazione **multifattore**, inclusi i smart card. SSSD è integrato per i processi di autenticazione Unix. Scopri di più al riguardo in:
+FreeIPA è un **alternativa** open-source a Microsoft Windows **Active Directory**, principalmente per ambienti **Unix**. Combina un **directory LDAP** completo con un MIT **Kerberos** Key Distribution Center per la gestione simile a Active Directory. Utilizzando il Dogtag **Certificate System** per la gestione dei certificati CA e RA, supporta l'autenticazione **multi-fattore**, inclusi i smartcard. SSSD è integrato per i processi di autenticazione Unix. Scopri di più a riguardo in:
 
 {% content-ref url="../freeipa-pentesting.md" %}
 [freeipa-pentesting.md](../freeipa-pentesting.md)
@@ -40,7 +43,7 @@ FreeIPA è un'**alternativa** open-source a Microsoft Windows **Active Directory
 
 ### Pass The Ticket
 
-In questa pagina troverai diversi luoghi in cui potresti **trovare ticket Kerberos all'interno di un host Linux**, nella pagina seguente puoi imparare come trasformare questi formati di ticket CCache in Kirbi (il formato necessario per l'uso in Windows) e anche come eseguire un attacco PTT:
+In questa pagina troverai diversi luoghi dove potresti **trovare ticket kerberos all'interno di un host linux**, nella pagina seguente puoi apprendere come trasformare questi formati di ticket CCache in Kirbi (il formato che devi usare in Windows) e anche come eseguire un attacco PTT:
 
 {% content-ref url="../../windows-hardening/active-directory-methodology/pass-the-ticket.md" %}
 [pass-the-ticket.md](../../windows-hardening/active-directory-methodology/pass-the-ticket.md)
@@ -48,9 +51,9 @@ In questa pagina troverai diversi luoghi in cui potresti **trovare ticket Kerber
 
 ### Riutilizzo del ticket CCACHE da /tmp
 
-I file CCACHE sono formati binari per **memorizzare le credenziali Kerberos** che vengono tipicamente archiviati con autorizzazioni 600 in `/tmp`. Questi file possono essere identificati dal loro **formato di nome, `krb5cc_%{uid}`,** che corrisponde all'UID dell'utente. Per la verifica del ticket di autenticazione, la **variabile d'ambiente `KRB5CCNAME`** dovrebbe essere impostata sul percorso del file di ticket desiderato, consentendone il riutilizzo.
+I file CCACHE sono formati binari per **memorizzare le credenziali Kerberos** e sono tipicamente memorizzati con permessi 600 in `/tmp`. Questi file possono essere identificati dal loro **formato di nome, `krb5cc_%{uid}`,** che corrisponde all'UID dell'utente. Per la verifica del ticket di autenticazione, la **variabile di ambiente `KRB5CCNAME`** dovrebbe essere impostata sul percorso del file ticket desiderato, consentendone il riutilizzo.
 
-Elencare il ticket corrente utilizzato per l'autenticazione con `env | grep KRB5CCNAME`. Il formato è portatile e il ticket può essere **riutilizzato impostando la variabile d'ambiente** con `export KRB5CCNAME=/tmp/ticket.ccache`. Il formato del nome del ticket Kerberos è `krb5cc_%{uid}`, dove uid è l'UID dell'utente.
+Elenca il ticket attuale utilizzato per l'autenticazione con `env | grep KRB5CCNAME`. Il formato è portabile e il ticket può essere **riutilizzato impostando la variabile di ambiente** con `export KRB5CCNAME=/tmp/ticket.ccache`. Il formato del nome del ticket Kerberos è `krb5cc_%{uid}` dove uid è l'UID dell'utente.
 ```bash
 # Find tickets
 ls /tmp/ | grep krb5cc
@@ -61,28 +64,28 @@ export KRB5CCNAME=/tmp/krb5cc_1000
 ```
 ### Riutilizzo del ticket CCACHE dalla keyring
 
-**I ticket Kerberos memorizzati nella memoria di un processo possono essere estratti**, specialmente quando la protezione ptrace della macchina è disabilitata (`/proc/sys/kernel/yama/ptrace_scope`). Uno strumento utile a questo scopo si trova su [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), che facilita l'estrazione iniettando nelle sessioni e scaricando i ticket in `/tmp`.
+**I ticket Kerberos memorizzati nella memoria di un processo possono essere estratti**, in particolare quando la protezione ptrace della macchina è disabilitata (`/proc/sys/kernel/yama/ptrace_scope`). Uno strumento utile per questo scopo si trova su [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey), che facilita l'estrazione iniettando nelle sessioni e dumpando i ticket in `/tmp`.
 
-Per configurare e utilizzare questo strumento, seguire i passaggi di seguito:
+Per configurare e utilizzare questo strumento, si seguono i seguenti passaggi:
 ```bash
 git clone https://github.com/TarlogicSecurity/tickey
 cd tickey/tickey
 make CONF=Release
 /tmp/tickey -i
 ```
-Questa procedura cercherà di iniettarsi in varie sessioni, indicando il successo memorizzando i ticket estratti in `/tmp` con una convenzione di denominazione `__krb_UID.ccache`.
+Questa procedura tenterà di iniettare in varie sessioni, indicando il successo memorizzando i ticket estratti in `/tmp` con una convenzione di denominazione di `__krb_UID.ccache`.
 
 
 ### Riutilizzo del ticket CCACHE da SSSD KCM
 
-SSSD mantiene una copia del database nel percorso `/var/lib/sss/secrets/secrets.ldb`. La corrispondente chiave viene memorizzata come file nascosto nel percorso `/var/lib/sss/secrets/.secrets.mkey`. Di default, la chiave è leggibile solo se si hanno i permessi di **root**.
+SSSD mantiene una copia del database nel percorso `/var/lib/sss/secrets/secrets.ldb`. La chiave corrispondente è memorizzata come file nascosto nel percorso `/var/lib/sss/secrets/.secrets.mkey`. Per impostazione predefinita, la chiave è leggibile solo se si dispone di permessi **root**.
 
-Invocando \*\*`SSSDKCMExtractor` \*\* con i parametri --database e --key, verrà analizzato il database e **decifrati i segreti**.
+Invocando \*\*`SSSDKCMExtractor` \*\* con i parametri --database e --key si analizzerà il database e si **decrypteranno i segreti**.
 ```bash
 git clone https://github.com/fireeye/SSSDKCMExtractor
 python3 SSSDKCMExtractor.py --database secrets.ldb --key secrets.mkey
 ```
-Il **blob Kerberos della cache delle credenziali può essere convertito in un file CCache Kerberos utilizzabile** che può essere passato a Mimikatz/Rubeus.
+Il **blob della cache delle credenziali Kerberos può essere convertito in un file CCache Kerberos utilizzabile** che può essere passato a Mimikatz/Rubeus.
 
 ### Riutilizzo del ticket CCACHE da keytab
 ```bash
@@ -90,16 +93,16 @@ git clone https://github.com/its-a-feature/KeytabParser
 python KeytabParser.py /etc/krb5.keytab
 klist -k /etc/krb5.keytab
 ```
-### Estrarre gli account da /etc/krb5.keytab
+### Estrai account da /etc/krb5.keytab
 
-Le chiavi degli account di servizio, essenziali per i servizi che operano con privilegi di root, vengono conservate in modo sicuro nei file **`/etc/krb5.keytab`**. Queste chiavi, simili a password per i servizi, richiedono una rigorosa riservatezza.
+Le chiavi degli account di servizio, essenziali per i servizi che operano con privilegi di root, sono archiviate in modo sicuro nei file **`/etc/krb5.keytab`**. Queste chiavi, simili a password per i servizi, richiedono una stretta riservatezza.
 
-Per ispezionare il contenuto del file keytab, è possibile utilizzare il comando **`klist`**. Lo strumento è progettato per visualizzare i dettagli delle chiavi, inclusa l'**NT Hash** per l'autenticazione dell'utente, in particolare quando il tipo di chiave viene identificato come 23.
+Per ispezionare il contenuto del file keytab, si può utilizzare **`klist`**. Lo strumento è progettato per visualizzare i dettagli delle chiavi, inclusa la **NT Hash** per l'autenticazione degli utenti, in particolare quando il tipo di chiave è identificato come 23.
 ```bash
 klist.exe -t -K -e -k FILE:C:/Path/to/your/krb5.keytab
 # Output includes service principal details and the NT Hash
 ```
-Per gli utenti Linux, **`KeyTabExtract`** offre la funzionalità di estrarre l'hash RC4 HMAC, che può essere sfruttato per il riutilizzo dell'hash NTLM.
+Per gli utenti Linux, **`KeyTabExtract`** offre funzionalità per estrarre l'hash RC4 HMAC, che può essere sfruttato per il riutilizzo dell'hash NTLM.
 ```bash
 python3 keytabextract.py krb5.keytab
 # Expected output varies based on hash availability
@@ -108,7 +111,7 @@ Su macOS, **`bifrost`** funge da strumento per l'analisi dei file keytab.
 ```bash
 ./bifrost -action dump -source keytab -path /path/to/your/file
 ```
-Utilizzando le informazioni sull'account e l'hash estratti, è possibile stabilire connessioni ai server utilizzando strumenti come **`crackmapexec`**.
+Utilizzando le informazioni sull'account e sull'hash estratte, è possibile stabilire connessioni ai server utilizzando strumenti come **`crackmapexec`**.
 ```bash
 crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDOMAIN"
 ```
@@ -117,14 +120,17 @@ crackmapexec 10.XXX.XXX.XXX -u 'ServiceAccount$' -H "HashPlaceholder" -d "YourDO
 * [https://github.com/TarlogicSecurity/tickey](https://github.com/TarlogicSecurity/tickey)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#linux-active-directory](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Active%20Directory%20Attack.md#linux-active-directory)
 
+{% hint style="success" %}
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? O vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
+{% endhint %}

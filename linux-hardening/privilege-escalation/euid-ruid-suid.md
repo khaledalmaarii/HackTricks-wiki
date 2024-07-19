@@ -1,70 +1,73 @@
 # euid, ruid, suid
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Variabili di identificazione dell'utente
+### Variabili di Identificazione Utente
 
-- **`ruid`**: L'**ID utente reale** indica l'utente che ha avviato il processo.
-- **`euid`**: Conosciuto come **ID utente effettivo**, rappresenta l'identità dell'utente utilizzata dal sistema per determinare i privilegi del processo. In generale, `euid` riflette `ruid`, ad eccezione di casi come l'esecuzione di un binario SetUID, in cui `euid` assume l'identità del proprietario del file, concedendo così specifici permessi operativi.
-- **`suid`**: Questo **ID utente salvato** è fondamentale quando un processo ad alta privilegi (tipicamente in esecuzione come root) deve temporaneamente rinunciare ai suoi privilegi per eseguire determinati compiti, per poi recuperare successivamente il suo stato elevato iniziale.
+- **`ruid`**: Il **real user ID** indica l'utente che ha avviato il processo.
+- **`euid`**: Conosciuto come **effective user ID**, rappresenta l'identità utente utilizzata dal sistema per determinare i privilegi del processo. Generalmente, `euid` rispecchia `ruid`, tranne in casi come l'esecuzione di un binario SetUID, dove `euid` assume l'identità del proprietario del file, concedendo così specifici permessi operativi.
+- **`suid`**: Questo **saved user ID** è fondamentale quando un processo ad alto privilegio (tipicamente in esecuzione come root) deve temporaneamente rinunciare ai propri privilegi per eseguire determinate operazioni, per poi riacquistare il proprio stato elevato iniziale.
 
-#### Nota importante
-Un processo che non opera come root può modificare solo il suo `euid` per corrispondere all'attuale `ruid`, `euid` o `suid`.
+#### Nota Importante
+Un processo che non opera sotto root può modificare il proprio `euid` solo per farlo corrispondere all'attuale `ruid`, `euid` o `suid`.
 
-### Comprensione delle funzioni set*uid
+### Comprendere le Funzioni set*uid
 
-- **`setuid`**: Contrariamente alle supposizioni iniziali, `setuid` modifica principalmente `euid` anziché `ruid`. In particolare, per i processi privilegiati, allinea `ruid`, `euid` e `suid` con l'utente specificato, spesso root, consolidando efficacemente questi ID a causa dell'override di `suid`. Informazioni dettagliate possono essere trovate nella [pagina man di setuid](https://man7.org/linux/man-pages/man2/setuid.2.html).
-- **`setreuid`** e **`setresuid`**: Queste funzioni consentono l'aggiustamento sfumato di `ruid`, `euid` e `suid`. Tuttavia, le loro capacità dipendono dal livello di privilegio del processo. Per i processi non root, le modifiche sono limitate ai valori correnti di `ruid`, `euid` e `suid`. Al contrario, i processi root o quelli con la capacità `CAP_SETUID` possono assegnare valori arbitrari a questi ID. Ulteriori informazioni possono essere ricavate dalla [pagina man di setresuid](https://man7.org/linux/man-pages/man2/setresuid.2.html) e dalla [pagina man di setreuid](https://man7.org/linux/man-pages/man2/setreuid.2.html).
+- **`setuid`**: Contrariamente alle assunzioni iniziali, `setuid` modifica principalmente `euid` piuttosto che `ruid`. Specificamente, per i processi privilegiati, allinea `ruid`, `euid` e `suid` con l'utente specificato, spesso root, consolidando efficacemente questi ID a causa del `suid` sovrascritto. Informazioni dettagliate possono essere trovate nella [pagina man di setuid](https://man7.org/linux/man-pages/man2/setuid.2.html).
+- **`setreuid`** e **`setresuid`**: Queste funzioni consentono la regolazione sfumata di `ruid`, `euid` e `suid`. Tuttavia, le loro capacità dipendono dal livello di privilegio del processo. Per i processi non root, le modifiche sono limitate ai valori attuali di `ruid`, `euid` e `suid`. Al contrario, i processi root o quelli con la capacità `CAP_SETUID` possono assegnare valori arbitrari a questi ID. Maggiori informazioni possono essere ottenute dalla [pagina man di setresuid](https://man7.org/linux/man-pages/man2/setresuid.2.html) e dalla [pagina man di setreuid](https://man7.org/linux/man-pages/man2/setreuid.2.html).
 
-Queste funzionalità sono progettate non come meccanismo di sicurezza, ma per agevolare il flusso operativo previsto, ad esempio quando un programma adotta l'identità di un altro utente modificando il proprio ID utente effettivo.
+Queste funzionalità non sono progettate come un meccanismo di sicurezza, ma per facilitare il flusso operativo previsto, come quando un programma adotta l'identità di un altro utente modificando il proprio effective user ID.
 
-È importante notare che, sebbene `setuid` possa essere una scelta comune per l'elevazione dei privilegi a root (poiché allinea tutti gli ID a root), differenziare tra queste funzioni è fondamentale per comprendere e manipolare i comportamenti degli ID utente in scenari diversi.
+È importante notare che, mentre `setuid` potrebbe essere una scelta comune per l'elevazione dei privilegi a root (poiché allinea tutti gli ID a root), differenziare tra queste funzioni è cruciale per comprendere e manipolare i comportamenti degli ID utente in vari scenari.
 
-### Meccanismi di esecuzione dei programmi in Linux
+### Meccanismi di Esecuzione dei Programmi in Linux
 
-#### Chiamata di sistema **`execve`**
-- **Funzionalità**: `execve` avvia un programma, determinato dal primo argomento. Prende due argomenti di tipo array, `argv` per gli argomenti e `envp` per l'ambiente.
-- **Comportamento**: Mantiene lo spazio di memoria del chiamante, ma aggiorna lo stack, l'heap e i segmenti di dati. Il codice del programma viene sostituito dal nuovo programma.
-- **Preservazione dell'ID utente**:
-- `ruid`, `euid` e gli ID dei gruppi supplementari rimangono inalterati.
-- `euid` potrebbe subire cambiamenti sfumati se il nuovo programma ha il bit SetUID impostato.
+#### **Chiamata di Sistema `execve`**
+- **Funzionalità**: `execve` avvia un programma, determinato dal primo argomento. Prende due argomenti array, `argv` per gli argomenti e `envp` per l'ambiente.
+- **Comportamento**: Mantiene lo spazio di memoria del chiamante ma aggiorna lo stack, l'heap e i segmenti di dati. Il codice del programma viene sostituito dal nuovo programma.
+- **Preservazione dell'ID Utente**:
+- `ruid`, `euid` e gli ID di gruppo supplementari rimangono invariati.
+- `euid` potrebbe subire modifiche sfumate se il nuovo programma ha impostato il bit SetUID.
 - `suid` viene aggiornato da `euid` dopo l'esecuzione.
 - **Documentazione**: Informazioni dettagliate possono essere trovate nella [pagina man di `execve`](https://man7.org/linux/man-pages/man2/execve.2.html).
 
-#### Funzione **`system`**
+#### **Funzione `system`**
 - **Funzionalità**: A differenza di `execve`, `system` crea un processo figlio utilizzando `fork` ed esegue un comando all'interno di quel processo figlio utilizzando `execl`.
-- **Esecuzione del comando**: Esegue il comando tramite `sh` con `execl("/bin/sh", "sh", "-c", comando, (char *) NULL);`.
-- **Comportamento**: Poiché `execl` è una forma di `execve`, funziona in modo simile ma nel contesto di un nuovo processo figlio.
-- **Documentazione**: Ulteriori approfondimenti possono essere ottenuti dalla [pagina man di `system`](https://man7.org/linux/man-pages/man3/system.3.html).
+- **Esecuzione del Comando**: Esegue il comando tramite `sh` con `execl("/bin/sh", "sh", "-c", command, (char *) NULL);`.
+- **Comportamento**: Poiché `execl` è una forma di `execve`, opera in modo simile ma nel contesto di un nuovo processo figlio.
+- **Documentazione**: Ulteriori informazioni possono essere ottenute dalla [pagina man di `system`](https://man7.org/linux/man-pages/man3/system.3.html).
 
-#### Comportamento di **`bash`** e **`sh`** con SUID
+#### **Comportamento di `bash` e `sh` con SUID**
 - **`bash`**:
-- Ha un'opzione `-p` che influenza il trattamento di `euid` e `ruid`.
+- Ha un'opzione `-p` che influisce su come vengono trattati `euid` e `ruid`.
 - Senza `-p`, `bash` imposta `euid` su `ruid` se inizialmente differiscono.
-- Con `-p`, viene preservato l'`euid` iniziale.
-- Ulteriori dettagli possono essere trovati nella [pagina man di `bash`](https://linux.die.net/man/1/bash).
+- Con `-p`, l'iniziale `euid` viene preservato.
+- Maggiori dettagli possono essere trovati nella [pagina man di `bash`](https://linux.die.net/man/1/bash).
 - **`sh`**:
 - Non possiede un meccanismo simile a `-p` in `bash`.
-- Il comportamento riguardante gli ID utente non è menzionato esplicitamente, tranne nell'opzione `-i`, che sottolinea la preservazione dell'uguaglianza tra `euid` e `ruid`.
-- Ulteriori informazioni sono disponibili nella [pagina man di `sh`](https://man7.org/linux/man-pages/man1/sh.1p.html).
+- Il comportamento riguardante gli ID utente non è esplicitamente menzionato, tranne che sotto l'opzione `-i`, enfatizzando la preservazione dell'uguaglianza tra `euid` e `ruid`.
+- Ulteriori informazioni sono disponibili sulla [pagina man di `sh`](https://man7.org/linux/man-pages/man1/sh.1p.html).
 
-Questi meccanismi, distinti nel loro funzionamento, offrono una vasta gamma di opzioni per l'esecuzione e la transizione tra programmi, con sfumature specifiche nel modo in cui gli ID utente vengono gestiti e preservati.
+Questi meccanismi, distinti nel loro funzionamento, offrono una gamma versatile di opzioni per eseguire e passare tra programmi, con specifiche sfumature su come vengono gestiti e preservati gli ID utente.
 
-### Test dei comportamenti degli ID utente nelle esecuzioni
+### Testare i Comportamenti degli ID Utente nelle Esecuzioni
 
 Esempi tratti da https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail, controlla per ulteriori informazioni
 
-#### Caso 1: Utilizzo di `setuid` con `system`
+#### Caso 1: Utilizzare `setuid` con `system`
 
 **Obiettivo**: Comprendere l'effetto di `setuid` in combinazione con `system` e `bash` come `sh`.
 
@@ -81,26 +84,6 @@ return 0;
 }
 ```
 **Compilazione e Permessi:**
-
-When a program is compiled, it is assigned certain permissions that determine how it can be executed and accessed by users. These permissions are associated with the program's executable file.
-
-Quando un programma viene compilato, vengono assegnati determinati permessi che determinano come può essere eseguito e accessibile dagli utenti. Questi permessi sono associati al file eseguibile del programma.
-
-The permissions are divided into three categories: owner, group, and others. Each category has three types of permissions: read (r), write (w), and execute (x). The permissions can be represented using numbers as well: read (4), write (2), and execute (1).
-
-I permessi sono divisi in tre categorie: proprietario, gruppo e altri. Ogni categoria ha tre tipi di permessi: lettura (r), scrittura (w) ed esecuzione (x). I permessi possono essere rappresentati anche utilizzando numeri: lettura (4), scrittura (2) ed esecuzione (1).
-
-The permissions can be viewed using the `ls -l` command. The output will display the permissions for the owner, group, and others in the format `rwxrwxrwx`.
-
-I permessi possono essere visualizzati utilizzando il comando `ls -l`. L'output mostrerà i permessi per il proprietario, il gruppo e gli altri nel formato `rwxrwxrwx`.
-
-To change the permissions of a file, the `chmod` command is used. For example, to give the owner read and write permissions, the command `chmod u+rw file` can be used.
-
-Per modificare i permessi di un file, viene utilizzato il comando `chmod`. Ad esempio, per dare al proprietario i permessi di lettura e scrittura, può essere utilizzato il comando `chmod u+rw file`.
-
-It is important to note that changing the permissions of a file can have security implications. Giving excessive permissions to a file can make it vulnerable to unauthorized access or modification.
-
-È importante notare che modificare i permessi di un file può avere implicazioni sulla sicurezza. Dare permessi eccessivi a un file può renderlo vulnerabile ad accessi o modifiche non autorizzate.
 ```bash
 oxdf@hacky$ gcc a.c -o /mnt/nfsshare/a;
 oxdf@hacky$ chmod 4755 /mnt/nfsshare/a
@@ -112,12 +95,12 @@ uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconf
 ```
 **Analisi:**
 
-* `ruid` e `euid` iniziano rispettivamente come 99 (nobody) e 1000 (frank).
+* `ruid` ed `euid` iniziano come 99 (nobody) e 1000 (frank) rispettivamente.
 * `setuid` allinea entrambi a 1000.
 * `system` esegue `/bin/bash -c id` a causa del symlink da sh a bash.
-* `bash`, senza `-p`, regola `euid` per corrispondere a `ruid`, risultando entrambi 99 (nobody).
+* `bash`, senza `-p`, regola `euid` per corrispondere a `ruid`, risultando in entrambi che sono 99 (nobody).
 
-#### Caso 2: Utilizzo di setreuid con system
+#### Caso 2: Utilizzando setreuid con system
 
 **Codice C**:
 ```c
@@ -132,26 +115,6 @@ return 0;
 }
 ```
 **Compilazione e Permessi:**
-
-When a program is compiled, it is assigned certain permissions that determine how it can be executed and accessed by users. These permissions are associated with the program's executable file.
-
-Quando un programma viene compilato, vengono assegnati determinati permessi che determinano come può essere eseguito e accessibile dagli utenti. Questi permessi sono associati al file eseguibile del programma.
-
-The permissions are divided into three categories: owner, group, and others. Each category has three types of permissions: read (r), write (w), and execute (x). The permissions can be represented using numbers as well: read (4), write (2), and execute (1).
-
-I permessi sono divisi in tre categorie: proprietario, gruppo e altri. Ogni categoria ha tre tipi di permessi: lettura (r), scrittura (w) ed esecuzione (x). I permessi possono essere rappresentati anche utilizzando numeri: lettura (4), scrittura (2) ed esecuzione (1).
-
-The permissions can be viewed using the `ls -l` command. The output will display the permissions for the owner, group, and others in the format `rwxrwxrwx`.
-
-I permessi possono essere visualizzati utilizzando il comando `ls -l`. L'output mostrerà i permessi per il proprietario, il gruppo e gli altri nel formato `rwxrwxrwx`.
-
-To change the permissions of a file, the `chmod` command is used. For example, to give read, write, and execute permissions to the owner, and only read and execute permissions to the group and others, the command `chmod 755 filename` can be used.
-
-Per modificare i permessi di un file, si utilizza il comando `chmod`. Ad esempio, per dare i permessi di lettura, scrittura ed esecuzione al proprietario e solo i permessi di lettura ed esecuzione al gruppo e agli altri, si può utilizzare il comando `chmod 755 nomefile`.
-
-It is important to note that changing the permissions of a file can have security implications. Giving excessive permissions to a file can make it vulnerable to unauthorized access or modification.
-
-È importante notare che modificare i permessi di un file può avere implicazioni sulla sicurezza. Dare permessi eccessivi a un file può renderlo vulnerabile ad accessi o modifiche non autorizzate.
 ```bash
 oxdf@hacky$ gcc b.c -o /mnt/nfsshare/b; chmod 4755 /mnt/nfsshare/b
 ```
@@ -162,8 +125,8 @@ uid=1000(frank) gid=99(nobody) groups=99(nobody) context=system_u:system_r:uncon
 ```
 **Analisi:**
 
-* `setreuid` imposta sia l'ruid che l'euid a 1000.
-* `system` invoca bash, che mantiene gli ID utente a causa della loro uguaglianza, operando efficacemente come frank.
+* `setreuid` imposta sia ruid che euid a 1000.
+* `system` invoca bash, che mantiene gli ID utente a causa della loro uguaglianza, operando effettivamente come frank.
 
 #### Caso 3: Utilizzo di setuid con execve
 Obiettivo: Esplorare l'interazione tra setuid ed execve.
@@ -185,9 +148,9 @@ uid=99(nobody) gid=99(nobody) euid=1000(frank) groups=99(nobody) context=system_
 ```
 **Analisi:**
 
-* `ruid` rimane 99, ma `euid` viene impostato a 1000, in linea con l'effetto di `setuid`.
+* `ruid` rimane 99, ma euid è impostato su 1000, in linea con l'effetto di setuid.
 
-**Esempio di codice C 2 (Chiamata a Bash):**
+**Esempio di codice C 2 (Chiamando Bash):**
 ```bash
 #define _GNU_SOURCE
 #include <stdlib.h>
@@ -207,7 +170,7 @@ uid=99(nobody) gid=99(nobody) groups=99(nobody) context=system_u:system_r:unconf
 ```
 **Analisi:**
 
-* Anche se `euid` viene impostato a 1000 da `setuid`, `bash` reimposta `euid` a `ruid` (99) a causa dell'assenza di `-p`.
+* Anche se `euid` è impostato a 1000 da `setuid`, `bash` ripristina euid a `ruid` (99) a causa dell'assenza di `-p`.
 
 **Esempio di codice C 3 (Utilizzando bash -p):**
 ```bash
@@ -232,14 +195,17 @@ uid=99(nobody) gid=99(nobody) euid=100
 * [https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail](https://0xdf.gitlab.io/2022/05/31/setuid-rabbithole.html#testing-on-jail)
 
 
+{% hint style="success" %}
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata su HackTricks**? O vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al repository [hacktricks](https://github.com/carlospolop/hacktricks) e al repository [hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
+{% endhint %}

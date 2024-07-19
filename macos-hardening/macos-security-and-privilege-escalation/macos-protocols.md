@@ -1,30 +1,31 @@
-# Servizi e protocolli di rete macOS
+# macOS Network Services & Protocols
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Servizi di accesso remoto
+## Servizi di Accesso Remoto
 
-Questi sono i servizi comuni di macOS per accedervi in remoto.\
-È possibile abilitare/disabilitare questi servizi in `Impostazioni di sistema` --> `Condivisione`
+Questi sono i servizi macOS comuni per accedervi da remoto.\
+Puoi abilitare/disabilitare questi servizi in `Impostazioni di Sistema` --> `Condivisione`
 
-* **VNC**, conosciuto come "Condivisione schermo" (tcp:5900)
-* **SSH**, chiamato "Accesso remoto" (tcp:22)
-* **Apple Remote Desktop** (ARD), o "Gestione remota" (tcp:3283, tcp:5900)
-* **AppleEvent**, conosciuto come "Evento Apple remoto" (tcp:3031)
+* **VNC**, conosciuto come “Condivisione Schermo” (tcp:5900)
+* **SSH**, chiamato “Accesso Remoto” (tcp:22)
+* **Apple Remote Desktop** (ARD), o “Gestione Remota” (tcp:3283, tcp:5900)
+* **AppleEvent**, conosciuto come “Evento Apple Remoto” (tcp:3031)
 
-Verifica se uno di questi è abilitato eseguendo:
+Controlla se qualcuno è abilitato eseguendo:
 ```bash
 rmMgmt=$(netstat -na | grep LISTEN | grep tcp46 | grep "*.3283" | wc -l);
 scrShrng=$(netstat -na | grep LISTEN | egrep 'tcp4|tcp6' | grep "*.5900" | wc -l);
@@ -36,62 +37,60 @@ printf "\nThe following services are OFF if '0', or ON otherwise:\nScreen Sharin
 ```
 ### Pentesting ARD
 
-Apple Remote Desktop (ARD) è una versione migliorata di [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) adattata per macOS, che offre funzionalità aggiuntive. Una vulnerabilità significativa in ARD è il suo metodo di autenticazione per la password dello schermo di controllo, che utilizza solo i primi 8 caratteri della password, rendendola suscettibile ad attacchi di [brute force](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) con strumenti come Hydra o [GoRedShell](https://github.com/ahhh/GoRedShell/), poiché non ci sono limiti di velocità predefiniti.
+Apple Remote Desktop (ARD) è una versione avanzata di [Virtual Network Computing (VNC)](https://en.wikipedia.org/wiki/Virtual_Network_Computing) progettata per macOS, che offre funzionalità aggiuntive. Una vulnerabilità notevole in ARD è il suo metodo di autenticazione per la password dello schermo di controllo, che utilizza solo i primi 8 caratteri della password, rendendolo suscettibile a [brute force attacks](https://thudinh.blogspot.com/2017/09/brute-forcing-passwords-with-thc-hydra.html) con strumenti come Hydra o [GoRedShell](https://github.com/ahhh/GoRedShell/), poiché non ci sono limiti di velocità predefiniti.
 
-Le istanze vulnerabili possono essere identificate utilizzando lo script `vnc-info` di **nmap**. I servizi che supportano `VNC Authentication (2)` sono particolarmente suscettibili ad attacchi di brute force a causa della troncatura della password a 8 caratteri.
+Le istanze vulnerabili possono essere identificate utilizzando lo script `vnc-info` di **nmap**. I servizi che supportano `VNC Authentication (2)` sono particolarmente suscettibili agli attacchi di forza bruta a causa della troncatura della password a 8 caratteri.
 
-Per abilitare ARD per varie attività amministrative come l'escalation dei privilegi, l'accesso GUI o il monitoraggio dell'utente, utilizzare il seguente comando:
+Per abilitare ARD per vari compiti amministrativi come l'escalation dei privilegi, l'accesso GUI o il monitoraggio degli utenti, usa il seguente comando:
 ```bash
 sudo /System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -allowAccessFor -allUsers -privs -all -clientopts -setmenuextra -menuextra yes
 ```
-ARD fornisce livelli di controllo versatili, tra cui osservazione, controllo condiviso e controllo completo, con sessioni che persistono anche dopo la modifica della password dell'utente. Consente di inviare comandi Unix direttamente ed eseguirli come root per gli utenti amministrativi. La pianificazione delle attività e la ricerca remota di Spotlight sono funzionalità notevoli che facilitano la ricerca remota a basso impatto di file sensibili su più macchine.
-
+ARD fornisce livelli di controllo versatili, inclusi osservazione, controllo condiviso e controllo completo, con sessioni che persistono anche dopo le modifiche della password dell'utente. Consente di inviare comandi Unix direttamente, eseguendoli come root per gli utenti amministrativi. La pianificazione dei compiti e la ricerca remota di Spotlight sono caratteristiche notevoli, che facilitano ricerche remote a basso impatto per file sensibili su più macchine.
 
 ## Protocollo Bonjour
 
-Bonjour, una tecnologia progettata da Apple, consente ai dispositivi sulla stessa rete di rilevare i servizi offerti l'uno dall'altro. Conosciuto anche come Rendezvous, Zero Configuration o Zeroconf, consente a un dispositivo di unirsi a una rete TCP/IP, scegliere automaticamente un indirizzo IP e diffondere i suoi servizi agli altri dispositivi di rete.
+Bonjour, una tecnologia progettata da Apple, consente **ai dispositivi sulla stessa rete di rilevare i servizi offerti l'uno dall'altro**. Conosciuto anche come Rendezvous, **Zero Configuration** o Zeroconf, consente a un dispositivo di unirsi a una rete TCP/IP, **scegliere automaticamente un indirizzo IP** e trasmettere i propri servizi ad altri dispositivi di rete.
 
 La rete Zero Configuration, fornita da Bonjour, garantisce che i dispositivi possano:
-* Ottenere automaticamente un indirizzo IP anche in assenza di un server DHCP.
-* Eseguire la traduzione del nome in indirizzo senza richiedere un server DNS.
-* Scoprire i servizi disponibili sulla rete.
+* **Ottenere automaticamente un indirizzo IP** anche in assenza di un server DHCP.
+* Eseguire **la traduzione nome-indirizzo** senza richiedere un server DNS.
+* **Scoprire i servizi** disponibili sulla rete.
 
-I dispositivi che utilizzano Bonjour si assegnano automaticamente un indirizzo IP dall'intervallo 169.254/16 e ne verificano l'unicità sulla rete. I Mac mantengono una voce nella tabella di routing per questa subnet, verificabile tramite `netstat -rn | grep 169`.
+I dispositivi che utilizzano Bonjour si assegneranno un **indirizzo IP dall'intervallo 169.254/16** e verificheranno la sua unicità sulla rete. I Mac mantengono un'entrata nella tabella di routing per questa subnet, verificabile tramite `netstat -rn | grep 169`.
 
-Per il DNS, Bonjour utilizza il protocollo **Multicast DNS (mDNS)**. mDNS opera sulla porta **5353/UDP**, utilizzando **query DNS standard** ma indirizzate all'indirizzo multicast 224.0.0.251. Questo approccio garantisce che tutti i dispositivi in ascolto sulla rete possano ricevere e rispondere alle query, facilitando l'aggiornamento dei loro record.
+Per DNS, Bonjour utilizza il **protocollo Multicast DNS (mDNS)**. mDNS opera su **porta 5353/UDP**, impiegando **query DNS standard** ma mirate all'**indirizzo multicast 224.0.0.251**. Questo approccio garantisce che tutti i dispositivi in ascolto sulla rete possano ricevere e rispondere alle query, facilitando l'aggiornamento dei loro record.
 
-Al momento dell'ingresso nella rete, ogni dispositivo seleziona autonomamente un nome, di solito terminante con **.local**, che può essere derivato dal nome host o generato casualmente.
+All'unirsi alla rete, ogni dispositivo seleziona autonomamente un nome, che di solito termina con **.local**, il quale può derivare dal nome host o essere generato casualmente.
 
-La scoperta dei servizi all'interno della rete è facilitata da **DNS Service Discovery (DNS-SD)**. Sfruttando il formato dei record SRV DNS, DNS-SD utilizza i record PTR DNS per consentire l'elenco di più servizi. Un client che cerca un servizio specifico richiederà un record PTR per `<Servizio>.<Dominio>`, ricevendo in cambio un elenco di record PTR formattati come `<Istanza>.<Servizio>.<Dominio>` se il servizio è disponibile da più host.
+La scoperta dei servizi all'interno della rete è facilitata da **DNS Service Discovery (DNS-SD)**. Sfruttando il formato dei record DNS SRV, DNS-SD utilizza **record DNS PTR** per abilitare l'elenco di più servizi. Un client che cerca un servizio specifico richiederà un record PTR per `<Service>.<Domain>`, ricevendo in cambio un elenco di record PTR formattati come `<Instance>.<Service>.<Domain>` se il servizio è disponibile da più host.
 
+L'utilità `dns-sd` può essere impiegata per **scoprire e pubblicizzare i servizi di rete**. Ecco alcuni esempi del suo utilizzo:
 
-L'utilità `dns-sd` può essere utilizzata per **scoprire e pubblicizzare i servizi di rete**. Ecco alcuni esempi di utilizzo:
+### Ricerca di Servizi SSH
 
-### Ricerca di servizi SSH
-
-Per cercare i servizi SSH sulla rete, viene utilizzato il seguente comando:
+Per cercare servizi SSH sulla rete, viene utilizzato il seguente comando:
 ```bash
 dns-sd -B _ssh._tcp
 ```
-Questo comando avvia la ricerca dei servizi _ssh._tcp e mostra dettagli come timestamp, flag, interfaccia, dominio, tipo di servizio e nome dell'istanza.
+Questo comando avvia la ricerca di servizi _ssh._tcp e restituisce dettagli come timestamp, flag, interfaccia, dominio, tipo di servizio e nome dell'istanza.
 
-### Pubblicizzare un servizio HTTP
+### Pubblicizzare un Servizio HTTP
 
-Per pubblicizzare un servizio HTTP, è possibile utilizzare:
+Per pubblicizzare un servizio HTTP, puoi usare:
 ```bash
 dns-sd -R "Index" _http._tcp . 80 path=/index.html
 ```
 Questo comando registra un servizio HTTP chiamato "Index" sulla porta 80 con un percorso di `/index.html`.
 
-Per cercare i servizi HTTP sulla rete:
+Per cercare quindi servizi HTTP sulla rete:
 ```bash
 dns-sd -B _http._tcp
 ```
-Quando un servizio viene avviato, annuncia la sua disponibilità a tutti i dispositivi sulla sottorete tramite multicast. I dispositivi interessati a questi servizi non devono inviare richieste, ma semplicemente ascoltare queste segnalazioni.
+Quando un servizio si avvia, annuncia la sua disponibilità a tutti i dispositivi sulla subnet multicasting la sua presenza. I dispositivi interessati a questi servizi non devono inviare richieste, ma semplicemente ascoltare questi annunci.
 
-Per un'interfaccia più user-friendly, l'app **Discovery - DNS-SD Browser**, disponibile sull'Apple App Store, può visualizzare i servizi offerti nella tua rete locale.
+Per un'interfaccia più user-friendly, l'app **Discovery - DNS-SD Browser** disponibile su Apple App Store può visualizzare i servizi offerti sulla tua rete locale.
 
-In alternativa, è possibile scrivere script personalizzati per esplorare e scoprire servizi utilizzando la libreria `python-zeroconf`. Lo script [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) dimostra come creare un browser di servizi per i servizi `_http._tcp.local.`, stampando i servizi aggiunti o rimossi:
+In alternativa, possono essere scritti script personalizzati per navigare e scoprire servizi utilizzando la libreria `python-zeroconf`. Lo script [**python-zeroconf**](https://github.com/jstasiak/python-zeroconf) dimostra come creare un browser di servizi per i servizi `_http._tcp.local.`, stampando i servizi aggiunti o rimossi:
 ```python
 from zeroconf import ServiceBrowser, Zeroconf
 
@@ -112,8 +111,8 @@ input("Press enter to exit...\n\n")
 finally:
 zeroconf.close()
 ```
-### Disabilitazione di Bonjour
-Se ci sono preoccupazioni per la sicurezza o altre ragioni per disabilitare Bonjour, è possibile disattivarlo utilizzando il seguente comando:
+### Disabilitare Bonjour
+Se ci sono preoccupazioni riguardo alla sicurezza o altre ragioni per disabilitare Bonjour, può essere disattivato utilizzando il seguente comando:
 ```bash
 sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.plist
 ```
@@ -123,16 +122,17 @@ sudo launchctl unload -w /System/Library/LaunchDaemons/com.apple.mDNSResponder.p
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html**](https://lockboxx.blogspot.com/2019/07/macos-red-teaming-206-ard-apple-remote.html)
 
+{% hint style="success" %}
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
+{% endhint %}

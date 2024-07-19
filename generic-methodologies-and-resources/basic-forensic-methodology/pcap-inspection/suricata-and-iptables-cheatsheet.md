@@ -1,28 +1,31 @@
 # Suricata & Iptables cheatsheet
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Iptables
 
-### Chains
+### Catene
 
-In iptables, i gruppi di regole noti come chains vengono elaborati in sequenza. Tra questi, tre chains primarie sono presenti universalmente, con altre come NAT che possono essere supportate a seconda delle capacità del sistema.
+In iptables, le liste di regole conosciute come catene vengono elaborate in modo sequenziale. Tra queste, tre catene principali sono universalmente presenti, con altre come NAT che possono essere supportate a seconda delle capacità del sistema.
 
-- **Input Chain**: Utilizzata per gestire il comportamento delle connessioni in ingresso.
-- **Forward Chain**: Utilizzata per gestire le connessioni in ingresso che non sono destinate al sistema locale. Questo è tipico per i dispositivi che agiscono come router, dove i dati ricevuti devono essere inoltrati verso una destinazione diversa. Questa chain è rilevante principalmente quando il sistema è coinvolto nel routing, NATing o attività simili.
-- **Output Chain**: Dedicata alla regolazione delle connessioni in uscita.
+- **Catena di Input**: Utilizzata per gestire il comportamento delle connessioni in entrata.
+- **Catena di Forward**: Impiegata per gestire le connessioni in entrata che non sono destinate al sistema locale. Questo è tipico per i dispositivi che fungono da router, dove i dati ricevuti devono essere inoltrati a un'altra destinazione. Questa catena è rilevante principalmente quando il sistema è coinvolto nel routing, NATing o attività simili.
+- **Catena di Output**: Dedicata alla regolazione delle connessioni in uscita.
 
-Queste chains garantiscono l'elaborazione ordinata del traffico di rete, consentendo la specifica di regole dettagliate che governano il flusso di dati dentro, attraverso e fuori da un sistema.
+Queste catene garantiscono l'elaborazione ordinata del traffico di rete, consentendo la specifica di regole dettagliate che governano il flusso di dati dentro, attraverso e fuori da un sistema.
 ```bash
 # Delete all rules
 iptables -F
@@ -61,73 +64,7 @@ iptables-restore < /etc/sysconfig/iptables
 ```
 ## Suricata
 
-### Installazione e configurazione
-
-Per installare Suricata, eseguire i seguenti passaggi:
-
-1. Aggiornare il sistema operativo:
-
-```shell
-sudo apt update
-sudo apt upgrade
-```
-
-2. Installare Suricata:
-
-```shell
-sudo apt install suricata
-```
-
-3. Configurare Suricata:
-
-```shell
-sudo nano /etc/suricata/suricata.yaml
-```
-
-4. Modificare le seguenti opzioni nel file di configurazione:
-
-```yaml
-default-log-dir: /var/log/suricata/
-default-rule-path: /etc/suricata/rules/
-```
-
-5. Salvare e chiudere il file di configurazione.
-
-### Avviare Suricata
-
-Per avviare Suricata, eseguire il seguente comando:
-
-```shell
-sudo suricata -c /etc/suricata/suricata.yaml -i <interfaccia_di_rete>
-```
-
-Sostituire `<interfaccia_di_rete>` con l'interfaccia di rete su cui si desidera eseguire la scansione.
-
-### Iptables
-
-#### Abilitare il logging di iptables
-
-Per abilitare il logging di iptables, eseguire il seguente comando:
-
-```shell
-sudo iptables -A INPUT -j LOG
-```
-
-#### Visualizzare i log di iptables
-
-Per visualizzare i log di iptables, eseguire il seguente comando:
-
-```shell
-sudo tail -f /var/log/kern.log
-```
-
-#### Pulire le regole di iptables
-
-Per pulire tutte le regole di iptables, eseguire il seguente comando:
-
-```shell
-sudo iptables -F
-```
+### Installazione e Configurazione
 ```bash
 # Install details from: https://suricata.readthedocs.io/en/suricata-6.0.0/install.html#install-binary-packages
 # Ubuntu
@@ -195,9 +132,9 @@ systemctl daemon-reload
 ```
 ### Definizioni delle Regole
 
-[Dalla documentazione:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Una regola/firma consiste nei seguenti elementi:
+[Dal documento:](https://github.com/OISF/suricata/blob/master/doc/userguide/rules/intro.rst) Una regola/firma consiste nei seguenti elementi:
 
-* L'**azione**, determina cosa succede quando la firma viene trovata corrispondente.
+* L'**azione**, determina cosa succede quando la firma corrisponde.
 * L'**intestazione**, definisce il protocollo, gli indirizzi IP, le porte e la direzione della regola.
 * Le **opzioni della regola**, definiscono i dettagli specifici della regola.
 ```bash
@@ -206,57 +143,57 @@ alert http $HOME_NET any -> $EXTERNAL_NET any (msg:"HTTP GET Request Containing 
 #### **Le azioni valide sono**
 
 * alert - genera un avviso
-* pass - interrompe ulteriori ispezioni del pacchetto
-* **drop** - elimina il pacchetto e genera un avviso
-* **reject** - invia un errore RST/ICMP irraggiungibile al mittente del pacchetto corrispondente.
-* rejectsrc - uguale a _reject_
+* pass - interrompe l'ispezione ulteriore del pacchetto
+* **drop** - scarta il pacchetto e genera un avviso
+* **reject** - invia un errore RST/ICMP non raggiungibile al mittente del pacchetto corrispondente.
+* rejectsrc - stesso di _reject_
 * rejectdst - invia un pacchetto di errore RST/ICMP al destinatario del pacchetto corrispondente.
-* rejectboth - invia pacchetti di errore RST/ICMP a entrambi i lati della conversazione.
+* rejectboth - invia pacchetti di errore RST/ICMP a entrambe le parti della conversazione.
 
 #### **Protocolli**
 
-* tcp (per il traffico tcp)
+* tcp (per traffico tcp)
 * udp
 * icmp
-* ip (ip sta per 'tutti' o 'qualsiasi')
-* _protocolli di livello 7_: http, ftp, tls, smb, dns, ssh... (più informazioni nella [**documentazione**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
+* ip (ip sta per ‘tutti’ o ‘qualsiasi’)
+* _protocolli layer7_: http, ftp, tls, smb, dns, ssh... (di più nella [**docs**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/intro.html))
 
-#### Indirizzi di origine e destinazione
+#### Indirizzi di Origine e Destinazione
 
-Supporta intervalli di indirizzi IP, negazioni e elenchi di indirizzi:
+Supporta intervalli IP, negazioni e un elenco di indirizzi:
 
 | Esempio                        | Significato                                  |
 | ------------------------------ | -------------------------------------------- |
 | ! 1.1.1.1                      | Ogni indirizzo IP tranne 1.1.1.1             |
-| !\[1.1.1.1, 1.1.1.2]           | Ogni indirizzo IP tranne 1.1.1.1 e 1.1.1.2   |
-| $HOME\_NET                     | La tua impostazione di HOME\_NET nel file yaml        |
-| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET e non HOME\_NET          |
-| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 tranne 10.0.0.5          |
+| !\[1.1.1.1, 1.1.1.2]           | Ogni indirizzo IP tranne 1.1.1.1 e 1.1.1.2 |
+| $HOME\_NET                     | La tua impostazione di HOME\_NET in yaml     |
+| \[$EXTERNAL\_NET, !$HOME\_NET] | EXTERNAL\_NET e non HOME\_NET                |
+| \[10.0.0.0/24, !10.0.0.5]      | 10.0.0.0/24 tranne 10.0.0.5                  |
 
-#### Porte di origine e destinazione
+#### Porte di Origine e Destinazione
 
-Supporta intervalli di porte, negazioni ed elenchi di porte
+Supporta intervalli di porte, negazioni e elenchi di porte
 
 | Esempio         | Significato                                |
 | --------------- | ------------------------------------------ |
-| any             | qualsiasi porta                            |
+| any             | qualsiasi indirizzo                        |
 | \[80, 81, 82]   | porta 80, 81 e 82                          |
-| \[80: 82]       | Intervallo da 80 a 82                       |
-| \[1024: ]       | Da 1024 fino al numero di porta più alto    |
-| !80             | Ogni porta tranne 80                        |
-| \[80:100,!99]   | Intervallo da 80 a 100 escluso 99           |
-| \[1:80,!\[2,4]] | Intervallo da 1 a 80, tranne le porte 2 e 4 |
+| \[80: 82]       | Intervallo da 80 a 82                      |
+| \[1024: ]       | Da 1024 fino al numero di porta più alto   |
+| !80             | Ogni porta tranne 80                       |
+| \[80:100,!99]   | Intervallo da 80 a 100 ma 99 escluso      |
+| \[1:80,!\[2,4]] | Intervallo da 1-80, eccetto le porte 2 e 4 |
 
 #### Direzione
 
-È possibile indicare la direzione della regola di comunicazione che viene applicata:
+È possibile indicare la direzione della regola di comunicazione applicata:
 ```
 source -> destination
 source <> destination  (both directions)
 ```
-#### Parole chiave
+#### Keywords
 
-Ci sono **centinaia di opzioni** disponibili in Suricata per cercare il **pacchetto specifico** che stai cercando, qui verrà menzionato se viene trovato qualcosa di interessante. Consulta la [**documentazione**](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html) per ulteriori informazioni!
+Ci sono **centinaia di opzioni** disponibili in Suricata per cercare il **pacchetto specifico** che stai cercando, qui verrà menzionato se viene trovato qualcosa di interessante. Controlla la [**documentazione** ](https://suricata.readthedocs.io/en/suricata-6.0.0/rules/index.html)per ulteriori informazioni!
 ```bash
 # Meta Keywords
 msg: "description"; #Set a description to the rule
@@ -297,14 +234,17 @@ drop tcp any any -> any any (msg:"regex"; pcre:"/CTF\{[\w]{3}/i"; sid:10001;)
 ## Drop by port
 drop tcp any any -> any 8000 (msg:"8000 port"; sid:1000;)
 ```
+{% hint style="success" %}
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-* Lavori in una **azienda di sicurezza informatica**? Vuoi vedere la tua **azienda pubblicizzata in HackTricks**? o vuoi avere accesso all'**ultima versione di PEASS o scaricare HackTricks in PDF**? Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Scopri [**La Famiglia PEASS**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Unisciti al** [**💬**](https://emojipedia.org/speech-balloon/) [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguimi** su **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR al [repo hacktricks](https://github.com/carlospolop/hacktricks) e al [repo hacktricks-cloud](https://github.com/carlospolop/hacktricks-cloud)**.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
+{% endhint %}

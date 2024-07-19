@@ -1,38 +1,52 @@
 # macOS Objective-C
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT**](https://opensea.io/collection/the-peass-family) esclusivi
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
+{% endhint %}
 
 ## Objective-C
 
 {% hint style="danger" %}
-Nota che i programmi scritti in Objective-C **mantengono** le loro dichiarazioni di classe **quando** **compilati** in [binari Mach-O](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Tali dichiarazioni di classe **includono** il nome e il tipo di:
+Nota che i programmi scritti in Objective-C **mantengono** le loro dichiarazioni di classe **quando** **compilati** in [Mach-O binaries](macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Tali dichiarazioni di classe **includono** il nome e il tipo di:
 {% endhint %}
 
 * La classe
-* I metodi di classe
+* I metodi della classe
 * Le variabili di istanza della classe
 
 Puoi ottenere queste informazioni utilizzando [**class-dump**](https://github.com/nygard/class-dump):
 ```bash
 class-dump Kindle.app
 ```
-Nota che questi nomi potrebbero essere oscurati per rendere più difficile il reverse engineering del binario.
+Nota che questi nomi potrebbero essere offuscati per rendere più difficile il reverse engineering del binario.
 
-## Classi, Metodi e Oggetti
+## Classi, Metodi & Oggetti
 
-### Interfacce, Proprietà e Metodi
+### Interfaccia, Proprietà & Metodi
 ```objectivec
 // Declare the interface of the class
 @interface MyVehicle : NSObject
@@ -63,9 +77,9 @@ self.numberOfWheels += value;
 
 @end
 ```
-### **Oggetto e Metodo di Chiamata**
+### **Oggetto & Chiamata Metodo**
 
-Per creare un'istanza di una classe viene chiamato il metodo **`alloc`** che **alloca memoria** per ogni **proprietà** e **azzera** tali allocazioni. Successivamente viene chiamato **`init`**, che **inizializza le proprietà** ai **valori richiesti**.
+Per creare un'istanza di una classe viene chiamato il metodo **`alloc`** che **alloca memoria** per ogni **proprietà** e **azzera** quelle allocazioni. Poi viene chiamato **`init`**, che **inizializza le proprietà** ai **valori richiesti**.
 ```objectivec
 // Something like this:
 MyVehicle *newVehicle = [[MyVehicle alloc] init];
@@ -77,15 +91,15 @@ MyVehicle *newVehicle = [MyVehicle new];
 // [myClassInstance nameOfTheMethodFirstParam:param1 secondParam:param2]
 [newVehicle addWheels:4];
 ```
-### **Metodi di classe**
+### **Metodi di Classe**
 
-I metodi di classe sono definiti con il **segno più** (+) e non con il trattino (-) che viene utilizzato con i metodi di istanza. Come il metodo di classe **`stringWithString`** della classe **NSString**:
+I metodi di classe sono definiti con il **segno più** (+) e non con il trattino (-) che viene utilizzato con i metodi di istanza. Come il metodo di classe **NSString** **`stringWithString`**:
 ```objectivec
 + (id)stringWithString:(NSString *)aString;
 ```
 ### Setter & Getter
 
-Per **impostare** e **ottenere** le proprietà, è possibile farlo con la **notazione a punto** o come se si stesse **chiamando un metodo**:
+Per **impostare** e **ottenere** proprietà, puoi farlo con una **notazione a punto** o come se stessi **chiamando un metodo**:
 ```objectivec
 // Set
 newVehicle.numberOfWheels = 2;
@@ -95,20 +109,20 @@ newVehicle.numberOfWheels = 2;
 NSLog(@"Number of wheels: %i", newVehicle.numberOfWheels);
 NSLog(@"Number of wheels: %i", [newVehicle numberOfWheels]);
 ```
-### **Variabili di istanza**
+### **Variabili di Istanza**
 
-In alternativa ai metodi setter e getter, è possibile utilizzare le variabili di istanza. Queste variabili hanno lo stesso nome delle proprietà, ma iniziano con un "\_":
+Alternativamente ai metodi setter e getter, puoi utilizzare le variabili di istanza. Queste variabili hanno lo stesso nome delle proprietà ma iniziano con un "\_":
 ```objectivec
 - (void)makeLongTruck {
 _numberOfWheels = +10000;
 NSLog(@"Number of wheels: %i", self.numberOfLeaves);
 }
 ```
-### Protocolli
+### Protocols
 
-I protocolli sono insiemi di dichiarazioni di metodi (senza proprietà). Una classe che implementa un protocollo implementa i metodi dichiarati.
+I protocolli sono insiemi di dichiarazioni di metodo (senza proprietà). Una classe che implementa un protocollo implementa i metodi dichiarati.
 
-Ci sono 2 tipi di metodi: **obbligatori** e **opzionali**. Per **default** un metodo è **obbligatorio** (ma puoi anche indicarlo con un tag **`@required`**). Per indicare che un metodo è opzionale, usa **`@optional`**.
+Ci sono 2 tipi di metodi: **obbligatori** e **opzionali**. Per **default**, un metodo è **obbligatorio** (ma puoi anche indicarlo con un tag **`@required`**). Per indicare che un metodo è opzionale usa **`@optional`**.
 ```objectivec
 @protocol myNewProtocol
 - (void) method1; //mandatory
@@ -119,8 +133,6 @@ Ci sono 2 tipi di metodi: **obbligatori** e **opzionali**. Per **default** un me
 @end
 ```
 ### Tutto insieme
-
-In questo capitolo, metteremo insieme tutte le informazioni che abbiamo appreso finora per ottenere un'immagine completa della sicurezza e dell'escalation dei privilegi su macOS. Discuteremo delle basi di Objective-C e di come utilizzare questa conoscenza per individuare vulnerabilità e sfruttarle. Esploreremo anche alcune tecniche di hardening per proteggere un sistema macOS da attacchi e privilegi di escalation. Infine, forniremo una panoramica delle tecniche di post-exploitation che possono essere utilizzate per mantenere l'accesso a un sistema compromesso.
 ```objectivec
 // gcc -framework Foundation test_obj.m -o test_obj
 #import <Foundation/Foundation.h>
@@ -170,9 +182,9 @@ NSLog(@"Number of wheels: %i", mySuperCar.numberOfWheels);
 [mySuperCar makeLongTruck];
 }
 ```
-### Classi di base
+### Classi di Base
 
-#### Stringa
+#### String
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -181,13 +193,17 @@ NSString *bookTitle = @"The Catcher in the Rye";
 NSString *bookAuthor = [[NSString alloc] initWithCString:"J.D. Salinger" encoding:NSUTF8StringEncoding];
 NSString *bookPublicationYear = [NSString stringWithCString:"1951" encoding:NSUTF8StringEncoding];
 ```
-Le classi di base sono **immutevoli**, quindi per aggiungere una stringa a una già esistente è necessario creare una **nuova NSString**.
+{% endcode %}
+
+Le classi di base sono **immutabili**, quindi per aggiungere una stringa a una esistente è **necessario creare un nuovo NSString**.
+
+{% code overflow="wrap" %}
 ```objectivec
 NSString *bookDescription = [NSString stringWithFormat:@"%@ by %@ was published in %@", bookTitle, bookAuthor, bookPublicationYear];
 ```
 {% endcode %}
 
-Oppure potresti utilizzare anche una classe di stringhe **mutabile**:
+Oppure puoi anche usare una classe di stringhe **mutabile**:
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -198,7 +214,9 @@ NSMutableString *mutableString = [NSMutableString stringWithString:@"The book "]
 [mutableString appendString:@" and published in "];
 [mutableString appendString:bookPublicationYear];
 ```
-Il seguente contenuto è tratto da un libro di hacking sulle tecniche di hacking. Il seguente contenuto è tratto dal file /hive/hacktricks/macos-hardening/macos-security-and-privilege-escalation/macos-basic-objective-c.md. Traduci il testo inglese pertinente in italiano e restituisci la traduzione mantenendo esattamente la stessa sintassi markdown e html. Non tradurre cose come codice, nomi di tecniche di hacking, parole di hacking, nomi di piattaforme cloud/SaaS (come Workspace, aws, gcp...), la parola 'leak', pentesting e tag markdown. Inoltre, non aggiungere nulla di extra oltre alla traduzione e alla sintassi markdown.
+#### Numero
+
+{% code overflow="wrap" %}
 ```objectivec
 // character literals.
 NSNumber *theLetterZ = @'Z'; // equivalent to [NSNumber numberWithChar:'Z']
@@ -265,9 +283,13 @@ NSMutableDictionary *mutFruitColorsDictionary = [NSMutableDictionary dictionaryW
 [mutFruitColorsDictionary setObject:@"green" forKey:@"apple"];
 [mutFruitColorsDictionary removeObjectForKey:@"grape"];
 ```
+{% endcode %}
+
 ### Blocchi
 
-I blocchi sono **funzioni che si comportano come oggetti**, quindi possono essere passati a funzioni o **memorizzati** in **array** o **dizionari**. Inoltre, possono **rappresentare un valore se vengono forniti dei valori**, quindi sono simili alle lambda.
+I blocchi sono **funzioni che si comportano come oggetti** quindi possono essere passati a funzioni o **memorizzati** in **array** o **dizionari**. Inoltre, possono **rappresentare un valore se vengono forniti valori** quindi è simile ai lambda.
+
+{% code overflow="wrap" %}
 ```objectivec
 returnType (^blockName)(argumentType1, argumentType2, ...) = ^(argumentType1 param1, argumentType2 param2, ...){
 //Perform operations here
@@ -333,31 +355,47 @@ NSLog(@"Removed successfully");
 ```
 {% endcode %}
 
-È anche possibile gestire i file **utilizzando gli oggetti `NSURL` invece degli oggetti `NSString`**. I nomi dei metodi sono simili, ma **con `URL` invece di `Path`**.
+È anche possibile gestire i file **utilizzando oggetti `NSURL` invece di oggetti `NSString`**. I nomi dei metodi sono simili, ma **con `URL` invece di `Path`**.
 ```objectivec
-NSURL *fileSrc = [NSURL fileURLWithPath:@"/path/to/file1.txt"];
-NSURL *fileDst = [NSURL fileURLWithPath:@"/path/to/file2.txt"];
-[fileManager moveItemAtURL:fileSrc toURL:fileDst error: nil];
-```
-La maggior parte delle classi di base ha un metodo `writeToFile:<path> atomically:<YES> encoding:<encoding> error:nil` definito che consente di scriverle direttamente su un file:
-
-{% code overflow="wrap" %}
-```objectivec
-NSString* tmp = @"something temporary";
-[tmp writeToFile:@"/tmp/tmp1.txt" atomically:YES encoding:NSASCIIStringEncoding error:nil];
-```
-{% endcode %}
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai repository github di** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+{% endhint %}
+</details>
+{% endhint %}
+</details>
+{% endhint %}

@@ -1,22 +1,23 @@
-# Privilege Escalation su macOS
+# macOS Privilege Escalation
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a esperto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata su HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PACCHETTI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di [**NFT esclusivi**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo Telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Escalation dei privilegi TCC
+## TCC Privilege Escalation
 
-Se sei qui per cercare l'escalation dei privilegi TCC, vai a:
+Se sei venuto qui cercando l'escalation dei privilegi TCC vai a:
 
 {% content-ref url="macos-security-protections/macos-tcc/" %}
 [macos-tcc](macos-security-protections/macos-tcc/)
@@ -24,19 +25,19 @@ Se sei qui per cercare l'escalation dei privilegi TCC, vai a:
 
 ## Linux Privesc
 
-Si prega di notare che **la maggior parte dei trucchi sull'escalation dei privilegi che riguardano Linux/Unix riguarderanno anche le macchine MacOS**. Quindi vedi:
+Si prega di notare che **la maggior parte dei trucchi sull'escalation dei privilegi che riguardano Linux/Unix influenzeranno anche le macchine MacOS**. Quindi vedi:
 
 {% content-ref url="../../linux-hardening/privilege-escalation/" %}
 [privilege-escalation](../../linux-hardening/privilege-escalation/)
 {% endcontent-ref %}
 
-## Interazione dell'utente
+## User Interaction
 
 ### Sudo Hijacking
 
-Puoi trovare la tecnica originale di [Sudo Hijacking all'interno del post sull'escalation dei privilegi Linux](../../linux-hardening/privilege-escalation/#sudo-hijacking).
+Puoi trovare la tecnica originale [Sudo Hijacking all'interno del post sull'escalation dei privilegi di Linux](../../linux-hardening/privilege-escalation/#sudo-hijacking).
 
-Tuttavia, macOS **mantiene** il **`PATH`** dell'utente quando esegue **`sudo`**. Ciò significa che un altro modo per attuare questo attacco sarebbe **di dirottare altri binari** che la vittima eseguirà quando **esegue sudo:**
+Tuttavia, macOS **mantiene** il **`PATH`** dell'utente quando esegue **`sudo`**. Ciò significa che un altro modo per ottenere questo attacco sarebbe **di dirottare altri binari** che la vittima eseguirà quando **esegue sudo:**
 ```bash
 # Let's hijack ls in /opt/homebrew/bin, as this is usually already in the users PATH
 cat > /opt/homebrew/bin/ls <<EOF
@@ -51,17 +52,17 @@ chmod +x /opt/homebrew/bin/ls
 # victim
 sudo ls
 ```
-Nota che un utente che utilizza il terminale avrà molto probabilmente **Homebrew installato**. Quindi è possibile dirottare i binari in **`/opt/homebrew/bin`**.
+Nota che un utente che utilizza il terminale avrà molto probabilmente **Homebrew installato**. Quindi è possibile hijackare i binari in **`/opt/homebrew/bin`**.
 
-### Impersonazione del Dock
+### Impersonificazione del Dock
 
-Utilizzando un po' di **ingegneria sociale** potresti **fingerti ad esempio Google Chrome** all'interno del dock ed eseguire effettivamente il tuo script:
+Utilizzando un po' di **social engineering** potresti **impersonare ad esempio Google Chrome** all'interno del dock ed eseguire effettivamente il tuo script:
 
 {% tabs %}
-{% tab title="Impersonazione di Chrome" %}
+{% tab title="Impersonificazione di Chrome" %}
 Alcuni suggerimenti:
 
-* Controlla nel dock se c'è Chrome e in tal caso **rimuovi** quella voce e **aggiungi** la **falsa voce di Chrome nella stessa posizione** nell'array del dock.&#x20;
+* Controlla nel Dock se c'è un Chrome, e in tal caso **rimuovi** quella voce e **aggiungi** la **voce falsa** **Chrome nella stessa posizione** nell'array del Dock.
 ```bash
 #!/bin/sh
 
@@ -133,14 +134,14 @@ killall Dock
 ```
 {% endtab %}
 
-{% tab title="Impersonazione di Finder" %}
+{% tab title="Impersonificazione del Finder" %}
 Alcuni suggerimenti:
 
-* Non è possibile rimuovere Finder dalla Dock, quindi se vuoi aggiungerlo alla Dock, puoi mettere il falso Finder proprio accanto a quello reale. Per fare ciò, devi aggiungere l'ingresso del falso Finder all'inizio dell'array della Dock.
-* Un'altra opzione è quella di non posizionarlo nella Dock e aprirlo semplicemente, "Finder che chiede di controllare Finder" non è così strano.
-* Altre opzioni per ottenere i privilegi di root senza chiedere la password con una brutta finestra, sono fare in modo che Finder chieda effettivamente la password per eseguire un'azione privilegiata:
-* Chiedi a Finder di copiare un nuovo file **`sudo`** in **`/etc/pam.d`** (La richiesta di inserire la password indicherà che "Finder vuole copiare sudo")
-* Chiedi a Finder di copiare un nuovo **Authorization Plugin** (Puoi controllare il nome del file in modo che la richiesta di inserire la password indichi che "Finder vuole copiare Finder.bundle")
+* Non **puoi rimuovere il Finder dal Dock**, quindi se intendi aggiungerlo al Dock, potresti posizionare il Finder falso proprio accanto a quello reale. Per questo devi **aggiungere l'entrata del Finder falso all'inizio dell'array del Dock**.
+* Un'altra opzione è non posizionarlo nel Dock e semplicemente aprirlo, "Finder che chiede di controllare Finder" non è così strano.
+* Un'altra opzione per **escalare a root senza chiedere** la password con una brutta finestra, è far sì che il Finder chieda realmente la password per eseguire un'azione privilegiata:
+* Chiedi al Finder di copiare in **`/etc/pam.d`** un nuovo file **`sudo`** (Il prompt che chiede la password indicherà che "Finder vuole copiare sudo")
+* Chiedi al Finder di copiare un nuovo **Plugin di Autorizzazione** (Puoi controllare il nome del file in modo che il prompt che chiede la password indichi che "Finder vuole copiare Finder.bundle")
 ```bash
 #!/bin/sh
 
@@ -215,10 +216,10 @@ killall Dock
 
 ## TCC - Escalazione dei privilegi di root
 
-### CVE-2020-9771 - bypass di TCC mount\_apfs e escalation dei privilegi
+### CVE-2020-9771 - bypass TCC di mount\_apfs e escalation dei privilegi
 
-**Qualsiasi utente** (anche non privilegiato) può creare e montare uno snapshot di Time Machine e **accedere a TUTTI i file** di tale snapshot.\
-L'unico privilegio necessario è che l'applicazione utilizzata (come `Terminal`) abbia l'accesso **Full Disk Access** (FDA) (`kTCCServiceSystemPolicyAllfiles`), che deve essere concesso da un amministratore.
+**Qualsiasi utente** (anche quelli non privilegiati) può creare e montare un'istantanea di Time Machine e **accedere a TUTTI i file** di quell'istantanea.\
+L'**unico privilegio** necessario è che l'applicazione utilizzata (come `Terminal`) abbia accesso **Full Disk Access** (FDA) (`kTCCServiceSystemPolicyAllfiles`), che deve essere concesso da un amministratore.
 
 {% code overflow="wrap" %}
 ```bash
@@ -246,22 +247,23 @@ Una spiegazione più dettagliata può essere [**trovata nel rapporto originale**
 
 ## Informazioni Sensibili
 
-Questo può essere utile per ottenere privilegi elevati:
+Questo può essere utile per elevare i privilegi:
 
 {% content-ref url="macos-files-folders-and-binaries/macos-sensitive-locations.md" %}
 [macos-sensitive-locations.md](macos-files-folders-and-binaries/macos-sensitive-locations.md)
 {% endcontent-ref %}
 
+{% hint style="success" %}
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Impara l'hacking di AWS da zero a eroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Supporta HackTricks</summary>
 
-Altri modi per supportare HackTricks:
-
-* Se vuoi vedere la tua **azienda pubblicizzata in HackTricks** o **scaricare HackTricks in PDF** Controlla i [**PIANI DI ABBONAMENTO**](https://github.com/sponsors/carlospolop)!
-* Ottieni il [**merchandising ufficiale di PEASS & HackTricks**](https://peass.creator-spring.com)
-* Scopri [**The PEASS Family**](https://opensea.io/collection/the-peass-family), la nostra collezione di esclusive [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Condividi i tuoi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
+{% endhint %}
