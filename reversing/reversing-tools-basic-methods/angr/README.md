@@ -1,18 +1,19 @@
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
 
-Parte deste guia de referência é baseado na [documentação do angr](https://docs.angr.io/_/downloads/en/stable/pdf/).
+Parte deste cheatsheet é baseada na [documentação do angr](https://docs.angr.io/_/downloads/en/stable/pdf/).
 
 # Instalação
 ```bash
@@ -40,7 +41,7 @@ proj.filename #Get filename "/bin/true"
 #Usually you won't need to use them but you could
 angr.Project('examples/fauxware/fauxware', main_opts={'backend': 'blob', 'arch': 'i386'}, lib_opts={'libc.so.6': {'backend': 'elf'}})
 ```
-# Informações do objeto carregado e principal
+# Informações sobre o objeto Carregado e Principal
 
 ## Dados Carregados
 ```python
@@ -131,9 +132,9 @@ simgr.active[0].regs.rip #Get RIP from the last state
 ```
 ## Chamando funções
 
-* Você pode passar uma lista de argumentos através de `args` e um dicionário de variáveis de ambiente através de `env` para `entry_state` e `full_init_state`. Os valores nesses estruturas podem ser strings ou bitvectors, e serão serializados no estado como os argumentos e ambiente para a execução simulada. O `args` padrão é uma lista vazia, então se o programa que você está analisando espera encontrar pelo menos um `argv[0]`, você deve sempre fornecê-lo!
-* Se você deseja que `argc` seja simbólico, você pode passar um bitvector simbólico como `argc` para os construtores `entry_state` e `full_init_state`. No entanto, tenha cuidado: se fizer isso, você também deve adicionar uma restrição ao estado resultante de que seu valor para argc não pode ser maior do que o número de argumentos que você passou para `args`.
-* Para usar o estado de chamada, você deve chamá-lo com `.call_state(addr, arg1, arg2, ...)`, onde `addr` é o endereço da função que você deseja chamar e `argN` é o N-ésimo argumento para essa função, seja como um inteiro, string ou array em Python, ou um bitvector. Se você deseja alocar memória e realmente passar um ponteiro para um objeto, você deve envolvê-lo em um PointerWrapper, ou seja, `angr.PointerWrapper("aponte para mim!")`. Os resultados desta API podem ser um pouco imprevisíveis, mas estamos trabalhando nisso.
+* Você pode passar uma lista de argumentos através de `args` e um dicionário de variáveis de ambiente através de `env` para `entry_state` e `full_init_state`. Os valores nessas estruturas podem ser strings ou bitvectors, e serão serializados no estado como os argumentos e o ambiente para a execução simulada. O `args` padrão é uma lista vazia, então se o programa que você está analisando espera encontrar pelo menos um `argv[0]`, você deve sempre fornecer isso!
+* Se você gostaria que `argc` fosse simbólico, pode passar um bitvector simbólico como `argc` para os construtores `entry_state` e `full_init_state`. Tenha cuidado, porém: se você fizer isso, também deve adicionar uma restrição ao estado resultante de que seu valor para argc não pode ser maior do que o número de args que você passou para `args`.
+* Para usar o estado de chamada, você deve chamá-lo com `.call_state(addr, arg1, arg2, ...)`, onde `addr` é o endereço da função que você deseja chamar e `argN` é o N-ésimo argumento para essa função, seja como um inteiro python, string ou array, ou um bitvector. Se você quiser ter memória alocada e realmente passar um ponteiro para um objeto, deve envolvê-lo em um PointerWrapper, ou seja, `angr.PointerWrapper("point to me!")`. Os resultados desta API podem ser um pouco imprevisíveis, mas estamos trabalhando nisso.
 
 ## BitVectors
 ```python
@@ -144,7 +145,7 @@ state.solver.eval(bv) #Convert BV to python int
 bv.zero_extend(30) #Will add 30 zeros on the left of the bitvector
 bv.sign_extend(30) #Will add 30 zeros or ones on the left of the BV extending the sign
 ```
-## BitVectors Simbólicos e Restrições
+## BitVectors Simbólicos & Restrições
 ```python
 x = state.solver.BVS("x", 64) #Symbolic variable BV of length 64
 y = state.solver.BVS("y", 64)
@@ -179,8 +180,6 @@ solver.min(expression) #minimum possible solution to the given expression.
 solver.max(expression) #maximum possible solution to the given expression.
 ```
 ## Hooking
-
-## Hooking
 ```python
 >>> stub_func = angr.SIM_PROCEDURES['stubs']['ReturnUnconstrained'] # this is a CLASS
 >>> proj.hook(0x10000, stub_func())  # hook with an instance of the class
@@ -198,6 +197,21 @@ True
 >>> proj.is_hooked(0x20000)
 True
 ```
-Além disso, você pode usar `proj.hook_symbol(name, hook)`, fornecendo o nome de um símbolo como primeiro argumento, para conectar o endereço onde o símbolo está localizado
+Além disso, você pode usar `proj.hook_symbol(name, hook)`, fornecendo o nome de um símbolo como o primeiro argumento, para conectar o endereço onde o símbolo reside.
 
 # Exemplos
+
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+
+</details>
+{% endhint %}

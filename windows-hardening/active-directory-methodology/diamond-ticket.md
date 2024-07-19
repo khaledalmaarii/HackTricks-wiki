@@ -1,32 +1,33 @@
-# Bilhete de Diamante
+# Diamond Ticket
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Bilhete de Diamante
+## Diamond Ticket
 
-**Como um bilhete de ouro**, um bilhete de diamante é um TGT que pode ser usado para **acessar qualquer serviço como qualquer usuário**. Um bilhete de ouro é forjado completamente offline, criptografado com o hash krbtgt desse domínio e depois passado para uma sessão de logon para uso. Como os controladores de domínio não rastreiam os TGTs que emitiram legitimamente, eles aceitarão felizmente TGTs que estão criptografados com seu próprio hash krbtgt.
+**Como um bilhete de ouro**, um bilhete de diamante é um TGT que pode ser usado para **acessar qualquer serviço como qualquer usuário**. Um bilhete de ouro é forjado completamente offline, criptografado com o hash krbtgt daquele domínio, e então passado para uma sessão de logon para uso. Como os controladores de domínio não rastreiam os TGTs que (ou eles) emitiram legitimamente, eles aceitarão felizmente TGTs que são criptografados com seu próprio hash krbtgt.
 
 Existem duas técnicas comuns para detectar o uso de bilhetes de ouro:
 
 * Procure por TGS-REQs que não têm um AS-REQ correspondente.
-* Procure por TGTs que têm valores bobos, como o tempo de vida padrão de 10 anos do Mimikatz.
+* Procure por TGTs que têm valores absurdos, como o tempo de vida padrão de 10 anos do Mimikatz.
 
-Um **bilhete de diamante** é feito **modificando os campos de um TGT legítimo que foi emitido por um DC**. Isso é alcançado **solicitando** um **TGT**, **descriptografando** com o hash krbtgt do domínio, **modificando** os campos desejados do bilhete e, em seguida, **recriptografando**. Isso **supera as duas deficiências mencionadas** de um bilhete de ouro porque:
+Um **bilhete de diamante** é feito **modificando os campos de um TGT legítimo que foi emitido por um DC**. Isso é alcançado **solicitando** um **TGT**, **descriptografando-o** com o hash krbtgt do domínio, **modificando** os campos desejados do bilhete e, em seguida, **recriptografando-o**. Isso **supera as duas desvantagens mencionadas anteriormente** de um bilhete de ouro porque:
 
-* Os TGS-REQs terão um AS-REQ precedente.
-* O TGT foi emitido por um DC, o que significa que terá todos os detalhes corretos da política de Kerberos do domínio. Mesmo que esses possam ser falsificados com precisão em um bilhete de ouro, é mais complexo e está sujeito a erros.
+* TGS-REQs terão um AS-REQ anterior.
+* O TGT foi emitido por um DC, o que significa que terá todos os detalhes corretos da política Kerberos do domínio. Mesmo que esses possam ser forjados com precisão em um bilhete de ouro, é mais complexo e suscetível a erros.
 ```bash
 # Get user RID
 powershell Get-DomainUser -Identity <username> -Properties objectsid
@@ -39,16 +40,17 @@ powershell Get-DomainUser -Identity <username> -Properties objectsid
 # /groups are the desired group RIDs (512 being Domain Admins).
 # /krbkey is the krbtgt AES256 hash.
 ```
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Suporte ao HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

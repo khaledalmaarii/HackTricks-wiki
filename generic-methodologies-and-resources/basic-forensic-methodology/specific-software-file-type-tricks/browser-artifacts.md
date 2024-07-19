@@ -6,7 +6,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -132,15 +132,15 @@ A ferramenta [IECacheView](https://www.nirsoft.net/utils/ie\_cache\_viewer.html)
 
 ### Gerenciamento de Cookies
 
-Os cookies podem ser explorados usando [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), com metadados que abrangem nomes, URLs, contagens de acesso e vários detalhes relacionados ao tempo. Cookies persistentes são armazenados em `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, com cookies de sessão residindo na memória.
+Os cookies podem ser explorados usando [IECookiesView](https://www.nirsoft.net/utils/iecookies.html), com metadados abrangendo nomes, URLs, contagens de acessos e vários detalhes relacionados ao tempo. Cookies persistentes são armazenados em `%userprofile%\Appdata\Roaming\Microsoft\Windows\Cookies`, com cookies de sessão residindo na memória.
 
 ### Detalhes de Download
 
-Os metadados de downloads estão acessíveis via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), com contêineres específicos contendo dados como URL, tipo de arquivo e local de download. Arquivos físicos podem ser encontrados em `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
+Os metadados de downloads estão acessíveis via [ESEDatabaseView](https://www.nirsoft.net/utils/ese\_database\_view.html), com contêineres específicos armazenando dados como URL, tipo de arquivo e local de download. Arquivos físicos podem ser encontrados em `%userprofile%\Appdata\Roaming\Microsoft\Windows\IEDownloadHistory`.
 
 ### Histórico de Navegação
 
-Para revisar o histórico de navegação, pode-se usar [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html), exigindo o local dos arquivos de histórico extraídos e configuração para o Internet Explorer. Os metadados aqui incluem tempos de modificação e acesso, junto com contagens de acesso. Os arquivos de histórico estão localizados em `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
+Para revisar o histórico de navegação, pode-se usar [BrowsingHistoryView](https://www.nirsoft.net/utils/browsing\_history\_view.html), exigindo o local dos arquivos de histórico extraídos e configuração para o Internet Explorer. Os metadados aqui incluem tempos de modificação e acesso, juntamente com contagens de acesso. Os arquivos de histórico estão localizados em `%userprofile%\Appdata\Local\Microsoft\Windows\History`.
 
 ### URLs Digitadas
 
@@ -162,7 +162,7 @@ Os dados do Safari são armazenados em `/Users/$User/Library/Safari`. Os arquivo
 
 * **History.db**: Contém tabelas `history_visits` e `history_items` com URLs e timestamps de visita. Use `sqlite3` para consultar.
 * **Downloads.plist**: Informações sobre arquivos baixados.
-* **Bookmarks.plist**: Armazena URLs favoritas.
+* **Bookmarks.plist**: Armazena URLs marcadas.
 * **TopSites.plist**: Sites mais visitados.
 * **Extensions.plist**: Lista de extensões do navegador Safari. Use `plutil` ou `pluginkit` para recuperar.
 * **UserNotificationPermissions.plist**: Domínios permitidos para enviar notificações. Use `plutil` para analisar.
@@ -192,16 +192,17 @@ Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=browser-artifacts" %}
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Obtenha o [**merch oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivas
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
+{% endhint %}

@@ -1,19 +1,20 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-Muito basicamente, esta ferramenta nos ajudará a encontrar valores para variáveis que precisam satisfazer algumas condições e calculá-los manualmente será muito irritante. Portanto, você pode indicar ao Z3 as condições que as variáveis precisam satisfazer e ele encontrará alguns valores (se possível).
+Basicamente, esta ferramenta nos ajudará a encontrar valores para variáveis que precisam satisfazer algumas condições, e calculá-las manualmente será muito irritante. Portanto, você pode indicar ao Z3 as condições que as variáveis precisam satisfazer e ele encontrará alguns valores (se possível).
 
 **Alguns textos e exemplos são extraídos de [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)**
 
@@ -34,7 +35,7 @@ s.add(And(Or(x,y,Not(z)),y))
 s.check() #If response is "sat" then the model is satifable, if "unsat" something is wrong
 print(s.model()) #Print valid values to satisfy the model
 ```
-## Inteiros/Simplificar/Reais
+## Ints/Simplify/Reals
 ```python
 from z3 import *
 
@@ -54,7 +55,7 @@ print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 set_option(precision=30)
 print(solve(r1**2 + r2**2 == 3, r1**3 == 2))
 ```
-## Imprimindo Modelo
+## Impressão de Modelo
 ```python
 from z3 import *
 
@@ -70,7 +71,7 @@ print("%s = %s" % (d.name(), m[d]))
 ```
 # Aritmética de Máquina
 
-As CPUs modernas e linguagens de programação mainstream utilizam aritmética sobre **vetores de bits de tamanho fixo**. A aritmética de máquina está disponível no Z3Py como **Bit-Vectors**.
+CPUs modernas e linguagens de programação convencionais usam aritmética sobre **vetores de bits de tamanho fixo**. A aritmética de máquina está disponível no Z3Py como **Vetores de Bits**.
 ```python
 from z3 import *
 
@@ -85,9 +86,9 @@ a = BitVecVal(-1, 32)
 b = BitVecVal(65535, 32)
 print(simplify(a == b)) #This is False
 ```
-## Números assinados/não assinados
+## Números Assinados/Não Assinados
 
-O Z3 fornece versões especiais assinadas de operações aritméticas onde faz diferença se o **vetor de bits é tratado como assinado ou não assinado**. No Z3Py, os operadores **<, <=, >, >=, /, % e >>** correspondem às versões **assinadas**. Os operadores **não assinados** correspondentes são **ULT, ULE, UGT, UGE, UDiv, URem e LShR**.
+Z3 fornece versões especiais assinadas de operações aritméticas onde faz diferença se o **bit-vector é tratado como assinado ou não assinado**. No Z3Py, os operadores **<, <=, >, >=, /, % e >>** correspondem às versões **assinadas**. Os operadores **não assinados** correspondentes são **ULT, ULE, UGT, UGE, UDiv, URem e LShR.**
 ```python
 from z3 import *
 
@@ -107,9 +108,9 @@ solve(ULT(x, 0))
 ```
 ## Funções
 
-**Funções interpretadas** como aritmética, onde a **função +** tem uma **interpretação padrão fixa** (soma dois números). **Funções não interpretadas** e constantes são **maximamente flexíveis**; elas permitem **qualquer interpretação** que seja **consistente** com as **restrições** sobre a função ou constante.
+**Funções interpretadas** como aritmética onde a **função +** tem uma **interpretação padrão fixa** (ela soma dois números). **Funções não interpretadas** e constantes são **maximamente flexíveis**; elas permitem **qualquer interpretação** que seja **consistente** com as **restrições** sobre a função ou constante.
 
-Exemplo: f aplicado duas vezes a x resulta em x novamente, mas f aplicado uma vez a x é diferente de x.
+Exemplo: f aplicada duas vezes a x resulta em x novamente, mas f aplicada uma vez a x é diferente de x.
 ```python
 from z3 import *
 
@@ -185,16 +186,17 @@ print "failed to solve"
 * [https://ericpony.github.io/z3py-tutorial/guide-examples.htm](https://ericpony.github.io/z3py-tutorial/guide-examples.htm)
 
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras maneiras de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Verifique os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
+{% endhint %}

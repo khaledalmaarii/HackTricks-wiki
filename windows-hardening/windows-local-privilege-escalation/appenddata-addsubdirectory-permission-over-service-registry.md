@@ -1,53 +1,55 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-**A postagem original está em** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
+**O post original é** [**https://itm4n.github.io/windows-registry-rpceptmapper-eop/**](https://itm4n.github.io/windows-registry-rpceptmapper-eop/)
 
 ## Resumo
 
-Foram encontradas duas chaves de registro que podem ser gravadas pelo usuário atual:
+Duas chaves de registro foram encontradas como graváveis pelo usuário atual:
 
 - **`HKLM\SYSTEM\CurrentControlSet\Services\Dnscache`**
 - **`HKLM\SYSTEM\CurrentControlSet\Services\RpcEptMapper`**
 
-Foi sugerido verificar as permissões do serviço **RpcEptMapper** usando o **regedit GUI**, especificamente a guia **Effective Permissions** da janela **Advanced Security Settings**. Essa abordagem permite avaliar as permissões concedidas a usuários ou grupos específicos sem a necessidade de examinar cada entrada de controle de acesso (ACE) individualmente.
+Foi sugerido verificar as permissões do serviço **RpcEptMapper** usando a **GUI do regedit**, especificamente a aba **Permissões Eficazes** da janela **Configurações de Segurança Avançadas**. Essa abordagem permite a avaliação das permissões concedidas a usuários ou grupos específicos sem a necessidade de examinar cada Entrada de Controle de Acesso (ACE) individualmente.
 
-Uma captura de tela mostrou as permissões atribuídas a um usuário de baixo privilégio, entre as quais a permissão **Create Subkey** era notável. Essa permissão, também conhecida como **AppendData/AddSubdirectory**, corresponde às descobertas do script.
+Uma captura de tela mostrou as permissões atribuídas a um usuário com poucos privilégios, entre as quais a permissão **Criar Subchave** era notável. Essa permissão, também referida como **AppendData/AddSubdirectory**, corresponde às descobertas do script.
 
-Foi observada a incapacidade de modificar diretamente determinados valores, mas a capacidade de criar novas subchaves. Um exemplo destacado foi uma tentativa de alterar o valor **ImagePath**, que resultou em uma mensagem de acesso negado.
+A incapacidade de modificar certos valores diretamente, mas a capacidade de criar novas subchaves, foi observada. Um exemplo destacado foi uma tentativa de alterar o valor **ImagePath**, que resultou em uma mensagem de acesso negado.
 
-Apesar dessas limitações, foi identificado um potencial de escalonamento de privilégios por meio da possibilidade de alavancar a subchave **Performance** dentro da estrutura de registro do serviço **RpcEptMapper**, uma subchave não presente por padrão. Isso poderia permitir o registro de DLLs e monitoramento de desempenho.
+Apesar dessas limitações, um potencial para escalonamento de privilégios foi identificado através da possibilidade de aproveitar a subchave **Performance** dentro da estrutura de registro do serviço **RpcEptMapper**, uma subchave que não está presente por padrão. Isso poderia permitir o registro de DLL e monitoramento de desempenho.
 
-A documentação sobre a subchave **Performance** e sua utilização para monitoramento de desempenho foi consultada, levando ao desenvolvimento de uma DLL de prova de conceito. Essa DLL, demonstrando a implementação das funções **OpenPerfData**, **CollectPerfData** e **ClosePerfData**, foi testada via **rundll32**, confirmando seu sucesso operacional.
+A documentação sobre a subchave **Performance** e sua utilização para monitoramento de desempenho foi consultada, levando ao desenvolvimento de uma DLL de prova de conceito. Esta DLL, demonstrando a implementação das funções **OpenPerfData**, **CollectPerfData** e **ClosePerfData**, foi testada via **rundll32**, confirmando seu sucesso operacional.
 
-O objetivo era forçar o **serviço RPC Endpoint Mapper** a carregar a DLL de Desempenho criada. Observações revelaram que a execução de consultas de classe WMI relacionadas aos Dados de Desempenho via PowerShell resultou na criação de um arquivo de log, permitindo a execução de código arbitrário sob o contexto do **LOCAL SYSTEM**, concedendo assim privilégios elevados.
+O objetivo era forçar o **serviço de Mapeamento de Endpoint RPC** a carregar a DLL de Performance criada. Observações revelaram que a execução de consultas de classe WMI relacionadas a Dados de Desempenho via PowerShell resultou na criação de um arquivo de log, permitindo a execução de código arbitrário sob o contexto de **SISTEMA LOCAL**, concedendo assim privilégios elevados.
 
-A persistência e as possíveis implicações dessa vulnerabilidade foram destacadas, ressaltando sua relevância para estratégias pós-exploração, movimentação lateral e evasão de sistemas antivírus/EDR.
+A persistência e as potenciais implicações dessa vulnerabilidade foram destacadas, ressaltando sua relevância para estratégias de pós-exploração, movimento lateral e evasão de sistemas antivírus/EDR.
 
-Embora a vulnerabilidade tenha sido inicialmente divulgada acidentalmente por meio do script, foi enfatizado que sua exploração está limitada a versões desatualizadas do Windows (por exemplo, **Windows 7 / Server 2008 R2**) e requer acesso local.
+Embora a vulnerabilidade tenha sido inicialmente divulgada inadvertidamente através do script, foi enfatizado que sua exploração é restrita a versões desatualizadas do Windows (por exemplo, **Windows 7 / Server 2008 R2**) e requer acesso local.
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
