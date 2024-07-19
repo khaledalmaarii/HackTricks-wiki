@@ -1,48 +1,50 @@
-# Persistencia de Cuenta de AD CS
+# AD CS Account Persistence
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén [**productos oficiales de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Este es un pequeño resumen de los capítulos de persistencia de máquina de la increíble investigación de [https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf](https://www.specterops.io/assets/resources/Certified\_Pre-Owned.pdf)**
 
-## **Comprendiendo el Robo de Credenciales de Usuario Activo con Certificados – PERSIST1**
 
-En un escenario donde un usuario puede solicitar un certificado que permita la autenticación de dominio, un atacante tiene la oportunidad de **solicitar** y **robar** este certificado para **mantener la persistencia** en una red. Por defecto, la plantilla `User` en Active Directory permite tales solicitudes, aunque a veces puede estar deshabilitada.
+## **Entendiendo el robo de credenciales de usuario activo con certificados – PERSIST1**
 
-Utilizando una herramienta llamada [**Certify**](https://github.com/GhostPack/Certify), uno puede buscar certificados válidos que habiliten el acceso persistente:
+En un escenario donde un certificado que permite la autenticación de dominio puede ser solicitado por un usuario, un atacante tiene la oportunidad de **solicitar** y **robar** este certificado para **mantener persistencia** en una red. Por defecto, la plantilla `User` en Active Directory permite tales solicitudes, aunque a veces puede estar deshabilitada.
+
+Usando una herramienta llamada [**Certify**](https://github.com/GhostPack/Certify), se puede buscar certificados válidos que habiliten el acceso persistente:
 ```bash
 Certify.exe find /clientauth
 ```
-Se destaca que el poder de un certificado radica en su capacidad para **autenticarse como el usuario** al que pertenece, independientemente de cualquier cambio de contraseña, siempre y cuando el certificado permanezca **válido**.
+Se destaca que el poder de un certificado radica en su capacidad para **autenticar como el usuario** al que pertenece, independientemente de cualquier cambio de contraseña, siempre que el certificado permanezca **válido**.
 
-Los certificados pueden solicitarse a través de una interfaz gráfica utilizando `certmgr.msc` o a través de la línea de comandos con `certreq.exe`. Con **Certify**, el proceso para solicitar un certificado se simplifica de la siguiente manera:
+Los certificados se pueden solicitar a través de una interfaz gráfica utilizando `certmgr.msc` o a través de la línea de comandos con `certreq.exe`. Con **Certify**, el proceso para solicitar un certificado se simplifica de la siguiente manera:
 ```bash
 Certify.exe request /ca:CA-SERVER\CA-NAME /template:TEMPLATE-NAME
 ```
-Una vez realizada la solicitud exitosa, se genera un certificado junto con su clave privada en formato `.pem`. Para convertir esto en un archivo `.pfx`, que es utilizable en sistemas Windows, se utiliza el siguiente comando:
+Al realizar una solicitud exitosa, se genera un certificado junto con su clave privada en formato `.pem`. Para convertir esto en un archivo `.pfx`, que es utilizable en sistemas Windows, se utiliza el siguiente comando:
 ```bash
 openssl pkcs12 -in cert.pem -keyex -CSP "Microsoft Enhanced Cryptographic Provider v1.0" -export -out cert.pfx
 ```
-El archivo `.pfx` puede ser luego cargado en un sistema objetivo y utilizado con una herramienta llamada [**Rubeus**](https://github.com/GhostPack/Rubeus) para solicitar un Ticket Granting Ticket (TGT) para el usuario, extendiendo el acceso del atacante siempre y cuando el certificado esté **vigente** (normalmente un año):
+El archivo `.pfx` puede ser subido a un sistema objetivo y utilizado con una herramienta llamada [**Rubeus**](https://github.com/GhostPack/Rubeus) para solicitar un Ticket Granting Ticket (TGT) para el usuario, extendiendo el acceso del atacante mientras el certificado sea **válido** (típicamente un año):
 ```bash
 Rubeus.exe asktgt /user:harmj0y /certificate:C:\Temp\cert.pfx /password:CertPass!
 ```
-Un importante aviso se comparte sobre cómo esta técnica, combinada con otro método descrito en la sección **THEFT5**, permite a un atacante obtener persistentemente el **hash NTLM** de una cuenta sin interactuar con el Servicio de Subsistema de Seguridad Local (LSASS), y desde un contexto no elevado, proporcionando un método más sigiloso para el robo de credenciales a largo plazo.
+Una advertencia importante se comparte sobre cómo esta técnica, combinada con otro método descrito en la sección **THEFT5**, permite a un atacante obtener de manera persistente el **NTLM hash** de una cuenta sin interactuar con el Servicio de Subsistema de Seguridad Local (LSASS), y desde un contexto no elevado, proporcionando un método más sigiloso para el robo de credenciales a largo plazo.
 
-## **Obteniendo Persistencia en la Máquina con Certificados - PERSIST2**
+## **Gaining Machine Persistence with Certificates - PERSIST2**
 
-Otro método implica inscribir la cuenta de máquina de un sistema comprometido para obtener un certificado, utilizando la plantilla predeterminada `Machine` que permite tales acciones. Si un atacante obtiene privilegios elevados en un sistema, pueden usar la cuenta **SYSTEM** para solicitar certificados, proporcionando una forma de **persistencia**:
+Otro método implica inscribir la cuenta de máquina de un sistema comprometido para un certificado, utilizando la plantilla `Machine` predeterminada que permite tales acciones. Si un atacante obtiene privilegios elevados en un sistema, puede usar la cuenta **SYSTEM** para solicitar certificados, proporcionando una forma de **persistence**:
 ```bash
 Certify.exe request /ca:dc.theshire.local/theshire-DC-CA /template:Machine /machine
 ```
@@ -50,20 +52,6 @@ Este acceso permite al atacante autenticarse en **Kerberos** como la cuenta de m
 
 ## **Extensión de la Persistencia a Través de la Renovación de Certificados - PERSIST3**
 
-El método final discutido implica aprovechar los **períodos de validez** y **renovación** de las plantillas de certificados. Al **renovar** un certificado antes de su vencimiento, un atacante puede mantener la autenticación en Active Directory sin necesidad de inscripciones adicionales de tickets, lo que podría dejar rastros en el servidor de Autoridad de Certificación (CA).
+El método final discutido implica aprovechar los **períodos de validez** y **renovación** de las plantillas de certificados. Al **renovar** un certificado antes de su expiración, un atacante puede mantener la autenticación en Active Directory sin necesidad de inscripciones adicionales de tickets, lo que podría dejar rastros en el servidor de la Autoridad de Certificación (CA).
 
-Este enfoque permite un método de **persistencia extendida**, minimizando el riesgo de detección a través de interacciones más limitadas con el servidor de CA y evitando la generación de artefactos que podrían alertar a los administradores sobre la intrusión.
-
-<details>
-
-<summary><strong>Aprende hacking en AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github.
-
-</details>
+Este enfoque permite un método de **persistencia extendida**, minimizando el riesgo de detección a través de menos interacciones con el servidor CA y evitando la generación de artefactos que podrían alertar a los administradores sobre la intrusión.

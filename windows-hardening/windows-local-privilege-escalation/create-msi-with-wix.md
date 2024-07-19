@@ -1,22 +1,23 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende a hackear AWS desde cero hasta convertirte en un experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-# Creando un MSI Malicioso y Obteniendo Privilegios de Administrador
+# Creación de MSI Malicioso y Obtención de Root
 
-La creación del instalador MSI se realizará utilizando wixtools, específicamente se utilizará [wixtools](http://wixtoolset.org). Cabe mencionar que se intentaron utilizar otros constructores de MSI, pero no tuvieron éxito en este caso particular.
+La creación del instalador MSI se realizará utilizando wixtools, específicamente se utilizará [wixtools](http://wixtoolset.org). Vale la pena mencionar que se intentaron constructores de MSI alternativos, pero no tuvieron éxito en este caso particular.
 
-Para comprender de manera integral ejemplos de uso de MSI de wix, se recomienda consultar [esta página](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with). Aquí, encontrarás varios ejemplos que demuestran el uso de MSI de wix.
+Para una comprensión completa de los ejemplos de uso de wix MSI, se recomienda consultar [esta página](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with). Aquí, puedes encontrar varios ejemplos que demuestran el uso de wix MSI.
 
 El objetivo es generar un MSI que ejecute el archivo lnk. Para lograr esto, se podría emplear el siguiente código XML ([xml de aquí](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)):
 ```markup
@@ -50,34 +51,39 @@ fail_here
 </Product>
 </Wix>
 ```
-Es importante tener en cuenta que el elemento Package contiene atributos como InstallerVersion y Compressed, que especifican la versión del instalador e indican si el paquete está comprimido o no, respectivamente.
+Es importante notar que el elemento Package contiene atributos como InstallerVersion y Compressed, que especifican la versión del instalador e indican si el paquete está comprimido o no, respectivamente.
 
-El proceso de creación implica utilizar candle.exe, una herramienta de wixtools, para generar un wixobject a partir de msi.xml. Debe ejecutarse el siguiente comando:
+El proceso de creación implica utilizar candle.exe, una herramienta de wixtools, para generar un wixobject a partir de msi.xml. El siguiente comando debe ser ejecutado:
 ```
 candle.exe -out C:\tem\wix C:\tmp\Ethereal\msi.xml
 ```
-Además, vale la pena mencionar que se proporciona una imagen en la publicación, que muestra el comando y su salida. Puedes consultarla para obtener orientación visual.
+Además, vale la pena mencionar que se proporciona una imagen en la publicación, que muestra el comando y su salida. Puedes referirte a ella para obtener orientación visual.
 
-Además, light.exe, otra herramienta de wixtools, se utilizará para crear el archivo MSI a partir del wixobject. El comando a ejecutar es el siguiente:
+Además, se utilizará light.exe, otra herramienta de wixtools, para crear el archivo MSI a partir del wixobject. El comando que se ejecutará es el siguiente:
 ```
 light.exe -out C:\tm\Ethereal\rick.msi C:\tmp\wix
 ```
+Similar al comando anterior, se incluye una imagen en la publicación que ilustra el comando y su salida.
+
+Tenga en cuenta que, aunque este resumen tiene como objetivo proporcionar información valiosa, se recomienda consultar la publicación original para obtener detalles más completos e instrucciones precisas.
+
 ## Referencias
 * [https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root](https://0xrick.github.io/hack-the-box/ethereal/#Creating-Malicious-msi-and-getting-root)
 * [https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with](https://www.codeproject.com/Tips/105638/A-quick-introduction-Create-an-MSI-installer-with)
 [wixtools](http://wixtoolset.org)
 
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

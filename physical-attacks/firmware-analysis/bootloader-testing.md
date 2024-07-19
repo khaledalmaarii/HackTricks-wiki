@@ -1,24 +1,25 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende a hackear AWS desde cero hasta convertirte en un héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Equipos Rojos de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 Los siguientes pasos se recomiendan para modificar las configuraciones de inicio del dispositivo y los bootloaders como U-boot:
 
 1. **Acceder a la Shell del Intérprete del Bootloader**:
-- Durante el arranque, presiona "0", espacio u otros "códigos mágicos" identificados para acceder a la shell del intérprete del bootloader.
+- Durante el arranque, presione "0", espacio u otros "códigos mágicos" identificados para acceder a la shell del intérprete del bootloader.
 
 2. **Modificar los Argumentos de Arranque**:
-- Ejecuta los siguientes comandos para agregar '`init=/bin/sh`' a los argumentos de arranque, permitiendo la ejecución de un comando de shell:
+- Ejecute los siguientes comandos para agregar '`init=/bin/sh`' a los argumentos de arranque, permitiendo la ejecución de un comando de shell:
 %%%
 #printenv
 #setenv bootargs=console=ttyS0,115200 mem=63M root=/dev/mtdblock3 mtdparts=sflash:<partitiionInfo> rootfstype=<fstype> hasEeprom=0 5srst=0 init=/bin/sh
@@ -27,7 +28,7 @@ Los siguientes pasos se recomiendan para modificar las configuraciones de inicio
 %%%
 
 3. **Configurar un Servidor TFTP**:
-- Configura un servidor TFTP para cargar imágenes a través de una red local:
+- Configure un servidor TFTP para cargar imágenes a través de una red local:
 %%%
 #setenv ipaddr 192.168.2.2 #IP local del dispositivo
 #setenv serverip 192.168.2.1 #IP del servidor TFTP
@@ -38,19 +39,35 @@ Los siguientes pasos se recomiendan para modificar las configuraciones de inicio
 %%%
 
 4. **Utilizar `ubootwrite.py`**:
-- Usa `ubootwrite.py` para escribir la imagen de U-boot y cargar un firmware modificado para obtener acceso de root.
+- Use `ubootwrite.py` para escribir la imagen de U-boot y cargar un firmware modificado para obtener acceso root.
 
-5. **Verificar las Características de Depuración**:
-- Verifica si las características de depuración como el registro detallado, la carga de kernels arbitrarios o el arranque desde fuentes no confiables están habilitadas.
+5. **Verificar Características de Depuración**:
+- Verifique si las características de depuración como el registro detallado, la carga de núcleos arbitrarios o el arranque desde fuentes no confiables están habilitadas.
 
-6. **Interferencia de Hardware con Precaución**:
-- Ten precaución al conectar un pin a tierra e interactuar con chips de memoria flash SPI o NAND durante la secuencia de arranque del dispositivo, especialmente antes de que el kernel se descomprima. Consulta la hoja de datos del chip de memoria NAND antes de hacer cortocircuitos en los pines.
+6. **Interferencia de Hardware Cautelosa**:
+- Tenga cuidado al conectar un pin a tierra e interactuar con chips SPI o NAND flash durante la secuencia de arranque del dispositivo, particularmente antes de que el kernel se descomprima. Consulte la hoja de datos del chip NAND flash antes de hacer cortocircuito en los pines.
 
 7. **Configurar un Servidor DHCP Malicioso**:
-- Configura un servidor DHCP malicioso con parámetros maliciosos para que un dispositivo los ingiera durante un arranque PXE. Utiliza herramientas como el servidor auxiliar DHCP de Metasploit (MSF). Modifica el parámetro 'FILENAME' con comandos de inyección de comandos como `'a";/bin/sh;#'` para probar la validación de entrada en los procedimientos de inicio del dispositivo.
+- Configure un servidor DHCP malicioso con parámetros dañinos para que un dispositivo los ingiera durante un arranque PXE. Utilice herramientas como el servidor auxiliar DHCP de Metasploit (MSF). Modifique el parámetro 'FILENAME' con comandos de inyección de comandos como `'a";/bin/sh;#'` para probar la validación de entrada en los procedimientos de inicio del dispositivo.
 
 **Nota**: Los pasos que implican interacción física con los pines del dispositivo (*marcados con asteriscos) deben abordarse con extrema precaución para evitar dañar el dispositivo.
 
 
 ## Referencias
 * [https://scriptingxss.gitbook.io/firmware-security-testing-methodology/](https://scriptingxss.gitbook.io/firmware-security-testing-methodology/)
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

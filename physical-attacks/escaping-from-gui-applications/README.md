@@ -1,21 +1,22 @@
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS de cero a héroe con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Experto en Red Team de AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** ¡Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**La Familia PEASS**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 
-# Verificar posibles acciones dentro de la aplicación GUI
+# Verifique las posibles acciones dentro de la aplicación GUI
 
-Los **Diálogos comunes** son esas opciones de **guardar un archivo**, **abrir un archivo**, seleccionar una fuente, un color... La mayoría ofrecerá una funcionalidad completa de Explorador. Esto significa que podrás acceder a funcionalidades de Explorador si puedes acceder a estas opciones:
+**Diálogos Comunes** son aquellas opciones de **guardar un archivo**, **abrir un archivo**, seleccionar una fuente, un color... La mayoría de ellos **ofrecerán una funcionalidad completa de Explorador**. Esto significa que podrás acceder a las funcionalidades del Explorador si puedes acceder a estas opciones:
 
 * Cerrar/Cerrar como
 * Abrir/Abrir con
@@ -28,16 +29,16 @@ Deberías verificar si puedes:
 
 * Modificar o crear nuevos archivos
 * Crear enlaces simbólicos
-* Acceder a áreas restringidas
+* Obtener acceso a áreas restringidas
 * Ejecutar otras aplicaciones
 
-## Ejecución de comandos
+## Ejecución de Comandos
 
-Tal vez **usando la opción `Abrir con`** puedas abrir/ejecutar algún tipo de shell.
+Quizás **usando una opción `Abrir con`** puedas abrir/ejecutar algún tipo de shell.
 
 ### Windows
 
-Por ejemplo _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ encuentra más binarios que se pueden usar para ejecutar comandos (y realizar acciones inesperadas) aquí: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
+Por ejemplo _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ encuentra más binarios que pueden ser utilizados para ejecutar comandos (y realizar acciones inesperadas) aquí: [https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 ### \*NIX __
 
@@ -45,14 +46,14 @@ _bash, sh, zsh..._ Más aquí: [https://gtfobins.github.io/](https://gtfobins.gi
 
 # Windows
 
-## Saltando restricciones de ruta
+## Eludir restricciones de ruta
 
 * **Variables de entorno**: Hay muchas variables de entorno que apuntan a alguna ruta
 * **Otros protocolos**: _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **Enlaces simbólicos**
-* **Accesos directos**: CTRL+N (abrir nueva sesión), CTRL+R (Ejecutar comandos), CTRL+SHIFT+ESC (Administrador de tareas),  Windows+E (abrir explorador), CTRL-B, CTRL-I (Favoritos), CTRL-H (Historial), CTRL-L, CTRL-O (Diálogo de Archivo/Abrir), CTRL-P (Diálogo de Impresión), CTRL-S (Guardar como)
+* **Accesos directos**: CTRL+N (abrir nueva sesión), CTRL+R (Ejecutar Comandos), CTRL+SHIFT+ESC (Administrador de tareas), Windows+E (abrir explorador), CTRL-B, CTRL-I (Favoritos), CTRL-H (Historial), CTRL-L, CTRL-O (Archivo/Abrir Diálogo), CTRL-P (Diálogo de Imprimir), CTRL-S (Guardar como)
 * Menú administrativo oculto: CTRL-ALT-F8, CTRL-ESC-F9
-* **URIs de shell**: _shell:Herramientas Administrativas, shell:Bibliotecas de Documentos, shell:Bibliotecas, shell:Perfiles de Usuario, shell:Personal, shell:Carpeta de Inicio de Búsqueda, shell:Carpeta de Lugares de Red, shell:Enviar a, shell:Perfiles de Usuario, shell:Herramientas Administrativas Comunes, shell:Carpeta de Mi PC, shell:Carpeta de Internet_
+* **Shell URIs**: _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
 * **Rutas UNC**: Rutas para conectarse a carpetas compartidas. Deberías intentar conectarte al C$ de la máquina local ("\\\127.0.0.1\c$\Windows\System32")
 * **Más rutas UNC:**
 
@@ -68,11 +69,11 @@ _bash, sh, zsh..._ Más aquí: [https://gtfobins.github.io/](https://gtfobins.gi
 | %TMP%                     | %USERDOMAIN%   | %USERNAME%           |
 | %USERPROFILE%             | %WINDIR%       |                      |
 
-## Descarga tus Binarios
+## Descarga tus binarios
 
 Consola: [https://sourceforge.net/projects/console/](https://sourceforge.net/projects/console/)\
 Explorador: [https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/](https://sourceforge.net/projects/explorerplus/files/Explorer%2B%2B/)\
-Editor de registro: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
+Editor del registro: [https://sourceforge.net/projects/uberregedit/](https://sourceforge.net/projects/uberregedit/)
 
 ## Accediendo al sistema de archivos desde el navegador
 
@@ -86,29 +87,29 @@ Editor de registro: [https://sourceforge.net/projects/uberregedit/](https://sour
 | %TEMP%              | %SYSTEMDRIVE%     | %SYSTEMROOT%       | %APPDATA%           |
 | %HOMEDRIVE%         | %HOMESHARE        |                    | <p><br></p>         |
 
-## Accesos directos
+## Atajos
 
-* Teclas de Acceso Rápido – Presiona SHIFT 5 veces
-* Teclas de Ratón – SHIFT+ALT+BLOQ NUM
-* Alto Contraste – SHIFT+ALT+IMPR PANT
-* Teclas de Alternancia – Mantén BLOQ NUM durante 5 segundos
-* Teclas de Filtro – Mantén pulsada la tecla derecha SHIFT durante 12 segundos
+* Teclas adhesivas – Presiona SHIFT 5 veces
+* Teclas de mouse – SHIFT+ALT+NUMLOCK
+* Alto contraste – SHIFT+ALT+PRINTSCN
+* Teclas de alternancia – Mantén NUMLOCK durante 5 segundos
+* Teclas de filtro – Mantén SHIFT derecho durante 12 segundos
 * WINDOWS+F1 – Búsqueda de Windows
-* WINDOWS+D – Mostrar Escritorio
-* WINDOWS+E – Abrir Explorador de Windows
+* WINDOWS+D – Mostrar escritorio
+* WINDOWS+E – Lanzar el explorador de Windows
 * WINDOWS+R – Ejecutar
-* WINDOWS+U – Centro de Accesibilidad
-* WINDOWS+F – Búsqueda
+* WINDOWS+U – Centro de accesibilidad
+* WINDOWS+F – Buscar
 * SHIFT+F10 – Menú contextual
 * CTRL+SHIFT+ESC – Administrador de tareas
-* CTRL+ALT+SUPR – Pantalla de inicio en versiones más nuevas de Windows
-* F1 – Ayuda F3 – Búsqueda
+* CTRL+ALT+DEL – Pantalla de inicio en versiones más nuevas de Windows
+* F1 – Ayuda F3 – Buscar
 * F6 – Barra de direcciones
 * F11 – Alternar pantalla completa dentro de Internet Explorer
 * CTRL+H – Historial de Internet Explorer
-* CTRL+T – Internet Explorer – Nueva Pestaña
-* CTRL+N – Internet Explorer – Nueva Página
-* CTRL+O – Abrir Archivo
+* CTRL+T – Internet Explorer – Nueva pestaña
+* CTRL+N – Internet Explorer – Nueva página
+* CTRL+O – Abrir archivo
 * CTRL+S – Guardar CTRL+N – Nueva RDP / Citrix
 
 ## Deslizamientos
@@ -122,41 +123,41 @@ Editor de registro: [https://sourceforge.net/projects/uberregedit/](https://sour
 
 ### 'Barra de herramientas de imagen'
 
-Es una barra de herramientas que aparece en la parte superior izquierda de la imagen cuando se hace clic en ella. Podrás Guardar, Imprimir, Enviar por correo electrónico, Abrir "Mis imágenes" en el Explorador. El Kiosk debe estar utilizando Internet Explorer.
+Es una barra de herramientas que aparece en la parte superior izquierda de la imagen cuando se hace clic. Podrás Guardar, Imprimir, Mailto, Abrir "Mis Imágenes" en el Explorador. El Kiosco necesita estar usando Internet Explorer.
 
 ### Protocolo Shell
 
 Escribe estas URL para obtener una vista de Explorador:
 
-* `shell:Herramientas Administrativas`
-* `shell:Bibliotecas de Documentos`
-* `shell:Bibliotecas`
-* `shell:Perfiles de Usuario`
+* `shell:Administrative Tools`
+* `shell:DocumentsLibrary`
+* `shell:Libraries`
+* `shell:UserProfiles`
 * `shell:Personal`
-* `shell:Carpeta de Inicio de Búsqueda`
-* `shell:Carpeta de Lugares de Red`
-* `shell:Enviar a`
-* `shell:Perfiles de Usuario`
-* `shell:Herramientas Administrativas Comunes`
-* `shell:Carpeta de Mi PC`
-* `shell:Carpeta de Internet`
-* `Shell:Perfil`
-* `Shell:Archivos de Programa`
-* `Shell:Sistema`
-* `Shell:Panel de Control`
+* `shell:SearchHomeFolder`
+* `shell:NetworkPlacesFolder`
+* `shell:SendTo`
+* `shell:UserProfiles`
+* `shell:Common Administrative Tools`
+* `shell:MyComputerFolder`
+* `shell:InternetFolder`
+* `Shell:Profile`
+* `Shell:ProgramFiles`
+* `Shell:System`
+* `Shell:ControlPanelFolder`
 * `Shell:Windows`
 * `shell:::{21EC2020-3AEA-1069-A2DD-08002B30309D}` --> Panel de Control
-* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Mi PC
-* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Mis sitios de red
+* `shell:::{20D04FE0-3AEA-1069-A2D8-08002B30309D}` --> Mi Computadora
+* `shell:::{{208D2C60-3AEA-1069-A2D7-08002B30309D}}` --> Mis Lugares de Red
 * `shell:::{871C5380-42A0-1069-A2EA-08002B30309D}` --> Internet Explorer
 
-## Mostrar Extensiones de Archivos
+## Mostrar extensiones de archivo
 
 Consulta esta página para más información: [https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
 
-# Trucos de Navegadores
+# Trucos de navegadores
 
-Versiones de iKat de respaldo:
+Versiones de respaldo de iKat:
 
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\
@@ -172,9 +173,9 @@ Fuente: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811
 
 * Desliza de un lado a otro con cuatro o cinco dedos: Para cambiar a la siguiente/última aplicación
 
-* Pellizca la pantalla con cinco dedos / Toca el botón de inicio / Desliza hacia arriba con 1 dedo desde la parte inferior de la pantalla en un movimiento rápido hacia arriba: Para acceder a Inicio
+* Pellizca la pantalla con cinco dedos / Toca el botón de inicio / Desliza hacia arriba con 1 dedo desde la parte inferior de la pantalla en un movimiento rápido hacia arriba: Para acceder a la pantalla de inicio
 
-* Desliza un dedo desde la parte inferior de la pantalla solo 1-2 pulgadas (lento): Aparecerá el dock
+* Desliza un dedo desde la parte inferior de la pantalla solo 1-2 pulgadas (lento): La base aparecerá
 
 * Desliza hacia abajo desde la parte superior de la pantalla con 1 dedo: Para ver tus notificaciones
 
@@ -182,25 +183,25 @@ Fuente: https://medium.com/@Rend_/give-me-a-browser-ill-give-you-a-shell-de19811
 
 * Desliza 1 dedo desde el lado izquierdo de la pantalla 1-2 pulgadas: Para ver la vista de Hoy
 
-* Desliza rápido 1 dedo desde el centro de la pantalla hacia la derecha o izquierda: Para cambiar a la siguiente/última aplicación
+* Desliza rápido 1 dedo desde el centro de la pantalla hacia la derecha o hacia la izquierda: Para cambiar a la siguiente/última aplicación
 
-* Presiona y mantén presionado el botón de Encendido/**Apagado**/Suspensión en la esquina superior derecha del **iPad +** Mueve el deslizador de **apagado** todo el camino hacia la derecha: Para apagar
+* Presiona y mantén el botón de Encendido/**Apagar**/Reposo en la esquina superior derecha del **iPad +** Mueve el control deslizante de **apagar** todo el camino hacia la derecha: Para apagar
 
-* Presiona el botón de Encendido/**Apagado**/Suspensión en la esquina superior derecha del **iPad y el botón de Inicio durante unos segundos**: Para forzar un apagado duro
+* Presiona el botón de Encendido/**Apagar**/Reposo en la esquina superior derecha del **iPad y el botón de inicio durante unos segundos**: Para forzar un apagado duro
 
-* Presiona el botón de Encendido/**Apagado**/Suspensión en la esquina superior derecha del **iPad y el botón de Inicio rápidamente**: Para tomar una captura de pantalla que aparecerá en la esquina inferior izquierda de la pantalla. Presiona ambos botones al mismo tiempo brevemente, ya que si los mantienes presionados unos segundos se realizará un apagado duro.
+* Presiona el botón de Encendido/**Apagar**/Reposo en la esquina superior derecha del **iPad y el botón de inicio rápidamente**: Para tomar una captura de pantalla que aparecerá en la parte inferior izquierda de la pantalla. Presiona ambos botones al mismo tiempo muy brevemente, ya que si los mantienes durante unos segundos se realizará un apagado duro.
 
 ## Atajos
 
-Deberías tener un teclado para iPad o un adaptador de teclado USB. Aquí solo se mostrarán los atajos que podrían ayudar a escapar de la aplicación.
+Deberías tener un teclado de iPad o un adaptador de teclado USB. Solo se mostrarán los atajos que podrían ayudar a escapar de la aplicación.
 
 | Tecla | Nombre         |
 | --- | ------------ |
 | ⌘   | Comando      |
 | ⌥   | Opción (Alt) |
-| ⇧   | Mayúsculas        |
+| ⇧   | Shift        |
 | ↩   | Retorno       |
-| ⇥   | Tabulador          |
+| ⇥   | Tab          |
 | ^   | Control      |
 | ←   | Flecha Izquierda   |
 | →   | Flecha Derecha  |
@@ -213,41 +214,41 @@ Estos atajos son para la configuración visual y de sonido, dependiendo del uso 
 
 | Atajo | Acción                                                                         |
 | -------- | ------------------------------------------------------------------------------ |
-| F1       | Disminuir brillo de la pantalla                                                                    |
-| F2       | Aumentar brillo de la pantalla                                                                |
+| F1       | Atenuar pantalla                                                                    |
+| F2       | Aumentar brillo                                                                |
 | F7       | Retroceder una canción                                                                  |
 | F8       | Reproducir/pausar                                                                     |
 | F9       | Saltar canción                                                                      |
 | F10      | Silenciar                                                                           |
 | F11      | Disminuir volumen                                                                |
 | F12      | Aumentar volumen                                                                |
-| ⌘ Espacio  | Mostrar una lista de idiomas disponibles; para elegir uno, toca de nuevo la barra espaciadora. |
+| ⌘ Espacio  | Mostrar una lista de idiomas disponibles; para elegir uno, toca la barra espaciadora nuevamente. |
 
 ### Navegación en iPad
 
 | Atajo                                           | Acción                                                  |
 | -------------------------------------------------- | ------------------------------------------------------- |
 | ⌘H                                                 | Ir a Inicio                                              |
-| ⌘⇧H (Comando-Mayúsculas-H)                              | Ir a Inicio                                              |
+| ⌘⇧H (Comando-Shift-H)                              | Ir a Inicio                                              |
 | ⌘ (Espacio)                                          | Abrir Spotlight                                          |
-| ⌘⇥ (Comando-Tab)                                   | Listar las últimas diez aplicaciones usadas                                 |
+| ⌘⇥ (Comando-Tab)                                   | Listar las últimas diez aplicaciones utilizadas                                 |
 | ⌘\~                                                | Ir a la última aplicación                                       |
-| ⌘⇧3 (Comando-Mayúsculas-3)                              | Captura de pantalla (aparece en la esquina inferior izquierda para guardar o actuar sobre ella) |
+| ⌘⇧3 (Comando-Shift-3)                              | Captura de pantalla (flota en la parte inferior izquierda para guardar o actuar sobre ella) |
 | ⌘⇧4                                                | Captura de pantalla y ábrela en el editor                    |
 | Presiona y mantén ⌘                                   | Lista de atajos disponibles para la aplicación                 |
 | ⌘⌥D (Comando-Opción/Alt-D)                         | Muestra el dock                                      |
-| ^⌥H (Control-Opción-H)                             | Botón de Inicio                                             |
+| ^⌥H (Control-Opción-H)                             | Botón de inicio                                             |
 | ^⌥H H (Control-Opción-H-H)                         | Mostrar barra de multitarea                                      |
-| ^⌥I (Control-Opción-i)                             | Selector de elementos                                            |
+| ^⌥I (Control-Opción-i)                             | Selector de ítems                                            |
 | Escape                                             | Botón de retroceso                                             |
-| → (Flecha derecha)                                    | Siguiente elemento                                               |
-| ← (Flecha izquierda)                                     | Elemento anterior                                           |
-| ↑↓ (Flecha arriba, Flecha abajo)                          | Toca simultáneamente el elemento seleccionado                        |
+| → (Flecha derecha)                                    | Siguiente ítem                                               |
+| ← (Flecha izquierda)                                     | Ítem anterior                                           |
+| ↑↓ (Flecha arriba, Flecha abajo)                          | Toca simultáneamente el ítem seleccionado                        |
 | ⌥ ↓ (Opción-Flecha abajo)                            | Desplazarse hacia abajo                                             |
 | ⌥↑ (Opción-Flecha arriba)                               | Desplazarse hacia arriba                                               |
-| ⌥← o ⌥→ (Opción-Flecha izquierda o Opción-Flecha derecha) | Desplazarse hacia la izquierda o derecha                                    |
+| ⌥← o ⌥→ (Opción-Flecha izquierda o Opción-Flecha derecha) | Desplazarse a la izquierda o a la derecha                                    |
 | ^⌥S (Control-Opción-S)                             | Activar o desactivar el habla de VoiceOver                         |
-| ⌘⇧⇥ (Comando-Mayúsculas-Tab)                            | Cambiar a la aplicación anterior                              |
+| ⌘⇧⇥ (Comando-Shift-Tab)                            | Cambiar a la aplicación anterior                              |
 | ⌘⇥ (Comando-Tab)                                   | Volver a la aplicación original                         |
 | ←+→, luego Opción + ← o Opción+→                   | Navegar a través del Dock                                   |
 
@@ -260,5 +261,44 @@ Estos atajos son para la configuración visual y de sonido, dependiendo del uso 
 | ⌘W                      | Cerrar la pestaña actual                            |
 | ⌘R                      | Actualizar la pestaña actual                          |
 | ⌘.                      | Detener la carga de la pestaña actual                     |
-| ^⇥                      | Cambiar a la siguiente pestaña                          |
-| ^⇧⇥ (Control-Mayúsculas-Tab) | Mover a la p
+| ^⇥                      | Cambiar a la siguiente pestaña                           |
+| ^⇧⇥ (Control-Shift-Tab) | Moverse a la pestaña anterior                         |
+| ⌘L                      | Seleccionar el campo de entrada de texto/URL para modificarlo     |
+| ⌘⇧T (Comando-Shift-T)   | Abrir la última pestaña cerrada (se puede usar varias veces) |
+| ⌘\[                     | Regresar una página en tu historial de navegación      |
+| ⌘]                      | Avanzar una página en tu historial de navegación   |
+| ⌘⇧R                     | Activar Modo Lector                             |
+
+### Atajos de Mail
+
+| Atajo                   | Acción                       |
+| -------------------------- | ---------------------------- |
+| ⌘L                         | Abrir Ubicación                |
+| ⌘T                         | Abrir una nueva pestaña               |
+| ⌘W                         | Cerrar la pestaña actual        |
+| ⌘R                         | Actualizar la pestaña actual      |
+| ⌘.                         | Detener la carga de la pestaña |
+| ⌘⌥F (Comando-Opción/Alt-F) | Buscar en tu bandeja de entrada       |
+
+# Referencias
+
+* [https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html](https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html)
+* [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
+* [https://thesweetsetup.com/best-ipad-keyboard-shortcuts/](https://thesweetsetup.com/best-ipad-keyboard-shortcuts/)
+* [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
+
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
