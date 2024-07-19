@@ -1,28 +1,28 @@
 # macOS TCC Payloads
 
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### Lessenaar
+### Desktop
 
-* **Voorreg**: Geen
+* **Regte**: Geen
 * **TCC**: kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
-{% tab title="Objective-C" %}
+{% tab title="ObjetiveC" %}
 Kopieer `$HOME/Desktop` na `/tmp/desktop`.
-
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -58,7 +58,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopieer `$HOME/Desktop` na `/tmp/desktop`.
-
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -67,13 +66,12 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 
 ### Dokumente
 
-* **Bevoegdheid**: Geen
+* **Regte**: Geen
 * **TCC**: `kTCCServiceSystemPolicyDocumentsFolder`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Kopieer `$HOME/Documents` na `/tmp/documents`.
-
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -109,7 +107,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopieer `$HOME/`Documents na `/tmp/documents`.
-
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -118,15 +115,12 @@ cp -r "$HOME/Documents" "/tmp/documents"
 
 ### Aflaai
 
-* **Bevoegdheid**: Geen
+* **Regte**: Geen
 * **TCC**: `kTCCServiceSystemPolicyDownloadsFolder`
 
 {% tabs %}
-{% tab title="undefined" %}
+{% tab title="ObjetiveC" %}
 Kopieer `$HOME/Downloads` na `/tmp/downloads`.
-{% endtab %}
-
-{% tab title="undefined" %}
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -162,22 +156,20 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopieer `$HOME/Dowloads` na `/tmp/downloads`.
-
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
 {% endtab %}
 {% endtabs %}
 
-### Foto's-biblioteek
+### Foto Biblioteek
 
-* **Bevoegdheid**: `com.apple.security.personal-information.photos-library`
+* **Regte**: `com.apple.security.personal-information.photos-library`
 * **TCC**: `kTCCServicePhotos`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Kopieer `$HOME/Pictures/Photos Library.photoslibrary` na `/tmp/photos`.
-
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -213,7 +205,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopieer `$HOME/Pictures/Photos Library.photoslibrary` na `/tmp/photos`.
-
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -222,13 +213,12 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 
 ### Kontakte
 
-* **Bevoegdheid**: `com.apple.security.personal-information.addressbook`
+* **Regte**: `com.apple.security.personal-information.addressbook`
 * **TCC**: `kTCCServiceAddressBook`
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
 Kopieer `$HOME/Library/Application Support/AddressBook` na `/tmp/contacts`.
-
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -264,7 +254,6 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopieer `$HOME/Library/Application Support/AddressBook` na `/tmp/contacts`.
-
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -273,13 +262,12 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 
 ### Kalender
 
-* **Bevoegdheid**: `com.apple.security.personal-information.calendars`
+* **Regte**: `com.apple.security.personal-information.calendars`
 * **TCC**: `kTCCServiceCalendar`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
 Kopieer `$HOME/Library/Calendars` na `/tmp/calendars`.
-
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -315,15 +303,20 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Kopieer `$HOME/Library/Calendars` na `/tmp/calendars`.
-
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
+{% endtab %}
+{% endtabs %}
+
+### Kamera
+
+* **Regte**: `com.apple.security.device.camera`
+* **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
-{% tab title="ObjetiveC - Opne" %}
+{% tab title="ObjetiveC - Opneem" %}
 Neem 'n 3s video op en stoor dit in **`/tmp/recording.mov`**
-
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -401,9 +394,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Kontroleer" %}
-Kontroleer of die program toegang het tot die kamera.
-
+{% tab title="ObjectiveC - Check" %}
+Kontroleer of die program toegang tot die kamera het.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -437,22 +429,20 @@ fclose(stderr); // Close the file stream
 
 {% tab title="Shell" %}
 Neem 'n foto met die kamera
-
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
 {% endtab %}
 {% endtabs %}
 
-#### Mikrofoon
+### Mikrofoon
 
-* **Toestemming**: **com.apple.security.device.audio-input**
+* **Regte**: **com.apple.security.device.audio-input**
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="ObjectiveC - Opneem" %}
-Neem 5 sekondes van klank op en stoor dit in `/tmp/recording.m4a`
-
+{% tab title="ObjetiveC - Opname" %}
+Neem 5 sekondes se klank op en stoor dit in `/tmp/recording.m4a`
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -551,9 +541,8 @@ fclose(stderr); // Close the file stream
 ```
 {% endtab %}
 
-{% tab title="ObjectiveC - Kontroleer" %}
-Kontroleer of die app toegang het tot die mikrofoon.
-
+{% tab title="ObjectiveC - Kontrole" %}
+Kontroleer of die app toegang tot die mikrofoon het.
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -584,8 +573,7 @@ static void telegram(int argc, const char **argv) {
 {% endtab %}
 
 {% tab title="Shell" %}
-Neem 'n 5s klank op en stoor dit in `/tmp/recording.wav`
-
+Neem 'n 5s klankopname en stoor dit in `/tmp/recording.wav`
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
@@ -595,19 +583,18 @@ ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 {% endtab %}
 {% endtabs %}
 
-#### Ligging
+### Plek
 
 {% hint style="success" %}
-Om die ligging te kry, moet **Liggingdienste** (vanaf Privaatheid & Sekuriteit) **geaktiveer wees,** anders sal dit nie toegang daartoe hê nie.
+Vir 'n app om die plek te kry, **Plekdienste** (van Privaatheid & Sekuriteit) **moet geaktiveer wees,** anders kan dit nie toegang daartoe kry nie.
 {% endhint %}
 
-* **Toekenning**: `com.apple.security.personal-information.location`
-* **TCC**: Toegeken in `/var/db/locationd/clients.plist`
+* **Regte**: `com.apple.security.personal-information.location`
+* **TCC**: Toegestaan in `/var/db/locationd/clients.plist`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-Skryf die ligging in `/tmp/logs.txt`
-
+Skryf die plek in `/tmp/logs.txt`
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -658,22 +645,20 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 Kry toegang tot die ligging
-
 ```
 ???
 ```
 {% endtab %}
 {% endtabs %}
 
-#### Skermopname
+### Skermopname
 
-* **Toegekende regte**: Geen
+* **Regte**: Geen
 * **TCC**: `kTCCServiceScreenCapture`
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-Neem die hoofskerm vir 5 sekondes op in `/tmp/screen.mov`
-
+Neem die hoofskerm op vir 5s in `/tmp/screen.mov`
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -730,21 +715,22 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% endtab %}
 
 {% tab title="Shell" %}
-Neem die hoofskerm vir 5 sekondes op
-
+Neem die hoofskerm vir 5s op
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
 {% endtab %}
 {% endtabs %}
 
-#### Toeganklikheid
+### Toeganklikheid
 
-* **Voorreg**: Geen
+* **Regte**: Geen
 * **TCC**: `kTCCServiceAccessibility`
 
-Gebruik die TCC-voorreg om die beheer van Finder se druk op enter te aanvaar en sodoende TCC te omseil.
+Gebruik die TCC-privilege om die beheer van Finder te aanvaar deur enter te druk en TCC op daardie manier te omseil
 
+{% tabs %}
+{% tab title="Aanvaar TCC" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -797,9 +783,8 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="Sleutellogger" %}
-Berg die gedrukte sleutels op in **`/tmp/keystrokes.txt`**
-
+{% tab title="Keylogger" %}
+Stoor die ingedrukte sleutels in **`/tmp/keystrokes.txt`**
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -907,19 +892,20 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-Toeganklikheid is 'n baie kragtige toestemming, jy kan dit op ander maniere misbruik, byvoorbeeld jy kan die sleutelbord-aanval uitvoer net daarvan af sonder om System Events te roep.
+**Toeganklikheid is 'n baie kragtige toestemming**, jy kan dit op ander maniere misbruik, byvoorbeeld jy kan die **toetsdruk aanval** net daarvan uitvoer sonder om Stelselsgebeurtenisse te moet aanroep.
 {% endhint %}
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live).
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

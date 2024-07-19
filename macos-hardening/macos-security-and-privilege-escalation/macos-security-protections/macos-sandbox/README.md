@@ -1,35 +1,36 @@
-# macOS Sandboks
+# macOS Sandbox
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Basiese Inligting
+## Basic Information
 
-MacOS Sandboks (aanvanklik genoem Seatbelt) **beperk toepassings** wat binne die sandboks loop tot die **toegelate aksies wat in die Sandboks-profiel gespesifiseer is** waarmee die app loop. Dit help om te verseker dat **die toepassing slegs verwagte hulpbronne sal benader**.
+MacOS Sandbox (aanvanklik Seatbelt genoem) **beperk toepassings** wat binne die sandbox loop tot die **toegelate aksies gespesifiseer in die Sandbox-profiel** waarmee die toepassing loop. Dit help om te verseker dat **die toepassing slegs verwagte hulpbronne sal benader**.
 
-Enige app met die **bevoegdheid** **`com.apple.security.app-sandbox`** sal binne die sandboks uitgevoer word. **Apple-binêre lêers** word gewoonlik binne 'n Sandboks uitgevoer en om binne die **App Store** te publiseer, is **hierdie bevoegdheid verpligtend**. So die meeste toepassings sal binne die sandboks uitgevoer word.
+Enige toepassing met die **regte** **`com.apple.security.app-sandbox`** sal binne die sandbox uitgevoer word. **Apple-binaries** word gewoonlik binne 'n Sandbox uitgevoer en om in die **App Store** te publiseer, is **hierdie regte verpligtend**. So die meeste toepassings sal binne die sandbox uitgevoer word.
 
-Om te beheer wat 'n proses kan doen of nie kan doen nie, het die **Sandboks hake** in alle **syscalls** regoor die kernel. **Afhanklik** van die **bevoegdhede** van die app sal die Sandboks sekere aksies **toelaat**.
+Om te beheer wat 'n proses kan of nie kan doen nie, het die **Sandbox haakplekke** in alle **syscalls** regdeur die kern. **Afhangende** van die **regte** van die toepassing, sal die Sandbox sekere aksies **toelaat**.
 
-Sommige belangrike komponente van die Sandboks is:
+Sommige belangrike komponente van die Sandbox is:
 
-* Die **kernel-uitbreiding** `/System/Library/Extensions/Sandbox.kext`
-* Die **privaat-raamwerk** `/System/Library/PrivateFrameworks/AppSandbox.framework`
-* 'n **Daemon** wat in userland loop `/usr/libexec/sandboxd`
+* Die **kernuitbreiding** `/System/Library/Extensions/Sandbox.kext`
+* Die **privaat raamwerk** `/System/Library/PrivateFrameworks/AppSandbox.framework`
+* 'n **daemon** wat in userland loop `/usr/libexec/sandboxd`
 * Die **houers** `~/Library/Containers`
 
-Binne die houers-vouer kan jy **'n vouer vir elke app wat binne die sandboks uitgevoer word** vind met die naam van die bundel-ID:
+Binne die houers-gids kan jy **'n gids vir elke toepassing wat sandboxed uitgevoer word** vind met die naam van die bundel-id:
 ```bash
 ls -l ~/Library/Containers
 total 0
@@ -40,7 +41,7 @@ drwx------@ 4 username  staff  128 Mar 25 14:14 com.apple.Accessibility-Settings
 drwx------@ 4 username  staff  128 Mar 25 14:10 com.apple.ActionKit.BundledIntentHandler
 [...]
 ```
-Binne elke bundel-ID-vouer kan jy die **plist** en die **Data-gids** van die App vind:
+Binne elke bundel-id-gids kan jy die **plist** en die **Data-gids** van die App vind:
 ```bash
 cd /Users/username/Library/Containers/com.apple.Safari
 ls -la
@@ -64,7 +65,7 @@ drwx------   2 username  staff    64 Mar 24 18:02 SystemData
 drwx------   2 username  staff    64 Mar 24 18:02 tmp
 ```
 {% hint style="danger" %}
-Let daarop dat selfs al is die simboliese skakels daar om uit die Sandboks te "ontsnap" en toegang tot ander lêers te verkry, moet die App steeds **toestemmings** hê om daartoe toegang te verkry. Hierdie toestemmings is binne die **`.plist`**.
+Let daarop dat selfs al is die symlinks daar om te "ontsnap" uit die Sandbox en ander mappen te benader, moet die App steeds **toestemming hê** om toegang daartoe te verkry. Hierdie toestemmings is binne die **`.plist`**.
 {% endhint %}
 ```bash
 # Get permissions
@@ -114,12 +115,12 @@ AAAhAboBAAAAAAgAAABZAO4B5AHjBMkEQAUPBSsGPwsgASABHgEgASABHwEf...
 [...]
 ```
 {% hint style="warning" %}
-Alles wat deur 'n Sandboxed-toepassing geskep/gewysig word, sal die **karantynatribuut** kry. Dit sal 'n sandboksruimte voorkom deur Gatekeeper te aktiveer as die sandboks-toepassing iets probeer uitvoer met **`open`**.
+Alles wat deur 'n Sandboxed toepassing geskep/gewysig word, sal die **kwarantyn-attribuut** ontvang. Dit sal 'n sandbox ruimte voorkom deur Gatekeeper te aktiveer as die sandbox toepassing probeer om iets met **`open`** uit te voer.
 {% endhint %}
 
-### Sandboksprofiel
+### Sandbox Profiele
 
-Die Sandboksprofiel is konfigurasie lêers wat aandui wat in daardie **Sandboks** toegelaat/verbode is. Dit gebruik die **Sandbox Profile-taal (SBPL)**, wat die [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programmeer taal gebruik.
+Die Sandbox profiele is konfigurasie lêers wat aandui wat in daardie **Sandbox** **toegelaat/verbode** gaan word. Dit gebruik die **Sandbox Profiel Taal (SBPL)**, wat die [**Scheme**](https://en.wikipedia.org/wiki/Scheme\_\(programming\_language\)) programmeertaal gebruik.
 
 Hier kan jy 'n voorbeeld vind:
 ```scheme
@@ -140,47 +141,26 @@ Hier kan jy 'n voorbeeld vind:
 )
 ```
 {% hint style="success" %}
-Kyk na hierdie [**navorsing**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **om meer aksies te sien wat toegelaat of geweier kan word.**
+Kontroleer hierdie [**navorsing**](https://reverse.put.as/2011/09/14/apple-sandbox-guide-v1-0/) **om meer aksies te kontroleer wat toegelaat of geweier kan word.**
 {% endhint %}
 
-Belangrike **sisteemdiens**e loop ook binne hul eie aangepaste **sandbox**, soos die `mdnsresponder`-diens. Jy kan hierdie aangepaste **sandbox-profiel**e sien binne:
+Belangrike **stelseldienste** loop ook binne hul eie pasgemaakte **sandbox** soos die `mdnsresponder` diens. Jy kan hierdie pasgemaakte **sandbox-profiele** binne kyk:
 
 * **`/usr/share/sandbox`**
 * **`/System/Library/Sandbox/Profiles`**&#x20;
-* Ander sandbox-profiel kan nagegaan word by [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
+* Ander sandbox-profiele kan nagegaan word in [https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles](https://github.com/s7ephen/OSX-Sandbox--Seatbelt--Profiles).
 
-**App Store**-toepassings gebruik die **profiel** **`/System/Library/Sandbox/Profiles/application.sb`**. Jy kan in hierdie profiel nagaan hoe toekennings soos **`com.apple.security.network.server`** 'n proses toelaat om die netwerk te gebruik.
+**App Store** toepassings gebruik die **profiel** **`/System/Library/Sandbox/Profiles/application.sb`**. Jy kan in hierdie profiel kyk hoe regte soos **`com.apple.security.network.server`** 'n proses toelaat om die netwerk te gebruik.
 
 SIP is 'n Sandbox-profiel genaamd platform\_profile in /System/Library/Sandbox/rootless.conf
 
-### Voorbeelde van Sandbox-profiel
+### Sandbox Profiel Voorbeelde
 
-Om 'n toepassing met 'n **spesifieke sandbox-profiel** te begin, kan jy gebruik maak van:
+Om 'n toepassing met 'n **spesifieke sandbox-profiel** te begin, kan jy gebruik:
 ```bash
 sandbox-exec -f example.sb /Path/To/The/Application
 ```
-{% code title="touch.sb" %}
-
-```
-(version 1)
-(deny default)
-
-(allow file-read-metadata)
-(allow file-write-metadata)
-
-(allow file-read-data (literal "/path/to/file"))
-(allow file-write-data (literal "/path/to/file"))
-
-(allow file-read-data (subpath "/path/to/directory/"))
-(allow file-write-data (subpath "/path/to/directory/"))
-
-(allow file-read-data (regex #"^/path/to/file\d{3}$"))
-(allow file-write-data (regex #"^/path/to/file\d{3}$"))
-```
-
-{% endcode %}
-{% endtab %}
-
+{% tabs %}
 {% tab title="touch" %}
 {% code title="touch.sb" %}
 ```scheme
@@ -215,6 +195,8 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 ; 2023-05-26 13:44:59.840050+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) sysctl-read kern.bootargs
 ; 2023-05-26 13:44:59.840061+0200  localhost kernel[0]: (Sandbox) Sandbox: touch(41575) deny(1) file-read-data /
 ```
+{% endcode %}
+
 {% code title="touch3.sb" %}
 ```scheme
 (version 1)
@@ -229,50 +211,50 @@ log show --style syslog --predicate 'eventMessage contains[c] "sandbox"' --last 
 {% endtabs %}
 
 {% hint style="info" %}
-Let wel dat die **Apple- geskrewe sagteware** wat op **Windows** loop **nie addisionele sekuriteitsvoorsorgmaatreëls** soos toepassingssandboxing het nie.
+Let daarop dat die **Apple-geskrewe** **programmatuur** wat op **Windows** loop **nie addisionele sekuriteitsmaatreëls** het nie, soos toepassingsandboxing.
 {% endhint %}
 
-Voorbeelde van omseilings:
+Bypasses voorbeelde:
 
 * [https://lapcatsoftware.com/articles/sandbox-escape.html](https://lapcatsoftware.com/articles/sandbox-escape.html)
-* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (hulle kan lêers buite die sandbox skryf met 'n naam wat begin met `~$`).
+* [https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c](https://desi-jarvis.medium.com/office365-macos-sandbox-escape-fcce4fa4123c) (hulle kan lêers buite die sandbox skryf waarvan die naam met `~$` begin).
 
-### MacOS Sandbakkie Profiele
+### MacOS Sandbox Profiele
 
-macOS stoor stelselsandbakkieprofiel in twee plekke: **/usr/share/sandbox/** en **/System/Library/Sandbox/Profiles**.
+macOS stoor stelselsandboxprofiele in twee plekke: **/usr/share/sandbox/** en **/System/Library/Sandbox/Profiles**.
 
-En as 'n derdeparty-toepassing die _**com.apple.security.app-sandbox**_ toekenning dra, pas die stelsel die **/System/Library/Sandbox/Profiles/application.sb** profiel toe op daardie proses.
+En as 'n derdeparty-toepassing die _**com.apple.security.app-sandbox**_ regte het, pas die stelsel die **/System/Library/Sandbox/Profiles/application.sb** profiel op daardie proses toe.
 
-### **iOS Sandbakkie Profiel**
+### **iOS Sandbox Profiel**
 
-Die verstekprofiel word **houer** genoem en ons het nie die SBPL-tekstrepsentasie nie. In die geheue word hierdie sandbakkie voorgestel as 'n Toelaat/Weier binêre boom vir elke toestemming van die sandbakkie.
+Die standaardprofiel word **container** genoem en ons het nie die SBPL teksverteenwoordiging nie. In geheue word hierdie sandbox verteenwoordig as 'n Toestaan/Weier binaire boom vir elke toestemming van die sandbox.
 
-### Foutopsporing en Omseiling van Sandbakkie
+### Debug & Bypass Sandbox
 
-Op macOS, in teenstelling met iOS waar prosesse van die begin af deur die kernel gesandbakkieer word, **moet prosesse self besluit om in die sandbakkie in te gaan**. Dit beteken op macOS word 'n proses nie deur die sandbakkie beperk nie totdat dit aktief besluit om daarin te gaan.
+Op macOS, anders as iOS waar prosesse vanaf die begin deur die kern in 'n sandbox geplaas word, **moet prosesse self in die sandbox optree**. Dit beteken op macOS is 'n proses nie deur die sandbox beperk nie totdat dit aktief besluit om daarin te gaan.
 
-Prosesse word outomaties gesandbakkieer vanuit die gebruikersruimte wanneer hulle begin as hulle die toekenning het: `com.apple.security.app-sandbox`. Vir 'n gedetailleerde verduideliking van hierdie proses, kyk na:
+Prosesse word outomaties in 'n sandbox geplaas vanaf gebruikersland wanneer hulle begin as hulle die regte het: `com.apple.security.app-sandbox`. Vir 'n gedetailleerde verduideliking van hierdie proses kyk:
 
 {% content-ref url="macos-sandbox-debug-and-bypass/" %}
 [macos-sandbox-debug-and-bypass](macos-sandbox-debug-and-bypass/)
 {% endcontent-ref %}
 
-### **Kontroleer PID-voorregte**
+### **Kontroleer PID Regte**
 
-[**Volgens hierdie**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), kan die **`sandbox_check`** (dit is 'n `__mac_syscall`), nagaan **of 'n operasie toegelaat word of nie** deur die sandbakkie in 'n sekere PID.
+[**Volgens hierdie**](https://www.youtube.com/watch?v=mG715HcDgO8\&t=3011s), kan die **`sandbox_check`** (dit is 'n `__mac_syscall`), **kontroleer of 'n operasie toegelaat word of nie** deur die sandbox in 'n sekere PID.
 
-Die [**sbtool-hulpmiddel**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) kan nagaan of 'n PID 'n sekere aksie kan uitvoer:
+Die [**instrument sbtool**](http://newosxbook.com/src.jl?tree=listings\&file=sbtool.c) kan kontroleer of 'n PID 'n sekere aksie kan uitvoer:
 ```bash
 sbtool <pid> mach #Check mac-ports (got from launchd with an api)
 sbtool <pid> file /tmp #Check file access
 sbtool <pid> inspect #Gives you an explaination of the sandbox profile
 sbtool <pid> all
 ```
-### Aangepaste SBPL in App Store-toepassings
+### Custom SBPL in App Store apps
 
-Dit is moontlik vir maatskappye om hul toepassings te laat loop **met aangepaste Sandboksprofiel** (in plaas van die verstek een). Hulle moet die toekenning **`com.apple.security.temporary-exception.sbpl`** gebruik wat deur Apple gemagtig moet word.
+Dit kan moontlik wees vir maatskappye om hul toepassings te laat werk **met pasgemaakte Sandbox-profiele** (in plaas van met die standaard een). Hulle moet die regte **`com.apple.security.temporary-exception.sbpl`** gebruik wat deur Apple goedgekeur moet word.
 
-Dit is moontlik om die definisie van hierdie toekenning te kontroleer in **`/System/Library/Sandbox/Profiles/application.sb:`**
+Dit is moontlik om die definisie van hierdie regte in **`/System/Library/Sandbox/Profiles/application.sb:`** te kontroleer.
 ```scheme
 (sandbox-array-entitlement
 "com.apple.security.temporary-exception.sbpl"
@@ -280,18 +262,19 @@ Dit is moontlik om die definisie van hierdie toekenning te kontroleer in **`/Sys
 (let* ((port (open-input-string string)) (sbpl (read port)))
 (with-transparent-redirection (eval sbpl)))))
 ```
-Dit sal die string na hierdie entitlement evalueer as 'n Sandboksprofiel.
+Dit sal **die string na hierdie regte** as 'n Sandbox-profiel evaluer.
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslagplekke.
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

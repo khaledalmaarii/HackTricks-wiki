@@ -1,86 +1,72 @@
-# macOS Vuil NIB
+# macOS Dirty NIB
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Vir verdere besonderhede oor die tegniek, kyk na die oorspronklike pos van: [https://blog.xpnsec.com/dirtynib/**](https://blog.xpnsec.com/dirtynib/).** Hier is 'n opsomming:
 
-NIB-lêers, deel van Apple se ontwikkelingsekosisteem, is bedoel vir die definisie van **UI-elemente** en hul interaksies in programme. Dit sluit geserializeerde voorwerpe soos vensters en knoppies in, en word tydens uitvoering gelaai. Ten spyte van hul voortdurende gebruik, bevorder Apple nou Storyboards vir 'n meer omvattende UI-vloei-visualisering.
+NIB-lêers, deel van Apple se ontwikkelings-ekosisteem, is bedoel om **UI-elemente** en hul interaksies in toepassings te definieer. Hulle sluit geserialiseerde voorwerpe soos vensters en knoppies in, en word tydens uitvoering gelaai. Ten spyte van hul voortdurende gebruik, beveel Apple nou Storyboards aan vir 'n meer omvattende visualisering van UI-stroom.
 
 ### Sekuriteitskwessies met NIB-lêers
-Dit is krities om te let dat **NIB-lêers 'n sekuriteitsrisiko kan wees**. Hulle het die potensiaal om **arbitrêre opdragte uit te voer**, en veranderinge aan NIB-lêers binne 'n toepassing verhoed nie dat Gatekeeper die toepassing uitvoer nie, wat 'n beduidende bedreiging vorm.
+Dit is belangrik om op te let dat **NIB-lêers 'n sekuriteitsrisiko kan wees**. Hulle het die potensiaal om **arbitraire opdragte uit te voer**, en veranderinge aan NIB-lêers binne 'n app hinder nie Gatekeeper om die app uit te voer nie, wat 'n beduidende bedreiging inhou.
 
-### Vuil NIB-inspuitingsproses
-#### Skep en Opstel van 'n NIB-lêer
-1. **Aanvanklike opstel**:
-- Skep 'n nuwe NIB-lêer met behulp van XCode.
-- Voeg 'n voorwerp by die koppelvlak, stel sy klas in as `NSAppleScript`.
-- Stel die aanvanklike `bron`-eienskap op via Gebruikersgedefinieerde Runtime-attribuut.
+### Dirty NIB Inspuitingsproses
+#### Skep en Stel 'n NIB-lêer op
+1. **Beginopstelling**:
+- Skep 'n nuwe NIB-lêer met XCode.
+- Voeg 'n objek by die koppelvlak, stel sy klas op `NSAppleScript`.
+- Konfigureer die aanvanklike `source` eienskap via Gebruiker Gedefinieerde Runtime Attribuut.
 
-2. **Kode-uitvoeringsgadget**:
-- Die opstel fasiliteer die uitvoering van AppleScript op aanvraag.
-- Integreer 'n knoppie om die `Apple Script`-voorwerp te aktiveer, wat spesifiek die `executeAndReturnError:`-selekteerder aktiveer.
+2. **Kode-uitvoeringsgadgets**:
+- Die opstelling fasiliteer die uitvoering van AppleScript op aanvraag.
+- Integreer 'n knoppie om die `Apple Script` objek te aktiveer, spesifiek die `executeAndReturnError:` selektor te aktiveer.
 
 3. **Toetsing**:
 - 'n Eenvoudige Apple Script vir toetsdoeleindes:
 ```bash
-stel dieDialogText in op "PWND"
-vertoon dialoogvenster dieDialogText
+set theDialogText to "PWND"
+display dialog theDialogText
 ```
-- Toets deur dit in die XCode-afskermingsprogram te hardloop en op die knoppie te klik.
+- Toets deur in die XCode-debugger te loop en op die knoppie te klik.
 
-#### Teiken van 'n Toepassing (Voorbeeld: Pages)
+#### Teiken 'n Toepassing (Voorbeeld: Pages)
 1. **Voorbereiding**:
-- Kopieer die teiken-toepassing (bv. Pages) na 'n afsonderlike gids (bv. `/tmp/`).
-- Begin die toepassing om Gatekeeper-kwessies te omseil en dit in die kas te stoor.
+- Kopieer die teiken-app (bv. Pages) na 'n aparte gids (bv. `/tmp/`).
+- Begin die app om Gatekeeper-probleme te omseil en dit te kas.
 
-2. **Oorskryf van NIB-lêer**:
+2. **Oorskrywing van NIB-lêer**:
 - Vervang 'n bestaande NIB-lêer (bv. About Panel NIB) met die vervaardigde DirtyNIB-lêer.
 
 3. **Uitvoering**:
-- Stel die uitvoering in werking deur met die toepassing te interaksieer (bv. die `About`-keuse-item te kies).
+- Activeer die uitvoering deur met die app te interaksie (bv. die `About` menu-item te kies).
 
 #### Bewys van Konsep: Toegang tot Gebruikersdata
-- Wysig die AppleScript om toegang tot en onttrekking van gebruikersdata, soos foto's, sonder gebruikersgoedkeuring, te verkry.
+- Wysig die AppleScript om toegang te verkry tot en gebruikersdata, soos foto's, sonder gebruikers toestemming te onttrek.
 
-### Kodevoorbeeld: Skadelike .xib-lêer
-- Kry toegang tot en hersien 'n [**voorbeeld van 'n skadelike .xib-lêer**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) wat die uitvoering van arbitrêre kode demonstreer.
+### Kode Voorbeeld: Kwaadwillige .xib-lêer
+- Toegang tot en hersien 'n [**voorbeeld van 'n kwaadwillige .xib-lêer**](https://gist.github.com/xpn/16bfbe5a3f64fedfcc1822d0562636b4) wat die uitvoering van arbitraire kode demonstreer.
 
-### Aanspreek van Lanceringbeperkings
-- Lanceringbeperkings verhoed dat toepassings uit onverwagte plekke (bv. `/tmp`) uitgevoer word.
-- Dit is moontlik om toepassings te identifiseer wat nie deur Lanceringbeperkings beskerm word nie en hulle teiken vir NIB-lêer-inspuiting.
+### Aanspreek van Beginbeperkings
+- Beginbeperkings hinder app-uitvoering vanaf onverwagte plekke (bv. `/tmp`).
+- Dit is moontlik om apps te identifiseer wat nie deur Beginbeperkings beskerm word nie en hulle te teiken vir NIB-lêerinspuiting.
 
-### Addisionele macOS-beskerming
-Vanaf macOS Sonoma en verder is wysigings binne App-bundels beperk. Vroeëre metodes het egter die volgende behels:
-1. Kopiëring van die toepassing na 'n ander plek (bv. `/tmp/`).
-2. Hersiening van gidsname binne die App-bundel om aanvanklike beskerming te omseil.
-3. Na die uitvoering van die toepassing om by Gatekeeper te registreer, wysiging van die App-bundel (bv. vervanging van MainMenu.nib met Dirty.nib).
-4. Terughernoeming van gidsname en heruitvoering van die toepassing om die geïnspireerde NIB-lêer uit te voer.
+### Addisionele macOS Beskermings
+Vanaf macOS Sonoma is wysigings binne App-pakkette beperk. egter, vroeëre metodes het ingesluit:
+1. Kopieer die app na 'n ander plek (bv. `/tmp/`).
+2. Hernoem gidse binne die app-pakket om aanvanklike beskermings te omseil.
+3. Na die uitvoering van die app om by Gatekeeper te registreer, wysig die app-pakket (bv. vervang MainMenu.nib met Dirty.nib).
+4. Hernoem gidse terug en herloop die app om die ingespuite NIB-lêer uit te voer.
 
-**Let op**: Onlangse macOS-opdaterings het hierdie uitbuiting beperk deur lêerwysigings binne App-bundels na Gatekeeper-kasgeheue te verhoed, wat die uitbuiting ondoeltreffend maak.
-
-
-<details>
-
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-opslagplekke.
-
-</details>
+**Let wel**: Onlangs macOS-opdaterings het hierdie uitbuiting verminder deur lêerwysigings binne app-pakkette na Gatekeeper-kas te voorkom, wat die uitbuiting ondoeltreffend maak.

