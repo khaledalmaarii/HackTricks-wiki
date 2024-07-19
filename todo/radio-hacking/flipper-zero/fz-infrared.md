@@ -1,48 +1,66 @@
-# FZ - Mionzi
+# FZ - Infrared
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Unataka kuona **kampuni yako ikionyeshwa kwenye HackTricks**? au unataka kupata toleo **jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MIPANGO YA USAJILI**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) ya kipekee
-* Pata [**bidhaa rasmi za PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **nifuata** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PRs kwa** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Utangulizi <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+## Intro <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
 
-Kwa habari zaidi kuhusu jinsi Mionzi Infrared inavyofanya kazi angalia:
+Kwa maelezo zaidi kuhusu jinsi Infrared inavyofanya kazi angalia:
 
 {% content-ref url="../infrared.md" %}
 [infrared.md](../infrared.md)
 {% endcontent-ref %}
 
-## Kipokezi cha Ishara ya IR katika Flipper Zero <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
+## IR Signal Receiver in Flipper Zero <a href="#ir-signal-receiver-in-flipper-zero" id="ir-signal-receiver-in-flipper-zero"></a>
 
-Flipper hutumia kipokezi wa ishara ya IR ya dijiti TSOP, ambayo **inaruhusu kudaka ishara kutoka kwa vidhibiti vya IR**. Kuna **simu za mkononi** kama Xiaomi, ambazo pia zina bandari ya IR, lakini kumbuka kwamba **zaidi yao wanaweza tu kutuma** ishara na hawawezi **kuzipokea**.
+Flipper inatumia mpokeaji wa ishara za dijitali za IR TSOP, ambayo **inaruhusu kukamata ishara kutoka kwa IR remotes**. Kuna baadhi ya **smartphones** kama Xiaomi, ambazo pia zina bandari ya IR, lakini kumbuka kwamba **zaidi ya hizo zinaweza tu kutuma** ishara na **hazina uwezo wa kupokea** hizo.
 
-Kipokezi cha mionzi ya Flipper ni **nyeti sana**. Unaweza hata **kudaka ishara** ukiwa **mahali fulani kati** ya kiremote na TV. Kuashiria kiremote moja kwa moja kwenye bandari ya IR ya Flipper sio lazima. Hii inakuja kwa manufaa wakati mtu anabadilisha vituo wakati amesimama karibu na TV, na wewe na Flipper mko mbali kidogo.
+Mpokeaji wa infrared wa Flipper **ni nyeti sana**. Unaweza hata **kukamata ishara** wakati uko **mahali fulani kati** ya remote na TV. Kuelekeza remote moja kwa moja kwenye bandari ya IR ya Flipper si lazima. Hii ni muhimu wakati mtu anabadilisha vitu wakati anasimama karibu na TV, na wewe na Flipper mko mbali kidogo.
 
-Kwa kuwa **uchambuzi wa ishara ya infrared** unatokea upande wa **programu**, Flipper Zero inaweza kusaidia **mapokezi na utangazaji wa nambari yoyote ya kiremote ya IR**. Katika kesi ya **itifaki zisizojulikana** ambazo hazingeweza kutambuliwa - ina **rekodi na kucheza** tena ishara ghafi kama ilivyopokelewa.
+Kadri **ufafanuzi wa ishara za infrared** unavyofanyika upande wa **programu**, Flipper Zero ina uwezo wa kuunga mkono **kupokea na kutuma nambari zozote za IR remote**. Katika kesi ya **protokali zisizojulikana** ambazo hazikuweza kutambuliwa - inarekodi na kurudisha **ishara safi kama ilivyopokelewa**.
 
-## Vitendo
+## Actions
 
-### Vidhibiti vya Ulimwengu
+### Universal Remotes
 
-Flipper Zero inaweza kutumika kama **kidhibiti cha ulimwengu kudhibiti TV yoyote, kiyoyozi, au kituo cha media**. Katika hali hii, Flipper **inabomoa** **nambari zote zinazojulikana** za watengenezaji wote wanaoungwa mkono **kulingana na kamusi kutoka kwa kadi ya SD**. Hauitaji kuchagua kiremote fulani kuzima TV ya mgahawa.
+Flipper Zero inaweza kutumika kama **remote ya ulimwengu kuendesha TV yoyote, kiyoyozi, au kituo cha media**. Katika hali hii, Flipper **inajaribu** nambari zote **zinazojulikana** za wazalishaji wote wanaoungwa mkono **kulingana na kamusi kutoka kwenye kadi ya SD**. Huna haja ya kuchagua remote maalum ili kuzima TV ya mgahawa.
 
-Inatosha kubonyeza kitufe cha nguvu katika hali ya Kidhibiti cha Ulimwengu, na Flipper itatuma **amri za "Kuzima"** za televisheni zote inazojua kwa mpangilio: Sony, Samsung, Panasonic... na kadhalika. Televisheni inapopokea ishara yake, itajibu na kuzima.
+Inatosha kubonyeza kitufe cha nguvu katika hali ya Universal Remote, na Flipper itatuma **kwa mpangilio amri za "Power Off"** za TV zote inazozijua: Sony, Samsung, Panasonic... na kadhalika. Wakati TV inapokea ishara yake, itajibu na kuzima.
 
-Kama kuvunja nguvu kuchukua muda. Kamusi ikiwa kubwa, itachukua muda mrefu kumaliza. Haiwezekani kujua ni ishara ipi hasa televisheni iliyotambua kwani hakuna maoni kutoka kwa televisheni.
+Hii brute-force inachukua muda. Kadri kamusi inavyokuwa kubwa, ndivyo itachukua muda mrefu kumaliza. Haiwezekani kujua ni ishara ipi hasa TV ilitambua kwani hakuna mrejesho kutoka kwa TV.
 
-### Jifunze Kiremote Kipya
+### Learn New Remote
 
-Inawezekana **kudaka ishara ya infrared** na Flipper Zero. Ikiwa **inapata ishara katika database** Flipper itajua moja kwa moja **kifaa hiki ni kipi** na itakuruhusu kuingiliana nacho.\
-Ikiwa haitapata, Flipper inaweza **kuhifadhi** **ishara** na itakuruhusu **kuicheza** tena.
+Inawezekana **kukamata ishara ya infrared** na Flipper Zero. Ikiwa **inatambua ishara katika hifadhidata** Flipper itajua moja kwa moja **ni kifaa gani hiki** na itakuruhusu kuingiliana nacho.\
+Ikiwa haitambui, Flipper inaweza **kuhifadhi** **ishara** na itakuruhusu **kuirudisha**.
 
-## Marejeo
+## References
 
 * [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

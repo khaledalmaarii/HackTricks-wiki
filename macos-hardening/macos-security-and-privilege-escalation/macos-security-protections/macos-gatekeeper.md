@@ -1,16 +1,19 @@
 # macOS Gatekeeper / Quarantine / XProtect
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Learn AWS hacking from zero to hero with</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Do you work in a **cybersecurity company**? Do you want to see your **company advertised in HackTricks**? or do you want to have access to the **latest version of the PEASS or download HackTricks in PDF**? Check the [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Discover [**The PEASS Family**](https://opensea.io/collection/the-peass-family), our collection of exclusive [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Get the [**official PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Join the** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** me on **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Share your hacking tricks by submitting PRs to the** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **and** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -20,27 +23,27 @@
 
 **Gatekeeper** ni kipengele cha usalama kilichoundwa kwa mifumo ya uendeshaji ya Mac, kilichokusudia kuhakikisha kwamba watumiaji **wanatumia tu programu zinazotegemewa** kwenye mifumo yao. Inafanya kazi kwa **kuhakiki programu** ambayo mtumiaji anapakua na kujaribu kufungua kutoka **vyanzo vya nje ya Duka la Programu**, kama vile programu, plug-in, au kifurushi cha installer.
 
-Mekaniki kuu ya Gatekeeper inategemea **mchakato wa uthibitisho**. Inakagua ikiwa programu iliyopakuliwa **imeandikwa na mendelezi anayekubalika**, kuhakikisha uhalali wa programu hiyo. Zaidi ya hayo, inathibitisha ikiwa programu hiyo **imeandikishwa na Apple**, ikithibitisha kwamba haina maudhui mabaya yanayojulikana na haijabadilishwa baada ya kuandikishwa.
+Mekaniki kuu ya Gatekeeper iko katika mchakato wake wa **uthibitishaji**. Inakagua ikiwa programu iliyopakuliwa **imeandikwa na mendelezi anayejulikana**, kuhakikisha uhalali wa programu hiyo. Zaidi ya hayo, inathibitisha ikiwa programu hiyo **imeandikishwa na Apple**, ikithibitisha kwamba haina maudhui mabaya yanayojulikana na haijabadilishwa baada ya kuandikishwa.
 
-Zaidi ya hayo, Gatekeeper inaimarisha udhibiti wa mtumiaji na usalama kwa **kuwataka watumiaji kuidhinisha ufunguzi** wa programu iliyopakuliwa kwa mara ya kwanza. Ulinzi huu husaidia kuzuia watumiaji wasikimbilie kuendesha msimbo wa utendaji ambao unaweza kuwa na madhara ambao wanaweza kuwa wameukosea kwa faili ya data isiyo na madhara.
+Zaidi ya hayo, Gatekeeper inaimarisha udhibiti wa mtumiaji na usalama kwa **kuwataka watumiaji kuidhinisha ufunguzi** wa programu iliyopakuliwa kwa mara ya kwanza. Ulinzi huu husaidia kuzuia watumiaji kuendesha kwa bahati mbaya msimbo wa utendaji ambao wanaweza kuwa wameukosea kwa faili ya data isiyo na madhara.
 
 ### Application Signatures
 
-Saini za programu, pia zinajulikana kama saini za msimbo, ni sehemu muhimu ya miundombinu ya usalama ya Apple. Zinatumika **kuhakiki utambulisho wa mwandishi wa programu** (mendelezi) na kuhakikisha kwamba msimbo haujabadilishwa tangu ilipotiwa mwisho.
+Sahihi za programu, pia zinajulikana kama sahihi za msimbo, ni sehemu muhimu ya miundombinu ya usalama ya Apple. Zinatumika **kuhakiki utambulisho wa mwandishi wa programu** (mendelezi) na kuhakikisha kwamba msimbo haujabadilishwa tangu ilipotiwa mwisho.
 
-Hapa kuna jinsi inavyofanya kazi:
+Hivi ndivyo inavyofanya kazi:
 
-1. **Kusaini Programu:** Wakati mendelezi yuko tayari kusambaza programu yao, **wanasaini programu hiyo kwa kutumia funguo binafsi**. Funguo hii binafsi inahusishwa na **cheti ambacho Apple inatoa kwa mendelezi** wanapojisajili katika Programu ya Mendelezi ya Apple. Mchakato wa kusaini unajumuisha kuunda hash ya kificho ya sehemu zote za programu na kuificha hash hii kwa funguo binafsi ya mendelezi.
-2. **Kusambaza Programu:** Programu iliyosainiwa kisha inasambazwa kwa watumiaji pamoja na cheti cha mendelezi, ambacho kinafunguo ya umma inayohusiana.
+1. **Kusaini Programu:** Wakati mendelezi yuko tayari kusambaza programu yao, wanachukua **kusaini programu kwa kutumia funguo ya kibinafsi**. Funguo hii ya kibinafsi inahusishwa na **cheti ambacho Apple inatoa kwa mendelezi** wanapojisajili katika Mpango wa Mendelezi wa Apple. Mchakato wa kusaini unajumuisha kuunda hash ya kijiografia ya sehemu zote za programu na kuificha hash hii kwa funguo ya kibinafsi ya mendelezi.
+2. **Kusambaza Programu:** Programu iliyosainiwa kisha inasambazwa kwa watumiaji pamoja na cheti cha mendelezi, ambacho kinafunguo ya umma inayolingana.
 3. **Kuhakiki Programu:** Wakati mtumiaji anapakua na kujaribu kuendesha programu, mfumo wa uendeshaji wa Mac unatumia funguo ya umma kutoka kwa cheti cha mendelezi kufichua hash. Kisha inarejesha hash kulingana na hali ya sasa ya programu na kulinganisha hii na hash iliyofichuliwa. Ikiwa zinakubaliana, inamaanisha **programu hiyo haijabadilishwa** tangu mendelezi aliposaini, na mfumo unaruhusu programu hiyo kuendesha.
 
-Saini za programu ni sehemu muhimu ya teknolojia ya Gatekeeper ya Apple. Wakati mtumiaji anajaribu **kufungua programu iliyopakuliwa kutoka mtandao**, Gatekeeper inathibitisha saini ya programu. Ikiwa imesainiwa kwa cheti kilichotolewa na Apple kwa mendelezi anayejulikana na msimbo haujabadilishwa, Gatekeeper inaruhusu programu hiyo kuendesha. Vinginevyo, inazuia programu hiyo na kumjulisha mtumiaji.
+Sahihi za programu ni sehemu muhimu ya teknolojia ya Gatekeeper ya Apple. Wakati mtumiaji anajaribu **kufungua programu iliyopakuliwa kutoka mtandao**, Gatekeeper inathibitisha sahihi ya programu. Ikiwa imesainiwa na cheti kilichotolewa na Apple kwa mendelezi anayejulikana na msimbo haujabadilishwa, Gatekeeper inaruhusu programu hiyo kuendesha. Vinginevyo, inazuia programu hiyo na kumjulisha mtumiaji.
 
 Kuanzia macOS Catalina, **Gatekeeper pia inakagua ikiwa programu hiyo imeandikishwa** na Apple, ikiongeza safu ya ziada ya usalama. Mchakato wa kuandikishwa unakagua programu hiyo kwa masuala ya usalama yanayojulikana na msimbo mbaya, na ikiwa ukaguzi huu unakubalika, Apple inaongeza tiketi kwa programu ambayo Gatekeeper inaweza kuithibitisha.
 
 #### Check Signatures
 
-Wakati wa kuangalia **kielelezo cha malware** unapaswa kila wakati **kuangalia saini** ya binary kwani **mendelezi** aliyesaini inaweza kuwa tayari **ina uhusiano** na **malware.**
+Wakati wa kuangalia **kielelezo cha malware** unapaswa kila wakati **kuangalia sahihi** ya binary kwani **mendelezi** aliyesaini inaweza kuwa tayari **ina uhusiano** na **malware.**
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -59,11 +62,11 @@ codesign -s <cert-name-keychain> toolsdemo
 ```
 ### Notarization
 
-Mchakato wa notarization wa Apple unatumika kama kinga ya ziada kulinda watumiaji kutokana na programu zinazoweza kuwa na madhara. Inahusisha **mwandishi kuwasilisha programu yao kwa ajili ya uchunguzi** na **Huduma ya Notary ya Apple**, ambayo haipaswi kuchanganywa na App Review. Huduma hii ni **mfumo wa kiotomatiki** unaochunguza programu iliyowasilishwa kwa uwepo wa **maudhui mabaya** na masuala yoyote yanayoweza kutokea na saini ya msimbo.
+Mchakato wa notarization wa Apple unatumika kama kinga ya ziada kulinda watumiaji kutokana na programu zinazoweza kuwa na madhara. Inahusisha **mwandishi kuwasilisha programu yao kwa uchunguzi** na **Huduma ya Notary ya Apple**, ambayo haipaswi kuchanganywa na Mapitio ya Programu. Huduma hii ni **mfumo wa kiotomatiki** unaochambua programu iliyowasilishwa kwa uwepo wa **maudhui mabaya** na masuala yoyote yanayoweza kutokea na saini ya msimbo.
 
-Ikiwa programu hiyo **itapita** uchunguzi huu bila kuibua wasiwasi wowote, Huduma ya Notary inaunda tiketi ya notarization. Mwandishi anahitajika **kuunganisha tiketi hii na programu yao**, mchakato unaojulikana kama 'stapling.' Zaidi ya hayo, tiketi ya notarization pia inachapishwa mtandaoni ambapo Gatekeeper, teknolojia ya usalama ya Apple, inaweza kuipata.
+Ikiwa programu hiyo **inapita** uchunguzi huu bila kuibua wasiwasi wowote, Huduma ya Notary inaunda tiketi ya notarization. Mwandishi anahitajika **kuambatanisha tiketi hii na programu yao**, mchakato unaojulikana kama 'stapling.' Zaidi ya hayo, tiketi ya notarization pia inachapishwa mtandaoni ambapo Gatekeeper, teknolojia ya usalama ya Apple, inaweza kuipata.
 
-Wakati wa usakinishaji au utekelezaji wa kwanza wa programu na mtumiaji, uwepo wa tiketi ya notarization - iwe imeunganishwa na executable au kupatikana mtandaoni - **inawaarifu Gatekeeper kwamba programu hiyo imetolewa na Apple**. Kama matokeo, Gatekeeper inaonyesha ujumbe wa maelezo katika dirisha la uzinduzi wa awali, ikionyesha kwamba programu hiyo imefanyiwa ukaguzi wa maudhui mabaya na Apple. Mchakato huu hivyo huongeza ujasiri wa mtumiaji katika usalama wa programu wanazosakinisha au kuendesha kwenye mifumo yao.
+Wakati wa usakinishaji au utekelezaji wa kwanza wa programu na mtumiaji, uwepo wa tiketi ya notarization - iwe imeunganishwa na executable au kupatikana mtandaoni - **inaarifu Gatekeeper kwamba programu hiyo imetolewa na Apple**. Kama matokeo, Gatekeeper inaonyesha ujumbe wa maelezo katika dirisha la uzinduzi wa awali, ikionyesha kwamba programu hiyo imefanyiwa ukaguzi wa maudhui mabaya na Apple. Mchakato huu hivyo huongeza ujasiri wa mtumiaji katika usalama wa programu wanazosakinisha au kuendesha kwenye mifumo yao.
 
 ### Enumerating GateKeeper
 
@@ -114,7 +117,7 @@ Au unaweza kuorodhesha taarifa za awali kwa:
 ```bash
 sudo spctl --list
 ```
-Chaguzi **`--master-disable`** na **`--global-disable`** za **`spctl`** zita **ondoa** kabisa ukaguzi huu wa saini:
+Chaguzi **`--master-disable`** na **`--global-disable`** za **`spctl`** zitakomesha kabisa **kuangalia** saini hizi:
 ```bash
 # Disable GateKeeper
 spctl --global-disable
@@ -184,7 +187,7 @@ xattr file.png
 com.apple.macl
 com.apple.quarantine
 ```
-Angalia **thamani** ya **sifa** **panuliwa** na pata programu iliyoandika sifa ya karantini na:
+Angalia **thamani** ya **sifa** **panua** na pata programu iliyoandika sifa ya karantini na:
 ```bash
 xattr -l portada.png
 com.apple.macl:
@@ -302,7 +305,7 @@ system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistC
 ```
 {% endcode %}
 
-XProtect iko katika. SIP iliyo na ulinzi mahali katika **/Library/Apple/System/Library/CoreServices/XProtect.bundle** na ndani ya bundle unaweza kupata taarifa ambazo XProtect inatumia:
+XProtect iko katika. SIP iliyo na ulinzi mahali katika **/Library/Apple/System/Library/CoreServices/XProtect.bundle** na ndani ya bundle unaweza kupata taarifa XProtect inatumia:
 
 * **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: Inaruhusu msimbo wenye cdhashes hizo kutumia haki za zamani.
 * **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: Orodha ya plugins na nyongeza ambazo haziruhusiwi kupakia kupitia BundleID na TeamID au kuashiria toleo la chini.
@@ -317,9 +320,9 @@ Kumbuka kwamba kuna App nyingine katika **`/Library/Apple/System/Library/CoreSer
 Kumbuka kwamba Gatekeeper **haiendeshwi kila wakati** unapotekeleza programu, ni _**AppleMobileFileIntegrity**_ (AMFI) tu itakay **thibitisha saini za msimbo wa kutekeleza** unapotekeleza app ambayo tayari imeendeshwa na kuthibitishwa na Gatekeeper.
 {% endhint %}
 
-Hivyo, hapo awali ilikuwa inawezekana kutekeleza app ili kuikatia akiba na Gatekeeper, kisha **kubadilisha faili zisizotekelezwa za programu** (kama Electron asar au NIB files) na ikiwa hakuna ulinzi mwingine ulio kuwekwa, programu hiyo ilikuwa **inatekelezwa** na **nyongeza** za **hatari**.
+Hivyo, hapo awali ilikuwa inawezekana kutekeleza app ili kuikatia akiba na Gatekeeper, kisha **kubadilisha faili zisizotekelezwa za programu** (kama Electron asar au NIB files) na ikiwa hakuna ulinzi mwingine ulio kuwekwa, programu hiyo ilikuwa **ikiendeshwa** na **nyongeza** za **hatari**.
 
-Hata hivyo, sasa hii haiwezekani kwa sababu macOS **inasitisha kubadilisha faili** ndani ya bundles za programu. Hivyo, ukijaribu shambulio la [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), utagundua kwamba si tena inawezekana kulitumia kwa sababu baada ya kutekeleza app ili kuikatia akiba na Gatekeeper, huwezi kubadilisha bundle. Na ikiwa badala yake unabadilisha jina la saraka ya Contents kuwa NotCon (kama ilivyoonyeshwa katika exploit), kisha kutekeleza binary kuu ya app ili kuikatia akiba na Gatekeeper, itasababisha kosa na haitatekelezwa.
+Hata hivyo, sasa hii haiwezekani kwa sababu macOS **inasitisha kubadilisha faili** ndani ya bundles za programu. Hivyo, ukijaribu shambulio la [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), utaona kwamba si tena inawezekana kulitumia kwa sababu baada ya kutekeleza app ili kuikatia akiba na Gatekeeper, huwezi kubadilisha bundle. Na ikiwa badala yake unabadilisha jina la saraka ya Contents kuwa NotCon (kama ilivyoonyeshwa katika exploit), kisha kutekeleza binary kuu ya app ili kuikatia akiba na Gatekeeper, itasababisha kosa na haitatekelezwa.
 
 ## Mipango ya Kuepuka Gatekeeper
 
@@ -337,7 +340,7 @@ Wakati programu inaundwa na **Automator**, taarifa kuhusu kile inachohitaji kute
 
 Hivyo, unaweza kufanya `application.app/Contents/MacOS/Automator\ Application\ Stub` **kuashiria kwa kiungo cha alama kwa Automator Application Stub nyingine ndani ya mfumo** na itatekeleza kile kilichomo ndani ya `document.wflow` (script yako) **bila kuamsha Gatekeeper** kwa sababu executable halisi haina xattr ya karantini.
 
-Mfano wa mahali panatarajiwa: `/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
+Mfano wa mahali inatarajiwa: `/System/Library/CoreServices/Automator\ Application\ Stub.app/Contents/MacOS/Automator\ Application\ Stub`
 
 Angalia [**ripoti ya asili**](https://ronmasas.com/posts/bypass-macos-gatekeeper) kwa maelezo zaidi.
 
@@ -351,7 +354,7 @@ Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-safar
 
 ### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
-Hata kama vipengele ni tofauti, matumizi ya udhaifu huu ni sawa sana na ule wa awali. Katika kesi hii, tutaunda Apple Archive kutoka **`application.app/Contents`** hivyo **`application.app` haitapata sifa ya karantini** wakati inakandamizwa na **Archive Utility**.
+Hata kama vipengele ni tofauti, matumizi ya udhaifu huu ni sawa sana na ule wa awali. Katika kesi hii, tutaunda Apple Archive kutoka **`application.app/Contents`** ili **`application.app` isipate sifa ya karantini** wakati inakunjwa na **Archive Utility**.
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
@@ -381,7 +384,7 @@ python3 -m http.server
 
 Angalia [**ripoti asilia**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/) kwa maelezo zaidi.
 
-Kumbuka kwamba hii pia inaweza kutumika kwa AppleArchives:
+Kumbuka kwamba hii inaweza pia kutumika kwa AppleArchives:
 ```bash
 mkdir app
 touch app/test
@@ -409,7 +412,7 @@ aa archive -d test/ -o test.aar
 {% endcode %}
 
 Kuweza kuunda faili ambayo haitakuwa na sifa ya karantini, ilikuwa **inawezekana kupita Gatekeeper.** Njia ilikuwa **kuunda programu ya faili la DMG** kwa kutumia kanuni ya jina la AppleDouble (anza nayo `._`) na kuunda **faili inayoonekana kama kiungo cha alama kwa faili hii iliyofichwa** bila sifa ya karantini.\
-Wakati **faili la dmg linatekelezwa**, kwa kuwa halina sifa ya karantini litapita **Gatekeeper**.
+Wakati **faili la dmg linatekelezwa**, kwa kuwa halina sifa ya karantini litapita **Gatekeeper.**
 ```bash
 # Create an app bundle with the backdoor an call it app.app
 
@@ -436,7 +439,7 @@ aa archive -d s/ -o app.aar
 
 ### Zuia Quarantine xattr
 
-Katika kifurushi cha ".app" ikiwa xattr ya quarantine haijongezwa, wakati wa kuendesha **Gatekeeper haitasababisha**.
+Katika kifurushi cha ".app" ikiwa xattr ya quarantine haijaongezwa, wakati wa kuendesha **Gatekeeper haitasababisha**.
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 

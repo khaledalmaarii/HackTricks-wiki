@@ -1,100 +1,101 @@
-# Vizuizi vya Kuzindua/Mazingira ya macOS & Cache ya Imani
+# macOS Launch/Environment Constraints & Trust Cache
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Mtaalam wa Timu Nyekundu ya AWS ya HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikionekana katika HackTricks**? Au ungependa kupata ufikiaji wa **toleo jipya zaidi la PEASS au kupakua HackTricks kwa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**Familia ya PEASS**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa kipekee wa [**NFTs**](https://opensea.io/collection/the-peass-family)
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **nifuatilie** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
-*
-* .
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## Taarifa Msingi
+## Basic Information
 
-Vizuizi vya kuzindua katika macOS vilianzishwa ili kuimarisha usalama kwa **kudhibiti jinsi, nani, na kutoka wapi mchakato unaweza kuanzishwa**. Ilianzishwa katika macOS Ventura, hutoa mfumo ambao unagawa **kila faili ya mfumo katika makundi tofauti ya vizuizi**, ambavyo vimefafanuliwa ndani ya **cache ya imani**, orodha inayojumuisha faili za mfumo na hash zao husika. Vizuizi hivi vinahusisha kila faili ya kutekelezwa ndani ya mfumo, na kuhusisha seti ya **kanuni** zinazoelezea mahitaji ya **kuzindua faili fulani**. Kanuni hizi zinajumuisha vizuizi vya ndani ambavyo faili ya kutekelezwa lazima itimize, vizuizi vya mzazi vinavyohitajika kutimizwa na mchakato wake mzazi, na vizuizi vya jukumu vinavyopaswa kuzingatiwa na vyombo vingine vinavyohusika.
+Kikomo cha uzinduzi katika macOS kilianzishwa ili kuboresha usalama kwa **kudhibiti jinsi, nani, na kutoka wapi mchakato unaweza kuanzishwa**. Ilianzishwa katika macOS Ventura, inatoa mfumo ambao unagawanya **kila binary ya mfumo katika makundi tofauti ya vizuizi**, ambavyo vimefafanuliwa ndani ya **cache ya kuaminika**, orodha inayojumuisha binaries za mfumo na hash zao husika​. Vizuizi hivi vinapanuka kwa kila binary inayoweza kutekelezwa ndani ya mfumo, ikihusisha seti ya **kanuni** zinazofafanua mahitaji ya **kuanzisha binary maalum**. Kanuni hizo zinajumuisha vizuizi vya ndani ambavyo binary lazima ikidhi, vizuizi vya mzazi vinavyohitajika kukidhi na mchakato wake wa mzazi, na vizuizi vya kuwajibika vinavyopaswa kufuatwa na vyombo vingine vinavyohusiana​.
 
-Mfumo huu unahusisha programu za watu wa tatu kupitia **Vizuizi vya Mazingira**, kuanzia macOS Sonoma, kuruhusu watengenezaji kulinda programu zao kwa kutoa **seti ya funguo na thamani kwa vizuizi vya mazingira**.
+Mekaniki hii inapanuka kwa programu za upande wa tatu kupitia **Vizuizi vya Mazingira**, kuanzia macOS Sonoma, ikiruhusu wabunifu kulinda programu zao kwa kubainisha **seti ya funguo na thamani za vizuizi vya mazingira.**
 
-Unafafanua **vizuizi vya kuzindua mazingira na maktaba** katika kamusi za vizuizi ambazo unahifadhi katika faili za **orodha ya mali ya `launchd`**, au katika **faili tofauti za orodha ya mali** ambazo unatumia katika kusaini kanuni.
+Unafafanua **vizuizi vya mazingira na maktaba ya uzinduzi** katika kamusi za vizuizi ambazo unaziokoa katika **faili za orodha ya mali ya `launchd`**, au katika **faili za orodha ya mali tofauti** ambazo unazitumia katika saini ya msimbo.
 
 Kuna aina 4 za vizuizi:
 
-* **Vizuizi vya Ndani**: Vizuizi vinavyotumika kwa faili ya kutekelezwa **inayotumika**.
-* **Mchakato wa Mzazi**: Vizuizi vinavyotumika kwa **mzazi wa mchakato** (kwa mfano **`launchd`** inayotekeleza huduma ya XP)
-* **Vizuizi vya Jukumu**: Vizuizi vinavyotumika kwa **mchakato unaotumia huduma** katika mawasiliano ya XPC
-* **Vizuizi vya Kupakia Maktaba**: Tumia vizuizi vya kupakia maktaba kuelezea sehemu za kanuni ambazo zinaweza kupakiwa
+* **Vizuizi vya Ndani**: Vizuizi vinavyotumika kwa **binary inayotembea**.
+* **Mchakato wa Mzazi**: Vizuizi vinavyotumika kwa **mzazi wa mchakato** (kwa mfano **`launchd`** inayoendesha huduma ya XP)
+* **Vizuizi vya Kuwajibika**: Vizuizi vinavyotumika kwa **mchakato unaoitisha huduma** katika mawasiliano ya XPC
+* **Vizuizi vya kupakia maktaba**: Tumia vizuizi vya kupakia maktaba kuelezea kwa kuchagua msimbo ambao unaweza kupakiwa
 
-Kwa hivyo, wakati mchakato unajaribu kuzindua mchakato mwingine - kwa kuita `execve(_:_:_:)` au `posix_spawn(_:_:_:_:_:_:)` - mfumo wa uendeshaji unakagua kwamba **faili ya kutekelezwa** inatimiza **vizuizi vyake vya ndani**. Pia unakagua kwamba **faili ya kutekelezwa ya mchakato wa mzazi** inatimiza **vizuizi vya mzazi** vya faili ya kutekelezwa, na kwamba **faili ya kutekelezwa ya mchakato wa jukumu** inatimiza **vizuizi vya jukumu** vya faili ya kutekelezwa. Ikiwa vizuizi vyovyote vya kuzindua havikutimizwa, mfumo wa uendeshaji hautazindua programu.
+Hivyo wakati mchakato unajaribu kuanzisha mchakato mwingine — kwa kuita `execve(_:_:_:)` au `posix_spawn(_:_:_:_:_:_:)` — mfumo wa uendeshaji unakagua kwamba **faili inayoweza kutekelezwa** **inakidhi** **vizuizi vyake vya ndani**. Pia inakagua kwamba **mzazi** **wa mchakato** **inayoweza kutekelezwa** **inakidhi** **vizuizi vya mzazi** vya executable, na kwamba **mchakato wa kuwajibika** **inayoweza kutekelezwa** **inakidhi vizuizi vya mchakato wa kuwajibika**. Ikiwa yoyote ya vizuizi hivi vya uzinduzi havikidhi, mfumo wa uendeshaji hauendeshi programu hiyo.
 
-Ikiwa wakati wa kupakia maktaba sehemu yoyote ya **vizuizi vya maktaba sio kweli**, mchakato wako **haupaki** maktaba.
+Ikiwa wakati wa kupakia maktaba sehemu yoyote ya **vizuizi vya maktaba haviko sahihi**, mchakato wako **haupaki** maktaba hiyo.
 
-## Jamii za LC
+## LC Categories
 
-LC inajumuisha **ukweli** na **shughuli za mantiki** (na, au..) ambazo zinaunganisha ukweli.
+LC inaundwa na **ukweli** na **operesheni za kimantiki** (na, au..) zinazounganisha ukweli.
 
-[**Ukweli ambao LC inaweza kutumia umedokumentiwa**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Kwa mfano:
+[**Ukweli ambao LC inaweza kutumia umeandikwa**](https://developer.apple.com/documentation/security/defining\_launch\_environment\_and\_library\_constraints). Kwa mfano:
 
-* is-init-proc: Thamani ya Boolean inayoonyesha ikiwa faili ya kutekelezwa lazima iwe mchakato wa kuanzisha wa mfumo wa uendeshaji (`launchd`).
-* is-sip-protected: Thamani ya Boolean inayoonyesha ikiwa faili ya kutekelezwa lazima iwe faili iliyolindwa na Usalama wa Uadilifu wa Mfumo (SIP).
-* `on-authorized-authapfs-volume:` Thamani ya Boolean inayoonyesha ikiwa mfumo wa uendeshaji umepakia faili ya kutekelezwa kutoka kwenye kizio cha APFS kilichoidhinishwa na kuthibitishwa.
-* `on-authorized-authapfs-volume`: Thamani ya Boolean inayoonyesha ikiwa mfumo wa uendeshaji umepakia faili ya kutekelezwa kutoka kwenye kizio cha APFS kilichoidhinishwa na kuthibitishwa.
-* Kizio cha Cryptexes
-* `on-system-volume:` Thamani ya Boolean inayoonyesha ikiwa mfumo wa uendeshaji umepakia faili ya kutekelezwa kutoka kwenye kizio cha mfumo kinachotumiwa kwa sasa.
+* is-init-proc: Thamani ya Boolean inayonyesha ikiwa executable lazima iwe mchakato wa kuanzisha wa mfumo wa uendeshaji (`launchd`).
+* is-sip-protected: Thamani ya Boolean inayonyesha ikiwa executable lazima iwe faili iliyopewa ulinzi na Mfumo wa Uaminifu wa Mfumo (SIP).
+* `on-authorized-authapfs-volume:` Thamani ya Boolean inayonyesha ikiwa mfumo wa uendeshaji ulipakia executable kutoka kwa kiasi cha APFS kilichothibitishwa, kilichothibitishwa.
+* `on-authorized-authapfs-volume`: Thamani ya Boolean inayonyesha ikiwa mfumo wa uendeshaji ulipakia executable kutoka kwa kiasi cha APFS kilichothibitishwa, kilichothibitishwa.
+* Kiasi cha Cryptexes
+* `on-system-volume:` Thamani ya Boolean inayonyesha ikiwa mfumo wa uendeshaji ulipakia executable kutoka kwa kiasi cha mfumo kilichozinduliwa kwa sasa.
 * Ndani ya /System...
 * ...
 
-Wakati faili ya Apple inaposainiwa, **inahusishwa na jamii ya LC** ndani ya **cache ya imani**.
+Wakati binary ya Apple imesainiwa in **itapewa LC category** ndani ya **cache ya kuaminika**.
 
-* **Jamii za LC za iOS 16** zilikuwa [**zimegeuzwa na kudokumentiwa hapa**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
-* **Jamii za LC za sasa (macOS 14** - Somona) zimegeuzwa na [**maelezo yao yanaweza kupatikana hapa**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
+* **iOS 16 LC categories** zilikuwa [**zimegeuzwa na kuandikwa hapa**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056).
+* **LC categories za sasa (macOS 14** - Somona) zimegeuzwa na [**maelezo yao yanaweza kupatikana hapa**](https://gist.github.com/theevilbit/a6fef1e0397425a334d064f7b6e1be53).
 
-Kwa mfano, Jamii 1 ni:
+Kwa mfano, Kategoria 1 ni:
 ```
 Category 1:
 Self Constraint: (on-authorized-authapfs-volume || on-system-volume) && launch-type == 1 && validation-category == 1
 Parent Constraint: is-init-proc
 ```
-* `(on-authorized-authapfs-volume || on-system-volume)`: Lazima iwe kwenye kizio cha Mfumo au Cryptexes.
+* `(on-authorized-authapfs-volume || on-system-volume)`: Lazima iwe kwenye System au Cryptexes volume.
 * `launch-type == 1`: Lazima iwe huduma ya mfumo (plist katika LaunchDaemons).
-* `validation-category == 1`: Programu inayoweza kutekelezwa ya mfumo wa uendeshaji.
+* `validation-category == 1`: Kifaa cha mfumo wa uendeshaji.
 * `is-init-proc`: Launchd
 
-### Kurejesha LC Jamii
+### Kurejesha LC Categories
 
-Una habari zaidi [**kuihusu hapa**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), lakini kimsingi, zinatambuliwa katika **AMFI (AppleMobileFileIntegrity)**, kwa hivyo unahitaji kupakua Kituo cha Maendeleo cha Kernel ili kupata **KEXT**. Alama zinazoanza na **`kConstraintCategory`** ndizo zinazovutia. Kwa kuzitoa, utapata mkondo ulioandikwa kwa DER (ASN.1) ambao utahitaji kudekodeza na [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) au maktaba ya python-asn1 na skripti yake ya `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) ambayo itakupa herufi inayoeleweka zaidi.
+Una maelezo zaidi [**kuhusu hii hapa**](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/#reversing-constraints), lakini kimsingi, Zimefafanuliwa katika **AMFI (AppleMobileFileIntegrity)**, hivyo unahitaji kupakua Kernel Development Kit ili kupata **KEXT**. Alama zinazohusishwa na **`kConstraintCategory`** ndizo **za kuvutia**. Ukizitoa utapata mstream wa DER (ASN.1) uliokodishwa ambao utahitaji kufasiri kwa kutumia [ASN.1 Decoder](https://holtstrom.com/michael/tools/asn1decoder.php) au maktaba ya python-asn1 na skripti yake ya `dump.py`, [andrivet/python-asn1](https://github.com/andrivet/python-asn1/tree/master) ambayo itakupa mfuatano wa maneno unaoeleweka zaidi.
 
-## Vizuizi vya Mazingira
+## Mipaka ya Mazingira
 
-Hizi ni Vizuizi vya Mazingira vilivyowekwa katika **programu za watu wengine**. Mwandishi wa programu anaweza kuchagua **ukweli** na **masharti ya mantiki** ya kutumia katika programu yake ili kuzuia ufikiaji kwake.
+Hizi ni Mipaka ya Uzinduzi zilizowekwa katika **programu za upande wa tatu**. Mwandishi anaweza kuchagua **ukweli** na **operands za kimantiki kutumia** katika programu yake ili kuzuia ufikiaji kwake mwenyewe.
 
-Inawezekana kuorodhesha Vizuizi vya Mazingira ya programu na:
+Inawezekana kuhesabu Mipaka ya Mazingira ya programu kwa:
 ```bash
 codesign -d -vvvv app.app
 ```
-## Hifadhidata za Uaminifu
+## Trust Caches
 
-Katika **macOS** kuna hifadhidata chache za uaminifu:
+Katika **macOS** kuna baadhi ya hifadhi za kuaminika:
 
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/BaseSystemTrustCache.img4`**
 * **`/System/Volumes/Preboot/*/boot/*/usr/standalone/firmware/FUD/StaticTrustCache.img4`**
 * **`/System/Library/Security/OSLaunchPolicyData`**
 
-Na katika iOS inaonekana iko katika **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
+Na katika iOS inaonekana kama iko katika **`/usr/standalone/firmware/FUD/StaticTrustCache.img4`**.
 
 {% hint style="warning" %}
-Katika macOS inayotumia vifaa vya Apple Silicon, ikiwa faili iliyosainiwa na Apple haipo katika hifadhidata ya uaminifu, AMFI itakataa kuiweka.
+Katika macOS inayotembea kwenye vifaa vya Apple Silicon, ikiwa binary iliyosainiwa na Apple haipo katika hifadhi ya kuaminika, AMFI itakataa kuipakia.
 {% endhint %}
 
-### Kuhesabu Hifadhidata za Uaminifu
+### Enumerating Trust Caches
 
-Faili za hifadhidata za uaminifu zilizotajwa hapo awali zina muundo wa **IMG4** na **IM4P**, huku IM4P ikiwa sehemu ya mzigo wa muundo wa IMG4.
+Faili za awali za hifadhi za kuaminika ziko katika muundo **IMG4** na **IM4P**, ambapo IM4P ni sehemu ya mzigo ya muundo wa IMG4.
 
-Unaweza kutumia [**pyimg4**](https://github.com/m1stadev/PyIMG4) ili kuchambua mzigo wa hifadhidata:
+Unaweza kutumia [**pyimg4**](https://github.com/m1stadev/PyIMG4) kutoa mzigo wa hifadhidata: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -114,9 +115,9 @@ pyimg4 im4p extract -i /System/Library/Security/OSLaunchPolicyData -o /tmp/OSLau
 ```
 {% endcode %}
 
-(Chaguo lingine linaweza kuwa kutumia zana [**img4tool**](https://github.com/tihmstar/img4tool), ambayo itafanya kazi hata kwenye M1 hata kama toleo ni la zamani na kwa x86\_64 ikiwa utaifunga kwenye maeneo sahihi).
+(Chaguo kingine kinaweza kuwa kutumia chombo [**img4tool**](https://github.com/tihmstar/img4tool), ambacho kitaendesha hata kwenye M1 hata kama toleo ni la zamani na kwa x86\_64 ikiwa utaweka katika maeneo sahihi).
 
-Sasa unaweza kutumia zana [**trustcache**](https://github.com/CRKatri/trustcache) ili kupata habari kwa muundo unaoweza kusomwa:
+Sasa unaweza kutumia chombo [**trustcache**](https://github.com/CRKatri/trustcache) kupata taarifa katika muundo unaoweza kusomeka:
 ```bash
 # Install
 wget https://github.com/CRKatri/trustcache/releases/download/v2.0/trustcache_macos_arm64
@@ -140,7 +141,8 @@ entry count = 969
 01e6934cb8833314ea29640c3f633d740fc187f2 [none] [2] [2]
 020bf8c388deaef2740d98223f3d2238b08bab56 [none] [2] [3]
 ```
-Hifadhidata ya imani inafuata muundo ufuatao, kwa hivyo **Jamii ya LC ni safu ya 4**
+The trust cache follows the following structure, so The **LC category is the 4th column**  
+Kikundi cha kuaminika kinafuata muundo ufuatao, hivyo **LC category ni safu ya 4**
 ```c
 struct trust_cache_entry2 {
 uint8_t cdhash[CS_CDHASH_LEN];
@@ -150,49 +152,49 @@ uint8_t constraintCategory;
 uint8_t reserved0;
 } __attribute__((__packed__));
 ```
-Kisha, unaweza kutumia script kama [**hii**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) ili kuchambua data.
+Then, you could use a script such as [**this one**](https://gist.github.com/xpn/66dc3597acd48a4c31f5f77c3cc62f30) to extract data.
 
-Kutoka kwenye data hiyo, unaweza kuangalia Apps na **thamani ya vikwazo vya uzinduzi ya `0`**, ambazo ni zile ambazo hazina vikwazo ([**angalia hapa**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) kwa maelezo ya kila thamani).
+From that data you can check the Apps with a **launch constraints value of `0`**, which are the ones that aren't constrained ([**check here**](https://gist.github.com/LinusHenze/4cd5d7ef057a144cda7234e2c247c056) for what each value is).
 
-## Kinga za Mashambulizi
+## Attack Mitigations
 
-Vikwazo vya Uzinduzi vingeweza kuzuia mashambulizi kadhaa ya zamani kwa **kufanya uhakika kwamba mchakato hautatekelezwa katika hali zisizotarajiwa:** Kwa mfano kutoka kwenye maeneo yasiyotarajiwa au kuitwa na mchakato wa mzazi usiotarajiwa (ikiwa ni launchd pekee inapaswa kuizindua)
+Launch Constrains ingekuwa imepunguza mashambulizi kadhaa ya zamani kwa **kuhakikisha kwamba mchakato hautatekelezwa katika hali zisizotarajiwa:** Kwa mfano kutoka maeneo yasiyotarajiwa au kuanzishwa na mchakato wa mzazi usiotarajiwa (ikiwa tu launchd inapaswa kuanzisha).
 
-Zaidi ya hayo, Vikwazo vya Uzinduzi pia **vinazuia mashambulizi ya kushusha kiwango.**
+Zaidi ya hayo, Launch Constraints pia **inapunguza mashambulizi ya kudhalilisha.**
 
-Hata hivyo, havizuizi matumizi mabaya ya XPC, uingizaji wa kanuni za Electron au uingizaji wa dylib bila uthibitisho wa maktaba (isipokuwa kitambulisho cha timu ambazo zinaweza kupakia maktaba kinajulikana).
+Hata hivyo, hazipunguzi matumizi ya kawaida ya XPC, **Electron** kuingiza msimbo au **kuingiza dylib** bila uthibitisho wa maktaba (isipokuwa vitambulisho vya timu vinavyoweza kupakia maktaba vinajulikana).
 
-### Kinga ya XPC Daemon
+### XPC Daemon Protection
 
-Katika toleo la Sonoma, jambo muhimu ni **mpangilio wa jukumu** la huduma ya XPC daemon. Huduma ya XPC inawajibika kwa ajili yake, tofauti na mteja anayehusika. Hii imeandikwa katika ripoti ya maoni FB13206884. Mpangilio huu unaweza kuonekana kuwa na kasoro, kwani inaruhusu mwingiliano fulani na huduma ya XPC:
+Katika toleo la Sonoma, jambo muhimu ni **mipangilio ya wajibu** ya huduma ya XPC daemon. Huduma ya XPC inawajibika kwa ajili yake mwenyewe, tofauti na mteja anayounganisha kuwa na wajibu. Hii imeandikwa katika ripoti ya maoni FB13206884. Mpangilio huu unaweza kuonekana kuwa na kasoro, kwani unaruhusu mwingiliano fulani na huduma ya XPC:
 
-- **Kuzindua Huduma ya XPC**: Ikiwa inachukuliwa kuwa ni kasoro, mpangilio huu haumruhusu kuanzisha huduma ya XPC kupitia kanuni ya mshambuliaji.
-- **Kuunganisha kwenye Huduma Iliyopo**: Ikiwa huduma ya XPC tayari inaendeshwa (labda imeamilishwa na programu yake ya awali), hakuna vizuizi vya kuunganisha nayo.
+- **Kuanzisha Huduma ya XPC**: Ikiwa inachukuliwa kuwa hitilafu, mpangilio huu haukuruhusu kuanzisha huduma ya XPC kupitia msimbo wa mshambuliaji.
+- **Kuungana na Huduma Inayoendelea**: Ikiwa huduma ya XPC tayari inaendesha (inaweza kuwa imeanzishwa na programu yake ya asili), hakuna vizuizi vya kuungana nayo.
 
-Ingawa kuweka vikwazo kwenye huduma ya XPC kunaweza kuwa na manufaa kwa **kupunguza fursa za mashambulizi**, haitatua wasiwasi kuu. Kuhakikisha usalama wa huduma ya XPC kimsingi kunahitaji **uthibitisho wa mteja anayeunganisha kwa ufanisi**. Hii ndiyo njia pekee ya kuimarisha usalama wa huduma hiyo. Pia, ni muhimu kutambua kuwa mpangilio wa jukumu uliotajwa unatumika kwa sasa, ambao huenda usilingane na muundo uliokusudiwa.
+Ingawa kutekeleza vizuizi kwenye huduma ya XPC kunaweza kuwa na manufaa kwa **kupunguza dirisha la mashambulizi yanayoweza kutokea**, hakuhusishi wasiwasi wa msingi. Kuhakikisha usalama wa huduma ya XPC kimsingi kunahitaji **kuhakikisha mteja anayounganisha kwa ufanisi**. Hii inabaki kuwa njia pekee ya kuimarisha usalama wa huduma hiyo. Pia, inafaa kutaja kwamba mpangilio wa wajibu ulioelezwa kwa sasa unafanya kazi, ambayo inaweza kutokubaliana na muundo ulio kusudiwa.
 
+### Electron Protection
 
-### Kinga ya Electron
+Hata kama inahitajika kwamba programu lazima **ifunguliwe na LaunchService** (katika vizuizi vya wazazi). Hii inaweza kufikiwa kwa kutumia **`open`** (ambayo inaweza kuweka mabadiliko ya mazingira) au kutumia **Launch Services API** (ambapo mabadiliko ya mazingira yanaweza kuonyeshwa).
 
-Hata kama inahitajika kwamba programu lazima **izinduliwe na LaunchService** (katika vikwazo vya wazazi). Hii inaweza kufanikishwa kwa kutumia **`open`** (ambayo inaweza kuweka mazingira ya mazingira) au kutumia **API ya Huduma za Uzinduzi** (ambapo mazingira ya mazingira yanaweza kuonyeshwa).
-
-## Marejeo
+## References
 
 * [https://youtu.be/f1HA5QhLQ7Y?t=24146](https://youtu.be/f1HA5QhLQ7Y?t=24146)
 * [https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/](https://theevilbit.github.io/posts/launch\_constraints\_deep\_dive/)
 * [https://eclecticlight.co/2023/06/13/why-wont-a-system-app-or-command-tool-run-launch-constraints-and-trust-caches/](https://eclecticlight.co/2023/06/13/why-wont-a-system-app-or-command-tool-run-launch-constraints-and-trust-caches/)
 * [https://developer.apple.com/videos/play/wwdc2023/10266/](https://developer.apple.com/videos/play/wwdc2023/10266/)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Jifunze kuhusu kudukua AWS kutoka sifuri hadi shujaa na</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Je, unafanya kazi katika **kampuni ya usalama wa mtandao**? Je, ungependa kuona **kampuni yako ikitangazwa katika HackTricks**? Au ungependa kupata upatikanaji wa **toleo jipya la PEASS au kupakua HackTricks kwa muundo wa PDF**? Angalia [**MPANGO WA KUJIUNGA**](https://github.com/sponsors/carlospolop)!
-* Gundua [**The PEASS Family**](https://opensea.io/collection/the-peass-family), mkusanyiko wetu wa [**NFTs**](https://opensea.io/collection/the-peass-family) za kipekee
-* Pata [**swag rasmi ya PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Jiunge na** [**💬**](https://emojipedia.org/speech-balloon/) [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au **kikundi cha telegram**](https://t.me/peass) au **nifuate** kwenye **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu zako za kudukua kwa kuwasilisha PR kwenye** [**repo ya hacktricks**](https://github.com/carlospolop/hacktricks) **na** [**repo ya hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)
-*
-* .
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
