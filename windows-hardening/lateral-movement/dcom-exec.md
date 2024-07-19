@@ -1,16 +1,19 @@
 # DCOM Exec
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Você trabalha em uma **empresa de cibersegurança**? Você quer ver sua **empresa anunciada no HackTricks**? ou você quer ter acesso à **última versão do PEASS ou baixar o HackTricks em PDF**? Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção de [**NFTs**](https://opensea.io/collection/the-peass-family) exclusivas
-* Obtenha o [**merch oficial do PEASS & HackTricks**](https://peass.creator-spring.com)
-* **Junte-se ao** [**💬**](https://emojipedia.org/speech-balloon/) [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **me siga** no **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe suas dicas de hacking enviando PRs para o** [**repositório hacktricks**](https://github.com/carlospolop/hacktricks) **e** [**repositório hacktricks-cloud**](https://github.com/carlospolop/hacktricks-cloud)..
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -24,13 +27,13 @@
 
 **Para mais informações sobre esta técnica, consulte o post original em [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
-Objetos do Modelo de Objeto Componente Distribuído (DCOM) apresentam uma capacidade interessante para interações baseadas em rede com objetos. A Microsoft fornece documentação abrangente tanto para DCOM quanto para Modelo de Objeto Componente (COM), acessível [aqui para DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) e [aqui para COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Uma lista de aplicações DCOM pode ser recuperada usando o comando PowerShell:
+Objetos do Modelo de Objeto Componente Distribuído (DCOM) apresentam uma capacidade interessante para interações baseadas em rede com objetos. A Microsoft fornece documentação abrangente tanto para DCOM quanto para o Modelo de Objeto Componente (COM), acessível [aqui para DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) e [aqui para COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Uma lista de aplicações DCOM pode ser recuperada usando o comando PowerShell:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
 O objeto COM, [Classe de Aplicação MMC (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), permite a automação das operações de snap-in do MMC. Notavelmente, este objeto contém um método `ExecuteShellCommand` sob `Document.ActiveView`. Mais informações sobre este método podem ser encontradas [aqui](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Verifique sua execução:
 
-Esse recurso facilita a execução de comandos através de uma rede por meio de uma aplicação DCOM. Para interagir com DCOM remotamente como um administrador, o PowerShell pode ser utilizado da seguinte forma:
+Este recurso facilita a execução de comandos através de uma rede por meio de uma aplicação DCOM. Para interagir com DCOM remotamente como um administrador, o PowerShell pode ser utilizado da seguinte forma:
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
