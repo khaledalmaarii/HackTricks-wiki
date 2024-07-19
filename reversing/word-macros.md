@@ -1,42 +1,44 @@
-<details>
+# Word Macros
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
-
-HackTricks का समर्थन करने के अन्य तरीके:
-
-* अगर आप चाहते हैं कि **आपकी कंपनी HackTricks में विज्ञापित हो** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) की जांच करें!
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** पर फॉलो करें 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **अपने हैकिंग ट्रिक्स साझा करें, HackTricks** को PRs जमा करके [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में
-
-</details>
-
-
-## अनावश्यक कोड
-
-**जंक कोड को ढूंढना** बहुत सामान्य है जो कभी उपयोग नहीं होता, ताकि मैक्रो का रिवर्सिंग करना कठिन हो।\
-उदाहरण के लिए, निम्न छवि में आप देख सकते हैं कि और अगर वह कभी सच नहीं होने वाला है, तो कुछ जंक और अवांछित कोड को निष्पादित करने के लिए उपयोग किया जाता है।
-
-![](<../.gitbook/assets/image (373).png>)
-
-## मैक्रो फॉर्म
-
-**GetObject** फ़ंक्शन का उपयोग करके मैक्रो के फॉर्म से डेटा प्राप्त किया जा सकता है। इसका विश्लेषण करना कठिन बनाने के लिए इसका उपयोग किया जा सकता है। निम्नलिखित एक छवि मैक्रो फॉर्म का उपयोग करके **पाठ बॉक्स में डेटा छुपाने** के लिए किया गया है (एक पाठ बॉक्स अन्य पाठ बॉक्स को छुपा सकता है):
-
-![](<../.gitbook/assets/image (374).png>)
-
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks का समर्थन करने के अन्य तरीके:
-
-* अगर आप चाहते हैं कि **आपकी कंपनी HackTricks में विज्ञापित हो** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान्स**](https://github.com/sponsors/carlospolop) की जांच करें!
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) की खोज करें, हमारा विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) संग्रह
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** पर फॉलो करें 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **अपने हैकिंग ट्रिक्स साझा करें, HackTricks** को PRs जमा करके [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
+
+### Junk Code
+
+यह बहुत सामान्य है कि **जंक कोड जो कभी उपयोग नहीं होता** उसे मैक्रो के रिवर्सिंग को और कठिन बनाने के लिए पाया जाता है।\
+उदाहरण के लिए, निम्नलिखित छवि में आप देख सकते हैं कि और यदि यह कभी सच नहीं होने वाला है, इसका उपयोग कुछ जंक और बेकार कोड को निष्पादित करने के लिए किया जाता है।
+
+![](<../.gitbook/assets/image (369).png>)
+
+### Macro Forms
+
+**GetObject** फ़ंक्शन का उपयोग करके मैक्रो के फॉर्म से डेटा प्राप्त करना संभव है। इसका उपयोग विश्लेषण को कठिन बनाने के लिए किया जा सकता है। निम्नलिखित एक मैक्रो फॉर्म की फोटो है जिसका उपयोग **टेक्स्ट बॉक्स के अंदर डेटा छिपाने के लिए** किया जाता है (एक टेक्स्ट बॉक्स अन्य टेक्स्ट बॉक्स को छिपा सकता है):
+
+![](<../.gitbook/assets/image (344).png>)
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

