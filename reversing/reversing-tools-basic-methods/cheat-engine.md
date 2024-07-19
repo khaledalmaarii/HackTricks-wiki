@@ -1,28 +1,29 @@
 # Cheat Engine
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) est un programme utile pour trouver où sont enregistrées les valeurs importantes dans la mémoire d'un jeu en cours d'exécution et les modifier.\
-Lorsque vous le téléchargez et l'exécutez, vous avez droit à un tutoriel sur l'utilisation de l'outil. Il est fortement recommandé de le suivre si vous voulez apprendre à utiliser l'outil.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) est un programme utile pour trouver où des valeurs importantes sont enregistrées dans la mémoire d'un jeu en cours d'exécution et les modifier.\
+Lorsque vous le téléchargez et l'exécutez, vous êtes **présenté** avec un **tutoriel** sur la façon d'utiliser l'outil. Si vous souhaitez apprendre à utiliser l'outil, il est fortement recommandé de le compléter.
 
-## Que recherchez-vous ?
+## Que cherchez-vous ?
 
 ![](<../../.gitbook/assets/image (762).png>)
 
 Cet outil est très utile pour trouver **où une certaine valeur** (généralement un nombre) **est stockée dans la mémoire** d'un programme.\
-**Généralement les nombres** sont stockés sous forme de **4 octets**, mais vous pourriez également les trouver sous forme de **double** ou **float**, ou vous pourriez vouloir chercher quelque chose **de différent d'un nombre**. Pour cette raison, vous devez être sûr de **sélectionner** ce que vous voulez **chercher** :
+**Généralement, les nombres** sont stockés sous forme de **4 octets**, mais vous pouvez également les trouver sous des formats **double** ou **float**, ou vous pouvez vouloir chercher quelque chose **de différent d'un nombre**. Pour cette raison, vous devez vous assurer de **sélectionner** ce que vous souhaitez **chercher** :
 
 ![](<../../.gitbook/assets/image (324).png>)
 
@@ -30,23 +31,23 @@ Vous pouvez également indiquer **différents** types de **recherches** :
 
 ![](<../../.gitbook/assets/image (311).png>)
 
-Vous pouvez également cocher la case pour **arrêter le jeu pendant l'analyse de la mémoire** :
+Vous pouvez également cocher la case pour **arrêter le jeu pendant le scan de la mémoire** :
 
 ![](<../../.gitbook/assets/image (1052).png>)
 
 ### Raccourcis
 
-Dans _**Édition --> Paramètres --> Raccourcis**_, vous pouvez définir différents **raccourcis** pour différentes fonctions comme **arrêter** le **jeu** (ce qui est très utile si à un moment donné vous voulez analyser la mémoire). D'autres options sont disponibles :
+Dans _**Édition --> Paramètres --> Raccourcis**_, vous pouvez définir différents **raccourcis** pour différents objectifs, comme **arrêter** le **jeu** (ce qui est très utile si à un moment donné vous souhaitez scanner la mémoire). D'autres options sont disponibles :
 
 ![](<../../.gitbook/assets/image (864).png>)
 
 ## Modification de la valeur
 
-Une fois que vous avez **trouvé** où se trouve la **valeur** que vous **cherchez** (plus d'informations à ce sujet dans les étapes suivantes), vous pouvez la **modifier** en double-cliquant dessus, puis en double-cliquant sur sa valeur :
+Une fois que vous **avez trouvé** où se trouve la **valeur** que vous **cherchez** (plus d'informations à ce sujet dans les étapes suivantes), vous pouvez **la modifier** en double-cliquant dessus, puis en double-cliquant sur sa valeur :
 
 ![](<../../.gitbook/assets/image (563).png>)
 
-Et enfin, **cochez la case** pour que la modification soit effectuée dans la mémoire :
+Et enfin, **cochez la case** pour effectuer la modification dans la mémoire :
 
 ![](<../../.gitbook/assets/image (385).png>)
 
@@ -54,106 +55,107 @@ Le **changement** dans la **mémoire** sera immédiatement **appliqué** (notez 
 
 ## Recherche de la valeur
 
-Donc, supposons qu'il y ait une valeur importante (comme la vie de votre utilisateur) que vous voulez améliorer, et que vous cherchez cette valeur dans la mémoire)
+Donc, nous allons supposer qu'il y a une valeur importante (comme la vie de votre utilisateur) que vous souhaitez améliorer, et vous cherchez cette valeur dans la mémoire.
 
-### À travers un changement connu
+### Par un changement connu
 
-En supposant que vous cherchez la valeur 100, vous **effectuez une analyse** en recherchant cette valeur et vous trouvez beaucoup de correspondances :
+Supposons que vous cherchez la valeur 100, vous **effectuez un scan** à la recherche de cette valeur et vous trouvez beaucoup de coïncidences :
 
 ![](<../../.gitbook/assets/image (108).png>)
 
-Ensuite, faites quelque chose pour que la **valeur change**, et **arrêtez** le jeu et **effectuez** une **analyse suivante** :
+Ensuite, vous faites quelque chose pour que **la valeur change**, et vous **arrêtez** le jeu et **effectuez** un **scan suivant** :
 
 ![](<../../.gitbook/assets/image (684).png>)
 
-Cheat Engine recherchera les **valeurs** qui sont passées de 100 à la nouvelle valeur. Félicitations, vous avez **trouvé** l'**adresse** de la valeur que vous cherchiez, vous pouvez maintenant la modifier.\
-_Si vous avez encore plusieurs valeurs, faites quelque chose pour modifier à nouveau cette valeur, et effectuez une autre "analyse suivante" pour filtrer les adresses._
+Cheat Engine recherchera les **valeurs** qui **sont passées de 100 à la nouvelle valeur**. Félicitations, vous **avez trouvé** l'**adresse** de la valeur que vous cherchiez, vous pouvez maintenant la modifier.\
+_Si vous avez encore plusieurs valeurs, faites quelque chose pour modifier à nouveau cette valeur, et effectuez un autre "scan suivant" pour filtrer les adresses._
 
 ### Valeur inconnue, changement connu
 
-Dans le scénario où vous **ne connaissez pas la valeur** mais vous savez **comment la faire changer** (et même la valeur du changement), vous pouvez rechercher votre nombre.
+Dans le scénario où vous **ne connaissez pas la valeur** mais que vous savez **comment la faire changer** (et même la valeur du changement), vous pouvez chercher votre nombre.
 
-Donc, commencez par effectuer une analyse de type "**Valeur initiale inconnue**" :
+Donc, commencez par effectuer un scan de type "**Valeur initiale inconnue**" :
 
 ![](<../../.gitbook/assets/image (890).png>)
 
-Ensuite, faites changer la valeur, indiquez **comment** la **valeur a changé** (dans mon cas, elle a été diminuée de 1) et effectuez une **analyse suivante** :
+Ensuite, faites changer la valeur, indiquez **comment** la **valeur** **a changé** (dans mon cas, elle a diminué de 1) et effectuez un **scan suivant** :
 
 ![](<../../.gitbook/assets/image (371).png>)
 
-Vous verrez **toutes les valeurs qui ont été modifiées de la manière sélectionnée** :
+Vous serez présenté **toutes les valeurs qui ont été modifiées de la manière sélectionnée** :
 
 ![](<../../.gitbook/assets/image (569).png>)
 
 Une fois que vous avez trouvé votre valeur, vous pouvez la modifier.
 
-Notez qu'il y a **beaucoup de changements possibles** et vous pouvez effectuer ces **étapes autant de fois que vous le souhaitez** pour filtrer les résultats :
+Notez qu'il y a un **grand nombre de changements possibles** et vous pouvez faire ces **étapes autant de fois que vous le souhaitez** pour filtrer les résultats :
 
 ![](<../../.gitbook/assets/image (574).png>)
 
 ### Adresse mémoire aléatoire - Trouver le code
 
-Jusqu'à présent, nous avons appris à trouver une adresse stockant une valeur, mais il est très probable que dans **différentes exécutions du jeu cette adresse se trouve à des endroits différents de la mémoire**. Voyons comment trouver cette adresse de manière constante.
+Jusqu'à présent, nous avons appris à trouver une adresse stockant une valeur, mais il est très probable que lors de **différentes exécutions du jeu, cette adresse se trouve à différents endroits de la mémoire**. Alors découvrons comment toujours trouver cette adresse.
 
-En utilisant quelques-uns des astuces mentionnées, trouvez l'adresse où votre jeu actuel stocke la valeur importante. Ensuite (en arrêtant le jeu si vous le souhaitez), faites un **clic droit** sur l'**adresse trouvée** et sélectionnez "**Découvrir ce qui accède à cette adresse**" ou "**Découvrir ce qui écrit à cette adresse**" :
+En utilisant certains des trucs mentionnés, trouvez l'adresse où votre jeu actuel stocke la valeur importante. Ensuite (en arrêtant le jeu si vous le souhaitez), faites un **clic droit** sur l'**adresse** trouvée et sélectionnez "**Découvrir ce qui accède à cette adresse**" ou "**Découvrir ce qui écrit à cette adresse**" :
 
 ![](<../../.gitbook/assets/image (1067).png>)
 
-La **première option** est utile pour savoir quelles **parties** du **code** utilisent cette **adresse** (ce qui est utile pour d'autres choses comme **savoir où vous pouvez modifier le code** du jeu).\
-La **deuxième option** est plus **spécifique**, et sera plus utile dans ce cas car nous voulons savoir **d'où cette valeur est écrite**.
+La **première option** est utile pour savoir quelles **parties** du **code** **utilisent** cette **adresse** (ce qui est utile pour d'autres choses comme **savoir où vous pouvez modifier le code** du jeu).\
+La **deuxième option** est plus **spécifique**, et sera plus utile dans ce cas car nous sommes intéressés à savoir **d'où cette valeur est écrite**.
 
-Une fois que vous avez sélectionné l'une de ces options, le **débogueur** sera **attaché** au programme et une nouvelle **fenêtre vide** apparaîtra. Maintenant, **jouez** au **jeu** et **modifiez** cette **valeur** (sans redémarrer le jeu). La **fenêtre** devrait se **remplir** avec les **adresses** qui **modifient** la **valeur** :
+Une fois que vous avez sélectionné l'une de ces options, le **débogueur** sera **attaché** au programme et une nouvelle **fenêtre vide** apparaîtra. Maintenant, **jouez** au **jeu** et **modifiez** cette **valeur** (sans redémarrer le jeu). La **fenêtre** devrait être **remplie** avec les **adresses** qui **modifient** la **valeur** :
 
 ![](<../../.gitbook/assets/image (91).png>)
 
-Maintenant que vous avez trouvé l'adresse qui modifie la valeur, vous pouvez **modifier le code à votre guise** (Cheat Engine vous permet de le modifier en NOPs très rapidement) :
+Maintenant que vous avez trouvé l'adresse qui modifie la valeur, vous pouvez **modifier le code à votre guise** (Cheat Engine vous permet de le modifier rapidement en NOPs) :
 
 ![](<../../.gitbook/assets/image (1057).png>)
 
-Ainsi, vous pouvez maintenant le modifier pour que le code n'affecte pas votre nombre, ou affecte toujours de manière positive.
+Ainsi, vous pouvez maintenant le modifier pour que le code n'affecte pas votre nombre, ou l'affecte toujours de manière positive.
+
 ### Adresse mémoire aléatoire - Trouver le pointeur
 
-Suivant les étapes précédentes, trouvez où se trouve la valeur qui vous intéresse. Ensuite, en utilisant "**Découvrir ce qui écrit à cette adresse**", découvrez quelle adresse écrit cette valeur et double-cliquez dessus pour obtenir la vue de désassemblage :
+En suivant les étapes précédentes, trouvez où se trouve la valeur qui vous intéresse. Ensuite, en utilisant "**Découvrir ce qui écrit à cette adresse**", découvrez quelle adresse écrit cette valeur et double-cliquez dessus pour obtenir la vue de désassemblage :
 
 ![](<../../.gitbook/assets/image (1039).png>)
 
-Ensuite, effectuez une nouvelle analyse en **recherchant la valeur hexadécimale entre "\[]"** (la valeur de $edx dans ce cas) :
+Ensuite, effectuez un nouveau scan **à la recherche de la valeur hexadécimale entre "\[]"** (la valeur de $edx dans ce cas) :
 
 ![](<../../.gitbook/assets/image (994).png>)
 
-(_Si plusieurs apparaissent, vous avez généralement besoin de celui avec l'adresse la plus petite_)\
+(_Si plusieurs apparaissent, vous avez généralement besoin de l'adresse la plus petite_)\
 Maintenant, nous avons **trouvé le pointeur qui modifiera la valeur qui nous intéresse**.
 
-Cliquez sur "**Ajouter une adresse manuellement**" :
+Cliquez sur "**Ajouter l'adresse manuellement**" :
 
 ![](<../../.gitbook/assets/image (990).png>)
 
-Maintenant, cochez la case "Pointeur" et ajoutez l'adresse trouvée dans la zone de texte (dans ce scénario, l'adresse trouvée dans l'image précédente était "Tutorial-i386.exe"+2426B0) :
+Maintenant, cliquez sur la case à cocher "Pointeur" et ajoutez l'adresse trouvée dans la zone de texte (dans ce scénario, l'adresse trouvée dans l'image précédente était "Tutorial-i386.exe"+2426B0) :
 
 ![](<../../.gitbook/assets/image (392).png>)
 
-(Remarquez comment la première "Adresse" est automatiquement renseignée à partir de l'adresse du pointeur que vous introduisez)
+(Notez comment le premier "Adresse" est automatiquement rempli à partir de l'adresse du pointeur que vous introduisez)
 
 Cliquez sur OK et un nouveau pointeur sera créé :
 
 ![](<../../.gitbook/assets/image (308).png>)
 
-Maintenant, chaque fois que vous modifiez cette valeur, vous **modifiez la valeur importante même si l'adresse mémoire où se trouve la valeur est différente**.
+Maintenant, chaque fois que vous modifiez cette valeur, vous **modifiez la valeur importante même si l'adresse mémoire où se trouve la valeur est différente.**
 
 ### Injection de code
 
-L'injection de code est une technique où vous injectez un morceau de code dans le processus cible, puis redirigez l'exécution du code pour passer par votre propre code écrit (comme vous donnant des points au lieu de les retirer).
+L'injection de code est une technique où vous injectez un morceau de code dans le processus cible, puis redirigez l'exécution du code pour passer par votre propre code écrit (comme vous donner des points au lieu de les soustraire).
 
 Donc, imaginez que vous avez trouvé l'adresse qui soustrait 1 à la vie de votre joueur :
 
 ![](<../../.gitbook/assets/image (203).png>)
 
 Cliquez sur Afficher le désassembleur pour obtenir le **code désassemblé**.\
-Ensuite, cliquez sur **CTRL+a** pour ouvrir la fenêtre d'auto-assemblage et sélectionnez _**Modèle --> Injection de code**_
+Ensuite, cliquez sur **CTRL+a** pour invoquer la fenêtre d'Auto assemble et sélectionnez _**Modèle --> Injection de code**_
 
 ![](<../../.gitbook/assets/image (902).png>)
 
-Remplissez l'**adresse de l'instruction que vous souhaitez modifier** (celle-ci est généralement pré-remplie) :
+Remplissez l'**adresse de l'instruction que vous souhaitez modifier** (cela est généralement rempli automatiquement) :
 
 ![](<../../.gitbook/assets/image (744).png>)
 
@@ -161,12 +163,27 @@ Un modèle sera généré :
 
 ![](<../../.gitbook/assets/image (944).png>)
 
-Insérez votre nouveau code d'assemblage dans la section "**newmem**" et supprimez le code original de la section "**originalcode** si vous ne voulez pas qu'il soit exécuté\*\*.\*\* Dans cet exemple, le code injecté ajoutera 2 points au lieu de soustraire 1 :
+Donc, insérez votre nouveau code d'assemblage dans la section "**newmem**" et retirez le code original de la section "**originalcode**" si vous ne souhaitez pas qu'il soit exécuté\*\*.\*\* Dans cet exemple, le code injecté ajoutera 2 points au lieu de soustraire 1 :
 
 ![](<../../.gitbook/assets/image (521).png>)
 
-**Cliquez sur exécuter et ainsi de suite, votre code devrait être injecté dans le programme, modifiant le comportement de la fonctionnalité !**
+**Cliquez sur exécuter et ainsi de suite et votre code devrait être injecté dans le programme, changeant le comportement de la fonctionnalité !**
 
 ## **Références**
 
-* **Tutoriel Cheat Engine, complétez-le pour apprendre à démarrer avec Cheat Engine**
+* **Tutoriel Cheat Engine, complétez-le pour apprendre à commencer avec Cheat Engine**
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}

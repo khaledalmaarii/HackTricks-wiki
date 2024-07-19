@@ -1,28 +1,29 @@
-# Infrarouge
+# Infrared
+
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Supportez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
+{% endhint %}
 
-## Fonctionnement de l'infrarouge <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
+## Comment fonctionne l'infrarouge <a href="#how-the-infrared-port-works" id="how-the-infrared-port-works"></a>
 
-**La lumière infrarouge est invisible pour les humains**. La longueur d'onde de l'infrarouge va de **0,7 à 1000 microns**. Les télécommandes domestiques utilisent un signal infrarouge pour la transmission de données et fonctionnent dans la plage de longueurs d'onde de 0,75 à 1,4 microns. Un microcontrôleur dans la télécommande fait clignoter une LED infrarouge avec une fréquence spécifique, transformant le signal numérique en signal infrarouge.
+**La lumière infrarouge est invisible pour les humains**. La longueur d'onde IR va de **0,7 à 1000 microns**. Les télécommandes domestiques utilisent un signal IR pour la transmission de données et fonctionnent dans la plage de longueur d'onde de 0,75 à 1,4 microns. Un microcontrôleur dans la télécommande fait clignoter une LED infrarouge à une fréquence spécifique, transformant le signal numérique en un signal IR.
 
-Pour recevoir les signaux infrarouges, un **photorécepteur** est utilisé. Il **convertit la lumière infrarouge en impulsions de tension**, qui sont déjà des **signaux numériques**. Habituellement, il y a un **filtre de lumière sombre à l'intérieur du récepteur**, qui laisse passer **seulement la longueur d'onde désirée** et élimine le bruit.
+Pour recevoir des signaux IR, un **photodétecteur** est utilisé. Il **convertit la lumière IR en impulsions de tension**, qui sont déjà des **signaux numériques**. En général, il y a un **filtre de lumière sombre à l'intérieur du récepteur**, qui laisse **passer uniquement la longueur d'onde souhaitée** et élimine le bruit.
 
-### Variété de protocoles infrarouges <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
+### Variété de protocoles IR <a href="#variety-of-ir-protocols" id="variety-of-ir-protocols"></a>
 
-Les protocoles infrarouges diffèrent selon 3 facteurs :
+Les protocoles IR diffèrent en 3 facteurs :
 
 * encodage des bits
 * structure des données
@@ -30,54 +31,54 @@ Les protocoles infrarouges diffèrent selon 3 facteurs :
 
 #### Méthodes d'encodage des bits <a href="#bit-encoding-ways" id="bit-encoding-ways"></a>
 
-**1. Encodage de la distance d'impulsion**
+**1. Encodage par distance d'impulsion**
 
 Les bits sont encodés en modulant la durée de l'espace entre les impulsions. La largeur de l'impulsion elle-même est constante.
 
 <figure><img src="../../.gitbook/assets/image (295).png" alt=""><figcaption></figcaption></figure>
 
-**2. Encodage de la largeur d'impulsion**
+**2. Encodage par largeur d'impulsion**
 
-Les bits sont encodés en modulant la largeur de l'impulsion. La largeur de l'espace après la rafale d'impulsions est constante.
+Les bits sont encodés par modulation de la largeur de l'impulsion. La largeur de l'espace après l'explosion d'impulsion est constante.
 
 <figure><img src="../../.gitbook/assets/image (282).png" alt=""><figcaption></figcaption></figure>
 
 **3. Encodage de phase**
 
-Il est également connu sous le nom d'encodage Manchester. La valeur logique est définie par la polarité de la transition entre la rafale d'impulsions et l'espace. "Espace vers rafale d'impulsions" représente la logique "0", "rafale d'impulsions vers espace" représente la logique "1".
+Il est également connu sous le nom d'encodage Manchester. La valeur logique est définie par la polarité de la transition entre l'explosion d'impulsion et l'espace. "Espace à explosion d'impulsion" désigne la logique "0", "explosion d'impulsion à espace" désigne la logique "1".
 
 <figure><img src="../../.gitbook/assets/image (634).png" alt=""><figcaption></figcaption></figure>
 
 **4. Combinaison des précédents et autres exotiques**
 
 {% hint style="info" %}
-Il existe des protocoles infrarouges qui **tentent de devenir universels** pour plusieurs types d'appareils. Les plus célèbres sont RC5 et NEC. Malheureusement, les plus célèbres **ne signifient pas les plus courants**. Dans mon environnement, j'ai rencontré seulement deux télécommandes NEC et aucune télécommande RC5.
+Il existe des protocoles IR qui **essaient de devenir universels** pour plusieurs types d'appareils. Les plus connus sont RC5 et NEC. Malheureusement, le plus connu **ne signifie pas le plus courant**. Dans mon environnement, j'ai rencontré seulement deux télécommandes NEC et aucune RC5.
 
-Les fabricants aiment utiliser leurs propres protocoles infrarouges uniques, même au sein de la même gamme d'appareils (par exemple, les décodeurs TV). Par conséquent, les télécommandes de différentes entreprises et parfois de différents modèles de la même entreprise, ne peuvent pas fonctionner avec d'autres appareils du même type.
+Les fabricants aiment utiliser leurs propres protocoles IR uniques, même au sein de la même gamme d'appareils (par exemple, les boîtiers TV). Par conséquent, les télécommandes de différentes entreprises et parfois de différents modèles de la même entreprise, ne peuvent pas fonctionner avec d'autres appareils du même type.
 {% endhint %}
 
-### Exploration d'un signal infrarouge
+### Exploration d'un signal IR
 
-La manière la plus fiable de voir à quoi ressemble le signal infrarouge de la télécommande est d'utiliser un oscilloscope. Il ne démodule ni n'inverse le signal reçu, il est simplement affiché "tel quel". Cela est utile pour les tests et le débogage. Je montrerai le signal attendu sur l'exemple du protocole infrarouge NEC.
+Le moyen le plus fiable de voir à quoi ressemble le signal IR de la télécommande est d'utiliser un oscilloscope. Il ne démodule pas ou n'inverse pas le signal reçu, il est simplement affiché "tel quel". Cela est utile pour les tests et le débogage. Je vais montrer le signal attendu sur l'exemple du protocole IR NEC.
 
 <figure><img src="../../.gitbook/assets/image (235).png" alt=""><figcaption></figcaption></figure>
 
-Généralement, il y a un préambule au début d'un paquet encodé. Cela permet au récepteur de déterminer le niveau de gain et l'arrière-plan. Il existe également des protocoles sans préambule, par exemple, Sharp.
+En général, il y a un préambule au début d'un paquet encodé. Cela permet au récepteur de déterminer le niveau de gain et de fond. Il existe également des protocoles sans préambule, par exemple, Sharp.
 
 Ensuite, les données sont transmises. La structure, le préambule et la méthode d'encodage des bits sont déterminés par le protocole spécifique.
 
-Le protocole infrarouge **NEC** contient une commande courte et un code de répétition, qui est envoyé lorsque le bouton est enfoncé. Tant la commande que le code de répétition ont le même préambule au début.
+Le **protocole IR NEC** contient une courte commande et un code de répétition, qui est envoyé pendant que le bouton est enfoncé. La commande et le code de répétition ont tous deux le même préambule au début.
 
-La **commande NEC**, en plus du préambule, se compose d'un octet d'adresse et d'un octet de numéro de commande, par lesquels l'appareil comprend ce qui doit être effectué. Les octets d'adresse et de numéro de commande sont dupliqués avec des valeurs inverses, pour vérifier l'intégrité de la transmission. Il y a un bit d'arrêt supplémentaire à la fin de la commande.
+La **commande NEC**, en plus du préambule, se compose d'un octet d'adresse et d'un octet de numéro de commande, par lequel l'appareil comprend ce qui doit être effectué. Les octets d'adresse et de numéro de commande sont dupliqués avec des valeurs inverses, pour vérifier l'intégrité de la transmission. Il y a un bit d'arrêt supplémentaire à la fin de la commande.
 
 Le **code de répétition** a un "1" après le préambule, qui est un bit d'arrêt.
 
-Pour les **logiques "0" et "1"**, NEC utilise l'Encodage de la Distance d'Impulsion : d'abord, une rafale d'impulsions est transmise, après quoi il y a une pause, dont la longueur définit la valeur du bit.
+Pour **la logique "0" et "1"**, NEC utilise l'encodage par distance d'impulsion : d'abord, une explosion d'impulsion est transmise après laquelle il y a une pause, sa longueur détermine la valeur du bit.
 
-### Climatiseurs
+### Climatisations
 
-Contrairement aux autres télécommandes, **les climatiseurs ne transmettent pas seulement le code du bouton pressé**. Ils **transmettent également toutes les informations** lorsqu'un bouton est pressé pour s'assurer que la **machine climatisée et la télécommande sont synchronisées**.\
-Cela évitera qu'une machine réglée à 20ºC ne soit augmentée à 21ºC avec une télécommande, puis lorsque qu'une autre télécommande, qui a toujours la température à 20ºC, est utilisée pour augmenter davantage la température, elle "l'augmentera" à 21ºC (et non à 22ºC en pensant qu'elle est à 21ºC).
+Contrairement à d'autres télécommandes, **les climatiseurs ne transmettent pas seulement le code du bouton enfoncé**. Ils **transmettent également toutes les informations** lorsqu'un bouton est enfoncé pour s'assurer que la **machine à air conditionné et la télécommande sont synchronisées**.\
+Cela évitera qu'une machine réglée à 20ºC soit augmentée à 21ºC avec une télécommande, et ensuite, lorsqu'une autre télécommande, qui a toujours la température à 20ºC, est utilisée pour augmenter encore la température, elle "l'augmentera" à 21ºC (et non à 22ºC en pensant qu'elle est à 21ºC).
 
 ### Attaques
 
@@ -89,18 +90,19 @@ Vous pouvez attaquer l'infrarouge avec Flipper Zero :
 
 ## Références
 
-* [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/) 
+* [https://blog.flipperzero.one/infrared/](https://blog.flipperzero.one/infrared/)
+
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Supportez HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFT**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
+{% endhint %}

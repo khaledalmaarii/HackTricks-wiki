@@ -1,70 +1,71 @@
 # SPI
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert en équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Informations de base
 
-SPI (Serial Peripheral Interface) est un protocole de communication série synchrone utilisé dans les systèmes embarqués pour la communication à courte distance entre les CI (Circuits Intégrés). Le protocole de communication SPI utilise l'architecture maître-esclave qui est orchestrée par le signal d'horloge et de sélection de puce. Une architecture maître-esclave se compose d'un maître (généralement un microprocesseur) qui gère les périphériques externes tels que les EEPROM, les capteurs, les dispositifs de contrôle, etc. qui sont considérés comme des esclaves.
+SPI (Serial Peripheral Interface) est un protocole de communication série synchrone utilisé dans les systèmes embarqués pour la communication à courte distance entre les CI (circuits intégrés). Le protocole de communication SPI utilise une architecture maître-esclave orchestrée par le signal d'horloge et le signal de sélection de puce. Une architecture maître-esclave se compose d'un maître (généralement un microprocesseur) qui gère des périphériques externes comme l'EEPROM, des capteurs, des dispositifs de contrôle, etc., qui sont considérés comme des esclaves.
 
-Plusieurs esclaves peuvent être connectés à un maître mais les esclaves ne peuvent pas communiquer entre eux. Les esclaves sont administrés par deux broches, l'horloge et la sélection de puce. Comme le SPI est un protocole de communication synchrone, les broches d'entrée et de sortie suivent les signaux d'horloge. La sélection de puce est utilisée par le maître pour sélectionner un esclave et interagir avec lui. Lorsque la sélection de puce est haute, le périphérique esclave n'est pas sélectionné tandis que lorsqu'elle est basse, la puce a été sélectionnée et le maître interagirait avec l'esclave.
+Plusieurs esclaves peuvent être connectés à un maître, mais les esclaves ne peuvent pas communiquer entre eux. Les esclaves sont administrés par deux broches, l'horloge et la sélection de puce. Comme SPI est un protocole de communication synchrone, les broches d'entrée et de sortie suivent les signaux d'horloge. La sélection de puce est utilisée par le maître pour sélectionner un esclave et interagir avec lui. Lorsque la sélection de puce est haute, le dispositif esclave n'est pas sélectionné, tandis que lorsqu'elle est basse, la puce a été sélectionnée et le maître interagira avec l'esclave.
 
-Les broches MOSI (Master Out, Slave In) et MISO (Master In, Slave Out) sont responsables de l'envoi et de la réception de données. Les données sont envoyées au périphérique esclave via la broche MOSI tandis que la sélection de puce est maintenue basse. Les données d'entrée contiennent des instructions, des adresses mémoire ou des données selon la fiche technique du fournisseur du périphérique esclave. Sur une entrée valide, la broche MISO est responsable de la transmission des données vers le maître. Les données de sortie sont envoyées exactement au cycle d'horloge suivant après la fin de l'entrée. Les broches MISO transmettent des données jusqu'à ce que les données soient entièrement transmises ou que le maître définisse la broche de sélection de puce haute (dans ce cas, l'esclave cesserait de transmettre et le maître n'écouterait plus après ce cycle d'horloge).
+Le MOSI (Master Out, Slave In) et le MISO (Master In, Slave Out) sont responsables de l'envoi et de la réception des données. Les données sont envoyées au dispositif esclave via la broche MOSI pendant que la sélection de puce est maintenue basse. Les données d'entrée contiennent des instructions, des adresses mémoire ou des données selon la fiche technique du fournisseur du dispositif esclave. Lors d'une entrée valide, la broche MISO est responsable de la transmission des données au maître. Les données de sortie sont envoyées exactement au prochain cycle d'horloge après la fin de l'entrée. Les broches MISO transmettent des données jusqu'à ce que les données soient entièrement transmises ou que le maître mette la broche de sélection de puce en haute (dans ce cas, l'esclave cesserait de transmettre et le maître ne écouterait plus après ce cycle d'horloge).
 
-## Extraction du firmware des EEPROM
+## Dumping du firmware des EEPROM
 
-L'extraction du firmware peut être utile pour analyser le firmware et trouver des vulnérabilités. Souvent, le firmware n'est pas disponible sur Internet ou est sans importance en raison de divers facteurs tels que le numéro de modèle, la version, etc. Ainsi, extraire le firmware directement du périphérique physique peut être utile pour être spécifique lors de la recherche de menaces.
+Le dumping du firmware peut être utile pour analyser le firmware et trouver des vulnérabilités. Souvent, le firmware n'est pas disponible sur Internet ou est sans rapport en raison de variations de facteurs tels que le numéro de modèle, la version, etc. Par conséquent, extraire le firmware directement du dispositif physique peut être utile pour être spécifique lors de la recherche de menaces.
 
-Obtenir une console série peut être utile, mais il arrive souvent que les fichiers soient en lecture seule. Cela limite l'analyse pour diverses raisons. Par exemple, des outils nécessaires pour envoyer et recevoir des paquets ne seraient pas présents dans le firmware. Ainsi, extraire les binaires pour les rétro-ingénier est impossible. Par conséquent, avoir tout le firmware extrait sur le système et extraire les binaires pour l'analyse peut être très utile.
+Obtenir une console série peut être utile, mais il arrive souvent que les fichiers soient en lecture seule. Cela limite l'analyse pour diverses raisons. Par exemple, des outils nécessaires pour envoyer et recevoir des paquets ne seraient pas présents dans le firmware. Donc, extraire les binaires pour les rétro-ingénierie n'est pas faisable. Par conséquent, avoir tout le firmware dumpé sur le système et extraire les binaires pour analyse peut être très utile.
 
-De plus, lors du rétro-ingénierie et de l'obtention d'un accès physique aux appareils, l'extraction du firmware peut aider à modifier les fichiers ou à injecter des fichiers malveillants, puis à les reflasher dans la mémoire, ce qui pourrait être utile pour implanter une porte dérobée dans l'appareil. Ainsi, de nombreuses possibilités peuvent être débloquées avec l'extraction du firmware.
+De plus, lors de la lecture rouge et de l'accès physique aux dispositifs, le dumping du firmware peut aider à modifier les fichiers ou à injecter des fichiers malveillants, puis à les re-flasher dans la mémoire, ce qui pourrait être utile pour implanter une porte dérobée dans le dispositif. Ainsi, il existe de nombreuses possibilités qui peuvent être débloquées avec le dumping de firmware.
 
-### Programmeur et lecteur EEPROM CH341A
+### Programmateur et lecteur EEPROM CH341A
 
-Cet appareil est un outil peu coûteux pour extraire des firmwares des EEPROM et également les reflasher avec des fichiers firmware. Cela a été un choix populaire pour travailler avec les puces BIOS d'ordinateur (qui ne sont que des EEPROM). Cet appareil se connecte via USB et nécessite des outils minimaux pour démarrer. De plus, il accomplit généralement la tâche rapidement, donc peut être utile également pour l'accès aux appareils physiques.
+Cet appareil est un outil peu coûteux pour dumper des firmwares des EEPROM et les re-flasher avec des fichiers de firmware. Cela a été un choix populaire pour travailler avec des puces BIOS d'ordinateur (qui ne sont que des EEPROM). Cet appareil se connecte via USB et nécessite peu d'outils pour commencer. De plus, il accomplit généralement la tâche rapidement, ce qui peut également être utile pour l'accès physique au dispositif.
 
 ![drawing](../../.gitbook/assets/board\_image\_ch341a.jpg)
 
-Connectez la mémoire EEPROM au programmeur CH341a et branchez l'appareil sur l'ordinateur. Si l'appareil n'est pas détecté, essayez d'installer les pilotes sur l'ordinateur. Assurez-vous également que l'EEPROM est connectée dans la bonne orientation (généralement, placez la broche VCC en orientation inverse du connecteur USB) sinon, le logiciel ne pourra pas détecter la puce. Référez-vous au schéma si nécessaire :
+Connectez la mémoire EEPROM avec le programmateur CH341a et branchez l'appareil à l'ordinateur. Si l'appareil n'est pas détecté, essayez d'installer des pilotes sur l'ordinateur. Assurez-vous également que l'EEPROM est connectée dans la bonne orientation (généralement, placez la broche VCC dans l'orientation inverse du connecteur USB), sinon, le logiciel ne pourra pas détecter la puce. Référez-vous au diagramme si nécessaire :
 
 ![drawing](../../.gitbook/assets/connect\_wires\_ch341a.jpg) ![drawing](../../.gitbook/assets/eeprom\_plugged\_ch341a.jpg)
 
-Enfin, utilisez des logiciels comme flashrom, G-Flash (GUI), etc. pour extraire le firmware. G-Flash est un outil GUI minimal rapide et détecte automatiquement l'EEPROM. Cela peut être utile si le firmware doit être extrait rapidement, sans trop de bidouillage avec la documentation.
+Enfin, utilisez des logiciels comme flashrom, G-Flash (GUI), etc. pour dumper le firmware. G-Flash est un outil GUI minimal, rapide et détecte automatiquement l'EEPROM. Cela peut être utile si le firmware doit être extrait rapidement, sans trop de modifications de la documentation.
 
 ![drawing](../../.gitbook/assets/connected\_status\_ch341a.jpg)
 
-Après l'extraction du firmware, l'analyse peut être effectuée sur les fichiers binaires. Des outils comme strings, hexdump, xxd, binwalk, etc. peuvent être utilisés pour extraire beaucoup d'informations sur le firmware ainsi que sur l'ensemble du système de fichiers également.
+Après avoir dumpé le firmware, l'analyse peut être effectuée sur les fichiers binaires. Des outils comme strings, hexdump, xxd, binwalk, etc. peuvent être utilisés pour extraire beaucoup d'informations sur le firmware ainsi que sur l'ensemble du système de fichiers.
 
 Pour extraire le contenu du firmware, binwalk peut être utilisé. Binwalk analyse les signatures hexadécimales et identifie les fichiers dans le fichier binaire et est capable de les extraire.
 ```
 binwalk -e <filename>
 ```
-Le fichier peut être .bin ou .rom en fonction des outils et des configurations utilisés.
+Le fichier peut être .bin ou .rom selon les outils et configurations utilisés.
 
 {% hint style="danger" %}
-Notez que l'extraction du micrologiciel est un processus délicat et nécessite beaucoup de patience. Toute manipulation incorrecte peut potentiellement corrompre le micrologiciel ou même l'effacer complètement et rendre le dispositif inutilisable. Il est recommandé d'étudier le dispositif spécifique avant de tenter d'extraire le micrologiciel.
+Notez que l'extraction du firmware est un processus délicat et nécessite beaucoup de patience. Toute mauvaise manipulation peut potentiellement corrompre le firmware ou même l'effacer complètement et rendre l'appareil inutilisable. Il est recommandé d'étudier l'appareil spécifique avant d'essayer d'extraire le firmware.
 {% endhint %}
 
 ### Bus Pirate + flashrom
 
 ![](<../../.gitbook/assets/image (910).png>)
 
-Notez que même si le PINOUT du Bus Pirate indique des broches pour **MOSI** et **MISO** à connecter à SPI, certaines SPI peuvent indiquer les broches comme DI et DO. **MOSI -> DI, MISO -> DO**
+Notez que même si le PINOUT du Bus Pirate indique des broches pour **MOSI** et **MISO** à connecter à SPI, certains SPIs peuvent indiquer des broches comme DI et DO. **MOSI -> DI, MISO -> DO**
 
 ![](<../../.gitbook/assets/image (360).png>)
 
-Sous Windows ou Linux, vous pouvez utiliser le programme [**`flashrom`**](https://www.flashrom.org/Flashrom) pour sauvegarder le contenu de la mémoire flash en exécutant quelque chose comme suit :
+Sous Windows ou Linux, vous pouvez utiliser le programme [**`flashrom`**](https://www.flashrom.org/Flashrom) pour dumper le contenu de la mémoire flash en exécutant quelque chose comme :
 ```bash
 # In this command we are indicating:
 # -VV Verbose
@@ -73,16 +74,17 @@ Sous Windows ou Linux, vous pouvez utiliser le programme [**`flashrom`**](https:
 # -r <file> Image to save in the filesystem
 flashrom -VV -c "W25Q64.V" -p buspirate_spi:dev=COM3 -r flash_content.img
 ```
+{% hint style="success" %}
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Apprenez le piratage AWS de zéro à héros avec</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (Expert de l'équipe rouge AWS de HackTricks)</strong></a><strong>!</strong></summary>
+<summary>Soutenir HackTricks</summary>
 
-D'autres façons de soutenir HackTricks :
-
-* Si vous souhaitez voir votre **entreprise annoncée dans HackTricks** ou **télécharger HackTricks en PDF**, consultez les [**PLANS D'ABONNEMENT**](https://github.com/sponsors/carlospolop) !
-* Obtenez le [**swag officiel PEASS & HackTricks**](https://peass.creator-spring.com)
-* Découvrez [**La famille PEASS**](https://opensea.io/collection/the-peass-family), notre collection exclusive de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe Telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez vos astuces de piratage en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
+{% endhint %}
