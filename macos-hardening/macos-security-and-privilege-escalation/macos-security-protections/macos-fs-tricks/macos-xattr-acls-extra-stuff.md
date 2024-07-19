@@ -1,27 +1,33 @@
-# macOS xattr-acls extra stuff
+# macOS xattr-acls 额外内容
+
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想在 **HackTricks 中看到您的公司广告** 或 **下载 HackTricks 的 PDF 版本**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取 [**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索 [**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的 [**NFT 集合**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
-
-\`\`\`bash rm -rf /tmp/test\* echo test >/tmp/test chmod +a "everyone deny write,writeattr,writeextattr,writesecurity,chown" /tmp/test ./get\_acls test ACL for test: !#acl 1 group:ABCDEFAB-CDEF-ABCD-EFAB-CDEF0000000C:everyone:12:deny:write,writeattr,writeextattr,writesecurity,chown
+{% endhint %}
+```bash
+rm -rf /tmp/test*
+echo test >/tmp/test
+chmod +a "everyone deny write,writeattr,writeextattr,writesecurity,chown" /tmp/test
+./get_acls test
+ACL for test:
+!#acl 1
+group:ABCDEFAB-CDEF-ABCD-EFAB-CDEF0000000C:everyone:12:deny:write,writeattr,writeextattr,writesecurity,chown
 
 ACL in hex: \x21\x23\x61\x63\x6c\x20\x31\x0a\x67\x72\x6f\x75\x70\x3a\x41\x42\x43\x44\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x2d\x41\x42\x43\x44\x2d\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x30\x30\x30\x30\x30\x30\x30\x43\x3a\x65\x76\x65\x72\x79\x6f\x6e\x65\x3a\x31\x32\x3a\x64\x65\x6e\x79\x3a\x77\x72\x69\x74\x65\x2c\x77\x72\x69\x74\x65\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x65\x78\x74\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x73\x65\x63\x75\x72\x69\x74\x79\x2c\x63\x68\x6f\x77\x6e\x0a
-
-````
+```
 <details>
 
-<summary>获取 ACLs 的代码</summary>
+<summary>获取 ACL 的代码</summary>
 ```c
 // gcc -o get_acls get_acls
 #include <stdio.h>
@@ -61,47 +67,103 @@ acl_free(acl);
 acl_free(acl_text);
 return 0;
 }
-````
-
-\`\`\`bash # Lets add the xattr com.apple.xxx.xxxx with the acls mkdir start mkdir start/protected ./set\_xattr start/protected echo something > start/protected/something \`\`\`
-
+```
+</details>
+```bash
+# Lets add the xattr com.apple.xxx.xxxx with the acls
+mkdir start
+mkdir start/protected
+./set_xattr start/protected
+echo something > start/protected/something
+```
 <details>
 
-<summary>set_xattr 的代码</summary>
+<summary>set_xattr的代码</summary>
+```c
+// gcc -o set_xattr set_xattr.c
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/xattr.h>
+#include <sys/acl.h>
 
-\`\`\`c // gcc -o set\_xattr set\_xattr.c #include #include #include #include #include
 
-void print\_xattrs(const char \*filepath) { ssize\_t buflen = listxattr(filepath, NULL, 0, XATTR\_NOFOLLOW); if (buflen < 0) { perror("listxattr"); return; }
+void print_xattrs(const char *filepath) {
+ssize_t buflen = listxattr(filepath, NULL, 0, XATTR_NOFOLLOW);
+if (buflen < 0) {
+perror("listxattr");
+return;
+}
 
-char \*buf = malloc(buflen); if (buf == NULL) { perror("malloc"); return; }
+char *buf = malloc(buflen);
+if (buf == NULL) {
+perror("malloc");
+return;
+}
 
-buflen = listxattr(filepath, buf, buflen, XATTR\_NOFOLLOW); if (buflen < 0) { perror("listxattr"); free(buf); return; }
+buflen = listxattr(filepath, buf, buflen, XATTR_NOFOLLOW);
+if (buflen < 0) {
+perror("listxattr");
+free(buf);
+return;
+}
 
-printf("All current extended attributes for %s:\n", filepath); for (char \*name = buf; name < buf + buflen; name += strlen(name) + 1) { printf("%s: ", name); ssize\_t valuelen = getxattr(filepath, name, NULL, 0, 0, XATTR\_NOFOLLOW); if (valuelen < 0) { perror("getxattr"); continue; }
+printf("All current extended attributes for %s:\n", filepath);
+for (char *name = buf; name < buf + buflen; name += strlen(name) + 1) {
+printf("%s: ", name);
+ssize_t valuelen = getxattr(filepath, name, NULL, 0, 0, XATTR_NOFOLLOW);
+if (valuelen < 0) {
+perror("getxattr");
+continue;
+}
 
-char \*value = malloc(valuelen + 1); if (value == NULL) { perror("malloc"); continue; }
+char *value = malloc(valuelen + 1);
+if (value == NULL) {
+perror("malloc");
+continue;
+}
 
-valuelen = getxattr(filepath, name, value, valuelen, 0, XATTR\_NOFOLLOW); if (valuelen < 0) { perror("getxattr"); free(value); continue; }
+valuelen = getxattr(filepath, name, value, valuelen, 0, XATTR_NOFOLLOW);
+if (valuelen < 0) {
+perror("getxattr");
+free(value);
+continue;
+}
 
-value\[valuelen] = '\0'; // Null-terminate the value printf("%s\n", value); free(value); }
+value[valuelen] = '\0';  // Null-terminate the value
+printf("%s\n", value);
+free(value);
+}
 
-free(buf); }
+free(buf);
+}
 
-int main(int argc, char \*argv\[]) { if (argc != 2) { fprintf(stderr, "Usage: %s \n", argv\[0]); return 1; }
 
-const char \*hex = "\x21\x23\x61\x63\x6c\x20\x31\x0a\x67\x72\x6f\x75\x70\x3a\x41\x42\x43\x44\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x2d\x41\x42\x43\x44\x2d\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x30\x30\x30\x30\x30\x30\x30\x43\x3a\x65\x76\x65\x72\x79\x6f\x6e\x65\x3a\x31\x32\x3a\x64\x65\x6e\x79\x3a\x77\x72\x69\x74\x65\x2c\x77\x72\x69\x74\x65\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x65\x78\x74\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x73\x65\x63\x75\x72\x69\x74\x79\x2c\x63\x68\x6f\x77\x6e\x0a"; const char \*filepath = argv\[1];
+int main(int argc, char *argv[]) {
+if (argc != 2) {
+fprintf(stderr, "Usage: %s <filepath>\n", argv[0]);
+return 1;
+}
 
-int result = setxattr(filepath, "com.apple.xxx.xxxx", hex, strlen(hex), 0, 0); if (result == 0) { printf("Extended attribute set successfully.\n\n"); } else { perror("setxattr"); return 1; }
+const char *hex = "\x21\x23\x61\x63\x6c\x20\x31\x0a\x67\x72\x6f\x75\x70\x3a\x41\x42\x43\x44\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x2d\x41\x42\x43\x44\x2d\x45\x46\x41\x42\x2d\x43\x44\x45\x46\x30\x30\x30\x30\x30\x30\x30\x43\x3a\x65\x76\x65\x72\x79\x6f\x6e\x65\x3a\x31\x32\x3a\x64\x65\x6e\x79\x3a\x77\x72\x69\x74\x65\x2c\x77\x72\x69\x74\x65\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x65\x78\x74\x61\x74\x74\x72\x2c\x77\x72\x69\x74\x65\x73\x65\x63\x75\x72\x69\x74\x79\x2c\x63\x68\x6f\x77\x6e\x0a";
+const char *filepath = argv[1];
 
-print\_xattrs(filepath);
+int result = setxattr(filepath, "com.apple.xxx.xxxx", hex, strlen(hex), 0, 0);
+if (result == 0) {
+printf("Extended attribute set successfully.\n\n");
+} else {
+perror("setxattr");
+return 1;
+}
 
-return 0; }
+print_xattrs(filepath);
 
-````
+return 0;
+}
+```
 </details>
 
-<div data-gb-custom-block data-tag="code" data-overflow='wrap'>
-
+{% code overflow="wrap" %}
 ```bash
 # Create appledoublefile with the xattr entitlement
 ditto -c -k start protected.zip
@@ -115,19 +177,24 @@ rm -rf protected.zip
 zip -r protected.zip protected ._protected
 rm -rf protected
 rm ._*
-````
-
 ```
-
-</div>
-```
-
+{% endcode %}
 ```bash
 # Check if it worked
 ditto -x -k --rsrc protected.zip .
 xattr -l protected
 ```
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
+<details>
 
+<summary>支持 HackTricks</summary>
+
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

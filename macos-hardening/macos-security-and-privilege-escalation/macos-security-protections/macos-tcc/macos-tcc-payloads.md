@@ -1,26 +1,27 @@
-# macOS TCC 负载
+# macOS TCC Payloads
+
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习 AWS 黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS 红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 PDF 版的 HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 探索[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或在 **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)** 上关注**我们。
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来**分享您的黑客技巧**。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ### 桌面
 
-* **授权**: 无
-* **TCC**: kTCCServiceSystemPolicyDesktopFolder
+* **权限**：无
+* **TCC**：kTCCServiceSystemPolicyDesktopFolder
 
 {% tabs %}
-{% tab title="ObjectiveC" %}
+{% tab title="ObjetiveC" %}
 将 `$HOME/Desktop` 复制到 `/tmp/desktop`。
 ```objectivec
 #include <syslog.h>
@@ -56,7 +57,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-将`$HOME/Desktop`复制到`/tmp/desktop`。
+将 `$HOME/Desktop` 复制到 `/tmp/desktop`。
 ```bash
 cp -r "$HOME/Desktop" "/tmp/desktop"
 ```
@@ -70,7 +71,7 @@ cp -r "$HOME/Desktop" "/tmp/desktop"
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-将`$HOME/Documents`复制到`/tmp/documents`。
+将 `$HOME/Documents` 复制到 `/tmp/documents`。
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -105,7 +106,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-将`$HOME/`Documents复制到`/tmp/documents`。
+将 `$HOME/`Documents 复制到 `/tmp/documents`。
 ```bash
 cp -r "$HOME/Documents" "/tmp/documents"
 ```
@@ -119,7 +120,7 @@ cp -r "$HOME/Documents" "/tmp/documents"
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-将`$HOME/Downloads`复制到`/tmp/downloads`。
+将 `$HOME/Downloads` 复制到 `/tmp/downloads`。
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -154,7 +155,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-将`$HOME/Dowloads`复制到`/tmp/downloads`。
+将 `$HOME/Dowloads` 复制到 `/tmp/downloads`。
 ```bash
 cp -r "$HOME/Downloads" "/tmp/downloads"
 ```
@@ -168,7 +169,7 @@ cp -r "$HOME/Downloads" "/tmp/downloads"
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-将`$HOME/Pictures/Photos Library.photoslibrary`复制到`/tmp/photos`。
+将 `$HOME/Pictures/Photos Library.photoslibrary` 复制到 `/tmp/photos`。
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -203,7 +204,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-将`$HOME/Pictures/Photos Library.photoslibrary`复制到`/tmp/photos`。
+将 `$HOME/Pictures/Photos Library.photoslibrary` 复制到 `/tmp/photos`。
 ```bash
 cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 ```
@@ -217,7 +218,7 @@ cp -r "$HOME/Pictures/Photos Library.photoslibrary" "/tmp/photos"
 
 {% tabs %}
 {% tab title="ObjetiveC" %}
-将`$HOME/Library/Application Support/AddressBook`复制到`/tmp/contacts`。
+将 `$HOME/Library/Application Support/AddressBook` 复制到 `/tmp/contacts`。
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -252,7 +253,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-将`$HOME/Library/Application Support/AddressBook`复制到`/tmp/contacts`。
+将 `$HOME/Library/Application Support/AddressBook` 复制到 `/tmp/contacts`。
 ```bash
 cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 ```
@@ -266,7 +267,7 @@ cp -r "$HOME/Library/Application Support/AddressBook" "/tmp/contacts"
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-将`$HOME/Library/Calendars`复制到`/tmp/calendars`。
+将 `$HOME/Library/Calendars` 复制到 `/tmp/calendars`。
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -301,7 +302,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-将`$HOME/Library/Calendars`复制到`/tmp/calendars`。
+将 `$HOME/Library/Calendars` 复制到 `/tmp/calendars`。
 ```bash
 cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 ```
@@ -314,8 +315,8 @@ cp -r "$HOME/Library/Calendars" "/tmp/calendars"
 * **TCC**: `kTCCServiceCamera`
 
 {% tabs %}
-{% tab title="ObjectiveC - Record" %}
-录制一个3秒的视频并保存在 **`/tmp/recording.mov`** 中
+{% tab title="ObjetiveC - 录制" %}
+录制一个3秒的视频并保存到 **`/tmp/recording.mov`**
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -394,8 +395,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="ObjectiveC - 检查" %}
-检查程序是否具有访问摄像头的权限。
-{% endtab %}
+检查程序是否有权访问相机。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -428,7 +428,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="Shell" %}
-使用相机拍照
+用相机拍照
 ```bash
 ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 ```
@@ -441,8 +441,8 @@ ffmpeg -framerate 30 -f avfoundation -i "0" -frames:v 1 /tmp/capture.jpg
 * **TCC**: `kTCCServiceMicrophone`
 
 {% tabs %}
-{% tab title="ObjetiveC - Record" %}
-录制5秒音频并将其存储在 `/tmp/recording.m4a` 中
+{% tab title="ObjetiveC - 录音" %}
+录制5秒音频并将其存储在`/tmp/recording.m4a`
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -542,8 +542,7 @@ fclose(stderr); // Close the file stream
 {% endtab %}
 
 {% tab title="ObjectiveC - 检查" %}
-检查应用程序是否具有对麦克风的访问权限。
-{% endtab %}
+检查应用程序是否有权访问麦克风。
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -574,25 +573,28 @@ static void telegram(int argc, const char **argv) {
 {% endtab %}
 
 {% tab title="Shell" %}
-录制一段5秒的音频并将其存储在 `/tmp/recording.wav` 中。
+录制5秒音频并将其存储在`/tmp/recording.wav`
 ```bash
 # Check the microphones
 ffmpeg -f avfoundation -list_devices true -i ""
 # Use microphone from index 1 from the previous list to record
 ffmpeg -f avfoundation -i ":1" -t 5 /tmp/recording.wav
 ```
+{% endtab %}
+{% endtabs %}
+
 ### 位置
 
 {% hint style="success" %}
-要获取位置信息，必须启用**位置服务**（来自隐私与安全），否则应用程序将无法访问位置信息。
+要让应用获取位置，**位置服务**（来自隐私与安全）**必须启用，** 否则将无法访问。
 {% endhint %}
 
-* **授权**: `com.apple.security.personal-information.location`
-* **TCC**: 已授予在 `/var/db/locationd/clients.plist` 中
+* **权限**: `com.apple.security.personal-information.location`
+* **TCC**: 在 `/var/db/locationd/clients.plist` 中授予
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-将位置信息写入 `/tmp/logs.txt`
+将位置写入 `/tmp/logs.txt`
 ```objectivec
 #include <syslog.h>
 #include <stdio.h>
@@ -642,7 +644,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 {% endtab %}
 
 {% tab title="Shell" %}
-获取访问位置权限
+获取位置访问权限
 ```
 ???
 ```
@@ -656,7 +658,7 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tabs %}
 {% tab title="ObjectiveC" %}
-在 `/tmp/screen.mov` 中录制主屏幕 5 秒。
+在`/tmp/screen.mov`中录制主屏幕5秒
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <AVFoundation/AVFoundation.h>
@@ -714,15 +716,22 @@ freopen("/tmp/logs.txt", "w", stderr); // Redirect stderr to /tmp/logs.txt
 
 {% tab title="Shell" %}
 记录主屏幕5秒钟
+{% endtab %}
 ```bash
 screencapture -V 5 /tmp/screen.mov
 ```
-### 辅助功能
+{% endtab %}
+{% endtabs %}
 
-- **权限**: 无
-- **TCC**: `kTCCServiceAccessibility`
+### 可访问性
 
-使用 TCC 权限来接受通过按下回车键控制 Finder 并绕过 TCC 的方式
+* **权限**: 无
+* **TCC**: `kTCCServiceAccessibility`
+
+使用 TCC 权限接受 Finder 的控制，按下回车并以此绕过 TCC
+
+{% tabs %}
+{% tab title="接受 TCC" %}
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -775,9 +784,8 @@ return 0;
 ```
 {% endtab %}
 
-{% tab title="键盘记录器" %}
-将按键存储在 **`/tmp/keystrokes.txt`** 文件中
-{% endtab %}
+{% tab title="Keylogger" %}
+将按下的键存储在 **`/tmp/keystrokes.txt`**
 ```objectivec
 #import <Foundation/Foundation.h>
 #import <ApplicationServices/ApplicationServices.h>
@@ -885,19 +893,20 @@ return 0;
 {% endtabs %}
 
 {% hint style="danger" %}
-**辅助功能是一个非常强大的权限**，您可以以其他方式滥用它，例如，您可以执行**按键攻击**，而无需调用系统事件。
+**无障碍功能是一个非常强大的权限**，你可以以其他方式滥用它，例如你可以仅通过它执行**击键攻击**，而无需调用系统事件。
 {% endhint %}
+
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>从零开始学习AWS黑客技术，成为专家</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE（HackTricks AWS红队专家）</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您想看到您的**公司在HackTricks中做广告**或**下载PDF格式的HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* 获取[**官方PEASS & HackTricks周边产品**](https://peass.creator-spring.com)
-* 发现[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们的独家[**NFTs**](https://opensea.io/collection/the-peass-family)收藏品
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}

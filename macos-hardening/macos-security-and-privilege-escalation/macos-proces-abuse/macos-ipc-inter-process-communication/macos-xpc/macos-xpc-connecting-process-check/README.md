@@ -1,38 +1,39 @@
 # macOS XPC 连接进程检查
 
+{% hint style="success" %}
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零到英雄学习 AWS 黑客技术，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS 红队专家)</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持 HackTricks 的其他方式：
-
-* 如果您想在 HackTricks 中看到您的**公司广告**或**下载 HackTricks 的 PDF**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方 PEASS & HackTricks 商品**](https://peass.creator-spring.com)
-* 发现[**PEASS 家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs 集合**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
+{% endhint %}
 
 ## XPC 连接进程检查
 
-当与 XPC 服务建立连接时，服务器将检查是否允许连接。通常会执行以下检查：
+当与 XPC 服务建立连接时，服务器将检查该连接是否被允许。通常会执行以下检查：
 
-1. 检查连接的**进程是否由苹果签名**的证书签名（只由苹果发放）。
-   * 如果这个**未经验证**，攻击者可以创建一个**假证书**来匹配任何其他检查。
-2. 检查连接的进程是否由**组织的证书**签名（团队 ID 验证）。
-   * 如果这个**未经验证**，**任何苹果的开发者证书**都可以用来签名，并连接到服务。
-3. 检查连接的进程**是否包含正确的捆绑 ID**。
-   * 如果这个**未经验证**，任何**由同一组织签名**的工具都可以用来与 XPC 服务交互。
-4. (4 或 5) 检查连接的进程是否有一个**正确的软件版本号**。
-   * 如果这个**未经验证**，旧的、不安全的客户端，容易受到进程注入攻击的客户端，即使其他检查到位，也可以用来连接到 XPC 服务。
-5. (4 或 5) 检查连接的进程是否启用了硬化运行时，没有危险的权限（比如允许加载任意库或使用 DYLD 环境变量的权限）
-   * 如果这个**未经验证**，客户端可能**容易受到代码注入攻击**
-6. 检查连接的进程是否有一个**权限**，允许它连接到服务。这适用于苹果的二进制文件。
-7. **验证**必须**基于**连接**客户端的审计令牌**，**而不是**它的进程 ID (**PID**)，因为前者可以防止**PID 重用攻击**。
-   * 开发者**很少使用审计令牌** API 调用，因为它是**私有的**，所以苹果可以随时**更改**。此外，Mac App Store 应用不允许使用私有 API。
-   * 如果使用了方法 **`processIdentifier`**，它可能会受到攻击
-   * 应该使用 **`xpc_dictionary_get_audit_token`** 而不是 **`xpc_connection_get_audit_token`**，因为后者在某些情况下也可能[受到攻击](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)。
+1. 检查连接的 **进程是否使用 Apple 签名** 的证书（仅由 Apple 发放）。
+* 如果 **未验证**，攻击者可以创建一个 **伪造证书** 来匹配其他检查。
+2. 检查连接进程是否使用 **组织的证书**（团队 ID 验证）。
+* 如果 **未验证**，可以使用 **任何开发者证书** 从 Apple 进行签名，并连接到服务。
+3. 检查连接进程 **是否包含正确的包 ID**。
+* 如果 **未验证**，任何 **由同一组织签名的工具** 都可以用来与 XPC 服务交互。
+4. (4 或 5) 检查连接进程是否具有 **正确的软件版本号**。
+* 如果 **未验证**，旧的、不安全的客户端，易受进程注入攻击，可以连接到 XPC 服务，即使其他检查已到位。
+5. (4 或 5) 检查连接进程是否具有没有危险权限的 **强化运行时**（如允许加载任意库或使用 DYLD 环境变量的权限）。
+* 如果 **未验证**，客户端可能 **易受代码注入**。
+6. 检查连接进程是否具有允许其连接到服务的 **权限**。这适用于 Apple 二进制文件。
+7. **验证** 必须 **基于** 连接 **客户端的审计令牌** **而不是** 其进程 ID (**PID**)，因为前者可以防止 **PID 重用攻击**。
+* 开发者 **很少使用审计令牌** API 调用，因为它是 **私有的**，所以 Apple 可能会 **随时更改**。此外，Mac App Store 应用不允许使用私有 API。
+* 如果使用 **`processIdentifier`** 方法，可能会存在漏洞。
+* 应使用 **`xpc_dictionary_get_audit_token`** 而不是 **`xpc_connection_get_audit_token`**，因为后者在某些情况下也可能 [存在漏洞](https://sector7.computest.nl/post/2023-10-xpc-audit-token-spoofing/)。
 
 ### 通信攻击
 
@@ -48,13 +49,13 @@
 [macos-xpc\_connection\_get\_audit\_token-attack.md](macos-xpc\_connection\_get\_audit\_token-attack.md)
 {% endcontent-ref %}
 
-### Trustcache - 防止降级攻击
+### Trustcache - 降级攻击防范
 
-Trustcache 是在苹果硅芯片机器中引入的一种防御方法，它存储了苹果二进制文件的 CDHSAH 数据库，因此只允许执行未修改的允许的二进制文件。这可以防止执行降级版本。
+Trustcache 是一种防御方法，旨在 Apple Silicon 机器中引入，存储 Apple 二进制文件的 CDHSAH 数据库，以便仅允许未修改的二进制文件执行。这可以防止降级版本的执行。
 
 ### 代码示例
 
-服务器将在一个名为 **`shouldAcceptNewConnection`** 的函数中实现这个**验证**。
+服务器将在名为 **`shouldAcceptNewConnection`** 的函数中实现此 **验证**。
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -65,9 +66,9 @@ return YES;
 ```
 {% endcode %}
 
-对象 NSXPCConnection 有一个**私有**属性 **`auditToken`**（应该使用的，但可能会变化）和一个**公共**属性 **`processIdentifier`**（不应该使用的）。
+对象 NSXPCConnection 有一个 **私有** 属性 **`auditToken`**（应该使用但可能会改变）和一个 **公共** 属性 **`processIdentifier`**（不应该使用）。
 
-连接进程可以通过类似以下方式进行验证：
+连接的进程可以通过以下方式进行验证：
 
 {% code overflow="wrap" %}
 ```objectivec
@@ -108,16 +109,19 @@ if ((csFlags & (cs_hard | cs_require_lv)) {
 return Yes; // Accept connection
 }
 ```
+{% endcode %}
+
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>从零开始学习AWS黑客攻击直至成为专家，通过</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>！</strong></summary>
+<summary>支持 HackTricks</summary>
 
-支持HackTricks的其他方式：
-
-* 如果您希望在**HackTricks中看到您的公司广告**或**以PDF格式下载HackTricks**，请查看[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* 获取[**官方PEASS & HackTricks商品**](https://peass.creator-spring.com)
-* 探索[**PEASS家族**](https://opensea.io/collection/the-peass-family)，我们独家的[**NFTs系列**](https://opensea.io/collection/the-peass-family)
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram群组**](https://t.me/peass) 或在 **Twitter** 🐦 上**关注**我 [**@carlospolopm**](https://twitter.com/carlospolopm)**。**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享您的黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
+{% endhint %}
