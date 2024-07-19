@@ -1,159 +1,161 @@
-# Hile Motoru
+# Cheat Engine
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile öğrenin!</strong></summary>
+<summary>Support HackTricks</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na (https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-[**Hile Motoru**](https://www.cheatengine.org/downloads.php), çalışan bir oyunun belleğinde önemli değerlerin nerede saklandığını bulmanıza ve değiştirmenize olanak tanıyan faydalı bir programdır.\
-İndirip çalıştırdığınızda, aracı nasıl kullanacağınıza dair bir eğitimle karşılaşırsınız. Aracı nasıl kullanacağınızı öğrenmek istiyorsanız, eğitimi tamamlamanız şiddetle tavsiye edilir.
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) çalışan bir oyunun belleğinde önemli değerlerin nerede saklandığını bulmak ve bunları değiştirmek için yararlı bir programdır.\
+İndirdiğinizde ve çalıştırdığınızda, aracı nasıl kullanacağınızla ilgili bir **eğitim** ile **karşılaşacaksınız**. Aracı nasıl kullanacağınızı öğrenmek istiyorsanız, bunu tamamlamanız şiddetle tavsiye edilir.
 
 ## Ne arıyorsunuz?
 
 ![](<../../.gitbook/assets/image (762).png>)
 
-Bu araç, bir programın belleğinde **bazı değerlerin** (genellikle bir sayı) **nerede saklandığını** bulmak için çok faydalıdır.\
-**Genellikle sayılar**, **4 bayt** formunda saklanır, ancak bunları **double** veya **float** formatlarında da bulabilir veya bir sayıdan **farklı bir şey aramak isteyebilirsiniz**. Bu nedenle, aramak istediğiniz şeyi **seçtiğinizden emin olmanız gerekir**:
+Bu araç, bir programın belleğinde **bir değerin** (genellikle bir sayı) **nerede saklandığını bulmak için çok yararlıdır**.\
+**Genellikle sayılar** **4bayt** formatında saklanır, ancak bunları **double** veya **float** formatlarında da bulabilirsiniz veya **bir sayıdan farklı bir şey** aramak isteyebilirsiniz. Bu nedenle, neyi **arama** istediğinizi **seçtiğinizden** emin olmalısınız:
 
 ![](<../../.gitbook/assets/image (324).png>)
 
-Ayrıca **farklı türlerde aramaları** belirtebilirsiniz:
+Ayrıca **farklı** türde **aramalar** belirtebilirsiniz:
 
 ![](<../../.gitbook/assets/image (311).png>)
 
-Ayrıca, **belleği tararken oyunu durdurmak için** kutuyu işaretleyebilirsiniz:
+Belleği tararken **oyunu durdurmak için** kutucuğu işaretleyebilirsiniz:
 
 ![](<../../.gitbook/assets/image (1052).png>)
 
-### Kısayol Tuşları
+### Kısayollar
 
-_**Düzenle --> Ayarlar --> Kısayol Tuşları**_ bölümünde, **oyunu durdurmak** gibi farklı amaçlar için farklı **kısayol tuşları** ayarlayabilirsiniz (bunu yapmak, belleği taramak istediğiniz bir noktada oldukça faydalıdır). Diğer seçenekler de mevcuttur:
+_**Düzenle --> Ayarlar --> Kısayollar**_ kısmında, **oyunu durdurmak** gibi farklı amaçlar için farklı **kısayollar** ayarlayabilirsiniz (bu, belleği taramak istediğinizde oldukça kullanışlıdır). Diğer seçenekler de mevcuttur:
 
 ![](<../../.gitbook/assets/image (864).png>)
 
 ## Değeri Değiştirme
 
-Bir kez **aramakta olduğunuz değeri** nerede bulduysanız (bu konuyla ilgili daha fazlası aşağıdaki adımlarda), değeri çift tıklayarak değiştirebilir, ardından değerine çift tıklayarak değiştirebilirsiniz:
+Aradığınız **değerin** nerede olduğunu **bulduğunuzda** (bununla ilgili daha fazla bilgi sonraki adımlarda) onu **değiştirebilirsiniz**; üzerine çift tıklayıp, ardından değerine çift tıklayarak:
 
 ![](<../../.gitbook/assets/image (563).png>)
 
-Ve son olarak, değişikliğin bellekte yapılması için işareti işaretleyin:
+Ve sonunda bellekteki değişikliği yapmak için **onay kutusunu işaretleyerek**:
 
 ![](<../../.gitbook/assets/image (385).png>)
 
-**Bellekteki değişiklik** hemen **uygulanacaktır** (oyun bu değeri tekrar kullanana kadar değer **oyunda güncellenmeyecektir**).
+Bellekteki **değişiklik** hemen **uygulanacaktır** (oyun bu değeri tekrar kullanmadığı sürece değer **oyunda güncellenmeyecektir**).
 
 ## Değeri Arama
 
-Öyleyse, kullanıcınızın hayatı gibi önemli bir değeri iyileştirmek istediğinizi ve bu değeri bellekte aradığınızı varsayalım)
+Öyleyse, geliştirmek istediğiniz önemli bir değer (kullanıcınızın hayatı gibi) olduğunu varsayıyoruz ve bu değeri bellekte arıyorsunuz.
 
-### Bilinen bir değişiklik aracılığıyla
+### Bilinen bir değişim aracılığıyla
 
-Değerin 100 olduğunu arıyorsanız, bu değeri aramak için bir tarama yaparsınız ve birçok eşleşme bulursunuz:
+100 değerini aradığınızı varsayalım, bu değeri aramak için bir **tarama** yapıyorsunuz ve birçok eşleşme buluyorsunuz:
 
 ![](<../../.gitbook/assets/image (108).png>)
 
-Sonra, **değerin değiştiği bir şey yaparsınız**, oyunu **durdurursunuz** ve **bir sonraki taramayı** yaparsınız:
+Sonra, **değer değiştiğinde** bir şey yapıyorsunuz ve oyunu **durdurup** bir **sonraki tarama** yapıyorsunuz:
 
 ![](<../../.gitbook/assets/image (684).png>)
 
-Cheat Engine, **100'den yeni değere geçen değerleri** arayacaktır. Tebrikler, aradığınız değerin adresini buldunuz, şimdi onu değiştirebilirsiniz.\
-_Eğer hala birkaç değerin varsa, o değeri tekrar değiştirmek için bir şey yapın ve adresleri filtrelemek için başka bir "sonraki tarama" yapın._
+Cheat Engine, **100'den yeni değere** geçen **değerleri** arayacaktır. Tebrikler, aradığınız değerin **adresini buldunuz**, şimdi onu değiştirebilirsiniz.\
+_Eğer hala birkaç değer varsa, o değeri tekrar değiştirmek için bir şey yapın ve adresleri filtrelemek için bir başka "sonraki tarama" gerçekleştirin._
 
-### Bilinmeyen Değer, bilinen değişiklik
+### Bilinmeyen Değer, bilinen değişim
 
-Değeri **bilmiyorsanız** ancak **nasıl değişeceğini** biliyorsanız (ve hatta değişikliğin değerini biliyorsanız), sayınızı arayabilirsiniz.
+Değeri **bilmediğiniz** ancak **değişmesini sağlamak için ne yapacağınızı** bildiğiniz bir senaryoda, numaranızı arayabilirsiniz.
 
-Bu nedenle, "**Bilinmeyen başlangıç değeri**" türünde bir tarama yaparak başlayın:
+Öyleyse, "**Bilinmeyen başlangıç değeri**" türünde bir tarama yaparak başlayın:
 
 ![](<../../.gitbook/assets/image (890).png>)
 
-Sonra, değeri değiştirin, **değerin nasıl değiştiğini** belirtin (benim durumumda 1 azaldı) ve **bir sonraki taramayı** yapın:
+Sonra, değerin değişmesini sağlayın, **değerin** **nasıl değiştiğini** belirtin (benim durumumda 1 azaldı) ve bir **sonraki tarama** yapın:
 
 ![](<../../.gitbook/assets/image (371).png>)
 
-Seçilen şekilde değiştirilen **tüm değerlerle karşılaşacaksınız**:
+Seçilen şekilde **değiştirilen tüm değerler** ile karşılaşacaksınız:
 
 ![](<../../.gitbook/assets/image (569).png>)
 
-Değerinizi bulduktan sonra onu değiştirebilirsiniz.
+Değerinizi bulduğunuzda, onu değiştirebilirsiniz.
 
-Unutulmamalıdır ki **çok sayıda olası değişiklik** vardır ve sonuçları filtrelemek için bu adımları **istediğiniz kadar yapabilirsiniz**:
+Birçok **mümkün değişim** olduğunu ve sonuçları filtrelemek için bu **adımları istediğiniz kadar** yapabileceğinizi unutmayın:
 
 ![](<../../.gitbook/assets/image (574).png>)
 
 ### Rastgele Bellek Adresi - Kodu Bulma
 
-Bir değeri depolayan bir adresi bulmayı öğrendik, ancak **oyunun farklı yürütümlerinde bu adresin belleğin farklı yerlerinde olma olasılığı oldukça yüksektir**. Bu adresi her zaman bulmanın yolunu öğrenelim.
+Şimdiye kadar bir değeri saklayan bir adres bulmayı öğrendik, ancak **oyunun farklı çalıştırmalarında bu adresin belleğin farklı yerlerinde olma olasılığı yüksektir**. Bu nedenle, o adresi her zaman nasıl bulacağımızı öğrenelim.
 
-Bahsedilen hilelerden bazılarını kullanarak, mevcut oyununuzun önemli değeri depoladığı adresi bulun. Ardından (oyunu durdurarak isterseniz) bulunan **adrese sağ tıklayın** ve "**Bu adresi kimin eriştiğini bul**" veya "**Bu adrese yazanı bul**" seçeneğini seçin":
+Bahsedilen bazı ipuçlarını kullanarak, mevcut oyunun önemli değeri sakladığı adresi bulun. Sonra (isterseniz oyunu durdurarak) bulunan **adrese sağ tıklayın** ve "**Bu adrese ne erişiyor**" veya "**Bu adrese ne yazıyor**" seçeneğini seçin:
 
 ![](<../../.gitbook/assets/image (1067).png>)
 
-**İlk seçenek**, bu **adresi kullanan kod parçalarını** bilmek için yararlıdır (bu, **oyunun kodunu nasıl değiştirebileceğinizi** bilmek gibi daha fazla şey için faydalıdır).\
-**İkinci seçenek** daha **belirgin** ve bu durumda daha **yardımcı olacaktır** çünkü **bu değerin nereden yazıldığını** bilmek istiyoruz.
+**İlk seçenek**, bu **adresin** **kullanıldığı** **kodun** **hangi kısımlarını** bilmek için yararlıdır (bu, oyunun kodunu **nerede değiştirebileceğinizi** bilmek gibi daha fazla şey için yararlıdır).\
+**İkinci seçenek** daha **özeldir** ve bu durumda **değerin nereden yazıldığını** bilmekle ilgilendiğimiz için daha faydalı olacaktır.
 
-Bu seçeneklerden birini seçtikten sonra, **hata ayıklayıcı** programı programa **bağlanacak** ve yeni bir **boş pencere** görünecektir. Şimdi, **oyunu oynayın** ve **değeri değiştirin** (oyunu yeniden başlatmadan). **Pencere**, **değeri değiştiren adreslerle dolmalıdır**:
+Bu seçeneklerden birini seçtiğinizde, **hata ayıklayıcı** programa **bağlanacak** ve yeni bir **boş pencere** açılacaktır. Şimdi, **oyunu oynayın** ve **değeri değiştirin** (oyunu yeniden başlatmadan). **Pencere**, **değeri değiştiren** **adreslerle** **doldurulmalıdır**:
 
 ![](<../../.gitbook/assets/image (91).png>)
 
-Değeri değiştiren adresi bulduğunuzda, kodu **istediğiniz gibi değiştirebilirsiniz** (Cheat Engine, bunu hızlıca NOP'larla değiştirmenize izin verir):
+Artık değeri değiştiren adresi bulduğunuza göre, **kodu istediğiniz gibi değiştirebilirsiniz** (Cheat Engine, bunu NOP'lar için hızlı bir şekilde değiştirmenize izin verir):
 
 ![](<../../.gitbook/assets/image (1057).png>)
 
-Artık kodu, sayınızı etkilemeyecek şekilde değiştirebilir veya her zaman olumlu bir şekilde etkileyecek şekilde değiştirebilirsiniz.
-### Rastgele Bellek Adresi - İşaretçiyi Bulma
+Artık kodu, sayınızı etkilemeyecek şekilde veya her zaman olumlu bir şekilde etkileyecek şekilde değiştirebilirsiniz.
 
-Önceki adımları takip ederek, ilgilendiğiniz değerin nerede olduğunu bulun. Ardından, "**Bu adrese yazan şeyleri bulun**" kullanarak bu değeri yazan adresi bulun ve üzerine çift tıklayarak açıklama görünümünü alın:
+### Rastgele Bellek Adresi - Pointer Bulma
+
+Önceki adımları takip ederek, ilgilendiğiniz değerin nerede olduğunu bulun. Sonra, "**Bu adrese ne yazıyor**" seçeneğini kullanarak bu değeri yazan adresi bulun ve üzerine çift tıklayarak ayrıştırma görünümünü alın:
 
 ![](<../../.gitbook/assets/image (1039).png>)
 
-Daha sonra, yeni bir tarama yapın, "\[\]" arasındaki onaltılık değeri arayın (bu durumda $edx değeri):
+Sonra, **"\[]"** arasındaki hex değerini aramak için yeni bir tarama yapın (bu durumda $edx'in değeri):
 
 ![](<../../.gitbook/assets/image (994).png>)
 
-(Çoğu zaman en küçük adres olanı gerekecektir)\
-Şimdi, ilgilendiğimiz değeri değiştirecek olan işaretçiyi bulduk.
+(_Birçok adres çıkarsa genellikle en küçük adresi almanız gerekir_)\
+Artık **ilgilendiğimiz değeri değiştirecek pointer'ı bulduk**.
 
-"**Adresi El ile Ekle**" üzerine tıklayın:
+"**Adres Ekle**" seçeneğine tıklayın:
 
 ![](<../../.gitbook/assets/image (990).png>)
 
-Şimdi, "İşaretçi" onay kutusuna tıklayın ve bulunan adresi metin kutusuna ekleyin (bu senaryoda, önceki görüntüde bulunan adres "Tutorial-i386.exe"+2426B0 idi):
+Şimdi, "Pointer" onay kutusuna tıklayın ve metin kutusuna bulunan adresi ekleyin (bu senaryoda, önceki resimde bulunan adres "Tutorial-i386.exe"+2426B0 idi):
 
 ![](<../../.gitbook/assets/image (392).png>)
 
-(İlk "Adres" kutusunun, tanıttığınız işaretçi adresinden otomatik olarak dolduğuna dikkat edin)
+(İlk "Adres" kutusunun, girdiğiniz pointer adresinden otomatik olarak doldurulduğuna dikkat edin)
 
-Tamam'a tıklayın ve yeni bir işaretçi oluşturulacaktır:
+Tamam'a tıklayın ve yeni bir pointer oluşturulacaktır:
 
 ![](<../../.gitbook/assets/image (308).png>)
 
-Artık, o değeri her değiştirdiğinizde, bellek adresinin farklı olduğu önemli değeri değiştiriyorsunuz.
+Artık bu değeri her değiştirdiğinizde, **değerin bulunduğu bellek adresi farklı olsa bile önemli değeri değiştiriyorsunuz.**
 
 ### Kod Enjeksiyonu
 
-Kod enjeksiyonu, bir parça kodu hedef sürece enjekte ettiğiniz ve ardından kodun yürütülmesini kendi yazdığınız kod üzerinden yönlendirdiğiniz bir tekniktir (örneğin, puanları dinlenmek yerine size verir).
+Kod enjeksiyonu, hedef işleme bir kod parçası enjekte etme ve ardından kodun yürütülmesini kendi yazdığınız koddan geçirecek şekilde yönlendirme tekniğidir (örneğin, size puan vermek yerine puanınızı azaltmak).
 
-Örneğin, oyuncunuzun yaşamını 1 azaltan adresi bulduğunuzu varsayalım:
+Öyleyse, oyuncunuzun hayatından 1 çıkaran adresi bulduğunuzu hayal edin:
 
 ![](<../../.gitbook/assets/image (203).png>)
 
-Disassembler'ı görmek için Tıklayın.\
-Daha sonra, Auto assemble penceresini çağırmak için **CTRL+a** tuşlarına basın ve _**Template --> Kod Enjeksiyonu**_ seçeneğini seçin
+**Dizilimi göster** seçeneğine tıklayarak **dizilimi alın**.\
+Sonra, **CTRL+a** tuşlarına basarak Otomatik dizilim penceresini açın ve _**Şablon --> Kod Enjeksiyonu**_ seçeneğini seçin:
 
 ![](<../../.gitbook/assets/image (902).png>)
 
-Değiştirmek istediğiniz talimatın adresini doldurun (bu genellikle otomatik olarak doldurulur):
+Değiştirmek istediğiniz **talimatın adresini** doldurun (bu genellikle otomatik olarak doldurulur):
 
 ![](<../../.gitbook/assets/image (744).png>)
 
@@ -161,12 +163,12 @@ Bir şablon oluşturulacaktır:
 
 ![](<../../.gitbook/assets/image (944).png>)
 
-Yeni montaj kodunuzu "**newmem**" bölümüne ekleyin ve orijinal kodu "**originalcode**" bölümünden kaldırın, eğer yürütülmesini istemiyorsanız. Bu örnekte, enjekte edilen kod, 1 çıkarmak yerine 2 puan ekleyecektir:
+Öyleyse, yeni assembly kodunuzu "**newmem**" bölümüne ekleyin ve orijinal kodu "**originalcode**" bölümünden kaldırın, eğer çalıştırılmasını istemiyorsanız\*\*.\*\* Bu örnekte, enjekte edilen kod 1 çıkarmak yerine 2 puan ekleyecektir:
 
 ![](<../../.gitbook/assets/image (521).png>)
 
-**Yürüt düğmesine tıklayın ve devam edin, kodunuz programda enjekte edilerek işlevin davranışını değiştirmelidir!**
+**Uygula'ya tıklayın ve kodunuz programda enjekte edilerek işlevselliğin davranışını değiştirmelidir!**
 
 ## **Referanslar**
 
-* **Cheat Engine öğretici, Cheat Engine ile başlamanın nasıl yapılacağını öğrenmek için tamamlayın**
+* **Cheat Engine eğitimi, Cheat Engine ile nasıl başlayacağınızı öğrenmek için tamamlayın**

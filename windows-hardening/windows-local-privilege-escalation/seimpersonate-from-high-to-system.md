@@ -1,23 +1,24 @@
-# Yüksekten Sistem Yetkisine SeImpersonate
+# SeImpersonate from High To System
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI'na**](https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks ve HackTricks Cloud** github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ### Kod
 
-Aşağıdaki kod [buradan](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962) alınmıştır. **Bir Process ID'si belirtmenizi sağlar** ve belirtilen işlemin kullanıcısı olarak çalışan bir CMD çalıştırılacaktır.\
-Yüksek Bütünlükte çalışan bir işlemde, **Sistem olarak çalışan bir işlemin PID'sini belirtebilirsiniz** (örneğin winlogon, wininit) ve cmd.exe'yi sistem olarak çalıştırabilirsiniz.
+Aşağıdaki kod [buradan](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962) alınmıştır. **Bir İşlem Kimliğini argüman olarak belirtmenizi** sağlar ve belirtilen işlemin **kullanıcısı olarak çalışan bir CMD** çalıştırılacaktır.\
+Yüksek Bütünlükte bir işlemde çalışırken, **Sistem olarak çalışan bir işlemin PID'sini belirtebilirsiniz** (winlogon, wininit gibi) ve cmd.exe'yi sistem olarak çalıştırabilirsiniz.
 ```cpp
 impersonateuser.exe 1234
 ```
@@ -152,9 +153,11 @@ printf("[-] CreateProcessWithTokenW Error: %i\n", GetLastError());
 return 0;
 }
 ```
+{% endcode %}
+
 ### Hata
 
-Bazı durumlarda Sistem'i taklit etmeye çalışabilirsiniz ancak aşağıdaki gibi bir çıktı alarak çalışmayabilir:
+Bazı durumlarda System olarak taklit etmeye çalıştığınızda, aşağıdaki gibi bir çıktı göstererek çalışmayabilir:
 ```cpp
 [+] OpenProcess() success!
 [+] OpenProcessToken() success!
@@ -165,22 +168,37 @@ Bazı durumlarda Sistem'i taklit etmeye çalışabilirsiniz ancak aşağıdaki g
 [-] CreateProcessWithTokenW Return Code: 0
 [-] CreateProcessWithTokenW Error: 1326
 ```
-Bu, Yüksek Bütünlük seviyesinde çalışıyor olsanız bile **yeterli izinlere sahip olmadığınızı** gösterir.\
-Mevcut Yönetici izinlerini `svchost.exe` işlemleri üzerinde **işlem gezgini** ile kontrol edelim (veya ayrıca process hacker'ı da kullanabilirsiniz):
+Bu, Yüksek Bütünlük seviyesinde çalışıyor olsanız bile **yeterli izinlere sahip olmadığınız** anlamına gelir.\
+`svchost.exe` süreçleri üzerindeki mevcut Yönetici izinlerini **processes explorer** ile kontrol edelim (veya process hacker da kullanabilirsiniz):
 
-1. `svchost.exe` işlemlerinden birini seçin
-2. Sağ Tıkla --> Özellikler
-3. "Güvenlik" sekmesine girin ve sağ alttaki "İzinler" düğmesine tıklayın
+1. `svchost.exe` sürecini seçin
+2. Sağ Tık --> Özellikler
+3. "Güvenlik" sekmesinin içinde sağ altta "İzinler" butonuna tıklayın
 4. "Gelişmiş"e tıklayın
 5. "Yöneticiler"i seçin ve "Düzenle"ye tıklayın
 6. "Gelişmiş izinleri göster"e tıklayın
 
 ![](<../../.gitbook/assets/image (437).png>)
 
-Önceki görüntü, "Yöneticiler"in seçilen işlem üzerinde sahip olduğu tüm ayrıcalıkları içerir (`svchost.exe` için yalnızca "Sorgu" ayrıcalıklarına sahip olduklarını görebilirsiniz)
+Önceki resim, "Yöneticiler"in seçilen süreç üzerindeki tüm ayrıcalıklarını içerir (gördüğünüz gibi `svchost.exe` durumunda yalnızca "Sorgulama" ayrıcalıklarına sahiptirler)
 
-`winlogon.exe` üzerinde "Yöneticiler"in sahip olduğu ayrıcalıkları görün:
+`winlogon.exe` üzerindeki "Yöneticiler"in sahip olduğu ayrıcalıkları görün:
 
 ![](<../../.gitbook/assets/image (1102).png>)
 
-Bu işlem içinde "Yöneticiler", "Belleği Oku" ve "İzinleri Oku" yapabilir, bu da Yöneticilerin bu işlem tarafından kullanılan belirteci taklit etmelerine izin verir.
+Bu süreç içinde "Yöneticiler" "Belleği Oku" ve "İzinleri Oku" yetkisine sahiptir, bu da muhtemelen Yöneticilerin bu süreç tarafından kullanılan belirteci taklit etmelerine olanak tanır.
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks'i Destekleyin</summary>
+
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+
+</details>
+{% endhint %}

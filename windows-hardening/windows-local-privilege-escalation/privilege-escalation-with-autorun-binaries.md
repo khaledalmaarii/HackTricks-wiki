@@ -1,35 +1,36 @@
-# Otomatik Başlatma Dosyalarıyla Ayrıcalık Yükseltme
+# Autorun ile Yetki Yükseltme
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Sıfırdan kahraman olacak şekilde AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Ailesi**]'ni(https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'ler**]'imiz(https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) **katılın** veya **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Hata ödülü ipucu**: **Intigriti'ye kaydolun**, hackerlar tarafından oluşturulan bir premium **hata ödülü platformu**! Bugün [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) adresinde bize katılın ve **$100,000**'a kadar ödüller kazanmaya başlayın!
+**Bug bounty ipucu**: **Intigriti**'ye **kaydolun**, hackerlar tarafından, hackerlar için oluşturulmuş bir premium **bug bounty platformu**! Bugün [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) adresine katılın ve **$100,000**'a kadar ödüller kazanmaya başlayın!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
 ## WMIC
 
-**Wmic**, programların **başlangıçta çalıştırılması** için kullanılabilir. Başlangıçta çalıştırılacak olan dosyaları görmek için:
+**Wmic**, **başlangıçta** programları çalıştırmak için kullanılabilir. Hangi ikili dosyaların başlangıçta çalışacak şekilde programlandığını görmek için:
 ```bash
 wmic startup get caption,command 2>nul & ^
 Get-CimInstance Win32_StartupCommand | select Name, command, Location, User | fl
 ```
-## Zamanlanmış Görevler
+## Planlanmış Görevler
 
-**Görevler**, belirli bir sıklıkta çalıştırılmak üzere zamanlanabilir. Hangi ikili dosyaların çalıştırılacağını görmek için:
+**Görevler**, **belirli bir sıklıkla** çalışacak şekilde planlanabilir. Hangi ikili dosyaların çalışacak şekilde planlandığını görmek için:
 ```bash
 schtasks /query /fo TABLE /nh | findstr /v /i "disable deshab"
 schtasks /query /fo LIST 2>nul | findstr TaskName
@@ -42,7 +43,7 @@ schtasks /Create /RU "SYSTEM" /SC ONLOGON /TN "SchedPE" /TR "cmd /c net localgro
 ```
 ## Klasörler
 
-**Başlangıç klasörlerinde bulunan tüm ikili dosyalar başlangıçta çalıştırılacaktır**. Yaygın başlangıç klasörleri aşağıda listelenmiştir, ancak başlangıç klasörü kayıt defterinde belirtilir. [Nerede olduğunu öğrenmek için burayı okuyun.](privilege-escalation-with-autorun-binaries.md#startup-path)
+**Başlangıç klasörlerinde bulunan tüm ikili dosyalar, başlangıçta çalıştırılacaktır.** Yaygın başlangıç klasörleri aşağıda listelenmiştir, ancak başlangıç klasörü kayıt defterinde belirtilmiştir. [Nerede olduğunu öğrenmek için bunu okuyun.](privilege-escalation-with-autorun-binaries.md#startup-path)
 ```bash
 dir /b "C:\Documents and Settings\All Users\Start Menu\Programs\Startup" 2>nul
 dir /b "C:\Documents and Settings\%username%\Start Menu\Programs\Startup" 2>nul
@@ -54,12 +55,12 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 ## Kayıt Defteri
 
 {% hint style="info" %}
-[Buradan not alın](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): **Wow6432Node** kayıt defteri girişi, 64 bit Windows sürümü çalıştırdığınızı gösterir. İşletim sistemi, 64 bit Windows sürümlerinde çalışan 32 bit uygulamalar için HKEY_LOCAL_MACHINE\SOFTWARE'nin ayrı bir görünümünü göstermek için bu anahtarı kullanır.
+[Buradan not](https://answers.microsoft.com/en-us/windows/forum/all/delete-registry-key/d425ae37-9dcc-4867-b49c-723dcd15147f): **Wow6432Node** kayıt defteri girişi, 64-bit bir Windows sürümü çalıştırdığınızı gösterir. İşletim sistemi, 64-bit Windows sürümlerinde çalışan 32-bit uygulamalar için HKEY\_LOCAL\_MACHINE\SOFTWARE'ün ayrı bir görünümünü göstermek için bu anahtarı kullanır.
 {% endhint %}
 
-### Çalıştır
+### Çalıştırmalar
 
-**Genellikle bilinen** AutoRun kayıt defteri:
+**Yaygın olarak bilinen** AutoRun kayıt defteri:
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\Run`
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunOnce`
@@ -73,9 +74,9 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\Runonce`
 * `HKLM\Software\Microsoft\Windows NT\CurrentVersion\Terminal Server\Install\Software\Microsoft\Windows\CurrentVersion\RunonceEx`
 
-**Run** ve **RunOnce** olarak bilinen kayıt defteri anahtarları, her kullanıcı oturum açtığında programları otomatik olarak çalıştırmak için tasarlanmıştır. Bir anahtarın veri değeri olarak atanan komut satırı, 260 karakterden az olmalıdır.
+**Run** ve **RunOnce** olarak bilinen kayıt defteri anahtarları, her kullanıcı sisteme giriş yaptığında programları otomatik olarak çalıştırmak için tasarlanmıştır. Bir anahtarın veri değeri olarak atanan komut satırı 260 karakter veya daha az ile sınırlıdır.
 
-**Hizmet çalışmaları** (başlangıçta hizmetlerin otomatik olarak başlatılmasını kontrol edebilir):
+**Hizmet çalıştırmaları** (açılış sırasında hizmetlerin otomatik başlatılmasını kontrol edebilir):
 
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\RunServicesOnce`
@@ -91,16 +92,16 @@ Get-ChildItem "C:\Users\$env:USERNAME\Start Menu\Programs\Startup"
 * `HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\RunOnceEx`
 * `HKEY_LOCAL_MACHINE\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\RunOnceEx`
 
-Windows Vista ve sonraki sürümlerde, **Run** ve **RunOnce** kayıt defteri anahtarları otomatik olarak oluşturulmaz. Bu anahtarlar içindeki girişler ya programları doğrudan başlatabilir ya da bağımlılıklarını belirtebilir. Örneğin, bir DLL dosyasını oturum açılışında yüklemek için, "Depend" anahtarı ile birlikte **RunOnceEx** kayıt defteri anahtarını kullanabilirsiniz. Sistemin başlangıcında "C:\temp\evil.dll" dosyasını yürütmek için bir kayıt defteri girişi eklemek gösterilmiştir:
+Windows Vista ve sonraki sürümlerde, **Run** ve **RunOnce** kayıt defteri anahtarları otomatik olarak oluşturulmaz. Bu anahtarlardaki girişler ya doğrudan programları başlatabilir ya da bunları bağımlılık olarak belirtebilir. Örneğin, bir DLL dosyasını oturum açıldığında yüklemek için, **RunOnceEx** kayıt defteri anahtarını "Depend" anahtarı ile birlikte kullanabilirsiniz. Bu, sistem başlangıcında "C:\temp\evil.dll" dosyasını çalıştırmak için bir kayıt defteri girişi ekleyerek gösterilmektedir:
 ```
 reg add HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\RunOnceEx\\0001\\Depend /v 1 /d "C:\\temp\\evil.dll"
 ```
 {% hint style="info" %}
-**Sızma 1**: Eğer **HKLM** içinde belirtilen herhangi bir kayıt defterine yazabilirseniz, farklı bir kullanıcı oturum açtığında ayrıcalıkları yükseltebilirsiniz.
+**Exploit 1**: Eğer **HKLM** içindeki belirtilen kayıt defterlerinden birine yazabiliyorsanız, farklı bir kullanıcı oturum açtığında ayrıcalıkları artırabilirsiniz.
 {% endhint %}
 
 {% hint style="info" %}
-**Sızma 2**: Eğer **HKLM** içinde belirtilen herhangi bir kayıt defterinde belirtilen herhangi bir ikili dosyayı üzerine yazabilirseniz, farklı bir kullanıcı oturum açtığında o ikili dosyayı bir arka kapı ile değiştirebilir ve ayrıcalıkları yükseltebilirsiniz.
+**Exploit 2**: Eğer **HKLM** içindeki kayıt defterlerinden herhangi birinde belirtilen ikili dosyalardan birini üzerine yazabiliyorsanız, farklı bir kullanıcı oturum açtığında o ikili dosyayı bir arka kapı ile değiştirebilir ve ayrıcalıkları artırabilirsiniz.
 {% endhint %}
 ```bash
 #CMD
@@ -164,10 +165,10 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Wow6432Node\Microsoft\Windows\Ru
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Shell Folders`
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders`
 
-**Başlangıç** klasörüne yerleştirilen kısayollar, kullanıcı oturum açma veya sistem yeniden başlatma sırasında hizmetleri veya uygulamaları otomatik olarak başlatır. **Başlangıç** klasörünün konumu, hem **Yerel Makine** hem de **Geçerli Kullanıcı** kapsamları için kayıt defterinde tanımlanmıştır. Bu, belirtilen **Başlangıç** konumlarına eklenen herhangi bir kısayolun, bağlı hizmetin veya programın oturum açma veya yeniden başlatma işleminden sonra başlatılmasını sağlayacağı anlamına gelir, bu da programların otomatik olarak çalıştırılması için basit bir yöntem oluşturur.
+**Başlangıç** klasörüne yerleştirilen kısayollar, kullanıcı oturumu açıldığında veya sistem yeniden başlatıldığında hizmetlerin veya uygulamaların otomatik olarak başlatılmasını tetikler. **Başlangıç** klasörünün konumu, hem **Yerel Makine** hem de **Geçerli Kullanıcı** kapsamları için kayıt defterinde tanımlanmıştır. Bu, belirtilen **Başlangıç** konumlarına eklenen her kısayolun, bağlantılı hizmetin veya programın oturum açma veya yeniden başlatma sürecinin ardından başlatılmasını sağlayacağı anlamına gelir; bu da programların otomatik olarak çalıştırılmasını planlamak için basit bir yöntemdir.
 
 {% hint style="info" %}
-Eğer **HKLM** altında herhangi bir \[Kullanıcı] Shell Klasörünü üzerine yazabilirseniz, onu sizin kontrol ettiğiniz bir klasöre yönlendirebilir ve bir arka kapı yerleştirerek, bir kullanıcının sisteme oturum açtığında her zaman yürütülecek bir yol oluşturabilirsiniz.
+Eğer **HKLM** altında herhangi bir \[Kullanıcı] Shell Klasörünü geçersiz kılabiliyorsanız, bunu kontrol ettiğiniz bir klasöre yönlendirebilir ve bir arka kapı yerleştirerek, bir kullanıcı sisteme giriş yaptığında bu arka kapının çalıştırılmasını sağlayabilirsiniz.
 {% endhint %}
 ```bash
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v "Common Startup"
@@ -184,7 +185,7 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion
 
 `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon`
 
-Genellikle, **Userinit** anahtarı **userinit.exe** olarak ayarlanmıştır. Ancak, bu anahtar değiştirilirse, belirtilen yürütülebilir dosya da kullanıcı oturum açtığında **Winlogon** tarafından başlatılacaktır. Benzer şekilde, **Shell** anahtarı varsayılan Windows kabuğu olan **explorer.exe**'ye işaret etmek amacıyla kullanılır.
+Genellikle, **Userinit** anahtarı **userinit.exe** olarak ayarlanmıştır. Ancak, bu anahtar değiştirilirse, belirtilen çalıştırılabilir dosya kullanıcı oturumu açıldığında **Winlogon** tarafından da başlatılacaktır. Benzer şekilde, **Shell** anahtarı Windows'un varsayılan kabuğu olan **explorer.exe**'ye işaret etmek için tasarlanmıştır.
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Userinit"
 reg query "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" /v "Shell"
@@ -192,7 +193,7 @@ Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVers
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon' -Name "Shell"
 ```
 {% hint style="info" %}
-Eğer kayıt defteri değerini veya ikili dosyayı üzerine yazabilirseniz ayrıcalıkları yükseltebilirsiniz.
+Eğer kayıt defteri değerini veya ikili dosyayı yazabilirseniz, yetkileri artırabileceksiniz.
 {% endhint %}
 
 ### Politika Ayarları
@@ -200,7 +201,7 @@ Eğer kayıt defteri değerini veya ikili dosyayı üzerine yazabilirseniz ayrı
 * `HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
 * `HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer`
 
-**Run** anahtarını kontrol edin.
+**Çalıştır** anahtarını kontrol edin.
 ```bash
 reg query "HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "Run"
 reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "Run"
@@ -209,51 +210,51 @@ Get-ItemProperty -Path 'Registry::HKCU\Software\Microsoft\Windows\CurrentVersion
 ```
 ### AlternateShell
 
-### Güvenli Mod Komut İstemi Değiştirme
+### Güvenli Mod Komut İstemcisini Değiştirme
 
-Windows Kayıt Defteri'nde `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot` altında varsayılan olarak `cmd.exe` olarak ayarlanmış bir **`AlternateShell`** değeri bulunmaktadır. Bu, başlangıçta "Komut İstemi ile Güvenli Mod" seçildiğinde (F8'e basarak) `cmd.exe`'nin kullanıldığı anlamına gelir. Ancak, bilgisayarınızı F8'e basmadan ve manuel olarak seçmeden bu modda otomatik olarak başlatmak mümkündür.
+Windows Kayıt Defteri'nde `HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot` altında, varsayılan olarak `cmd.exe` olarak ayarlanmış bir **`AlternateShell`** değeri bulunmaktadır. Bu, başlangıçta "Komut İstemcisi ile Güvenli Mod" seçeneğini seçtiğinizde (F8 tuşuna basarak) `cmd.exe`'nin kullanıldığı anlamına gelir. Ancak, bilgisayarınızı bu moda otomatik olarak başlatacak şekilde ayarlamak mümkündür; böylece F8'e basıp manuel olarak seçmenize gerek kalmaz.
 
-"Komut İstemi ile Güvenli Modda" otomatik olarak başlamak için bir önyükleme seçeneği oluşturma adımları:
+"Komut İstemcisi ile Güvenli Mod"da otomatik olarak başlatmak için bir önyükleme seçeneği oluşturma adımları:
 
-1. `boot.ini` dosyasının salt okunur, sistem ve gizli bayraklarını kaldırmak için öznitelikleri değiştirin: `attrib c:\boot.ini -r -s -h`
+1. `boot.ini` dosyasının özelliklerini, salt okunur, sistem ve gizli bayrakları kaldıracak şekilde değiştirin: `attrib c:\boot.ini -r -s -h`
 2. `boot.ini` dosyasını düzenlemek için açın.
-3. Şu şekilde bir satır ekleyin: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
-4. Yapılan değişiklikleri `boot.ini` dosyasına kaydedin.
-5. Orijinal dosya özniteliklerini tekrar uygulayın: `attrib c:\boot.ini +r +s +h`
+3. Aşağıdaki gibi bir satır ekleyin: `multi(0)disk(0)rdisk(0)partition(1)\WINDOWS="Microsoft Windows XP Professional" /fastdetect /SAFEBOOT:MINIMAL(ALTERNATESHELL)`
+4. `boot.ini` dosyasındaki değişiklikleri kaydedin.
+5. Orijinal dosya özelliklerini yeniden uygulayın: `attrib c:\boot.ini +r +s +h`
 
-* **Sızma 1:** **AlternateShell** kayıt defteri anahtarını değiştirmek, yetkisiz erişim için özel komut kabuğu kurulumuna olanak tanır.
-* **Sızma 2 (PATH Yazma İzinleri):** Sistemin herhangi bir bölümüne yazma izinlerine sahip olmak, özellikle `C:\Windows\system32`'den önce, özel bir `cmd.exe` yürütmenizi sağlar, bu da sistem Güvenli Modda başlatıldığında bir arka kapı olabilir.
-* **Sızma 3 (PATH ve boot.ini Yazma İzinleri):** `boot.ini`'ye yazma erişimi, otomatik Güvenli Mod başlatmayı sağlar ve bir sonraki yeniden başlatmada yetkisiz erişimi kolaylaştırır.
+* **Exploit 1:** **AlternateShell** kayıt defteri anahtarını değiştirmek, yetkisiz erişim için potansiyel olarak özel komut kabuğu ayarlamaya olanak tanır.
+* **Exploit 2 (PATH Yazma İzinleri):** Sistem **PATH** değişkeninin herhangi bir bölümünde yazma izinlerine sahip olmak, özellikle `C:\Windows\system32`'den önce, özel bir `cmd.exe` çalıştırmanıza olanak tanır; bu, sistem Güvenli Mod'da başlatıldığında bir arka kapı olabilir.
+* **Exploit 3 (PATH ve boot.ini Yazma İzinleri):** `boot.ini` dosyasına yazma erişimi, otomatik Güvenli Mod başlatmayı sağlar ve bir sonraki yeniden başlatmada yetkisiz erişimi kolaylaştırır.
 
 Mevcut **AlternateShell** ayarını kontrol etmek için bu komutları kullanın:
 ```bash
 reg query HKLM\SYSTEM\CurrentControlSet\Control\SafeBoot /v AlternateShell
 Get-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SafeBoot' -Name 'AlternateShell'
 ```
-### Yüklü Bileşen
+### Yüklenmiş Bileşen
 
-Active Setup, Windows'ta **masaüstü ortamı tam olarak yüklenmeden önce başlatılan** bir özelliktir. Belirli komutların yürütülmesine öncelik verir ve kullanıcı oturumu devam etmeden önce tamamlanması gereken bu komutları belirler. Bu işlem, Run veya RunOnce kayıt defteri bölümlerindeki girişler gibi diğer başlangıç girdilerinden önce gerçekleşir.
+Active Setup, Windows'ta **masaüstü ortamı tamamen yüklenmeden önce başlatılan** bir özelliktir. Kullanıcı oturumu devam etmeden önce tamamlanması gereken belirli komutların yürütülmesine öncelik verir. Bu işlem, Run veya RunOnce kayıt defteri bölümlerindeki diğer başlangıç girişleri tetiklenmeden önce bile gerçekleşir.
 
-Active Setup, aşağıdaki kayıt defteri anahtarları aracılığıyla yönetilir:
+Active Setup, aşağıdaki kayıt defteri anahtarları aracılığıyla yönetilmektedir:
 
 * `HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components`
 * `HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components`
 
-Bu anahtarlar içinde, belirli bir bileşene karşılık gelen çeşitli alt anahtarlar bulunmaktadır. Özellikle ilgi çekici anahtar değerleri şunlardır:
+Bu anahtarlar içinde, her biri belirli bir bileşene karşılık gelen çeşitli alt anahtarlar bulunmaktadır. Özellikle ilgi çekici anahtar değerleri şunlardır:
 
 * **IsInstalled:**
-  * `0`, bileşenin komutunun yürütülmeyeceğini gösterir.
-  * `1`, komutun her kullanıcı için bir kez yürütüleceği anlamına gelir ve `IsInstalled` değeri eksikse varsayılan davranış budur.
-* **StubPath:** Active Setup tarafından yürütülecek komutu tanımlar. Başlatma `notepad` gibi herhangi bir geçerli komut satırı olabilir.
+* `0`, bileşenin komutunun yürütülmeyeceğini gösterir.
+* `1`, komutun her kullanıcı için bir kez yürütüleceği anlamına gelir; bu, `IsInstalled` değeri eksikse varsayılan davranıştır.
+* **StubPath:** Active Setup tarafından yürütülecek komutu tanımlar. `notepad` gibi geçerli bir komut satırı olabilir.
 
-**Güvenlik İpuçları:**
+**Güvenlik İçgörüleri:**
 
-* **`IsInstalled`** değeri `"1"` olarak ayarlanmış bir anahtarı değiştirmek veya yazmak, belirli bir **`StubPath`** ile yetkisiz komut yürütme ve potansiyel olarak ayrıcalık yükseltme olasılığına yol açabilir.
-* Herhangi bir **`StubPath`** değerinde referans verilen ikili dosyayı değiştirmek, yeterli izinlerle ayrıcalık yükseltmeyi başarabilir.
+* **`IsInstalled`** değeri `"1"` olarak ayarlanmış bir anahtarı belirli bir **`StubPath`** ile değiştirmek veya yazmak, yetkisiz komut yürütülmesine yol açabilir ve bu da ayrıcalık yükseltmesine neden olabilir.
+* Herhangi bir **`StubPath`** değerinde referans verilen ikili dosyanın değiştirilmesi de yeterli izinler varsa ayrıcalık yükseltmesine ulaşabilir.
 
-Active Setup bileşenlerindeki **`StubPath`** yapılandırmalarını incelemek için şu komutlar kullanılabilir:
+Active Setup bileşenleri arasındaki **`StubPath`** yapılandırmalarını incelemek için bu komutlar kullanılabilir:
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
 reg query "HKCU\SOFTWARE\Microsoft\Active Setup\Installed Components" /s /v StubPath
@@ -262,20 +263,20 @@ reg query "HKCU\SOFTWARE\Wow6432Node\Microsoft\Active Setup\Installed Components
 ```
 ### Tarayıcı Yardımcı Nesneleri
 
-### Tarayıcı Yardımcı Nesneleri (BHO'lar) Genel Bakışı
+### Tarayıcı Yardımcı Nesneleri (BHO'lar) Genel Bakış
 
-Tarayıcı Yardımcı Nesneleri (BHO'lar), Microsoft'un Internet Explorer'ına ekstra özellikler ekleyen DLL modülleridir. Her başlangıçta Internet Explorer ve Windows Explorer'a yüklenirler. Ancak, **NoExplorer** anahtarını 1 olarak ayarlayarak yüklenmeleri Windows Explorer örnekleriyle engellenebilir.
+Tarayıcı Yardımcı Nesneleri (BHO'lar), Microsoft'un Internet Explorer'ına ekstra özellikler ekleyen DLL modülleridir. Her başlatmada Internet Explorer ve Windows Gezgini'ne yüklenirler. Ancak, **NoExplorer** anahtarını 1 olarak ayarlayarak yürütmeleri engellenebilir, bu da Windows Gezgini örnekleriyle yüklenmelerini önler.
 
-BHO'lar, Windows 10 ile Internet Explorer 11 üzerinden uyumludur ancak Microsoft Edge'de desteklenmezler, bu da Windows'un daha yeni sürümlerindeki varsayılan tarayıcıdır.
+BHO'lar, Windows 10 ile Internet Explorer 11 aracılığıyla uyumludur, ancak daha yeni Windows sürümlerinde varsayılan tarayıcı olan Microsoft Edge'de desteklenmezler.
 
-Sistemde kayıtlı BHO'ları keşfetmek için aşağıdaki kayıt defteri anahtarlarını inceleyebilirsiniz:
+Bir sistemde kayıtlı BHO'ları keşfetmek için aşağıdaki kayıt defteri anahtarlarını inceleyebilirsiniz:
 
 * `HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 * `HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects`
 
-Her BHO, benzersiz bir tanımlayıcı olarak hizmet eden **CLSID**'si ile kayıt defterinde temsil edilir. Her CLSID hakkında detaylı bilgi, `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` altında bulunabilir.
+Her BHO, kayıt defterinde benzersiz bir tanımlayıcı olarak **CLSID** ile temsil edilir. Her CLSID hakkında ayrıntılı bilgi, `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` altında bulunabilir.
 
-Kayıt defterinde BHO'ları sorgulamak için şu komutlar kullanılabilir:
+Kayıt defterinde BHO'ları sorgulamak için bu komutlar kullanılabilir:
 ```bash
 reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
 reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\Browser Helper Objects" /s
@@ -285,9 +286,9 @@ reg query "HKLM\SOFTWARE\Wow6432Node\Microsoft\Windows\CurrentVersion\Explorer\B
 * `HKLM\Software\Microsoft\Internet Explorer\Extensions`
 * `HKLM\Software\Wow6432Node\Microsoft\Internet Explorer\Extensions`
 
-Kayıt defterinde her bir dll için 1 yeni kayıt bulunacağını ve bu kaydın **CLSID** tarafından temsil edileceğini unutmayın. CLSID bilgilerini `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` içinde bulabilirsiniz.
+Not edin ki, kayıt defteri her bir dll için 1 yeni kayıt içerecek ve bu **CLSID** ile temsil edilecektir. CLSID bilgilerini `HKLM\SOFTWARE\Classes\CLSID\{<CLSID>}` içinde bulabilirsiniz.
 
-### Yazı Tipi Sürücüleri
+### Font Sürücüleri
 
 * `HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Font Drivers`
 * `HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows NT\CurrentVersion\Font Drivers`
@@ -307,20 +308,20 @@ reg query "HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command" /v ""
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Classes\htmlfile\shell\open\command' -Name ""
 Get-ItemProperty -Path 'Registry::HKLM\SOFTWARE\Wow6432Node\Classes\htmlfile\shell\open\command' -Name ""
 ```
-### Görüntü Dosyası Yürütme Seçenekleri
+### Görüntü Dosyası Çalıştırma Seçenekleri
 ```
 HKLM\Software\Microsoft\Windows NT\CurrentVersion\Image File Execution Options
 HKLM\Software\Microsoft\Wow6432Node\Windows NT\CurrentVersion\Image File Execution Options
 ```
 ## SysInternals
 
-Unutmayın ki, autorun dosyalarını bulabileceğiniz tüm siteler zaten **winpeas.exe** tarafından aranmıştır. Ancak, daha kapsamlı bir otomatik olarak çalıştırılan dosya listesi için [systinternals'den autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns)'u kullanabilirsiniz:
+Not edin ki, autorun bulabileceğiniz tüm siteler **zaten**[ **winpeas.exe**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS/winPEASexe) tarafından **arama yapılmıştır**. Ancak, **otomatik olarak çalıştırılan** dosyaların **daha kapsamlı bir listesi** için [autoruns](https://docs.microsoft.com/en-us/sysinternals/downloads/autoruns) kullanabilirsiniz.
 ```
 autorunsc.exe -m -nobanner -a * -ct /accepteula
 ```
 ## Daha Fazla
 
-**Registrelerdeki gibi Autorun'ları bulmak için** [**https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2**](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
+**Kayıt defterlerinde olduğu gibi daha fazla Autorun bulmak için** [**https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2**](https://www.microsoftpressstore.com/articles/article.aspx?p=2762082\&seqNum=2)
 
 ## Referanslar
 
@@ -331,20 +332,21 @@ autorunsc.exe -m -nobanner -a * -ct /accepteula
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Hata ödülü ipucu**: **Intigriti'ye kaydolun**, hackerlar tarafından oluşturulan bir premium **hata ödülü platformu**! Bugün [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) adresinde bize katılın ve **100.000 $'a kadar ödüller kazanmaya başlayın**!
+**Hata ödülü ipucu**: **hackerlar tarafından, hackerlar için oluşturulmuş premium bir** **bug bounty platformu olan** **Intigriti'ye** **kaydolun**! Bugün [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) adresine katılın ve **$100,000**'a kadar ödüller kazanmaya başlayın!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family'yi**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

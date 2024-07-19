@@ -1,18 +1,19 @@
 # FZ - 125kHz RFID
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşün</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking hilelerinizi HackTricks** [**ve HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -20,7 +21,7 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ## Giriş
 
-125kHz etiketlerin nasıl çalıştığı hakkında daha fazla bilgi için şuna bakın:
+125kHz etiketlerinin nasıl çalıştığı hakkında daha fazla bilgi için kontrol edin:
 
 {% content-ref url="../pentesting-rfid.md" %}
 [pentesting-rfid.md](../pentesting-rfid.md)
@@ -28,40 +29,40 @@ HackTricks'ı desteklemenin diğer yolları:
 
 ## Eylemler
 
-Bu tür etiketler hakkında daha fazla bilgi için [**bu giriş yazısını okuyun**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz).
+Bu tür etiketler hakkında daha fazla bilgi için [**bu girişi okuyun**](../pentesting-rfid.md#low-frequency-rfid-tags-125khz).
 
 ### Oku
 
-Kart bilgilerini **okumaya** çalışır. Sonra onları **taklit** edebilir.
+Kart bilgisini **okumaya** çalışır. Sonra bunları **taklit** edebilir.
 
 {% hint style="warning" %}
-Bazı interkomlar, anahtar kopyalamayı önlemeye çalışarak okumadan önce bir yazma komutu gönderir. Yazma başarılı olursa, o etiket sahte olarak kabul edilir. Flipper RFID taklit ettiğinde, okuyucunun orijinalinden ayırt etme şansı olmadığı için böyle bir sorun ortaya çıkmaz.
+Bazı interkomların, okumadan önce bir yazma komutu göndererek kendilerini anahtar kopyalamaktan korumaya çalıştığını unutmayın. Yazma başarılı olursa, o etiket sahte olarak kabul edilir. Flipper RFID'yi taklit ettiğinde, okuyucunun bunu orijinalinden ayırt etmesi için bir yol yoktur, bu nedenle böyle bir sorun ortaya çıkmaz.
 {% endhint %}
 
-### El ile Ekle
+### Manuel Ekle
 
-Flipper Zero'da **manuel olarak verileri belirterek sahte kartlar oluşturabilir** ve sonra bunları taklit edebilirsiniz.
+Flipper Zero'da **verileri belirterek sahte kartlar oluşturabilirsiniz** ve ardından bunu taklit edebilirsiniz.
 
 #### Kartlardaki Kimlikler
 
-Bazen bir kart aldığınızda, kartın üzerinde görülebilen kimlik (veya bir kısmı) bulabilirsiniz.
+Bazen, bir kart aldığınızda, kartta görünür şekilde yazılı olan kimliği (veya bir kısmını) bulacaksınız.
 
 * **EM Marin**
 
-Örneğin, bu EM-Marin kartında fiziksel kartta **son 5 baytın son 3'ü açıkça okunabilir**.\
-Diğer 2'si karttan okuyamıyorsanız brute-force yöntemiyle bulunabilir.
+Örneğin, bu EM-Marin kartında fiziksel kartta **son 3'ü 5 baytın açık bir şekilde okunması mümkündür**.\
+Diğer 2'si karttan okuyamazsanız brute-force ile bulunabilir.
 
 <figure><img src="../../../.gitbook/assets/image (104).png" alt=""><figcaption></figcaption></figure>
 
 * **HID**
 
-Aynı durum bu HID kartında da geçerlidir, burada sadece 3 bayttan 2'si kartta yazılı olarak bulunabilir
+Bu HID kartında da aynı durum geçerlidir; burada yalnızca 3 bayttan 2'si kartta basılı olarak bulunabilir.
 
 <figure><img src="../../../.gitbook/assets/image (1014).png" alt=""><figcaption></figcaption></figure>
 
-### Taklit/ Yaz
+### Taklit/Yaz
 
-Bir kartı **kopyaladıktan** veya kimliği **manuel olarak girdikten** sonra Flipper Zero ile bunu **taklit etmek** veya gerçek bir karta **yazmak** mümkündür.
+Bir kartı **kopyaladıktan** veya kimliği **manuel olarak girdikten** sonra, bunu Flipper Zero ile **taklit** etmek veya gerçek bir karta **yazmak** mümkündür.
 
 ## Referanslar
 
@@ -71,16 +72,17 @@ Bir kartı **kopyaladıktan** veya kimliği **manuel olarak girdikten** sonra Fl
 
 {% embed url="https://websec.nl/" %}
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana dönüşün</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking hilelerinizi HackTricks** [**ve HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

@@ -1,28 +1,29 @@
 # UART
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da **takip edin**.
-* **Hacking püf noktalarınızı paylaşarak** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına PR göndererek.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi takip edin** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) **dark-web** destekli bir arama motorudur ve şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **kompromize edilip edilmediğini** kontrol etmek için **ücretsiz** işlevler sunar.
+[**WhiteIntel**](https://whiteintel.io) **karanlık ağ** destekli bir arama motorudur ve bir şirketin veya müşterilerinin **tehdit altına alınıp alınmadığını** kontrol etmek için **ücretsiz** işlevler sunar.
 
-WhiteIntel'in asıl amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye saldırılarıyla mücadele etmektir.
+WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
 
-Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
+Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
 {% embed url="https://whiteintel.io" %}
 
@@ -30,48 +31,48 @@ Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
 ## Temel Bilgiler
 
-UART, verileri bileşenler arasında bir bit aynı anda aktaran bir seri iletişim protokolüdür. Buna karşılık, paralel iletişim protokolleri verileri aynı anda birden fazla kanaldan iletilir. Yaygın seri iletişim protokolleri arasında RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express ve USB bulunur.
+UART, verileri bileşenler arasında bir seferde bir bit olarak ileten seri bir protokoldür. Buna karşılık, paralel iletişim protokolleri verileri birden fazla kanal üzerinden aynı anda iletir. Yaygın seri protokoller arasında RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express ve USB bulunur.
 
-Genel olarak, UART boşta iken (mantıksal 1 değerinde) hat yüksekte tutulur. Daha sonra, veri transferinin başlangıcını belirtmek için verici, alıcıya bir başlangıç biti gönderir, bu sırada sinyal düşükte (mantıksal 0 değerinde) tutulur. Daha sonra, verici gerçek mesajı içeren beş ila sekiz veri biti gönderir, ardından isteğe bağlı bir çiftlik biti ve bir veya iki durdurma biti (mantıksal 1 değerinde) gönderir, yapılandırmaya bağlı olarak. Hata denetimi için kullanılan çiftlik biti, uygulamada nadiren görülür. Durdurma biti (veya bitleri) iletimin sonunu belirtir.
+Genellikle, UART boş durumda iken hat yüksek (mantıksal 1 değeri) tutulur. Ardından, bir veri transferinin başlangıcını işaretlemek için, verici alıcıya bir başlangıç biti gönderir; bu sırada sinyal düşük (mantıksal 0 değeri) tutulur. Sonra, verici, gerçek mesajı içeren beş ila sekiz veri biti gönderir, ardından yapılandırmaya bağlı olarak isteğe bağlı bir parite biti ve bir veya iki durdurma biti (mantıksal 1 değeri ile) gelir. Hata kontrolü için kullanılan parite biti pratikte nadiren görülür. Durdurma biti (veya bitleri) iletimin sonunu belirtir.
 
-En yaygın yapılandırmayı 8N1 olarak adlandırıyoruz: sekiz veri biti, çiftlik yok ve bir durdurma biti. Örneğin, 8N1 UART yapılandırmasında karakter C'yi veya ASCII'de 0x43'ü göndermek isteseydik, aşağıdaki bitleri gönderirdik: 0 (başlangıç biti); 0, 1, 0, 0, 0, 0, 1, 1 (ikili 0x43 değeri) ve 0 (dur biti).
+En yaygın yapılandırmaya 8N1 denir: sekiz veri biti, parite yok ve bir durdurma biti. Örneğin, C karakterini veya ASCII'de 0x43'ü 8N1 UART yapılandırmasında göndermek isteseydik, şu bitleri gönderirdik: 0 (başlangıç biti); 0, 1, 0, 0, 0, 0, 1, 1 (0x43'ün ikili değeri) ve 0 (durdurma biti).
 
 ![](<../../.gitbook/assets/image (764).png>)
 
 UART ile iletişim kurmak için donanım araçları:
 
-* USB-seri adaptör
-* CP2102 veya PL2303 çipli adaptörler
-* Bus Pirate, Adafruit FT232H, Shikra veya Attify Badge gibi çok amaçlı araçlar
+* USB-serial adaptörü
+* CP2102 veya PL2303 yongaları ile adaptörler
+* Çok amaçlı araçlar: Bus Pirate, Adafruit FT232H, Shikra veya Attify Badge
 
 ### UART Portlarını Tanımlama
 
-UART'ın 4 portu vardır: **TX**(Gönder), **RX**(Al), **Vcc**(Gerilim) ve **GND**(Toprak). PCB'de **`TX`** ve **`RX`** harflerinin **yazılı olduğu** 4 port bulabilirsiniz. Ancak işaret yoksa, bir **multimetre** veya bir **mantık analizörü** kullanarak kendiniz bulmanız gerekebilir.
+UART'ın 4 portu vardır: **TX**(Gönder), **RX**(Al), **Vcc**(Gerilim) ve **GND**(Toprak). PCB üzerinde **`TX`** ve **`RX`** harfleri **yazılı** 4 port bulabilirsiniz. Ancak bir gösterge yoksa, bir **multimetre** veya **mantık analizörü** kullanarak kendiniz bulmanız gerekebilir.
 
-Bir **multimetre** ve cihaz kapalıyken:
+**Multimetre** ile cihaz kapalıyken:
 
-* **GND** pini tanımlamak için **Süreklilik Testi** modunu kullanın, arka ucu toprağa yerleştirin ve kırmızı ucu ile test edin, multimetreden bir ses duyana kadar. PCB'de birkaç GND pini bulunabilir, bu nedenle UART'a ait olanı bulmuş olabilirsiniz veya olmayabilirsiniz.
-* **VCC portunu** tanımlamak için **DC gerilim modunu** ayarlayın ve 20 V gerilime kadar ayarlayın. Siyah probu toprağa, kırmızı probu pine yerleştirin. Cihazı açın. Multimetre sabit bir 3.3 V veya 5 V gerilim ölçerse, Vcc pini bulmuşsunuz demektir. Başka gerilimler alırsanız, diğer portlarla tekrar deneyin.
-* **TX** **portunu** tanımlamak için **DC gerilim modunu** 20 V gerilime kadar ayarlayın, siyah probu toprağa, kırmızı probu pine yerleştirin ve cihazı açın. Gerilimin birkaç saniye boyunca dalgalanıp daha sonra Vcc değerinde sabitlendiğini bulursanız, muhtemelen TX portunu bulmuşsunuzdur. Bu, cihazı açarken bazı hata ayıklama verileri gönderdiği içindir.
-* **RX portu**, diğer 3'e en yakın olanı olacaktır, en düşük gerilim dalgalanması ve tüm UART pinlerinin en düşük genel değerine sahiptir.
+* **GND** pinini tanımlamak için **Devamlılık Testi** modunu kullanın, arka ucu toprağa yerleştirin ve kırmızı uçla test edin, multimetreden ses duyana kadar. PCB üzerinde birkaç GND pini bulunabilir, bu nedenle UART'a ait olanı bulmuş olabilirsiniz veya olmayabilirsiniz.
+* **VCC portunu** tanımlamak için, **DC gerilim modunu** ayarlayın ve 20 V gerilim ayarlayın. Siyah probu toprağa, kırmızı probu pin üzerine yerleştirin. Cihazı açın. Multimetre 3.3 V veya 5 V sabit bir gerilim ölçerse, Vcc pinini bulmuşsunuzdur. Diğer gerilimler alırsanız, diğer portlarla tekrar deneyin.
+* **TX** **portunu** tanımlamak için, **DC gerilim modunu** 20 V'a kadar ayarlayın, siyah probu toprağa, kırmızı probu pin üzerine yerleştirin ve cihazı açın. Gerilimin birkaç saniye boyunca dalgalandığını ve ardından Vcc değerinde sabitlendiğini bulursanız, muhtemelen TX portunu bulmuşsunuzdur. Bunun nedeni, açıldığında bazı hata ayıklama verileri göndermesidir.
+* **RX portu**, diğer 3'e en yakın olanıdır, en düşük gerilim dalgalanmasına ve tüm UART pinleri arasında en düşük genel değere sahiptir.
 
 TX ve RX portlarını karıştırabilirsiniz ve hiçbir şey olmaz, ancak GND ve VCC portlarını karıştırırsanız devreyi yakabilirsiniz.
 
-Bazı hedef cihazlarda üretici tarafından RX veya TX veya hatta her ikisi devre dışı bırakılarak UART portu devre dışı bırakılabilir. Bu durumda, devre kartındaki bağlantıları izlemek ve bazı kırılma noktalarını bulmak faydalı olabilir. Cihazın garantisinin olup olmadığını kontrol etmek, UART'nin algılanmadığını ve devrenin kırıldığını doğrulamak hakkında güçlü bir ipucudur. Cihazın garanti ile gönderilmiş olması durumunda, üretici bazı hata ayıklama arayüzleri (bu durumda UART) bırakır ve bu nedenle UART'yi bağlantıyı keser ve hata ayıklama yaparken tekrar bağlar. Bu kırılma pinleri lehimleme veya jumper tellerle bağlanabilir.
+Bazı hedef cihazlarda, üretici RX veya TX'yi veya her ikisini devre dışı bırakarak UART portunu devre dışı bırakmıştır. Bu durumda, devre kartındaki bağlantıları izlemek ve bazı çıkış noktaları bulmak faydalı olabilir. UART'ın tespit edilmediğini ve devrenin kesildiğini doğrulamak için güçlü bir ipucu, cihazın garantisini kontrol etmektir. Cihaz bazı garanti ile gönderildiyse, üretici bazı hata ayıklama arayüzleri (bu durumda, UART) bırakır ve bu nedenle, UART'ı devre dışı bırakmış olmalı ve hata ayıklama sırasında tekrar bağlamalıdır. Bu çıkış pinleri lehimleme veya jumper kabloları ile bağlanabilir.
 
-### UART Baud Oranını Tanımlama
+### UART Baud Hızını Tanımlama
 
-Doğru baud oranını tanımlamanın en kolay yolu, **TX pini çıkışını incelemek ve veriyi okumaya çalışmaktır**. Aldığınız veri okunabilir değilse, veri okunabilir hale gelene kadar bir sonraki mümkün baud oranına geçin. Bunu yapmak için bir USB-seri adaptör veya Bus Pirate gibi çok amaçlı bir cihaz kullanabilir ve [baudrate.py](https://github.com/devttys0/baudrate/) gibi bir yardımcı betikle eşleştirebilirsiniz. En yaygın baud oranları 9600, 38400, 19200, 57600 ve 115200'dür.
+Doğru baud hızını tanımlamanın en kolay yolu, **TX pininin çıkışına bakmak ve verileri okumaya çalışmaktır**. Aldığınız veriler okunabilir değilse, veriler okunabilir hale gelene kadar bir sonraki olası baud hızına geçin. Bunu yapmak için bir USB-serial adaptörü veya Bus Pirate gibi çok amaçlı bir cihaz kullanabilir ve [baudrate.py](https://github.com/devttys0/baudrate/) gibi bir yardımcı betikle eşleştirebilirsiniz. En yaygın baud hızları 9600, 38400, 19200, 57600 ve 115200'dür.
 
 {% hint style="danger" %}
-Bu protokolde bir cihazın TX'sini diğer cihazın RX'ine bağlamanız gerektiğini unutmamak önemlidir!
+Bu protokolde bir cihazın TX'ini diğerinin RX'ine bağlamanız gerektiğini unutmamak önemlidir!
 {% endhint %}
 
-## CP210X UART to TTY Adaptörü
+## CP210X UART'dan TTY Adaptörü
 
-CP210X Çipi, NodeMCU (esp8266 ile) gibi birçok prototip kartında Seri İletişim için kullanılır. Bu adaptörler oldukça ucuzdur ve hedefin UART arabirimine bağlanmak için kullanılabilir. Cihazın 5 pini vardır: 5V, GND, RXD, TXD, 3.3V. Herhangi bir hasarı önlemek için hedefin desteklediği gerilimi bağlamayı unutmayın. Son olarak, Adaptörün RXD pimini hedefin TXD'sine ve Adaptörün TXD pimini hedefin RXD'sine bağlayın.
+CP210X Çipi, Serial Communication için NodeMCU (esp8266 ile) gibi birçok prototipleme kartında kullanılır. Bu adaptörler nispeten ucuzdur ve hedefin UART arayüzüne bağlanmak için kullanılabilir. Cihazın 5 pini vardır: 5V, GND, RXD, TXD, 3.3V. Herhangi bir hasarı önlemek için hedefin desteklediği gerilimi bağladığınızdan emin olun. Son olarak, Adaptörün RXD pinini hedefin TXD'sine ve Adaptörün TXD pinini hedefin RXD'sine bağlayın.
 
-Adaptör algılanmazsa, CP210X sürücülerinin ana sistemde yüklü olduğundan emin olun. Adaptör algılandığında ve bağlandığında, picocom, minicom veya screen gibi araçlar kullanılabilir.
+Adaptör tespit edilmezse, CP210X sürücülerinin ana sistemde yüklü olduğundan emin olun. Adaptör tespit edilip bağlandığında, picocom, minicom veya screen gibi araçlar kullanılabilir.
 
 Linux/MacOS sistemlerine bağlı cihazları listelemek için:
 ```
@@ -81,25 +82,25 @@ UART arayüzü ile temel etkileşim için aşağıdaki komutu kullanın:
 ```
 picocom /dev/<adapter> --baud <baudrate>
 ```
-minicom için, onu yapılandırmak için aşağıdaki komutu kullanın:
+Minicom için, bunu yapılandırmak için aşağıdaki komutu kullanın:
 ```
 minicom -s
 ```
-`Serial port setup` seçeneğinde baud hızı ve cihaz adı gibi ayarları yapılandırın.
+Ayarları `Serial port setup` seçeneğinde baudrate ve cihaz adı gibi yapılandırın.
 
-Yapılandırmadan sonra `minicom` komutunu kullanarak UART Konsolunu başlatın.
+Yapılandırmadan sonra, UART Konsolu'nu başlatmak için `minicom` komutunu kullanın.
 
-## Arduino UNO R3 Üzerinden UART (Çıkarılabilir Atmel 328p Yonga Kartları)
+## UART Via Arduino UNO R3 (Çıkarılabilir Atmel 328p Çip Kartları)
 
-UART Seri USB adaptörleri mevcut değilse, Arduino UNO R3 hızlı bir hile ile kullanılabilir. Arduino UNO R3 genellikle her yerde bulunabilir olduğundan, bu yöntem çok zaman kazandırabilir.
+Eğer UART Serial to USB adaptörleri mevcut değilse, Arduino UNO R3 hızlı bir hack ile kullanılabilir. Arduino UNO R3 genellikle her yerde mevcut olduğundan, bu çok zaman kazandırabilir.
 
-Arduino UNO R3'ün kendisinde kart üzerinde bulunan bir USB'den Seri adaptörü vardır. UART bağlantısı almak için, sadece Arduino'dan Atmel 328p mikrodenetleyici yongasını çıkarın. Bu hile, Arduino UNO R3 varyantlarında (SMD versiyonunda kullanılan) kart üzerine lehimlenmemiş olan Atmel 328p'ye sahip olanlarda çalışır. Arduino'nun RX pini (Dijital Pin 0) ile UART Arayüzünün TX pini ve Arduino'nun TX pini (Dijital Pin 1) ile UART arayüzünün RX pini bağlanır.
+Arduino UNO R3'te, kartın kendisinde yerleşik bir USB to Serial adaptör bulunmaktadır. UART bağlantısını elde etmek için, Atmel 328p mikrodenetleyici çipini karttan çıkarın. Bu hack, Atmel 328p'nin kartta lehimlenmediği Arduino UNO R3 varyantlarında çalışır (SMD versiyonu kullanılır). Arduino'nun RX pinini (Dijital Pin 0) UART Arayüzünün TX pinine ve Arduino'nun TX pinini (Dijital Pin 1) UART arayüzünün RX pinine bağlayın.
 
-Son olarak, UART arayüzüne göre baud hızını ayarlayarak Arduino IDE'yi kullanmanız önerilir.
+Son olarak, Serial Konsolu almak için Arduino IDE kullanmanız önerilir. Menüdeki `tools` bölümünde `Serial Console` seçeneğini seçin ve baud hızını UART arayüzüne göre ayarlayın.
 
 ## Bus Pirate
 
-Bu senaryoda, programın tüm çıktılarını Seri Monitöre gönderen Arduino'nun UART iletişimini izleyeceğiz.
+Bu senaryoda, programın tüm çıktısını Serial Monitor'a gönderen Arduino'nun UART iletişimini dinleyeceğiz.
 ```bash
 # Check the modes
 UART>m
@@ -171,54 +172,55 @@ Escritura inicial completada:
 AAA Hi Dreg! AAA
 waiting a few secs to repeat....
 ```
-## UART Konsolu ile Firmware'in Dump Edilmesi
+## UART Konsolu ile Firmware Dökümü
 
-UART Konsolu, çalışma zamanı ortamındaki temel firmware ile çalışmanın harika bir yolunu sağlar. Ancak UART Konsolu erişimi salt okunur olduğunda birçok kısıtlama getirebilir. Birçok gömülü cihazda, firmware EEPROM'larda depolanır ve geçici belleğe sahip işlemcilerde yürütülür. Dolayısıyla, firmware, üretim sırasında EEPROM içindeki orijinal firmware olduğundan ve herhangi yeni dosyalar geçici bellek nedeniyle kaybolacağından salt okunur tutulur. Bu nedenle, gömülü firmware'lerle çalışırken firmware'in dump edilmesi değerli bir çabadır.
+UART Konsolu, çalışma ortamında temel firmware ile çalışmanın harika bir yolunu sağlar. Ancak, UART Konsolu erişimi yalnızca okunabilir olduğunda, birçok kısıtlama getirebilir. Birçok gömülü cihazda, firmware EEPROM'larda saklanır ve volatiliteli belleğe sahip işlemcilerde çalıştırılır. Bu nedenle, orijinal firmware üretim sırasında EEPROM'un içinde bulunduğundan, firmware yalnızca okunabilir olarak tutulur ve yeni dosyalar volatiliteli bellek nedeniyle kaybolur. Bu nedenle, gömülü firmware'lerle çalışırken firmware dökümü değerli bir çabadır.
 
-Bunu yapmanın birçok yolu vardır ve SPI bölümü, çeşitli cihazlarla EEPROM'dan firmware'in doğrudan çıkarılma yöntemlerini kapsar. Bununla birlikte, fiziksel cihazlar ve harici etkileşimlerle firmware'in dump edilmesini ilk denemeden önce UART ile yapmayı önerilir.
+Bunu yapmanın birçok yolu vardır ve SPI bölümü, çeşitli cihazlarla firmware'i doğrudan EEPROM'dan çıkarmak için yöntemleri kapsar. Ancak, fiziksel cihazlar ve harici etkileşimlerle firmware dökümünün riskli olabileceğinden, önce UART ile firmware dökümünü denemek önerilir.
 
-UART Konsolundan firmware dump etmek, öncelikle bootloader'lara erişim sağlamayı gerektirir. Birçok popüler satıcı, Linux'u yüklemek için bootloader olarak uboot (Universal Bootloader) kullanır. Bu nedenle, uboot'a erişim sağlamak gereklidir.
+UART Konsolu'ndan firmware dökümü, öncelikle bootloader'lara erişim sağlamayı gerektirir. Birçok popüler satıcı, Linux'u yüklemek için bootloader olarak uboot (Universal Bootloader) kullanır. Bu nedenle, uboot'a erişim sağlamak gereklidir.
 
-Bootloader'a erişmek için, UART portunu bilgisayara bağlayın ve herhangi bir Seri Konsol aracını kullanın ve cihazın güç kaynağını bağlı olmaktan çıkarın. Kurulum hazır olduğunda, Enter tuşuna basılı tutun. Son olarak, cihazın güç kaynağını bağlayın ve başlatmasına izin verin.
+Bootloader'a erişim sağlamak için, UART portunu bilgisayara bağlayın ve herhangi bir Seri Konsol aracını kullanın ve cihazın güç kaynağını bağlantısını kesin. Kurulum hazır olduğunda, Enter tuşuna basın ve basılı tutun. Son olarak, cihazın güç kaynağını bağlayın ve başlatmasına izin verin.
 
-Bunu yapmak, uboot'un yüklenmesini kesintiye uğratacak ve bir menü sağlayacaktır. Uboot komutlarını anlamak ve bunları listelemek için yardım menüsünü kullanmak önerilir. Bu muhtemelen `help` komutu olabilir. Farklı satıcılar farklı yapılandırmaları kullandıklarından, bunların her birini ayrı ayrı anlamak gereklidir.
+Bunu yapmak, uboot'un yüklenmesini kesintiye uğratacak ve bir menü sağlayacaktır. Uboot komutlarını anlamak ve bunları listelemek için yardım menüsünü kullanmak önerilir. Bu muhtemelen `help` komutudur. Farklı satıcılar farklı yapılandırmalar kullandığından, her birini ayrı ayrı anlamak gereklidir.
 
-Genellikle, firmware'i dump etmek için kullanılan komut:
+Genellikle, firmware dökümü için komut şudur:
 ```
 md
 ```
-Bu, "bellek dökümü" anlamına gelir. Bu işlem, belleği (EEPROM İçeriği) ekrana dökecektir. Bellek dökümünü yakalamak için işleme başlamadan önce Seri Konsol çıktısını günlüğe kaydetmeniz önerilir.
+hangi "bellek dökümü" anlamına gelir. Bu, belleği (EEPROM İçeriği) ekrana dökecektir. Bellek dökümünü yakalamak için prosedüre başlamadan önce Seri Konsol çıktısını kaydetmek önerilir.
 
-Son olarak, günlük dosyasından gereksiz tüm verileri çıkarın ve dosyayı `dosyaadı.rom` olarak depolayın ve içeriği çıkarmak için binwalk kullanın:
+Son olarak, günlük dosyasından tüm gereksiz verileri çıkarın ve dosyayı `filename.rom` olarak saklayın ve içeriği çıkarmak için binwalk kullanın:
 ```
 binwalk -e <filename.rom>
 ```
-Bu, EEPROM'daki olası içerikleri, hex dosyasında bulunan imzalara göre listeleyecektir.
+Bu, hex dosyasında bulunan imzalara göre EEPROM'dan olası içerikleri listeleyecektir.
 
-Ancak, kullanılsa bile her zaman uboot'un kilidinin açık olduğu durum olmayabilir. Enter tuşu bir şey yapmıyorsa, Boşluk Tuşu gibi farklı tuşları kontrol edin. Önyükleyicinin kilitli olduğu ve kesintiye uğramadığı durumlarda bu yöntem çalışmayabilir. Uboot'un cihaz için önyükleyici olup olmadığını kontrol etmek için, cihazın önyükleme sırasında UART Konsolu çıktısını kontrol edin. Önyükleme sırasında uboot'un bahsedilip edilmediğini kontrol edebilir.
+Ancak, uboot'un kullanılıyor olsa bile her zaman kilidinin açılmadığını belirtmek gerekir. Enter tuşu bir şey yapmıyorsa, Boşluk tuşu gibi farklı tuşları kontrol edin. Eğer bootloader kilitliyse ve kesintiye uğramıyorsa, bu yöntem işe yaramaz. Uboot'un cihaz için bootloader olup olmadığını kontrol etmek için, cihazın açılışı sırasında UART Konsolu'ndaki çıktıyı kontrol edin. Açılış sırasında uboot'u belirtebilir.
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io), şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **tehlikeye atılıp atılmadığını** kontrol etmek için **ücretsiz** işlevler sunan **dark-web** destekli bir arama motorudur.
+[**WhiteIntel**](https://whiteintel.io), bir şirketin veya müşterilerinin **stealer malwares** tarafından **tehdit edildiğini** kontrol etmek için **ücretsiz** işlevsellikler sunan **karanlık ağ** destekli bir arama motorudur.
 
-WhiteIntel'in asıl amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılım saldırılarıyla mücadele etmektir.
+WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
 
-Websitesini ziyaret edebilir ve **ücretsiz** olarak motorlarını deneyebilirsiniz:
+Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
 {% embed url="https://whiteintel.io" %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>htARTE (HackTricks AWS Red Team Expert)</strong> ile sıfırdan kahramana kadar AWS hacklemeyi öğrenin</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu
-* **💬 [Discord grubuna](https://discord.gg/hRep4RUj7f) veya [telegram grubuna](https://t.me/peass) katılın veya** bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)'da takip edin.
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

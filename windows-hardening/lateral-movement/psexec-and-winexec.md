@@ -1,47 +1,48 @@
 # PsExec/Winexec/ScExec
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
-## Nasıl Çalışırlar
+## Nasıl çalışırlar
 
-Hizmet ikili dosyalarının SMB üzerinden uzaktan yürütme başarısına ulaşmak için aşağıdaki adımlarda özetlenen süreç:
+Süreç, aşağıdaki adımlarda özetlenmiştir ve hizmet ikili dosyalarının, SMB üzerinden hedef makinede uzaktan yürütme sağlamak için nasıl manipüle edildiğini göstermektedir:
 
-1. **Hizmet ikili dosyasının SMB üzerindeki ADMIN$ paylaşımına kopyalanması** gerçekleştirilir.
-2. Uzak makinede bir hizmet **oluşturulur** ve ikili dosyaya işaret edilir.
+1. **Bir hizmet ikili dosyasının ADMIN$ paylaşımına SMB üzerinden kopyalanması** gerçekleştirilir.
+2. **Uzaktaki makinede bir hizmetin oluşturulması**, ikili dosyaya işaret edilerek yapılır.
 3. Hizmet **uzaktan başlatılır**.
 4. Çıkışta, hizmet **durdurulur ve ikili dosya silinir**.
 
-### **PsExec'ın El ile Yürütme Süreci**
+### **PsExec'i Manuel Olarak Çalıştırma Süreci**
 
-Msfvenom ile oluşturulan ve antivirus tespitini önlemek için Veil kullanılarak gizlenen 'met8888.exe' adlı yürütülebilir bir payload varsayılarak, aşağıdaki adımlar izlenir:
+Antivirüs tespitinden kaçınmak için Veil kullanılarak obfuscate edilmiş msfvenom ile oluşturulmuş bir yürütülebilir yük (payload) olan 'met8888.exe' adında bir dosya olduğunu varsayalım, aşağıdaki adımlar izlenir:
 
-* **İkili dosyanın kopyalanması**: Yürütülebilir dosya, komut isteminden ADMIN$ paylaşımına kopyalanır, ancak gizli kalması için dosya sisteminin herhangi bir yerine yerleştirilebilir.
-* **Hizmet oluşturma**: Uzak Windows hizmetlerini sorgulamaya, oluşturmaya ve silmeye izin veren Windows `sc` komutu kullanılarak, yüklenen ikili dosyaya işaret eden "meterpreter" adında bir hizmet oluşturulur.
-* **Hizmeti başlatma**: Son adım, hizmetin başlatılmasını içerir, bu da büyük olasılıkla beklenen yanıt kodunu döndüremeyen gerçek bir hizmet ikili dosyası olmadığı için "zaman aşımı" hatası ile sonuçlanabilir. Bu hata, asıl amaç ikili dosyanın yürütülmesidir.
+* **İkili dosyanın kopyalanması**: Yürütülebilir dosya, bir komut istemcisinden ADMIN$ paylaşımına kopyalanır, ancak dosya sistemi üzerinde gizli kalmak için herhangi bir yere yerleştirilebilir.
+* **Bir hizmet oluşturma**: Windows `sc` komutunu kullanarak, Windows hizmetlerini uzaktan sorgulama, oluşturma ve silme imkanı sağlayan bir hizmet "meterpreter" adıyla oluşturulur ve yüklenen ikili dosyaya işaret eder.
+* **Hizmeti başlatma**: Son adım, hizmetin başlatılmasıdır; bu, ikili dosyanın gerçek bir hizmet ikili dosyası olmaması ve beklenen yanıt kodunu döndürmemesi nedeniyle muhtemelen bir "zaman aşımı" hatası ile sonuçlanacaktır. Bu hata önemsizdir çünkü asıl hedef ikili dosyanın yürütülmesidir.
 
-Metasploit dinleyicisinin oturumun başarıyla başlatıldığını göstereceği gözlemlenir.
+Metasploit dinleyicisinin gözlemlenmesi, oturumun başarıyla başlatıldığını gösterecektir.
 
 [`sc` komutu hakkında daha fazla bilgi edinin](https://technet.microsoft.com/en-us/library/bb490995.aspx).
 
-Daha detaylı adımları [buradan](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/) bulabilirsiniz.
+Daha ayrıntılı adımları burada bulabilirsiniz: [https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/](https://blog.ropnop.com/using-credentials-to-own-windows-boxes-part-2-psexec-and-services/)
 
-**Ayrıca Windows Sysinternals ikili dosyası PsExec.exe'yi de kullanabilirsiniz:**
+**Windows Sysinternals ikili dosyası PsExec.exe'yi de kullanabilirsiniz:**
 
 ![](<../../.gitbook/assets/image (928).png>)
 
-[**SharpLateral**](https://github.com/mertdas/SharpLateral)ı da kullanabilirsiniz:
+Ayrıca [**SharpLateral**](https://github.com/mertdas/SharpLateral) kullanabilirsiniz:
 
 {% code overflow="wrap" %}
 ```
@@ -49,16 +50,17 @@ SharpLateral.exe redexec HOSTNAME C:\\Users\\Administrator\\Desktop\\malware.exe
 ```
 {% endcode %}
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına. 
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

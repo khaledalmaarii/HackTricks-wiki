@@ -1,22 +1,23 @@
 # I2C
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hacklemeyi sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'i desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na göz atın (https://github.com/sponsors/carlospolop)!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**]'yi (https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**]'i (https://opensea.io/collection/the-peass-family) içeren koleksiyonumuzu
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## Bus Pirate
 
-Bir Bus Pirate'ın çalışıp çalışmadığını test etmek için, +5V'yi VPU ile ve 3.3V'yi ADC ile bağlayın ve bus pirate'a erişin (Örneğin Tera Term kullanarak) ve `~` komutunu kullanın:
+Bir Bus Pirate'ın çalıştığını test etmek için, +5V'u VPU'ya ve 3.3V'u ADC'ye bağlayın ve bus pirate'a erişin (örneğin Tera Term kullanarak) ve `~` komutunu kullanın:
 ```bash
 # Use command
 HiZ>~
@@ -55,18 +56,18 @@ Any key to exit
 #Press space
 Found 0 errors.
 ```
-Önceki komut satırında 0 hata bulduğunu belirttiğini görebilirsiniz. Bu, onu satın aldıktan sonra veya bir firmware flaşladıktan sonra çalıştığını bilmek için çok faydalıdır.
+Önceki komut satırında 0 hata bulunduğu yazıyordu. Bu, satın aldıktan sonra veya bir firmware yükledikten sonra çalıştığını bilmek için çok faydalıdır.
 
-Bus pirate ile bağlantı kurmak için belgelere bakabilirsiniz:
+Bus pirate ile bağlantı kurmak için belgeleri takip edebilirsiniz:
 
 ![](<../../.gitbook/assets/image (484).png>)
 
-Bu durumda bir EPROM'a (ATMEL901 24C256 PU27) bağlanacağım:
+Bu durumda bir EPROM'a bağlanacağım: ATMEL901 24C256 PU27:
 
 ![](<../../.gitbook/assets/image (964).png>)
 
-Bus pirate ile iletişim kurmak için Tera Term'i kullandım ve COM portuna bağlı olan pirate bus hızını 115200 olarak ayarladım.\
-Aşağıdaki iletişimde, bus pirate'ı I2C ile konuşmaya hazırlamanın ve bellekten yazıp okumanın nasıl yapılacağını bulabilirsiniz (Yorumlar "#" kullanılarak belirtilir, iletişimde bu kısmı beklemeyin):
+Bus pirate ile konuşmak için Tera Term kullandım ve pirate bus COM portuna 115200 hızında bir Setup --> Serial Port ile bağlandım.\
+Aşağıdaki iletişimde bus pirate'ı I2C ile konuşacak şekilde nasıl hazırlayacağınızı ve bellekten nasıl yazıp okuyacağınızı bulabilirsiniz (Yorumlar "#" ile görünür, iletişimde o kısmı beklemeyin):
 ```bash
 # Check communication with buspirate
 i
@@ -167,7 +168,7 @@ NACK
 ```
 ### Sniffer
 
-Bu senaryoda, arduino ve önceki EPROM arasındaki I2C iletişimini dinleyeceğiz, sadece her iki cihaz arasında iletişim kurmanız ve ardından bus pirate'i SCL, SDA ve GND pinlerine bağlamanız gerekiyor:
+Bu senaryoda, arduino ile önceki EPROM arasındaki I2C iletişimini dinleyeceğiz, sadece her iki cihazla iletişim kurmanız ve ardından bus pirate'ı SCL, SDA ve GND pinlerine bağlamanız gerekiyor:
 
 ![](<../../.gitbook/assets/image (166).png>)
 ```bash
@@ -215,16 +216,17 @@ Sniffer
 Any key to exit
 [0xA0+0x00+0x69+0x41+0x41+0x41+0x20+0x48+0x69+0x20+0x44+0x72+0x65+0x67+0x21+0x20+0x41+0x41+0x41+0x00+]
 ```
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmaya kadar AWS hacklemeyi öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)'yi keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR göndererek HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

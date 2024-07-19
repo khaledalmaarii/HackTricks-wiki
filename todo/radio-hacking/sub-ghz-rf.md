@@ -1,46 +1,46 @@
 # Sub-GHz RF
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong> ile!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamını görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**](https://github.com/sponsors/carlospolop)'na göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## Garaj Kapıları
 
-Garaj kapı açıcıları genellikle 300-190 MHz aralığında frekansta çalışır, en yaygın frekanslar ise 300 MHz, 310 MHz, 315 MHz ve 390 MHz'dir. Bu frekans aralığı genellikle garaj kapı açıcıları için kullanılır çünkü diğer frekans bantlarından daha az kalabalıktır ve diğer cihazlardan gelen müdahaleyi daha az yaşama olasılığı vardır.
+Garaj kapısı açıcıları genellikle 300-190 MHz aralığında çalışır ve en yaygın frekanslar 300 MHz, 310 MHz, 315 MHz ve 390 MHz'dir. Bu frekans aralığı, diğer frekans bantlarına göre daha az kalabalık olduğu ve diğer cihazlardan gelen parazitlerden daha az etkilenme olasılığı olduğu için garaj kapısı açıcıları için yaygın olarak kullanılır.
 
 ## Araç Kapıları
 
-Çoğu araç anahtarları ya **315 MHz ya da 433 MHz** frekanslarında çalışır. Bunlar her ikisi de radyo frekanslarıdır ve çeşitli farklı uygulamalarda kullanılır. İki frekans arasındaki temel fark, 433 MHz'nin 315 MHz'den daha uzun menzile sahip olmasıdır. Bu, 433 MHz'nin uzun menzil gerektiren uygulamalar için daha iyi olduğu anlamına gelir, örneğin uzaktan anahtarsız giriş.
+Çoğu araç anahtar uzaktan kumandası ya **315 MHz ya da 433 MHz** frekansında çalışır. Bu ikisi de radyo frekanslarıdır ve çeşitli uygulamalarda kullanılır. İki frekans arasındaki ana fark, 433 MHz'nin 315 MHz'den daha uzun bir menzile sahip olmasıdır. Bu, 433 MHz'nin uzaktan anahtarsız giriş gibi daha uzun menzil gerektiren uygulamalar için daha iyi olduğu anlamına gelir.\
+Avrupa'da 433.92MHz yaygın olarak kullanılırken, ABD ve Japonya'da 315MHz kullanılmaktadır.
 
-Avrupa'da genellikle 433.92 MHz kullanılırken, ABD ve Japonya'da 315 MHz kullanılır.
-
-## **Kaba Kuvvet Saldırısı**
+## **Kaba Güç Saldırısı**
 
 <figure><img src="../../.gitbook/assets/image (1084).png" alt=""><figcaption></figcaption></figure>
 
-Her kodu 5 kez göndermek yerine (alıcının almasını sağlamak için bu şekilde gönderilir) sadece bir kez gönderirseniz, süre 6 dakikaya düşer:
+Her kodu 5 kez göndermek yerine (alıcıya ulaşmasını sağlamak için böyle gönderilir) sadece bir kez gönderirseniz, süre 6 dakikaya düşer:
 
 <figure><img src="../../.gitbook/assets/image (622).png" alt=""><figcaption></figcaption></figure>
 
-ve sinyaller arasındaki **2 ms bekleme süresini kaldırırsanız süreyi 3 dakikaya düşürebilirsiniz.**
+Ve eğer **sinyaller arasındaki 2 ms bekleme** süresini **kaldırırsanız, süreyi 3 dakikaya düşürebilirsiniz.**
 
-Ayrıca, De Bruijn Dizisi'ni kullanarak (tüm potansiyel ikili sayıları göndermek için gereken bit sayısını azaltmanın bir yolu) bu **süre sadece 8 saniyeye düşer**:
+Ayrıca, De Bruijn Dizisi kullanarak (tüm potansiyel ikili sayıları kaba kuvvetle göndermek için gereken bit sayısını azaltmanın bir yolu) bu **süre sadece 8 saniyeye düşer**:
 
 <figure><img src="../../.gitbook/assets/image (583).png" alt=""><figcaption></figcaption></figure>
 
 Bu saldırının bir örneği [https://github.com/samyk/opensesame](https://github.com/samyk/opensesame) adresinde uygulanmıştır.
 
-**Önambul gereksinimi, De Bruijn Dizisi** optimizasyonunu **önleyecek** ve **döner kodlar bu saldırıyı engelleyecektir** (kodun kaba kuvvetle çözülemeyecek kadar uzun olduğu varsayılırsa).
+**Bir önsöz gerektirmek, De Bruijn Dizisi** optimizasyonunu engelleyecek ve **dönüşümlü kodlar bu saldırıyı önleyecektir** (kodun kaba kuvvetle kırılmayacak kadar uzun olduğunu varsayarsak).
 
 ## Sub-GHz Saldırısı
 
@@ -50,47 +50,48 @@ Bu sinyalleri Flipper Zero ile saldırmak için kontrol edin:
 [fz-sub-ghz.md](flipper-zero/fz-sub-ghz.md)
 {% endcontent-ref %}
 
-## Döner Kodlar Koruma
+## Dönüşümlü Kod Koruması
 
-Otomatik garaj kapı açıcıları genellikle garaj kapısını açmak veya kapatmak için kablosuz uzaktan kumanda kullanır. Uzaktan kumanda, garaj kapı açıcısına bir radyo frekansı (RF) sinyali gönderir ve motoru açmak veya kapatmak için harekete geçirir.
+Otomatik garaj kapısı açıcıları genellikle garaj kapısını açmak ve kapatmak için kablosuz bir uzaktan kumanda kullanır. Uzaktan kumanda, garaj kapısı açıcısına **bir radyo frekansı (RF) sinyali** gönderir ve bu, motoru kapıyı açmak veya kapatmak için etkinleştirir.
 
-Birisi RF sinyalini yakalayıp daha sonra kullanmak üzere kaydetmek için bir kod yakalayıcı adı verilen bir cihaz kullanabilir. Buna **tekrar saldırısı** denir. Bu tür bir saldırıyı önlemek için, birçok modern garaj kapı açıcı daha güvenli bir şifreleme yöntemi olan **döner kod** sistemini kullanır.
+Birinin, RF sinyalini kesmek ve daha sonra kullanmak üzere kaydetmek için bir kod yakalayıcı cihaz kullanması mümkündür. Bu, **tekrar saldırısı** olarak bilinir. Bu tür bir saldırıyı önlemek için, birçok modern garaj kapısı açıcı daha güvenli bir şifreleme yöntemi olan **dönüşümlü kod** sistemini kullanır.
 
-**RF sinyali genellikle döner bir kod kullanılarak** iletilir, yani her kullanımda kod değişir. Bu, birinin sinyali **yakalamasını ve garaja izinsiz erişim sağlamasını zorlaştırır**.
+**RF sinyali genellikle bir dönüşümlü kod kullanılarak iletilir**, bu da kodun her kullanımda değiştiği anlamına gelir. Bu, birinin sinyali **yakalamayı** ve garaja **yetkisiz** erişim sağlamak için **kullanmayı** **zorlaştırır**.
 
-Döner kod sisteminde, uzaktan kumanda ve garaj kapı açıcısının her kullanımda yeni bir kod üreten **ortak bir algoritması** vardır. Garaj kapı açıcısı sadece **doğru kod**a yanıt verecektir, bu da birinin sadece bir kod yakalayarak garaja izinsiz erişim sağlamasını çok daha zor hale getirir.
+Dönüşümlü kod sisteminde, uzaktan kumanda ve garaj kapısı açıcı, uzaktan kumanda her kullanıldığında **yeni bir kod üreten** **paylaşılan bir algoritmaya** sahiptir. Garaj kapısı açıcı yalnızca **doğru koda** yanıt verecek, bu da birinin yalnızca bir kodu yakalayarak garaja yetkisiz erişim sağlamasını çok daha zor hale getirecektir.
 
 ### **Eksik Bağlantı Saldırısı**
 
-Temelde, düğmeye basılırken sinyali dinlersiniz ve cihazın (örneğin araba veya garaj) menzil dışında olduğu sırada sinyali **yakalarsınız**. Daha sonra cihaza geçersiniz ve **yakalanan kodu kullanarak açarsınız**.
+Temelde, düğmeyi dinlersiniz ve **uzaktan kumanda cihazın menzilinden çıktığında sinyali yakalarsınız** (örneğin araç veya garaj). Daha sonra cihaza geçer ve **yakalanan kodu kullanarak açarsınız**.
 
-### Tam Bağlantı Sinyali Engelleme Saldırısı
+### Tam Bağlantı Boğma Saldırısı
 
-Bir saldırgan aracın yakınında veya alıcının yanında sinyali **engelleyebilir**, böylece **alıcı kodu aslında 'duyamaz'** ve bunun gerçekleştiği sırada sadece sinyali **yakalayıp tekrar oynatabilirsiniz**.
+Bir saldırgan, **sinyali araç veya alıcı yakınında boğabilir** böylece **alıcı kodu gerçekten ‘duyamaz’** ve bu olduğunda, boğmayı durdurduğunuzda kodu **yakalayabilir ve tekrar gönderebilirsiniz**.
 
-Kurban bir noktada **arabayı kilitlemek için tuşları kullanacak**, ancak saldırı **umarım kapıyı açmak için yeterince "kapıyı kapat" kodunu kaydeder** (aynı kodları açmak ve kapatmak için kullanan araçlar olduğundan farklı frekansta her iki komutu da dinler).
+Kurban bir noktada **anahtarları kullanarak aracı kilitleyecektir**, ancak saldırgan **yeterince "kapıyı kapat" kodunu** kaydetmiş olmalıdır ki umarım kapıyı açmak için yeniden gönderilebilir (bir **frekans değişikliği gerekebilir** çünkü bazı araçlar kapatmak ve açmak için aynı kodları kullanır ama her iki komutu farklı frekanslarda dinler).
 
 {% hint style="warning" %}
-**Engelleme işe yarar**, ancak **arabayı kilitleyen kişi basitçe kapıları kontrol etse** ve kilitlendiğinden emin olsa, arabanın kilidinin açık olduğunu fark eder. Ayrıca, böyle saldırılardan haberdar olsalardı, kapıların kilitlendiğini belirten **sesi dinleyebilirler** veya 'kilit' düğmesine bastıklarında arabanın **ışıkları** yanmazsa fark edebilirler.
+**Boğma çalışır**, ancak dikkat çekicidir çünkü **aracı kilitleyen kişi kapıları test ederse** kilitli olduklarından emin olmak için aracı kilitli bulacaklardır. Ayrıca, böyle saldırılardan haberdar iseler, kapıların kilit **sesini** yapmadığını veya araçların **ışıklarının** ‘kilit’ düğmesine bastıklarında hiç yanmadığını dinleyebilirler.
 {% endhint %}
 
-### **Kod Yakalama Saldırısı (veya 'RollJam')**
+### **Kod Yakalama Saldırısı (aka ‘RollJam’)**
 
-Bu daha **gizli Engelleme tekniğidir**. Saldırgan sinyali engeller, böylece kurban kapıyı kilitlemeye çalıştığında işe yaramaz, ancak saldırgan bu kodu **kaydeder**. Daha sonra, kurban **arabayı tekrar kilitlemeye çalışırken** düğmeye basar ve araba bu ikinci kodu **kaydeder**.\
-Hemen ardından **saldırgan ilk kodu gönderebilir** ve **araba kilitlenecektir** (kurban ikinci basışın kapattığını düşünecektir). Ardından, saldırgan **ikinci çalınan kodu gönderebilir** ve aracı **açabilir** (bir **"arabayı kapat" kodunun açmak için de kullanılabileceği** varsayılırsa). Farklı bir frekans değişikliği gerekebilir (çünkü aynı kodları açmak ve kapatmak için kullanan araçlar farklı frekansta her iki komutu da dinler).
+Bu daha **gizli bir Boğma tekniğidir**. Saldırgan sinyali boğar, böylece kurban kapıyı kilitlemeye çalıştığında çalışmaz, ancak saldırgan bu kodu **kaydeder**. Daha sonra, kurban düğmeye basarak aracı **tekrar kilitlemeye çalışır** ve araç **bu ikinci kodu kaydeder**.\
+Bundan hemen sonra **saldırgan ilk kodu gönderebilir** ve **araç kilitlenecektir** (kurban ikinci basışın kapattığını düşünecektir). Ardından, saldırgan **ikinci çalınan kodu aracı açmak için gönderebilir** (bir **"kapalı araç" kodunun da açmak için kullanılabileceğini varsayarsak**). Bir frekans değişikliği gerekebilir (çünkü bazı araçlar kapatmak ve açmak için aynı kodları kullanır ama her iki komutu farklı frekanslarda dinler).
 
-Saldırgan, araba alıcısını **engelleyebilir ve kendi alıcısını engellemez** çünkü araba alıcısı örneğin 1 MHz geniş bantta dinliyorsa, saldırgan **uzaktan kumandanın kullandığı tam frekansı engellemez** ancak **saldırı yaptığı spektrumda yakın bir frekansı engeller** ve **saldırganın alıcısı**, uzaktan kumandanın sinyalini **engel olmadan** dinleyebileceği daha küçük bir aralıkta dinler.
+Saldırgan, **aracın alıcısını boğabilir ve kendi alıcısını boğmaz** çünkü eğer araç alıcısı örneğin 1MHz geniş bantta dinliyorsa, saldırgan uzaktan kumandanın kullandığı tam frekansı **boğmayacak** ama **o spektrumda yakın bir frekansta** boğma yapacaktır, bu sırada **saldırganın alıcısı daha küçük bir aralıkta dinleyecek** ve uzaktan kumanda sinyalini **boğma sinyali olmadan** dinleyebilecektir.
 
 {% hint style="warning" %}
-Diğer özelliklerde görülen diğer uygulamalar, **döner kodun toplam kodun bir parçası olduğunu** göstermektedir. Yani gönderilen kod bir **24 bitlik anahtar** olup ilk **12'si döner kod**, ikinci 8'i **komut** (kilitli veya açık gibi) ve son 4'ü **kontrol toplamı**dır. Bu türü uygulayan araçlar da doğal olarak savunmasızdır çünkü saldırgan sadece döner kod segmentini değiştirmesi yeterli olacaktır ve her iki frekansta da **herhangi bir döner kodu kullanabilir**.
+Diğer spesifikasyonlarda görülen uygulamalar, **dönüşümlü kodun gönderilen toplam kodun bir kısmı** olduğunu göstermektedir. Yani gönderilen kod bir **24 bit anahtardır**; ilk **12'si dönüşümlü kod**, **ikinci 8'i komut** (kilitleme veya açma gibi) ve son 4'ü **kontrol toplamıdır**. Bu tür bir uygulama yapan araçlar da doğal olarak savunmasızdır çünkü saldırgan yalnızca dönüşümlü kod segmentini değiştirmek zorundadır ve böylece **her iki frekansta da herhangi bir dönüşümlü kodu kullanabilir**.
 {% endhint %}
 
 {% hint style="danger" %}
-Kurban, saldırganın ilkini gönderirken üçüncü bir kod gönderirse, ilk ve ikinci kod geçersiz hale gelir.
+Kurban, saldırgan ilk kodu gönderirken üçüncü bir kod gönderirse, birinci ve ikinci kod geçersiz hale gelecektir.
 {% endhint %}
-### Alarm Çalma Saldırısı
 
-Bir araca takılan satış sonrası rulo kod sistemi üzerinde test yapılırken, **aynı kodun iki kez gönderilmesi** hemen **alarmı ve immobilizer'ı etkinleştirdi** ve benzersiz bir **hizmet reddi** fırsatı sağladı. İronik bir şekilde, alarmı ve immobilizer'ı **devre dışı bırakmanın** yolu, **uzaktan kumandaya basmaktı**, saldırganın **sürekli DoS saldırısı gerçekleştirmesine** olanak tanıyarak. Veya bu saldırıyı **öncekiyle birleştirerek daha fazla kod elde etmek** için kurbanın saldırıyı en kısa sürede durdurmak isteyeceği.
+### Alarm Seslendirme Boğma Saldırısı
+
+Bir araçta kurulu bir aftermarket dönüşümlü kod sistemine karşı test yaparken, **aynı kodu iki kez göndermek** hemen **alarmı** ve immobilizeri etkinleştirdi ve benzersiz bir **hizmet reddi** fırsatı sağladı. Ironik olarak, **alarmı** ve immobilizeri **devre dışı bırakmanın** yolu **uzaktan kumandayı** **basmaktı**, bu da bir saldırgana **sürekli DoS saldırısı** yapma yeteneği sağladı. Ya da bu saldırıyı **önceki saldırıyla birleştirerek daha fazla kod elde edebilir** çünkü kurban saldırıyı bir an önce durdurmak isteyecektir.
 
 ## Referanslar
 
@@ -99,16 +100,17 @@ Bir araca takılan satış sonrası rulo kod sistemi üzerinde test yapılırken
 * [https://samy.pl/defcon2015/](https://samy.pl/defcon2015/)
 * [https://hackaday.io/project/164566-how-to-hack-a-car/details](https://hackaday.io/project/164566-how-to-hack-a-car/details)
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Sıfırdan kahraman olmak için AWS hackleme öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklamınızı görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARI**]'na(https://github.com/sponsors/carlospolop) göz atın!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family) koleksiyonumuzu keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family)
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı paylaşarak PR'lar göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}

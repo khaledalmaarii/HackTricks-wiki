@@ -1,36 +1,52 @@
 # JTAG
 
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklam görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini**](https://peass.creator-spring.com) edinin
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud** github depolarına PR gönderin.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## JTAGenum
 
-[**JTAGenum** ](https://github.com/cyphunk/JTAGenum), bir Raspberry PI veya bir Arduino ile kullanılabilen bir araçtır ve bilinmeyen bir çipten JTAG pinlerini bulmaya çalışmak için kullanılabilir.\
-**Arduino**'da, **2 ila 11 pinleri Arduino'ya bağlayın ve 10 pinleri potansiyel olarak bir JTAG'a ait olabilir.** Arduino'ya programı yükleyin ve tüm pinleri bruteforce ederek herhangi bir pinin JTAG'a ait olup olmadığını ve hangi pinin hangi olduğunu bulmaya çalışacaktır.\
-**Raspberry PI**'da sadece **1 ila 6 pinleri** (6 pin, bu yüzden her potansiyel JTAG pini test etmek için daha yavaş ilerleyeceksiniz).
+[**JTAGenum** ](https://github.com/cyphunk/JTAGenum), bilinmeyen bir çipten JTAG pinlerini bulmak için bir Raspberry PI veya Arduino ile kullanılabilecek bir araçtır.\
+**Arduino'da**, **2'den 11'e kadar olan pinleri JTAG'a ait olabilecek 10 pinle bağlayın**. Programı Arduino'ya yükleyin ve tüm pinleri brute force ile denemeye çalışacaktır. JTAG'a ait olan pinleri ve her birinin hangisi olduğunu bulacaktır.\
+**Raspberry PI'da** yalnızca **1'den 6'ya kadar olan pinleri** kullanabilirsiniz (6 pin, bu nedenle her potansiyel JTAG pinini test ederken daha yavaş gideceksiniz).
 
 ### Arduino
 
-Arduino'da, kabloları bağladıktan sonra (pin 2 ila 11'i JTAG pinlerine ve Arduino GND'yi ana kart GND'ye bağlayın), **Arduino'ya JTAGenum programını yükleyin** ve Seri Monitörde bir **`h`** (yardım komutu) gönderin ve yardımı görmelisiniz:
+Arduino'da, kabloları bağladıktan sonra (pin 2'den 11'e kadar JTAG pinlerine ve Arduino GND'yi ana kart GND'ye bağlayarak), **JTAGenum programını Arduino'ya yükleyin** ve Seri Monitörde **`h`** (yardım komutu) gönderin ve yardım mesajını görmelisiniz:
 
 ![](<../../.gitbook/assets/image (939).png>)
 
 ![](<../../.gitbook/assets/image (578).png>)
 
-**"Satır sonu yok" ve 115200baud**'u yapılandırın.\
-Taramayı başlatmak için komut s'yi gönderin:
+**"No line ending" ve 115200baud** ayarlarını yapın.\
+Tarama başlatmak için s komutunu gönderin:
 
 ![](<../../.gitbook/assets/image (774).png>)
 
-Bir JTAG ile iletişime geçiyorsanız, JTAG'ın pinlerini belirten bir veya birkaç **FOUND!** ile başlayan satır bulacaksınız.
+Eğer bir JTAG ile iletişim kuruyorsanız, JTAG pinlerini belirten **FOUND!** ile başlayan bir veya daha fazla **satır bulacaksınız**.
+
+{% hint style="success" %}
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>HackTricks'i Destekleyin</summary>
+
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+
+</details>
+{% endhint %}

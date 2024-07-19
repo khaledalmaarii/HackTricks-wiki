@@ -1,22 +1,23 @@
 # FZ - iButton
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklam görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud github depolarına PR göndererek paylaşın.**
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
 
 ## Giriş
 
-iButton nedir hakkında daha fazla bilgi için şu adrese bakın:
+iButton hakkında daha fazla bilgi için kontrol edin:
 
 {% content-ref url="../ibutton.md" %}
 [ibutton.md](../ibutton.md)
@@ -24,7 +25,7 @@ iButton nedir hakkında daha fazla bilgi için şu adrese bakın:
 
 ## Tasarım
 
-Aşağıdaki resmin **mavi** kısmı, **gerçek iButton'u yerleştirmeniz gereken yerdir** böylece Flipper onu **okuyabilir.** **Yeşil** kısım, Flipper zero ile **doğru bir şekilde iButton taklit etmek için okuyucuya dokunmanız gereken yerdir.**
+Aşağıdaki resmin **mavi** kısmı, Flipper'ın **okuyabilmesi için gerçek iButton'u** nasıl **yerleştirmeniz gerektiğini** gösterir. **Yeşil** kısım ise Flipper Zero ile okuyucuya **doğru bir şekilde iButton'u taklit etmek için** nasıl **dokunmanız gerektiğini** gösterir.
 
 <figure><img src="../../../.gitbook/assets/image (565).png" alt=""><figcaption></figcaption></figure>
 
@@ -32,18 +33,18 @@ Aşağıdaki resmin **mavi** kısmı, **gerçek iButton'u yerleştirmeniz gereke
 
 ### Oku
 
-Okuma Modunda Flipper, iButton anahtarının dokunmasını bekliyor ve **Dallas, Cyfral ve Metakom** olmak üzere üç tür anahtarı sindirebiliyor. Flipper, anahtarın türünü **kendisi belirleyecek.** Anahtar protokolünün adı, ID numarasının üzerinde ekranda görüntülenecektir.
+Okuma Modunda Flipper, iButton anahtarının dokunmasını bekler ve üç tür anahtarı sindirebilir: **Dallas, Cyfral ve Metakom**. Flipper, anahtarın türünü **kendisi belirleyecektir**. Anahtar protokolünün adı, ID numarasının üzerinde ekranda görüntülenecektir.
 
-### Manuel olarak ekle
+### Manuel ekle
 
-**Dallas, Cyfral ve Metakom** türünde bir iButton'u **manuel olarak eklemek mümkündür.**
+**Dallas, Cyfral ve Metakom** türünde bir iButton'u **manuel olarak eklemek** mümkündür.
 
-### Taklit et
+### **Taklit et**
 
-Kaydedilmiş iButton'ları (okunan veya manuel olarak eklenen) **taklit etmek mümkündür.**
+Kaydedilmiş iButton'ları (okunan veya manuel olarak eklenen) **taklit etmek** mümkündür.
 
 {% hint style="info" %}
-Flipper Zero'nun beklenen temaslarını okuyucuya dokunduramazsanız **harici GPIO'yu kullanabilirsiniz:**
+Flipper Zero'nun beklenen temaslarının okuyucuya dokunmasını sağlayamazsanız, **harici GPIO'yu kullanabilirsiniz:**
 {% endhint %}
 
 <figure><img src="../../../.gitbook/assets/image (138).png" alt=""><figcaption></figcaption></figure>
@@ -52,16 +53,17 @@ Flipper Zero'nun beklenen temaslarını okuyucuya dokunduramazsanız **harici GP
 
 * [https://blog.flipperzero.one/taming-ibutton/](https://blog.flipperzero.one/taming-ibutton/)
 
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWS hackleme konusunda sıfırdan kahramana kadar öğrenin</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Kırmızı Takım Uzmanı)</strong></a><strong>!</strong></summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-HackTricks'ı desteklemenin diğer yolları:
-
-* **Şirketinizi HackTricks'te reklam görmek istiyorsanız** veya **HackTricks'i PDF olarak indirmek istiyorsanız** [**ABONELİK PLANLARINI**](https://github.com/sponsors/carlospolop) kontrol edin!
-* [**Resmi PEASS & HackTricks ürünlerini alın**](https://peass.creator-spring.com)
-* [**PEASS Ailesi'ni**](https://opensea.io/collection/the-peass-family) keşfedin, özel [**NFT'lerimiz**](https://opensea.io/collection/the-peass-family) koleksiyonumuz
-* **Katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya bizi **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarınızı göndererek HackTricks ve HackTricks Cloud github depolarına PR göndererek paylaşın.**
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
+{% endhint %}
