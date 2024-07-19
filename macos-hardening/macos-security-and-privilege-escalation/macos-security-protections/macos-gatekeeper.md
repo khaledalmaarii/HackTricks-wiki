@@ -1,16 +1,19 @@
 # macOS Gatekeeper / Quarantine / XProtect
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>AWSハッキングをゼロからヒーローまで学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* あなたは**サイバーセキュリティ会社**で働いていますか？あなたの**会社をHackTricksで宣伝したい**ですか？それとも**最新のPEASSにアクセスしたり、HackTricksをPDFでダウンロードしたい**ですか？[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**The PEASS Family**](https://opensea.io/collection/the-peass-family)を発見してください。私たちの独占的な[**NFT**](https://opensea.io/collection/the-peass-family)のコレクションです。
-* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を手に入れましょう。
-* **参加してください** [**💬**](https://emojipedia.org/speech-balloon/) [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に、または**私を** **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**でフォローしてください。**
-* **あなたのハッキングトリックを共有するために、** [**hacktricksリポジトリ**](https://github.com/carlospolop/hacktricks) **や** [**hacktricks-cloudリポジトリ**](https://github.com/carlospolop/hacktricks-cloud) **にPRを提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -18,29 +21,29 @@
 
 ## Gatekeeper
 
-**Gatekeeper**は、Macオペレーティングシステム向けに開発されたセキュリティ機能で、ユーザーが**信頼できるソフトウェアのみを**システムで実行することを保証するために設計されています。これは、ユーザーが**App Store以外のソース**からダウンロードして開こうとするソフトウェア（アプリ、プラグイン、インストーラーパッケージなど）を**検証することによって機能します**。
+**Gatekeeper**は、Macオペレーティングシステム向けに開発されたセキュリティ機能で、ユーザーが**信頼できるソフトウェアのみを実行する**ことを保証するために設計されています。これは、ユーザーが**App Store以外のソース**からダウンロードして開こうとするソフトウェア（アプリ、プラグイン、インストーラーパッケージなど）を**検証する**ことによって機能します。
 
 Gatekeeperの主要なメカニズムは、その**検証**プロセスにあります。ダウンロードされたソフトウェアが**認識された開発者によって署名されているか**を確認し、ソフトウェアの真正性を保証します。さらに、ソフトウェアが**Appleによって公証されているか**を確認し、既知の悪意のあるコンテンツが含まれておらず、公証後に改ざんされていないことを確認します。
 
-加えて、Gatekeeperは、**ユーザーがダウンロードしたソフトウェアを初めて開くことを承認するように促すことによって、ユーザーの制御とセキュリティを強化します**。この保護策は、ユーザーが無害なデータファイルと誤解して実行してしまう可能性のある有害な実行可能コードを誤って実行するのを防ぐのに役立ちます。
+加えて、Gatekeeperは、**ユーザーがダウンロードしたソフトウェアを初めて開くことを承認するよう促す**ことで、ユーザーの制御とセキュリティを強化します。この保護機能は、ユーザーが無害なデータファイルと誤解して実行してしまう可能性のある有害な実行可能コードを誤って実行するのを防ぐのに役立ちます。
 
 ### アプリケーション署名
 
-アプリケーション署名、またはコード署名は、Appleのセキュリティインフラストラクチャの重要な要素です。これらは、**ソフトウェアの著者（開発者）の身元を確認するため**に使用され、コードが最後に署名されて以来改ざんされていないことを保証します。
+アプリケーション署名、またはコード署名は、Appleのセキュリティインフラストラクチャの重要な要素です。これらは、**ソフトウェアの著者（開発者）の身元を確認する**ために使用され、コードが最後に署名されて以来改ざんされていないことを保証します。
 
 以下はその仕組みです：
 
 1. **アプリケーションの署名：** 開発者がアプリケーションを配布する準備が整ったとき、彼らは**プライベートキーを使用してアプリケーションに署名します**。このプライベートキーは、Apple Developer Programに登録した際にAppleが開発者に発行する**証明書に関連付けられています**。署名プロセスは、アプリのすべての部分の暗号ハッシュを作成し、このハッシュを開発者のプライベートキーで暗号化することを含みます。
 2. **アプリケーションの配布：** 署名されたアプリケーションは、開発者の証明書とともにユーザーに配布されます。この証明書には、対応する公開鍵が含まれています。
-3. **アプリケーションの検証：** ユーザーがアプリケーションをダウンロードして実行しようとすると、彼らのMacオペレーティングシステムは、開発者の証明書から公開鍵を使用してハッシュを復号化します。その後、アプリケーションの現在の状態に基づいてハッシュを再計算し、これを復号化されたハッシュと比較します。一致すれば、**アプリケーションは開発者によって署名されて以来変更されていない**ことを意味し、システムはアプリケーションの実行を許可します。
+3. **アプリケーションの検証：** ユーザーがアプリケーションをダウンロードして実行しようとすると、彼らのMacオペレーティングシステムは開発者の証明書から公開鍵を使用してハッシュを復号化します。その後、アプリケーションの現在の状態に基づいてハッシュを再計算し、これを復号化されたハッシュと比較します。一致すれば、**アプリケーションは開発者が署名して以来変更されていない**ことを意味し、システムはアプリケーションの実行を許可します。
 
-アプリケーション署名は、AppleのGatekeeper技術の重要な部分です。ユーザーが**インターネットからダウンロードしたアプリケーションを開こうとすると**、Gatekeeperはアプリケーション署名を検証します。Appleが知られた開発者に発行した証明書で署名されており、コードが改ざんされていなければ、Gatekeeperはアプリケーションの実行を許可します。そうでない場合、アプリケーションはブロックされ、ユーザーに警告されます。
+アプリケーション署名は、AppleのGatekeeper技術の重要な部分です。ユーザーが**インターネットからダウンロードしたアプリケーションを開こうとすると**、Gatekeeperはアプリケーション署名を検証します。これがAppleによって知られた開発者に発行された証明書で署名されており、コードが改ざんされていなければ、Gatekeeperはアプリケーションの実行を許可します。そうでない場合、アプリケーションはブロックされ、ユーザーに警告されます。
 
 macOS Catalina以降、**GatekeeperはアプリケーションがAppleによって公証されているかどうかも確認します**。これにより、セキュリティの追加層が加わります。公証プロセスは、アプリケーションに既知のセキュリティ問題や悪意のあるコードがないかをチェックし、これらのチェックに合格すると、AppleはGatekeeperが検証できるチケットをアプリケーションに追加します。
 
 #### 署名の確認
 
-いくつかの**マルウェアサンプル**を確認する際は、常に**バイナリの署名を確認する**べきです。署名した**開発者**がすでに**マルウェアに関連している可能性がある**ためです。
+いくつかの**マルウェアサンプル**を確認する際は、常に**バイナリの署名を確認する**べきです。署名した**開発者**がすでに**マルウェアに関連している可能性があるためです。**
 ```bash
 # Get signer
 codesign -vv -d /bin/ls 2>&1 | grep -E "Authority|TeamIdentifier"
@@ -75,7 +78,7 @@ GateKeeperの**ステータス**を確認することができます:
 spctl --status
 ```
 {% hint style="danger" %}
-注意してください。GateKeeperの署名チェックは、**隔離属性を持つファイル**に対してのみ実行され、すべてのファイルに対して行われるわけではありません。
+注意してください。GateKeeperの署名チェックは、**Quarantine属性を持つファイル**に対してのみ実行され、すべてのファイルに対して行われるわけではありません。
 {% endhint %}
 
 GateKeeperは、**設定と署名**に基づいてバイナリが実行可能かどうかを確認します：
@@ -149,11 +152,11 @@ spctl --assess -v /Applications/App.app
 ```
 ### Quarantine Files
 
-アプリケーションやファイルを**ダウンロード**すると、特定のmacOS **アプリケーション**（ウェブブラウザやメールクライアントなど）がダウンロードしたファイルに、一般的に「**隔離フラグ**」として知られる**拡張ファイル属性**を付加します。この属性は、ファイルが信頼できないソース（インターネット）から来ていることを**示す**セキュリティ対策として機能し、潜在的なリスクを伴います。しかし、すべてのアプリケーションがこの属性を付加するわけではなく、一般的なBitTorrentクライアントソフトウェアは通常このプロセスを回避します。
+アプリケーションやファイルを**ダウンロード**すると、特定のmacOS **アプリケーション**（ウェブブラウザやメールクライアントなど）がダウンロードしたファイルに、一般に「**隔離フラグ**」として知られる**拡張ファイル属性**を**付加**します。この属性は、ファイルが信頼できないソース（インターネット）から来ていることを**示す**セキュリティ対策として機能し、潜在的なリスクを伴います。しかし、すべてのアプリケーションがこの属性を付加するわけではなく、一般的なBitTorrentクライアントソフトウェアは通常このプロセスを回避します。
 
 **隔離フラグの存在は、ユーザーがファイルを実行しようとしたときにmacOSのGatekeeperセキュリティ機能に信号を送ります**。
 
-**隔離フラグが存在しない場合**（一部のBitTorrentクライアントを介してダウンロードされたファイルなど）、Gatekeeperの**チェックは実行されない可能性があります**。したがって、ユーザーは、あまり安全でないまたは未知のソースからダウンロードしたファイルを開く際には注意を払うべきです。
+**隔離フラグが存在しない場合**（一部のBitTorrentクライアントを介してダウンロードされたファイルなど）、Gatekeeperの**チェックは行われない可能性があります**。したがって、ユーザーは、あまり安全でないまたは未知のソースからダウンロードしたファイルを開く際には注意を払うべきです。
 
 {% hint style="info" %}
 **コード署名の** **有効性**を**確認する**ことは、コードとそのバンドルされたリソースすべての暗号学的**ハッシュ**を生成することを含む**リソース集約的**なプロセスです。さらに、証明書の有効性を確認するには、発行後に取り消されているかどうかを確認するためにAppleのサーバーに**オンラインチェック**を行う必要があります。このため、アプリが起動するたびに完全なコード署名と公証のチェックを実行することは**非現実的です**。
@@ -284,7 +287,7 @@ find / -exec ls -ld {} \; 2>/dev/null | grep -E "[x\-]@ " | awk '{printf $9; pri
 
 #### **Quarantine.kext**
 
-カーネル拡張は、**システムのカーネルキャッシュを通じてのみ利用可能**ですが、**https://developer.apple.com/** から **Kernel Debug Kit** をダウンロードすることができ、これには拡張のシンボリケート版が含まれています。
+カーネル拡張は、**システムのカーネルキャッシュを通じてのみ利用可能**ですが、**https://developer.apple.com/** から **Kernel Debug Kit** をダウンロードすることで、拡張のシンボリケート版を含むことができます。
 
 ### XProtect
 
@@ -304,7 +307,7 @@ system_profiler SPInstallHistoryDataType 2>/dev/null | grep -A 4 "XProtectPlistC
 
 XProtectは、**/Library/Apple/System/Library/CoreServices/XProtect.bundle**のSIP保護された場所にあり、バンドル内にはXProtectが使用する情報が含まれています：
 
-* **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: これらのcdhashesを持つコードがレガシー権限を使用することを許可します。
+* **`XProtect.bundle/Contents/Resources/LegacyEntitlementAllowlist.plist`**: これらのcdhashを持つコードがレガシー権限を使用することを許可します。
 * **`XProtect.bundle/Contents/Resources/XProtect.meta.plist`**: BundleIDおよびTeamIDを介して読み込むことが禁止されているプラグインと拡張機能のリスト、または最小バージョンを示します。
 * **`XProtect.bundle/Contents/Resources/XProtect.yara`**: マルウェアを検出するためのYaraルール。
 * **`XProtect.bundle/Contents/Resources/gk.db`**: ブロックされたアプリケーションとTeamIDのハッシュを含むSQLite3データベース。
@@ -314,10 +317,10 @@ XProtectは、**/Library/Apple/System/Library/CoreServices/XProtect.bundle**のS
 ### Not Gatekeeper
 
 {% hint style="danger" %}
-Gatekeeperは、アプリケーションを実行するたびに**実行されるわけではありません**。実際には、_**AppleMobileFileIntegrity**_ (AMFI)は、Gatekeeperによってすでに実行および検証されたアプリを実行する際にのみ**実行可能コードの署名を検証**します。
+Gatekeeperは、アプリケーションを実行するたびに**実行されるわけではありません**。実際には、_**AppleMobileFileIntegrity**_ (AMFI)は、Gatekeeperによってすでに実行され、検証されたアプリを実行する際にのみ**実行可能コードの署名を検証**します。
 {% endhint %}
 
-したがって、以前はアプリを実行してGatekeeperでキャッシュし、その後**アプリケーションの実行可能でないファイルを変更する**（ElectronのasarやNIBファイルなど）ことが可能でしたが、他の保護がなければ、アプリケーションは**悪意のある**追加とともに**実行されました**。
+したがって、以前はアプリを実行してGatekeeperでキャッシュし、その後**アプリケーションの実行可能でないファイルを変更する**（ElectronのasarやNIBファイルなど）ことが可能でした。他の保護がなければ、アプリケーションは**悪意のある**追加とともに**実行されました**。
 
 しかし、現在はmacOSがアプリケーションバンドル内のファイルの**変更を防ぐ**ため、これは不可能です。したがって、[Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md)攻撃を試みると、Gatekeeperでキャッシュするためにアプリを実行した後、バンドルを変更できなくなるため、もはや悪用できないことがわかります。たとえば、Contentsディレクトリの名前をNotConに変更し（エクスプロイトで示されているように）、その後アプリのメインバイナリを実行してGatekeeperでキャッシュしようとすると、エラーが発生し、実行されません。
 
@@ -343,7 +346,7 @@ Gatekeeperをバイパスする方法（ユーザーに何かをダウンロー�
 
 ### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
-このバイパスでは、`application.app/Contents`から圧縮を開始するアプリケーションを含むzipファイルが作成されました。したがって、**quarantine attr**はすべての**`application.app/Contents`のファイル**に適用されましたが、**`application.app`には適用されませんでした**。これがGatekeeperがチェックしていたものであり、`application.app`がトリガーされたときに**quarantine属性を持っていなかったため、Gatekeeperはバイパスされました。**
+このバイパスでは、`application.app/Contents`から圧縮を開始するアプリケーションを含むzipファイルが作成されました。したがって、**quarantine attr**はすべての**`application.app/Contents`のファイル**に適用されましたが、**`application.app`には適用されませんでした**。これがGatekeeperがチェックしていたもので、`application.app`がトリガーされたときに**quarantine属性を持っていなかったため、Gatekeeperはバイパスされました。**
 ```bash
 zip -r test.app/Contents test.zip
 ```
@@ -351,7 +354,7 @@ Check the [**original report**](https://www.jamf.com/blog/jamf-threat-labs-safar
 
 ### [CVE-2022-32910](https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2022-32910)
 
-コンポーネントが異なっていても、この脆弱性の悪用は前のものと非常に似ています。この場合、**`application.app/Contents`** から Apple Archive を生成するため、**`application.app`** は **Archive Utility** によって解凍されるときに検疫属性を取得しません。
+コンポーネントが異なっていても、この脆弱性の悪用は前のものと非常に似ています。この場合、**`application.app/Contents`** から Apple Archive を生成するので、**`application.app`** は **Archive Utility** によって解凍されるときに検疫属性を取得しません。
 ```bash
 aa archive -d test.app/Contents -o test.app.aar
 ```
@@ -379,9 +382,9 @@ python3 -m http.server
 ```
 {% endcode %}
 
-[**オリジナルレポート**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)をチェックして、詳細情報を確認してください。
+詳細については、[**元のレポート**](https://www.microsoft.com/en-us/security/blog/2022/12/19/gatekeepers-achilles-heel-unearthing-a-macos-vulnerability/)を確認してください。
 
-これはAppleArchivesを使用しても悪用される可能性があることに注意してください：
+これがAppleArchivesでも悪用される可能性があることに注意してください:
 ```bash
 mkdir app
 touch app/test
@@ -408,8 +411,8 @@ aa archive -d test/ -o test.aar
 ```
 {% endcode %}
 
-クアランティン属性が設定されないファイルを作成できることで、**Gatekeeperをバイパスすることが可能でした。** トリックは、AppleDouble名付け規則を使用して**DMGファイルアプリケーションを作成し**（`._`で始める）、**この隠しファイルへのシンボリックリンクとして可視ファイルを作成することでした。**\
-**dmgファイルが実行されると、**クアランティン属性がないため、**Gatekeeperをバイパスします。**
+クアランティン属性が設定されないファイルを作成できることで、**Gatekeeperをバイパスすることが可能でした。** トリックは、AppleDouble名付け規則を使用して**DMGファイルアプリケーションを作成**し、**この隠し**ファイルへのシンボリックリンクとして**可視ファイルを作成すること**でした。\
+**dmgファイルが実行されると**、クアランティン属性がないため、**Gatekeeperをバイパスします。**
 ```bash
 # Create an app bundle with the backdoor an call it app.app
 

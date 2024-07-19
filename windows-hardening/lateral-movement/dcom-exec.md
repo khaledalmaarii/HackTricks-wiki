@@ -1,16 +1,19 @@
 # DCOM Exec
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>ゼロからヒーローまでAWSハッキングを学ぶ</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* あなたは**サイバーセキュリティ会社**で働いていますか？あなたの**会社をHackTricksで宣伝したいですか**？それとも**最新のPEASSにアクセスしたり、HackTricksをPDFでダウンロードしたいですか**？[**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* [**PEASSファミリー**](https://opensea.io/collection/the-peass-family)を発見してください。私たちの独占的な[**NFT**](https://opensea.io/collection/the-peass-family)のコレクションです。
-* [**公式PEASS & HackTricksグッズ**](https://peass.creator-spring.com)を手に入れましょう。
-* **参加してください** [**💬**](https://emojipedia.org/speech-balloon/) [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に、または**私を** **Twitter** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**でフォローしてください。**
-* **あなたのハッキングトリックを共有するために、** [**hacktricksリポジトリ**](https://github.com/carlospolop/hacktricks) **と** [**hacktricks-cloudリポジトリ**](https://github.com/carlospolop/hacktricks-cloud) **にPRを提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 **Try Hard Security Group**
 
@@ -22,9 +25,9 @@
 
 ## MMC20.Application
 
-**この技術に関する詳細は、[https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)の元の投稿をチェックしてください。**
+**この技術に関する詳細は、[https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)の元の投稿を確認してください。**
 
-分散コンポーネントオブジェクトモデル（DCOM）オブジェクトは、オブジェクトとのネットワークベースの相互作用に対して興味深い機能を提供します。Microsoftは、DCOMおよびコンポーネントオブジェクトモデル（COM）に関する包括的なドキュメントを提供しており、[こちらでDCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx)と[こちらでCOM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx)にアクセスできます。DCOMアプリケーションのリストは、PowerShellコマンドを使用して取得できます：
+Distributed Component Object Model (DCOM) オブジェクトは、オブジェクトとのネットワークベースの相互作用に対して興味深い機能を提供します。Microsoftは、DCOMおよびComponent Object Model (COM)に関する包括的なドキュメントを提供しており、[こちらでDCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx)と[こちらでCOM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx)にアクセスできます。DCOMアプリケーションのリストは、PowerShellコマンドを使用して取得できます:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
@@ -54,14 +57,14 @@ ls \\10.10.10.10\c$\Users
 
 **この技術に関する詳細は、元の投稿を確認してください [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-**MMC20.Application** オブジェクトは、明示的な "LaunchPermissions" が欠如しており、デフォルトで管理者のアクセスを許可する権限に設定されています。詳細については、スレッドを [こちら](https://twitter.com/tiraniddo/status/817532039771525120) で確認でき、明示的な Launch Permission がないオブジェクトをフィルタリングするために [@tiraniddo](https://twitter.com/tiraniddo) の OleView .NET の使用が推奨されます。
+**MMC20.Application** オブジェクトは、明示的な "LaunchPermissions" が欠如しており、デフォルトで管理者のアクセスを許可する権限に設定されています。詳細については、スレッドを [こちら](https://twitter.com/tiraniddo/status/817532039771525120) で確認でき、明示的な Launch Permission を持たないオブジェクトをフィルタリングするために [@tiraniddo](https://twitter.com/tiraniddo) の OleView .NET の使用が推奨されます。
 
-特に、`ShellBrowserWindow` と `ShellWindows` の2つのオブジェクトは、明示的な Launch Permissions が欠如しているために強調されました。`HKCR:\AppID\{guid}` の下に `LaunchPermission` レジストリエントリが存在しないことは、明示的な権限がないことを示しています。
+特に、`ShellBrowserWindow` と `ShellWindows` の2つのオブジェクトは、明示的な Launch Permissions が欠如しているため、注目されました。`HKCR:\AppID\{guid}` の下に `LaunchPermission` レジストリエントリが存在しないことは、明示的な権限がないことを示しています。
 
 ###  ShellWindows
 ProgID が欠如している `ShellWindows` に対しては、.NET メソッド `Type.GetTypeFromCLSID` と `Activator.CreateInstance` を使用して、その AppID を用いてオブジェクトのインスタンス化を行います。このプロセスでは、OleView .NET を利用して `ShellWindows` の CLSID を取得します。インスタンス化された後は、`WindowsShell.Item` メソッドを通じて相互作用が可能で、`Document.Application.ShellExecute` のようなメソッド呼び出しが行えます。
 
-オブジェクトをインスタンス化し、リモートでコマンドを実行するための PowerShell コマンドの例が提供されました:
+オブジェクトをインスタンス化し、リモートでコマンドを実行するための PowerShell コマンドの例が提供されました：
 ```powershell
 $com = [Type]::GetTypeFromCLSID("<clsid>", "<IP>")
 $obj = [System.Activator]::CreateInstance($com)
