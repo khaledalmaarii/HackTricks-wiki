@@ -1,16 +1,19 @@
 # macOS Gatekeeper / Quarantine / XProtect
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Učite AWS hakovanje od nule do heroja sa</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-* Da li radite u **kompaniji za sajber bezbednost**? Da li želite da vidite vašu **kompaniju oglašenu u HackTricks**? ili želite da imate pristup **najnovijoj verziji PEASS ili preuzmete HackTricks u PDF**? Proverite [**PLANOVE ČLANSTVA**](https://github.com/sponsors/carlospolop)!
-* Otkrijte [**The PEASS Family**](https://opensea.io/collection/the-peass-family), našu kolekciju ekskluzivnih [**NFT-ova**](https://opensea.io/collection/the-peass-family)
-* Nabavite [**službeni PEASS & HackTricks merch**](https://peass.creator-spring.com)
-* **Pridružite se** [**💬**](https://emojipedia.org/speech-balloon/) [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** me na **Twitteru** 🐦[**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite svoje hakerske trikove slanjem PR-ova na** [**hacktricks repo**](https://github.com/carlospolop/hacktricks) **i** [**hacktricks-cloud repo**](https://github.com/carlospolop/hacktricks-cloud)
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
 
@@ -20,25 +23,25 @@
 
 **Gatekeeper** je bezbednosna funkcija razvijena za Mac operativne sisteme, dizajnirana da osigura da korisnici **pokreću samo pouzdan softver** na svojim sistemima. Funkcioniše tako što **verifikuje softver** koji korisnik preuzima i pokušava da otvori iz **izvora van App Store-a**, kao što su aplikacija, dodatak ili instalacioni paket.
 
-Ključni mehanizam Gatekeeper-a leži u njegovom **proveravanju**. Proverava da li je preuzeti softver **potpisan od strane priznatog programera**, osiguravajući autentičnost softvera. Pored toga, utvrđuje da li je softver **notarizovan od strane Apple-a**, potvrđujući da je bez poznatog zlonamernog sadržaja i da nije menjan nakon notarizacije.
+Ključni mehanizam Gatekeeper-a leži u njegovom **procesu verifikacije**. Proverava da li je preuzeti softver **potpisan od strane priznatog programera**, osiguravajući autentičnost softvera. Pored toga, utvrđuje da li je softver **notarisan od strane Apple-a**, potvrđujući da je bez poznatog zlonamernog sadržaja i da nije menjan nakon notarizacije.
 
-Dodatno, Gatekeeper jača kontrolu i bezbednost korisnika tako što **traži od korisnika da odobre otvaranje** preuzetog softvera po prvi put. Ova zaštita pomaže u sprečavanju korisnika da nenamerno pokrenu potencijalno štetan izvršni kod koji su možda zamislili kao bezopasan podatkovni fajl.
+Pored toga, Gatekeeper jača kontrolu i bezbednost korisnika tako što **traži od korisnika da odobri otvaranje** preuzetog softvera prvi put. Ova zaštita pomaže u sprečavanju korisnika da nenamerno pokrenu potencijalno štetan izvršni kod koji su mogli zamisliti kao bezopasan podatkovni fajl.
 
-### Potpisi aplikacija
+### Application Signatures
 
 Potpisi aplikacija, takođe poznati kao potpisi koda, su ključna komponenta Apple-ove bezbednosne infrastrukture. Koriste se za **verifikaciju identiteta autora softvera** (programera) i za osiguranje da kod nije menjan od poslednjeg potpisivanja.
 
 Evo kako to funkcioniše:
 
-1. **Potpisivanje aplikacije:** Kada je programer spreman da distribuira svoju aplikaciju, **potpisuje aplikaciju koristeći privatni ključ**. Ovaj privatni ključ je povezan sa **sertifikatom koji Apple izdaje programeru** kada se upiše u Apple Developer Program. Proces potpisivanja uključuje kreiranje kriptografskog haša svih delova aplikacije i enkriptovanje ovog haša privatnim ključem programera.
+1. **Potpisivanje aplikacije:** Kada je programer spreman da distribuira svoju aplikaciju, on **potpisuje aplikaciju koristeći privatni ključ**. Ovaj privatni ključ je povezan sa **sertifikatom koji Apple izdaje programeru** kada se upiše u Apple Developer Program. Proces potpisivanja uključuje kreiranje kriptografskog haša svih delova aplikacije i enkriptovanje ovog haša privatnim ključem programera.
 2. **Distribucija aplikacije:** Potpisana aplikacija se zatim distribuira korisnicima zajedno sa sertifikatom programera, koji sadrži odgovarajući javni ključ.
-3. **Verifikacija aplikacije:** Kada korisnik preuzme i pokuša da pokrene aplikaciju, njihov Mac operativni sistem koristi javni ključ iz sertifikata programera da dekriptuje haš. Zatim ponovo izračunava haš na osnovu trenutnog stanja aplikacije i upoređuje ga sa dekriptovanim hašem. Ako se poklapaju, to znači da **aplikacija nije modifikovana** od kada ju je programer potpisao, i sistem dozvoljava aplikaciji da se pokrene.
+3. **Verifikacija aplikacije:** Kada korisnik preuzme i pokuša da pokrene aplikaciju, njihov Mac operativni sistem koristi javni ključ iz sertifikata programera da dekriptuje haš. Zatim ponovo izračunava haš na osnovu trenutnog stanja aplikacije i upoređuje ga sa dekriptovanim hašem. Ako se poklapaju, to znači da **aplikacija nije modifikovana** od kada ju je programer potpisao, i sistem dozvoljava pokretanje aplikacije.
 
-Potpisi aplikacija su esencijalni deo Apple-ove Gatekeeper tehnologije. Kada korisnik pokuša da **otvori aplikaciju preuzetu sa interneta**, Gatekeeper verifikuje potpis aplikacije. Ako je potpisana sertifikatom koji je Apple izdao poznatom programeru i kod nije menjan, Gatekeeper dozvoljava aplikaciji da se pokrene. U suprotnom, blokira aplikaciju i obaveštava korisnika.
+Potpisi aplikacija su esencijalni deo Apple-ove Gatekeeper tehnologije. Kada korisnik pokuša da **otvori aplikaciju preuzetu sa interneta**, Gatekeeper verifikuje potpis aplikacije. Ako je potpisana sertifikatom koji je Apple izdao poznatom programeru i kod nije menjan, Gatekeeper dozvoljava pokretanje aplikacije. U suprotnom, blokira aplikaciju i obaveštava korisnika.
 
 Počevši od macOS Catalina, **Gatekeeper takođe proverava da li je aplikacija notarizovana** od strane Apple-a, dodajući dodatni sloj bezbednosti. Proces notarizacije proverava aplikaciju na poznate bezbednosne probleme i zlonamerni kod, i ako ove provere prođu, Apple dodaje tiket aplikaciji koji Gatekeeper može da verifikuje.
 
-#### Proverite potpise
+#### Check Signatures
 
 Kada proveravate neki **uzorak zlonamernog softvera**, uvek treba da **proverite potpis** binarnog fajla jer **programer** koji ga je potpisao može već biti **povezan** sa **zlonamernim softverom.**
 ```bash
@@ -59,9 +62,9 @@ codesign -s <cert-name-keychain> toolsdemo
 ```
 ### Notarization
 
-Apple-ov proces notarizacije služi kao dodatna zaštita za korisnike od potencijalno štetnog softvera. Uključuje **razvijanje aplikacije koju podnosi** **Apple-ovoj Notarizaciji**, što se ne sme mešati sa pregledom aplikacija. Ova usluga je **automatski sistem** koji ispituje podneti softver na prisustvo **malicioznog sadržaja** i bilo kakvih potencijalnih problema sa potpisivanjem koda.
+Apple-ov proces notarizacije služi kao dodatna zaštita za korisnike od potencijalno štetnog softvera. Uključuje **razvijanje aplikacije od strane programera** za **Apple-ovu Notarizaciju**, što se ne sme mešati sa pregledom aplikacija. Ova usluga je **automatski sistem** koji pažljivo ispituje dostavljeni softver na prisustvo **malicioznog sadržaja** i bilo kakvih potencijalnih problema sa potpisivanjem koda.
 
-Ako softver **prođe** ovu inspekciju bez podizanja bilo kakvih zabrinutosti, Notarizacija generiše tiket notarizacije. Razvijatelj je zatim obavezan da **priključi ovaj tiket svom softveru**, proces poznat kao 'stapling.' Pored toga, tiket notarizacije se takođe objavljuje online gde mu Gatekeeper, Apple-ova sigurnosna tehnologija, može pristupiti.
+Ako softver **prođe** ovu inspekciju bez podizanja bilo kakvih zabrinutosti, Notarizacija generiše tiket notarizacije. Programer je zatim obavezan da **priključi ovaj tiket svom softveru**, proces poznat kao 'stapling.' Pored toga, tiket notarizacije se takođe objavljuje online gde mu Gatekeeper, Apple-ova sigurnosna tehnologija, može pristupiti.
 
 Prilikom prve instalacije ili izvršavanja softvera od strane korisnika, postojanje tiketa notarizacije - bilo da je priključen na izvršni fajl ili pronađen online - **obaveštava Gatekeeper da je softver notarizovan od strane Apple-a**. Kao rezultat, Gatekeeper prikazuje opisnu poruku u dijalogu za početno pokretanje, ukazujući da je softver prošao provere za maliciozni sadržaj od strane Apple-a. Ovaj proces tako poboljšava poverenje korisnika u sigurnost softvera koji instaliraju ili pokreću na svojim sistemima.
 
@@ -96,8 +99,8 @@ anchor apple generic and certificate leaf[field.1.2.840.113635.100.6.1.9] exists
 anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] exists and (certificate leaf[field.1.2.840.113635.100.6.1.14] or certificate leaf[field.1.2.840.113635.100.6.1.13]) and notarized|1|0|Notarized Developer ID
 [...]
 ```
-Napomena kako je prvo pravilo završilo sa "**App Store**" a drugo sa "**Developer ID**" i da je u prethodnoj slici bilo **omogućeno izvršavanje aplikacija iz App Store-a i identifikovanih developera**.\
-Ako **izmenite** tu postavku na App Store, pravila "**Notarized Developer ID" će nestati**.
+Napomena kako je prvo pravilo završilo sa "**App Store**" a drugo sa "**Developer ID**" i da je u prethodnoj slici bilo **omogućeno izvršavanje aplikacija iz App Store-a i od identifikovanih developera**.\
+Ako **izmenite** tu postavku na App Store, pravila "**Notarized Developer ID**" će nestati.
 
 Takođe, postoji hiljade pravila **tipa GKE**:
 ```bash
@@ -178,7 +181,7 @@ spctl --enable
 spctl --disable
 #You can also allow nee identifies to execute code using the binary "spctl"
 ```
-Možete takođe **pronaći da li datoteka ima prošireni atribut karantina** sa:
+Možete takođe **proveriti da li datoteka ima prošireni atribut karantina** sa:
 ```bash
 xattr file.png
 com.apple.macl
@@ -317,17 +320,17 @@ Napomena da postoji još jedna aplikacija u **`/Library/Apple/System/Library/Cor
 Napomena da Gatekeeper **nije izvršen svaki put** kada izvršite aplikaciju, samo _**AppleMobileFileIntegrity**_ (AMFI) će samo **verifikovati potpise izvršnog koda** kada izvršite aplikaciju koja je već izvršena i verifikovana od strane Gatekeeper-a.
 {% endhint %}
 
-Stoga, ranije je bilo moguće izvršiti aplikaciju da je kešira sa Gatekeeper-om, a zatim **modifikovati neizvršne datoteke aplikacije** (kao što su Electron asar ili NIB datoteke) i ako nisu bile postavljene druge zaštite, aplikacija je bila **izvršena** sa **malicioznim** dodacima.
+Stoga, ranije je bilo moguće izvršiti aplikaciju da je kešira sa Gatekeeper-om, a zatim **modifikovati neizvršne datoteke aplikacije** (kao što su Electron asar ili NIB datoteke) i ako nisu bile postavljene druge zaštite, aplikacija bi bila **izvršena** sa **malicioznim** dodacima.
 
 Međutim, sada to nije moguće jer macOS **sprečava modifikaciju datoteka** unutar paketa aplikacija. Dakle, ako pokušate napad [Dirty NIB](../macos-proces-abuse/macos-dirty-nib.md), otkrićete da više nije moguće zloupotrebiti ga jer nakon izvršavanja aplikacije da je kešira sa Gatekeeper-om, nećete moći da modifikujete paket. I ako promenite, na primer, ime direktorijuma Contents u NotCon (kako je naznačeno u eksploitu), a zatim izvršite glavni binarni fajl aplikacije da je kešira sa Gatekeeper-om, to će izazvati grešku i neće se izvršiti.
 
 ## Obilaženje Gatekeeper-a
 
-Svaki način da se zaobiđe Gatekeeper (uspeti da se korisnik natera da preuzme nešto i izvrši to kada bi Gatekeeper trebao da to onemogući) smatra se ranjivošću u macOS-u. Ovo su neki CVE-ovi dodeljeni tehnikama koje su omogućile zaobilaženje Gatekeeper-a u prošlosti:
+Svaki način za obilaženje Gatekeeper-a (uspeti da naterate korisnika da preuzme nešto i izvrši to kada bi Gatekeeper trebao da to onemogući) smatra se ranjivošću u macOS-u. Ovo su neki CVE-ovi dodeljeni tehnikama koje su omogućile obilaženje Gatekeeper-a u prošlosti:
 
 ### [CVE-2021-1810](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810)
 
-Primećeno je da ako se **Archive Utility** koristi za ekstrakciju, datoteke sa **putanjama dužim od 886 karaktera** ne dobijaju prošireni atribut com.apple.quarantine. Ova situacija nenamerno omogućava tim datotekama da **zaobiđu Gatekeeper-ove** sigurnosne provere.
+Primećeno je da ako se **Archive Utility** koristi za ekstrakciju, datoteke sa **putanjama dužim od 886 karaktera** ne dobijaju prošireni atribut com.apple.quarantine. Ova situacija nenamerno omogućava tim datotekama da **obiđu Gatekeeper-ove** sigurnosne provere.
 
 Proverite [**originalni izveštaj**](https://labs.withsecure.com/publications/the-discovery-of-cve-2021-1810) za više informacija.
 
@@ -343,7 +346,7 @@ Proverite [**originalni izveštaj**](https://ronmasas.com/posts/bypass-macos-gat
 
 ### [CVE-2022-22616](https://www.jamf.com/blog/jamf-threat-labs-safari-vuln-gatekeeper-bypass/)
 
-U ovom zaobilaženju kreirana je zip datoteka sa aplikacijom koja počinje da kompresuje iz `application.app/Contents` umesto iz `application.app`. Stoga, **atribut karantene** je primenjen na sve **datoteke iz `application.app/Contents`** ali **ne na `application.app`**, što je Gatekeeper proveravao, tako da je Gatekeeper zaobiđen jer kada je `application.app` aktiviran, **nije imao atribut karantene.**
+U ovom obilaženju kreirana je zip datoteka sa aplikacijom koja počinje da kompresuje iz `application.app/Contents` umesto iz `application.app`. Stoga, **atribut karantene** je primenjen na sve **datoteke iz `application.app/Contents`** ali **ne na `application.app`**, što je Gatekeeper proveravao, tako da je Gatekeeper bio obilažen jer kada je `application.app` aktiviran, **nije imao atribut karantene.**
 ```bash
 zip -r test.app/Contents test.zip
 ```
@@ -434,7 +437,7 @@ aa archive -d s/ -o app.aar
 * Žrtva otvara tar.gz datoteku i pokreće aplikaciju.
 * Gatekeeper ne proverava aplikaciju.
 
-### Prevent Quarantine xattr
+### Sprečavanje Quarantine xattr
 
 U ".app" paketu, ako quarantine xattr nije dodat, prilikom izvršavanja **Gatekeeper neće biti aktiviran**.
 
