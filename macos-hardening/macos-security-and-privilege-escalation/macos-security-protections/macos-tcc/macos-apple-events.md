@@ -1,46 +1,48 @@
-# macOS Apple-gebeure
+# macOS Apple Events
+
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy jou **maatskappy geadverteer wil sien in HackTricks** of **HackTricks in PDF wil aflaai** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou haktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## Basiese Inligting
 
-**Apple-gebeure** is 'n kenmerk in Apple se macOS wat programme in staat stel om met mekaar te kommunikeer. Dit is deel van die **Apple-gebeurbestuurder**, wat 'n komponent van die macOS-bedryfstelsel is wat verantwoordelik is vir die hanteer van interproseskommunikasie. Hierdie stelsel maak dit moontlik vir een toepassing om 'n boodskap na 'n ander toepassing te stuur om te versoek dat dit 'n spesifieke operasie uitvoer, soos die oopmaak van 'n lêer, die herwinning van data, of die uitvoering van 'n bevel.
+**Apple Events** is 'n kenmerk in Apple se macOS wat toelaat dat toepassings met mekaar kommunikeer. Dit is deel van die **Apple Event Manager**, wat 'n komponent van die macOS bedryfstelsel is wat verantwoordelik is vir die hantering van interproseskommunikasie. Hierdie stelsel stel een toepassing in staat om 'n boodskap aan 'n ander toepassing te stuur om te vra dat dit 'n spesifieke operasie uitvoer, soos om 'n lêer te open, data te verkry, of 'n opdrag uit te voer.
 
-Die mina-daemon is `/System/Library/CoreServices/appleeventsd` wat die diens `com.apple.coreservices.appleevents` registreer.
+Die mina daemon is `/System/Library/CoreServices/appleeventsd` wat die diens `com.apple.coreservices.appleevents` registreer.
 
-Elke toepassing wat gebeure kan ontvang, sal met hierdie daemon kontroleer deur sy Apple-gebeur Mach-poort te voorsien. En wanneer 'n toepassing 'n gebeurtenis daarna wil stuur, sal die toepassing hierdie poort van die daemon aanvra.
+Elke toepassing wat gebeurtenisse kan ontvang, sal met hierdie daemon nagaan deur sy Apple Event Mach Port te verskaf. En wanneer 'n app 'n gebeurtenis na dit wil stuur, sal die app hierdie poort van die daemon aan vra.
 
-Ingeslote toepassings vereis voorregte soos `allow appleevent-send` en `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` om in staat te wees om gebeure te stuur. Let daarop dat toekennings soos `com.apple.security.temporary-exception.apple-events` kan beperk wie toegang het om gebeure te stuur wat toekennings soos `com.apple.private.appleevents` benodig.
+Sandboxed toepassings vereis voorregte soos `allow appleevent-send` en `(allow mach-lookup (global-name "com.apple.coreservices.appleevents))` om in staat te wees om gebeurtenisse te stuur. Let daarop dat regte soos `com.apple.security.temporary-exception.apple-events` kan beperk wie toegang het om gebeurtenisse te stuur wat regte soos `com.apple.private.appleevents` sal benodig.
 
 {% hint style="success" %}
-Dit is moontlik om die omgewingsveranderlike **`AEDebugSends`** te gebruik om inligting oor die gestuurde boodskap te log:
+Dit is moontlik om die omgevariable **`AEDebugSends`** te gebruik om inligting oor die gestuurde boodskap te log:
 ```bash
 AEDebugSends=1 osascript -e 'tell application "iTerm" to activate'
 ```
 {% endhint %}
 
+{% hint style="success" %}
+Leer en oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer en oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Leer AWS-hacking vanaf nul tot held met</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Ondersteun HackTricks</summary>
 
-Ander maniere om HackTricks te ondersteun:
-
-* As jy wil sien dat jou **maatskappy geadverteer word in HackTricks** of **HackTricks aflaai in PDF-formaat** Kyk na die [**INSKRYWINGSPLANNE**](https://github.com/sponsors/carlospolop)!
-* Kry die [**amptelike PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Ontdek [**Die PEASS-familie**](https://opensea.io/collection/the-peass-family), ons versameling eksklusiewe [**NFT's**](https://opensea.io/collection/the-peass-family)
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Deel jou hacking-truuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag. 
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
