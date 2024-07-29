@@ -1,20 +1,16 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-{% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
 {% endhint %}
 
 
@@ -26,15 +22,15 @@ Os plugins de autenticação do Docker são **plugins externos** que você pode 
 
 **[As informações a seguir são da documentação](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Quando uma **solicitação HTTP** é feita ao **daemon** do Docker através da CLI ou via API do Engine, o **subsystema de autenticação** **passa** a solicitação para o(s) **plugin(s)** de **autenticação** instalados. A solicitação contém o usuário (chamador) e o contexto do comando. O **plugin** é responsável por decidir se deve **permitir** ou **negar** a solicitação.
+Quando uma **solicitação HTTP** é feita ao **daemon** do Docker através da CLI ou via API do Engine, o **subsystem de autenticação** **passa** a solicitação para o(s) **plugin(s)** de **autenticação** instalados. A solicitação contém o usuário (chamador) e o contexto do comando. O **plugin** é responsável por decidir se deve **permitir** ou **negar** a solicitação.
 
 Os diagramas de sequência abaixo mostram um fluxo de autorização de permitir e negar:
 
-![Fluxo de autorização permitir](https://docs.docker.com/engine/extend/images/authz\_allow.png)
+![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
-![Fluxo de autorização negar](https://docs.docker.com/engine/extend/images/authz\_deny.png)
+![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Cada solicitação enviada ao plugin **inclui o usuário autenticado, os cabeçalhos HTTP e o corpo da solicitação/resposta**. Apenas o **nome do usuário** e o **método de autenticação** utilizado são passados para o plugin. O mais importante, **nenhuma** credencial de **usuário** ou tokens são passados. Finalmente, **nem todos os corpos de solicitação/resposta são enviados** ao plugin de autorização. Apenas aqueles corpos de solicitação/resposta onde o `Content-Type` é `text/*` ou `application/json` são enviados.
+Cada solicitação enviada ao plugin **inclui o usuário autenticado, os cabeçalhos HTTP e o corpo da solicitação/resposta**. Apenas o **nome do usuário** e o **método de autenticação** utilizado são passados para o plugin. O mais importante, **nenhuma** credencial de **usuário** ou tokens são passados. Finalmente, **nem todos os corpos de solicitação/resposta são enviados** para o plugin de autorização. Apenas aqueles corpos de solicitação/resposta onde o `Content-Type` é `text/*` ou `application/json` são enviados.
 
 Para comandos que podem potencialmente sequestrar a conexão HTTP (`HTTP Upgrade`), como `exec`, o plugin de autorização é chamado apenas para as solicitações HTTP iniciais. Uma vez que o plugin aprova o comando, a autorização não é aplicada ao restante do fluxo. Especificamente, os dados de streaming não são passados para os plugins de autorização. Para comandos que retornam resposta HTTP em partes, como `logs` e `events`, apenas a solicitação HTTP é enviada para os plugins de autorização.
 
@@ -42,13 +38,13 @@ Durante o processamento de solicitação/resposta, alguns fluxos de autorizaçã
 
 ## Vários Plugins
 
-Você é responsável por **registrar** seu **plugin** como parte da **inicialização** do daemon do Docker. Você pode instalar **múltiplos plugins e encadeá-los**. Este encadeamento pode ser ordenado. Cada solicitação ao daemon passa em ordem pelo encadeamento. Apenas quando **todos os plugins concedem acesso** ao recurso, o acesso é concedido.
+Você é responsável por **registrar** seu **plugin** como parte da **inicialização** do daemon do Docker. Você pode instalar **vários plugins e encadeá-los**. Este encadeamento pode ser ordenado. Cada solicitação ao daemon passa em ordem pelo encadeamento. Apenas quando **todos os plugins concedem acesso** ao recurso, o acesso é concedido.
 
 # Exemplos de Plugin
 
 ## Twistlock AuthZ Broker
 
-O plugin [**authz**](https://github.com/twistlock/authz) permite que você crie um simples arquivo **JSON** que o **plugin** irá **ler** para autorizar as solicitações. Portanto, ele lhe dá a oportunidade de controlar muito facilmente quais endpoints da API podem ser acessados por cada usuário.
+O plugin [**authz**](https://github.com/twistlock/authz) permite que você crie um simples arquivo **JSON** que o **plugin** estará **lendo** para autorizar as solicitações. Portanto, ele lhe dá a oportunidade de controlar muito facilmente quais endpoints da API podem ser acessados por cada usuário.
 
 Este é um exemplo que permitirá que Alice e Bob criem novos contêineres: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
@@ -194,26 +190,17 @@ Lembre-se de **reativar o plugin após a escalada**, ou um **reinício do servi�
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## Referências
-{% hnt stye="acceas" %}
-AWS Ha& prática ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-Aprenda & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **Junte-se 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou o [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}
