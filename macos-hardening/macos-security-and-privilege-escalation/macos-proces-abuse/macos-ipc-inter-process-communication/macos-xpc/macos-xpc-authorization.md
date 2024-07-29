@@ -1,29 +1,29 @@
 # macOS XPC 授权
 
 {% hint style="success" %}
-学习并练习 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习并练习 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>支持 HackTricks</summary>
 
-* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
 ## XPC 授权
 
-苹果还提出了另一种验证连接进程是否具有**调用公开的 XPC 方法的权限**的方法。
+苹果还提出了另一种方法来验证连接进程是否具有 **调用暴露的 XPC 方法的权限**。
 
-当应用程序需要**以特权用户身份执行操作**时，通常不会将应用程序作为特权用户运行，而是安装一个 HelperTool 作为 XPC 服务，该服务可被应用程序调用以执行这些操作。但是，调用服务的应用程序应具有足够的授权。
+当应用程序需要 **以特权用户身份执行操作** 时，通常不会以特权用户身份运行该应用，而是作为根用户安装一个 HelperTool 作为 XPC 服务，可以从应用中调用以执行这些操作。然而，调用该服务的应用应该具有足够的授权。
 
-### ShouldAcceptNewConnection 始终为 YES
+### ShouldAcceptNewConnection 始终返回 YES
 
-一个示例可以在 [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample) 中找到。在 `App/AppDelegate.m` 中尝试**连接**到 **HelperTool**。在 `HelperTool/HelperTool.m` 中，函数 **`shouldAcceptNewConnection`** **不会检查**之前指定的任何要求。它将始终返回 YES:
+一个例子可以在 [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample) 中找到。在 `App/AppDelegate.m` 中，它尝试 **连接** 到 **HelperTool**。而在 `HelperTool/HelperTool.m` 中，函数 **`shouldAcceptNewConnection`** **不会检查** 之前提到的任何要求。它将始终返回 YES：
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -40,12 +40,18 @@ newConnection.exportedObject = self;
 return YES;
 }
 ```
+有关如何正确配置此检查的更多信息，请参见：
+
+{% content-ref url="macos-xpc-connecting-process-check/" %}
+[macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
+{% endcontent-ref %}
+
 ### 应用程序权限
 
-然而，当调用 HelperTool 中的方法时，会进行一些**授权**。
+然而，当调用 HelperTool 的方法时，确实存在一些 **授权**。
 
-`App/AppDelegate.m` 中的 **`applicationDidFinishLaunching`** 函数将在应用程序启动后创建一个空的授权引用。这应该总是有效。\
-然后，它将尝试通过调用 `setupAuthorizationRights` 为该授权引用**添加一些权限**：
+`App/AppDelegate.m` 中的 **`applicationDidFinishLaunching`** 函数将在应用程序启动后创建一个空的授权引用。这应该始终有效。\
+然后，它将尝试通过调用 `setupAuthorizationRights` 来 **添加一些权限** 到该授权引用：
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -69,7 +75,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-`Common/Common.m` 中的 `setupAuthorizationRights` 函数将存储应用程序的权限到授权数据库 `/var/db/auth.db`。请注意，它只会添加尚未在数据库中的权限：
+函数 `setupAuthorizationRights` 来自 `Common/Common.m`，将把应用程序的权限存储在授权数据库 `/var/db/auth.db` 中。请注意，它只会添加尚未在数据库中的权限：
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -101,7 +107,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-函数`enumerateRightsUsingBlock`是用来获取应用程序权限的函数，这些权限在`commandInfo`中定义：
+函数 `enumerateRightsUsingBlock` 用于获取应用程序权限，这些权限在 `commandInfo` 中定义：
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -179,15 +185,15 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-这意味着在此过程结束时，`commandInfo` 中声明的权限将存储在 `/var/db/auth.db` 中。请注意，您可以找到每个需要身份验证的方法的权限名称和 `kCommandKeyAuthRightDefault`。后者指示谁可以获得此权限。
+这意味着在这个过程结束时，`commandInfo` 中声明的权限将存储在 `/var/db/auth.db` 中。请注意，您可以找到 **每个方法** 需要 **身份验证** 的 **权限名称** 和 **`kCommandKeyAuthRightDefault`**。后者 **指示谁可以获得此权限**。
 
-有不同的范围来指示谁可以访问权限。其中一些在 [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) 中定义（您可以在[这里找到所有内容](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
+有不同的范围来指示谁可以访问某个权限。其中一些在 [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) 中定义（您可以在这里找到 [所有权限](https://www.dssw.co.uk/reference/authorization-rights/)），但总结如下：
 
-<table><thead><tr><th width="284.3333333333333">名称</th><th width="165">值</th><th>描述</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>任何人</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>无人</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>当前用户需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>要求用户进行身份验证。</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>要求用户进行身份验证。他需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>指定规则</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>在权限上指定一些额外的注释</td></tr></tbody></table>
+<table><thead><tr><th width="284.3333333333333">名称</th><th width="165">值</th><th>描述</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>任何人</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>没有人</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>当前用户需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>要求用户进行身份验证。</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>要求用户进行身份验证。他需要是管理员（在管理员组内）</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>指定规则</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>指定一些关于权限的额外评论</td></tr></tbody></table>
 
 ### 权限验证
 
-在 `HelperTool/HelperTool.m` 中，函数 **`readLicenseKeyAuthorization`** 检查调用者是否被授权执行此方法，调用函数 **`checkAuthorization`**。此函数将检查调用进程发送的 **authData** 是否具有正确的格式，然后将检查调用特定方法所需的权限。如果一切顺利，**返回的 `error` 将是 `nil`**：
+在 `HelperTool/HelperTool.m` 中，函数 **`readLicenseKeyAuthorization`** 检查调用者是否被授权 **执行此方法**，通过调用函数 **`checkAuthorization`**。此函数将检查调用进程发送的 **authData** 是否具有 **正确格式**，然后检查 **获取调用特定方法的权限所需的内容**。如果一切顺利，**返回的 `error` 将为 `nil`**：
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -235,37 +241,37 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-请注意，要检查调用该方法的权限，函数`authorizationRightForCommand`将仅检查先前注释的对象`commandInfo`。然后，它将调用`AuthorizationCopyRights`来检查是否有权调用该函数（请注意，标志允许与用户交互）。
+注意，要**检查获取调用该方法的权限**，函数 `authorizationRightForCommand` 只会检查之前的注释对象 **`commandInfo`**。然后，它将调用 **`AuthorizationCopyRights`** 来检查 **是否具有调用该函数的权限**（注意，标志允许与用户交互）。
 
-在这种情况下，要调用函数`readLicenseKeyAuthorization`，`kCommandKeyAuthRightDefault`被定义为`@kAuthorizationRuleClassAllow`。因此，任何人都可以调用它。
+在这种情况下，要调用函数 `readLicenseKeyAuthorization`，`kCommandKeyAuthRightDefault` 被定义为 `@kAuthorizationRuleClassAllow`。因此，**任何人都可以调用它**。
 
-### 数据库信息
+### DB 信息
 
-提到这些信息存储在`/var/db/auth.db`中。您可以使用以下命令列出所有存储的规则：
+提到这些信息存储在 `/var/db/auth.db`。您可以使用以下命令列出所有存储的规则：
 ```sql
 sudo sqlite3 /var/db/auth.db
 SELECT name FROM rules;
 SELECT name FROM rules WHERE name LIKE '%safari%';
 ```
-然后，您可以阅读谁可以访问权限的信息：
+然后，您可以通过以下方式查看谁可以访问该权限：
 ```bash
 security authorizationdb read com.apple.safaridriver.allow
 ```
-### 宽松的权限
+### 宽松权限
 
-您可以在[**这里**](https://www.dssw.co.uk/reference/authorization-rights/)找到**所有权限配置**，但不需要用户交互的组合是：
+您可以在[**这里**](https://www.dssw.co.uk/reference/authorization-rights/)找到**所有权限配置**，但不需要用户交互的组合如下：
 
 1. **'authenticate-user': 'false'**
-* 这是最直接的键。如果设置为`false`，表示用户无需提供身份验证即可获得此权限。
-* 这通常与以下两者之一的组合或指示用户必须属于的组合一起使用。
+* 这是最直接的键。如果设置为`false`，则表示用户不需要提供身份验证即可获得此权限。
+* 这与下面的两个中的一个或指示用户必须属于的组结合使用。
 2. **'allow-root': 'true'**
-* 如果用户作为具有提升权限的根用户操作，并且此键设置为`true`，则根用户可能无需进一步身份验证即可获得此权限。但通常，要达到根用户状态已经需要身份验证，因此对于大多数用户来说，这并不是“无需身份验证”的情况。
+* 如果用户以root用户身份操作（具有提升的权限），并且此键设置为`true`，则root用户可能在没有进一步身份验证的情况下获得此权限。然而，通常情况下，获得root用户状态已经需要身份验证，因此对于大多数用户来说，这并不是一个“无身份验证”的场景。
 3. **'session-owner': 'true'**
-* 如果设置为`true`，会话所有者（当前登录的用户）将自动获得此权限。如果用户已经登录，则这可能会绕过额外的身份验证。
+* 如果设置为`true`，会话的所有者（当前登录的用户）将自动获得此权限。如果用户已经登录，这可能会绕过额外的身份验证。
 4. **'shared': 'true'**
-* 此键不会在没有身份验证的情况下授予权限。相反，如果设置为`true`，这意味着一旦权限得到验证，它可以在多个进程之间共享，而无需每个进程重新进行身份验证。但是，除非与其他键（如`'authenticate-user': 'false'`）结合使用，否则仍需要身份验证来最初授予权限。
+* 此键不在没有身份验证的情况下授予权限。相反，如果设置为`true`，则意味着一旦权限经过身份验证，它可以在多个进程之间共享，而无需每个进程重新进行身份验证。但初始授予权限仍然需要身份验证，除非与其他键结合使用，如`'authenticate-user': 'false'`。
 
-您可以使用[**此脚本**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9)获取有趣的权限：
+您可以[**使用此脚本**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9)来获取有趣的权限：
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -278,27 +284,27 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 ```
 ## 反向授权
 
-### 检查是否使用EvenBetterAuthorization
+### 检查是否使用了 EvenBetterAuthorization
 
-如果找到函数：**`[HelperTool checkAuthorization:command:]`**，那么该进程可能正在使用前面提到的授权模式：
+如果你发现函数：**`[HelperTool checkAuthorization:command:]`**，那么这个进程可能正在使用前面提到的授权方案：
 
 <figure><img src="../../../../../.gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-如果此函数调用诸如`AuthorizationCreateFromExternalForm`、`authorizationRightForCommand`、`AuthorizationCopyRights`、`AuhtorizationFree`等函数，则正在使用[**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154)。
+如果这个函数调用了诸如 `AuthorizationCreateFromExternalForm`、`authorizationRightForCommand`、`AuthorizationCopyRights`、`AuhtorizationFree` 的函数，那么它正在使用 [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154)。
 
-检查 **`/var/db/auth.db`** 以查看是否可能在无需用户交互的情况下获取调用某些特权操作的权限。
+检查 **`/var/db/auth.db`** 以查看是否可以在没有用户交互的情况下获取调用某些特权操作的权限。
 
 ### 协议通信
 
-然后，您需要找到协议模式，以便能够与XPC服务建立通信。
+然后，你需要找到协议架构，以便能够与 XPC 服务建立通信。
 
-函数 **`shouldAcceptNewConnection`** 指示正在导出的协议：
+函数 **`shouldAcceptNewConnection`** 表示正在导出的协议：
 
 <figure><img src="../../../../../.gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-在这种情况下，我们与EvenBetterAuthorizationSample中的情况相同，[**检查此行**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94)。
+在这种情况下，我们与 EvenBetterAuthorizationSample 中的相同，[**查看这一行**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94)。
 
-知道所使用协议的名称后，可以使用以下命令**转储其头文件定义**：
+知道所使用的协议名称后，可以使用以下命令 **转储其头部定义**：
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -312,13 +318,13 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-最后，我们只需要知道**暴露的 Mach 服务的名称**，以便与其建立通信。有几种方法可以找到它：
+最后，我们只需要知道**暴露的 Mach 服务的名称**以便与之建立通信。有几种方法可以找到它：
 
 * 在**`[HelperTool init]`**中，您可以看到正在使用的 Mach 服务：
 
 <figure><img src="../../../../../.gitbook/assets/image (41).png" alt=""><figcaption></figcaption></figure>
 
-* 在 launchd plist 中：
+* 在 launchd plist：
 ```xml
 cat /Library/LaunchDaemons/com.example.HelperTool.plist
 
@@ -331,12 +337,12 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 </dict>
 [...]
 ```
-### 漏洞利用示例
+### Exploit Example
 
-在这个示例中创建了：
+在这个例子中创建了：
 
-* 具有函数的协议定义
-* 一个空的 auth 用于请求访问权限
+* 协议的定义和函数
+* 一个空的授权，用于请求访问
 * 与 XPC 服务的连接
 * 如果连接成功，则调用该函数
 ```objectivec
@@ -416,21 +422,25 @@ NSLog(@"Response: %@", error);
 NSLog(@"Finished!");
 }
 ```
-## 参考
+## 其他被滥用的 XPC 权限助手
+
+* [https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared](https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared)
+
+## 参考文献
 
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
 {% hint style="success" %}
-学习并练习 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习并练习 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>支持 HackTricks</summary>
 
-* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* 通过向 [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
