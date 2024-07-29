@@ -1,44 +1,40 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
 
 
-El modelo de **autorización** de **Docker** fuera de la caja es **todo o nada**. Cualquier usuario con permiso para acceder al daemon de Docker puede **ejecutar cualquier** comando del cliente de Docker. Lo mismo es cierto para los llamadores que utilizan la API del Engine de Docker para contactar al daemon. Si necesitas **un mayor control de acceso**, puedes crear **plugins de autorización** y agregarlos a la configuración de tu daemon de Docker. Usando un plugin de autorización, un administrador de Docker puede **configurar políticas de acceso granular** para gestionar el acceso al daemon de Docker.
+El modelo de **autorización** de **Docker** fuera de la caja es **todo o nada**. Cualquier usuario con permiso para acceder al daemon de Docker puede **ejecutar cualquier** comando del cliente de Docker. Lo mismo es cierto para los llamadores que utilizan la API del Engine de Docker para contactar al daemon. Si necesitas **un mayor control de acceso**, puedes crear **plugins de autorización** y agregarlos a la configuración de tu daemon de Docker. Usando un plugin de autorización, un administrador de Docker puede **configurar políticas de acceso granulares** para gestionar el acceso al daemon de Docker.
 
 # Arquitectura básica
 
-Los plugins de autenticación de Docker son **plugins externos** que puedes usar para **permitir/denegar** **acciones** solicitadas al daemon de Docker **dependiendo** del **usuario** que lo solicitó y de la **acción** **solicitada**.
+Los plugins de autenticación de Docker son **plugins externos** que puedes usar para **permitir/denegar** **acciones** solicitadas al daemon de Docker **dependiendo** del **usuario** que la solicitó y de la **acción** **solicitada**.
 
 **[La siguiente información es de la documentación](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Cuando se realiza una **solicitud HTTP** al **daemon** de Docker a través de la CLI o mediante la API del Engine, el **subsistema de autenticación** **pasa** la solicitud a los **plugins de autenticación** instalados. La solicitud contiene el usuario (llamador) y el contexto del comando. El **plugin** es responsable de decidir si **permitir** o **denegar** la solicitud.
+Cuando se realiza una **solicitud HTTP** al **daemon** de Docker a través de la CLI o mediante la API del Engine, el **sub-sistema de autenticación** **pasa** la solicitud a los **plugins de autenticación** instalados. La solicitud contiene el usuario (llamador) y el contexto del comando. El **plugin** es responsable de decidir si **permitir** o **denegar** la solicitud.
 
 Los diagramas de secuencia a continuación representan un flujo de autorización de permitir y denegar:
 
-![Flujo de autorización permitir](https://docs.docker.com/engine/extend/images/authz\_allow.png)
+![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
-![Flujo de autorización denegar](https://docs.docker.com/engine/extend/images/authz\_deny.png)
+![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
 Cada solicitud enviada al plugin **incluye el usuario autenticado, los encabezados HTTP y el cuerpo de la solicitud/respuesta**. Solo se pasan al plugin el **nombre de usuario** y el **método de autenticación** utilizado. Lo más importante, **no** se pasan **credenciales** o tokens de usuario. Finalmente, **no todos los cuerpos de solicitud/respuesta se envían** al plugin de autorización. Solo se envían aquellos cuerpos de solicitud/respuesta donde el `Content-Type` es `text/*` o `application/json`.
 
 Para comandos que pueden potencialmente secuestrar la conexión HTTP (`HTTP Upgrade`), como `exec`, el plugin de autorización solo se llama para las solicitudes HTTP iniciales. Una vez que el plugin aprueba el comando, la autorización no se aplica al resto del flujo. Específicamente, los datos de transmisión no se pasan a los plugins de autorización. Para comandos que devuelven respuestas HTTP en fragmentos, como `logs` y `events`, solo se envía la solicitud HTTP a los plugins de autorización.
 
-Durante el procesamiento de solicitud/respuesta, algunos flujos de autorización pueden necesitar realizar consultas adicionales al daemon de Docker. Para completar tales flujos, los plugins pueden llamar a la API del daemon de manera similar a un usuario regular. Para habilitar estas consultas adicionales, el plugin debe proporcionar los medios para que un administrador configure políticas de autenticación y seguridad adecuadas.
+Durante el procesamiento de solicitudes/respuestas, algunos flujos de autorización pueden necesitar realizar consultas adicionales al daemon de Docker. Para completar tales flujos, los plugins pueden llamar a la API del daemon de manera similar a un usuario regular. Para habilitar estas consultas adicionales, el plugin debe proporcionar los medios para que un administrador configure políticas de autenticación y seguridad adecuadas.
 
 ## Varios Plugins
 
@@ -98,7 +94,7 @@ Ahora, el usuario puede escapar del contenedor utilizando cualquiera de las [**t
 
 ## Montar Carpeta Escribible
 
-En este caso, el sysadmin **no permitió a los usuarios ejecutar contenedores con la bandera `--privileged`** o dar alguna capacidad extra al contenedor, y solo permitió montar la carpeta `/tmp`:
+En este caso, el sysadmin **no permitió a los usuarios ejecutar contenedores con la bandera `--privileged`** ni otorgar ninguna capacidad extra al contenedor, y solo permitió montar la carpeta `/tmp`:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -115,7 +111,7 @@ Nota que tal vez no puedas montar la carpeta `/tmp`, pero puedes montar una **ca
 Nota también que si puedes **montar `/etc`** o cualquier otra carpeta **que contenga archivos de configuración**, puedes cambiarlos desde el contenedor de docker como root para **abusar de ellos en el host** y escalar privilegios (tal vez modificando `/etc/shadow`)
 {% endhint %}
 
-## Endpoint de API No Verificado
+## Endpoint API No Verificado
 
 La responsabilidad del sysadmin que configura este plugin sería controlar qué acciones y con qué privilegios cada usuario puede realizar. Por lo tanto, si el administrador adopta un enfoque de **lista negra** con los endpoints y los atributos, podría **olvidar algunos de ellos** que podrían permitir a un atacante **escalar privilegios.**
 
@@ -126,7 +122,7 @@ Puedes consultar la API de docker en [https://docs.docker.com/engine/api/v1.40/#
 ### Montajes en root
 
 Es posible que cuando el sysadmin configuró el firewall de docker, **olvidó algún parámetro importante** de la [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) como "**Binds**".\
-En el siguiente ejemplo es posible abusar de esta mala configuración para crear y ejecutar un contenedor que monta la carpeta raíz (/) del host:
+En el siguiente ejemplo, es posible abusar de esta mala configuración para crear y ejecutar un contenedor que monta la carpeta raíz (/) del host:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -194,26 +190,17 @@ Recuerda **volver a habilitar el plugin después de escalar**, o un **reinicio d
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## Referencias
-{% hnt stye="acceas" %}
-AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>Apoya a HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}
