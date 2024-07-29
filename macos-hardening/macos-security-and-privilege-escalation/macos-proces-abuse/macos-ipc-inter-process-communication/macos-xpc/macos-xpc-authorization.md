@@ -1,29 +1,29 @@
-# Авторизація macOS XPC
+# macOS XPC Authorization
 
 {% hint style="success" %}
-Вивчайте та практикуйте взлом AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання AWS Red Team Expert (ARTE) від HackTricks**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте взлом GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання GCP Red Team Expert (GRTE) від HackTricks**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Авторизація XPC
+## XPC Authorization
 
-Apple також пропонує інший спосіб аутентифікації, якщо підключений процес має **дозвіл на виклик викладеного методу XPC**.
+Apple також пропонує інший спосіб аутентифікації, якщо підключений процес має **дозволи на виклик відкритого методу XPC**.
 
-Коли додатку потрібно **виконати дії як привілейований користувач**, замість запуску додатку як привілейований користувач, зазвичай встановлюється HelperTool як служба XPC, яку можна викликати з додатку для виконання цих дій. Однак додаток, який викликає службу, повинен мати достатню авторизацію.
+Коли додаток потребує **виконання дій від імені привілейованого користувача**, замість запуску програми як привілейованого користувача, зазвичай він встановлює як root HelperTool як XPC сервіс, який може бути викликаний з програми для виконання цих дій. Однак, програма, що викликає сервіс, повинна мати достатню авторизацію.
 
 ### ShouldAcceptNewConnection завжди YES
 
-Приклад можна знайти в [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). У `App/AppDelegate.m` він намагається **підключитися** до **HelperTool**. А в `HelperTool/HelperTool.m` функція **`shouldAcceptNewConnection`** **не буде перевіряти** жодні зазначені раніше вимоги. Вона завжди повертатиме YES:
+Приклад можна знайти в [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). У `App/AppDelegate.m` він намагається **підключитися** до **HelperTool**. А в `HelperTool/HelperTool.m` функція **`shouldAcceptNewConnection`** **не перевірятиме** жодну з вимог, зазначених раніше. Вона завжди повертатиме YES:
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -40,18 +40,18 @@ newConnection.exportedObject = self;
 return YES;
 }
 ```
-Для отримання додаткової інформації про правильну настройку цієї перевірки:
+Для отримання додаткової інформації про те, як правильно налаштувати цю перевірку:
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-### Права додатку
+### Права застосунку
 
-Однак, коли викликається метод з HelperTool, відбувається деяка **авторизація**.
+Однак, є деяке **авторизація, яка відбувається, коли викликається метод з HelperTool**.
 
-Функція **`applicationDidFinishLaunching`** з `App/AppDelegate.m` створить порожню посилання авторизації після запуску додатка. Це завжди повинно працювати.\
-Потім вона спробує **додати деякі права** до цього посилання авторизації, викликаючи `setupAuthorizationRights`:
+Функція **`applicationDidFinishLaunching`** з `App/AppDelegate.m` створить порожню авторизаційну ссилку після запуску програми. Це завжди повинно працювати.\
+Потім вона спробує **додати деякі права** до цієї авторизаційної ссилки, викликавши `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -75,7 +75,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-Функція `setupAuthorizationRights` з `Common/Common.m` буде зберігати в базі даних авторизації `/var/db/auth.db` права програми. Зверніть увагу, як вона буде додавати лише ті права, яких ще немає в базі даних:
+Функція `setupAuthorizationRights` з `Common/Common.m` зберігатиме в базі даних авторизації `/var/db/auth.db` права програми. Зверніть увагу, що вона додаватиме лише ті права, яких ще немає в базі даних:
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -107,7 +107,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-Функція `enumerateRightsUsingBlock` використовується для отримання дозволів програм, які визначені в `commandInfo`:
+Функція `enumerateRightsUsingBlock` використовується для отримання дозволів додатків, які визначені в `commandInfo`:
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -185,15 +185,15 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-Це означає, що в кінці цього процесу дозволи, визначені всередині `commandInfo`, будуть збережені в `/var/db/auth.db`. Зверніть увагу, що там ви можете знайти для **кожного методу**, який **потребує аутентифікації**, **назву дозволу** та **`kCommandKeyAuthRightDefault`**. Останній **вказує, хто може отримати це право**.
+Це означає, що в кінці цього процесу дозволи, оголошені всередині `commandInfo`, будуть збережені в `/var/db/auth.db`. Зверніть увагу, що там ви можете знайти для **кожного методу**, який **вимагає аутентифікації**, **назву дозволу** та **`kCommandKeyAuthRightDefault`**. Останній **вказує, хто може отримати це право**.
 
-Є різні області, які вказують, хто може отримати доступ до права. Деякі з них визначені в [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (ви можете знайти [всі їх тут](https://www.dssw.co.uk/reference/authorization-rights/)), але у вигляді підсумку:
+Існують різні області, щоб вказати, хто може отримати право. Деякі з них визначені в [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (ви можете знайти [всі з них тут](https://www.dssw.co.uk/reference/authorization-rights/)), але в загальному:
 
-<table><thead><tr><th width="284.3333333333333">Назва</th><th width="165">Значення</th><th>Опис</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Будь-хто</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Ніхто</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>Поточний користувач повинен бути адміністратором (в межах групи адміністраторів)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Запросити користувача на аутентифікацію.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Запросити користувача на аутентифікацію. Він повинен бути адміністратором (в межах групи адміністраторів)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Вказати правила</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Вказати додаткові коментарі до права</td></tr></tbody></table>
+<table><thead><tr><th width="284.3333333333333">Назва</th><th width="165">Значення</th><th>Опис</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>дозволити</td><td>Будь-хто</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>заборонити</td><td>Ніхто</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>Поточний користувач повинен бути адміністратором (в групі адміністраторів)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Запитати користувача на аутентифікацію.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Запитати користувача на аутентифікацію. Він повинен бути адміністратором (в групі адміністраторів)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Вказати правила</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Вказати деякі додаткові коментарі щодо права</td></tr></tbody></table>
 
-### Перевірка Прав
+### Перевірка прав
 
-У `HelperTool/HelperTool.m` функція **`readLicenseKeyAuthorization`** перевіряє, чи є викликач авторизованим для **виконання такого методу**, викликаючи функцію **`checkAuthorization`**. Ця функція перевірить, чи **authData**, надіслані викликаючим процесом, мають **правильний формат**, а потім перевірить, **що потрібно для отримання права** на виклик конкретного методу. Якщо все пройде добре, **повернене значення `error` буде `nil`**:
+У `HelperTool/HelperTool.m` функція **`readLicenseKeyAuthorization`** перевіряє, чи має викликач право **виконувати такий метод**, викликаючи функцію **`checkAuthorization`**. Ця функція перевірить, чи **authData**, надіслане викликачем, має **правильний формат**, а потім перевірить, **що потрібно, щоб отримати право** на виклик конкретного методу. Якщо все йде добре, **повернена `error` буде `nil`**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -241,35 +241,37 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Зверніть увагу, що для **перевірки вимог для отримання права** викликати цей метод функція `authorizationRightForCommand` просто перевірить попередньо закоментований об'єкт **`commandInfo`**. Потім вона викличе **`AuthorizationCopyRights`** для перевірки, **чи є у неї права** на виклик функції (зверніть увагу, що прапорці дозволяють взаємодію з користувачем).
+Зверніть увагу, що для **перевірки вимог для отримання права** викликати цей метод функція `authorizationRightForCommand` просто перевірить попередньо коментований об'єкт **`commandInfo`**. Потім вона викличе **`AuthorizationCopyRights`**, щоб перевірити **чи має вона права** викликати функцію (зверніть увагу, що прапори дозволяють взаємодію з користувачем).
 
-У цьому випадку для виклику функції `readLicenseKeyAuthorization` визначено `kCommandKeyAuthRightDefault` як `@kAuthorizationRuleClassAllow`. Таким чином, **будь-хто може її викликати**.
+У цьому випадку, щоб викликати функцію `readLicenseKeyAuthorization`, `kCommandKeyAuthRightDefault` визначено як `@kAuthorizationRuleClassAllow`. Отже, **будь-хто може її викликати**.
 
-### Інформація про базу даних
+### DB Information
 
-Було зазначено, що ця інформація зберігається в `/var/db/auth.db`. Ви можете перелічити всі збережені правила за допомогою:
+Було згадано, що ця інформація зберігається в `/var/db/auth.db`. Ви можете перерахувати всі збережені правила за допомогою:
 ```sql
 sudo sqlite3 /var/db/auth.db
 SELECT name FROM rules;
 SELECT name FROM rules WHERE name LIKE '%safari%';
 ```
-Потім ви можете прочитати, хто може отримати доступ до права за допомогою:
+Тоді ви можете прочитати, хто може отримати доступ до права за допомогою:
 ```bash
 security authorizationdb read com.apple.safaridriver.allow
 ```
-### Дозволи з високим рівнем доступу
+### Permissive rights
 
-Ви можете знайти **всі конфігурації дозволів** [**тут**](https://www.dssw.co.uk/reference/authorization-rights/), але комбінації, які не потребують взаємодії з користувачем, будуть:
+You can find **всі конфігурації дозволів** [**тут**](https://www.dssw.co.uk/reference/authorization-rights/), але комбінації, які не вимагатимуть взаємодії з користувачем, будуть:
 
 1. **'authenticate-user': 'false'**
-* Це найпряміший ключ. Якщо встановлено на `false`, це вказує, що користувачу не потрібно надавати аутентифікацію для отримання цього дозволу.
-* Це використовується в **комбінації з одним з 2 нижче або вказанням групи**, до якої повинен належати користувач.
+* Це найпряміший ключ. Якщо встановлено `false`, це вказує на те, що користувач не повинен надавати аутентифікацію для отримання цього права.
+* Це використовується в **комбінації з одним з 2 нижче або вказуючи групу**, до якої повинен належати користувач.
 2. **'allow-root': 'true'**
-* Якщо користувач працює в якості користувача root (який має підвищені дозволи), і цей ключ встановлено на `true`, користувач root може потенційно отримати цей дозвіл без подальшої аутентифікації. Однак, зазвичай, для отримання статусу користувача root вже потрібна аутентифікація, тому це не є сценарієм "без аутентифікації" для більшості користувачів.
+* Якщо користувач працює як root-користувач (який має підвищені права), і цей ключ встановлено на `true`, root-користувач потенційно може отримати це право без подальшої аутентифікації. Однак, зазвичай, отримання статусу root-користувача вже вимагає аутентифікації, тому це не є сценарієм "без аутентифікації" для більшості користувачів.
 3. **'session-owner': 'true'**
-* Якщо встановлено на `true`, власник сеансу (поточний користувач) автоматично отримає цей дозвіл. Це може обійти додаткову аутентифікацію, якщо користувач вже увійшов у систему.
+* Якщо встановлено на `true`, власник сесії (в даний момент увійшовший користувач) автоматично отримає це право. Це може обійти додаткову аутентифікацію, якщо користувач вже увійшов.
 4. **'shared': 'true'**
-* Цей ключ не надає прав без аутентифікації. Замість цього, якщо встановлено на `true`, це означає, що після аутентифікації дозволу його можна спільно використовувати серед кількох процесів без необхідності повторної аутентифікації. Проте початкове надання дозволу все одно потребує аутентифікації, якщо не поєднано з іншими ключами, такими як `'authenticate-user': 'false'`.
+* Цей ключ не надає прав без аутентифікації. Натомість, якщо встановлено на `true`, це означає, що після аутентифікації права, вони можуть бути поділені між кількома процесами без необхідності повторної аутентифікації для кожного з них. Але початкове надання права все ще вимагатиме аутентифікації, якщо не поєднано з іншими ключами, такими як `'authenticate-user': 'false'`.
+
+You can [**використати цей скрипт**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) to get the interesting rights:
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -280,29 +282,29 @@ com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek,
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui
 ```
-## Реверс ідентифікації
+## Реверсування авторизації
 
-### Перевірка використання EvenBetterAuthorization
+### Перевірка, чи використовується EvenBetterAuthorization
 
-Якщо ви знаходите функцію: **`[HelperTool checkAuthorization:command:]`**, ймовірно, процес використовує вже згадану схему авторизації:
+Якщо ви знайдете функцію: **`[HelperTool checkAuthorization:command:]`**, ймовірно, процес використовує раніше згадану схему для авторизації:
 
 <figure><img src="../../../../../.gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-Таким чином, якщо ця функція викликає функції, такі як `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, вона використовує [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
+Це, якщо ця функція викликає такі функції, як `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, вона використовує [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
-Перевірте **`/var/db/auth.db`**, щоб переконатися, чи можливо отримати дозвіл на виклик деякої привілейованої дії без взаємодії з користувачем.
+Перевірте **`/var/db/auth.db`**, щоб дізнатися, чи можливо отримати дозволи для виклику деякої привілейованої дії без взаємодії з користувачем.
 
-### Протокол комунікації
+### Протокольна комунікація
 
-Потім вам потрібно знайти схему протоколу, щоб мати можливість встановити зв'язок з XPC-сервісом.
+Далі вам потрібно знайти схему протоколу, щоб мати можливість встановити зв'язок з XPC-сервісом.
 
 Функція **`shouldAcceptNewConnection`** вказує на експортований протокол:
 
 <figure><img src="../../../../../.gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-У цьому випадку ми маємо те саме, що й в EvenBetterAuthorizationSample, [**перевірте цей рядок**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
+У цьому випадку ми маємо те ж саме, що й у EvenBetterAuthorizationSample, [**перевірте цю лінію**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
-Знаючи назву використаного протоколу, можливо **вивести його визначення заголовка** за допомогою:
+Знаючи назву використаного протоколу, можна **вивантажити його визначення заголовка** за допомогою:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -316,13 +318,13 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-В останньому випадку нам просто потрібно знати **назву викритої служби Mach**, щоб встановити з нею зв'язок. Є кілька способів знайти це:
+Нарешті, нам просто потрібно знати **ім'я відкритого Mach Service**, щоб встановити з ним зв'язок. Є кілька способів це знайти:
 
-* У **`[HelperTool init()]`**, де ви можете побачити, яка служба Mach використовується:
+* У **`[HelperTool init]`**, де ви можете побачити використовуваний Mach Service:
 
 <figure><img src="../../../../../.gitbook/assets/image (41).png" alt=""><figcaption></figcaption></figure>
 
-* У launchd plist:
+* У plist запуску:
 ```xml
 cat /Library/LaunchDaemons/com.example.HelperTool.plist
 
@@ -335,14 +337,14 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 </dict>
 [...]
 ```
-### Приклад Використання
+### Приклад експлуатації
 
 У цьому прикладі створено:
 
 * Визначення протоколу з функціями
-* Порожню автентифікацію для запиту доступу
-* Підключення до служби XPC
-* Виклик функції у разі успішного підключення
+* Порожній auth для запиту доступу
+* З'єднання з XPC сервісом
+* Виклик функції, якщо з'єднання було успішним
 ```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 
@@ -420,21 +422,25 @@ NSLog(@"Response: %@", error);
 NSLog(@"Finished!");
 }
 ```
+## Інші привілейовані допоміжні програми XPC, які були зловживані
+
+* [https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared](https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared)
+
 ## Посилання
 
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
 {% hint style="success" %}
-Вивчайте та практикуйте взлом AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте взлом GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
