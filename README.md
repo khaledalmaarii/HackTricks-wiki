@@ -2,13 +2,13 @@
 
 <figure><img src=".gitbook/assets/hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
-_Logotipos e design de movimento do Hacktricks por_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
+_Logos e design em movimento do Hacktricks por_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Bem-vindo ao wiki onde você encontrará cada truque/técnica de hacking/o que quer que eu tenha aprendido em CTFs, aplicativos da vida real, pesquisas de leitura e notícias.**
+**Bem-vindo ao wiki onde você encontrará cada truque/técnica de hacking/qualquer coisa que aprendi em CTFs, aplicativos da vida real, lendo pesquisas e notícias.**
 {% endhint %}
 
-Para começar, siga esta página onde você encontrará o **fluxo típico** que **você deve seguir ao fazer pentesting** em uma ou mais **máquinas:**
+Para começar, siga esta página onde você encontrará o **fluxo típico** que **você deve seguir ao realizar pentesting** em uma ou mais **máquinas:**
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
@@ -24,7 +24,7 @@ Para começar, siga esta página onde você encontrará o **fluxo típico** que 
 
 Você pode conferir o **blog** deles em [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
-**STM Cyber** também apoia projetos de código aberto de cibersegurança como o HackTricks :)
+**STM Cyber** também apoia projetos de código aberto em cibersegurança como o HackTricks :)
 
 ***
 
@@ -42,9 +42,9 @@ Você pode conferir o **blog** deles em [**https://blog.stmcyber.com**](https://
 
 <figure><img src=".gitbook/assets/image (47).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** é a plataforma de ethical hacking **nº 1 da Europa** e de **bug bounty**.
+**Intigriti** é a **plataforma de hacking ético e bug bounty número 1 da Europa.**
 
-Dica de bug bounty: **cadastre-se** no **Intigriti**, uma plataforma premium de **bug bounty criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje e comece a ganhar recompensas de até **$100.000**!
+**Dica de bug bounty**: **inscreva-se** na **Intigriti**, uma plataforma premium de **bug bounty criada por hackers, para hackers**! Junte-se a nós em [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoje e comece a ganhar recompensas de até **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -55,9 +55,9 @@ Dica de bug bounty: **cadastre-se** no **Intigriti**, uma plataforma premium de 
 <figure><img src=".gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente com as ferramentas comunitárias mais avançadas do mundo.
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir e **automatizar fluxos de trabalho** facilmente, impulsionados pelas **ferramentas comunitárias mais avançadas** do mundo.
 
-Tenha Acesso Hoje:
+Acesse hoje:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -67,23 +67,23 @@ Tenha Acesso Hoje:
 
 <figure><img src=".gitbook/assets/image (50).png" alt=""><figcaption></figcaption></figure>
 
-Junte-se ao servidor do [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de bug bounty!
+Junte-se ao servidor [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) para se comunicar com hackers experientes e caçadores de bug bounty!
 
-* **Percepções de Hacking:** Engaje-se com conteúdo que explora a emoção e os desafios do hacking
-* **Notícias de Hacking em Tempo Real:** Mantenha-se atualizado com o mundo acelerado do hacking por meio de notícias e percepções em tempo real
-* **Últimos Anúncios:** Fique informado sobre os novos bug bounties lançados e atualizações cruciais na plataforma
+* **Insights de Hacking:** Engaje-se com conteúdo que mergulha na emoção e nos desafios do hacking
+* **Notícias de Hack em Tempo Real:** Mantenha-se atualizado com o mundo acelerado do hacking através de notícias e insights em tempo real
+* **Últimos Anúncios:** Fique informado sobre os novos bug bounties lançando e atualizações cruciais da plataforma
 
 **Junte-se a nós no** [**Discord**](https://discord.com/invite/N3FrSbmwdy) e comece a colaborar com os melhores hackers hoje!
 
 ***
 
-### [Pentest-Tools.com](https://pentest-tools.com/) - O kit de ferramentas essencial para testes de penetração
+### [Pentest-Tools.com](https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons) - O kit de ferramentas essencial para testes de penetração
 
 <figure><img src=".gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Configuração instantaneamente disponível para avaliação de vulnerabilidades e testes de penetração**. Execute um pentest completo de qualquer lugar com mais de 20 ferramentas e recursos que vão desde reconhecimento até relatórios. Não substituímos os pentesters - desenvolvemos ferramentas personalizadas, módulos de detecção e exploração para dar a eles mais tempo para aprofundar, abrir shells e se divertir.
+**Configuração instantaneamente disponível para avaliação de vulnerabilidades e testes de penetração**. Execute um pentest completo de qualquer lugar com mais de 20 ferramentas e recursos que vão de recon até relatórios. Nós não substituímos os pentesters - desenvolvemos ferramentas personalizadas, módulos de detecção e exploração para dar a eles mais tempo para investigar mais a fundo, estourar shells e se divertir.
 
-{% embed url="https://pentest-tools.com/" %}
+{% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
 ***
 
@@ -91,13 +91,13 @@ Junte-se ao servidor do [**HackenProof Discord**](https://discord.com/invite/N3F
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-A SerpApi oferece APIs em tempo real rápidas e fáceis para **acessar resultados de mecanismos de busca**. Eles raspam mecanismos de busca, lidam com proxies, resolvem captchas e analisam todos os dados estruturados ricos para você.
+SerpApi oferece APIs rápidas e fáceis em tempo real para **acessar resultados de mecanismos de busca**. Eles raspam mecanismos de busca, lidam com proxies, resolvem captchas e analisam todos os dados estruturados ricos para você.
 
-Uma assinatura de um dos planos da SerpApi inclui acesso a mais de 50 APIs diferentes para raspar diferentes mecanismos de busca, incluindo Google, Bing, Baidu, Yahoo, Yandex e mais.\
-Ao contrário de outros provedores, **a SerpApi não apenas raspa resultados orgânicos**. As respostas da SerpApi consistentemente incluem todos os anúncios, imagens e vídeos embutidos, grafos de conhecimento e outros elementos e recursos presentes nos resultados da pesquisa.
+Uma assinatura de um dos planos da SerpApi inclui acesso a mais de 50 APIs diferentes para raspagem de diferentes mecanismos de busca, incluindo Google, Bing, Baidu, Yahoo, Yandex e mais.\
+Ao contrário de outros provedores, **a SerpApi não apenas raspa resultados orgânicos**. As respostas da SerpApi incluem consistentemente todos os anúncios, imagens e vídeos inline, gráficos de conhecimento e outros elementos e recursos presentes nos resultados de busca.
 
-Clientes atuais da SerpApi incluem **Apple, Shopify e GrubHub**.\
-Para mais informações, confira o [**blog deles**](https://serpapi.com/blog/)**,** ou experimente um exemplo em seu [**playground**](https://serpapi.com/playground)**.**\
+Os atuais clientes da SerpApi incluem **Apple, Shopify e GrubHub**.\
+Para mais informações, confira o [**blog**](https://serpapi.com/blog/)**,** ou experimente um exemplo em seu [**playground**](https://serpapi.com/playground)**.**\
 Você pode **criar uma conta gratuita** [**aqui**](https://serpapi.com/users/sign\_up)**.**
 
 ***
@@ -114,30 +114,31 @@ Você pode **criar uma conta gratuita** [**aqui**](https://serpapi.com/users/sig
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) é uma empresa de cibersegurança profissional sediada em **Amsterdã** que ajuda a **proteger** empresas **em todo o mundo** contra as últimas ameaças de cibersegurança, fornecendo serviços de **segurança ofensiva** com uma **abordagem moderna**.
+[**WebSec**](https://websec.nl) é uma empresa profissional de cibersegurança com sede em **Amsterdã** que ajuda a **proteger** empresas **em todo o mundo** contra as mais recentes ameaças de cibersegurança, fornecendo **serviços de segurança ofensiva** com uma abordagem **moderna**.
 
-A WebSec é uma **empresa de segurança completa**, o que significa que eles fazem de tudo; Pentesting, Auditorias de Segurança, Treinamentos de Conscientização, Campanhas de Phishing, Revisão de Código, Desenvolvimento de Exploits, Terceirização de Especialistas em Segurança e muito mais.
+WebSec é uma **empresa de segurança tudo-em-um**, o que significa que eles fazem tudo; Pentesting, **Auditorias de Segurança**, Treinamentos de Conscientização, Campanhas de Phishing, Revisão de Código, Desenvolvimento de Exploits, Terceirização de Especialistas em Segurança e muito mais.
 
-Outra coisa legal sobre a WebSec é que, ao contrário da média da indústria, a WebSec é **muito confiante em suas habilidades**, a ponto de **garantir os melhores resultados de qualidade**, como declarado em seu site "**Se não conseguirmos hackear, você não paga!**". Para mais informações, dê uma olhada em seu [**site**](https://websec.nl/en/) e [**blog**](https://websec.nl/blog/)!
+Outra coisa legal sobre a WebSec é que, ao contrário da média da indústria, a WebSec é **muito confiante em suas habilidades**, a tal ponto que **garante os melhores resultados de qualidade**, afirmando em seu site "**Se não conseguimos hackear, você não paga!**". Para mais informações, dê uma olhada em seu [**site**](https://websec.nl/en/) e [**blog**](https://websec.nl/blog/)!
 
 Além do acima, a WebSec também é um **apoiador comprometido do HackTricks.**
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
+
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src=".gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
+[**WhiteIntel**](https://whiteintel.io) é um motor de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
 
-O principal objetivo do WhiteIntel é combater a apropriação de contas e ataques de ransomware resultantes de malwares que roubam informações.
+O objetivo principal do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
 
-Você pode acessar o site deles e experimentar o mecanismo gratuitamente em:
+Você pode conferir o site deles e experimentar seu motor **gratuitamente** em:
 
 {% embed url="https://whiteintel.io" %}
 
-## Licença e Aviso Legal
+## Licença & Isenção de Responsabilidade
 
-Confira em:
+Confira-os em:
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
@@ -145,20 +146,20 @@ Confira em:
 
 ## Estatísticas do Github
 
-![Estatísticas do Github do HackTricks](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg "Imagem de análise do Repobeats")
+![Estatísticas do HackTricks no Github](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg "Imagem de análise do Repobeats")
 
 
 {% hint style="success" %}
-Aprenda e pratique Hacking na AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking no GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoie o HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
