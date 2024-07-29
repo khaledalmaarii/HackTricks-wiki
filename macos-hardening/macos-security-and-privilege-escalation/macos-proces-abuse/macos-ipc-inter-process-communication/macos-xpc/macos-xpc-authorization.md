@@ -1,29 +1,29 @@
-# Uthibitisho wa XPC kwenye macOS
+# macOS XPC Authorization
 
 {% hint style="success" %}
-Jifunze na zoezi la AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Uthibitisho wa XPC
+## XPC Authorization
 
-Apple pia inapendekeza njia nyingine ya kuthibitisha ikiwa mchakato unaounganisha una **idhini ya kuita njia ya XPC iliyofunuliwa**.
+Apple pia inapendekeza njia nyingine ya kuthibitisha ikiwa mchakato unaounganisha una **idhini za kuita njia ya XPC iliyo wazi**.
 
-Wakati programu inahitaji **kutekeleza vitendo kama mtumiaji aliye na ruhusa**, badala ya kuendesha programu kama mtumiaji aliye na ruhusa kawaida inasakinisha kama mtumiaji wa mizizi HelperTool kama huduma ya XPC ambayo inaweza kuitwa na programu kutekeleza vitendo hivyo. Walakini, programu inayoiita huduma hiyo inapaswa kuwa na idhini ya kutosha.
+Wakati programu inahitaji **kutekeleza vitendo kama mtumiaji mwenye mamlaka**, badala ya kuendesha programu kama mtumiaji mwenye mamlaka, kawaida huweka kama root Tool ya Msaada kama huduma ya XPC ambayo inaweza kuitwa kutoka kwa programu ili kutekeleza vitendo hivyo. Hata hivyo, programu inayoiita huduma inapaswa kuwa na idhini ya kutosha.
 
-### ShouldAcceptNewConnection daima YES
+### ShouldAcceptNewConnection kila wakati YES
 
-Mfano unaweza kupatikana katika [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). Katika `App/AppDelegate.m` inajaribu **kuunganisha** kwenye **HelperTool**. Na katika `HelperTool/HelperTool.m` kazi ya **`shouldAcceptNewConnection`** **haitathibitisha** mahitaji yoyote yaliyotajwa hapo awali. Itarudi daima YES:
+Mfano unaweza kupatikana katika [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). Katika `App/AppDelegate.m` inajaribu **kuunganisha** na **Tool ya Msaada**. Na katika `HelperTool/HelperTool.m` kazi **`shouldAcceptNewConnection`** **haitaangalia** yoyote ya mahitaji yaliyoelezwa hapo awali. Itarudisha kila wakati YES:
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -40,18 +40,18 @@ newConnection.exportedObject = self;
 return YES;
 }
 ```
-Kwa habari zaidi kuhusu jinsi ya kusanidi ukaguzi huu ipasavyo:
+Kwa maelezo zaidi kuhusu jinsi ya kusanidi hii ipasavyo angalia:
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
 {% endcontent-ref %}
 
-### Haki za Maombi
+### Haki za programu
 
-Hata hivyo, kuna **idhini inayoendelea wakati njia kutoka kwa HelperTool inaitwa**.
+Hata hivyo, kuna **idhinisho linafanyika wakati njia kutoka kwa HelperTool inaitwa**.
 
-Kazi ya **`applicationDidFinishLaunching`** kutoka `App/AppDelegate.m` itaunda kumbukumbu tupu ya idhini baada ya programu kuanza. Hii daima inapaswa kufanya kazi.\
-Kisha, itajaribu **kuongeza baadhi ya haki** kwa kumbukumbu hiyo ya idhini kwa kuita `setupAuthorizationRights`:
+Kazi **`applicationDidFinishLaunching`** kutoka `App/AppDelegate.m` itaunda rejeleo tupu la idhini baada ya programu kuanza. Hii inapaswa kufanya kazi kila wakati.\
+Kisha, itajaribu **kuongeza haki fulani** kwa rejeleo hilo la idhini kwa kuita `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -75,7 +75,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-Funguo `setupAuthorizationRights` kutoka `Common/Common.m` itahifadhi katika database ya idhini `/var/db/auth.db` haki za programu. Tafadhali kumbuka jinsi itakavyoongeza haki ambazo bado hazipo katika database:
+The function `setupAuthorizationRights` from `Common/Common.m` itahifadhi katika hifadhidata ya uthibitisho `/var/db/auth.db` haki za programu. Kumbuka jinsi itakavyoongeza tu haki ambazo bado hazipo katika hifadhidata:
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -107,7 +107,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-Funguo `enumerateRightsUsingBlock` ndiyo hutumika kupata ruhusa za programu, ambazo zimedefiniwa katika `commandInfo`:
+Kazi ya `enumerateRightsUsingBlock` ndiyo inayotumika kupata ruhusa za programu, ambazo zimefafanuliwa katika `commandInfo`:
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -185,15 +185,15 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-Hii inamaanisha kwamba mwishoni mwa mchakato huu, ruhusa zilizotangazwa ndani ya `commandInfo` zitahifadhiwa katika `/var/db/auth.db`. Tafadhali angalia jinsi unavyoweza kupata kwa **kila njia** itakayohitaji **uthibitisho**, **jina la ruhusa** na **`kCommandKeyAuthRightDefault`**. Ile ya mwisho **inaonyesha ni nani anaweza kupata haki hii**.
+Hii inamaanisha kwamba mwishoni mwa mchakato huu, ruhusa zilizotangazwa ndani ya `commandInfo` zitawekwa katika `/var/db/auth.db`. Angalia jinsi kuna **kila njia** ambayo itahitaji **uthibitisho**, **jina la ruhusa** na **`kCommandKeyAuthRightDefault`**. Ya mwisho **inaonyesha ni nani anaweza kupata haki hii**.
 
-Kuna mizunguko tofauti inayoonyesha ni nani anaweza kupata haki. Baadhi yao yamefafanuliwa katika [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (unaweza kupata [zote hapa](https://www.dssw.co.uk/reference/authorization-rights/)), lakini kwa muhtasari:
+Kuna maeneo tofauti ya kuonyesha ni nani anaweza kupata haki. Baadhi yao zimefafanuliwa katika [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (unaweza kupata [zote hapa](https://www.dssw.co.uk/reference/authorization-rights/)), lakini kwa muhtasari:
 
-<table><thead><tr><th width="284.3333333333333">Jina</th><th width="165">Thamani</th><th>Maelezo</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>ruhusu</td><td>Mtu yeyote</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>kataa</td><td>Hakuna mtu</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>ni-admin</td><td>Mtumiaji wa sasa lazima awe msimamizi (ndani ya kikundi cha wasimamizi)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>thibitisha-mmiliki-wa-kikao</td><td>Uliza mtumiaji athibitishe.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>thibitisha-msimamizi</td><td>Uliza mtumiaji athibitishe. Lazima awe msimamizi (ndani ya kikundi cha wasimamizi)</td></tr><tr><td>kAuthorizationRightRule</td><td>kanuni</td><td>Bayana sheria</td></tr><tr><td>kAuthorizationComment</td><td>maoni</td><td>Bayana maoni ya ziada kuhusu haki</td></tr></tbody></table>
+<table><thead><tr><th width="284.3333333333333">Jina</th><th width="165">Thamani</th><th>Maelezo</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>kuruhusu</td><td>Mtu yeyote</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>kukataa</td><td>Hakuna mtu</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>ni-admin</td><td>Katumiaji wa sasa anahitaji kuwa admin (ndani ya kundi la admin)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>uthibitisha-mmiliki-wa-sesheni</td><td>Muulize mtumiaji kuthibitisha.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>uthibitisha-admin</td><td>Muulize mtumiaji kuthibitisha. Anahitaji kuwa admin (ndani ya kundi la admin)</td></tr><tr><td>kAuthorizationRightRule</td><td>kanuni</td><td>Fafanua sheria</td></tr><tr><td>kAuthorizationComment</td><td>maoni</td><td>Fafanua maoni ya ziada kuhusu haki</td></tr></tbody></table>
 
-### Uhakiki wa Haki
+### Uthibitishaji wa Haki
 
-Katika `HelperTool/HelperTool.m` kazi **`readLicenseKeyAuthorization`** inachunguza ikiwa mpigaji simu ana ruhusa ya **kutekeleza njia hiyo** kwa kuita kazi **`checkAuthorization`**. Kazi hii itachunguza ikiwa **authData** iliyotumwa na mchakato unayopiga simu ina **muundo sahihi** na kisha itachunguza **nini kinahitajika kupata haki** ya kuita njia maalum. Ikiwa mambo yote yanaenda vizuri **kosa lililorejeshwa litakuwa `nil`**:
+Katika `HelperTool/HelperTool.m` kazi **`readLicenseKeyAuthorization`** inakagua ikiwa mpiga simu ameidhinishwa **kutekeleza njia hiyo** kwa kuita kazi **`checkAuthorization`**. Kazi hii itakagua **authData** iliyotumwa na mchakato wa kupiga simu ina **muundo sahihi** na kisha itakagua **kila kinachohitajika kupata haki** ya kuita njia maalum. Ikiwa kila kitu kinaenda vizuri **`error` iliyorejeshwa itakuwa `nil`**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -241,35 +241,37 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Tafadhali elewa kwamba **kuangalia mahitaji ya kupata haki** ya kuita hiyo njia, kazi `authorizationRightForCommand` itaangalia tu kitu kilichotangulia **`commandInfo`**. Kisha, itaita **`AuthorizationCopyRights`** kuangalia **ikiwa ina haki** ya kuita hiyo njia (tambua kuwa bendera huruhusu mwingiliano na mtumiaji).
+Note that to **check the requirements to get the right** to call that method the function `authorizationRightForCommand` will just check the previously comment object **`commandInfo`**. Then, it will call **`AuthorizationCopyRights`** to check **if it has the rights** to call the function (note that the flags allow interaction with the user).
 
-Katika kesi hii, ili kuita hiyo njia `readLicenseKeyAuthorization` `kCommandKeyAuthRightDefault` imedhamiriwa kuwa `@kAuthorizationRuleClassAllow`. Kwa hivyo **mtu yeyote anaweza kuipiga**.
+In this case, to call the function `readLicenseKeyAuthorization` the `kCommandKeyAuthRightDefault` is defined to `@kAuthorizationRuleClassAllow`. So **anyone can call it**.
 
-### Taarifa za DB
+### DB Information
 
-Ilitajwa kuwa taarifa hii imehifadhiwa katika `/var/db/auth.db`. Unaweza kuorodhesha sheria zote zilizohifadhiwa kwa:
+Ilisemekana kwamba taarifa hii inahifadhiwa katika `/var/db/auth.db`. Unaweza kuorodhesha sheria zote zilizohifadhiwa kwa:
 ```sql
 sudo sqlite3 /var/db/auth.db
 SELECT name FROM rules;
 SELECT name FROM rules WHERE name LIKE '%safari%';
 ```
-Kisha, unaweza kusoma ni nani anaweza kupata ufikiaji kwa haki na:
+Kisha, unaweza kusoma ni nani anaweza kufikia haki hiyo kwa:
 ```bash
 security authorizationdb read com.apple.safaridriver.allow
 ```
-### Haki za kibali
+### Permissive rights
 
-Unaweza kupata **mipangilio yote ya ruhusa** [**hapa**](https://www.dssw.co.uk/reference/authorization-rights/), lakini mchanganyiko ambao hautahitaji ushirikiano wa mtumiaji ni:
+You can find **all the permissions configurations** [**in here**](https://www.dssw.co.uk/reference/authorization-rights/), but the combinations that won't require user interaction would be:
 
 1. **'authenticate-user': 'false'**
-* Hii ni funguo moja moja zaidi. Ikiwa imewekwa kama `false`, inabainisha kwamba mtumiaji hahitaji kutoa uthibitisho kupata haki hii.
-* Hutumiwa katika **mchanganyiko na moja ya 2 hapa chini au kuonyesha kikundi** ambacho mtumiaji lazima awe mwanachama.
+* Hii ni funguo ya moja kwa moja zaidi. Ikiwa imewekwa kuwa `false`, inaashiria kwamba mtumiaji hatahitaji kutoa uthibitisho ili kupata haki hii.
+* Hii inatumika kwa **mchanganyiko na moja ya 2 hapa chini au kuashiria kundi** ambalo mtumiaji lazima awe sehemu yake.
 2. **'allow-root': 'true'**
-* Ikiwa mtumiaji anafanya kazi kama mtumiaji wa mizizi (ambaye ana ruhusa zilizoinuliwa), na funguo hii imewekwa kama `true`, mtumiaji wa mizizi anaweza kupata haki hii bila uthibitisho zaidi. Walakini, kwa kawaida, kufikia hadhi ya mtumiaji wa mizizi tayari kunahitaji uthibitisho, kwa hivyo hii sio hali ya "bila uthibitisho" kwa watumiaji wengi.
+* Ikiwa mtumiaji anafanya kazi kama mtumiaji wa root (ambaye ana ruhusa za juu), na funguo hii imewekwa kuwa `true`, mtumiaji wa root anaweza kupata haki hii bila uthibitisho zaidi. Hata hivyo, kwa kawaida, kufikia hadhi ya mtumiaji wa root tayari kunahitaji uthibitisho, hivyo hii si hali ya "hakuna uthibitisho" kwa watumiaji wengi.
 3. **'session-owner': 'true'**
-* Ikiwa imewekwa kama `true`, mmiliki wa kikao (mtumiaji aliyeingia kwenye mfumo) atapata haki hii moja kwa moja. Hii inaweza kupuuza uthibitisho wa ziada ikiwa mtumiaji tayari ameingia kwenye mfumo.
+* Ikiwa imewekwa kuwa `true`, mmiliki wa kikao (mtumiaji aliyeingia sasa) atapata haki hii moja kwa moja. Hii inaweza kupita uthibitisho wa ziada ikiwa mtumiaji tayari ameingia.
 4. **'shared': 'true'**
-* Funguo hii haipati haki bila uthibitisho. Badala yake, ikiwa imewekwa kama `true`, inamaanisha kwamba mara haki imeidhinishwa, inaweza kugawanywa kati ya michakato mingi bila kila moja kuhitaji kuthibitisha tena. Lakini kuidhinishwa kwa awali kwa haki hiyo bado itahitaji uthibitisho isipokuwa imechanganywa na funguo zingine kama `'authenticate-user': 'false'`.
+* Funguo hii haitoi haki bila uthibitisho. Badala yake, ikiwa imewekwa kuwa `true`, inamaanisha kwamba mara haki hiyo itakapothibitishwa, inaweza kushirikiwa kati ya michakato mingi bila kila mmoja kuhitaji kuthibitishwa tena. Lakini utoaji wa awali wa haki hiyo bado utahitaji uthibitisho isipokuwa ikichanganywa na funguo nyingine kama `'authenticate-user': 'false'`.
+
+You can [**use this script**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) to get the interesting rights:
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -280,29 +282,29 @@ com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek,
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui
 ```
-## Kugeuza Idhini
+## Reversing Authorization
 
-### Kuangalia ikiwa EvenBetterAuthorization inatumika
+### Checking if EvenBetterAuthorization is used
 
-Ikiwa utapata kazi: **`[HelperTool checkAuthorization:command:]`** labda mchakato unatumia mpango uliotajwa awali kwa idhini:
+Ikiwa unapata kazi: **`[HelperTool checkAuthorization:command:]`** inawezekana kwamba mchakato unatumia mpangilio ulioelezwa hapo awali kwa ajili ya ruhusa:
 
 <figure><img src="../../../../../.gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-Kwa hivyo, ikiwa kazi hii inaita kazi kama `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, inatumia [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
+Hii, ikiwa kazi hii inaita kazi kama `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, inatumia [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
-Angalia **`/var/db/auth.db`** kuona ikiwa ni rahisi kupata ruhusa ya kuita hatua fulani ya kipekee bila ushirikiano wa mtumiaji.
+Angalia **`/var/db/auth.db`** ili kuona kama inawezekana kupata ruhusa za kuita hatua fulani yenye mamlaka bila mwingiliano wa mtumiaji.
 
-### Mawasiliano ya Itifaki
+### Protocol Communication
 
-Kisha, unahitaji kupata mpango wa itifaki ili uweze kuanzisha mawasiliano na huduma ya XPC.
+Kisha, unahitaji kupata mpangilio wa itifaki ili uweze kuanzisha mawasiliano na huduma ya XPC.
 
 Kazi **`shouldAcceptNewConnection`** inaonyesha itifaki inayotolewa:
 
 <figure><img src="../../../../../.gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-Katika kesi hii, tuna kitu kama katika EvenBetterAuthorizationSample, [**angalia mstari huu**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
+Katika kesi hii, tuna sawa na katika EvenBetterAuthorizationSample, [**angalia mstari huu**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
-Kujua, jina la itifaki iliyotumiwa, ni **inawezekana kudondosha ufafanuzi wa kichwa chake** na:
+Kujua, jina la itifaki inayotumika, inawezekana **kudump ufafanuzi wa kichwa chake** na:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -316,13 +318,13 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-Mwisho, tunahitaji kujua **jina la Huduma ya Mach iliyofichuliwa** ili kuanzisha mawasiliano nayo. Kuna njia kadhaa za kupata hili:
+Mwisho, tunahitaji tu kujua **jina la Huduma ya Mach iliyo wazi** ili kuanzisha mawasiliano nayo. Kuna njia kadhaa za kuipata hii:
 
-* Katika **`[HelperTool init()]`** ambapo unaweza kuona Huduma ya Mach inayotumiwa:
+* Katika **`[HelperTool init]`** ambapo unaweza kuona Huduma ya Mach inayotumika:
 
 <figure><img src="../../../../../.gitbook/assets/image (41).png" alt=""><figcaption></figcaption></figure>
 
-* Katika faili ya uzinduzi ya launchd:
+* Katika plist ya launchd:
 ```xml
 cat /Library/LaunchDaemons/com.example.HelperTool.plist
 
@@ -337,12 +339,12 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 ```
 ### Mfano wa Kutumia
 
-Katika mfano huu imeundwa:
+Katika mfano huu umeundwa:
 
-* Ufafanuzi wa itifaki na kazi zake
-* Kitambulisho tupu cha uthibitishaji kutumika kuomba ufikiaji
-* Uunganisho kwenye huduma ya XPC
-* Wito kwa kazi endapo uunganisho ulifanikiwa
+* Ufafanuzi wa itifaki na kazi
+* Auth tupu ya kutumia kuomba ufikiaji
+* Muunganisho na huduma ya XPC
+* Kuitwa kwa kazi ikiwa muunganisho ulikuwa na mafanikio
 ```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 
@@ -420,21 +422,25 @@ NSLog(@"Response: %@", error);
 NSLog(@"Finished!");
 }
 ```
+## Wasaidizi wengine wa XPC waliotumiwa vibaya
+
+* [https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared](https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared)
+
 ## Marejeo
 
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
 {% hint style="success" %}
-Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze & fanya mazoezi ya AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze & fanya mazoezi ya GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}
