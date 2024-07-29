@@ -1,25 +1,22 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-सीखें और GCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*चेक करें [**subsrippangithub.cm/sorsarlosp!
-* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) में शामिल हों या **हमें** **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)** पर फॉलो करें।**
-* **ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में PRs सबमिट करें।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-{% endhint %}
-{% endhint %}
-{% endhint %}
 {% endhint %}
 
 
 ## chown, chmod
 
-आप **यह संकेत कर सकते हैं कि आप बाकी फाइलों के लिए कौन सा फ़ाइल मालिक और अनुमतियाँ कॉपी करना चाहते हैं**
+आप **यह संकेत दे सकते हैं कि आप बाकी फाइलों के लिए कौन सा फ़ाइल मालिक और अनुमतियाँ कॉपी करना चाहते हैं**
 ```bash
 touch "--reference=/my/own/path/filename"
 ```
@@ -54,7 +51,7 @@ touch "-e sh shell.sh"
 
 ## 7z
 
-**7z** में `--` का उपयोग करने पर भी `*` के पहले (ध्यान दें कि `--` का अर्थ है कि इसके बाद का इनपुट पैरामीटर के रूप में नहीं लिया जा सकता, इसलिए इस मामले में केवल फ़ाइल पथ) आप एक मनमाना त्रुटि उत्पन्न कर सकते हैं जिससे एक फ़ाइल पढ़ी जा सके, इसलिए यदि निम्नलिखित में से कोई आदेश रूट द्वारा निष्पादित किया जा रहा है:
+**7z** में `--` का उपयोग करने पर भी `*` से पहले (ध्यान दें कि `--` का अर्थ है कि इसके बाद का इनपुट पैरामीटर के रूप में नहीं लिया जा सकता, इसलिए इस मामले में केवल फ़ाइल पथ) आप एक मनमाना त्रुटि उत्पन्न कर सकते हैं जिससे एक फ़ाइल पढ़ी जा सके, इसलिए यदि निम्नलिखित में से कोई आदेश रूट द्वारा निष्पादित किया जा रहा है:
 ```bash
 7za a /backup/$filename.zip -t7z -snl -p$pass -- *
 ```
@@ -64,9 +61,9 @@ cd /path/to/7z/acting/folder
 touch @root.txt
 ln -s /file/you/want/to/read root.txt
 ```
-फिर, जब **7z** निष्पादित होता है, यह `root.txt` को एक फ़ाइल के रूप में मानता है जिसमें उन फ़ाइलों की सूची होती है जिन्हें इसे संकुचित करना चाहिए (यही `@root.txt` के अस्तित्व का संकेत है) और जब 7z `root.txt` को पढ़ता है, तो यह `/file/you/want/to/read` को पढ़ेगा और **चूंकि इस फ़ाइल की सामग्री फ़ाइलों की सूची नहीं है, यह एक त्रुटि फेंकेगा** जो सामग्री दिखाएगी।
+फिर, जब **7z** निष्पादित होता है, यह `root.txt` को उन फ़ाइलों की सूची के रूप में मानता है जिन्हें इसे संकुचित करना चाहिए (यही `@root.txt` के अस्तित्व का संकेत है) और जब 7z `root.txt` पढ़ता है, तो यह `/file/you/want/to/read` को पढ़ेगा और **चूंकि इस फ़ाइल की सामग्री फ़ाइलों की सूची नहीं है, यह एक त्रुटि फेंकेगा** जो सामग्री दिखा रहा है।
 
-_हैकथबॉक्स से CTF के बॉक्स के लेखों में अधिक जानकारी।_
+_हैकदबॉक्स से CTF के बॉक्स के लेखों में अधिक जानकारी।_
 
 ## ज़िप
 
@@ -74,25 +71,17 @@ _हैकथबॉक्स से CTF के बॉक्स के लेख�
 ```bash
 zip name.zip files -T --unzip-command "sh -c whoami"
 ```
-```markdown
-{% hnt stye="acceas" %}
-AWS हैकिंग प्रैक्टिस:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-सीखें & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>HackTricks का समर्थन करें</summary>
 
-*चेक करें [**subsrippangithub.cm/sorsarlosp!**
-* चेक करें [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **जुड़ें 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) या [**telegram group**](https://t.me/peass) या **हमारा अनुसरण करें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **हैकिंग ट्रिक्स साझा करें PRs को** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में सबमिट करके।
+* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) में शामिल हों या **हमें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो करें।**
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।
 
-{% endhint %}
 </details>
 {% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
-```
