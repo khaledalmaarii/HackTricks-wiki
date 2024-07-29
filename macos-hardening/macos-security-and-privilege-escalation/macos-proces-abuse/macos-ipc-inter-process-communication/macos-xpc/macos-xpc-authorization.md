@@ -1,29 +1,29 @@
-# macOS XPC Εξουσιοδότηση
+# macOS XPC Authorization
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα χάκερ κάνοντας υποβολή PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## XPC Εξουσιοδότηση
+## XPC Authorization
 
-Η Apple προτείνει επίσης έναν άλλο τρόπο για να ελέγξει αν η συνδεόμενη διαδικασία έχει **δικαιώματα να καλέσει μια εκτεθειμένη μέθοδο XPC**.
+Η Apple προτείνει επίσης έναν άλλο τρόπο για να πιστοποιήσει αν η διαδικασία σύνδεσης έχει **δικαιώματα να καλέσει μια εκτεθειμένη μέθοδο XPC**.
 
-Όταν μια εφαρμογή χρειάζεται να **εκτελέσει ενέργειες ως προνομιούχος χρήστης**, αντί να εκτελεί την εφαρμογή ως προνομιούχος χρήστης, συνήθως εγκαθιστά ως ρίζα ένα HelperTool ως υπηρεσία XPC που μπορεί να κληθεί από την εφαρμογή για να εκτελέσει αυτές τις ενέργειες. Ωστόσο, η εφαρμογή που καλεί την υπηρεσία πρέπει να έχει επαρκή εξουσιοδότηση.
+Όταν μια εφαρμογή χρειάζεται να **εκτελέσει ενέργειες ως προνομιούχος χρήστης**, αντί να εκτελεί την εφαρμογή ως προνομιούχος χρήστης, συνήθως εγκαθιστά ως root ένα HelperTool ως υπηρεσία XPC που μπορεί να καλείται από την εφαρμογή για να εκτελέσει αυτές τις ενέργειες. Ωστόσο, η εφαρμογή που καλεί την υπηρεσία θα πρέπει να έχει αρκετή εξουσιοδότηση.
 
-### Πάντα YES στο ShouldAcceptNewConnection
+### ShouldAcceptNewConnection πάντα ΝΑΙ
 
-Ένα παράδειγμα μπορεί να βρεθεί στο [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). Στο `App/AppDelegate.m` προσπαθεί να **συνδεθεί** με το **HelperTool**. Και στο `HelperTool/HelperTool.m` η λειτουργία **`shouldAcceptNewConnection`** **δεν θα ελέγξει** καμία από τις προηγούμενα αναφερθείσες απαιτήσεις. Θα επιστρέψει πάντα YES:
+Ένα παράδειγμα μπορεί να βρεθεί στο [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). Στο `App/AppDelegate.m` προσπαθεί να **συνδεθεί** με το **HelperTool**. Και στο `HelperTool/HelperTool.m` η συνάρτηση **`shouldAcceptNewConnection`** **δεν θα ελέγξει** καμία από τις απαιτήσεις που αναφέρθηκαν προηγουμένως. Θα επιστρέφει πάντα ΝΑΙ:
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -40,7 +40,7 @@ newConnection.exportedObject = self;
 return YES;
 }
 ```
-Για περισσότερες πληροφορίες σχετικά με το πώς να ρυθμίσετε σωστά αυτόν τον έλεγχο:
+Για περισσότερες πληροφορίες σχετικά με το πώς να ρυθμίσετε σωστά αυτήν την επαλήθευση:
 
 {% content-ref url="macos-xpc-connecting-process-check/" %}
 [macos-xpc-connecting-process-check](macos-xpc-connecting-process-check/)
@@ -48,9 +48,9 @@ return YES;
 
 ### Δικαιώματα εφαρμογής
 
-Ωστόσο, όταν καλείται μια μέθοδος από το HelperTool, υπάρχει κάποια **εξουσιοδότηση**.
+Ωστόσο, υπάρχει κάποια **εξουσιοδότηση που συμβαίνει όταν καλείται μια μέθοδος από το HelperTool**.
 
-Η συνάρτηση **`applicationDidFinishLaunching`** από το `App/AppDelegate.m` θα δημιουργήσει μια κενή αναφορά εξουσιοδότησης αφού η εφαρμογή έχει ξεκινήσει. Αυτό πρέπει να λειτουργεί πάντα.\
+Η συνάρτηση **`applicationDidFinishLaunching`** από το `App/AppDelegate.m` θα δημιουργήσει μια κενή αναφορά εξουσιοδότησης μετά την εκκίνηση της εφαρμογής. Αυτό θα πρέπει πάντα να λειτουργεί.\
 Στη συνέχεια, θα προσπαθήσει να **προσθέσει κάποια δικαιώματα** σε αυτήν την αναφορά εξουσιοδότησης καλώντας το `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
@@ -75,7 +75,7 @@ if (self->_authRef) {
 [self.window makeKeyAndOrderFront:self];
 }
 ```
-Η λειτουργία `setupAuthorizationRights` από το `Common/Common.m` θα αποθηκεύσει στη βάση δεδομένων εξουσιοδότησης `/var/db/auth.db` τα δικαιώματα της εφαρμογής. Σημειώστε ότι θα προσθέσει μόνο τα δικαιώματα που δεν υπάρχουν ακόμα στη βάση δεδομένων:
+Η συνάρτηση `setupAuthorizationRights` από το `Common/Common.m` θα αποθηκεύσει στη βάση δεδομένων auth `/var/db/auth.db` τα δικαιώματα της εφαρμογής. Σημειώστε πώς θα προσθέσει μόνο τα δικαιώματα που δεν είναι ακόμη στη βάση δεδομένων:
 ```objectivec
 + (void)setupAuthorizationRights:(AuthorizationRef)authRef
 // See comment in header.
@@ -107,7 +107,7 @@ assert(blockErr == errAuthorizationSuccess);
 }];
 }
 ```
-Η λειτουργία `enumerateRightsUsingBlock` είναι αυτή που χρησιμοποιείται για να λάβετε τα δικαιώματα εφαρμογών, τα οποία ορίζονται στο `commandInfo`:
+Η συνάρτηση `enumerateRightsUsingBlock` είναι αυτή που χρησιμοποιείται για να αποκτήσει τις άδειες των εφαρμογών, οι οποίες ορίζονται στο `commandInfo`:
 ```objectivec
 static NSString * kCommandKeyAuthRightName    = @"authRightName";
 static NSString * kCommandKeyAuthRightDefault = @"authRightDefault";
@@ -185,15 +185,15 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-Αυτό σημαίνει ότι στο τέλος αυτής της διαδικασίας, οι άδειες που δηλώνονται μέσα στο `commandInfo` θα αποθηκευτούν στο `/var/db/auth.db`. Σημειώστε ότι μπορείτε να βρείτε για **κάθε μέθοδο** που απαιτεί **πιστοποίηση**, το **όνομα άδειας** και το **`kCommandKeyAuthRightDefault`**. Το τελευταίο **υποδηλώνει ποιος μπορεί να λάβει αυτήν την άδεια**.
+Αυτό σημαίνει ότι στο τέλος αυτής της διαδικασίας, οι άδειες που δηλώνονται μέσα στο `commandInfo` θα αποθηκευτούν στο `/var/db/auth.db`. Σημειώστε πώς μπορείτε να βρείτε για **κάθε μέθοδο** που θα **απαιτεί αυθεντικοποίηση**, το **όνομα άδειας** και το **`kCommandKeyAuthRightDefault`**. Το τελευταίο **υποδεικνύει ποιος μπορεί να αποκτήσει αυτό το δικαίωμα**.
 
-Υπάρχουν διαφορετικές εμβέλειες για να υποδείξουν ποιος μπορεί να έχει πρόσβαση σε μια άδεια. Κάποιες από αυτές έχουν οριστεί στο [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (μπορείτε να βρείτε [όλες εδώ](https://www.dssw.co.uk/reference/authorization-rights/)), αλλά συνοψίζοντας:
+Υπάρχουν διαφορετικοί τομείς για να υποδείξουν ποιος μπορεί να έχει πρόσβαση σε ένα δικαίωμα. Ορισμένοι από αυτούς ορίζονται στο [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (μπορείτε να βρείτε [όλους εδώ](https://www.dssw.co.uk/reference/authorization-rights/)), αλλά ως σύνοψη:
 
-<table><thead><tr><th width="284.3333333333333">Όνομα</th><th width="165">Τιμή</th><th>Περιγραφή</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Οποιοσδήποτε</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Κανείς</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>Ο τρέχων χρήστης πρέπει να είναι διαχειριστής (μέσα στην ομάδα διαχειριστών)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Ζητήστε από τον χρήστη να πιστοποιηθεί.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Ζητήστε από τον χρήστη να πιστοποιηθεί. Πρέπει να είναι διαχειριστής (μέσα στην ομάδα διαχειριστών)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Καθορίστε κανόνες</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Καθορίστε μερικά επιπλέον σχόλια στην άδεια</td></tr></tbody></table>
+<table><thead><tr><th width="284.3333333333333">Όνομα</th><th width="165">Τιμή</th><th>Περιγραφή</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Οποιοσδήποτε</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Κανείς</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>Ο τρέχων χρήστης πρέπει να είναι διαχειριστής (μέσα στην ομάδα διαχειριστών)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Ρωτήστε τον χρήστη να αυθεντικοποιηθεί.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Ρωτήστε τον χρήστη να αυθεντικοποιηθεί. Πρέπει να είναι διαχειριστής (μέσα στην ομάδα διαχειριστών)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Καθορίστε κανόνες</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Καθορίστε μερικά επιπλέον σχόλια σχετικά με το δικαίωμα</td></tr></tbody></table>
 
 ### Επαλήθευση Δικαιωμάτων
 
-Στο `HelperTool/HelperTool.m` η συνάρτηση **`readLicenseKeyAuthorization`** ελέγχει αν ο καλούντας έχει δικαίωμα να **εκτελέσει τέτοια μέθοδο** καλώντας τη συνάρτηση **`checkAuthorization`**. Αυτή η συνάρτηση θα ελέγξει αν τα **authData** που στέλνει η καλούσα διαδικασία έχουν **σωστή μορφή** και στη συνέχεια θα ελέγξει **τι απαιτείται για να αποκτήσει το δικαίωμα** να καλέσει τη συγκεκριμένη μέθοδο. Αν όλα πάνε καλά, το **επιστρεφόμενο `σφάλμα` θα είναι `nil`**:
+Στο `HelperTool/HelperTool.m` η συνάρτηση **`readLicenseKeyAuthorization`** ελέγχει αν ο καλών είναι εξουσιοδοτημένος να **εκτελέσει αυτή τη μέθοδο** καλώντας τη συνάρτηση **`checkAuthorization`**. Αυτή η συνάρτηση θα ελέγξει αν τα **authData** που αποστέλλονται από τη διαδικασία κλήσης έχουν **σωστή μορφή** και στη συνέχεια θα ελέγξει **τι απαιτείται για να αποκτήσει το δικαίωμα** να καλέσει τη συγκεκριμένη μέθοδο. Αν όλα πάνε καλά, το **επιστρεφόμενο `error` θα είναι `nil`**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -241,35 +241,37 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Σημειώστε ότι για να **ελέγξετε τις απαιτήσεις για να έχετε το δικαίωμα** να καλέσετε αυτήν τη μέθοδο, η συνάρτηση `authorizationRightForCommand` θα ελέγξει απλώς το αντικείμενο σχολίου **`commandInfo`**. Στη συνέχεια, θα καλέσει το **`AuthorizationCopyRights`** για να ελέγξει **αν έχει τα δικαιώματα** να καλέσει τη συνάρτηση (σημειώστε ότι οι σημαίες επιτρέπουν την αλληλεπίδραση με τον χρήστη).
+Σημειώστε ότι για να **ελέγξετε τις απαιτήσεις για να αποκτήσετε το δικαίωμα** να καλέσετε αυτή τη μέθοδο, η συνάρτηση `authorizationRightForCommand` θα ελέγξει απλώς το προηγουμένως σχολιασμένο αντικείμενο **`commandInfo`**. Στη συνέχεια, θα καλέσει **`AuthorizationCopyRights`** για να ελέγξει **αν έχει τα δικαιώματα** να καλέσει τη συνάρτηση (σημειώστε ότι οι σημαίες επιτρέπουν την αλληλεπίδραση με τον χρήστη).
 
-Σε αυτήν την περίπτωση, για να καλέσετε τη συνάρτηση `readLicenseKeyAuthorization`, το `kCommandKeyAuthRightDefault` ορίζεται σε `@kAuthorizationRuleClassAllow`. Έτσι **οποιοσδήποτε μπορεί να το καλέσει**.
+Σε αυτή την περίπτωση, για να καλέσετε τη συνάρτηση `readLicenseKeyAuthorization`, το `kCommandKeyAuthRightDefault` ορίζεται σε `@kAuthorizationRuleClassAllow`. Έτσι, **ο καθένας μπορεί να το καλέσει**.
 
-### Πληροφορίες ΒΔ
+### Πληροφορίες DB
 
-Αναφέρθηκε ότι αυτές οι πληροφορίες αποθηκεύονται στο `/var/db/auth.db`. Μπορείτε να εμφανίσετε όλους τους αποθηκευμένους κανόνες με:
+Αναφέρθηκε ότι αυτές οι πληροφορίες αποθηκεύονται στο `/var/db/auth.db`. Μπορείτε να καταγράψετε όλους τους αποθηκευμένους κανόνες με:
 ```sql
 sudo sqlite3 /var/db/auth.db
 SELECT name FROM rules;
 SELECT name FROM rules WHERE name LIKE '%safari%';
 ```
-Στη συνέχεια, μπορείτε να διαβάσετε ποιος μπορεί να έχει πρόσβαση στο δικαίωμα με:
+Τότε, μπορείτε να διαβάσετε ποιος μπορεί να έχει πρόσβαση στο δικαίωμα με:
 ```bash
 security authorizationdb read com.apple.safaridriver.allow
 ```
-### Δικαιώματα περιβαλλοντικής επιτροπής
+### Permissive rights
 
-Μπορείτε να βρείτε **όλες τις διαμορφώσεις δικαιωμάτων** [**εδώ**](https://www.dssw.co.uk/reference/authorization-rights/), αλλά οι συνδυασμοί που δεν απαιτούν αλληλεπίδραση με τον χρήστη θα είναι:
+You can find **όλες τις ρυθμίσεις αδειών** [**εδώ**](https://www.dssw.co.uk/reference/authorization-rights/), αλλά οι συνδυασμοί που δεν θα απαιτούν αλληλεπίδραση από τον χρήστη είναι:
 
 1. **'authenticate-user': 'false'**
-* Αυτό είναι το πιο άμεσο κλειδί. Εάν οριστεί σε `false`, υποδηλώνει ότι ένας χρήστης δεν χρειάζεται να παρέχει πιστοποίηση για να αποκτήσει αυτό το δικαίωμα.
+* Αυτό είναι το πιο άμεσο κλειδί. Αν οριστεί σε `false`, καθορίζει ότι ένας χρήστης δεν χρειάζεται να παρέχει πιστοποίηση για να αποκτήσει αυτό το δικαίωμα.
 * Χρησιμοποιείται σε **συνδυασμό με ένα από τα 2 παρακάτω ή υποδεικνύοντας μια ομάδα** στην οποία πρέπει να ανήκει ο χρήστης.
 2. **'allow-root': 'true'**
-* Εάν ένας χρήστης λειτουργεί ως ριζικός χρήστης (που έχει αναβαθμισμένα δικαιώματα) και αυτό το κλειδί ορίζεται σε `true`, ο ριζικός χρήστης θα μπορούσε πιθανόν να αποκτήσει αυτό το δικαίωμα χωρίς περαιτέρω πιστοποίηση. Ωστόσο, συνήθως, η επίτευξη κατάστασης ριζικού χρήστη ήδη απαιτεί πιστοποίηση, οπότε αυτό δεν είναι ένα σενάριο "χωρίς πιστοποίηση" για τους περισσότερους χρήστες.
+* Αν ένας χρήστης λειτουργεί ως ο χρήστης root (ο οποίος έχει ανυψωμένα δικαιώματα), και αυτό το κλειδί είναι ορισμένο σε `true`, ο χρήστης root θα μπορούσε ενδεχομένως να αποκτήσει αυτό το δικαίωμα χωρίς περαιτέρω πιστοποίηση. Ωστόσο, συνήθως, η απόκτηση καθεστώτος χρήστη root απαιτεί ήδη πιστοποίηση, οπότε αυτό δεν είναι ένα σενάριο "χωρίς πιστοποίηση" για τους περισσότερους χρήστες.
 3. **'session-owner': 'true'**
-* Εάν οριστεί σε `true`, ο ιδιοκτήτης της συνεδρίας (ο χρήστης που έχει συνδεθεί επί του παρόντος) θα αποκτήσει αυτόματα αυτό το δικαίωμα. Αυτό ενδέχεται να παρακάμψει επιπλέον πιστοποίηση εάν ο χρήστης έχει ήδη συνδεθεί.
+* Αν οριστεί σε `true`, ο κάτοχος της συνεδρίας (ο τρέχων συνδεδεμένος χρήστης) θα αποκτήσει αυτό το δικαίωμα αυτόματα. Αυτό μπορεί να παρακάμψει πρόσθετη πιστοποίηση αν ο χρήστης είναι ήδη συνδεδεμένος.
 4. **'shared': 'true'**
-* Αυτό το κλειδί δεν χορηγεί δικαιώματα χωρίς πιστοποίηση. Αντίθετα, εάν οριστεί σε `true`, σημαίνει ότι αφού έχει πιστοποιηθεί το δικαίωμα, μπορεί να μοιραστεί μεταξύ πολλαπλών διεργασιών χωρίς κάθε μία να χρειάζεται να επαναπιστοποιηθεί. Ωστόσο, η αρχική χορήγηση του δικαιώματος θα εξακολουθεί να απαιτεί πιστοποίηση εκτός εάν συνδυαστεί με άλλα κλειδιά όπως `'authenticate-user': 'false'`.
+* Αυτό το κλειδί δεν παρέχει δικαιώματα χωρίς πιστοποίηση. Αντίθετα, αν οριστεί σε `true`, σημαίνει ότι μόλις το δικαίωμα έχει πιστοποιηθεί, μπορεί να μοιραστεί μεταξύ πολλών διαδικασιών χωρίς να χρειάζεται η κάθε μία να επαναπιστοποιηθεί. Αλλά η αρχική χορήγηση του δικαιώματος θα απαιτεί ακόμα πιστοποίηση εκτός αν συνδυαστεί με άλλα κλειδιά όπως το `'authenticate-user': 'false'`.
+
+You can [**use this script**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) to get the interesting rights:
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -280,29 +282,29 @@ com-apple-aosnotification-findmymac-remove, com-apple-diskmanagement-reservekek,
 Rights with 'session-owner': 'true':
 authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-session-user, com-apple-safari-allow-apple-events-to-run-javascript, com-apple-safari-allow-javascript-in-smart-search-field, com-apple-safari-allow-unsigned-app-extensions, com-apple-safari-install-ephemeral-extensions, com-apple-safari-show-credit-card-numbers, com-apple-safari-show-passwords, com-apple-icloud-passwordreset, com-apple-icloud-passwordreset, is-session-owner, system-identity-write-self, use-login-window-ui
 ```
-## Αναστροφή Εξουσιοδότησης
+## Αντιστροφή Εξουσιοδότησης
 
 ### Έλεγχος αν χρησιμοποιείται το EvenBetterAuthorization
 
-Αν βρείτε τη συνάρτηση: **`[HelperTool checkAuthorization:command:]`** τότε πιθανόν η διαδικασία χρησιμοποιεί το προηγούμενα αναφερθέν σχήμα για εξουσιοδότηση:
+Αν βρείτε τη συνάρτηση: **`[HelperTool checkAuthorization:command:]`** είναι πιθανό ότι η διαδικασία χρησιμοποιεί το προηγουμένως αναφερόμενο σχήμα για εξουσιοδότηση:
 
 <figure><img src="../../../../../.gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-Σε αυτήν την περίπτωση, αν αυτή η συνάρτηση καλεί συναρτήσεις όπως `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, τότε χρησιμοποιεί το [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
+Αν αυτή η συνάρτηση καλεί συναρτήσεις όπως `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, χρησιμοποιεί το [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
-Ελέγξτε το **`/var/db/auth.db`** για να δείτε αν είναι δυνατή η απόκτηση δικαιωμάτων για να καλέσετε κάποια προνομιούχη ενέργεια χωρίς αλληλεπίδραση με τον χρήστη.
+Ελέγξτε το **`/var/db/auth.db`** για να δείτε αν είναι δυνατό να αποκτήσετε άδειες για να καλέσετε κάποια προνομιακή ενέργεια χωρίς αλληλεπίδραση χρήστη.
 
-### Επικοινωνία Πρωτοκόλλου
+### Πρωτόκολλο Επικοινωνίας
 
-Στη συνέχεια, πρέπει να βρείτε το σχήμα πρωτοκόλλου προκειμένου να είστε σε θέση να καθιερώσετε μια επικοινωνία με την υπηρεσία XPC.
+Στη συνέχεια, πρέπει να βρείτε το σχήμα πρωτοκόλλου προκειμένου να μπορέσετε να καθιερώσετε επικοινωνία με την υπηρεσία XPC.
 
-Η συνάρτηση **`shouldAcceptNewConnection`** υποδηλώνει το πρωτόκολλο που εξάγεται:
+Η συνάρτηση **`shouldAcceptNewConnection`** υποδεικνύει το πρωτόκολλο που εξάγεται:
 
 <figure><img src="../../../../../.gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-Σε αυτήν την περίπτωση, έχουμε το ίδιο με το EvenBetterAuthorizationSample, [**ελέγξτε αυτήν τη γραμμή**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
+Σε αυτή την περίπτωση, έχουμε το ίδιο όπως στο EvenBetterAuthorizationSample, [**ελέγξτε αυτή τη γραμμή**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
-Γνωρίζοντας το όνομα του χρησιμοποιούμενου πρωτοκόλλου, είναι δυνατόν να **ανακτήσετε τον ορισμό του κεφαλίδας** με:
+Γνωρίζοντας το όνομα του χρησιμοποιούμενου πρωτοκόλλου, είναι δυνατό να **εκφορτώσετε τον ορισμό της κεφαλίδας του** με:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -316,13 +318,13 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-Τέλος, χρειάζεται απλώς να γνωρίζουμε το **όνομα της εκθεσμένης Υπηρεσίας Mach** για να εγκαθιδρύσουμε μια επικοινωνία μαζί της. Υπάρχουν διάφοροι τρόποι να βρεθεί αυτό:
+Τέλος, πρέπει απλώς να γνωρίζουμε το **όνομα της εκτεθειμένης Υπηρεσίας Mach** προκειμένου να καθορίσουμε μια επικοινωνία μαζί της. Υπάρχουν αρκετοί τρόποι για να το βρούμε αυτό:
 
 * Στο **`[HelperTool init]`** όπου μπορείτε να δείτε την Υπηρεσία Mach που χρησιμοποιείται:
 
 <figure><img src="../../../../../.gitbook/assets/image (41).png" alt=""><figcaption></figcaption></figure>
 
-* Στο launchd plist:
+* Στο plist του launchd:
 ```xml
 cat /Library/LaunchDaemons/com.example.HelperTool.plist
 
@@ -335,14 +337,14 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 </dict>
 [...]
 ```
-### Παράδειγμα Εκμετάλλευσης
+### Exploit Example
 
-Σε αυτό το παράδειγμα δημιουργούνται:
+Σε αυτό το παράδειγμα δημιουργείται:
 
-* Η ορισμός του πρωτοκόλλου με τις συναρτήσεις
-* Ένα κενό αυθεντικοποίησης για να ζητηθεί πρόσβαση
-* Μια σύνδεση με την υπηρεσία XPC
-* Μια κλήση στη συνάρτηση εάν η σύνδεση ήταν επιτυχής
+* Ο ορισμός του πρωτοκόλλου με τις λειτουργίες
+* Ένας κενός έλεγχος ταυτότητας για να ζητήσει πρόσβαση
+* Μια σύνδεση στην υπηρεσία XPC
+* Μια κλήση στη λειτουργία αν η σύνδεση ήταν επιτυχής
 ```objectivec
 // gcc -framework Foundation -framework Security expl.m -o expl
 
@@ -420,21 +422,25 @@ NSLog(@"Response: %@", error);
 NSLog(@"Finished!");
 }
 ```
+## Άλλοι βοηθοί προνομίων XPC που κακοποιούνται
+
+* [https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared](https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared)
+
 ## Αναφορές
 
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
