@@ -1,25 +1,22 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
-{% endhint %}
-{% endhint %}
-{% endhint %}
 {% endhint %}
 
 
 ## chown, chmod
 
-ファイルの所有者と権限を他のファイルにコピーすることができます。
+**どのファイルの所有者と権限を他のファイルにコピーしたいかを指定できます**
 ```bash
 touch "--reference=/my/own/path/filename"
 ```
@@ -58,13 +55,13 @@ More info in [https://www.exploit-db.com/papers/33930](https://www.exploit-db.co
 ```bash
 7za a /backup/$filename.zip -t7z -snl -p$pass -- *
 ```
-そして、これが実行されているフォルダーにファイルを作成できるので、`@root.txt`というファイルと、読みたいファイルへの**シンボリックリンク**である`root.txt`というファイルを作成できます：
+そして、これが実行されているフォルダーにファイルを作成することができ、`@root.txt`というファイルと、読みたいファイルへの**シンボリックリンク**である`root.txt`というファイルを作成することができます：
 ```bash
 cd /path/to/7z/acting/folder
 touch @root.txt
 ln -s /file/you/want/to/read root.txt
 ```
-その後、**7z** が実行されると、`root.txt` を圧縮すべきファイルのリストを含むファイルとして扱います（それが `@root.txt` の存在が示すことです）そして、7z が `root.txt` を読み込むと、`/file/you/want/to/read` を読み込み、**このファイルの内容がファイルのリストでないため、エラーをスローします** その内容を表示します。
+その後、**7z** が実行されると、`root.txt` を圧縮すべきファイルのリストを含むファイルとして扱います（それが `@root.txt` の存在が示すことです）そして、7z が `root.txt` を読むと、`/file/you/want/to/read` を読み込み、**このファイルの内容がファイルのリストでないため、エラーを投げて** 内容を表示します。
 
 _詳細は HackTheBox の CTF ボックスの Write-ups にあります。_
 
@@ -74,23 +71,17 @@ _詳細は HackTheBox の CTF ボックスの Write-ups にあります。_
 ```bash
 zip name.zip files -T --unzip-command "sh -c whoami"
 ```
-{% hnt stye="acceas" %}
-AWS ハッキングの実践:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-GCP の学習 & 実践<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>HackTricksをサポートする</summary>
 
-* [**GitHubでのサブスクリプション**](https://github.com/sponsors/carlospolop)をチェックしてください!
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください!haktick\_ive\
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、** [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}

