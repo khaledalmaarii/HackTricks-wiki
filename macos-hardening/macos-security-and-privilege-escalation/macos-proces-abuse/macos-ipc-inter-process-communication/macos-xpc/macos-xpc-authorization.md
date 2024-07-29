@@ -1,29 +1,29 @@
-# Autorizzazione XPC di macOS
+# macOS XPC Authorization
 
 {% hint style="success" %}
-Impara e pratica l'Hacking su AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Sostieni HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) nei repository di Github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-## Autorizzazione XPC
+## XPC Authorization
 
-Apple propone anche un altro modo per autenticare se il processo di connessione ha **autorizzazioni per chiamare un metodo XPC esposto**.
+Apple propone anche un altro modo per autenticare se il processo di connessione ha **permessi per chiamare un metodo XPC esposto**.
 
-Quando un'applicazione ha bisogno di **eseguire azioni come utente privilegiato**, invece di eseguire l'app come utente privilegiato, di solito installa come root un HelperTool come servizio XPC che potrebbe essere chiamato dall'app per eseguire tali azioni. Tuttavia, l'app che chiama il servizio dovrebbe avere abbastanza autorizzazione.
+Quando un'applicazione ha bisogno di **eseguire azioni come utente privilegiato**, invece di eseguire l'app come utente privilegiato, di solito installa come root un HelperTool come servizio XPC che può essere chiamato dall'app per eseguire quelle azioni. Tuttavia, l'app che chiama il servizio dovrebbe avere abbastanza autorizzazione.
 
 ### ShouldAcceptNewConnection sempre YES
 
-Un esempio può essere trovato in [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). In `App/AppDelegate.m` cerca di **connettersi** al **HelperTool**. E in `HelperTool/HelperTool.m` la funzione **`shouldAcceptNewConnection`** **non verificherà** nessuno dei requisiti indicati in precedenza. Restituirà sempre YES:
+Un esempio può essere trovato in [EvenBetterAuthorizationSample](https://github.com/brenwell/EvenBetterAuthorizationSample). In `App/AppDelegate.m` prova a **connettersi** al **HelperTool**. E in `HelperTool/HelperTool.m` la funzione **`shouldAcceptNewConnection`** **non controllerà** nessuno dei requisiti indicati in precedenza. Restituirà sempre YES:
 ```objectivec
 - (BOOL)listener:(NSXPCListener *)listener shouldAcceptNewConnection:(NSXPCConnection *)newConnection
 // Called by our XPC listener when a new connection comes in.  We configure the connection
@@ -48,10 +48,10 @@ Per ulteriori informazioni su come configurare correttamente questo controllo:
 
 ### Diritti dell'applicazione
 
-Tuttavia, vi è un **processo di autorizzazione in corso quando viene chiamato un metodo da HelperTool**.
+Tuttavia, c'è una **autorizzazione in corso quando viene chiamato un metodo dal HelperTool**.
 
 La funzione **`applicationDidFinishLaunching`** da `App/AppDelegate.m` creerà un riferimento di autorizzazione vuoto dopo che l'app è stata avviata. Questo dovrebbe sempre funzionare.\
-Successivamente, cercherà di **aggiungere alcuni diritti** a quel riferimento di autorizzazione chiamando `setupAuthorizationRights`:
+Poi, cercherà di **aggiungere alcuni diritti** a quel riferimento di autorizzazione chiamando `setupAuthorizationRights`:
 ```objectivec
 - (void)applicationDidFinishLaunching:(NSNotification *)note
 {
@@ -185,15 +185,15 @@ block(authRightName, authRightDefault, authRightDesc);
 }];
 }
 ```
-Questo significa che alla fine di questo processo, le autorizzazioni dichiarate all'interno di `commandInfo` saranno memorizzate in `/var/db/auth.db`. Nota come lì puoi trovare per **ogni metodo** che richiederà autenticazione, il **nome dell'autorizzazione** e il **`kCommandKeyAuthRightDefault`**. Quest'ultimo **indica chi può ottenere questo diritto**.
+Questo significa che alla fine di questo processo, i permessi dichiarati all'interno di `commandInfo` saranno memorizzati in `/var/db/auth.db`. Nota come lì puoi trovare per **ogni metodo** che richiederà **autenticazione**, **nome del permesso** e il **`kCommandKeyAuthRightDefault`**. Quest'ultimo **indica chi può ottenere questo diritto**.
 
-Ci sono diversi ambiti per indicare chi può accedere a un diritto. Alcuni di essi sono definiti in [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (puoi trovarli [tutti qui](https://www.dssw.co.uk/reference/authorization-rights/)), ma in sintesi:
+Ci sono diversi ambiti per indicare chi può accedere a un diritto. Alcuni di essi sono definiti in [AuthorizationDB.h](https://github.com/aosm/Security/blob/master/Security/libsecurity\_authorization/lib/AuthorizationDB.h) (puoi trovare [tutti qui](https://www.dssw.co.uk/reference/authorization-rights/)), ma in sintesi:
 
-<table><thead><tr><th width="284.3333333333333">Nome</th><th width="165">Valore</th><th>Descrizione</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Chiunque</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Nessuno</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>L'utente corrente deve essere un amministratore (all'interno del gruppo admin)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Chiedi all'utente di autenticarsi.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Chiedi all'utente di autenticarsi. Deve essere un amministratore (all'interno del gruppo admin)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Specifica le regole</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Specifica alcuni commenti aggiuntivi sul diritto</td></tr></tbody></table>
+<table><thead><tr><th width="284.3333333333333">Nome</th><th width="165">Valore</th><th>Descrizione</th></tr></thead><tbody><tr><td>kAuthorizationRuleClassAllow</td><td>allow</td><td>Chiunque</td></tr><tr><td>kAuthorizationRuleClassDeny</td><td>deny</td><td>Nessuno</td></tr><tr><td>kAuthorizationRuleIsAdmin</td><td>is-admin</td><td>L'utente attuale deve essere un admin (all'interno del gruppo admin)</td></tr><tr><td>kAuthorizationRuleAuthenticateAsSessionUser</td><td>authenticate-session-owner</td><td>Chiedi all'utente di autenticarsi.</td></tr><tr><td>kAuthorizationRuleAuthenticateAsAdmin</td><td>authenticate-admin</td><td>Chiedi all'utente di autenticarsi. Deve essere un admin (all'interno del gruppo admin)</td></tr><tr><td>kAuthorizationRightRule</td><td>rule</td><td>Specifica le regole</td></tr><tr><td>kAuthorizationComment</td><td>comment</td><td>Specifica alcuni commenti extra sul diritto</td></tr></tbody></table>
 
 ### Verifica dei Diritti
 
-In `HelperTool/HelperTool.m` la funzione **`readLicenseKeyAuthorization`** controlla se il chiamante è autorizzato a **eseguire tale metodo** chiamando la funzione **`checkAuthorization`**. Questa funzione verificherà che i **dati di autenticazione** inviati dal processo chiamante abbiano un **formato corretto** e quindi verificherà **cosa è necessario per ottenere il diritto** di chiamare il metodo specifico. Se tutto va bene, l'**errore restituito sarà `nil`**:
+In `HelperTool/HelperTool.m` la funzione **`readLicenseKeyAuthorization`** controlla se il chiamante è autorizzato a **eseguire tale metodo** chiamando la funzione **`checkAuthorization`**. Questa funzione verificherà che i **authData** inviati dal processo chiamante abbiano un **formato corretto** e poi controllerà **cosa è necessario per ottenere il diritto** di chiamare il metodo specifico. Se tutto va bene, l'**errore restituito sarà `nil`**:
 ```objectivec
 - (NSError *)checkAuthorization:(NSData *)authData command:(SEL)command
 {
@@ -241,11 +241,11 @@ assert(junk == errAuthorizationSuccess);
 return error;
 }
 ```
-Nota che per **verificare i requisiti per ottenere il diritto** di chiamare quel metodo, la funzione `authorizationRightForCommand` verificherà semplicemente l'oggetto precedentemente commentato **`commandInfo`**. Successivamente, chiamerà **`AuthorizationCopyRights`** per verificare **se ha i diritti** per chiamare la funzione (nota che i flag consentono l'interazione con l'utente).
+Nota che per **controllare i requisiti per ottenere il diritto** di chiamare quel metodo, la funzione `authorizationRightForCommand` controllerà semplicemente l'oggetto commentato in precedenza **`commandInfo`**. Poi, chiamerà **`AuthorizationCopyRights`** per verificare **se ha i diritti** per chiamare la funzione (nota che i flag consentono l'interazione con l'utente).
 
 In questo caso, per chiamare la funzione `readLicenseKeyAuthorization`, il `kCommandKeyAuthRightDefault` è definito come `@kAuthorizationRuleClassAllow`. Quindi **chiunque può chiamarlo**.
 
-### Informazioni sul Database
+### Informazioni sul DB
 
 È stato menzionato che queste informazioni sono memorizzate in `/var/db/auth.db`. Puoi elencare tutte le regole memorizzate con:
 ```sql
@@ -253,23 +253,25 @@ sudo sqlite3 /var/db/auth.db
 SELECT name FROM rules;
 SELECT name FROM rules WHERE name LIKE '%safari%';
 ```
-Quindi, puoi leggere chi può accedere ai diritti con:
+Poi, puoi leggere chi può accedere al diritto con:
 ```bash
 security authorizationdb read com.apple.safaridriver.allow
 ```
-### Diritti permissivi
+### Permessi permissivi
 
-Puoi trovare **tutte le configurazioni dei permessi** [**qui**](https://www.dssw.co.uk/reference/authorization-rights/), ma le combinazioni che non richiedono interazione dell'utente sarebbero:
+Puoi trovare **tutte le configurazioni dei permessi** [**qui**](https://www.dssw.co.uk/reference/authorization-rights/), ma le combinazioni che non richiederanno interazione da parte dell'utente sarebbero:
 
 1. **'authenticate-user': 'false'**
-* Questa è la chiave più diretta. Se impostata su `false`, specifica che un utente non deve fornire autenticazione per ottenere questo diritto.
-* Questo viene utilizzato in **combinazione con uno dei 2 seguenti o indicando un gruppo** a cui l'utente deve appartenere.
+* Questa è la chiave più diretta. Se impostata su `false`, specifica che un utente non ha bisogno di fornire autenticazione per ottenere questo diritto.
+* Questo viene utilizzato in **combinazione con una delle 2 sotto o indicando un gruppo** a cui l'utente deve appartenere.
 2. **'allow-root': 'true'**
-* Se un utente sta operando come utente root (che ha permessi elevati) e questa chiave è impostata su `true`, l'utente root potrebbe potenzialmente ottenere questo diritto senza ulteriore autenticazione. Tuttavia, tipicamente, raggiungere lo stato di utente root richiede già un'autenticazione, quindi non si tratta di uno scenario "senza autenticazione" per la maggior parte degli utenti.
+* Se un utente opera come utente root (che ha permessi elevati), e questa chiave è impostata su `true`, l'utente root potrebbe potenzialmente ottenere questo diritto senza ulteriore autenticazione. Tuttavia, tipicamente, ottenere lo stato di utente root richiede già autenticazione, quindi questo non è uno scenario di "nessuna autenticazione" per la maggior parte degli utenti.
 3. **'session-owner': 'true'**
-* Se impostato su `true`, il proprietario della sessione (l'utente attualmente loggato) otterrebbe automaticamente questo diritto. Ciò potrebbe bypassare ulteriori autenticazioni se l'utente è già loggato.
+* Se impostata su `true`, il proprietario della sessione (l'utente attualmente connesso) otterrebbe automaticamente questo diritto. Questo potrebbe bypassare ulteriori autenticazioni se l'utente è già connesso.
 4. **'shared': 'true'**
-* Questa chiave non concede diritti senza autenticazione. Invece, se impostata su `true`, significa che una volta che il diritto è stato autenticato, può essere condiviso tra più processi senza che ognuno debba ri-autenticarsi. Ma il conferimento iniziale del diritto richiederebbe comunque un'autenticazione a meno che non sia combinato con altre chiavi come `'authenticate-user': 'false'`.
+* Questa chiave non concede diritti senza autenticazione. Invece, se impostata su `true`, significa che una volta che il diritto è stato autenticato, può essere condiviso tra più processi senza che ciascuno debba ri-autenticarsi. Ma la concessione iniziale del diritto richiederebbe comunque autenticazione a meno che non sia combinata con altre chiavi come `'authenticate-user': 'false'`.
+
+Puoi [**utilizzare questo script**](https://gist.github.com/carlospolop/96ecb9e385a4667b9e40b24e878652f9) per ottenere i diritti interessanti:
 ```bash
 Rights with 'authenticate-user': 'false':
 is-admin (admin), is-admin-nonshared (admin), is-appstore (_appstore), is-developer (_developer), is-lpadmin (_lpadmin), is-root (run as root), is-session-owner (session owner), is-webdeveloper (_webdeveloper), system-identity-write-self (session owner), system-install-iap-software (run as root), system-install-software-iap (run as root)
@@ -282,27 +284,27 @@ authenticate-session-owner, authenticate-session-owner-or-admin, authenticate-se
 ```
 ## Reversing Authorization
 
-### Verifica dell'utilizzo di EvenBetterAuthorization
+### Checking if EvenBetterAuthorization is used
 
-Se trovi la funzione: **`[HelperTool checkAuthorization:command:]`** probabilmente il processo sta utilizzando lo schema di autorizzazione precedentemente menzionato:
+Se trovi la funzione: **`[HelperTool checkAuthorization:command:]`** è probabile che il processo stia utilizzando lo schema di autorizzazione precedentemente menzionato:
 
 <figure><img src="../../../../../.gitbook/assets/image (42).png" alt=""><figcaption></figcaption></figure>
 
-Quindi, se questa funzione chiama funzioni come `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, sta utilizzando [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
+Se questa funzione chiama funzioni come `AuthorizationCreateFromExternalForm`, `authorizationRightForCommand`, `AuthorizationCopyRights`, `AuhtorizationFree`, sta utilizzando [**EvenBetterAuthorizationSample**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L101-L154).
 
-Controlla il **`/var/db/auth.db`** per vedere se è possibile ottenere autorizzazioni per chiamare alcune azioni privilegiate senza interazione dell'utente.
+Controlla il **`/var/db/auth.db`** per vedere se è possibile ottenere permessi per chiamare alcune azioni privilegiate senza interazione dell'utente.
 
-### Comunicazione del Protocollo
+### Protocol Communication
 
-Successivamente, è necessario trovare lo schema del protocollo per poter stabilire una comunicazione con il servizio XPC.
+Poi, devi trovare lo schema del protocollo per poter stabilire una comunicazione con il servizio XPC.
 
-La funzione **`shouldAcceptNewConnection`** indica il protocollo in fase di esportazione:
+La funzione **`shouldAcceptNewConnection`** indica il protocollo che viene esportato:
 
 <figure><img src="../../../../../.gitbook/assets/image (44).png" alt=""><figcaption></figcaption></figure>
 
-In questo caso, abbiamo lo stesso di EvenBetterAuthorizationSample, [**controlla questa linea**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
+In questo caso, abbiamo lo stesso di EvenBetterAuthorizationSample, [**controlla questa riga**](https://github.com/brenwell/EvenBetterAuthorizationSample/blob/e1052a1855d3a5e56db71df5f04e790bfd4389c4/HelperTool/HelperTool.m#L94).
 
-Conoscendo il nome del protocollo utilizzato, è possibile **scaricare la definizione dell'intestazione** con:
+Sapendo il nome del protocollo utilizzato, è possibile **dumpare la sua definizione dell'intestazione** con:
 ```bash
 class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 
@@ -316,9 +318,9 @@ class-dump /Library/PrivilegedHelperTools/com.example.HelperTool
 @end
 [...]
 ```
-Infine, abbiamo solo bisogno di conoscere il **nome del Mach Service esposto** per stabilire una comunicazione con esso. Ci sono diversi modi per trovarlo:
+Infine, dobbiamo solo conoscere il **nome del Mach Service esposto** per stabilire una comunicazione con esso. Ci sono diversi modi per trovarlo:
 
-* Nel **`[HelperTool init]`** dove è possibile vedere il Mach Service in uso:
+* Nel **`[HelperTool init]`** dove puoi vedere il Mach Service in uso:
 
 <figure><img src="../../../../../.gitbook/assets/image (41).png" alt=""><figcaption></figcaption></figure>
 
@@ -340,7 +342,7 @@ cat /Library/LaunchDaemons/com.example.HelperTool.plist
 In questo esempio viene creato:
 
 * La definizione del protocollo con le funzioni
-* Un'autenticazione vuota da utilizzare per richiedere l'accesso
+* Un auth vuoto da utilizzare per richiedere l'accesso
 * Una connessione al servizio XPC
 * Una chiamata alla funzione se la connessione è stata effettuata con successo
 ```objectivec
@@ -420,21 +422,25 @@ NSLog(@"Response: %@", error);
 NSLog(@"Finished!");
 }
 ```
+## Altri helper di privilegio XPC abusati
+
+* [https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared](https://blog.securelayer7.net/applied-endpointsecurity-framework-previlege-escalation/?utm\_source=pocket\_shared)
+
 ## Riferimenti
 
 * [https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/](https://theevilbit.github.io/posts/secure\_coding\_xpc\_part1/)
 
 {% hint style="success" %}
-Impara e pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Sostieni HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}
