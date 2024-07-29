@@ -1,24 +1,20 @@
-{% hnnt styte=" acceas" %}
-GCP Ha& practice ckinH: <img:<img src="/.gitbcok/ass.ts/agte.png"talb=""odata-siz/="line">[**HackTatckt T.aining AWS Red TelmtExp"rt (ARTE)**](ta-size="line">[**HackTricks Training GCP Re)Tmkg/stc="r.giebpokal"zee>/ttdt.png"isl=""data-ize="line">\
-Learn & aciceGCP ngs<imgmsrc="/.gipbtok/aHsats/gcte.mag"y>lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"al=""daa-siz="ne">tinhackth ckiuxyzcomurspssgr/a)
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dotsilp>
+<details>
 
-<oummpr>SupportHackTricks</smmay>
+<summary>Support HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hahktcickr\_kivelive**](https://twitter.com/hacktr\icks\_live)**.**
-* **Shareing tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
-{% endhint %}
 
 
-**Das** Standard-**Autorisierungs**modell von **Docker** ist **alles oder nichts**. Jeder Benutzer mit Berechtigung zum Zugriff auf den Docker-Daemon kann **beliebige** Docker-Client-**Befehle** **ausführen**. Das Gleiche gilt für Aufrufer, die die Docker-Engine-API verwenden, um den Daemon zu kontaktieren. Wenn Sie **größere Zugriffskontrolle** benötigen, können Sie **Autorisierungs-Plugins** erstellen und diese zu Ihrer Docker-Daemon-Konfiguration hinzufügen. Mit einem Autorisierungs-Plugin kann ein Docker-Administrator **feingranulare Zugriffs**richtlinien für die Verwaltung des Zugriffs auf den Docker-Daemon **konfigurieren**.
+**Das** Standard-**Autorisierungs**modell von **Docker** ist **alles oder nichts**. Jeder Benutzer mit Berechtigung zum Zugriff auf den Docker-Daemon kann **jede** Docker-Client-**Befehle** ausführen. Das Gleiche gilt für Aufrufer, die die Docker-Engine-API verwenden, um den Daemon zu kontaktieren. Wenn Sie **größere Zugriffskontrolle** benötigen, können Sie **Autorisierungs-Plugins** erstellen und diese zu Ihrer Docker-Daemon-Konfiguration hinzufügen. Mit einem Autorisierungs-Plugin kann ein Docker-Administrator **feingranulare Zugriffs**richtlinien für die Verwaltung des Zugriffs auf den Docker-Daemon **konfigurieren**.
 
 # Grundarchitektur
 
@@ -26,7 +22,7 @@ Docker Auth-Plugins sind **externe** **Plugins**, die Sie verwenden können, um 
 
 **[Die folgenden Informationen stammen aus den Dokumenten](https://docs.docker.com/engine/extend/plugins_authorization/#:~:text=If%20you%20require%20greater%20access,access%20to%20the%20Docker%20daemon)**
 
-Wenn eine **HTTP**-**Anfrage** an den Docker-**Daemon** über die CLI oder über die Engine-API gesendet wird, **leitet** das **Authentifizierung**-**Subsystem** die Anfrage an das installierte **Authentifizierungs**-**Plugin**(s) weiter. Die Anfrage enthält den Benutzer (Aufrufer) und den Kontext des Befehls. Das **Plugin** ist dafür verantwortlich, zu entscheiden, ob die Anfrage **erlaubt** oder **verweigert** wird.
+Wenn eine **HTTP**-**Anfrage** an den Docker-**Daemon** über die CLI oder über die Engine-API gesendet wird, **leitet** das **Authentifizierung**-**Subsystem** die Anfrage an das installierte **Authentifizierungs**-**Plugin**(s) weiter. Die Anfrage enthält den Benutzer (Aufrufer) und den Kontext des Befehls. Das **Plugin** ist dafür verantwortlich zu entscheiden, ob die Anfrage **erlaubt** oder **verweigert** wird.
 
 Die Sequenzdiagramme unten zeigen einen Erlauben- und Verweigern-Autorisierungsfluss:
 
@@ -34,7 +30,7 @@ Die Sequenzdiagramme unten zeigen einen Erlauben- und Verweigern-Autorisierungsf
 
 ![Authorization Deny flow](https://docs.docker.com/engine/extend/images/authz\_deny.png)
 
-Jede an das Plugin gesendete Anfrage **enthält den authentifizierten Benutzer, die HTTP-Header und den Anfrage-/Antwortkörper**. Nur der **Benutzername** und die **verwendete Authentifizierungsmethode** werden an das Plugin übergeben. Am wichtigsten ist, dass **keine** Benutzer-**Anmeldeinformationen** oder Tokens übergeben werden. Schließlich werden **nicht alle Anfrage-/Antwortkörper** an das Autorisierungs-Plugin gesendet. Nur die Anfrage-/Antwortkörper, bei denen der `Content-Type` entweder `text/*` oder `application/json` ist, werden gesendet.
+Jede an das Plugin gesendete Anfrage **enthält den authentifizierten Benutzer, die HTTP-Header und den Anfrage-/Antwortkörper**. Nur der **Benutzername** und die **Authentifizierungsmethode**, die verwendet werden, werden an das Plugin übergeben. Am wichtigsten ist, dass **keine** Benutzer-**Anmeldeinformationen** oder Tokens übergeben werden. Schließlich werden **nicht alle Anfrage-/Antwortkörper** an das Autorisierungs-Plugin gesendet. Nur die Anfrage-/Antwortkörper, bei denen der `Content-Type` entweder `text/*` oder `application/json` ist, werden gesendet.
 
 Für Befehle, die potenziell die HTTP-Verbindung übernehmen können (`HTTP Upgrade`), wie `exec`, wird das Autorisierungs-Plugin nur für die anfänglichen HTTP-Anfragen aufgerufen. Sobald das Plugin den Befehl genehmigt, wird die Autorisierung nicht auf den Rest des Flusses angewendet. Insbesondere werden die Streaming-Daten nicht an die Autorisierungs-Plugins übergeben. Für Befehle, die chunked HTTP-Antworten zurückgeben, wie `logs` und `events`, wird nur die HTTP-Anfrage an die Autorisierungs-Plugins gesendet.
 
@@ -42,7 +38,7 @@ Während der Verarbeitung von Anfrage/Aantwort müssen einige Autorisierungsflü
 
 ## Mehrere Plugins
 
-Sie sind verantwortlich für die **Registrierung** Ihres **Plugins** als Teil des Docker-Daemon-**Starts**. Sie können **mehrere Plugins installieren und sie miteinander verketten**. Diese Kette kann geordnet sein. Jede Anfrage an den Daemon durchläuft die Kette in der Reihenfolge. Nur wenn **alle Plugins den Zugriff** auf die Ressource gewähren, wird der Zugriff gewährt.
+Sie sind verantwortlich für die **Registrierung** Ihres **Plugins** als Teil des **Starts** des Docker-Daemons. Sie können **mehrere Plugins installieren und sie miteinander verketten**. Diese Kette kann geordnet sein. Jede Anfrage an den Daemon durchläuft die Kette in der Reihenfolge. Nur wenn **alle Plugins den Zugriff** auf die Ressource gewähren, wird der Zugriff gewährt.
 
 # Plugin-Beispiele
 
@@ -58,17 +54,17 @@ Auf der Seite [route\_parser.go](https://github.com/twistlock/authz/blob/master/
 
 Sie finden ein **einfach zu verstehendes Plugin** mit detaillierten Informationen zur Installation und Fehlersuche hier: [**https://github.com/carlospolop-forks/authobot**](https://github.com/carlospolop-forks/authobot)
 
-Lesen Sie die `README` und den Code in `plugin.go`, um zu verstehen, wie es funktioniert.
+Lesen Sie die `README` und den `plugin.go`-Code, um zu verstehen, wie es funktioniert.
 
 # Docker Auth Plugin Umgehung
 
 ## Zugriff auflisten
 
-Die wichtigsten Punkte, die zu überprüfen sind, sind die **erlaubten Endpunkte** und **welche Werte von HostConfig erlaubt sind**.
+Die wichtigsten Punkte, die zu überprüfen sind, sind **welche Endpunkte erlaubt sind** und **welche Werte von HostConfig erlaubt sind**.
 
-Um diese Auflistung durchzuführen, können Sie das Tool [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
+Um diese Auflistung durchzuführen, können Sie **das Tool** [**https://github.com/carlospolop/docker\_auth\_profiler**](https://github.com/carlospolop/docker\_auth\_profiler)**.**
 
-## Nicht erlaubtes `run --privileged`
+## nicht erlaubtes `run --privileged`
 
 ### Minimale Berechtigungen
 ```bash
@@ -98,7 +94,7 @@ Jetzt kann der Benutzer den Container mit einer der [**bereits besprochenen Tech
 
 ## Schreibbares Verzeichnis einbinden
 
-In diesem Fall **verbot der Sysadmin den Benutzern, Container mit dem `--privileged`-Flag auszuführen** oder dem Container zusätzliche Berechtigungen zu geben, und er erlaubte nur das Einbinden des `/tmp`-Verzeichnisses:
+In diesem Fall **verbot der Systemadministrator den Benutzern, Container mit dem `--privileged`-Flag auszuführen** oder dem Container zusätzliche Berechtigungen zu geben, und er erlaubte nur das Einbinden des `/tmp`-Verzeichnisses:
 ```bash
 host> cp /bin/bash /tmp #Cerate a copy of bash
 host> docker run -it -v /tmp:/host ubuntu:18.04 bash #Mount the /tmp folder of the host and get a shell
@@ -117,7 +113,7 @@ Beachten Sie auch, dass Sie, wenn Sie **/etc** oder einen anderen Ordner **mit K
 
 ## Ungeprüfter API-Endpunkt
 
-Die Verantwortung des Systemadministrators, der dieses Plugin konfiguriert, besteht darin, zu kontrollieren, welche Aktionen und mit welchen Berechtigungen jeder Benutzer ausführen kann. Daher könnte der Administrator, wenn er einen **Blacklist**-Ansatz mit den Endpunkten und den Attributen verfolgt, **einige davon vergessen**, die es einem Angreifer ermöglichen könnten, **Privilegien zu eskalieren.**
+Die Verantwortung des Sysadmins, der dieses Plugin konfiguriert, besteht darin, zu kontrollieren, welche Aktionen und mit welchen Berechtigungen jeder Benutzer ausführen kann. Daher könnte der Admin, wenn er einen **Blacklist**-Ansatz mit den Endpunkten und den Attributen verfolgt, **einige davon vergessen**, die es einem Angreifer ermöglichen könnten, **Privilegien zu eskalieren.**
 
 Sie können die Docker-API unter [https://docs.docker.com/engine/api/v1.40/#](https://docs.docker.com/engine/api/v1.40/#) überprüfen.
 
@@ -125,7 +121,7 @@ Sie können die Docker-API unter [https://docs.docker.com/engine/api/v1.40/#](ht
 
 ### Binds im Root
 
-Es ist möglich, dass der Systemadministrator beim Konfigurieren der Docker-Firewall **ein wichtiges Parameter** der [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) wie "**Binds**" **vergessen hat**.\
+Es ist möglich, dass der Sysadmin beim Konfigurieren der Docker-Firewall **ein wichtiges Parameter** der [**API**](https://docs.docker.com/engine/api/v1.40/#operation/ContainerList) wie "**Binds**" **vergessen hat**.\
 Im folgenden Beispiel ist es möglich, diese Fehlkonfiguration auszunutzen, um einen Container zu erstellen und auszuführen, der den Root (/) Ordner des Hosts einhängt:
 ```bash
 docker version #First, find the API version of docker, 1.40 in this example
@@ -142,7 +138,7 @@ Beachten Sie, dass wir in diesem Beispiel den **`Binds`**-Parameter als Schlüss
 
 ### Binds in HostConfig
 
-Befolgen Sie die gleichen Anweisungen wie bei **Binds in root**, indem Sie diese **Anfrage** an die Docker API senden:
+Befolgen Sie die gleichen Anweisungen wie bei **Binds in root** und führen Sie diese **Anfrage** an die Docker API aus:
 ```bash
 curl --unix-socket /var/run/docker.sock -H "Content-Type: application/json" -d '{"Image": "ubuntu", "HostConfig":{"Binds":["/:/host"]}}' http:/v1.40/containers/create
 ```
@@ -194,26 +190,17 @@ Denke daran, das **Plugin nach der Eskalation wieder zu aktivieren**, sonst funk
 
 * [https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/](https://staaldraad.github.io/post/2019-07-11-bypass-docker-plugin-with-containerd/)
 
-## Referenzen
-{% hnt stye="acceas" %}
-AWS Ha& practice ckinH:<img :<imgsscc="/.gitb=ok/assgts/aite.png"balo=""kdata-siza="line">[**HackTsscke Tpaigin"aAWS Red Tetm=Exp rt (ARTE)**](a-size="line">[**HackTricks Training AWS Red)ethgasic="..giyb/okseasert/k/.png"l=""data-ize="line">\
-Learn & aciceGCP ng<imgsrc="/.gibok/asts/gte.g"lt="" aa-iz="le">[**angGC RedTamExper(GE)<img rc=".okaetgte.ng"salm=""adara-siz>="k>ne">tinhaktckxyzurssgr)
+{% hint style="success" %}
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
-<dtil>
+<details>
 
-<ummr>SupportHackTricks</smmay>
+<summary>Unterstütze HackTricks</summary>
 
-*Chek th [**subsrippangithub.cm/sorsarlosp!
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!haktick\_ive\
-* **Join  💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
-</details>
-{% endhint %}
 </details>
 {% endhint %}
