@@ -2,29 +2,29 @@
 
 <figure><img src=".gitbook/assets/hacktricks.gif" alt=""><figcaption></figcaption></figure>
 
-_Hacktricks logotipi i dizajn pokreta od_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
+_Hacktricks logotipi i animacija od_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Dobrodošli na wiki gde ćete pronaći svaki hakovan trik/tehniku/šta god sam naučio iz CTF-ova, aplikacija u stvarnom životu, čitanjem istraživanja i vesti.**
+**Dobrodošli u wiki gde ćete pronaći svaku hakersku trik/tehniku/šta god da sam naučio iz CTF-ova, aplikacija iz stvarnog života, čitajući istraživanja i vesti.**
 {% endhint %}
 
-Za početak pratite ovu stranicu gde ćete pronaći **tipičan tok** koji **treba pratiti prilikom pentestinga** jedne ili više **mašina:**
+Da biste započeli, pratite ovu stranicu gde ćete pronaći **tipičan tok** koji **treba da pratite kada radite pentesting** jedne ili više **mašina:**
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
 {% endcontent-ref %}
 
-## Korporativni sponzori
+## Corporate Sponsors
 
 ### [STM Cyber](https://www.stmcyber.com)
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) je odlična kompanija za sajber bezbednost čiji je slogan **HAKUJ NEHAKOVANO**. Sprovode sopstvena istraživanja i razvijaju svoje hakovan alate kako bi **ponudili nekoliko vrednih sajber bezbednosnih usluga** poput pentestinga, Crvenih timova i obuke.
+[**STM Cyber**](https://www.stmcyber.com) je sjajna kompanija za sajber bezbednost čiji je slogan **HACK THE UNHACKABLE**. Oni sprovode svoja istraživanja i razvijaju svoje alate za hakovanje kako bi **ponudili nekoliko vrednih usluga sajber bezbednosti** kao što su pentesting, Red timovi i obuka.
 
 Možete proveriti njihov **blog** na [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
-**STM Cyber** takođe podržava sajber bezbednosne projekte otvorenog koda poput HackTricks :)
+**STM Cyber** takođe podržava projekte otvorenog koda u oblasti sajber bezbednosti kao što je HackTricks :)
 
 ***
 
@@ -32,7 +32,7 @@ Možete proveriti njihov **blog** na [**https://blog.stmcyber.com**](https://blo
 
 <figure><img src=".gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) je najrelevantniji događaj sajber bezbednosti u **Španiji** i jedan od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je ključno mesto susreta tehnoloških i sajber bezbednosnih profesionalaca u svakoj disciplini.
+[**RootedCON**](https://www.rootedcon.com) je najrelevantnija sajber bezbednosna manifestacija u **Španiji** i jedna od najvažnijih u **Evropi**. Sa **misijom promovisanja tehničkog znanja**, ovaj kongres je vrelo mesto okupljanja za profesionalce u tehnologiji i sajber bezbednosti u svakoj disciplini.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -42,9 +42,9 @@ Možete proveriti njihov **blog** na [**https://blog.stmcyber.com**](https://blo
 
 <figure><img src=".gitbook/assets/image (47).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** je **broj 1 u Evropi** za etičko hakovanje i **platforma za pronalaženje propusta.**
+**Intigriti** je **#1** etička platforma za hakovanje i **bug bounty platforma** u **Evropi**.
 
-**Savet za pronalaženje propusta:** **Prijavite se** za **Intigriti**, premium **platformu za pronalaženje propusta kreiranu od hakera, za hakere**! Pridružite nam se na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) danas, i počnite zarađivati nagrade do **$100,000**!
+**Bug bounty savet**: **prijavite se** za **Intigriti**, premium **bug bounty platformu koju su kreirali hakeri, za hakere**! Pridružite nam se na [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) danas, i počnite da zarađujete nagrade do **$100,000**!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -55,9 +55,9 @@ Možete proveriti njihov **blog** na [**https://blog.stmcyber.com**](https://blo
 <figure><img src=".gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim alatima zajednice.
+Koristite [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) da lako izgradite i **automatizujete radne tokove** pokretane najnaprednijim **alatima zajednice** na svetu.
 
-Pristupite danas:
+Pribavite pristup danas:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -67,23 +67,23 @@ Pristupite danas:
 
 <figure><img src=".gitbook/assets/image (50).png" alt=""><figcaption></figcaption></figure>
 
-Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru da komunicirate sa iskusnim hakerima i lovcima na propuste!
+Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serveru da komunicirate sa iskusnim hakerima i lovcima na bugove!
 
-* **Uvide u hakovanje:** Uključite se u sadržaj koji istražuje uzbuđenje i izazove hakovanja
-* **Vesti u realnom vremenu o hakovanju:** Ostanite informisani o brzom svetu hakovanja kroz vesti i uvide u realnom vremenu
-* **Najnovije najave:** Ostanite informisani o najnovijim programima nagrađivanja pronalaženja propusta i ključnim ažuriranjima platforme
+* **Hakerski uvidi:** Uključite se u sadržaj koji se bavi uzbuđenjem i izazovima hakovanja
+* **Vesti o hakovanju u realnom vremenu:** Budite u toku sa brzim svetom hakovanja kroz vesti i uvide u realnom vremenu
+* **Najnovija obaveštenja:** Budite informisani o najnovijim nagradama za bugove i važnim ažuriranjima platforme
 
-**Pridružite nam se na** [**Discordu**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
+**Pridružite nam se na** [**Discord**](https://discord.com/invite/N3FrSbmwdy) i počnite da sarađujete sa vrhunskim hakerima danas!
 
 ***
 
-### [Pentest-Tools.com](https://pentest-tools.com/) - Osnovni alat za testiranje proboja
+### [Pentest-Tools.com](https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons) - Osnovni alat za penetraciono testiranje
 
 <figure><img src=".gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
 
-**Odmah dostupno podešavanje za procenu ranjivosti & testiranje proboja**. Pokrenite kompletan pentest od bilo kog mesta sa preko 20 alata i funkcija koje idu od izviđanja do izveštavanja. Mi ne zamenjujemo pentestere - razvijamo prilagođene alate, detekciju & module za eksploataciju kako bismo im vratili neko vreme da dublje kopaju, otvaraju ljuske i zabavljaju se.
+**Odmah dostupna postavka za procenu ranjivosti i penetraciono testiranje**. Izvršite potpuni pentest sa bilo kog mesta sa 20+ alata i funkcija koje idu od recon-a do izveštavanja. Ne zamenjujemo pentestere - razvijamo prilagođene alate, module za detekciju i eksploataciju kako bismo im vratili malo vremena da dublje istraže, otvore shell-ove i zabave se.
 
-{% embed url="https://pentest-tools.com/" %}
+{% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
 ***
 
@@ -91,13 +91,13 @@ Pridružite se [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-SerpApi nudi brze i jednostavne API-je u realnom vremenu za **pristup rezultatima pretrage na pretraživačima**. Oni skeniraju pretraživače, rukovode se proxy-jima, rešavaju captcha-e i parsiraju sve bogate strukturisane podatke za vas.
+SerpApi nudi brze i lake API-je u realnom vremenu za **pristup rezultatima pretraživača**. Oni sakupljaju podatke sa pretraživača, upravljaju proxy-ima, rešavaju captcha izazove i analiziraju sve bogate strukturirane podatke za vas.
 
-Pretplata na jedan od planova SerpApi uključuje pristup preko 50 različitih API-ja za skeniranje različitih pretraživača, uključujući Google, Bing, Baidu, Yahoo, Yandex i još mnogo toga.\
-Za razliku od drugih pružalaca, **SerpApi ne skenira samo organske rezultate**. Odgovori SerpApi-a dosledno uključuju sve oglase, inline slike i video zapise, grafove znanja i druge elemente i funkcije prisutne u rezultatima pretrage.
+Pretplata na jedan od planova SerpApi uključuje pristup više od 50 različitih API-ja za sakupljanje podataka sa različitih pretraživača, uključujući Google, Bing, Baidu, Yahoo, Yandex i druge.\
+Za razliku od drugih provajdera, **SerpApi ne sakuplja samo organske rezultate**. Odgovori SerpApi dosledno uključuju sve oglase, inline slike i video zapise, grafove znanja i druge elemente i funkcije prisutne u rezultatima pretrage.
 
-Trenutni klijenti SerpApi-a uključuju **Apple, Shopify i GrubHub**.\
-Za više informacija pogledajte njihov [**blog**](https://serpapi.com/blog/)**,** ili probajte primer u njihovom [**igralištu**](https://serpapi.com/playground)**.**\
+Trenutni klijenti SerpApi uključuju **Apple, Shopify i GrubHub**.\
+Za više informacija pogledajte njihov [**blog**](https://serpapi.com/blog/)**,** ili isprobajte primer u njihovom [**playground-u**](https://serpapi.com/playground)**.**\
 Možete **napraviti besplatan nalog** [**ovde**](https://serpapi.com/users/sign\_up)**.**
 
 ***
@@ -114,51 +114,52 @@ Možete **napraviti besplatan nalog** [**ovde**](https://serpapi.com/users/sign\
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) je profesionalna kompanija za sajber bezbednost sa sedištem u **Amsterdamu** koja pomaže **zaštitu** poslovanja **širom sveta** od najnovijih sajber bezbednosnih pretnji pružajući **ofanzivno-bezbednosne usluge** sa **modernim** pristupom.
+[**WebSec**](https://websec.nl) je profesionalna kompanija za sajber bezbednost sa sedištem u **Amsterdamu** koja pomaže u **zaštiti** preduzeća **široko po svetu** od najnovijih pretnji u oblasti sajber bezbednosti pružajući **usluge ofanzivne bezbednosti** sa **modernim** pristupom.
 
-WebSec je **kompanija za sveobuhvatnu bezbednost** što znači da rade sve; Pentesting, **Bezbednosne** Revizije, Obuke o Svesti, Kampanje Fišinga, Pregled Koda, Razvoj Eksploatacije, Outsourcing Bezbednosnih Stručnjaka i mnogo više.
+WebSec je **sve-u-jednom bezbednosna kompanija** što znači da rade sve; Pentesting, **Bezbednosne** revizije, Obuke o svesti, Phishing kampanje, Revizija koda, Razvoj eksploita, Outsourcing bezbednosnih stručnjaka i još mnogo toga.
 
-Još jedna cool stvar o WebSec-u je što, za razliku od industrijskog proseka, WebSec je **veoma siguran u svoje veštine**, do te mere da **garantuje najbolje kvalitetne rezultate**, piše na njihovom sajtu "**Ako ne možemo da hakuujemo, Ne plaćate!**". Za više informacija pogledajte njihovu [**veb stranicu**](https://websec.nl/en/) i [**blog**](https://websec.nl/blog/)!
+Još jedna zanimljiva stvar o WebSec-u je da, za razliku od industrijskog proseka, WebSec je **veoma siguran u svoje veštine**, do te mere da **garantuje najbolje kvalitetne rezultate**, kako stoji na njihovom sajtu "**Ako ne možemo da hakujemo, ne plaćate!**". Za više informacija pogledajte njihov [**sajt**](https://websec.nl/en/) i [**blog**](https://websec.nl/blog/)!
 
-Pored navedenog, WebSec je takođe **posvećeni podržavalac HackTricks-a.**
+Pored navedenog, WebSec je takođe **posvećen podržavalac HackTricks.**
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
+
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src=".gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je pretraživač pokrenut na **dark web-u** koji nudi **besplatne** funkcionalnosti za proveru da li je kompanija ili njeni korisnici **ugroženi** od **malvera koji krade podatke**.
+[**WhiteIntel**](https://whiteintel.io) je **pretraživač** pokretan **dark-web-om** koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **malvera za krađu podataka**.
 
-Njihov primarni cilj WhiteIntela je borba protiv preuzimanja naloga i napada ransomvera koji proizilaze iz malvera koji krade informacije.
+Njihov primarni cilj WhiteIntel-a je da se bori protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera za krađu informacija.
 
-Možete posetiti njihovu veb lokaciju i isprobati njihovu mašinu za **besplatno** na:
+Možete proveriti njihov sajt i isprobati njihov pretraživač **besplatno** na:
 
 {% embed url="https://whiteintel.io" %}
 
-## Licenca & Odricanje od odgovornosti
+## License & Disclaimer
 
-Proverite ih na:
+Proverite ih u:
 
 {% content-ref url="welcome/hacktricks-values-and-faq.md" %}
 [hacktricks-values-and-faq.md](welcome/hacktricks-values-and-faq.md)
 {% endcontent-ref %}
 
-## Github Statistike
+## Github Stats
 
-![HackTricks Github Statistike](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg "Slika analitike Repobeats")
+![HackTricks Github Stats](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg "Repobeats analytics image")
 
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Red Tim Ekspert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Red Tim Ekspert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite trikove hakovanja slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitter-u** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}
