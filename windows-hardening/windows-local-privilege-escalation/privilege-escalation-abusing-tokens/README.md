@@ -1,16 +1,16 @@
 # Abusing Tokens
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -27,7 +27,7 @@ Se você **não sabe o que são Tokens de Acesso do Windows**, leia esta página
 
 ### SeImpersonatePrivilege
 
-Este é um privilégio que é detido por qualquer processo que permite a impersonação (mas não a criação) de qualquer token, desde que um identificador para ele possa ser obtido. Um token privilegiado pode ser adquirido de um serviço do Windows (DCOM) induzindo-o a realizar autenticação NTLM contra um exploit, permitindo posteriormente a execução de um processo com privilégios de SYSTEM. Esta vulnerabilidade pode ser explorada usando várias ferramentas, como [juicy-potato](https://github.com/ohpe/juicy-potato), [RogueWinRM](https://github.com/antonioCoco/RogueWinRM) (que requer winrm desativado), [SweetPotato](https://github.com/CCob/SweetPotato) e [PrintSpoofer](https://github.com/itm4n/PrintSpoofer).
+Este é um privilégio que é detido por qualquer processo que permite a impersonação (mas não a criação) de qualquer token, desde que um identificador para ele possa ser obtido. Um token privilegiado pode ser adquirido de um serviço do Windows (DCOM) induzindo-o a realizar autenticação NTLM contra um exploit, permitindo assim a execução de um processo com privilégios de SYSTEM. Esta vulnerabilidade pode ser explorada usando várias ferramentas, como [juicy-potato](https://github.com/ohpe/juicy-potato), [RogueWinRM](https://github.com/antonioCoco/RogueWinRM) (que requer winrm desativado), [SweetPotato](https://github.com/CCob/SweetPotato), [EfsPotato](https://github.com/zcgonvh/EfsPotato), [DCOMPotato](https://github.com/zcgonvh/DCOMPotato) e [PrintSpoofer](https://github.com/itm4n/PrintSpoofer).
 
 {% content-ref url="../roguepotato-and-printspoofer.md" %}
 [roguepotato-and-printspoofer.md](../roguepotato-and-printspoofer.md)
@@ -45,17 +45,17 @@ Com o token, você pode criar um **novo processo** com 'CreateProcessAsUser' ou 
 
 ### SeTcbPrivilege
 
-Se você tiver este token habilitado, pode usar **KERB\_S4U\_LOGON** para obter um **token de impersonação** para qualquer outro usuário sem conhecer as credenciais, **adicionar um grupo arbitrário** (administradores) ao token, definir o **nível de integridade** do token como "**médio**" e atribuir este token ao **thread atual** (SetThreadToken).
+Se você tiver este token ativado, pode usar **KERB\_S4U\_LOGON** para obter um **token de impersonação** para qualquer outro usuário sem conhecer as credenciais, **adicionar um grupo arbitrário** (administradores) ao token, definir o **nível de integridade** do token como "**médio**" e atribuir este token ao **thread atual** (SetThreadToken).
 
 ### SeBackupPrivilege
 
-O sistema é induzido a **conceder todo o controle de acesso de leitura** a qualquer arquivo (limitado a operações de leitura) por este privilégio. É utilizado para **ler os hashes de senha das contas de Administrador local** do registro, após o que, ferramentas como "**psexec**" ou "**wmiexec**" podem ser usadas com o hash (técnica Pass-the-Hash). No entanto, esta técnica falha sob duas condições: quando a conta de Administrador Local está desativada ou quando uma política está em vigor que remove os direitos administrativos dos Administradores Locais que se conectam remotamente.\
+O sistema é induzido a **conceder todo o controle de acesso de leitura** a qualquer arquivo (limitado a operações de leitura) por meio deste privilégio. É utilizado para **ler os hashes de senha das contas de Administrador local** do registro, após o que ferramentas como "**psexec**" ou "**wmiexec**" podem ser usadas com o hash (técnica Pass-the-Hash). No entanto, esta técnica falha sob duas condições: quando a conta de Administrador Local está desativada ou quando uma política está em vigor que remove os direitos administrativos dos Administradores Locais que se conectam remotamente.\
 Você pode **abusar deste privilégio** com:
 
 * [https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1](https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1)
 * [https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug](https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug)
 * seguindo **IppSec** em [https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec](https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec)
-* Ou como explicado na seção **escalando privilégios com Operadores de Backup** de:
+* Ou conforme explicado na seção **escalando privilégios com Operadores de Backup** de:
 
 {% content-ref url="../../active-directory-methodology/privileged-groups-and-token-privileges.md" %}
 [privileged-groups-and-token-privileges.md](../../active-directory-methodology/privileged-groups-and-token-privileges.md)
@@ -63,7 +63,7 @@ Você pode **abusar deste privilégio** com:
 
 ### SeRestorePrivilege
 
-Permissão para **acesso de gravação** a qualquer arquivo do sistema, independentemente da Lista de Controle de Acesso (ACL) do arquivo, é fornecida por este privilégio. Ele abre inúmeras possibilidades para escalonamento, incluindo a capacidade de **modificar serviços**, realizar DLL Hijacking e definir **debuggers** através de Opções de Execução de Arquivo de Imagem, entre várias outras técnicas.
+Permissão para **acesso de gravação** a qualquer arquivo do sistema, independentemente da Lista de Controle de Acesso (ACL) do arquivo, é fornecida por este privilégio. Ele abre inúmeras possibilidades para escalonamento, incluindo a capacidade de **modificar serviços**, realizar DLL Hijacking e definir **debuggers** por meio de Opções de Execução de Arquivo de Imagem, entre várias outras técnicas.
 
 ### SeCreateTokenPrivilege
 
@@ -71,20 +71,20 @@ SeCreateTokenPrivilege é uma permissão poderosa, especialmente útil quando um
 
 **Pontos Chave:**
 - **Impersonação sem SeImpersonatePrivilege:** É possível aproveitar SeCreateTokenPrivilege para EoP ao impersonar tokens sob condições específicas.
-- **Condições para Impersonação de Token:** A impersonação bem-sucedida requer que o token alvo pertença ao mesmo usuário e tenha um nível de integridade que seja menor ou igual ao nível de integridade do processo que está tentando a impersonação.
+- **Condições para Impersonação de Token:** A impersonação bem-sucedida requer que o token alvo pertença ao mesmo usuário e tenha um nível de integridade que seja menor ou igual ao nível de integridade do processo que tenta a impersonação.
 - **Criação e Modificação de Tokens de Impersonação:** Os usuários podem criar um token de impersonação e aprimorá-lo adicionando um SID (Identificador de Segurança) de um grupo privilegiado.
 
 ### SeLoadDriverPrivilege
 
-Este privilégio permite **carregar e descarregar drivers de dispositivo** com a criação de uma entrada de registro com valores específicos para `ImagePath` e `Type`. Como o acesso de gravação direto ao `HKLM` (HKEY_LOCAL_MACHINE) é restrito, `HKCU` (HKEY_CURRENT_USER) deve ser utilizado em vez disso. No entanto, para tornar `HKCU` reconhecível pelo kernel para configuração de driver, um caminho específico deve ser seguido.
+Este privilégio permite **carregar e descarregar drivers de dispositivo** com a criação de uma entrada de registro com valores específicos para `ImagePath` e `Type`. Como o acesso de gravação direto ao `HKLM` (HKEY_LOCAL_MACHINE) é restrito, o `HKCU` (HKEY_CURRENT_USER) deve ser utilizado em vez disso. No entanto, para tornar o `HKCU` reconhecível pelo kernel para configuração de driver, um caminho específico deve ser seguido.
 
-Este caminho é `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, onde `<RID>` é o Identificador Relativo do usuário atual. Dentro de `HKCU`, todo esse caminho deve ser criado, e dois valores precisam ser definidos:
+Este caminho é `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName`, onde `<RID>` é o Identificador Relativo do usuário atual. Dentro do `HKCU`, todo esse caminho deve ser criado, e dois valores precisam ser definidos:
 - `ImagePath`, que é o caminho para o binário a ser executado
 - `Type`, com um valor de `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 
 **Passos a Seguir:**
 1. Acesse `HKCU` em vez de `HKLM` devido ao acesso de gravação restrito.
-2. Crie o caminho `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` dentro de `HKCU`, onde `<RID>` representa o Identificador Relativo do usuário atual.
+2. Crie o caminho `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` dentro do `HKCU`, onde `<RID>` representa o Identificador Relativo do usuário atual.
 3. Defina o `ImagePath` para o caminho de execução do binário.
 4. Atribua o `Type` como `SERVICE_KERNEL_DRIVER` (`0x00000001`).
 ```python
@@ -177,11 +177,11 @@ Tabela completa de privilégios de token em [https://github.com/gtworek/Priv2Adm
 ## Referência
 
 * Dê uma olhada nesta tabela definindo tokens do Windows: [https://github.com/gtworek/Priv2Admin](https://github.com/gtworek/Priv2Admin)
-* Dê uma olhada em [**este artigo**](https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt) sobre privesc com tokens.
+* Dê uma olhada [**neste artigo**](https://github.com/hatRiot/token-priv/blob/master/abusing\_token\_eop\_1.0.txt) sobre privesc com tokens.
 
 {% hint style="success" %}
-Aprenda e pratique AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
