@@ -44,19 +44,19 @@ Yeni bir `/proc` dosya sisteminin örneğini `--mount-proc` parametresi ile mont
 
 `unshare` komutu `-f` seçeneği olmadan çalıştırıldığında, Linux'un yeni PID (Process ID) ad alanlarını nasıl yönettiği nedeniyle bir hata ile karşılaşılır. Anahtar detaylar ve çözüm aşağıda özetlenmiştir:
 
-1. **Sorun Açıklaması**:
-- Linux çekirdeği, bir sürecin `unshare` sistem çağrısını kullanarak yeni ad alanları oluşturmasına izin verir. Ancak, yeni bir PID ad alanı oluşturma işlemini başlatan süreç (bu süreç "unshare" süreci olarak adlandırılır) yeni ad alanına girmemektedir; yalnızca onun çocuk süreçleri girmektedir.
+1. **Problem Açıklaması**:
+- Linux çekirdeği, bir sürecin `unshare` sistem çağrısını kullanarak yeni ad alanları oluşturmasına izin verir. Ancak, yeni bir PID ad alanı oluşturma işlemini başlatan süreç (bu süreç "unshare" süreci olarak adlandırılır) yeni ad alanına girmez; yalnızca onun çocuk süreçleri girer.
 - `%unshare -p /bin/bash%` komutu, `/bin/bash`'i `unshare` ile aynı süreçte başlatır. Sonuç olarak, `/bin/bash` ve onun çocuk süreçleri orijinal PID ad alanındadır.
-- Yeni ad alanındaki `/bin/bash`'in ilk çocuk süreci PID 1 olur. Bu süreç sona erdiğinde, başka süreç yoksa ad alanının temizlenmesini tetikler, çünkü PID 1, yetim süreçleri benimseme özel rolüne sahiptir. Linux çekirdeği, o ad alanında PID tahsisini devre dışı bırakacaktır.
+- Yeni ad alanındaki `/bin/bash`'in ilk çocuk süreci PID 1 olur. Bu süreç sona erdiğinde, başka süreç yoksa ad alanının temizlenmesini tetikler, çünkü PID 1, yetim süreçleri benimseme özel rolüne sahiptir. Linux çekirdeği, o ad alanında PID tahsisini devre dışı bırakır.
 
 2. **Sonuç**:
 - Yeni bir ad alanındaki PID 1'in çıkışı, `PIDNS_HASH_ADDING` bayrağının temizlenmesine yol açar. Bu, yeni bir süreç oluştururken `alloc_pid` fonksiyonunun yeni bir PID tahsis edememesine neden olur ve "Bellek tahsis edilemiyor" hatasını üretir.
 
 3. **Çözüm**:
 - Sorun, `unshare` ile `-f` seçeneğini kullanarak çözülebilir. Bu seçenek, `unshare`'in yeni PID ad alanını oluşturduktan sonra yeni bir süreç fork etmesini sağlar.
-- `%unshare -fp /bin/bash%` komutunu çalıştırmak, `unshare` komutunun yeni ad alanında PID 1 olmasını garanti eder. `/bin/bash` ve onun çocuk süreçleri bu yeni ad alanında güvenli bir şekilde yer alır, PID 1'in erken çıkışını önler ve normal PID tahsisine izin verir.
+- `%unshare -fp /bin/bash%` komutunu çalıştırmak, `unshare` komutunun kendisinin yeni ad alanında PID 1 olmasını garanti eder. `/bin/bash` ve onun çocuk süreçleri bu yeni ad alanında güvenli bir şekilde yer alır, PID 1'in erken çıkışını önler ve normal PID tahsisine izin verir.
 
-`unshare`'in `-f` bayrağı ile çalıştırılmasını sağlayarak, yeni PID ad alanının doğru bir şekilde korunmasını sağlarsınız, böylece `/bin/bash` ve alt süreçleri bellek tahsis hatası ile karşılaşmadan çalışabilir.
+`unshare`'in `-f` bayrağı ile çalıştığından emin olarak, yeni PID ad alanı doğru bir şekilde korunur ve `/bin/bash` ile alt süreçlerinin bellek tahsis hatası ile karşılaşmadan çalışmasına olanak tanır.
 
 </details>
 
@@ -79,13 +79,19 @@ sudo find /proc -maxdepth 3 -type l -name mnt -exec ls -l  {} \; 2>/dev/null | g
 ```
 {% endcode %}
 
-### Bir Mount ad alanına girin
+{% code overflow="wrap" %}
+```bash
+findmnt
+```
+{% endcode %}
+
+### Mount ad alanına girin
 ```bash
 nsenter -m TARGET_PID --pid /bin/bash
 ```
 Ayrıca, **başka bir işlem ad alanına yalnızca root iseniz girebilirsiniz**. Ve **başka bir ad alanına** **giremezsiniz** **onu işaret eden bir tanımlayıcı olmadan** (örneğin `/proc/self/ns/mnt`).
 
-Yeni montajlar yalnızca ad alanı içinde erişilebilir olduğundan, bir ad alanının yalnızca oradan erişilebilen hassas bilgileri içermesi mümkündür.
+Yeni montajlar yalnızca ad alanı içinde erişilebilir olduğundan, bir ad alanının yalnızca oradan erişilebilen hassas bilgiler içermesi mümkündür.
 
 ### Bir şeyi monte et
 ```bash
@@ -101,8 +107,35 @@ ls /tmp/mount_ns_example/test # Exists
 mount | grep tmpfs # Cannot see "tmpfs on /tmp/mount_ns_example"
 ls /tmp/mount_ns_example/test # Doesn't exist
 ```
+
+```
+# findmnt # List existing mounts
+TARGET                                SOURCE                                                                                                           FSTYPE     OPTIONS
+/                                     /dev/mapper/web05--vg-root
+
+# unshare --mount  # run a shell in a new mount namespace
+# mount --bind /usr/bin/ /mnt/
+# ls /mnt/cp
+/mnt/cp
+# exit  # exit the shell, and hence the mount namespace
+# ls /mnt/cp
+ls: cannot access '/mnt/cp': No such file or directory
+
+## Notice there's different files in /tmp
+# ls /tmp
+revshell.elf
+
+# ls /mnt/tmp
+krb5cc_75401103_X5yEyy
+systemd-private-3d87c249e8a84451994ad692609cd4b6-apache2.service-77w9dT
+systemd-private-3d87c249e8a84451994ad692609cd4b6-systemd-resolved.service-RnMUhT
+systemd-private-3d87c249e8a84451994ad692609cd4b6-systemd-timesyncd.service-FAnDql
+vmware-root_662-2689143848
+
+```
 ## Referanslar
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+* [https://unix.stackexchange.com/questions/464033/understanding-how-mount-namespaces-work-in-linux](https://unix.stackexchange.com/questions/464033/understanding-how-mount-namespaces-work-in-linux)
 
 
 {% hint style="success" %}
