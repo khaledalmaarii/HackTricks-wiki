@@ -36,7 +36,7 @@ Les mount namespaces sont particulièrement utiles dans la conteneurisation, où
 ```bash
 sudo unshare -m [--mount-proc] /bin/bash
 ```
-En montant une nouvelle instance du système de fichiers `/proc` si vous utilisez le paramètre `--mount-proc`, vous vous assurez que le nouveau namespace de montage a une **vue précise et isolée des informations de processus spécifiques à ce namespace**.
+En montant une nouvelle instance du système de fichiers `/proc` si vous utilisez le paramètre `--mount-proc`, vous vous assurez que le nouveau namespace de montage a une **vue précise et isolée des informations sur les processus spécifiques à ce namespace**.
 
 <details>
 
@@ -79,6 +79,12 @@ sudo find /proc -maxdepth 3 -type l -name mnt -exec ls -l  {} \; 2>/dev/null | g
 ```
 {% endcode %}
 
+{% code overflow="wrap" %}
+```bash
+findmnt
+```
+{% endcode %}
+
 ### Entrer dans un espace de noms de montage
 ```bash
 nsenter -m TARGET_PID --pid /bin/bash
@@ -101,8 +107,35 @@ ls /tmp/mount_ns_example/test # Exists
 mount | grep tmpfs # Cannot see "tmpfs on /tmp/mount_ns_example"
 ls /tmp/mount_ns_example/test # Doesn't exist
 ```
+
+```
+# findmnt # List existing mounts
+TARGET                                SOURCE                                                                                                           FSTYPE     OPTIONS
+/                                     /dev/mapper/web05--vg-root
+
+# unshare --mount  # run a shell in a new mount namespace
+# mount --bind /usr/bin/ /mnt/
+# ls /mnt/cp
+/mnt/cp
+# exit  # exit the shell, and hence the mount namespace
+# ls /mnt/cp
+ls: cannot access '/mnt/cp': No such file or directory
+
+## Notice there's different files in /tmp
+# ls /tmp
+revshell.elf
+
+# ls /mnt/tmp
+krb5cc_75401103_X5yEyy
+systemd-private-3d87c249e8a84451994ad692609cd4b6-apache2.service-77w9dT
+systemd-private-3d87c249e8a84451994ad692609cd4b6-systemd-resolved.service-RnMUhT
+systemd-private-3d87c249e8a84451994ad692609cd4b6-systemd-timesyncd.service-FAnDql
+vmware-root_662-2689143848
+
+```
 ## Références
 * [https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory](https://stackoverflow.com/questions/44666700/unshare-pid-bin-bash-fork-cannot-allocate-memory)
+* [https://unix.stackexchange.com/questions/464033/understanding-how-mount-namespaces-work-in-linux](https://unix.stackexchange.com/questions/464033/understanding-how-mount-namespaces-work-in-linux)
 
 
 {% hint style="success" %}
@@ -114,7 +147,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
