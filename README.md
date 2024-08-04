@@ -42,7 +42,7 @@ Unaweza kuangalia **blogu** yao katika [**https://blog.stmcyber.com**](https://b
 
 <figure><img src=".gitbook/assets/image (47).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** ni **nambari moja** ya udukuzi wa kimaadili na **jukwaa la bug bounty** barani **Ulaya**.
+**Intigriti** ni **jukwaa nambari moja** la udukuzi wa kimaadili na **bug bounty** barani **Ulaya**.
 
 **Nasaha ya bug bounty**: **jiandikishe** kwa **Intigriti**, jukwaa la **bug bounty la kiwango cha juu lililotengenezwa na hackers, kwa hackers**! Jiunge nasi katika [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) leo, na anza kupata zawadi hadi **$100,000**!
 
@@ -55,7 +55,7 @@ Unaweza kuangalia **blogu** yao katika [**https://blog.stmcyber.com**](https://b
 <figure><img src=".gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
 \
-Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha** kwa urahisi mchakato unaotumiwa na zana za jamii **za kisasa zaidi** duniani.
+Tumia [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kujenga na **kujiendesha** kwa urahisi kwa kutumia zana za jamii zenye **maendeleo zaidi** duniani.
 
 Pata Ufikiaji Leo:
 
@@ -67,9 +67,9 @@ Pata Ufikiaji Leo:
 
 <figure><img src=".gitbook/assets/image (50).png" alt=""><figcaption></figcaption></figure>
 
-Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server kuwasiliana na hackers wenye uzoefu na wawindaji wa bug bounty!
+Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) server ili kuwasiliana na hackers wenye uzoefu na wawindaji wa bug bounty!
 
-* **Maoni ya Udukuzi:** Jihusishe na maudhui yanayoangazia msisimko na changamoto za udukuzi
+* **Maoni ya Udukuzi:** Jihusishe na maudhui yanayochambua msisimko na changamoto za udukuzi
 * **Habari za Udukuzi kwa Wakati Halisi:** Fuata habari za haraka za ulimwengu wa udukuzi kupitia habari na maoni ya wakati halisi
 * **Matangazo ya Karibuni:** Kuwa na habari kuhusu bug bounties mpya zinazozinduliwa na masasisho muhimu ya jukwaa
 
@@ -79,9 +79,9 @@ Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serve
 
 ### [Pentest-Tools.com](https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons) - Zana muhimu za kupima udukuzi
 
-<figure><img src=".gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Mipangilio inayopatikana mara moja kwa ajili ya tathmini ya udhaifu & kupima udukuzi**. Fanya pentest kamili kutoka mahali popote na zana 20+ & vipengele vinavyotoka kwenye recon hadi ripoti. Hatubadilishi pentesters - tunaunda zana maalum, moduli za kugundua & kutumia ili kuwapa muda wa kuchimba zaidi, pop shells, na kufurahia.
+**Mipangilio inayopatikana mara moja kwa ajili ya tathmini ya udhaifu & kupima udukuzi**. Fanya pentest kamili kutoka mahali popote na zana na vipengele zaidi ya 20 vinavyotoka kwenye recon hadi ripoti. Hatubadilishi pentesters - tunaunda zana maalum, moduli za kugundua na kutumia ili kuwapa muda wa kuchimba zaidi, kufungua shells, na kufurahia.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -91,13 +91,13 @@ Jiunge na [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) serve
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-SerpApi inatoa APIs za wakati halisi kwa haraka na kwa urahisi ili **kupata matokeo ya injini za utafutaji**. Wanakusanya data kutoka kwa injini za utafutaji, kushughulikia proxies, kutatua captchas, na kuchambua data zote za muundo wa tajiri kwa ajili yako.
+SerpApi inatoa APIs za wakati halisi kwa haraka na kwa urahisi ili **kupata matokeo ya injini za utafutaji**. Wanakusanya data kutoka kwa injini za utafutaji, kushughulikia proxies, kutatua captchas, na kuchambua data yote yenye muundo wa kina kwa ajili yako.
 
 Usajili wa moja ya mipango ya SerpApi unajumuisha ufikiaji wa zaidi ya APIs 50 tofauti za kukusanya data kutoka kwa injini tofauti za utafutaji, ikiwa ni pamoja na Google, Bing, Baidu, Yahoo, Yandex, na zaidi.\
 Tofauti na watoa huduma wengine, **SerpApi haisafishi tu matokeo ya asili**. Majibu ya SerpApi mara kwa mara yanajumuisha matangazo yote, picha na video za ndani, grafu za maarifa, na vipengele na sifa nyingine zilizopo katika matokeo ya utafutaji.
 
-Wateja wa sasa wa SerpApi ni **Apple, Shopify, na GrubHub**.\
-Kwa maelezo zaidi angalia [**blogu**](https://serpapi.com/blog/)**,** au jaribu mfano katika [**sehemu yao ya majaribio**](https://serpapi.com/playground)**.**\
+Wateja wa sasa wa SerpApi ni pamoja na **Apple, Shopify, na GrubHub**.\
+Kwa maelezo zaidi angalia [**blogu**](https://serpapi.com/blog/)** yao,** au jaribu mfano katika [**sehemu yao ya majaribio**](https://serpapi.com/playground)**.**\
 Unaweza **kuunda akaunti ya bure** [**hapa**](https://serpapi.com/users/sign\_up)**.**
 
 ***
@@ -114,7 +114,7 @@ Unaweza **kuunda akaunti ya bure** [**hapa**](https://serpapi.com/users/sign\_up
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) ni kampuni ya kitaalamu ya usalama wa mtandao iliyo na makao yake nchini **Amsterdam** ambayo inasaidia **kulinda** biashara **kote duniani** dhidi ya vitisho vya hivi karibuni vya usalama wa mtandao kwa kutoa **huduma za usalama wa mashambulizi** kwa njia ya **kisasa**.
+[**WebSec**](https://websec.nl) ni kampuni ya kitaalamu ya usalama wa mtandao iliyo na makao yake nchini **Amsterdam** ambayo inasaidia **kulinda** biashara **duniani kote** dhidi ya vitisho vya hivi karibuni vya usalama wa mtandao kwa kutoa **huduma za usalama wa mashambulizi** kwa njia ya **kisasa**.
 
 WebSec ni kampuni ya **usalama wa kila kitu** ambayo inamaanisha wanafanya kila kitu; Pentesting, **Ukaguzi wa** Usalama, Mafunzo ya Uelewa, Kampeni za Phishing, Mapitio ya Kanuni, Maendeleo ya Utekelezaji, Utaalamu wa Usalama wa Kukodisha na mengi zaidi.
 
@@ -128,7 +128,7 @@ Mbali na hayo WebSec pia ni **mshabiki aliyejitolea wa HackTricks.**
 
 <figure><img src=".gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa **kazi za bure** za kuangalia ikiwa kampuni au wateja wake wamekuwa **wameathiriwa** na **malware ya kuiba**.
+[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotokana na **dark-web** ambayo inatoa **kazi za bure** za kuangalia ikiwa kampuni au wateja wake wamekuwa **na matatizo** na **malware ya kuiba**.
 
 Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware ya kuiba taarifa.
 
@@ -159,7 +159,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki hila za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki hila za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
