@@ -15,7 +15,7 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-<figure><img src="/.gitbook/assets/image (14) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
 **Sofort verfügbare Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Pentest von überall mit 20+ Tools & Funktionen durch, die von Recon bis Reporting reichen. Wir ersetzen keine Pentester - wir entwickeln maßgeschneiderte Tools, Erkennungs- & Ausnutzungs-Module, um ihnen etwas Zeit zurückzugeben, um tiefer zu graben, Shells zu öffnen und Spaß zu haben.
 
@@ -32,9 +32,9 @@ Beachte, dass es möglich ist, dass du nicht einmal warten musst, bis der Benutz
 ### Sitzungs-Boolean
 
 Manchmal, wenn du eine Überprüfung korrekt abschließt, wird das Backend **einfach einen Boolean mit dem Wert "True" zu einem Sicherheitsattribut deiner Sitzung hinzufügen**. Dann wird ein anderer Endpunkt wissen, ob du diese Überprüfung erfolgreich bestanden hast.\
-Wenn du jedoch **die Überprüfung bestehst** und deine Sitzung diesen "True"-Wert im Sicherheitsattribut erhält, kannst du versuchen, **auf andere Ressourcen zuzugreifen**, die **von demselben Attribut abhängen**, auf die du **keine Berechtigung** haben solltest. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
+Wenn du jedoch die **Überprüfung bestehst** und deine Sitzung diesen "True"-Wert im Sicherheitsattribut erhält, kannst du versuchen, **auf andere Ressourcen zuzugreifen**, die **von demselben Attribut abhängen**, auf die du **keine Berechtigung** haben solltest. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
 
-### Registrierungsfunktion
+### Registrierungsfunktionalität
 
 Versuche, dich als bereits existierender Benutzer zu registrieren. Versuche auch, äquivalente Zeichen (Punkte, viele Leerzeichen und Unicode) zu verwenden.
 
@@ -48,12 +48,12 @@ Registriere eine E-Mail, ändere die E-Mail, bevor du sie bestätigst, und wenn 
 
 ### TRACE-Methode
 
-Entwickler könnten vergessen, verschiedene Debugging-Optionen in der Produktionsumgebung zu deaktivieren. Zum Beispiel ist die HTTP `TRACE`-Methode für Diagnosezwecke gedacht. Wenn sie aktiviert ist, wird der Webserver auf Anfragen, die die `TRACE`-Methode verwenden, mit der genauen Anfrage antworten, die empfangen wurde. Dieses Verhalten ist oft harmlos, führt aber gelegentlich zu Informationslecks, wie z.B. den Namen interner Authentifizierungsheader, die von Reverse-Proxys an Anfragen angehängt werden können.![Bild für den Beitrag](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
+Entwickler könnten vergessen, verschiedene Debugging-Optionen in der Produktionsumgebung zu deaktivieren. Zum Beispiel ist die HTTP `TRACE`-Methode für Diagnosezwecke gedacht. Wenn sie aktiviert ist, wird der Webserver auf Anfragen, die die `TRACE`-Methode verwenden, mit der genauen Anfrage antworten, die empfangen wurde. Dieses Verhalten ist oft harmlos, führt aber gelegentlich zu Informationslecks, wie z.B. den Namen interner Authentifizierungsheader, die von Reverse-Proxys an Anfragen angehängt werden können.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
 
-![Bild für den Beitrag](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
+![Image for post](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
 
 
-<figure><img src="/.gitbook/assets/image (14) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
 **Sofort verfügbare Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führe einen vollständigen Pentest von überall mit 20+ Tools & Funktionen durch, die von Recon bis Reporting reichen. Wir ersetzen keine Pentester - wir entwickeln maßgeschneiderte Tools, Erkennungs- & Ausnutzungs-Module, um ihnen etwas Zeit zurückzugeben, um tiefer zu graben, Shells zu öffnen und Spaß zu haben.
 
