@@ -1,23 +1,23 @@
 # Other Web Tricks
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks 지원하기</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}
 
-<figure><img src="/.gitbook/assets/image (14) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**즉시 사용 가능한 취약점 평가 및 침투 테스트 설정**. 20개 이상의 도구와 기능을 사용하여 어디서나 전체 침투 테스트를 실행하세요. 우리는 침투 테스터를 대체하지 않습니다 - 우리는 그들이 더 깊이 파고들고, 쉘을 터뜨리고, 재미를 느낄 수 있도록 맞춤형 도구, 탐지 및 악용 모듈을 개발합니다.
+**취약점 평가 및 침투 테스트를 위한 즉시 사용 가능한 설정**. 20개 이상의 도구 및 기능을 사용하여 어디서나 전체 침투 테스트를 실행하세요. 우리는 침투 테스터를 대체하지 않습니다 - 우리는 그들이 더 깊이 파고들고, 쉘을 터뜨리고, 재미를 느낄 수 있도록 맞춤형 도구, 탐지 및 악용 모듈을 개발합니다.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -31,12 +31,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Session booleans
 
-때때로 일부 검증을 올바르게 완료하면 백엔드가 **보안 속성에 "True" 값의 부울을 추가합니다**. 그런 다음 다른 엔드포인트는 해당 검사를 성공적으로 통과했는지 알 수 있습니다.\
-그러나 **검사를 통과하고** 세션이 보안 속성에 "True" 값을 부여받으면, **접근 권한이 없어야 하는** 동일한 속성에 의존하는 **다른 리소스에 접근을 시도할 수 있습니다**. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
+어떤 경우에는 검증을 올바르게 완료하면 백엔드가 **세션의 보안 속성에 "True" 값을 가진 부울을 추가합니다**. 그런 다음 다른 엔드포인트는 해당 검사를 성공적으로 통과했는지 알 수 있습니다.\
+그러나 **검사를 통과하고** 세션이 보안 속성에서 "True" 값을 부여받으면, **접근 권한이 없어야 하는 동일한 속성에 의존하는 다른 리소스에 접근을 시도할 수 있습니다**. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
 
 ### Register functionality
 
-이미 존재하는 사용자로 등록해 보세요. 동등한 문자(점, 많은 공백 및 유니코드)를 사용해 보세요.
+이미 존재하는 사용자로 등록해 보세요. 또한 동등한 문자(점, 많은 공백 및 유니코드)를 사용해 보세요.
 
 ### Takeover emails
 
@@ -53,23 +53,23 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ![Image for post](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
 
 
-<figure><img src="/.gitbook/assets/image (14) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**즉시 사용 가능한 취약점 평가 및 침투 테스트 설정**. 20개 이상의 도구와 기능을 사용하여 어디서나 전체 침투 테스트를 실행하세요. 우리는 침투 테스터를 대체하지 않습니다 - 우리는 그들이 더 깊이 파고들고, 쉘을 터뜨리고, 재미를 느낄 수 있도록 맞춤형 도구, 탐지 및 악용 모듈을 개발합니다.
+**취약점 평가 및 침투 테스트를 위한 즉시 사용 가능한 설정**. 20개 이상의 도구 및 기능을 사용하여 어디서나 전체 침투 테스트를 실행하세요. 우리는 침투 테스터를 대체하지 않습니다 - 우리는 그들이 더 깊이 파고들고, 쉘을 터뜨리고, 재미를 느낄 수 있도록 맞춤형 도구, 탐지 및 악용 모듈을 개발합니다.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks 지원하기</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.**
 
 </details>
 {% endhint %}
