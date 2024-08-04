@@ -5,10 +5,10 @@
 _Les logos et le design animé de Hacktricks par_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Bienvenue dans le wiki où vous trouverez chaque astuce/technique de hacking/quoi que ce soit que j'ai appris des CTF, des applications de la vie réelle, en lisant des recherches et des nouvelles.**
+**Bienvenue dans le wiki où vous trouverez chaque astuce/technique de hacking que j'ai apprise lors de CTF, d'applications de la vie réelle, en lisant des recherches et des nouvelles.**
 {% endhint %}
 
-Pour commencer, suivez cette page où vous trouverez le **flux typique** que **vous devriez suivre lors du pentesting** d'une ou plusieurs **machines :**
+Pour commencer, suivez cette page où vous trouverez le **flux typique** que **vous devriez suivre lors d'un pentesting** d'une ou plusieurs **machines :**
 
 {% content-ref url="generic-methodologies-and-resources/pentesting-methodology.md" %}
 [pentesting-methodology.md](generic-methodologies-and-resources/pentesting-methodology.md)
@@ -20,7 +20,7 @@ Pour commencer, suivez cette page où vous trouverez le **flux typique** que **v
 
 <figure><img src=".gitbook/assets/stm (1).png" alt=""><figcaption></figcaption></figure>
 
-[**STM Cyber**](https://www.stmcyber.com) est une excellente entreprise de cybersécurité dont le slogan est **HACK THE UNHACKABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de hacking pour **offrir plusieurs services de cybersécurité précieux** comme le pentesting, les équipes rouges et la formation.
+[**STM Cyber**](https://www.stmcyber.com) est une grande entreprise de cybersécurité dont le slogan est **HACK THE UNHACKABLE**. Ils effectuent leurs propres recherches et développent leurs propres outils de hacking pour **offrir plusieurs services de cybersécurité précieux** comme le pentesting, les équipes rouges et la formation.
 
 Vous pouvez consulter leur **blog** à [**https://blog.stmcyber.com**](https://blog.stmcyber.com)
 
@@ -79,9 +79,9 @@ Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSb
 
 ### [Pentest-Tools.com](https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons) - L'outil essentiel pour le test de pénétration
 
-<figure><img src=".gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Configuration instantanément disponible pour l'évaluation des vulnérabilités et le test de pénétration**. Effectuez un pentest complet de n'importe où avec plus de 20 outils et fonctionnalités allant de la reconnaissance au reporting. Nous ne remplaçons pas les pentesters - nous développons des outils personnalisés, des modules de détection et d'exploitation pour leur redonner du temps pour approfondir, popper des shells et s'amuser.
+**Configuration instantanément disponible pour l'évaluation des vulnérabilités et le test de pénétration**. Réalisez un pentest complet de n'importe où avec plus de 20 outils et fonctionnalités allant de la reconnaissance à la rédaction de rapports. Nous ne remplaçons pas les pentesters - nous développons des outils personnalisés, des modules de détection et d'exploitation pour leur redonner du temps pour approfondir, pop shells, et s'amuser.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -91,12 +91,12 @@ Rejoignez le serveur [**HackenProof Discord**](https://discord.com/invite/N3FrSb
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-SerpApi offre des API en temps réel rapides et faciles pour **accéder aux résultats des moteurs de recherche**. Ils extraient les moteurs de recherche, gèrent les proxies, résolvent les captchas et analysent toutes les données structurées riches pour vous.
+SerpApi offre des API rapides et faciles en temps réel pour **accéder aux résultats des moteurs de recherche**. Ils extraient les moteurs de recherche, gèrent les proxies, résolvent les captchas et analysent toutes les données structurées riches pour vous.
 
 Un abonnement à l'un des plans de SerpApi inclut l'accès à plus de 50 API différentes pour extraire différents moteurs de recherche, y compris Google, Bing, Baidu, Yahoo, Yandex, et plus encore.\
-Contrairement à d'autres fournisseurs, **SerpApi ne se contente pas d'extraire des résultats organiques**. Les réponses de SerpApi incluent systématiquement toutes les publicités, images et vidéos en ligne, graphiques de connaissances et autres éléments et fonctionnalités présents dans les résultats de recherche.
+Contrairement à d'autres fournisseurs, **SerpApi ne se contente pas d'extraire des résultats organiques**. Les réponses de SerpApi incluent systématiquement toutes les annonces, images et vidéos en ligne, graphiques de connaissances, et d'autres éléments et fonctionnalités présents dans les résultats de recherche.
 
-Les clients actuels de SerpApi incluent **Apple, Shopify et GrubHub**.\
+Les clients actuels de SerpApi incluent **Apple, Shopify, et GrubHub**.\
 Pour plus d'informations, consultez leur [**blog**](https://serpapi.com/blog/)**,** ou essayez un exemple dans leur [**playground**](https://serpapi.com/playground)**.**\
 Vous pouvez **créer un compte gratuit** [**ici**](https://serpapi.com/users/sign\_up)**.**
 
@@ -114,13 +114,13 @@ Vous pouvez **créer un compte gratuit** [**ici**](https://serpapi.com/users/sig
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) est une entreprise professionnelle de cybersécurité basée à **Amsterdam** qui aide à **protéger** les entreprises **dans le monde entier** contre les dernières menaces de cybersécurité en fournissant des **services de sécurité offensive** avec une approche **moderne**.
+[**WebSec**](https://websec.nl) est une entreprise de cybersécurité professionnelle basée à **Amsterdam** qui aide à **protéger** les entreprises **dans le monde entier** contre les dernières menaces de cybersécurité en fournissant des **services de sécurité offensive** avec une approche **moderne**.
 
 WebSec est une **entreprise de sécurité tout-en-un**, ce qui signifie qu'ils font tout ; Pentesting, **Audits de Sécurité**, Formations de Sensibilisation, Campagnes de Phishing, Revue de Code, Développement d'Exploits, Externalisation d'Experts en Sécurité et bien plus encore.
 
 Une autre chose intéressante à propos de WebSec est qu'à la différence de la moyenne de l'industrie, WebSec est **très confiant dans ses compétences**, à tel point qu'ils **garantissent les meilleurs résultats de qualité**, il est indiqué sur leur site web "**Si nous ne pouvons pas le hacker, vous ne payez pas !**". Pour plus d'infos, jetez un œil à leur [**site web**](https://websec.nl/en/) et [**blog**](https://websec.nl/blog/) !
 
-En plus de ce qui précède, WebSec est également un **soutien engagé de HackTricks.**
+En plus de cela, WebSec est également un **soutien engagé de HackTricks.**
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
 
@@ -132,7 +132,7 @@ En plus de ce qui précède, WebSec est également un **soutien engagé de HackT
 
 Le principal objectif de WhiteIntel est de lutter contre les prises de contrôle de comptes et les attaques par ransomware résultant de malwares de vol d'informations.
 
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à :
+Vous pouvez consulter leur site web et essayer leur moteur gratuitement à :
 
 {% embed url="https://whiteintel.io" %}
 
