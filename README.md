@@ -42,9 +42,9 @@ Sie können ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.st
 
 <figure><img src=".gitbook/assets/image (47).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** ist die **Nummer 1** Plattform für ethisches Hacking und **Bug Bounty** in **Europa**.
+**Intigriti** ist die **Nummer 1** Plattform für ethisches Hacking und **Bug Bounty in Europa.**
 
-**Bug Bounty Tipp**: **Melden Sie sich an** für **Intigriti**, eine Premium-**Bug Bounty-Plattform, die von Hackern für Hacker** erstellt wurde! Treten Sie uns heute bei unter [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) und beginnen Sie, Belohnungen von bis zu **100.000 $** zu verdienen!
+**Bug Bounty Tipp**: **Melden Sie sich an** bei **Intigriti**, einer Premium-**Bug Bounty-Plattform, die von Hackern für Hacker erstellt wurde**! Treten Sie uns heute bei [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) und beginnen Sie, Belohnungen von bis zu **100.000 $** zu verdienen!
 
 {% embed url="https://go.intigriti.com/hacktricks" %}
 
@@ -57,7 +57,7 @@ Sie können ihren **Blog** unter [**https://blog.stmcyber.com**](https://blog.st
 \
 Verwenden Sie [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks), um einfach **Workflows** zu erstellen und zu **automatisieren**, die von den **fortschrittlichsten** Community-Tools der Welt unterstützt werden.
 
-Zugriff heute erhalten:
+Zugang heute erhalten:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
@@ -79,9 +79,9 @@ Treten Sie dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 
 
 ### [Pentest-Tools.com](https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons) - Das essentielle Toolkit für Penetrationstests
 
-<figure><img src=".gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Sofort verfügbare Einrichtung für Schwachstellenbewertung & Penetrationstests**. Führen Sie einen vollständigen Pentest von überall mit über 20 Tools und Funktionen durch, die von Recon bis Reporting reichen. Wir ersetzen keine Pentester - wir entwickeln maßgeschneiderte Tools, Erkennungs- und Ausnutzungs-Module, um ihnen etwas Zeit zu geben, um tiefer zu graben, Shells zu poppen und Spaß zu haben.
+**Sofort verfügbarer Setup für Schwachstellenbewertung & Penetrationstests**. Führen Sie einen vollständigen Pentest von überall mit über 20 Tools und Funktionen durch, die von Recon bis Reporting reichen. Wir ersetzen keine Pentester - wir entwickeln benutzerdefinierte Tools, Erkennungs- und Ausnutzungs-Module, um ihnen etwas Zeit zu geben, um tiefer zu graben, Shells zu knacken und Spaß zu haben.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -91,10 +91,10 @@ Treten Sie dem [**HackenProof Discord**](https://discord.com/invite/N3FrSbmwdy) 
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-SerpApi bietet schnelle und einfache Echtzeit-APIs, um **auf Suchmaschinenergebnisse** zuzugreifen. Sie scrapen Suchmaschinen, verwalten Proxys, lösen Captchas und parsen alle reich strukturierten Daten für Sie.
+SerpApi bietet schnelle und einfache Echtzeit-APIs, um **auf Suchmaschinenergebnisse** zuzugreifen. Sie scrapen Suchmaschinen, verwalten Proxys, lösen Captchas und parsen alle strukturierten Daten für Sie.
 
 Ein Abonnement eines der SerpApi-Pläne umfasst den Zugriff auf über 50 verschiedene APIs zum Scrapen verschiedener Suchmaschinen, einschließlich Google, Bing, Baidu, Yahoo, Yandex und mehr.\
-Im Gegensatz zu anderen Anbietern **scrapt SerpApi nicht nur organische Ergebnisse**. Die Antworten von SerpApi enthalten konsequent alle Anzeigen, Inline-Bilder und Videos, Wissensgraphen und andere Elemente und Funktionen, die in den Suchergebnissen vorhanden sind.
+Im Gegensatz zu anderen Anbietern **scrapt SerpApi nicht nur organische Ergebnisse**. SerpApi-Antworten enthalten konsequent alle Anzeigen, Inline-Bilder und Videos, Wissensgraphen und andere Elemente und Funktionen, die in den Suchergebnissen vorhanden sind.
 
 Aktuelle SerpApi-Kunden sind **Apple, Shopify und GrubHub**.\
 Für weitere Informationen besuchen Sie ihren [**Blog**](https://serpapi.com/blog/)**,** oder probieren Sie ein Beispiel in ihrem [**Playground**](https://serpapi.com/playground)**.**\
@@ -114,7 +114,7 @@ Sie können **hier ein kostenloses Konto erstellen** [**hier**](https://serpapi.
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
-[**WebSec**](https://websec.nl) ist ein professionelles Cybersicherheitsunternehmen mit Sitz in **Amsterdam**, das **Unternehmen** auf der ganzen Welt **gegen die neuesten Cybersicherheitsbedrohungen schützt**, indem es **Offensive-Security-Dienste** mit einem **modernen** Ansatz anbietet.
+[**WebSec**](https://websec.nl) ist ein professionelles Cybersicherheitsunternehmen mit Sitz in **Amsterdam**, das **Unternehmen** auf der ganzen Welt **gegen die neuesten Cybersicherheitsbedrohungen schützt**, indem es **offensive Sicherheitsdienste** mit einem **modernen** Ansatz anbietet.
 
 WebSec ist ein **All-in-One-Sicherheitsunternehmen**, was bedeutet, dass sie alles machen; Pentesting, **Sicherheits**-Audits, Awareness-Trainings, Phishing-Kampagnen, Code-Überprüfungen, Exploit-Entwicklung, Outsourcing von Sicherheitsexperten und vieles mehr.
 
@@ -130,7 +130,7 @@ Zusätzlich zu den oben genannten ist WebSec auch ein **engagierter Unterstütze
 
 [**WhiteIntel**](https://whiteintel.io) ist eine **Dark-Web**-unterstützte Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder dessen Kunden durch **Stealer-Malware** **kompromittiert** wurden.
 
-Ihr Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die aus informationsstehlender Malware resultieren.
+Ihr Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die durch informationsstehlende Malware verursacht werden.
 
 Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
 
@@ -159,7 +159,7 @@ Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden. 
 
 </details>
 {% endhint %}
