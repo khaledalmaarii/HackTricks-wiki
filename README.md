@@ -5,7 +5,7 @@
 _Los logos y el diseño en movimiento de Hacktricks son de_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Bienvenido a la wiki donde encontrarás cada truco/técnica de hacking/lo que he aprendido de CTFs, aplicaciones de la vida real, leyendo investigaciones y noticias.**
+**Bienvenido a la wiki donde encontrarás cada truco/técnica de hacking que he aprendido de CTFs, aplicaciones de la vida real, leyendo investigaciones y noticias.**
 {% endhint %}
 
 Para comenzar, sigue esta página donde encontrarás el **flujo típico** que **debes seguir al realizar pentesting** en una o más **máquinas:**
@@ -32,7 +32,7 @@ Puedes consultar su **blog** en [**https://blog.stmcyber.com**](https://blog.stm
 
 <figure><img src=".gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) es el evento de ciberseguridad más relevante en **España** y uno de los más importantes en **Europa**. Con **la misión de promover el conocimiento técnico**, este congreso es un punto de encuentro vibrante para profesionales de la tecnología y la ciberseguridad en todas las disciplinas.
+[**RootedCON**](https://www.rootedcon.com) es el evento de ciberseguridad más relevante en **España** y uno de los más importantes en **Europa**. Con **la misión de promover el conocimiento técnico**, este congreso es un punto de encuentro vibrante para profesionales de la tecnología y la ciberseguridad en cada disciplina.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -42,7 +42,7 @@ Puedes consultar su **blog** en [**https://blog.stmcyber.com**](https://blog.stm
 
 <figure><img src=".gitbook/assets/image (47).png" alt=""><figcaption></figcaption></figure>
 
-**Intigriti** es la **plataforma de hacking ético y bug bounty #1 de Europa.**
+**Intigriti** es la **plataforma de hacking ético y bug bounty número 1 de Europa.**
 
 **Consejo de bug bounty**: **regístrate** en **Intigriti**, una plataforma premium de **bug bounty creada por hackers, para hackers**! Únete a nosotros en [**https://go.intigriti.com/hacktricks**](https://go.intigriti.com/hacktricks) hoy, y comienza a ganar recompensas de hasta **$100,000**!
 
@@ -79,7 +79,7 @@ Obtén acceso hoy:
 
 ### [Pentest-Tools.com](https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons) - El kit de herramientas esencial para pruebas de penetración
 
-<figure><img src=".gitbook/assets/image (15) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
 **Configuración disponible instantáneamente para evaluación de vulnerabilidades y pruebas de penetración**. Realiza un pentest completo desde cualquier lugar con más de 20 herramientas y características que van desde la recopilación de información hasta la elaboración de informes. No reemplazamos a los pentesters - desarrollamos herramientas personalizadas, módulos de detección y explotación para darles más tiempo para profundizar, ejecutar shells y divertirse.
 
@@ -91,10 +91,10 @@ Obtén acceso hoy:
 
 <figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
 
-SerpApi ofrece APIs rápidas y fáciles en tiempo real para **acceder a los resultados de motores de búsqueda**. Raspamos motores de búsqueda, manejamos proxies, resolvemos captchas y analizamos todos los datos estructurados ricos por ti.
+SerpApi ofrece APIs rápidas y fáciles en tiempo real para **acceder a los resultados de motores de búsqueda**. Ellos extraen datos de motores de búsqueda, manejan proxies, resuelven captchas y analizan todos los datos estructurados ricos por ti.
 
-Una suscripción a uno de los planes de SerpApi incluye acceso a más de 50 APIs diferentes para raspar diferentes motores de búsqueda, incluyendo Google, Bing, Baidu, Yahoo, Yandex y más.\
-A diferencia de otros proveedores, **SerpApi no solo raspa resultados orgánicos**. Las respuestas de SerpApi incluyen consistentemente todos los anuncios, imágenes y videos en línea, gráficos de conocimiento y otros elementos y características presentes en los resultados de búsqueda.
+Una suscripción a uno de los planes de SerpApi incluye acceso a más de 50 APIs diferentes para extraer datos de diferentes motores de búsqueda, incluyendo Google, Bing, Baidu, Yahoo, Yandex, y más.\
+A diferencia de otros proveedores, **SerpApi no solo extrae resultados orgánicos**. Las respuestas de SerpApi incluyen consistentemente todos los anuncios, imágenes y videos en línea, gráficos de conocimiento y otros elementos y características presentes en los resultados de búsqueda.
 
 Los clientes actuales de SerpApi incluyen **Apple, Shopify y GrubHub**.\
 Para más información, consulta su [**blog**](https://serpapi.com/blog/)**,** o prueba un ejemplo en su [**playground**](https://serpapi.com/playground)**.**\
@@ -128,9 +128,9 @@ Además de lo anterior, WebSec también es un **apoyo comprometido de HackTricks
 
 <figure><img src=".gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malware robador**.
+[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malware de robo**.
 
-Su objetivo principal de WhiteIntel es combatir el robo de cuentas y los ataques de ransomware resultantes de malware que roba información.
+Su objetivo principal de WhiteIntel es combatir los robos de cuentas y los ataques de ransomware resultantes de malware que roba información.
 
 Puedes consultar su sitio web y probar su motor de forma **gratuita** en:
 
@@ -146,7 +146,7 @@ Consúltalos en:
 
 ## Estadísticas de Github
 
-![Estadísticas de Github de HackTricks](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg "Imagen de análisis de Repobeats")
+![Estadísticas de HackTricks en Github](https://repobeats.axiom.co/api/embed/68f8746802bcf1c8462e889e6e9302d4384f164b.svg "Imagen de análisis de Repobeats")
 
 
 {% hint style="success" %}
