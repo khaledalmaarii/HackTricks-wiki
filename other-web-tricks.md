@@ -10,20 +10,20 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-<figure><img src="/.gitbook/assets/image (14) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Mpangilio wa haraka wa tathmini ya udhaifu & upimaji wa pen**. Fanya pentest kamili kutoka mahali popote na zana 20+ & vipengele vinavyotoka kwenye recon hadi ripoti. Hatubadilishi pentesters - tunatengeneza zana maalum, moduli za kugundua & kutumia ili kuwapa muda wa kuchimba zaidi, kufungua shells, na kufurahia.
+**Mpangilio wa haraka wa tathmini ya udhaifu & upimaji wa penya**. Fanya pentest kamili kutoka mahali popote na zana 20+ & vipengele vinavyotoka kwenye recon hadi ripoti. Hatubadilishi pentesters - tunatengeneza zana maalum, moduli za kugundua & kutumia ili kuwapa muda wa kuchimba zaidi, kufungua shells, na kufurahia.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
 ### Host header
 
-Mara kadhaa nyuma ya pazia inategemea **Host header** kufanya baadhi ya vitendo. Kwa mfano, inaweza kutumia thamani yake kama **domain ya kutuma upya nenosiri**. Hivyo unapopokea barua pepe yenye kiungo cha kurekebisha nenosiri lako, domain inayotumika ni ile uliyoweka katika Host header. Kisha, unaweza kuomba upya nenosiri wa watumiaji wengine na kubadilisha domain kuwa moja inayodhibitiwa na wewe ili kuiba nambari zao za kurekebisha nenosiri. [WriteUp](https://medium.com/nassec-cybersecurity-writeups/how-i-was-able-to-take-over-any-users-account-with-host-header-injection-546fff6d0f2).
+Mara kadhaa nyuma ya pazia inategemea **Host header** kufanya baadhi ya vitendo. Kwa mfano, inaweza kutumia thamani yake kama **domain ya kutuma upya nenosiri**. Hivyo unapopokea barua pepe yenye kiungo cha kurekebisha nenosiri lako, domain inayotumika ni ile uliyoweka kwenye Host header. Kisha, unaweza kuomba upya nenosiri wa watumiaji wengine na kubadilisha domain kuwa moja inayodhibitiwa na wewe ili kuiba nambari zao za upya nenosiri. [WriteUp](https://medium.com/nassec-cybersecurity-writeups/how-i-was-able-to-take-over-any-users-account-with-host-header-injection-546fff6d0f2).
 
 {% hint style="warning" %}
 Kumbuka kwamba inawezekana usihitaji hata kusubiri mtumiaji abonyeze kiungo cha kurekebisha nenosiri ili kupata token, kwani labda hata **filters za spam au vifaa/boti vingine vya kati vitabonyeza ili kuchambua**.
@@ -31,7 +31,7 @@ Kumbuka kwamba inawezekana usihitaji hata kusubiri mtumiaji abonyeze kiungo cha 
 
 ### Session booleans
 
-Wakati mwingine unapokamilisha uthibitisho fulani kwa usahihi, nyuma ya pazia itachukua **tu kuongeza boolean yenye thamani "True" kwa sifa ya usalama ya kikao chako**. Kisha, mwisho tofauti utaweza kujua kama umepita hiyo ukaguzi kwa mafanikio.\
+Wakati mwingine unapokamilisha uthibitisho fulani kwa usahihi nyuma ya pazia itachukua **tu kuongeza boolean yenye thamani "True" kwa sifa ya usalama ya kikao chako**. Kisha, mwisho tofauti utajua kama umepita hiyo ukaguzi kwa mafanikio.\
 Hata hivyo, ikiwa **umepita ukaguzi** na kikao chako kinapewa thamani hiyo "True" katika sifa ya usalama, unaweza kujaribu **kufikia rasilimali nyingine** ambazo **zinategemea sifa hiyo hiyo** lakini ambazo **hupaswi kuwa na ruhusa** za kufikia. [WriteUp](https://medium.com/@ozguralp/a-less-known-attack-vector-second-order-idor-attacks-14468009781a).
 
 ### Register functionality
@@ -48,14 +48,14 @@ Jiandikishe barua pepe, kabla ya kuithibitisha badilisha barua pepe, kisha, ikiw
 
 ### TRACE method
 
-Wakandarasi wanaweza kusahau kuzima chaguzi mbalimbali za ufuatiliaji katika mazingira ya uzalishaji. Kwa mfano, njia ya HTTP `TRACE` imeundwa kwa madhumuni ya uchunguzi. Ikiwa imewezeshwa, seva ya wavuti itajibu maombi yanayotumia njia ya `TRACE` kwa kurudisha katika jibu ombi halisi lililopokelewa. Tabia hii mara nyingi haina madhara, lakini wakati mwingine husababisha uvujaji wa taarifa, kama vile jina la vichwa vya uthibitishaji vya ndani ambavyo vinaweza kuongezwa kwa maombi na proxies za kinyume.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
+Wakandarasi wanaweza kusahau kuzima chaguzi mbalimbali za ufuatiliaji katika mazingira ya uzalishaji. Kwa mfano, njia ya HTTP `TRACE` imeundwa kwa madhumuni ya uchunguzi. Ikiwa imewezeshwa, seva ya wavuti itajibu maombi yanayotumia njia ya `TRACE` kwa kurudisha katika jibu ombi halisi lililopokelewa. Tabia hii mara nyingi haina madhara, lakini wakati mwingine husababisha uvujaji wa habari, kama vile jina la vichwa vya uthibitishaji wa ndani ambavyo vinaweza kuongezwa kwa maombi na proxies za kinyume.![Image for post](https://miro.medium.com/max/60/1\*wDFRADTOd9Tj63xucenvAA.png?q=20)
 
 ![Image for post](https://miro.medium.com/max/1330/1\*wDFRADTOd9Tj63xucenvAA.png)
 
 
-<figure><img src="/.gitbook/assets/image (14) (1).png" alt=""><figcaption></figcaption></figure>
+<figure><img src="/.gitbook/assets/pentest-tools.svg" alt=""><figcaption></figcaption></figure>
 
-**Mpangilio wa haraka wa tathmini ya udhaifu & upimaji wa pen**. Fanya pentest kamili kutoka mahali popote na zana 20+ & vipengele vinavyotoka kwenye recon hadi ripoti. Hatubadilishi pentesters - tunatengeneza zana maalum, moduli za kugundua & kutumia ili kuwapa muda wa kuchimba zaidi, kufungua shells, na kufurahia.
+**Mpangilio wa haraka wa tathmini ya udhaifu & upimaji wa penya**. Fanya pentest kamili kutoka mahali popote na zana 20+ & vipengele vinavyotoka kwenye recon hadi ripoti. Hatubadilishi pentesters - tunatengeneza zana maalum, moduli za kugundua & kutumia ili kuwapa muda wa kuchimba zaidi, kufungua shells, na kufurahia.
 
 {% embed url="https://pentest-tools.com/?utm_term=jul2024&utm_medium=link&utm_source=hacktricks&utm_campaign=spons" %}
 
@@ -69,7 +69,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
