@@ -70,7 +70,7 @@ Le **serveur** et le **contrôleur de domaine** sont capables de créer un **can
 
 ### Schéma d'authentification NTLM local
 
-L'authentification est comme celle mentionnée **avant mais** le **serveur** connaît le **hachage de l'utilisateur** qui essaie de s'authentifier dans le fichier **SAM**. Donc, au lieu de demander au contrôleur de domaine, le **serveur vérifiera lui-même** si l'utilisateur peut s'authentifier.
+L'authentification est comme celle mentionnée **auparavant mais** le **serveur** connaît le **hachage de l'utilisateur** qui essaie de s'authentifier dans le fichier **SAM**. Donc, au lieu de demander au contrôleur de domaine, le **serveur vérifiera lui-même** si l'utilisateur peut s'authentifier.
 
 ### Défi NTLMv1
 
@@ -88,9 +88,9 @@ Le **hachage NT (16 octets)** est divisé en **3 parties de 7 octets chacune** (
 
 ### Attaque NTLMv1
 
-De nos jours, il devient moins courant de trouver des environnements avec une délégation non contrainte configurée, mais cela ne signifie pas que vous ne pouvez pas **abuser d'un service de spooler d'impression** configuré.
+De nos jours, il devient moins courant de trouver des environnements avec Délégation non contrainte configurée, mais cela ne signifie pas que vous ne pouvez pas **abuser d'un service de spooler d'impression** configuré.
 
-Vous pourriez abuser de certains identifiants/sessions que vous avez déjà sur l'AD pour **demander à l'imprimante de s'authentifier** contre un **hôte sous votre contrôle**. Ensuite, en utilisant `metasploit auxiliary/server/capture/smb` ou `responder`, vous pouvez **définir le défi d'authentification à 1122334455667788**, capturer la tentative d'authentification, et si elle a été effectuée en utilisant **NTLMv1**, vous pourrez **le casser**.\
+Vous pourriez abuser de certains identifiants/sessions que vous avez déjà sur l'AD pour **demander à l'imprimante de s'authentifier** contre un **hôte sous votre contrôle**. Ensuite, en utilisant `metasploit auxiliary/server/capture/smb` ou `responder`, vous pouvez **définir le défi d'authentification à 1122334455667788**, capturer la tentative d'authentification, et si elle a été effectuée en utilisant **NTLMv1**, vous pourrez **la casser**.\
 Si vous utilisez `responder`, vous pourriez essayer de \*\*utiliser le drapeau `--lm` \*\* pour essayer de **rétrograder** l'**authentification**.\
 _Remarque : pour cette technique, l'authentification doit être effectuée en utilisant NTLMv1 (NTLMv2 n'est pas valide)._
 
@@ -131,25 +131,65 @@ To Crack with crack.sh use the following token
 NTHASH:727B4E35F947129EA52B9CDEDAE86934BB23EF89F50FC595
 ```
 ```markdown
-# Windows Hardening: NTLM
+# NTLM Hardening
 
 ## Introduction
 
-NTLM (NT LAN Manager) est un protocole d'authentification utilisé dans les systèmes Windows. Bien qu'il ait été largement remplacé par Kerberos, NTLM est encore utilisé dans de nombreux environnements, en particulier pour la compatibilité avec les anciennes applications.
+NTLM (NT LAN Manager) is a suite of Microsoft security protocols that provides authentication, integrity, and confidentiality to users. However, NTLM has several vulnerabilities that can be exploited by attackers. This document outlines techniques to harden NTLM implementations.
 
-## Techniques de durcissement
+## Techniques
 
-1. **Désactiver NTLM**: Si possible, désactivez NTLM dans votre environnement. Utilisez Kerberos à la place pour une sécurité accrue.
+1. **Disable NTLM Authentication**
+   - If possible, disable NTLM authentication entirely and use Kerberos instead.
 
-2. **Configurer les stratégies de sécurité**: Assurez-vous que les stratégies de sécurité de votre système sont configurées pour limiter l'utilisation de NTLM.
+2. **Limit NTLM Usage**
+   - Configure systems to limit NTLM usage to only necessary applications and services.
 
-3. **Surveiller les journaux d'événements**: Gardez un œil sur les journaux d'événements pour détecter toute utilisation non autorisée de NTLM.
+3. **Implement NTLM Blocking**
+   - Use Group Policy to block NTLM authentication for specific users or groups.
 
-4. **Utiliser des mots de passe forts**: Assurez-vous que tous les comptes utilisent des mots de passe forts pour réduire le risque d'attaques par force brute.
+4. **Monitor NTLM Traffic**
+   - Regularly monitor NTLM traffic for unusual patterns that may indicate an attack.
+
+5. **Use Strong Passwords**
+   - Ensure that all accounts using NTLM have strong, complex passwords.
 
 ## Conclusion
 
-Le durcissement de NTLM est essentiel pour protéger votre environnement Windows contre les menaces potentielles. En suivant ces techniques, vous pouvez réduire les risques associés à l'utilisation de ce protocole.
+By implementing these techniques, organizations can significantly reduce the risk associated with NTLM authentication.
+
+```
+
+---
+
+```markdown
+# Durcissement de NTLM
+
+## Introduction
+
+NTLM (NT LAN Manager) est une suite de protocoles de sécurité Microsoft qui fournit authentification, intégrité et confidentialité aux utilisateurs. Cependant, NTLM présente plusieurs vulnérabilités qui peuvent être exploitées par des attaquants. Ce document décrit les techniques pour durcir les implémentations de NTLM.
+
+## Techniques
+
+1. **Désactiver l'authentification NTLM**
+   - Si possible, désactivez complètement l'authentification NTLM et utilisez Kerberos à la place.
+
+2. **Limiter l'utilisation de NTLM**
+   - Configurez les systèmes pour limiter l'utilisation de NTLM aux applications et services nécessaires.
+
+3. **Mettre en œuvre le blocage de NTLM**
+   - Utilisez la stratégie de groupe pour bloquer l'authentification NTLM pour des utilisateurs ou groupes spécifiques.
+
+4. **Surveiller le trafic NTLM**
+   - Surveillez régulièrement le trafic NTLM pour détecter des modèles inhabituels qui pourraient indiquer une attaque.
+
+5. **Utiliser des mots de passe forts**
+   - Assurez-vous que tous les comptes utilisant NTLM ont des mots de passe forts et complexes.
+
+## Conclusion
+
+En mettant en œuvre ces techniques, les organisations peuvent réduire considérablement le risque associé à l'authentification NTLM.
+
 ```
 ```bash
 727B4E35F947129E:1122334455667788
@@ -194,12 +234,12 @@ La **longueur du défi est de 8 octets** et **2 réponses sont envoyées** : L'u
 
 La **deuxième réponse** est créée en utilisant **plusieurs valeurs** (un nouveau défi client, un **timestamp** pour éviter les **attaques par rejeu**...)
 
-Si vous avez un **pcap qui a capturé un processus d'authentification réussi**, vous pouvez suivre ce guide pour obtenir le domaine, le nom d'utilisateur, le défi et la réponse et essayer de craquer le mot de passe : [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
+Si vous avez un **pcap qui a capturé un processus d'authentification réussi**, vous pouvez suivre ce guide pour obtenir le domaine, le nom d'utilisateur, le défi et la réponse et essayer de craquer le mot de passe : [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://www.801labs.org/research-portal/post/cracking-an-ntlmv2-hash/)
 
 ## Pass-the-Hash
 
-**Une fois que vous avez le hash de la victime**, vous pouvez l'utiliser pour **l'usurper**.\
-Vous devez utiliser un **outil** qui va **effectuer** l'**authentification NTLM en utilisant** ce **hash**, **ou** vous pourriez créer une nouvelle **sessionlogon** et **injecter** ce **hash** à l'intérieur de **LSASS**, de sorte que lorsque toute **authentification NTLM est effectuée**, ce **hash sera utilisé.** La dernière option est ce que fait mimikatz.
+**Une fois que vous avez le hash de la victime**, vous pouvez l'utiliser pour **l'imiter**.\
+Vous devez utiliser un **outil** qui va **effectuer** l'**authentification NTLM en utilisant** ce **hash**, **ou** vous pourriez créer une nouvelle **sessionlogon** et **injecter** ce **hash** à l'intérieur de **LSASS**, donc lorsque n'importe quelle **authentification NTLM est effectuée**, ce **hash sera utilisé.** La dernière option est ce que fait mimikatz.
 
 **Veuillez, vous rappeler que vous pouvez également effectuer des attaques Pass-the-Hash en utilisant des comptes d'ordinateur.**
 
@@ -223,7 +263,7 @@ Vous pouvez télécharger [les binaires impacket pour Windows ici](https://githu
 * **psexec_windows.exe** `C:\AD\MyTools\psexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.my.domain.local`
 * **wmiexec.exe** `wmiexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local`
 * **atexec.exe** (Dans ce cas, vous devez spécifier une commande, cmd.exe et powershell.exe ne sont pas valides pour obtenir un shell interactif) `C:\AD\MyTools\atexec_windows.exe -hashes ":b38ff50264b74508085d82c69794a4d8" svcadmin@dcorp-mgmt.dollarcorp.moneycorp.local 'whoami'`
-* Il y a plusieurs autres binaires Impacket...
+* Il existe plusieurs autres binaires Impacket...
 
 ### Invoke-TheHash
 
@@ -291,9 +331,9 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}
