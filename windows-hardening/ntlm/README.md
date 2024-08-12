@@ -17,7 +17,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Información Básica
 
-En entornos donde **Windows XP y Server 2003** están en operación, se utilizan hashes LM (Lan Manager), aunque se reconoce ampliamente que estos pueden ser fácilmente comprometidos. Un hash LM particular, `AAD3B435B51404EEAAD3B435B51404EE`, indica un escenario donde LM no se emplea, representando el hash para una cadena vacía.
+En entornos donde **Windows XP y Server 2003** están en operación, se utilizan hashes LM (Lan Manager), aunque se reconoce ampliamente que estos pueden ser fácilmente comprometidos. Un hash LM particular, `AAD3B435B51404EEAAD3B435B51404EE`, indica un escenario donde no se emplea LM, representando el hash para una cadena vacía.
 
 Por defecto, el protocolo de autenticación **Kerberos** es el método principal utilizado. NTLM (NT LAN Manager) entra en acción bajo circunstancias específicas: ausencia de Active Directory, inexistencia del dominio, mal funcionamiento de Kerberos debido a una configuración incorrecta, o cuando se intentan conexiones utilizando una dirección IP en lugar de un nombre de host válido.
 
@@ -63,7 +63,7 @@ Valores posibles:
 2. La máquina cliente **envía una solicitud de autenticación** enviando el **nombre de dominio** y el **nombre de usuario**
 3. El **servidor** envía el **reto**
 4. El **cliente cifra** el **reto** usando el hash de la contraseña como clave y lo envía como respuesta
-5. El **servidor envía** al **Controlador de Dominio** el **nombre de dominio, el nombre de usuario, el reto y la respuesta**. Si no **hay** un Active Directory configurado o el nombre de dominio es el nombre del servidor, las credenciales se **verifican localmente**.
+5. El **servidor envía** al **Controlador de Dominio** el **nombre de dominio, el nombre de usuario, el reto y la respuesta**. Si **no hay** un Active Directory configurado o el nombre de dominio es el nombre del servidor, las credenciales se **verifican localmente**.
 6. El **controlador de dominio verifica si todo es correcto** y envía la información al servidor
 
 El **servidor** y el **Controlador de Dominio** pueden crear un **Canal Seguro** a través del servidor **Netlogon** ya que el Controlador de Dominio conoce la contraseña del servidor (está dentro de la base de datos **NTDS.DIT**).
@@ -82,23 +82,23 @@ El **hash NT (16bytes)** se divide en **3 partes de 7bytes cada una** (7B + 7B +
 
 * Falta de **aleatoriedad**
 * Las 3 partes pueden ser **atacadas por separado** para encontrar el hash NT
-* **DES es quebrantable**
+* **DES es crackeable**
 * La 3ª clave está compuesta siempre por **5 ceros**.
-* Dado el **mismo reto**, la **respuesta** será **la misma**. Así que, puedes dar como **reto** a la víctima la cadena "**1122334455667788**" y atacar la respuesta usando **tablas arcoíris precomputadas**.
+* Dado el **mismo reto**, la **respuesta** será la **misma**. Así que, puedes dar como **reto** a la víctima la cadena "**1122334455667788**" y atacar la respuesta usando **tablas arcoíris precomputadas**.
 
 ### Ataque NTLMv1
 
 Hoy en día es cada vez menos común encontrar entornos con Delegación No Restringida configurada, pero esto no significa que no puedas **abusar de un servicio de Print Spooler** configurado.
 
-Podrías abusar de algunas credenciales/sesiones que ya tienes en el AD para **pedir a la impresora que se autentique** contra algún **host bajo tu control**. Luego, usando `metasploit auxiliary/server/capture/smb` o `responder` puedes **establecer el reto de autenticación a 1122334455667788**, capturar el intento de autenticación, y si se realizó usando **NTLMv1** podrás **quebrarlo**.\
+Podrías abusar de algunas credenciales/sesiones que ya tienes en el AD para **pedir a la impresora que se autentique** contra algún **host bajo tu control**. Luego, usando `metasploit auxiliary/server/capture/smb` o `responder` puedes **establecer el reto de autenticación a 1122334455667788**, capturar el intento de autenticación, y si se realizó usando **NTLMv1** podrás **crackearlo**.\
 Si estás usando `responder` podrías intentar \*\*usar la bandera `--lm` \*\* para intentar **reducir** la **autenticación**.\
 _Ten en cuenta que para esta técnica la autenticación debe realizarse usando NTLMv1 (NTLMv2 no es válido)._
 
-Recuerda que la impresora utilizará la cuenta de computadora durante la autenticación, y las cuentas de computadora utilizan **contraseñas largas y aleatorias** que **probablemente no podrás quebrar** usando diccionarios comunes. Pero la **autenticación NTLMv1** **usa DES** ([más información aquí](./#ntlmv1-challenge)), así que usando algunos servicios especialmente dedicados a quebrar DES podrás hacerlo (podrías usar [https://crack.sh/](https://crack.sh) o [https://ntlmv1.com/](https://ntlmv1.com) por ejemplo).
+Recuerda que la impresora utilizará la cuenta de computadora durante la autenticación, y las cuentas de computadora utilizan **contraseñas largas y aleatorias** que **probablemente no podrás crackear** usando diccionarios comunes. Pero la autenticación **NTLMv1** **usa DES** ([más información aquí](./#ntlmv1-challenge)), así que usando algunos servicios especialmente dedicados a crackear DES podrás crackearlo (podrías usar [https://crack.sh/](https://crack.sh) o [https://ntlmv1.com/](https://ntlmv1.com) por ejemplo).
 
 ### Ataque NTLMv1 con hashcat
 
-NTLMv1 también puede ser quebrado con la herramienta Multi de NTLMv1 [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) que formatea los mensajes NTLMv1 de una manera que puede ser quebrada con hashcat.
+NTLMv1 también puede ser roto con la herramienta NTLMv1 Multi [https://github.com/evilmog/ntlmv1-multi](https://github.com/evilmog/ntlmv1-multi) que formatea los mensajes NTLMv1 de una manera que puede ser rota con hashcat.
 
 El comando
 ```bash
@@ -137,42 +137,51 @@ NTLM (NT LAN Manager) is a suite of Microsoft security protocols that provides a
 
 ## Steps to Harden NTLM
 
-1. **Disable NTLM Authentication**: If possible, disable NTLM authentication in your environment. Use Kerberos instead, as it is more secure.
+1. **Disable NTLM Authentication**  
+   If possible, disable NTLM authentication entirely and switch to Kerberos.
 
-2. **Limit NTLM Usage**: If NTLM must be used, limit its usage to specific applications and services that require it.
+2. **Limit NTLM Usage**  
+   Configure your systems to limit NTLM usage to only those applications that absolutely require it.
 
-3. **Implement NTLM Blocking**: Use Group Policy to block NTLM authentication for specific users or groups.
+3. **Audit NTLM Authentication**  
+   Regularly audit NTLM authentication logs to identify any unauthorized access attempts.
 
-4. **Monitor NTLM Traffic**: Regularly monitor NTLM traffic on your network to detect any suspicious activity.
+4. **Implement Security Policies**  
+   Enforce security policies that restrict NTLM usage and require stronger authentication methods.
 
-5. **Use Strong Passwords**: Ensure that all accounts using NTLM have strong, complex passwords to reduce the risk of brute-force attacks.
-
-6. **Regularly Update Systems**: Keep all systems updated with the latest security patches to protect against known vulnerabilities.
+5. **Use Strong Passwords**  
+   Ensure that all user accounts have strong, complex passwords to reduce the risk of NTLM relay attacks.
 
 ## Conclusion
 
-By following these steps, you can significantly reduce the risk associated with NTLM in your environment.
-
+Harden your NTLM implementation to protect against potential vulnerabilities and attacks. Regularly review and update your security measures to stay ahead of threats.
 ```
-```html
-<h1>NTLM Hardening</h1>
 
-<p>NTLM (NT LAN Manager) es un conjunto de protocolos de seguridad de Microsoft que proporciona autenticación, integridad y confidencialidad a los usuarios. Sin embargo, NTLM tiene vulnerabilidades conocidas que pueden ser explotadas por atacantes. Este documento describe los pasos para endurecer NTLM en su entorno.</p>
+```markdown
+# Endurecimiento de NTLM
 
-<h2>Steps to Harden NTLM</h2>
+NTLM (NT LAN Manager) es un conjunto de protocolos de seguridad de Microsoft que proporciona autenticación, integridad y confidencialidad a los usuarios. Sin embargo, NTLM tiene vulnerabilidades conocidas que pueden ser explotadas por atacantes. Este documento describe los pasos para endurecer NTLM en su entorno.
 
-<ol>
-<li><strong>Disable NTLM Authentication</strong>: Si es posible, desactive la autenticación NTLM en su entorno. Utilice Kerberos en su lugar, ya que es más seguro.</li>
-<li><strong>Limit NTLM Usage</strong>: Si NTLM debe ser utilizado, limite su uso a aplicaciones y servicios específicos que lo requieran.</li>
-<li><strong>Implement NTLM Blocking</strong>: Utilice la Política de Grupo para bloquear la autenticación NTLM para usuarios o grupos específicos.</li>
-<li><strong>Monitor NTLM Traffic</strong>: Monitoree regularmente el tráfico NTLM en su red para detectar cualquier actividad sospechosa.</li>
-<li><strong>Use Strong Passwords</strong>: Asegúrese de que todas las cuentas que utilizan NTLM tengan contraseñas fuertes y complejas para reducir el riesgo de ataques de fuerza bruta.</li>
-<li><strong>Regularly Update Systems</strong>: Mantenga todos los sistemas actualizados con los últimos parches de seguridad para protegerse contra vulnerabilidades conocidas.</li>
-</ol>
+## Pasos para Endurecer NTLM
 
-<h2>Conclusion</h2>
+1. **Deshabilitar la Autenticación NTLM**  
+   Si es posible, deshabilite la autenticación NTLM por completo y cambie a Kerberos.
 
-<p>Al seguir estos pasos, puede reducir significativamente el riesgo asociado con NTLM en su entorno.</p>
+2. **Limitar el Uso de NTLM**  
+   Configure sus sistemas para limitar el uso de NTLM solo a aquellas aplicaciones que lo requieran absolutamente.
+
+3. **Auditar la Autenticación NTLM**  
+   Audite regularmente los registros de autenticación NTLM para identificar cualquier intento de acceso no autorizado.
+
+4. **Implementar Políticas de Seguridad**  
+   Haga cumplir políticas de seguridad que restrinjan el uso de NTLM y requieran métodos de autenticación más fuertes.
+
+5. **Usar Contraseñas Fuertes**  
+   Asegúrese de que todas las cuentas de usuario tengan contraseñas fuertes y complejas para reducir el riesgo de ataques de retransmisión NTLM.
+
+## Conclusión
+
+Endurezca su implementación de NTLM para protegerse contra vulnerabilidades y ataques potenciales. Revise y actualice regularmente sus medidas de seguridad para mantenerse por delante de las amenazas.
 ```
 ```bash
 727B4E35F947129E:1122334455667788
@@ -217,7 +226,7 @@ La **longitud del desafío es de 8 bytes** y **se envían 2 respuestas**: Una ti
 
 La **segunda respuesta** se crea usando **varios valores** (un nuevo desafío del cliente, un **timestamp** para evitar **ataques de repetición**...)
 
-Si tienes un **pcap que ha capturado un proceso de autenticación exitoso**, puedes seguir esta guía para obtener el dominio, nombre de usuario, desafío y respuesta e intentar romper la contraseña: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://research.801labs.org/cracking-an-ntlmv2-hash/)
+Si tienes un **pcap que ha capturado un proceso de autenticación exitoso**, puedes seguir esta guía para obtener el dominio, nombre de usuario, desafío y respuesta e intentar romper la contraseña: [https://research.801labs.org/cracking-an-ntlmv2-hash/](https://www.801labs.org/research-portal/post/cracking-an-ntlmv2-hash/)
 
 ## Pass-the-Hash
 
@@ -294,7 +303,7 @@ wce.exe -s <username>:<domain>:<hash_lm>:<hash_nt>
 
 **Para más información sobre** [**cómo obtener credenciales de un host de Windows, deberías leer esta página**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/ntlm/broken-reference/README.md)**.**
 
-## Relevo NTLM y Responder
+## Reenvío NTLM y Responder
 
 **Lee una guía más detallada sobre cómo realizar esos ataques aquí:**
 
