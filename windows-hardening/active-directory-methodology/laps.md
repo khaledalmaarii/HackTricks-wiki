@@ -22,11 +22,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## 基本情報
 
-Local Administrator Password Solution (LAPS) は、**管理者パスワード**を管理するためのツールであり、これらのパスワードは**ユニークでランダム化され、頻繁に変更されます**。これらはドメインに参加しているコンピュータに適用されます。これらのパスワードはActive Directory内に安全に保存され、アクセス制御リスト（ACL）を通じて許可を与えられたユーザーのみがアクセスできます。クライアントからサーバーへのパスワードの送信のセキュリティは、**Kerberosバージョン5**と**高度な暗号化標準（AES）**の使用によって確保されています。
+Local Administrator Password Solution (LAPS) は、**管理者パスワード**を管理するためのツールであり、これらのパスワードは**ユニークでランダム化され、頻繁に変更されます**。これらはドメインに参加しているコンピュータに適用されます。これらのパスワードはActive Directory内に安全に保存され、アクセス制御リスト（ACL）を通じて権限が付与されたユーザーのみがアクセスできます。クライアントからサーバーへのパスワードの送信のセキュリティは、**Kerberosバージョン5**と**高度な暗号化標準（AES）**の使用によって確保されています。
 
-ドメインのコンピュータオブジェクトにおいて、LAPSの実装は2つの新しい属性の追加をもたらします：**`ms-mcs-AdmPwd`**と**`ms-mcs-AdmPwdExpirationTime`**。これらの属性はそれぞれ、**平文の管理者パスワード**と**その有効期限**を保存します。
+ドメインのコンピュータオブジェクトにおいて、LAPSの実装により、2つの新しい属性が追加されます：**`ms-mcs-AdmPwd`**と**`ms-mcs-AdmPwdExpirationTime`**。これらの属性はそれぞれ、**平文の管理者パスワード**と**その有効期限**を保存します。
 
-### 有効化されているか確認する
+### 有効かどうかを確認する
 ```bash
 reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled
 
@@ -43,7 +43,7 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 
 `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` から **生の LAPS ポリシーをダウンロード** し、次に [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) パッケージの **`Parse-PolFile`** を使用して、このファイルを人間が読みやすい形式に変換できます。
 
-さらに、**ネイティブ LAPS PowerShell コマンドレット** は、アクセスできるマシンにインストールされている場合に使用できます:
+さらに、**ネイティブ LAPS PowerShell cmdlets** は、アクセスできるマシンにインストールされている場合に使用できます:
 ```powershell
 Get-Command *AdmPwd*
 
@@ -109,7 +109,7 @@ crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 
 ## ** LAPSパスワードの使用 **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
@@ -129,7 +129,7 @@ Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
 Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="232609935231523081"}
 ```
 {% hint style="warning" %}
-パスワードは、**admin**が**`Reset-AdmPwdPassword`**コマンドレットを使用した場合、またはLAPS GPOで**ポリシーで要求されるよりも長いパスワードの有効期限を許可しない**が有効になっている場合でもリセットされます。
+パスワードは、**admin**が**`Reset-AdmPwdPassword`** cmdletを使用した場合、またはLAPS GPOで**ポリシーで要求されるよりも長いパスワードの有効期限を許可しない**が有効になっている場合でもリセットされます。
 {% endhint %}
 
 ### バックドア
