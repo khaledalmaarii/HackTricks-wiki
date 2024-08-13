@@ -22,7 +22,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-Rešenje za lozinke lokalnog administratora (LAPS) je alat koji se koristi za upravljanje sistemom gde se **lozinke administratora**, koje su **jedinstvene, nasumične i često menjane**, primenjuju na računare povezane sa domenom. Ove lozinke se sigurno čuvaju unutar Active Directory-a i dostupne su samo korisnicima kojima je odobrena dozvola putem lista kontrole pristupa (ACL). Bezbednost prenosa lozinki od klijenta do servera obezbeđena je korišćenjem **Kerberos verzije 5** i **Naprednog standarda za enkripciju (AES)**.
+Rešenje za lozinke lokalnog administratora (LAPS) je alat koji se koristi za upravljanje sistemom gde se **lozinke administratora**, koje su **jedinstvene, nasumične i često menjane**, primenjuju na računare povezane na domen. Ove lozinke se sigurno čuvaju unutar Active Directory-a i dostupne su samo korisnicima kojima je odobrena dozvola putem lista za kontrolu pristupa (ACL). Bezbednost prenosa lozinki od klijenta do servera obezbeđena je korišćenjem **Kerberos verzije 5** i **Naprednog standarda za enkripciju (AES)**.
 
 U objektima računara domena, implementacija LAPS-a rezultira dodavanjem dva nova atributa: **`ms-mcs-AdmPwd`** i **`ms-mcs-AdmPwdExpirationTime`**. Ovi atributi čuvaju **lozinku administratora u običnom tekstu** i **njeno vreme isteka**, redom.
 
@@ -75,8 +75,8 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 ### LAPSToolkit
 
 The [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) olakšava enumeraciju LAPS-a sa nekoliko funkcija.\
-Jedna je parsiranje **`ExtendedRights`** za **sve računare sa omogućenim LAPS-om.** Ovo će prikazati **grupe** specifično **delegirane za čitanje LAPS lozinki**, koje su često korisnici u zaštićenim grupama.\
-**Nalog** koji je **pridružio računar** domeni dobija `All Extended Rights` nad tim hostom, a ovo pravo daje **nalogu** mogućnost da **čita lozinke**. Enumeracija može prikazati korisnički nalog koji može čitati LAPS lozinku na hostu. Ovo može pomoći da **ciljamo specifične AD korisnike** koji mogu čitati LAPS lozinke.
+Jedna od njih je parsiranje **`ExtendedRights`** za **sve računare sa omogućenim LAPS-om.** Ovo će prikazati **grupe** specifično **delegirane za čitanje LAPS lozinki**, koje su često korisnici u zaštićenim grupama.\
+**Nalog** koji je **pridružen računaru** u domeni dobija `All Extended Rights` nad tim hostom, a ovo pravo daje **nalogu** mogućnost da **čita lozinke**. Enumeracija može prikazati korisnički nalog koji može da čita LAPS lozinku na hostu. Ovo može pomoći da **ciljamo specifične AD korisnike** koji mogu čitati LAPS lozinke.
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -105,17 +105,17 @@ Ako nema pristupa powershell-u, možete zloupotrebiti ovu privilegiju daljinski 
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
-Ovo će izlistati sve lozinke koje korisnik može da pročita, omogućavajući vam da dobijete bolju poziciju sa drugim korisnikom.
+Ovo će izlistati sve lozinke koje korisnik može da pročita, omogućavajući vam da dobijete bolju poziciju sa različitim korisnikom.
 
 ## ** Korišćenje LAPS lozinke **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
 Password: 2Z@Ae)7!{9#Cq
 ```
-## **LAPS Persistencija**
+## **LAPS Persistence**
 
 ### **Datum isteka**
 
