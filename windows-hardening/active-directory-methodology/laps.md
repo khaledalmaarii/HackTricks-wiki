@@ -109,7 +109,7 @@ Questo estrarrà tutte le password che l'utente può leggere, permettendoti di o
 
 ## ** Utilizzando la Password LAPS **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
