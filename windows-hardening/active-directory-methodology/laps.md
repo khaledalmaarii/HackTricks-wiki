@@ -41,9 +41,9 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### LAPS 비밀번호 접근
 
-당신은 **원시 LAPS 정책을 다운로드할 수 있습니다** `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` 그리고 **`Parse-PolFile`**를 사용하여 [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) 패키지에서 이 파일을 사람이 읽을 수 있는 형식으로 변환할 수 있습니다.
+`\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol`에서 **원시 LAPS 정책을 다운로드**한 다음, [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) 패키지의 **`Parse-PolFile`**를 사용하여 이 파일을 사람이 읽을 수 있는 형식으로 변환할 수 있습니다.
 
-게다가, **네이티브 LAPS PowerShell cmdlet**을 사용할 수 있습니다. 만약 우리가 접근할 수 있는 머신에 설치되어 있다면:
+또한, **네이티브 LAPS PowerShell cmdlets**는 우리가 접근할 수 있는 머신에 설치되어 있다면 사용할 수 있습니다:
 ```powershell
 Get-Command *AdmPwd*
 
@@ -109,7 +109,7 @@ crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 
 ## ** LAPS 비밀번호 사용 **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
@@ -155,7 +155,7 @@ GCP 해킹 배우고 연습하기: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}
