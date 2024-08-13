@@ -24,7 +24,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 A Solução de Senha de Administrador Local (LAPS) é uma ferramenta usada para gerenciar um sistema onde **senhas de administrador**, que são **únicas, aleatórias e frequentemente alteradas**, são aplicadas a computadores associados ao domínio. Essas senhas são armazenadas de forma segura dentro do Active Directory e são acessíveis apenas a usuários que receberam permissão através de Listas de Controle de Acesso (ACLs). A segurança das transmissões de senha do cliente para o servidor é garantida pelo uso de **Kerberos versão 5** e **Padrão de Criptografia Avançada (AES)**.
 
-Na implementação do LAPS nos objetos de computador do domínio, resulta na adição de dois novos atributos: **`ms-mcs-AdmPwd`** e **`ms-mcs-AdmPwdExpirationTime`**. Esses atributos armazenam, respectivamente, a **senha de administrador em texto simples** e **seu tempo de expiração**.
+Nos objetos de computador do domínio, a implementação do LAPS resulta na adição de dois novos atributos: **`ms-mcs-AdmPwd`** e **`ms-mcs-AdmPwdExpirationTime`**. Esses atributos armazenam, respectivamente, a **senha de administrador em texto simples** e **seu tempo de expiração**.
 
 ### Verifique se está ativado
 ```bash
@@ -109,7 +109,7 @@ Isso irá despejar todas as senhas que o usuário pode ler, permitindo que você
 
 ## ** Usando a Senha LAPS **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
