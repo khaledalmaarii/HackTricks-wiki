@@ -22,9 +22,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Información Básica
 
-La Solución de Contraseña de Administrador Local (LAPS) es una herramienta utilizada para gestionar un sistema donde las **contraseñas de administrador**, que son **únicas, aleatorias y cambiadas con frecuencia**, se aplican a computadoras unidas al dominio. Estas contraseñas se almacenan de forma segura dentro de Active Directory y solo son accesibles para los usuarios que han recibido permiso a través de Listas de Control de Acceso (ACLs). La seguridad de las transmisiones de contraseñas del cliente al servidor se asegura mediante el uso de **Kerberos versión 5** y **Estándar de Cifrado Avanzado (AES)**.
+La Solución de Contraseña de Administrador Local (LAPS) es una herramienta utilizada para gestionar un sistema donde las **contraseñas de administrador**, que son **únicas, aleatorias y cambiadas con frecuencia**, se aplican a computadoras unidas al dominio. Estas contraseñas se almacenan de forma segura dentro de Active Directory y solo son accesibles para los usuarios que han recibido permiso a través de Listas de Control de Acceso (ACLs). La seguridad de las transmisiones de contraseñas desde el cliente al servidor se asegura mediante el uso de **Kerberos versión 5** y **Estándar de Cifrado Avanzado (AES)**.
 
-En los objetos de computadora del dominio, la implementación de LAPS resulta en la adición de dos nuevos atributos: **`ms-mcs-AdmPwd`** y **`ms-mcs-AdmPwdExpirationTime`**. Estos atributos almacenan la **contraseña de administrador en texto claro** y **su tiempo de expiración**, respectivamente.
+En los objetos de computadora del dominio, la implementación de LAPS resulta en la adición de dos nuevos atributos: **`ms-mcs-AdmPwd`** y **`ms-mcs-AdmPwdExpirationTime`**. Estos atributos almacenan la **contraseña de administrador en texto plano** y **su tiempo de expiración**, respectivamente.
 
 ### Verificar si está activado
 ```bash
@@ -41,9 +41,9 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### Acceso a la Contraseña de LAPS
 
-Puedes **descargar la política LAPS en bruto** desde `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` y luego usar **`Parse-PolFile`** del paquete [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) para convertir este archivo en un formato legible por humanos.
+Podrías **descargar la política LAPS en bruto** desde `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` y luego usar **`Parse-PolFile`** del paquete [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) para convertir este archivo en un formato legible por humanos.
 
-Además, se pueden usar los **cmdlets nativos de PowerShell de LAPS** si están instalados en una máquina a la que tenemos acceso:
+Además, se pueden usar los **cmdlets de PowerShell nativos de LAPS** si están instalados en una máquina a la que tenemos acceso:
 ```powershell
 Get-Command *AdmPwd*
 
@@ -75,7 +75,7 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 ### LAPSToolkit
 
 El [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) facilita la enumeración de LAPS con varias funciones.\
-Una es analizar **`ExtendedRights`** para **todas las computadoras con LAPS habilitado.** Esto mostrará **grupos** específicamente **delegados para leer las contraseñas de LAPS**, que a menudo son usuarios en grupos protegidos.\
+Una de ellas es analizar **`ExtendedRights`** para **todas las computadoras con LAPS habilitado.** Esto mostrará **grupos** específicamente **delegados para leer las contraseñas de LAPS**, que a menudo son usuarios en grupos protegidos.\
 Una **cuenta** que ha **unido una computadora** a un dominio recibe `All Extended Rights` sobre ese host, y este derecho le da a la **cuenta** la capacidad de **leer contraseñas**. La enumeración puede mostrar una cuenta de usuario que puede leer la contraseña de LAPS en un host. Esto puede ayudarnos a **dirigirnos a usuarios específicos de AD** que pueden leer las contraseñas de LAPS.
 ```powershell
 # Get groups that can read passwords
@@ -109,7 +109,7 @@ Esto volcará todas las contraseñas que el usuario puede leer, lo que te permit
 
 ## ** Usando la Contraseña LAPS **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
@@ -155,7 +155,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}
