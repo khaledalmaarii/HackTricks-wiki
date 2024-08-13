@@ -22,9 +22,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Temel Bilgiler
 
-Local Administrator Password Solution (LAPS), **yönetici şifrelerinin**, **eşsiz, rastgele ve sık sık değiştirilen** bir sistemde yönetilmesi için kullanılan bir araçtır ve bu şifreler alan katılımlı bilgisayarlara uygulanır. Bu şifreler, Active Directory içinde güvenli bir şekilde saklanır ve yalnızca Erişim Kontrol Listeleri (ACL'ler) aracılığıyla izin verilmiş kullanıcılara erişilebilir. İstemciden sunucuya şifre iletimlerinin güvenliği, **Kerberos sürüm 5** ve **Gelişmiş Şifreleme Standardı (AES)** kullanılarak sağlanır.
+Local Administrator Password Solution (LAPS), **benzersiz, rastgele ve sık sık değiştirilen** **yönetici şifrelerinin** alan katılımlı bilgisayarlara uygulandığı bir sistemi yönetmek için kullanılan bir araçtır. Bu şifreler, Active Directory içinde güvenli bir şekilde saklanır ve yalnızca Erişim Kontrol Listeleri (ACL'ler) aracılığıyla izin verilmiş kullanıcılara erişilebilir. İstemciden sunucuya şifre iletimlerinin güvenliği, **Kerberos sürüm 5** ve **Gelişmiş Şifreleme Standardı (AES)** kullanılarak sağlanır.
 
-Alan bilgisayar nesnelerinde, LAPS'ın uygulanması, iki yeni niteliğin eklenmesiyle sonuçlanır: **`ms-mcs-AdmPwd`** ve **`ms-mcs-AdmPwdExpirationTime`**. Bu nitelikler, sırasıyla **düz metin yönetici şifresini** ve **şifrenin sona erme zamanını** saklar.
+Alan bilgisayar nesnelerinde, LAPS'ın uygulanması, **`ms-mcs-AdmPwd`** ve **`ms-mcs-AdmPwdExpirationTime`** adında iki yeni niteliğin eklenmesine yol açar. Bu nitelikler, sırasıyla **düz metin yönetici şifresini** ve **şifrenin sona erme zamanını** saklar.
 
 ### Aktif olup olmadığını kontrol et
 ```bash
@@ -43,7 +43,7 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 
 Ham LAPS politikasını `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` adresinden **indirebilir** ve ardından [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) paketinden **`Parse-PolFile`** kullanarak bu dosyayı insan tarafından okunabilir bir formata dönüştürebilirsiniz.
 
-Ayrıca, erişim sağladığımız bir makinede yüklüyse **yerel LAPS PowerShell cmdlet'leri** kullanılabilir:
+Ayrıca, erişim sağladığımız bir makinede yüklüyse **yerel LAPS PowerShell cmdlet'leri** de kullanılabilir:
 ```powershell
 Get-Command *AdmPwd*
 
@@ -109,7 +109,7 @@ Bu, kullanıcının okuyabileceği tüm şifreleri dökecek ve farklı bir kulla
 
 ## ** LAPS Şifresi Kullanma **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
@@ -119,7 +119,7 @@ Password: 2Z@Ae)7!{9#Cq
 
 ### **Son Kullanma Tarihi**
 
-Bir kez yönetici olduğunuzda, **şifreleri elde etmek** ve bir makinenin **şifresini güncellemesini engellemek** için **son kullanma tarihini geleceğe ayarlamak** mümkündür.
+Bir yönetici olduğunda, **şifreleri elde etmek** ve bir makinenin **şifresini güncellemesini engellemek** için **son kullanma tarihini geleceğe ayarlamak** mümkündür.
 ```powershell
 # Get expiration time
 Get-DomainObject -Identity computer-21 -Properties ms-mcs-admpwdexpirationtime
