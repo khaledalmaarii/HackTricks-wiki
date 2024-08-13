@@ -22,7 +22,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-Local Administrator Password Solution (LAPS) ni chombo kinachotumika kwa usimamizi wa mfumo ambapo **nywila za msimamizi**, ambazo ni **za kipekee, zilizopangwa kwa nasibu, na hubadilishwa mara kwa mara**, zinatumika kwa kompyuta zilizounganishwa kwenye eneo. Nywila hizi zinahifadhiwa kwa usalama ndani ya Active Directory na zinapatikana tu kwa watumiaji ambao wamepewa ruhusa kupitia Orodha za Udhibiti wa Ufikiaji (ACLs). Usalama wa uhamasishaji wa nywila kutoka kwa mteja hadi seva unahakikishwa kwa kutumia **Kerberos toleo la 5** na **Kiwango cha Ulinzi wa Juu (AES)**.
+Local Administrator Password Solution (LAPS) ni chombo kinachotumika kwa usimamizi wa mfumo ambapo **nywila za msimamizi**, ambazo ni **za kipekee, zilizopangwa kwa nasibu, na hubadilishwa mara kwa mara**, zinatumika kwa kompyuta zilizounganishwa kwenye eneo. Nywila hizi zinahifadhiwa kwa usalama ndani ya Active Directory na zinapatikana tu kwa watumiaji ambao wamepewa ruhusa kupitia Orodha za Udhibiti wa Ufikiaji (ACLs). Usalama wa uhamishaji wa nywila kutoka kwa mteja hadi seva unahakikishwa kwa kutumia **Kerberos toleo la 5** na **Kiwango cha Ulinzi wa Juu (AES)**.
 
 Katika vitu vya kompyuta vya eneo, utekelezaji wa LAPS unapelekea kuongeza sifa mbili mpya: **`ms-mcs-AdmPwd`** na **`ms-mcs-AdmPwdExpirationTime`**. Sifa hizi zinahifadhi **nywila ya msimamizi ya maandiko** na **wakati wake wa kuisha**, mtawalia.
 
@@ -74,9 +74,9 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 ```
 ### LAPSToolkit
 
-The [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) inarahisisha kuorodhesha LAPS hii kwa kutumia kazi kadhaa.\
-Moja ni kuchambua **`ExtendedRights`** kwa **kompyuta zote zenye LAPS iliyoanzishwa.** Hii itaonyesha **makundi** yaliyotengwa mahsusi **kusoma nywila za LAPS**, ambayo mara nyingi ni watumiaji katika makundi yaliyolindwa.\
-**Akaunti** ambayo ime **jiunga na kompyuta** kwenye kikoa inapokea `All Extended Rights` juu ya mwenyeji huo, na haki hii inampa **akaunti** uwezo wa **kusoma nywila.** Kuorodhesha kunaweza kuonyesha akaunti ya mtumiaji ambayo inaweza kusoma nywila ya LAPS kwenye mwenyeji. Hii inaweza kutusaidia **kulenga watumiaji maalum wa AD** ambao wanaweza kusoma nywila za LAPS.
+The [LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) inarahisisha kuorodhesha LAPS hii kwa kazi kadhaa.\
+Moja ni kuchambua **`ExtendedRights`** kwa **kompyuta zote zenye LAPS imewezeshwa.** Hii itaonyesha **makundi** yaliyotengwa mahsusi **kusoma nywila za LAPS**, ambayo mara nyingi ni watumiaji katika makundi yaliyolindwa.\
+**Akaunti** ambayo ime **unganishwa na kompyuta** kwenye kikoa inapata `All Extended Rights` juu ya mwenyeji huo, na haki hii inampa **akaunti** uwezo wa **kusoma nywila.** Kuorodhesha kunaweza kuonyesha akaunti ya mtumiaji ambayo inaweza kusoma nywila ya LAPS kwenye mwenyeji. Hii inaweza kutusaidia **kulenga watumiaji maalum wa AD** ambao wanaweza kusoma nywila za LAPS.
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -109,7 +109,7 @@ Hii itatoa nywila zote ambazo mtumiaji anaweza kusoma, ikikuruhusu kupata msingi
 
 ## ** Kutumia Nywila ya LAPS **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
@@ -136,9 +136,9 @@ Nenosiri bado litarejeshwa ikiwa **admin** atatumia **`Reset-AdmPwdPassword`** c
 
 Msimbo wa asili wa LAPS unaweza kupatikana [hapa](https://github.com/GreyCorbel/admpwd), kwa hivyo inawezekana kuweka backdoor katika msimbo (ndani ya `Get-AdmPwdPassword` njia katika `Main/AdmPwd.PS/Main.cs` kwa mfano) ambayo kwa namna fulani **itatoa nenosiri mpya au kuyahifadhi mahali fulani**.
 
-Kisha, tu kompilisha `AdmPwd.PS.dll` mpya na uipakie kwenye mashine katika `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (na ubadilishe muda wa mabadiliko).
+Kisha, tu jenga upya `AdmPwd.PS.dll` mpya na uipakie kwenye mashine katika `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (na ubadilishe muda wa mabadiliko).
 
-## References
+## Marejeleo
 * [https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/](https://4sysops.com/archives/introduction-to-microsoft-laps-local-administrator-password-solution/)
 
 <figure><img src="https://pentest.eu/RENDER_WebSec_10fps_21sec_9MB_29042024.gif" alt=""><figcaption></figcaption></figure>
@@ -155,7 +155,7 @@ Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
