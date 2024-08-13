@@ -20,13 +20,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 {% embed url="https://websec.nl/" %}
 
 
-## Informations de base
+## Basic Information
 
-La solution de mot de passe d'administrateur local (LAPS) est un outil utilisé pour gérer un système où les **mots de passe d'administrateur**, qui sont **uniques, aléatoires et fréquemment changés**, sont appliqués aux ordinateurs joints au domaine. Ces mots de passe sont stockés en toute sécurité dans Active Directory et ne sont accessibles qu'aux utilisateurs qui ont reçu l'autorisation par le biais des listes de contrôle d'accès (ACL). La sécurité des transmissions de mots de passe du client au serveur est assurée par l'utilisation de **Kerberos version 5** et de **l'Advanced Encryption Standard (AES)**.
+La solution de mot de passe d'administrateur local (LAPS) est un outil utilisé pour gérer un système où les **mots de passe administrateurs**, qui sont **uniques, aléatoires et fréquemment changés**, sont appliqués aux ordinateurs joints au domaine. Ces mots de passe sont stockés en toute sécurité dans Active Directory et ne sont accessibles qu'aux utilisateurs qui ont reçu l'autorisation via des listes de contrôle d'accès (ACL). La sécurité des transmissions de mots de passe du client au serveur est assurée par l'utilisation de **Kerberos version 5** et de **Advanced Encryption Standard (AES)**.
 
-Dans les objets d'ordinateur du domaine, la mise en œuvre de LAPS entraîne l'ajout de deux nouveaux attributs : **`ms-mcs-AdmPwd`** et **`ms-mcs-AdmPwdExpirationTime`**. Ces attributs stockent respectivement le **mot de passe d'administrateur en texte clair** et **son heure d'expiration**.
+Dans les objets d'ordinateur du domaine, la mise en œuvre de LAPS entraîne l'ajout de deux nouveaux attributs : **`ms-mcs-AdmPwd`** et **`ms-mcs-AdmPwdExpirationTime`**. Ces attributs stockent respectivement le **mot de passe administrateur en texte clair** et **son heure d'expiration**.
 
-### Vérifier si activé
+### Check if activated
 ```bash
 reg query "HKLM\Software\Policies\Microsoft Services\AdmPwd" /v AdmPwdEnabled
 
@@ -109,7 +109,7 @@ Cela va extraire tous les mots de passe que l'utilisateur peut lire, vous permet
 
 ## ** Utilisation du mot de passe LAPS **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
@@ -134,7 +134,7 @@ Le mot de passe sera toujours réinitialisé si un **admin** utilise la **`Reset
 
 ### Backdoor
 
-Le code source original pour LAPS peut être trouvé [ici](https://github.com/GreyCorbel/admpwd), il est donc possible d'ajouter une backdoor dans le code (dans la méthode `Get-AdmPwdPassword` dans `Main/AdmPwd.PS/Main.cs` par exemple) qui **exfiltrera de nouveaux mots de passe ou les stockera quelque part**.
+Le code source original de LAPS peut être trouvé [ici](https://github.com/GreyCorbel/admpwd), il est donc possible d'ajouter une backdoor dans le code (dans la méthode `Get-AdmPwdPassword` dans `Main/AdmPwd.PS/Main.cs` par exemple) qui **exfiltrera de nouveaux mots de passe ou les stockera quelque part**.
 
 Ensuite, il suffit de compiler le nouveau `AdmPwd.PS.dll` et de le télécharger sur la machine dans `C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll` (et de changer l'heure de modification).
 
@@ -155,7 +155,7 @@ Apprenez et pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
