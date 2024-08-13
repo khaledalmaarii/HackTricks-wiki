@@ -22,7 +22,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Basic Information
 
-Local Administrator Password Solution (LAPS) is 'n hulpmiddel wat gebruik word om 'n stelsel te bestuur waar **administrateur wagwoorde**, wat **uniek, ewekansig, en gereeld verander** word, toegepas word op domein-verbonden rekenaars. Hierdie wagwoorde word veilig binne Active Directory gestoor en is slegs toeganklik vir gebruikers wat toestemming ontvang het deur Toegang Beheer Lyste (ACLs). Die sekuriteit van die wagwoord oordragte van die kliënt na die bediener word verseker deur die gebruik van **Kerberos weergawe 5** en **Gevorderde Versleuteling Standaard (AES)**.
+Local Administrator Password Solution (LAPS) is 'n hulpmiddel wat gebruik word om 'n stelsel te bestuur waar **administrateur wagwoorde**, wat **uniek, ewekansig, en gereeld verander** word, toegepas word op domein-verbonden rekenaars. Hierdie wagwoorde word veilig binne Active Directory gestoor en is slegs toeganklik vir gebruikers wat toestemming gekry het deur Toegang Beheer Lyste (ACLs). Die sekuriteit van die wagwoord oordragte van die kliënt na die bediener word verseker deur die gebruik van **Kerberos weergawe 5** en **Gevorderde Versleuteling Standaard (AES)**.
 
 In die domein se rekenaarobjekte, lei die implementering van LAPS tot die toevoeging van twee nuwe eienskappe: **`ms-mcs-AdmPwd`** en **`ms-mcs-AdmPwdExpirationTime`**. Hierdie eienskappe stoor die **plank teks administrateur wagwoord** en **sy vervaldatum**, onderskeidelik.
 
@@ -41,7 +41,7 @@ Get-DomainObject -SearchBase "LDAP://DC=sub,DC=domain,DC=local" | ? { $_."ms-mcs
 ```
 ### LAPS Wagwoord Toegang
 
-Jy kan die **rauwe LAPS-beleid** aflaai van `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` en dan **`Parse-PolFile`** van die [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) pakket gebruik om hierdie lêer in 'n menslike leesbare formaat om te skakel.
+Jy kan **die rou LAPS-beleid aflaai** van `\\dc\SysVol\domain\Policies\{4A8A4E8E-929F-401A-95BD-A7D40E0976C8}\Machine\Registry.pol` en dan **`Parse-PolFile`** van die [**GPRegistryPolicyParser**](https://github.com/PowerShell/GPRegistryPolicyParser) pakket gebruik om hierdie lêer in 'n menslike leesbare formaat om te skakel.
 
 Boonop kan die **natuurlike LAPS PowerShell cmdlets** gebruik word as hulle op 'n masjien geïnstalleer is waartoe ons toegang het:
 ```powershell
@@ -105,11 +105,11 @@ As daar geen toegang tot 'n powershell is nie, kan jy hierdie voorreg op afstand
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
-Dit sal al die wagwoorde wat die gebruiker kan lees, dump, wat jou toelaat om 'n beter posisie met 'n ander gebruiker te kry.
+Dit sal al die wagwoorde wat die gebruiker kan lees, dump, wat jou toelaat om 'n beter voet aan die grond te kry met 'n ander gebruiker.
 
 ## ** Gebruik LAPS Wagwoord **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
