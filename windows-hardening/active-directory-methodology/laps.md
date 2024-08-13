@@ -22,7 +22,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## 基本信息
 
-本地管理员密码解决方案（LAPS）是一种用于管理系统的工具，其中**管理员密码**是**唯一的、随机生成的，并且经常更改**，适用于域加入的计算机。这些密码安全地存储在Active Directory中，仅对通过访问控制列表（ACL）获得权限的用户可访问。通过使用**Kerberos版本5**和**高级加密标准（AES）**确保从客户端到服务器的密码传输安全。
+本地管理员密码解决方案（LAPS）是一种用于管理系统的工具，其中**管理员密码**是**唯一的、随机生成的，并且经常更改**，适用于加入域的计算机。这些密码安全地存储在Active Directory中，仅对通过访问控制列表（ACL）获得权限的用户可访问。通过使用**Kerberos版本5**和**高级加密标准（AES）**确保从客户端到服务器的密码传输安全。
 
 在域的计算机对象中，LAPS的实施导致添加两个新属性：**`ms-mcs-AdmPwd`**和**`ms-mcs-AdmPwdExpirationTime`**。这些属性分别存储**明文管理员密码**和**其过期时间**。
 
@@ -74,9 +74,9 @@ Get-DomainObject -Identity wkstn-2 -Properties ms-Mcs-AdmPwd
 ```
 ### LAPSToolkit
 
-[LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) 通过多个功能促进了对 LAPS 的枚举。\
+[LAPSToolkit](https://github.com/leoloobeek/LAPSToolkit) 通过几个功能促进了 LAPS 的枚举。\
 其中之一是解析 **`ExtendedRights`** 以获取 **所有启用 LAPS 的计算机。** 这将显示 **专门被委派读取 LAPS 密码的组，** 这些组通常是受保护组中的用户。\
-一个 **已将计算机** 加入域的 **帐户** 会获得该主机的 `All Extended Rights`，而这个权限赋予 **帐户** 读取 **密码** 的能力。枚举可能会显示一个可以读取主机上 LAPS 密码的用户帐户。这可以帮助我们 **针对特定的 AD 用户**，这些用户可以读取 LAPS 密码。
+一个 **已将计算机** 加入域的 **帐户** 会获得该主机的 `All Extended Rights`，而这个权限使得 **帐户** 能够 **读取密码。** 枚举可能会显示一个可以在主机上读取 LAPS 密码的用户帐户。这可以帮助我们 **针对特定的 AD 用户**，他们可以读取 LAPS 密码。
 ```powershell
 # Get groups that can read passwords
 Find-LAPSDelegatedGroups
@@ -101,7 +101,7 @@ ComputerName                Password       Expiration
 DC01.DOMAIN_NAME.LOCAL      j&gR+A(s976Rf% 12/10/2022 13:24:41
 ```
 ## **通过 Crackmapexec 转储 LAPS 密码**
-如果无法访问 PowerShell，您可以通过 LDAP 远程滥用此权限。
+如果无法访问 PowerShell，您可以通过 LDAP 远程利用此权限。
 ```
 crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 ```
@@ -109,7 +109,7 @@ crackmapexec ldap 10.10.10.10 -u user -p password --kdcHost 10.10.10.10 -M laps
 
 ## ** 使用 LAPS 密码 **
 ```
-freerdp /v:192.168.1.1:3389  /u:Administrator
+xfreerdp /v:192.168.1.1:3389  /u:Administrator
 Password: 2Z@Ae)7!{9#Cq
 
 python psexec.py Administrator@web.example.com
@@ -134,7 +134,7 @@ Set-DomainObject -Identity wkstn-2 -Set @{"ms-mcs-admpwdexpirationtime"="2326099
 
 ### 后门
 
-LAPS的原始源代码可以在[这里](https://github.com/GreyCorbel/admpwd)找到，因此可以在代码中放置一个后门（例如在`Main/AdmPwd.PS/Main.cs`中的`Get-AdmPwdPassword`方法内），以某种方式**外泄新密码或将其存储在某处**。
+LAPS的原始源代码可以在[这里](https://github.com/GreyCorbel/admpwd)找到，因此可以在代码中放置一个后门（例如在`Main/AdmPwd.PS/Main.cs`中的`Get-AdmPwdPassword`方法内），以某种方式**提取新密码或将其存储在某处**。
 
 然后，只需编译新的`AdmPwd.PS.dll`并将其上传到机器的`C:\Tools\admpwd\Main\AdmPwd.PS\bin\Debug\AdmPwd.PS.dll`（并更改修改时间）。
 
