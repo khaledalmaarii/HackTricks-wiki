@@ -1,16 +1,16 @@
-# macOS Anahtarlık
+# macOS Anahtar Zinciri
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking ipuçlarını paylaşın,** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek.
 
 </details>
 {% endhint %}
@@ -19,69 +19,72 @@ GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt=
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io), şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **tehlikeye atılıp atılmadığını** kontrol etmek için **ücretsiz** işlevler sunan **dark-web** destekli bir arama motorudur.
+[**WhiteIntel**](https://whiteintel.io), bir şirketin veya müşterilerinin **stealer malwares** tarafından **tehdit edildiğini** kontrol etmek için **ücretsiz** işlevsellikler sunan **karanlık ağ** destekli bir arama motorudur.
 
-WhiteIntel'in başlıca amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
+WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
 
-Websitesini ziyaret edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
+Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
 {% embed url="https://whiteintel.io" %}
 
 ***
 
-## Anahtarlık Anahtarları
+## Anahtar Zincirleri
 
-* **Kullanıcı Anahtarlığı** (`~/Library/Keychains/login.keycahin-db`), uygulama şifreleri, internet şifreleri, kullanıcı tarafından oluşturulan sertifikalar, ağ şifreleri ve kullanıcı tarafından oluşturulan genel/özel anahtarlar gibi **kullanıcıya özgü kimlik bilgilerini** saklamak için kullanılır.
-* **Sistem Anahtarlığı** (`/Library/Keychains/System.keychain`), WiFi şifreleri, sistem kök sertifikaları, sistem özel anahtarları ve sistem uygulama şifreleri gibi **sistem genelindeki kimlik bilgilerini** saklar.
+* **Kullanıcı Anahtar Zinciri** (`~/Library/Keychains/login.keycahin-db`), uygulama şifreleri, internet şifreleri, kullanıcı tarafından oluşturulan sertifikalar, ağ şifreleri ve kullanıcı tarafından oluşturulan açık/özel anahtarlar gibi **kullanıcıya özgü kimlik bilgilerini** saklamak için kullanılır.
+* **Sistem Anahtar Zinciri** (`/Library/Keychains/System.keychain`), WiFi şifreleri, sistem kök sertifikaları, sistem özel anahtarları ve sistem uygulama şifreleri gibi **sistem genelinde kimlik bilgilerini** saklar.
 
-### Şifre Anahtarlığı Erişimi
+### Şifre Anahtar Zinciri Erişimi
 
-Bu dosyalar, doğal korumaya sahip olmasalar da **indirilebilirler** ve şifreli oldukları için **kullanıcının düz metin şifresine ihtiyaç duyarlar**. [**Chainbreaker**](https://github.com/n0fate/chainbreaker) gibi bir araç şifre çözme işlemi için kullanılabilir.
+Bu dosyalar, doğrudan koruma içermemekle birlikte **indirilebilir**, şifrelenmiştir ve **şifresiz metin şifresinin çözülmesi için kullanıcının şifresini** gerektirir. Şifre çözme için [**Chainbreaker**](https://github.com/n0fate/chainbreaker) gibi bir araç kullanılabilir.
 
-## Anahtarlık Girişleri Korumaları
+## Anahtar Zinciri Girişleri Koruma
 
 ### ACL'ler
 
-Anahtarlıkta her giriş, anahtarlık girişinde çeşitli işlemleri kimin yapabileceğini belirleyen **Erişim Kontrol Listeleri (ACL'ler)** tarafından yönetilir, bunlar şunları içerir:
+Anahtar zincirindeki her giriş, çeşitli eylemleri gerçekleştirebilecek kişileri belirleyen **Erişim Kontrol Listeleri (ACL'ler)** ile yönetilmektedir:
 
-* **ACLAuhtorizationExportClear**: Sahibin sırrın açık metnini almasına izin verir.
-* **ACLAuhtorizationExportWrapped**: Sahibin sırrı başka bir sağlanan şifre ile şifrelenmiş açık metin olarak almasına izin verir.
-* **ACLAuhtorizationAny**: Sahibin herhangi bir işlemi gerçekleştirmesine izin verir.
+* **ACLAuhtorizationExportClear**: Sahip olanın sıfır metin gizliliğini almasına izin verir.
+* **ACLAuhtorizationExportWrapped**: Sahip olanın başka bir sağlanan şifre ile şifrelenmiş sıfır metin almasına izin verir.
+* **ACLAuhtorizationAny**: Sahip olanın herhangi bir eylemi gerçekleştirmesine izin verir.
 
-ACL'ler, bu işlemleri kullanıcıya sormadan gerçekleştirebilen **güvenilir uygulamaların listesi** ile desteklenir. Bu şunları içerebilir:
+ACL'ler, bu eylemleri istem olmadan gerçekleştirebilecek **güvenilir uygulamalar listesi** ile birlikte gelir. Bu şunlar olabilir:
 
-* **N`il`** (izin gerekmez, **herkes güvenilir**)
-* Boş bir liste (**hiç kimse güvenilir değil**)
-* Belirli **uygulamaların** listesi.
+* **N`il`** (yetki gerektirmiyor, **herkes güvenilir**)
+* **Boş** bir liste (**kimse** güvenilir değil)
+* **Belirli** **uygulamalar** listesi.
 
-Ayrıca giriş, **`ACLAuthorizationPartitionID`** anahtarını içerebilir, bu da **teamid, apple** ve **cdhash'yi** tanımlamak için kullanılır.
+Ayrıca giriş, **`ACLAuthorizationPartitionID`** anahtarını içerebilir, bu da **teamid, apple** ve **cdhash**'i tanımlamak için kullanılır.
 
-* Eğer **teamid** belirtilmişse, giriş değerine **izin vermek** için kullanılan uygulamanın **aynı teamid'ye** sahip olması gerekir.
+* Eğer **teamid** belirtilmişse, **girişin** değerine **istem olmadan** erişmek için kullanılan uygulamanın **aynı teamid**'ye sahip olması gerekir.
 * Eğer **apple** belirtilmişse, uygulamanın **Apple** tarafından **imzalanmış** olması gerekir.
-* Eğer **cdhash** belirtilmişse, uygulamanın belirli bir **cdhash'e** sahip olması gerekir.
+* Eğer **cdhash** belirtilmişse, **uygulama** belirli bir **cdhash**'e sahip olmalıdır.
 
-### Bir Anahtarlık Girişi Oluşturma
+### Anahtar Zinciri Girişi Oluşturma
 
-Yeni bir **giriş** **`Anahtarlık Erişimi.app`** kullanılarak oluşturulduğunda, aşağıdaki kurallar geçerlidir:
-
-* Tüm uygulamalar şifreleyebilir.
-* Hiçbir uygulama dışa aktaramaz/şifre çözemez (kullanıcıya sormadan).
-* Tüm uygulamalar bütünlük kontrolünü görebilir.
-* Hiçbir uygulama ACL'leri değiştiremez.
-* **PartitionID** **`apple`** olarak ayarlanır.
-
-Bir **uygulama anahtarlıkta bir giriş oluşturduğunda**, kurallar biraz farklıdır:
+Bir **yeni** **giriş** oluşturulduğunda **`Keychain Access.app`** kullanılarak, aşağıdaki kurallar geçerlidir:
 
 * Tüm uygulamalar şifreleyebilir.
-* Yalnızca **oluşturan uygulama** (veya açıkça eklenen diğer uygulamalar) dışa aktarabilir/şifre çözebilir (kullanıcıya sormadan).
+* **Hiçbir uygulama** dışa aktaramaz/şifre çözemez (kullanıcıyı istemeden).
 * Tüm uygulamalar bütünlük kontrolünü görebilir.
 * Hiçbir uygulama ACL'leri değiştiremez.
-* **PartitionID** **`teamid:[buraya teamID]`** olarak ayarlanır.
+* **partitionID** **`apple`** olarak ayarlanır.
 
-## Anahtarlığa Erişim
+Bir **uygulama anahtar zincirinde bir giriş oluşturduğunda**, kurallar biraz farklıdır:
+
+* Tüm uygulamalar şifreleyebilir.
+* Sadece **oluşturan uygulama** (veya açıkça eklenen diğer uygulamalar) dışa aktarabilir/şifre çözebilir (kullanıcıyı istemeden).
+* Tüm uygulamalar bütünlük kontrolünü görebilir.
+* Hiçbir uygulama ACL'leri değiştiremez.
+* **partitionID** **`teamid:[teamID burada]`** olarak ayarlanır.
+
+## Anahtar Zincirine Erişim
 
 ### `security`
 ```bash
+# List keychains
+security list-keychains
+
 # Dump all metadata and decrypted secrets (a lot of pop-ups)
 security dump-keychain -a -d
 
@@ -90,58 +93,61 @@ security find-generic-password -a "Slack" -g
 
 # Change the specified entrys PartitionID entry
 security set-generic-password-parition-list -s "test service" -a "test acount" -S
+
+# Dump specifically the user keychain
+security dump-keychain ~/Library/Keychains/login.keychain-db
 ```
-### API'ler
+### APIs
 
 {% hint style="success" %}
-**Anahtarlık numaralandırma ve sızdırmazlık** oluşturmayacak sırların **dökülmesi**, [**LockSmith**](https://github.com/its-a-feature/LockSmith) aracı ile yapılabilir.
+**Anahtar zinciri numaralandırma ve** **istemci istemeden** **gizli bilgilerin dökümü** [**LockSmith**](https://github.com/its-a-feature/LockSmith) aracıyla yapılabilir.
 {% endhint %}
 
-Her anahtarlık girişi hakkında **bilgi** listele ve al:
+Her anahtar zinciri girişi hakkında **bilgi** listeleyin ve alın:
 
-* **`SecItemCopyMatching`** API'si her giriş hakkında bilgi verir ve kullanırken ayarlayabileceğiniz bazı özellikler vardır:
-* **`kSecReturnData`**: Doğruysa, verileri şifrelemeye çalışır (olası açılır pencereleri önlemek için false olarak ayarlayın)
-* **`kSecReturnRef`**: Anahtarlık öğesine referansı da alın (daha sonra açılır pencereler olmadan şifreleyebileceğinizi gördüğünüzde true olarak ayarlayın)
+* API **`SecItemCopyMatching`** her giriş hakkında bilgi verir ve kullanırken ayarlayabileceğiniz bazı özellikler vardır:
+* **`kSecReturnData`**: Doğruysa, veriyi şifre çözmeye çalışır (potansiyel açılır pencereleri önlemek için yanlış olarak ayarlayın)
+* **`kSecReturnRef`**: Anahtar zinciri öğesine referans da alın (daha sonra açılır pencere olmadan şifre çözebileceğinizi görürseniz doğru olarak ayarlayın)
 * **`kSecReturnAttributes`**: Girişler hakkında meta verileri alın
 * **`kSecMatchLimit`**: Kaç sonuç döndürüleceği
-* **`kSecClass`**: Hangi türde anahtarlık girişi
+* **`kSecClass`**: Hangi tür anahtar zinciri girişi
 
-Her girişin **ACL'leri**ni alın:
+Her girişin **ACL'lerini** alın:
 
-* **`SecAccessCopyACLList`** API'si ile **anahtarlık öğesi için ACL'yi** alabilir ve her liste şunları içeren bir ACL listesi döndürecektir:
+* API **`SecAccessCopyACLList`** ile **anahtar zinciri öğesi için ACL'yi** alabilirsiniz ve bu, her liste için:
 * Açıklama
-* **Güvenilen Uygulama Listesi**. Bu şunlar olabilir:
+* **Güvenilir Uygulama Listesi**. Bu şunlar olabilir:
 * Bir uygulama: /Applications/Slack.app
 * Bir ikili: /usr/libexec/airportd
 * Bir grup: group://AirPort
 
-Veriyi dışa aktarın:
+Verileri dışa aktarın:
 
-* **`SecKeychainItemCopyContent`** API'si düz metni alır
-* **`SecItemExport`** API'si anahtarları ve sertifikaları dışa aktarır ancak içeriği şifreli olarak dışa aktarmak için şifreleri ayarlamak gerekebilir
+* API **`SecKeychainItemCopyContent`** düz metni alır
+* API **`SecItemExport`** anahtarları ve sertifikaları dışa aktarır ancak içeriği şifreli olarak dışa aktarmak için şifre ayarlamanız gerekebilir
 
-Ve **bir açılır pencere olmadan bir sırrı dışa aktarabilmek** için gereksinimler şunlardır:
+Ve bu, **istemci istemeden bir gizli bilgiyi dışa aktarabilmek için** **gereksinimlerdir**:
 
-* Eğer **1'den fazla güvenilen** uygulama listelenmişse:
-* Uygun **yetkilendirmelere** ihtiyaç vardır (**`Nil`**, veya sırra erişim yetkisi için yetkilendirme izin listesinde olmak)
-* Kod imzasının **PartitionID** ile eşleşmesi gerekir
-* Kod imzasının bir **güvenilen uygulamanın** kod imzasıyla eşleşmesi gerekir (veya doğru KeychainAccessGroup üyesi olmak)
-* Eğer **tüm uygulamalar güvenilirse**:
-* Uygun **yetkilendirmelere** ihtiyaç vardır
-* Kod imzasının **PartitionID** ile eşleşmesi gerekir
-* Eğer **PartitionID yoksa**, bu gerekli değildir
+* Eğer **1+ güvenilir** uygulama listelenmişse:
+* Uygun **yetkilere** ihtiyaç vardır (**`Nil`**, veya gizli bilgilere erişim için yetkilendirme listesinde **yer almak**)
+* **PartitionID** ile eşleşen kod imzasına ihtiyaç vardır
+* Bir **güvenilir uygulama** ile eşleşen kod imzasına ihtiyaç vardır (veya doğru KeychainAccessGroup'un üyesi olmalısınız)
+* Eğer **tüm uygulamalar güvenilir** ise:
+* Uygun **yetkilere** ihtiyaç vardır
+* **PartitionID** ile eşleşen kod imzasına ihtiyaç vardır
+* Eğer **PartitionID** yoksa, bu gerekli değildir
 
 {% hint style="danger" %}
-Bu nedenle, eğer **1 uygulama listelenmişse**, o uygulamaya **kod enjekte etmeniz gerekir**.
+Bu nedenle, eğer **1 uygulama listelenmişse**, o uygulamaya **kod enjekte etmeniz** gerekir.
 
-Eğer **partitionID'de apple** belirtilmişse, **`osascript`** ile erişebilirsiniz, böylece partitionID'de apple olan tüm uygulamalara güvenen herhangi bir şeye erişebilirsiniz. **`Python`** bunun için de kullanılabilir.
+Eğer **apple** **partitionID**'de belirtilmişse, **`osascript`** ile erişebilirsiniz, bu nedenle partitionID'de apple olan tüm uygulamalara güvenen herhangi bir şey. **`Python`** de bunun için kullanılabilir.
 {% endhint %}
 
 ### İki ek özellik
 
-* **Görünmez**: Girişi **UI** Anahtarlık uygulamasından **gizlemek** için bir boolean bayrağıdır
-* **Genel**: **Meta verileri** saklamak için kullanılır (bu nedenle **ŞİFRELENMEMİŞTİR**)
-* Microsoft, hassas uç noktalara erişmek için tüm yenileme tokenlarını düz metinde saklıyordu.
+* **Gizli**: Bu, girişi **UI** Anahtar Zinciri uygulamasından **gizlemek** için bir boolean bayraktır
+* **Genel**: **meta verileri** depolamak içindir (yani ŞİFRELİ DEĞİLDİR)
+* Microsoft, hassas uç noktaya erişim için tüm yenileme jetonlarını düz metin olarak saklıyordu.
 
 ## Referanslar
 
@@ -151,25 +157,25 @@ Eğer **partitionID'de apple** belirtilmişse, **`osascript`** ile erişebilirsi
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io), şirketin veya müşterilerinin **hırsız kötü amaçlı yazılımlar** tarafından **tehlikeye atılıp atılmadığını** kontrol etmek için **ücretsiz** işlevsellikler sunan **karanlık ağ** destekli bir arama motorudur.
+[**WhiteIntel**](https://whiteintel.io) **karanlık ağ** destekli bir arama motorudur ve bir şirketin veya müşterilerinin **çözümlenip** **çalıntı kötü amaçlı yazılımlar** tarafından etkilenip etkilenmediğini kontrol etmek için **ücretsiz** işlevsellikler sunar.
 
-WhiteIntel'in başlıca amacı, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
+WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
 
-Websitesini ziyaret edebilir ve **ücretsiz** olarak motorlarını deneyebilirsiniz:
+Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
 {% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-AWS Hacking öğrenin ve uygulayın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Sponsorluk planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi Twitter'da takip edin 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* Hacking püf noktalarını göndererek HackTricks ve HackTricks Cloud github depolarına PR'lar göndererek paylaşın.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
