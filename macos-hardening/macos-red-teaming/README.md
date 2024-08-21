@@ -1,16 +1,16 @@
 # macOS Red Teaming
 
 {% hint style="success" %}
-AWSハッキングの学習と練習:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -20,9 +20,9 @@ GCPハッキングの学習と練習: <img src="/.gitbook/assets/grte.png" alt="
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-管理者資格情報を**侵害**して管理プラットフォームにアクセスできると、マシンにマルウェアを配布することで、**すべてのコンピュータを潜在的に侵害**できます。
+管理プラットフォームにアクセスするために**管理者資格情報を侵害**することができれば、マシンにマルウェアを配布することで**すべてのコンピュータを侵害する可能性があります**。
 
-MacOS環境でのレッドチーミングでは、MDMの動作原理を理解することが強く推奨されています:
+MacOS環境でのレッドチーミングには、MDMの動作についての理解があることが強く推奨されます：
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -30,27 +30,27 @@ MacOS環境でのレッドチーミングでは、MDMの動作原理を理解す
 
 ### MDMをC2として使用する
 
-MDMは、プロファイルのインストール、クエリ、削除、アプリケーションのインストール、ローカル管理者アカウントの作成、ファームウェアパスワードの設定、FileVaultキーの変更などの権限を持っています。
+MDMは、プロファイルのインストール、クエリ、削除、アプリケーションのインストール、ローカル管理者アカウントの作成、ファームウェアパスワードの設定、FileVaultキーの変更を行う権限を持っています...
 
-独自のMDMを実行するには、[**https://mdmcert.download/**](https://mdmcert.download/)で取得できるベンダーによって署名されたCSRが必要です。Appleデバイス用の独自のMDMを実行するには、[**MicroMDM**](https://github.com/micromdm/micromdm)を使用できます。
+独自のMDMを実行するには、**ベンダーによって署名されたCSRが必要**で、[**https://mdmcert.download/**](https://mdmcert.download/)を使用して取得を試みることができます。Appleデバイス用の独自のMDMを実行するには、[**MicroMDM**](https://github.com/micromdm/micromdm)を使用できます。
 
-ただし、登録されたデバイスにアプリケーションをインストールするには、開発者アカウントで署名する必要があります... ただし、MDM登録時には、デバイスがMDMのSSL証明書を信頼できるCAとして追加するため、今後は何でも署名できます。
+ただし、登録されたデバイスにアプリケーションをインストールするには、開発者アカウントによって署名されている必要があります... しかし、MDM登録時に**デバイスはMDMのSSL証明書を信頼されたCAとして追加するため**、今では何でも署名できます。
 
-デバイスをMDMに登録するには、ルートとして**`mobileconfig`**ファイルをインストールする必要があります。これは**pkg**ファイルを介して配信できます（zipで圧縮し、Safariからダウンロードすると解凍されます）。
+デバイスをMDMに登録するには、**`mobileconfig`**ファイルをルートとしてインストールする必要があり、これは**pkg**ファイルを介して配布できます（zipで圧縮し、Safariからダウンロードすると解凍されます）。
 
-**MythicエージェントOrthrus**はこのテクニックを使用しています。
+**Mythic agent Orthrus**はこの技術を使用しています。
 
 ### JAMF PROの悪用
 
-JAMFは**カスタムスクリプト**（システム管理者が開発したスクリプト）、**ネイティブペイロード**（ローカルアカウントの作成、EFIパスワードの設定、ファイル/プロセスの監視...）、**MDM**（デバイスの構成、デバイス証明書...）を実行できます。
+JAMFは**カスタムスクリプト**（システム管理者によって開発されたスクリプト）、**ネイティブペイロード**（ローカルアカウントの作成、EFIパスワードの設定、ファイル/プロセスの監視...）および**MDM**（デバイスの構成、デバイス証明書...）を実行できます。
 
-#### JAMFの自己登録
+#### JAMF自己登録
 
-`https://<company-name>.jamfcloud.com/enroll/`などのページに移動して、**自己登録が有効になっているかどうか**を確認します。有効になっている場合、**アクセスのための資格情報を要求**する場合があります。
+`https://<company-name>.jamfcloud.com/enroll/`のようなページにアクセスして、**自己登録が有効かどうか**を確認します。有効な場合、**アクセスするための資格情報を要求されることがあります**。
 
 [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py)スクリプトを使用してパスワードスプレー攻撃を実行できます。
 
-適切な資格情報を見つけた後、次のフォームで他のユーザー名を総当たり攻撃することができます:
+さらに、適切な資格情報を見つけた後、次のフォームを使用して他のユーザー名をブルートフォース攻撃できる可能性があります：
 
 ![](<../../.gitbook/assets/image (107).png>)
 
@@ -58,13 +58,13 @@ JAMFは**カスタムスクリプト**（システム管理者が開発したス
 
 <figure><img src="../../.gitbook/assets/image (167).png" alt=""><figcaption></figcaption></figure>
 
-**`jamf`**バイナリには、キーチェーンを開くための秘密が含まれており、発見時点では**誰もが共有**していました。それは: **`jk23ucnq91jfu9aj`**です。\
-さらに、jamfは**`/Library/LaunchAgents/com.jamf.management.agent.plist`**に**LaunchDaemon**として**永続化**されます。
+**`jamf`**バイナリには、発見時に**共有**されていたキーチェーンを開くための秘密が含まれており、それは**`jk23ucnq91jfu9aj`**でした。\
+さらに、jamfは**`/Library/LaunchAgents/com.jamf.management.agent.plist`**に**LaunchDaemon**として**持続**します。
 
-#### JAMFデバイスの乗っ取り
+#### JAMFデバイスタ takeover
 
-**`jamf`**が使用する**JSS**（Jamf Software Server）**URL**は**`/Library/Preferences/com.jamfsoftware.jamf.plist`**にあります。\
-このファイルには基本的にURLが含まれています:
+**JSS**（Jamf Software Server）**URL**は、**`jamf`**が使用するもので、**`/Library/Preferences/com.jamfsoftware.jamf.plist`**にあります。\
+このファイルには基本的にURLが含まれています：
 
 {% code overflow="wrap" %}
 ```bash
@@ -81,7 +81,9 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 ```
 {% endcode %}
 
-したがって、攻撃者は、**このファイルを上書き**し、TyphonエージェントからのMythic C2リスナーへの**URLを設定**してインストールされるときに悪意のあるパッケージ（`pkg`）をドロップすることができ、これによりJAMFをC2として悪用することができるようになります。
+攻撃者は、インストール時にこのファイルを**上書きする**悪意のあるパッケージ（`pkg`）をドロップし、**TyphonエージェントからのMythic C2リスナーへのURLを設定する**ことで、JAMFをC2として悪用できるようになります。
+
+{% code overflow="wrap" %}
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -92,26 +94,26 @@ sudo jamf policy -id 0
 
 #### JAMFのなりすまし
 
-デバイスとJMFの間の通信を**なりすます**には、次のものが必要です：
+デバイスとJMF間の**通信をなりすます**ためには、以下が必要です：
 
-* デバイスの**UUID**：`ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
-* 次の場所からの**JAMFキーチェーン**：`/Library/Application\ Support/Jamf/JAMF.keychain`（デバイス証明書を含む）
+* デバイスの**UUID**: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
+* デバイス証明書を含む**JAMFキーチェーン**: `/Library/Application\ Support/Jamf/JAMF.keychain`
 
-この情報を使用して、**盗まれた**ハードウェア**UUID**と**SIPが無効**になっているVMを作成し、**JAMFキーチェーン**をドロップし、Jamf**エージェント**を**フック**して情報を盗みます。
+この情報をもとに、**盗まれた**ハードウェア**UUID**を持ち、**SIPを無効にした**VMを**作成**し、**JAMFキーチェーンを配置**し、Jamf**エージェントをフック**してその情報を盗みます。
 
-#### 秘密の盗み
+#### 秘密の盗難
 
 <figure><img src="../../.gitbook/assets/image (1025).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
-また、**カスタムスクリプト**を監視することができます。管理者がJamfを介して実行したいと考えるかもしれない場所`/Library/Application Support/Jamf/tmp/`。これらのスクリプトには**資格情報**が含まれる可能性があります。
+管理者がJamfを介して実行したい**カスタムスクリプト**を監視するために、`/Library/Application Support/Jamf/tmp/`の場所を監視することもできます。これらのスクリプトは**ここに配置され、実行され、削除されます**。これらのスクリプトには**資格情報が含まれている可能性があります**。
 
-ただし、**資格情報**は**パラメータ**としてこれらのスクリプトに渡される場合がありますので、`ps aux | grep -i jamf`を監視する必要があります（root権限でなくても）。
+ただし、**資格情報**はこれらのスクリプトに**パラメータ**として渡される可能性があるため、`ps aux | grep -i jamf`を監視する必要があります（ルートでなくても可能です）。
 
-スクリプト[**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py)は、新しいファイルが追加されるのを聞き、新しいプロセス引数を盗聴できます。
+スクリプト[**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py)は、新しいファイルが追加されるのをリッスンし、新しいプロセス引数を監視できます。
 
 ### macOSリモートアクセス
 
-そして**MacOS**の"特別な"**ネットワーク** **プロトコル**についても：
+また、**MacOS**の「特別な」**ネットワーク****プロトコル**についても：
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -119,7 +121,7 @@ sudo jamf policy -id 0
 
 ## Active Directory
 
-場合によっては、**MacOSコンピューターがADに接続されている**ことがわかることがあります。このシナリオでは、通常どおりにActive Directoryを列挙してみるべきです。以下のページで**ヘルプ**を見つけることができます：
+場合によっては、**MacOSコンピュータがADに接続されている**ことがあります。このシナリオでは、慣れているように**アクティブディレクトリを列挙**しようとするべきです。以下のページで**ヘルプ**を見つけてください：
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -133,15 +135,15 @@ sudo jamf policy -id 0
 [pentesting-kerberos-88](../../network-services-pentesting/pentesting-kerberos-88/)
 {% endcontent-ref %}
 
-あなたを助けるかもしれない**ローカルMacOSツール**には`dscl`があります：
+役立つ**ローカルMacOSツール**の一つは`dscl`です：
 ```bash
 dscl "/Active Directory/[Domain]/All Domains" ls /
 ```
-また、MacOS向けにADを自動的に列挙し、kerberosを操作するためのいくつかのツールが用意されています：
+また、ADを自動的に列挙し、kerberosで遊ぶためのMacOS用のツールがいくつか用意されています：
 
-- [**Machound**](https://github.com/XMCyber/MacHound): MacHoundはBloodhound監査ツールの拡張機能で、MacOSホスト上でActive Directoryの関係を収集および取り込むことができます。
-- [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrostは、Objective-Cプロジェクトであり、macOS上のHeimdal krb5 APIとやり取りするように設計されています。このプロジェクトの目標は、macOSデバイス上でKerberosに関するセキュリティテストを、ターゲット上で他のフレームワークやパッケージを必要とせずに、ネイティブAPIを使用して可能にすることです。
-- [**Orchard**](https://github.com/its-a-feature/Orchard): Active Directoryの列挙を行うためのJavaScript for Automation（JXA）ツール。 
+* [**Machound**](https://github.com/XMCyber/MacHound): MacHoundは、MacOSホスト上のActive Directory関係を収集し、取り込むことを可能にするBloodhound監査ツールの拡張です。
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrostは、macOS上のHeimdal krb5 APIと対話するために設計されたObjective-Cプロジェクトです。このプロジェクトの目標は、ターゲットに他のフレームワークやパッケージを必要とせず、ネイティブAPIを使用してmacOSデバイス上のKerberosに関するより良いセキュリティテストを可能にすることです。
+* [**Orchard**](https://github.com/its-a-feature/Orchard): Active Directoryの列挙を行うためのJavaScript for Automation (JXA)ツールです。
 
 ### ドメイン情報
 ```bash
@@ -149,20 +151,20 @@ echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
 ### ユーザー
 
-MacOSの3つのタイプのユーザーは次のとおりです：
+MacOSのユーザーには3種類あります：
 
-- **ローカルユーザー** — ローカルのOpenDirectoryサービスによって管理され、Active Directoryとは何の接続もありません。
-- **ネットワークユーザー** — DCサーバーに接続して認証する必要がある、不安定なActive Directoryユーザー。
-- **モバイルユーザー** — 資格情報とファイルのローカルバックアップを持つActive Directoryユーザー。
+* **ローカルユーザー** — ローカルOpenDirectoryサービスによって管理されており、Active Directoryとは一切接続されていません。
+* **ネットワークユーザー** — DCサーバーに接続して認証を受ける必要がある揮発性のActive Directoryユーザーです。
+* **モバイルユーザー** — 認証情報とファイルのローカルバックアップを持つActive Directoryユーザーです。
 
-ユーザーとグループに関するローカル情報は、_/var/db/dslocal/nodes/Default_ フォルダに保存されています。\
-たとえば、ユーザー _mark_ に関する情報は _/var/db/dslocal/nodes/Default/users/mark.plist_ に、グループ _admin_ に関する情報は _/var/db/dslocal/nodes/Default/groups/admin.plist_ に保存されています。
+ユーザーとグループに関するローカル情報は、フォルダー _/var/db/dslocal/nodes/Default._ に保存されています。\
+例えば、_mark_ というユーザーに関する情報は _/var/db/dslocal/nodes/Default/users/mark.plist_ に保存されており、_admin_ というグループに関する情報は _/var/db/dslocal/nodes/Default/groups/admin.plist_ にあります。
 
-**MacHoundはHasSessionとAdminToエッジに加えて、Bloodhoundデータベースに3つの新しいエッジを追加**します：
+HasSessionおよびAdminToエッジを使用することに加えて、**MacHoundはBloodhoundデータベースに3つの新しいエッジを追加します**：
 
-- **CanSSH** - ホストにSSHで接続を許可されたエンティティ
-- **CanVNC** - ホストにVNCで接続を許可されたエンティティ
-- **CanAE** - ホストでAppleEventスクリプトを実行することを許可されたエンティティ
+* **CanSSH** - ホストにSSH接続を許可されたエンティティ
+* **CanVNC** - ホストにVNC接続を許可されたエンティティ
+* **CanAE** - ホスト上でAppleEventスクリプトを実行することを許可されたエンティティ
 ```bash
 #User enumeration
 dscl . ls /Users
@@ -184,11 +186,42 @@ dscl "/Active Directory/TEST/All Domains" read "/Groups/[groupname]"
 #Domain Information
 dsconfigad -show
 ```
-詳細は[https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)にあります。
+More info in [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
 
+### Computer$ パスワード
+
+次の方法でパスワードを取得します:
+```bash
+bifrost --action askhash --username [name] --password [password] --domain [domain]
+```
+**`Computer$`** パスワードにシステムキーチェーン内でアクセスすることが可能です。
+
+### Over-Pass-The-Hash
+
+特定のユーザーとサービスのためにTGTを取得します：
+```bash
+bifrost --action asktgt --username [user] --domain [domain.com] \
+--hash [hash] --enctype [enctype] --keytab [/path/to/keytab]
+```
+TGTが収集されると、次のコマンドで現在のセッションに注入することが可能です:
+```bash
+bifrost --action asktgt --username test_lab_admin \
+--hash CF59D3256B62EE655F6430B0F80701EE05A0885B8B52E9C2480154AFA62E78 \
+--enctype aes256 --domain test.lab.local
+```
+### Kerberoasting
+```bash
+bifrost --action asktgs --spn [service] --domain [domain.com] \
+--username [user] --hash [hash] --enctype [enctype]
+```
+取得したサービスチケットを使用して、他のコンピュータの共有にアクセスを試みることができます：
+```bash
+smbutil view //computer.fqdn
+mount -t smbfs //server/folder /local/mount/point
+```
 ## キーチェーンへのアクセス
 
-キーチェーンにはおそらく機密情報が含まれており、プロンプトを生成せずにアクセスすると、レッドチームの演習を進めるのに役立つ可能性が高いです:
+キーチェーンには、プロンプトを生成せずにアクセスされた場合、レッドチーム演習を進めるのに役立つ可能性のある機密情報が含まれている可能性が高いです：
 
 {% content-ref url="macos-keychain.md" %}
 [macos-keychain.md](macos-keychain.md)
@@ -196,13 +229,13 @@ dsconfigad -show
 
 ## 外部サービス
 
-MacOS Red Teamingは通常のWindows Red Teamingとは異なります。通常、**MacOSは複数の外部プラットフォームと直接統合**されています。MacOSの一般的な構成は、**OneLoginと同期した資格情報を使用してコンピュータにアクセスし、OneLoginを介して複数の外部サービス**（github、awsなど）にアクセスすることです。
+MacOSのレッドチーミングは、通常**MacOSがいくつかの外部プラットフォームと直接統合されている**ため、通常のWindowsレッドチーミングとは異なります。MacOSの一般的な構成は、**OneLoginで同期された資格情報を使用してコンピュータにアクセスし、OneLoginを介していくつかの外部サービス**（github、awsなど）にアクセスすることです。
 
 ## その他のレッドチーム技術
 
 ### Safari
 
-Safariでファイルをダウンロードすると、"安全"なファイルの場合、**自動的に開かれます**。たとえば、**zipファイルをダウンロード**した場合、自動的に展開されます:
+Safariでファイルがダウンロードされると、それが「安全な」ファイルであれば、**自動的に開かれます**。例えば、**zipファイルをダウンロードすると**、自動的に解凍されます：
 
 <figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 
@@ -215,16 +248,16 @@ Safariでファイルをダウンロードすると、"安全"なファイルの
 * [**OBTS v3.0: "An Attackers Perspective on Jamf Configurations" - Luke Roberts / Calum Hall**](https://www.youtube.com/watch?v=ju1IYWUv4ZA)
 
 {% hint style="success" %}
-AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)や[**telegramグループ**](https://t.me/peass)に**参加**または**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)をフォロー**してください**。
-* **ハッキングトリックを共有するには、**[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

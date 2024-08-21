@@ -1,16 +1,16 @@
 # macOS Keychain
 
 {% hint style="success" %}
-AWSハッキングの学習と実践:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェックしてください！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)に参加するか、[**telegramグループ**](https://t.me/peass)に参加するか、または **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* ハッキングトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -19,69 +19,72 @@ GCPハッキングの学習と実践: <img src="/.gitbook/assets/grte.png" alt="
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)は、**ダークウェブ**を活用した検索エンジンで、企業やその顧客が**盗難マルウェア**によって**侵害**されていないかをチェックする**無料**の機能を提供しています。
+[**WhiteIntel**](https://whiteintel.io) は、**ダークウェブ**を利用した検索エンジンで、企業やその顧客が**侵害**されているかどうかを確認するための**無料**機能を提供しています。
 
-WhiteIntelの主な目標は、情報窃取マルウェアによるアカウント乗っ取りやランサムウェア攻撃に対抗することです。
+WhiteIntelの主な目標は、情報を盗むマルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
 
-彼らのウェブサイトをチェックし、**無料**でエンジンを試すことができます：
+彼らのウェブサイトを確認し、**無料**でエンジンを試すことができます:
 
 {% embed url="https://whiteintel.io" %}
 
 ***
 
-## メインキーチェーン
+## Main Keychains
 
 * **ユーザーキーチェーン** (`~/Library/Keychains/login.keycahin-db`) は、アプリケーションパスワード、インターネットパスワード、ユーザー生成証明書、ネットワークパスワード、ユーザー生成の公開/秘密鍵などの**ユーザー固有の資格情報**を保存するために使用されます。
-* **システムキーチェーン** (`/Library/Keychains/System.keychain`) は、WiFiパスワード、システムルート証明書、システムの秘密鍵、システムアプリケーションパスワードなどの**システム全体の資格情報**を保存します。
+* **システムキーチェーン** (`/Library/Keychains/System.keychain`) は、WiFiパスワード、システムルート証明書、システムプライベートキー、システムアプリケーションパスワードなどの**システム全体の資格情報**を保存します。
 
-### パスワードキーチェーンアクセス
+### Password Keychain Access
 
-これらのファイルは、固有の保護を持たず、**ダウンロード**できますが、**ユーザーの平文パスワードが必要**です。[**Chainbreaker**](https://github.com/n0fate/chainbreaker)のようなツールを使用して復号化できます。
+これらのファイルは、固有の保護がなく**ダウンロード**可能ですが、暗号化されており、復号化するためには**ユーザーの平文パスワード**が必要です。復号化には[**Chainbreaker**](https://github.com/n0fate/chainbreaker)のようなツールが使用できます。
 
-## キーチェーンエントリの保護
+## Keychain Entries Protections
 
 ### ACLs
 
-キーチェーン内の各エントリは、**アクセス制御リスト（ACLs）**によって管理され、キーチェーンエントリでさまざまなアクションを実行できるユーザーを規定します。これには以下が含まれます：
+キーチェーンの各エントリは、さまざまなアクションを実行できる人を規定する**アクセス制御リスト (ACL)** によって管理されています。これには以下が含まれます：
 
-* **ACLAuhtorizationExportClear**：保持者が秘密のクリアテキストを取得できるようにします。
-* **ACLAuhtorizationExportWrapped**：保持者が別の提供されたパスワードで暗号化されたクリアテキストを取得できるようにします。
-* **ACLAuhtorizationAny**：保持者が任意のアクションを実行できるようにします。
+* **ACLAuhtorizationExportClear**: 秘密のクリアテキストを取得することを許可します。
+* **ACLAuhtorizationExportWrapped**: 他の提供されたパスワードで暗号化されたクリアテキストを取得することを許可します。
+* **ACLAuhtorizationAny**: すべてのアクションを実行することを許可します。
 
-ACLsには、プロンプトなしでこれらのアクションを実行できる**信頼されたアプリケーションのリスト**が付属しています。これには以下が含まれます：
+ACLは、これらのアクションをプロンプトなしで実行できる**信頼されたアプリケーションのリスト**を伴います。これには以下が含まれます：
 
-* **N`il`**（認証不要、**誰もが信頼されている**）
-* 空のリスト（**誰もが信頼されていない**）
-* 特定の**アプリケーション**の**リスト**。
+* **N`il`**（認証不要、**誰でも信頼される**）
+* **空の**リスト（**誰も**信頼されない）
+* **特定の**アプリケーションの**リスト**。
 
-また、エントリには**`ACLAuthorizationPartitionID`**というキーが含まれており、**teamid、apple、cdhash**を識別するために使用されます。
+また、エントリには**`ACLAuthorizationPartitionID`**というキーが含まれている場合があり、これは**teamid、apple、**および**cdhash**を識別するために使用されます。
 
-* **teamid**が指定されている場合、**エントリの値にアクセス**するためには、使用されるアプリケーションが**同じteamid**を持っている必要があります。
+* **teamid**が指定されている場合、**プロンプトなしで**エントリの値に**アクセスする**ためには、使用されるアプリケーションが**同じteamid**を持っている必要があります。
 * **apple**が指定されている場合、アプリは**Apple**によって**署名**されている必要があります。
 * **cdhash**が示されている場合、**アプリ**は特定の**cdhash**を持っている必要があります。
 
-### キーチェーンエントリの作成
+### Creating a Keychain Entry
 
-**`Keychain Access.app`**を使用して**新しい** **エントリ**を作成する場合、次のルールが適用されます：
-
-* すべてのアプリが暗号化できます。
-* **アプリは**エクスポート/復号化を行うことができません（ユーザーにプロンプトを表示せず）。
-* すべてのアプリが整合性チェックを見ることができます。
-* どのアプリもACLを変更することはできません。
-* **partitionID**は**`apple`**に設定されています。
-
-**アプリケーションがキーチェーンにエントリを作成する**場合、ルールは若干異なります：
+**`Keychain Access.app`**を使用して**新しい**エントリが作成されると、以下のルールが適用されます：
 
 * すべてのアプリが暗号化できます。
-* エクスポート/復号化を行うことができるのは、**作成アプリケーション**（または明示的に追加された他のアプリ）だけです（ユーザーにプロンプトを表示せず）。
-* すべてのアプリが整合性チェックを見ることができます。
-* どのアプリもACLを変更することはできません。
-* **partitionID**は**`teamid:[ここにteamID]`**に設定されています。
+* **アプリは**エクスポート/復号化できません（ユーザーにプロンプトなしで）。
+* すべてのアプリが整合性チェックを確認できます。
+* アプリはACLを変更できません。
+* **partitionID**は**`apple`**に設定されます。
 
-## キーチェーンへのアクセス
+**アプリケーションがキーチェーンにエントリを作成する**場合、ルールは少し異なります：
+
+* すべてのアプリが暗号化できます。
+* **作成アプリケーション**（または明示的に追加された他のアプリ）のみがエクスポート/復号化できます（ユーザーにプロンプトなしで）。
+* すべてのアプリが整合性チェックを確認できます。
+* アプリはACLを変更できません。
+* **partitionID**は**`teamid:[teamID here]`**に設定されます。
+
+## Accessing the Keychain
 
 ### `security`
 ```bash
+# List keychains
+security list-keychains
+
 # Dump all metadata and decrypted secrets (a lot of pop-ups)
 security dump-keychain -a -d
 
@@ -90,58 +93,61 @@ security find-generic-password -a "Slack" -g
 
 # Change the specified entrys PartitionID entry
 security set-generic-password-parition-list -s "test service" -a "test acount" -S
+
+# Dump specifically the user keychain
+security dump-keychain ~/Library/Keychains/login.keychain-db
 ```
 ### APIs
 
 {% hint style="success" %}
-**キーチェーンの列挙とダンプ**は、[**LockSmith**](https://github.com/its-a-feature/LockSmith)というツールを使用して、**プロンプトを生成しない**シークレットを取得できます。
+**キーチェーンの列挙と秘密のダンプ**は、**プロンプトを生成しない**ものを[**LockSmith**](https://github.com/its-a-feature/LockSmith)というツールで行うことができます。
 {% endhint %}
 
-各キーチェーンエントリの**情報**をリスト化および取得：
+各キーチェーンエントリについて**情報**をリストし取得します：
 
-* API **`SecItemCopyMatching`** は各エントリに関する情報を提供し、使用時に設定できるいくつかの属性があります：
-* **`kSecReturnData`**：trueの場合、データの復号を試みます（ポップアップを回避するにはfalseに設定）
-* **`kSecReturnRef`**：キーチェーンアイテムへの参照も取得します（後でポップアップなしで復号できることがわかった場合にtrueに設定）
+* API **`SecItemCopyMatching`**は各エントリについての情報を提供し、使用時に設定できる属性があります：
+* **`kSecReturnData`**：真の場合、データの復号を試みます（ポップアップを避けるために偽に設定）
+* **`kSecReturnRef`**：キーチェーンアイテムへの参照も取得します（後でポップアップなしで復号できることがわかった場合は真に設定）
 * **`kSecReturnAttributes`**：エントリに関するメタデータを取得します
 * **`kSecMatchLimit`**：返す結果の数
 * **`kSecClass`**：どの種類のキーチェーンエントリか
 
-各エントリの**ACL**を取得：
+各エントリの**ACL**を取得します：
 
-* API **`SecAccessCopyACLList`** を使用すると、**キーチェーンアイテムのACL**を取得し、ACLのリスト（`ACLAuhtorizationExportClear`などの以前に言及されたもの）が返されます。各リストには次のものが含まれます：
+* API **`SecAccessCopyACLList`**を使用すると、**キーチェーンアイテムのACL**を取得でき、各リストには以下のACL（`ACLAuhtorizationExportClear`など）が含まれます：
 * 説明
-* **信頼されたアプリケーションリスト**。これには次のようなものが含まれます：
+* **信頼されたアプリケーションリスト**。これには以下が含まれる可能性があります：
 * アプリ：/Applications/Slack.app
 * バイナリ：/usr/libexec/airportd
 * グループ：group://AirPort
 
-データのエクスポート：
+データをエクスポートします：
 
-* API **`SecKeychainItemCopyContent`** は平文を取得します
-* API **`SecItemExport`** はキーと証明書をエクスポートしますが、コンテンツを暗号化してエクスポートするにはパスワードを設定する必要があります
+* API **`SecKeychainItemCopyContent`**はプレーンテキストを取得します
+* API **`SecItemExport`**はキーと証明書をエクスポートしますが、コンテンツを暗号化してエクスポートするためにパスワードを設定する必要があるかもしれません
 
-そして、**プロンプトを生成せずにシークレットをエクスポート**するための**要件**は次のとおりです：
+そして、**プロンプトなしで秘密をエクスポートするための要件**は以下の通りです：
 
 * **1つ以上の信頼された**アプリがリストされている場合：
-* 適切な**認可**が必要（**`Nil`**、またはシークレット情報にアクセスするための認可されたアプリのリストの一部である必要があります）
+* 適切な**認可**が必要です（**`Nil`**、または秘密情報にアクセスするための認可リストに**含まれている**必要があります）
 * コード署名が**PartitionID**と一致する必要があります
-* コード署名が1つの**信頼されたアプリ**と一致する必要があります（または適切なKeychainAccessGroupのメンバーである必要があります）
-* **すべてのアプリケーションが信頼されている**場合：
-* 適切な**認可**が必要
+* コード署名が1つの**信頼されたアプリ**のものと一致する必要があります（または正しいKeychainAccessGroupのメンバーである必要があります）
+* **すべてのアプリケーションが信頼されている場合**：
+* 適切な**認可**が必要です
 * コード署名が**PartitionID**と一致する必要があります
 * **PartitionID**がない場合、これは必要ありません
 
 {% hint style="danger" %}
-したがって、**1つのアプリケーションがリストされている**場合、そのアプリケーションに**コードをインジェクトする**必要があります。
+したがって、**1つのアプリケーションがリストされている**場合、そのアプリケーションに**コードを注入する**必要があります。
 
-**PartitionID**に**apple**が指定されている場合、**`osascript`**を使用してアクセスできます。つまり、PartitionIDにappleを含むすべてのアプリケーションを信頼しているものにアクセスできます。**`Python`**もこれに使用できます。
+**apple**が**partitionID**に示されている場合、**`osascript`**を使用してアクセスできるため、partitionIDにappleを含むすべてのアプリケーションを信頼するものです。**`Python`**もこれに使用できます。
 {% endhint %}
 
 ### 2つの追加属性
 
-* **Invisible**：UIキーチェーンアプリからエントリを**非表示**にするためのブールフラグです
-* **General**：**メタデータ**を保存するためのものです（つまり、**暗号化されていない**）
-* Microsoftは、機密エンドポイントにアクセスするためのすべてのリフレッシュトークンを平文で保存していました。
+* **Invisible**：エントリを**UI**キーチェーンアプリから**隠す**ためのブールフラグです
+* **General**：**メタデータ**を保存するためのもので（したがって、暗号化されていません）
+* Microsoftは、機密エンドポイントにアクセスするためのすべてのリフレッシュトークンをプレーンテキストで保存していました。
 
 ## 参考文献
 
@@ -151,25 +157,25 @@ security set-generic-password-parition-list -s "test service" -a "test acount" -
 
 <figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io)は、**ダークウェブ**を活用した検索エンジンであり、企業やその顧客が**盗難マルウェア**によって**侵害**されていないかを確認するための**無料**機能を提供しています。
+[**WhiteIntel**](https://whiteintel.io)は、**ダークウェブ**を利用した検索エンジンで、企業やその顧客が**盗難マルウェア**によって**侵害された**かどうかを確認するための**無料**機能を提供しています。
 
-WhiteIntelの主な目標は、情報窃取マルウェアによるアカウント乗っ取りやランサムウェア攻撃に対抗することです。
+WhiteIntelの主な目標は、情報を盗むマルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
 
-彼らのウェブサイトをチェックし、**無料**でエンジンを試すことができます：
+彼らのウェブサイトを確認し、**無料**でエンジンを試すことができます：
 
 {% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-AWSハッキングの学習と実践：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングの学習と実践：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksのサポート</summary>
+<summary>HackTricksをサポートする</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)をチェック！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**telegramグループ**](https://t.me/peass)に**参加**するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォロー**してください。
-* **ハッキングトリックを共有するには、**[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **参加する** 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に、または**Twitter**で**フォロー**してください 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **ハッキングのトリックを共有するために、** [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。
 
 </details>
 {% endhint %}
