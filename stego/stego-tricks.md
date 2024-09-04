@@ -15,19 +15,11 @@
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## **Εξαγωγή Δεδομένων από Αρχεία**
 
 ### **Binwalk**
 
-Ένα εργαλείο για την αναζήτηση δυαδικών αρχείων για ενσωματωμένα κρυφά αρχεία και δεδομένα. Εγκαθίσταται μέσω του `apt` και η πηγή του είναι διαθέσιμη στο [GitHub](https://github.com/ReFirmLabs/binwalk).
+Ένα εργαλείο για την αναζήτηση δυαδικών αρχείων για ενσωματωμένα κρυφά αρχεία και δεδομένα. Εγκαθίσταται μέσω `apt` και η πηγή του είναι διαθέσιμη στο [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -35,7 +27,7 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-Ανακτά αρχεία με βάση τις κεφαλίδες και τις υποσέλιδές τους, χρήσιμο για εικόνες png. Εγκαθίσταται μέσω του `apt` με την πηγή του στο [GitHub](https://github.com/korczis/foremost).
+Ανακτά αρχεία με βάση τις κεφαλίδες και τις υποσέλιδές τους, χρήσιμο για εικόνες png. Εγκαθίσταται μέσω `apt` με την πηγή του στο [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
@@ -79,7 +71,7 @@ cmp original.jpg stego.jpg -b -l
 
 ### **Κρυφά Δεδομένα σε Κενά**
 
-Αόρατοι χαρακτήρες σε φαινομενικά κενά μπορεί να κρύβουν πληροφορίες. Για να εξάγετε αυτά τα δεδομένα, επισκεφθείτε [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
+Αόρατοι χαρακτήρες σε φαινομενικά κενά μπορεί να κρύβουν πληροφορίες. Για να εξαγάγετε αυτά τα δεδομένα, επισκεφθείτε [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
 
 ## **Εξαγωγή Δεδομένων από Εικόνες**
 
@@ -164,7 +156,7 @@ Steghide είναι ένα ευέλικτο εργαλείο σχεδιασμέ�
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-Αυτό το εργαλείο είναι συμβατό με μια ποικιλία μορφών, συμπεριλαμβανομένων των PNG, BMP, GIF, WebP και WAV. Για περισσότερες πληροφορίες, ανατρέξτε στην [ενότητα του Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
+Αυτό το εργαλείο είναι συμβατό με μια ποικιλία μορφών, συμπεριλαμβανομένων των PNG, BMP, GIF, WebP και WAV. Για περισσότερες πληροφορίες, ανατρέξτε στην [ενότητα Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
 
 ### **ffmpeg**
 
@@ -196,7 +188,7 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 
 ### **Binary Length SQRT - QR Code**
 
-Δυαδικά δεδομένα που τετραγωνίζονται σε ακέραιο αριθμό μπορεί να αντιπροσωπεύουν έναν QR code. Χρησιμοποιήστε αυτό το απόσπασμα για να ελέγξετε:
+Δυαδικά δεδομένα που τετραγωνίζονται σε ακέραιο αριθμό μπορεί να αντιπροσωπεύουν έναν κωδικό QR. Χρησιμοποιήστε αυτό το απόσπασμα για να ελέγξετε:
 ```python
 import math
 math.sqrt(2500) #50
@@ -212,23 +204,17 @@ math.sqrt(2500) #50
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -15,25 +15,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) είναι μια **μηχανή αναζήτησης** που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
-
-Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
-
-Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Improve your Wireshark skills
 
 ### Tutorials
 
-Τα παρακάτω tutorials είναι καταπληκτικά για να μάθετε μερικά ωραία βασικά κόλπα:
+Τα παρακάτω tutorials είναι καταπληκτικά για να μάθετε μερικά βασικά κόλπα:
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
@@ -44,19 +31,19 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Expert Information**
 
-Κάνοντας κλικ στο _**Analyze** --> **Expert Information**_ θα έχετε μια **επισκόπηση** του τι συμβαίνει στα πακέτα που έχουν **αναλυθεί**:
+Κάνοντας κλικ στο _**Analyze** --> **Expert Information**_ θα έχετε μια **επισκόπηση** του τι συμβαίνει στα πακέτα **που αναλύθηκαν**:
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
 **Resolved Addresses**
 
-Κάτω από _**Statistics --> Resolved Addresses**_ μπορείτε να βρείτε πολλές **πληροφορίες** που έχουν "**επιλυθεί**" από το wireshark όπως θύρα/μεταφορά σε πρωτόκολλο, MAC στον κατασκευαστή, κ.λπ. Είναι ενδιαφέρον να γνωρίζετε τι εμπλέκεται στην επικοινωνία.
+Κάτω από _**Statistics --> Resolved Addresses**_ μπορείτε να βρείτε πολλές **πληροφορίες** που "έχουν **επιλυθεί**" από το wireshark όπως θύρα/μεταφορά σε πρωτόκολλο, MAC στον κατασκευαστή, κ.λπ. Είναι ενδιαφέρον να γνωρίζετε τι εμπλέκεται στην επικοινωνία.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
 **Protocol Hierarchy**
 
-Κάτω από _**Statistics --> Protocol Hierarchy**_ μπορείτε να βρείτε τα **πρωτόκολλα** που είναι **εμπλεκόμενα** στην επικοινωνία και δεδομένα σχετικά με αυτά.
+Κάτω από _**Statistics --> Protocol Hierarchy**_ μπορείτε να βρείτε τα **πρωτόκολλα** **που εμπλέκονται** στην επικοινωνία και δεδομένα σχετικά με αυτά.
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
@@ -102,11 +89,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Free pcap labs
 
-**Practice with the free challenges of:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**Εξασκηθείτε με τις δωρεάν προκλήσεις του:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
 ## Identifying Domains
 
-Μπορείτε να προσθέσετε μια στήλη που δείχνει την κεφαλίδα Host HTTP:
+Μπορείτε να προσθέσετε μια στήλη που να δείχνει την κεφαλίδα Host HTTP:
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
@@ -146,7 +133,7 @@ _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Για να το εισάγετε στο wireshark πηγαίνετε στο _edit > preference > protocol > ssl > και εισάγετε το στο (Pre)-Master-Secret log filename:
+Για να το εισάγετε στο wireshark πηγαίνετε στο \_edit > preference > protocol > ssl > και εισάγετε το στο (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
@@ -179,29 +166,17 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
-
-Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
-
-Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

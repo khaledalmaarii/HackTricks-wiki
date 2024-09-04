@@ -15,24 +15,11 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) είναι μια **μηχανή αναζήτησης** που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξει αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
-
-Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
-
-Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Main Keychains
 
-* Το **User Keychain** (`~/Library/Keychains/login.keycahin-db`), το οποίο χρησιμοποιείται για την αποθήκευση **διαπιστευτηρίων συγκεκριμένων χρηστών** όπως κωδικοί πρόσβασης εφαρμογών, κωδικοί πρόσβασης στο διαδίκτυο, πιστοποιητικά που δημιουργούνται από τον χρήστη, κωδικοί πρόσβασης δικτύου και δημόσια/ιδιωτικά κλειδιά που δημιουργούνται από τον χρήστη.
-* Το **System Keychain** (`/Library/Keychains/System.keychain`), το οποίο αποθηκεύει **διαπιστευτήρια σε επίπεδο συστήματος** όπως κωδικοί πρόσβασης WiFi, πιστοποιητικά ρίζας συστήματος, ιδιωτικά κλειδιά συστήματος και κωδικοί πρόσβασης εφαρμογών συστήματος.
+* The **User Keychain** (`~/Library/Keychains/login.keycahin-db`), το οποίο χρησιμοποιείται για την αποθήκευση **διαπιστευτηρίων συγκεκριμένων χρηστών** όπως κωδικοί πρόσβασης εφαρμογών, κωδικοί πρόσβασης στο διαδίκτυο, πιστοποιητικά που δημιουργούνται από τον χρήστη, κωδικοί πρόσβασης δικτύου και δημόσια/ιδιωτικά κλειδιά που δημιουργούνται από τον χρήστη.
+* The **System Keychain** (`/Library/Keychains/System.keychain`), το οποίο αποθηκεύει **διαπιστευτήρια σε επίπεδο συστήματος** όπως κωδικοί πρόσβασης WiFi, πιστοποιητικά ρίζας συστήματος, ιδιωτικά κλειδιά συστήματος και κωδικοί πρόσβασης εφαρμογών συστήματος.
 
 ### Password Keychain Access
 
@@ -56,9 +43,9 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 
 Επίσης, η καταχώρηση μπορεί να περιέχει το κλειδί **`ACLAuthorizationPartitionID`,** το οποίο χρησιμοποιείται για να προσδιορίσει το **teamid, apple,** και **cdhash.**
 
-* Εάν το **teamid** είναι καθορισμένο, τότε για να **προσεγγιστεί η τιμή της καταχώρησης** **χωρίς** προτροπή, η χρησιμοποιούμενη εφαρμογή πρέπει να έχει το **ίδιο teamid**.
-* Εάν το **apple** είναι καθορισμένο, τότε η εφαρμογή πρέπει να είναι **υπογεγραμμένη** από την **Apple**.
-* Εάν το **cdhash** είναι καθορισμένο, τότε η **εφαρμογή** πρέπει να έχει το συγκεκριμένο **cdhash**.
+* Εάν το **teamid** καθορίζεται, τότε για να **προσεγγιστεί η καταχώρηση** αξίας **χωρίς** προτροπή, η χρησιμοποιούμενη εφαρμογή πρέπει να έχει το **ίδιο teamid**.
+* Εάν το **apple** καθορίζεται, τότε η εφαρμογή πρέπει να είναι **υπογεγραμμένη** από την **Apple**.
+* Εάν το **cdhash** υποδεικνύεται, τότε η **εφαρμογή** πρέπει να έχει το συγκεκριμένο **cdhash**.
 
 ### Creating a Keychain Entry
 
@@ -105,7 +92,7 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 
 Λίστα και λήψη **πληροφοριών** για κάθε καταχώρηση του keychain:
 
-* Η API **`SecItemCopyMatching`** παρέχει πληροφορίες για κάθε καταχώρηση και υπάρχουν ορισμένα χαρακτηριστικά που μπορείτε να ορίσετε κατά τη χρήση της:
+* Η API **`SecItemCopyMatching`** δίνει πληροφορίες για κάθε καταχώρηση και υπάρχουν μερικά χαρακτηριστικά που μπορείτε να ορίσετε κατά τη χρήση της:
 * **`kSecReturnData`**: Αν είναι αληθές, θα προσπαθήσει να αποκρυπτογραφήσει τα δεδομένα (ορίστε σε ψευδές για να αποφύγετε πιθανές αναδυόμενες ειδοποιήσεις)
 * **`kSecReturnRef`**: Λάβετε επίσης αναφορά στο στοιχείο του keychain (ορίστε σε αληθές σε περίπτωση που αργότερα δείτε ότι μπορείτε να αποκρυπτογραφήσετε χωρίς αναδυόμενη ειδοποίηση)
 * **`kSecReturnAttributes`**: Λάβετε μεταδεδομένα σχετικά με τις καταχωρήσεις
@@ -130,11 +117,11 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 
 * Αν **1+ εμπιστευμένες** εφαρμογές αναφέρονται:
 * Χρειάζεστε τις κατάλληλες **εξουσιοδοτήσεις** (**`Nil`**, ή να είστε **μέρος** της επιτρεπόμενης λίστας εφαρμογών στην εξουσιοδότηση για πρόσβαση στις μυστικές πληροφορίες)
-* Χρειάζεστε υπογραφή κώδικα που να ταιριάζει με το **PartitionID**
+* Χρειάζεστε υπογραφή κώδικα που να ταιριάζει με **PartitionID**
 * Χρειάζεστε υπογραφή κώδικα που να ταιριάζει με αυτήν μιας **εμπιστευμένης εφαρμογής** (ή να είστε μέλος της σωστής ομάδας πρόσβασης Keychain)
 * Αν **όλες οι εφαρμογές είναι εμπιστευτές**:
 * Χρειάζεστε τις κατάλληλες **εξουσιοδοτήσεις**
-* Χρειάζεστε υπογραφή κώδικα που να ταιριάζει με το **PartitionID**
+* Χρειάζεστε υπογραφή κώδικα που να ταιριάζει με **PartitionID**
 * Αν **δεν υπάρχει PartitionID**, τότε αυτό δεν είναι απαραίτητο
 
 {% hint style="danger" %}
@@ -153,17 +140,6 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) είναι μια **μηχανή αναζήτησης** που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
-
-Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
-
-Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -174,7 +150,7 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 <summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

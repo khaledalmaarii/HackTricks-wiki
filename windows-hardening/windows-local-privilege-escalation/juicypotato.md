@@ -15,22 +15,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) είναι μια **μηχανή αναζήτησης** που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξει αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
-
-Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
-
-Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
-**Το JuicyPotato δεν λειτουργεί** σε Windows Server 2019 και Windows 10 build 1809 και μετά. Ωστόσο, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) μπορούν να χρησιμοποιηθούν για να **εκμεταλλευτούν τα ίδια προνόμια και να αποκτήσουν πρόσβαση επιπέδου `NT AUTHORITY\SYSTEM`**. _**Ελέγξτε:**_
+**Το JuicyPotato δεν λειτουργεί** σε Windows Server 2019 και Windows 10 build 1809 και μετά. Ωστόσο, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) μπορούν να χρησιμοποιηθούν για **να εκμεταλλευτούν τα ίδια προνόμια και να αποκτήσουν πρόσβαση επιπέδου `NT AUTHORITY\SYSTEM`**. _**Δείτε:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -39,7 +25,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Juicy Potato (κατάχρηση των χρυσών προνομίων) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_Μια γλυκιά έκδοση του_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, με λίγο χυμό, δηλαδή **ένα άλλο εργαλείο Τοπικής Κλιμάκωσης Προνομίων, από Λογαριασμούς Υπηρεσιών Windows σε NT AUTHORITY\SYSTEM**_
+_Μια γλυκιά έκδοση του_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, με λίγο χυμό, δηλαδή **ένα άλλο εργαλείο Τοπικής Κατάχρησης Προνομίων, από Λογαριασμούς Υπηρεσιών Windows σε NT AUTHORITY\SYSTEM**_
 
 #### Μπορείτε να κατεβάσετε το juicypotato από [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)
 
@@ -47,15 +33,15 @@ _Μια γλυκιά έκδοση του_ [_RottenPotatoNG_](https://github.com/
 
 [**Από το juicy-potato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) και οι [παραλλαγές του](https://github.com/decoder-it/lonelypotato) εκμεταλλεύονται την αλυσίδα κλιμάκωσης προνομίων βασισμένη σε [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [υπηρεσία](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) που έχει τον MiTM listener στο `127.0.0.1:6666` και όταν έχετε `SeImpersonate` ή `SeAssignPrimaryToken` προνόμια. Κατά τη διάρκεια μιας ανασκόπησης build Windows βρήκαμε μια ρύθμιση όπου το `BITS` είχε σκόπιμα απενεργοποιηθεί και η θύρα `6666` είχε καταληφθεί.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) και οι [παραλλαγές του](https://github.com/decoder-it/lonelypotato) εκμεταλλεύονται την αλυσίδα κατάχρησης προνομίων βασισμένη σε [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [υπηρεσία](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) έχοντας τον MiTM listener στο `127.0.0.1:6666` και όταν έχετε `SeImpersonate` ή `SeAssignPrimaryToken` προνόμια. Κατά τη διάρκεια μιας ανασκόπησης build Windows βρήκαμε μια ρύθμιση όπου το `BITS` είχε σκόπιμα απενεργοποιηθεί και η θύρα `6666` είχε καταληφθεί.
 
-Αποφασίσαμε να οπλοποιήσουμε [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Πείτε γεια στο Juicy Potato**.
+Αποφασίσαμε να οπλοποιήσουμε το [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Πείτε γεια στο Juicy Potato**.
 
 > Για τη θεωρία, δείτε [Rotten Potato - Privilege Escalation from Service Accounts to SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) και ακολουθήστε την αλυσίδα των συνδέσμων και αναφορών.
 
-Ανακαλύψαμε ότι, εκτός από το `BITS`, υπάρχουν αρκετοί COM servers που μπορούμε να καταχραστούμε. Απλώς χρειάζεται να:
+Ανακαλύψαμε ότι, εκτός από το `BITS`, υπάρχουν αρκετοί COM servers που μπορούμε να καταχραστούμε. Απλά χρειάζεται να:
 
-1. είναι δυνατό να δημιουργηθούν από τον τρέχοντα χρήστη, συνήθως έναν “χρήστη υπηρεσίας” που έχει προνόμια αναπαράστασης
+1. είναι δυνατό να δημιουργηθούν από τον τρέχοντα χρήστη, συνήθως έναν “χρήστη υπηρεσίας” που έχει προνόμια κατάχρησης
 2. να υλοποιούν τη διεπαφή `IMarshal`
 3. να εκτελούνται ως ανυψωμένος χρήστης (SYSTEM, Administrator, …)
 
@@ -68,14 +54,14 @@ _Μια γλυκιά έκδοση του_ [_RottenPotatoNG_](https://github.com/
 * **Στόχος CLSID** _επιλέξτε οποιοδήποτε CLSID θέλετε._ [_Εδώ_](http://ohpe.it/juicy-potato/CLSID/) _μπορείτε να βρείτε τη λίστα οργανωμένη κατά OS._
 * **Θύρα Listening COM** _ορίστε τη θύρα listening COM που προτιμάτε (αντί της σκληροκωδικοποιημένης 6666)_
 * **Διεύθυνση IP Listening COM** _δεσμεύστε τον διακομιστή σε οποιαδήποτε IP_
-* **Λειτουργία δημιουργίας διεργασίας** _ανάλογα με τα προνόμια του αναπαριστώμενου χρήστη μπορείτε να επιλέξετε από:_
+* **Λειτουργία δημιουργίας διεργασίας** _ανάλογα με τα προνόμια του χρήστη που καταχράται μπορείτε να επιλέξετε από:_
 * `CreateProcessWithToken` (χρειάζεται `SeImpersonate`)
 * `CreateProcessAsUser` (χρειάζεται `SeAssignPrimaryToken`)
 * `και τα δύο`
-* **Διεργασία προς εκκίνηση** _εκκινήστε ένα εκτελέσιμο ή σενάριο αν η εκμετάλλευση είναι επιτυχής_
-* **Επιχείρημα διεργασίας** _προσαρμόστε τα επιχειρήματα της εκκινούμενης διεργασίας_
-* **Διεύθυνση RPC Server** _για μια κρυφή προσέγγιση μπορείτε να πιστοποιηθείτε σε έναν εξωτερικό διακομιστή RPC_
-* **Θύρα RPC Server** _χρήσιμο αν θέλετε να πιστοποιηθείτε σε έναν εξωτερικό διακομιστή και το firewall μπλοκάρει τη θύρα `135`…_
+* **Διεργασία προς εκτέλεση** _εκκινήστε ένα εκτελέσιμο ή σενάριο αν η εκμετάλλευση είναι επιτυχής_
+* **Επιχείρημα διεργασίας** _προσαρμόστε τα επιχειρήματα της εκτελούμενης διεργασίας_
+* **Διεύθυνση διακομιστή RPC** _για μια κρυφή προσέγγιση μπορείτε να πιστοποιηθείτε σε έναν εξωτερικό διακομιστή RPC_
+* **Θύρα διακομιστή RPC** _χρήσιμο αν θέλετε να πιστοποιηθείτε σε έναν εξωτερικό διακομιστή και το firewall μπλοκάρει τη θύρα `135`…_
 * **ΛΕΙΤΟΥΡΓΙΑ ΔΟΚΙΜΗΣ** _κυρίως για δοκιμαστικούς σκοπούς, δηλαδή δοκιμή CLSIDs. Δημιουργεί το DCOM και εκτυπώνει τον χρήστη του token. Δείτε_ [_εδώ για δοκιμή_](http://ohpe.it/juicy-potato/Test/)
 
 ### Χρήση <a href="#usage" id="usage"></a>
@@ -103,13 +89,13 @@ Optional args:
 
 Είναι σχεδόν αδύνατο να αποτραπεί η κακή χρήση όλων αυτών των COM Servers. Μπορείτε να σκεφτείτε να τροποποιήσετε τα δικαιώματα αυτών των αντικειμένων μέσω του `DCOMCNFG`, αλλά καλή τύχη, αυτό θα είναι προκλητικό.
 
-Η πραγματική λύση είναι να προστατεύσετε ευαίσθητους λογαριασμούς και εφαρμογές που εκτελούνται υπό τους λογαριασμούς `* SERVICE`. Η διακοπή του `DCOM` θα εμπόδιζε σίγουρα αυτή την εκμετάλλευση, αλλά θα μπορούσε να έχει σοβαρές επιπτώσεις στο υποκείμενο λειτουργικό σύστημα.
+Η πραγματική λύση είναι να προστατεύσετε ευαίσθητους λογαριασμούς και εφαρμογές που εκτελούνται υπό τους λογαριασμούς `* SERVICE`. Η διακοπή του `DCOM` θα αναστείλει σίγουρα αυτή την εκμετάλλευση, αλλά θα μπορούσε να έχει σοβαρές επιπτώσεις στο υποκείμενο λειτουργικό σύστημα.
 
 Από: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
 ## Παραδείγματα
 
-Σημείωση: Επισκεφθείτε [αυτή τη σελίδα](https://ohpe.it/juicy-potato/CLSID/) για μια λίστα με CLSIDs για δοκιμή.
+Σημείωση: Επισκεφθείτε [αυτή τη σελίδα](https://ohpe.it/juicy-potato/CLSID/) για μια λίστα με CLSIDs που να δοκιμάσετε.
 
 ### Πάρτε ένα nc.exe reverse shell
 ```
@@ -152,17 +138,6 @@ c:\Users\Public>
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) είναι μια **μηχανή αναζήτησης** που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξετε αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
-
-Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό κλοπής πληροφοριών.
-
-Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -173,7 +148,7 @@ c:\Users\Public>
 <summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Εγγραφείτε στη** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

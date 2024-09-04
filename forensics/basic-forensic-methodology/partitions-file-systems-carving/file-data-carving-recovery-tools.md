@@ -15,25 +15,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
 More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
-Το πιο κοινό εργαλείο που χρησιμοποιείται στην ψηφιακή εγκληματολογία για την εξαγωγή αρχείων από εικόνες είναι το [**Autopsy**](https://www.autopsy.com/download/). Κατεβάστε το, εγκαταστήστε το και κάντε το να επεξεργαστεί το αρχείο για να βρείτε "κρυφά" αρχεία. Σημειώστε ότι το Autopsy έχει σχεδιαστεί για να υποστηρίζει εικόνες δίσκων και άλλους τύπους εικόνων, αλλά όχι απλά αρχεία.
+Το πιο κοινό εργαλείο που χρησιμοποιείται στην ψηφιακή εγκληματολογία για την εξαγωγή αρχείων από εικόνες είναι το [**Autopsy**](https://www.autopsy.com/download/). Κατεβάστε το, εγκαταστήστε το και κάντε το να επεξεργαστεί το αρχείο για να βρείτε "κρυφά" αρχεία. Σημειώστε ότι το Autopsy έχει σχεδιαστεί για να υποστηρίζει δισκοειδείς εικόνες και άλλους τύπους εικόνων, αλλά όχι απλά αρχεία.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** είναι ένα εργαλείο για την ανάλυση δυαδικών αρχείων για να βρείτε ενσωματωμένο περιεχόμενο. Είναι εγκαταστάσιμο μέσω `apt` και η πηγή του είναι στο [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** είναι ένα εργαλείο για την ανάλυση δυαδικών αρχείων για να βρει ενσωματωμένο περιεχόμενο. Είναι εγκαταστάσιμο μέσω `apt` και η πηγή του είναι στο [GitHub](https://github.com/ReFirmLabs/binwalk).
 
 **Useful commands**:
 ```bash
@@ -104,12 +96,6 @@ bulk_extractor memory.img -o out_folder
 
 Μπορείτε να χρησιμοποιήσετε το [**viu** ](https://github.com/atanunq/viu) για να δείτε εικόνες από το τερματικό.\
 Μπορείτε να χρησιμοποιήσετε το εργαλείο γραμμής εντολών linux **pdftotext** για να μετατρέψετε ένα pdf σε κείμενο και να το διαβάσετε.
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

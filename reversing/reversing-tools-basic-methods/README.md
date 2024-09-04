@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## ImGui Based Reversing tools
 
 Software:
@@ -46,9 +38,9 @@ Software:
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
-Το dotPeek είναι ένας αποσυμπιεστής που **αποσυμπιέζει και εξετάζει πολλαπλές μορφές**, συμπεριλαμβανομένων των **βιβλιοθηκών** (.dll), **αρχείων μεταδεδομένων Windows** (.winmd) και **εκτελέσιμων** (.exe). Αφού αποσυμπιεστεί, μια συλλογή μπορεί να αποθηκευτεί ως έργο Visual Studio (.csproj).
+dotPeek είναι ένας decompiler που **decompiles και εξετάζει πολλαπλές μορφές**, συμπεριλαμβανομένων των **βιβλιοθηκών** (.dll), **αρχείων μεταδεδομένων Windows** (.winmd) και **εκτελέσιμων** (.exe). Μόλις αποσυμπιεστεί, μια assembly μπορεί να αποθηκευτεί ως έργο Visual Studio (.csproj).
 
-Το πλεονέκτημα εδώ είναι ότι αν ένας χαμένος κωδικός πηγής απαιτεί αποκατάσταση από μια κληρονομική συλλογή, αυτή η ενέργεια μπορεί να εξοικονομήσει χρόνο. Επιπλέον, το dotPeek παρέχει βολική πλοήγηση σε όλο τον αποσυμπιεσμένο κώδικα, καθιστώντας το ένα από τα τέλεια εργαλεία για **ανάλυση αλγορίθμων Xamarin.**
+Το πλεονέκτημα εδώ είναι ότι αν ένας χαμένος κώδικας απαιτεί αποκατάσταση από μια κληρονομημένη assembly, αυτή η ενέργεια μπορεί να εξοικονομήσει χρόνο. Επιπλέον, το dotPeek παρέχει βολική πλοήγηση σε όλο τον αποσυμπιεσμένο κώδικα, καθιστώντας το ένα από τα τέλεια εργαλεία για **ανάλυση αλγορίθμων Xamarin.**
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
@@ -57,14 +49,14 @@ Software:
 * Παρέχει μια εικόνα για το πώς ρέει τα δεδομένα μέσω μιας βιβλιοθήκης ή συστατικού
 * Παρέχει πληροφορίες για την υλοποίηση και τη χρήση γλωσσών και πλαισίων .NET
 * Βρίσκει μη τεκμηριωμένη και μη εκτεθειμένη λειτουργικότητα για να αξιοποιήσει περισσότερα από τις APIs και τις τεχνολογίες που χρησιμοποιούνται.
-* Βρίσκει εξαρτήσεις και διαφορετικές συλλογές
-* Εντοπίζει την ακριβή τοποθεσία σφαλμάτων στον κώδικά σας, σε τρίτα μέρη και σε βιβλιοθήκες.
-* Αποσφαλιδώνει την πηγή όλου του κώδικα .NET με τον οποίο εργάζεστε.
+* Βρίσκει εξαρτήσεις και διαφορετικές assemblies
+* Εντοπίζει την ακριβή τοποθεσία σφαλμάτων στον κώδικά σας, σε τρίτα μέρη και βιβλιοθήκες.
+* Αποσφαλματώνει την πηγή όλου του κώδικα .NET με τον οποίο εργάζεστε.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
 [ILSpy plugin for Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Μπορείτε να το έχετε σε οποιοδήποτε λειτουργικό σύστημα (μπορείτε να το εγκαταστήσετε απευθείας από το VSCode, δεν χρειάζεται να κατεβάσετε το git. Κάντε κλικ στο **Extensions** και **search ILSpy**).\
-Αν χρειάζεστε να **αποσυμπιέσετε**, **τροποποιήσετε** και **ανασυγκροτήσετε** ξανά μπορείτε να χρησιμοποιήσετε [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) ή ένα ενεργά συντηρούμενο fork του, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Δεξί Κλικ -> Τροποποίηση Μεθόδου** για να αλλάξετε κάτι μέσα σε μια συνάρτηση).
+Αν χρειάζεστε να **decompile**, **modify** και **recompile** ξανά μπορείτε να χρησιμοποιήσετε [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) ή ένα ενεργά συντηρούμενο fork του, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Δεξί Κλικ -> Τροποποίηση Μεθόδου** για να αλλάξετε κάτι μέσα σε μια συνάρτηση).
 
 ### DNSpy Logging
 
@@ -101,7 +93,7 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 
 Αυτό είναι απαραίτητο γιατί αν δεν το κάνετε αυτό, κατά τη διάρκεια της **runtime** θα εφαρμοστούν πολλές **optimisations** στον κώδικα και μπορεί να είναι δυνατόν ότι κατά την αποσφαλμάτωση μια **break-point δεν θα χτυπηθεί** ή κάποιες **μεταβλητές δεν θα υπάρχουν**.
 
-Στη συνέχεια, αν η εφαρμογή σας .NET εκτελείται από **IIS** μπορείτε να την **restart** με:
+Στη συνέχεια, αν η εφαρμογή .NET σας εκτελείται από **IIS** μπορείτε να την **restart** με:
 ```
 iisreset /noforce
 ```
@@ -184,7 +176,7 @@ Then, looking to this ca see when the execution was stopped in the dll you want 
 ### Debugging a shellcode with blobrunner
 
 [**Blobrunner**](https://github.com/OALabs/BlobRunner) θα **κατανείμει** το **shellcode** μέσα σε έναν χώρο μνήμης, θα **υποδείξει** τη **διεύθυνση μνήμης** όπου το shellcode κατανέμεται και θα **σταματήσει** την εκτέλεση.\
-Στη συνέχεια, πρέπει να **συνδέσετε έναν debugger** (Ida ή x64dbg) στη διαδικασία και να βάλετε ένα **breakpoint στη διευθυνση μνήμης που υποδείχθηκε** και να **συνεχίσετε** την εκτέλεση. Με αυτόν τον τρόπο θα κάνετε debugging το shellcode.
+Στη συνέχεια, πρέπει να **συνδέσετε έναν debugger** (Ida ή x64dbg) στη διαδικασία και να βάλετε ένα **breakpoint στη υποδεικνυόμενη διεύθυνση μνήμης** και να **συνεχίσετε** την εκτέλεση. Με αυτόν τον τρόπο θα κάνετε debugging το shellcode.
 
 Η σελίδα releases στο github περιέχει zip αρχεία που περιέχουν τις εκτελέσιμες εκδόσεις: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 Μπορείτε να βρείτε μια ελαφρώς τροποποιημένη έκδοση του Blobrunner στον παρακάτω σύνδεσμο. Για να το συντάξετε απλά **δημιουργήστε ένα έργο C/C++ στο Visual Studio Code, αντιγράψτε και επικολλήστε τον κώδικα και κατασκευάστε το**.
@@ -237,9 +229,9 @@ scDbg διαθέτει επίσης έναν γραφικό εκκινητή ό�
 
 Η επιλογή **Create Dump** θα αποθηκεύσει τον τελικό shellcode αν γίνει οποιαδήποτε αλλαγή στον shellcode δυναμικά στη μνήμη (χρήσιμο για να κατεβάσετε τον αποκωδικοποιημένο shellcode). Η **start offset** μπορεί να είναι χρήσιμη για να ξεκινήσει ο shellcode σε μια συγκεκριμένη θέση. Η επιλογή **Debug Shell** είναι χρήσιμη για να κάνετε αποσφαλμάτωση του shellcode χρησιμοποιώντας το τερματικό scDbg (ωστόσο, θεωρώ ότι οποιαδήποτε από τις επιλογές που εξηγήθηκαν προηγουμένως είναι καλύτερη για αυτό το θέμα καθώς θα μπορείτε να χρησιμοποιήσετε το Ida ή το x64dbg).
 
-### Disassembling using CyberChef
+### Αποσυναρμολόγηση χρησιμοποιώντας το CyberChef
 
-Ανεβάστε το αρχείο shellcode σας ως είσοδο και χρησιμοποιήστε την παρακάτω συνταγή για να το αποσυμπιέσετε: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
+Ανεβάστε το αρχείο shellcode σας ως είσοδο και χρησιμοποιήστε την παρακάτω συνταγή για να το αποσυναρμολογήσετε: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
@@ -248,7 +240,7 @@ scDbg διαθέτει επίσης έναν γραφικό εκκινητή ό�
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-Αν έχετε τύχη, ο [demovfuscator](https://github.com/kirschju/demovfuscator) θα αποκαταστήσει τον δυαδικό κώδικα. Έχει αρκετές εξαρτήσεις.
+Αν έχετε τύχη, ο [demovfuscator](https://github.com/kirschju/demovfuscator) θα απο-ομπλουκάρει το δυαδικό. Έχει αρκετές εξαρτήσεις
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
@@ -268,7 +260,7 @@ If you are playing a **CTF, αυτή η λύση για να βρείτε τη �
 
 ## **Delphi**
 
-Για δυαδικά αρχεία που έχουν μεταγλωττιστεί με Delphi μπορείτε να χρησιμοποιήσετε [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
+Για τα δυαδικά αρχεία που έχουν μεταγλωττιστεί με Delphi μπορείτε να χρησιμοποιήσετε [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
 
 Αν πρέπει να αναστρέψετε ένα δυαδικό αρχείο Delphi, θα σας πρότεινα να χρησιμοποιήσετε το plugin IDA [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
 
@@ -288,7 +280,7 @@ If you are playing a **CTF, αυτή η λύση για να βρείτε τη �
 
 ## Compiled Python
 
-Σε αυτή τη σελίδα μπορείτε να βρείτε πώς να αποκτήσετε τον κώδικα python από ένα δυαδικό αρχείο python που έχει μεταγλωττιστεί ELF/EXE:
+Σε αυτή τη σελίδα μπορείτε να βρείτε πώς να αποκτήσετε τον κώδικα python από ένα ELF/EXE δυαδικό αρχείο που έχει μεταγλωττιστεί σε python:
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -359,7 +351,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-Ο τελευταίος έλεγχος αν **`uVar4`** είναι στα **τελευταία Κλειδιά** και δεν είναι το τρέχον κλειδί, που επίσης ονομάζεται απελευθέρωση ενός κουμπιού (το τρέχον κλειδί αποθηκεύεται στο **`uVar1`**).
+Ο τελευταίος έλεγχος αν **`uVar4`** είναι στα **τελευταία Κλειδιά** και δεν είναι το τρέχον κλειδί, που ονομάζεται επίσης απελευθέρωση ενός κουμπιού (το τρέχον κλειδί αποθηκεύεται στο **`uVar1`**).
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -387,7 +379,7 @@ FUN_08000864();
 if (uVar1 == 0x10) {
 DAT_030000d8 = DAT_030000d8 + 0x3a;
 ```
-Στον προηγούμενο κώδικα μπορείτε να δείτε ότι συγκρίνουμε **uVar1** (το σημείο όπου είναι η **τιμή του πατημένου κουμπιού**) με κάποιες τιμές:
+Στον προηγούμενο κώδικα μπορείτε να δείτε ότι συγκρίνουμε **uVar1** (το σημείο όπου είναι **η τιμή του πατημένου κουμπιού**) με κάποιες τιμές:
 
 * Πρώτα, συγκρίνεται με την **τιμή 4** (**SELECT** κουμπί): Στην πρόκληση αυτό το κουμπί καθαρίζει την οθόνη
 * Στη συνέχεια, συγκρίνεται με την **τιμή 8** (**START** κουμπί): Στην πρόκληση αυτό ελέγχει αν ο κώδικας είναι έγκυρος για να πάρει τη σημαία.
@@ -406,13 +398,7 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 ## Courses
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Αποκωδικοποίηση δυαδικών)
-
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Αποσυμπίεση δυαδικών)
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

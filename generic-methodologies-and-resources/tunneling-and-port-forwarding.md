@@ -15,18 +15,10 @@
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Nmap tip
 
 {% hint style="warning" %}
-**ICMP** και **SYN** σάρωσεις δεν μπορούν να περάσουν μέσω των socks proxies, οπότε πρέπει να **απενεργοποιήσουμε την ανακάλυψη ping** (`-Pn`) και να καθορίσουμε **TCP σάρωσεις** (`-sT`) για να λειτουργήσει αυτό.
+**ICMP** και **SYN** σάρωσεις δεν μπορούν να περάσουν μέσω socks proxies, οπότε πρέπει να **απενεργοποιήσουμε την ανακάλυψη ping** (`-Pn`) και να καθορίσουμε **TCP σάρωσεις** (`-sT`) για να λειτουργήσει αυτό.
 {% endhint %}
 
 ## **Bash**
@@ -90,7 +82,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tunnel
 
-Χρειάζεστε **root και στις δύο συσκευές** (καθώς πρόκειται να δημιουργήσετε νέες διεπαφές) και η ρύθμιση του sshd πρέπει να επιτρέπει την είσοδο ως root:\
+Χρειάζεστε **root και στις δύο συσκευές** (καθώς πρόκειται να δημιουργήσετε νέες διεπαφές) και η ρύθμιση του sshd πρέπει να επιτρέπει την είσοδο του root:\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -111,8 +103,8 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 ```
 ## SSHUTTLE
 
-Μπορείτε να **tunnel** μέσω **ssh** όλη την **κίνηση** σε ένα **υποδίκτυο** μέσω ενός host.\
-Για παράδειγμα, προωθώντας όλη την κίνηση που πηγαίνει στο 10.10.10.0/24
+Μπορείτε να **tunnel** μέσω **ssh** όλη την **κυκλοφορία** σε ένα **υποδίκτυο** μέσω ενός κεντρικού υπολογιστή.\
+Για παράδειγμα, προωθώντας όλη την κυκλοφορία που πηγαίνει στο 10.10.10.0/24
 ```bash
 pip install sshuttle
 sshuttle -r user@host 10.10.10.10/24
@@ -156,7 +148,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### SOCKS proxy
 
-Ανοίξτε μια θύρα στον teamserver που ακούει σε όλα τα interfaces που μπορούν να χρησιμοποιηθούν για να **δρομολογήσουν την κίνηση μέσω του beacon**.
+Ανοίξτε μια θύρα στον server της ομάδας που ακούει σε όλα τα interfaces που μπορούν να χρησιμοποιηθούν για να **δρομολογήσουν την κίνηση μέσω του beacon**.
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -167,7 +159,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-Σε αυτή την περίπτωση, το **θύρα ανοίγεται στον host beacon**, όχι στον Team Server και η κίνηση αποστέλλεται στον Team Server και από εκεί στον υποδεικνυόμενο host:port
+Σε αυτή την περίπτωση, το **θύρα ανοίγει στον host beacon**, όχι στον Team Server και η κίνηση αποστέλλεται στον Team Server και από εκεί στον καθορισμένο host:port
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -175,14 +167,14 @@ rportfwd stop [bind port]
 ```
 To note:
 
-- Η αντίστροφη προώθηση θύρας του Beacon έχει σχεδιαστεί για να **συνδέει την κίνηση στον Server Ομάδας, όχι για αναμετάδοση μεταξύ μεμονωμένων μηχανών**.
-- Η κίνηση είναι **συνδεδεμένη μέσα στην κίνηση C2 του Beacon**, συμπεριλαμβανομένων των P2P συνδέσεων.
+- Η αντίστροφη προώθηση θύρας του Beacon έχει σχεδιαστεί για να **δημιουργεί σήραγγες για την κυκλοφορία προς τον Team Server, όχι για αναμετάδοση μεταξύ μεμονωμένων μηχανών**.
+- Η κυκλοφορία είναι **δημιουργημένη σε σήραγγες μέσα στην κυκλοφορία C2 του Beacon**, συμπεριλαμβανομένων των P2P συνδέσεων.
 - **Δικαιώματα διαχειριστή δεν απαιτούνται** για τη δημιουργία αντίστροφων προωθήσεων θύρας σε υψηλές θύρες.
 
 ### rPort2Port local
 
 {% hint style="warning" %}
-Σε αυτή την περίπτωση, η **θύρα ανοίγεται στον υπολογιστή beacon**, όχι στον Server Ομάδας και η **κίνηση αποστέλλεται στον πελάτη Cobalt Strike** (όχι στον Server Ομάδας) και από εκεί στον καθορισμένο host:port
+Σε αυτή την περίπτωση, η **θύρα ανοίγεται στον host του beacon**, όχι στον Team Server και η **κυκλοφορία αποστέλλεται στον πελάτη Cobalt Strike** (όχι στον Team Server) και από εκεί στον καθορισμένο host:port
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -304,7 +296,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 
 Είναι σαν μια κονσόλα PuTTY έκδοση (οι επιλογές είναι πολύ παρόμοιες με έναν ssh πελάτη).
 
-Καθώς αυτό το δυαδικό αρχείο θα εκτελείται στο θύμα και είναι ένας ssh πελάτης, πρέπει να ανοίξουμε την υπηρεσία ssh και την θύρα μας ώστε να μπορέσουμε να έχουμε μια αντίστροφη σύνδεση. Στη συνέχεια, για να προωθήσουμε μόνο την τοπικά προσβάσιμη θύρα σε μια θύρα στη μηχανή μας:
+Καθώς αυτό το δυαδικό αρχείο θα εκτελείται στον θύμα και είναι ένας ssh πελάτης, πρέπει να ανοίξουμε την υπηρεσία ssh και την θύρα μας ώστε να μπορέσουμε να έχουμε μια αντίστροφη σύνδεση. Στη συνέχεια, για να προωθήσουμε μόνο την τοπικά προσβάσιμη θύρα σε μια θύρα στη μηχανή μας:
 ```bash
 echo y | plink.exe -l <Our_valid_username> -pw <valid_password> [-p <port>] -R <port_ in_our_host>:<next_ip>:<final_port> <your_ip>
 echo y | plink.exe -l root -pw password [-p 2222] -R 9090:127.0.0.1:9090 10.11.0.41 #Local port 9090 to out port 9090
@@ -352,12 +344,12 @@ netstat -antb | findstr 1080
 
 Μπορείτε να κάνετε τις εφαρμογές Windows GUI να περιηγούνται μέσω ενός proxy χρησιμοποιώντας [**Proxifier**](https://www.proxifier.com/).\
 Στο **Profile -> Proxy Servers** προσθέστε τη διεύθυνση IP και τον πόρο του διακομιστή SOCKS.\
-Στο **Profile -> Proxification Rules** προσθέστε το όνομα του προγράμματος που θέλετε να προξενήσετε και τις συνδέσεις στις διευθύνσεις IP που θέλετε να προξενήσετε.
+Στο **Profile -> Proxification Rules** προσθέστε το όνομα του προγράμματος που θέλετε να προξενήσετε και τις συνδέσεις προς τις διευθύνσεις IP που θέλετε να προξενήσετε.
 
 ## Παράκαμψη proxy NTLM
 
 Το προηγουμένως αναφερόμενο εργαλείο: **Rpivot**\
-**OpenVPN** μπορεί επίσης να το παρακάμψει, ρυθμίζοντας αυτές τις επιλογές στο αρχείο ρύθμισης:
+**OpenVPN** μπορεί επίσης να το παρακάμψει, ρυθμίζοντας αυτές τις επιλογές στο αρχείο ρύθμισης.
 ```bash
 http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 ```
@@ -365,7 +357,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Αυτή η εφαρμογή αυθεντικοποιείται έναντι ενός proxy και δεσμεύει μια θύρα τοπικά που προωθείται στην εξωτερική υπηρεσία που καθορίζετε. Στη συνέχεια, μπορείτε να χρησιμοποιήσετε το εργαλείο της επιλογής σας μέσω αυτής της θύρας.\
+Αυθεντικοποιεί έναν proxy και δεσμεύει μια θύρα τοπικά που προωθείται στην εξωτερική υπηρεσία που καθορίζετε. Στη συνέχεια, μπορείτε να χρησιμοποιήσετε το εργαλείο της επιλογής σας μέσω αυτής της θύρας.\
 Για παράδειγμα, προωθήστε τη θύρα 443
 ```
 Username Alice
@@ -374,7 +366,7 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Τώρα, αν ρυθμίσετε για παράδειγμα στο θύμα την υπηρεσία **SSH** να ακούει στην πόρτα 443. Μπορείτε να συνδεθείτε σε αυτήν μέσω της πόρτας του επιτιθέμενου 2222.\
+Τώρα, αν ρυθμίσετε για παράδειγμα στον θύμα την υπηρεσία **SSH** να ακούει στην πόρτα 443. Μπορείτε να συνδεθείτε σε αυτήν μέσω της θύρας 2222 του επιτιθέμενου.\
 Μπορείτε επίσης να χρησιμοποιήσετε ένα **meterpreter** που συνδέεται στο localhost:443 και ο επιτιθέμενος ακούει στην πόρτα 2222.
 
 ## YARP
@@ -424,7 +416,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Αλλαγή DNS του proxychains
 
-Το Proxychains παρεμβαίνει στην κλήση `gethostbyname` της libc και στέλνει τα αιτήματα DNS tcp μέσω του socks proxy. Από **προεπιλογή**, ο **DNS** διακομιστής που χρησιμοποιεί το proxychains είναι **4.2.2.2** (σκληρά κωδικοποιημένος). Για να τον αλλάξετε, επεξεργαστείτε το αρχείο: _/usr/lib/proxychains3/proxyresolv_ και αλλάξτε τη διεύθυνση IP. Αν βρίσκεστε σε **περιβάλλον Windows**, μπορείτε να ορίσετε τη διεύθυνση IP του **domain controller**.
+Το Proxychains παρεμβαίνει στην κλήση `gethostbyname` της libc και στέλνει το tcp DNS αίτημα μέσω του socks proxy. Από **προεπιλογή**, ο **DNS** διακομιστής που χρησιμοποιεί το proxychains είναι **4.2.2.2** (σκληρά κωδικοποιημένος). Για να τον αλλάξετε, επεξεργαστείτε το αρχείο: _/usr/lib/proxychains3/proxyresolv_ και αλλάξτε τη διεύθυνση IP. Αν βρίσκεστε σε **περιβάλλον Windows**, μπορείτε να ορίσετε τη διεύθυνση IP του **domain controller**.
 
 ## Τούνελ σε Go
 
@@ -437,7 +429,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-Απαιτείται root και στα δύο συστήματα για να δημιουργηθούν οι προσαρμογείς tun και να μεταφερθούν δεδομένα μεταξύ τους χρησιμοποιώντας αιτήματα ICMP echo.
+Απαιτείται root και στα δύο συστήματα για να δημιουργηθούν tun adapters και να μεταφερθούν δεδομένα μεταξύ τους χρησιμοποιώντας αιτήματα ICMP echo.
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -526,14 +518,6 @@ addr: file:///tmp/httpbin/
 
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 {% hint style="success" %}
 Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

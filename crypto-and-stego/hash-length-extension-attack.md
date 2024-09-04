@@ -15,26 +15,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-#### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξει αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
-
-Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
-
-Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Summary of the attack
 
-Φανταστείτε έναν διακομιστή που **υπογράφει** κάποια **δεδομένα** προσθέτοντας ένα **μυστικό** σε κάποια γνωστά δεδομένα καθαρού κειμένου και στη συνέχεια κατακερματίζοντας αυτά τα δεδομένα. Αν γνωρίζετε:
+Φανταστείτε έναν διακομιστή που **υπογράφει** κάποια **δεδομένα** προσθέτοντας ένα **μυστικό** σε κάποια γνωστά καθαρά δεδομένα και στη συνέχεια κατακερματίζοντας αυτά τα δεδομένα. Αν γνωρίζετε:
 
 * **Το μήκος του μυστικού** (αυτό μπορεί επίσης να βρεθεί με brute force από μια δεδομένη περιοχή μήκους)
-* **Τα δεδομένα καθαρού κειμένου**
+* **Τα καθαρά δεδομένα**
 * **Ο αλγόριθμος (και είναι ευάλωτος σε αυτή την επίθεση)**
 * **Η προσθήκη είναι γνωστή**
 * Συνήθως χρησιμοποιείται μια προεπιλεγμένη, οπότε αν πληρούνται οι άλλες 3 απαιτήσεις, αυτό ισχύει επίσης
@@ -62,17 +49,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 Μπορείτε να βρείτε αυτή την επίθεση καλά εξηγημένη στο [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 
-#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) είναι μια μηχανή αναζήτησης που τροφοδοτείται από το **dark-web** και προσφέρει **δωρεάν** λειτουργίες για να ελέγξει αν μια εταιρεία ή οι πελάτες της έχουν **παραβιαστεί** από **stealer malwares**.
-
-Ο κύριος στόχος του WhiteIntel είναι να καταπολεμήσει τις καταλήψεις λογαριασμών και τις επιθέσεις ransomware που προκύπτουν από κακόβουλο λογισμικό που κλέβει πληροφορίες.
-
-Μπορείτε να ελέγξετε την ιστοσελίδα τους και να δοκιμάσετε τη μηχανή τους **δωρεάν** στο:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

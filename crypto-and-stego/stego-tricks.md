@@ -1,59 +1,51 @@
-# Stego Κόλπα
+# Stego Tricks
 
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Εκπαίδευση HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** 💬 [**στην ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Κοινοποιήστε κόλπα χάκερ καταθέτοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
-
-**Ομάδα Ασφαλείας Try Hard**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## **Εξαγωγή Δεδομένων από Αρχεία**
 
 ### **Binwalk**
 
-Ένα εργαλείο για την αναζήτηση δυαδικών αρχείων για ενσωματωμένα κρυφά αρχεία και δεδομένα. Εγκαθίσταται μέσω του `apt` και ο πηγαίος κώδικάς του είναι διαθέσιμος στο [GitHub](https://github.com/ReFirmLabs/binwalk).
+Ένα εργαλείο για την αναζήτηση δυαδικών αρχείων για ενσωματωμένα κρυφά αρχεία και δεδομένα. Εγκαθίσταται μέσω του `apt` και η πηγή του είναι διαθέσιμη στο [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
 binwalk --dd ".*" file # Extracts all data
 ```
-### **Κυριότερο**
+### **Foremost**
 
-Ανακτά αρχεία με βάση τις κεφαλίδες και τα υποσένδοντα τους, χρήσιμο για εικόνες png. Εγκαθίσταται μέσω `apt` με την πηγή του στο [GitHub](https://github.com/korczis/foremost).
+Ανακτά αρχεία με βάση τις κεφαλίδες και τις υποσέλιδές τους, χρήσιμο για εικόνες png. Εγκαθίσταται μέσω `apt` με την πηγή του στο [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Βοηθάει στην προβολή μεταδεδομένων αρχείων, διαθέσιμο [εδώ](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
+Βοηθά στην προβολή μεταδεδομένων αρχείων, διαθέσιμο [εδώ](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
 ### **Exiv2**
 
-Παρόμοιο με το exiftool, για προβολή μεταδεδομένων. Εγκατάσταση μέσω `apt`, πηγαίος κώδικας στο [GitHub](https://github.com/Exiv2/exiv2), και έχει μια [επίσημη ιστοσελίδα](http://www.exiv2.org/).
+Παρόμοιο με το exiftool, για προβολή μεταδεδομένων. Εγκαθίσταται μέσω `apt`, πηγή στο [GitHub](https://github.com/Exiv2/exiv2), και έχει μια [επίσημη ιστοσελίδα](http://www.exiv2.org/).
 ```bash
 exiv2 file # Shows the metadata
 ```
 ### **Αρχείο**
 
-Αναγνωρίστε τον τύπο του αρχείου με τον οποίο ασχολείστε.
+Καθορίστε τον τύπο του αρχείου με το οποίο ασχολείστε.
 
 ### **Συμβολοσειρές**
 
@@ -75,59 +67,59 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
-## **Εξαγωγή Κρυμμένων Δεδομένων σε Κείμενο**
+## **Εξαγωγή Κρυφών Δεδομένων σε Κείμενο**
 
-### **Κρυμμένα Δεδομένα στα Διαστήματα**
+### **Κρυφά Δεδομένα σε Κενά**
 
-Αόρατοι χαρακτήρες σε φαινομενικά κενά διαστήματα μπορεί να κρύβουν πληροφορίες. Για να εξάγετε αυτά τα δεδομένα, επισκεφθείτε [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
+Αόρατοι χαρακτήρες σε φαινομενικά κενά μπορεί να κρύβουν πληροφορίες. Για να εξαγάγετε αυτά τα δεδομένα, επισκεφθείτε [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
 
 ## **Εξαγωγή Δεδομένων από Εικόνες**
 
 ### **Αναγνώριση Λεπτομερειών Εικόνας με το GraphicMagick**
 
-Το [GraphicMagick](https://imagemagick.org/script/download.php) χρησιμεύει για τον προσδιορισμό τύπων αρχείων εικόνας και την αναγνώριση πιθανής διαφθοράς. Εκτελέστε την παρακάτω εντολή για να επιθεωρήσετε μια εικόνα:
+[GraphicMagick](https://imagemagick.org/script/download.php) χρησιμεύει για να προσδιορίσει τους τύπους αρχείων εικόνας και να εντοπίσει πιθανή διαφθορά. Εκτελέστε την παρακάτω εντολή για να ελέγξετε μια εικόνα:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-Για να προσπαθήσετε να επισκευάσετε μια φθαρμένη εικόνα, η προσθήκη ενός σχολίου μεταδεδομένων μπορεί να βοηθήσει:
+Για να προσπαθήσετε να επισκευάσετε μια κατεστραμμένη εικόνα, η προσθήκη ενός σχολίου μεταδεδομένων μπορεί να βοηθήσει:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
 ### **Steghide για Απόκρυψη Δεδομένων**
 
-Το Steghide διευκολύνει την απόκρυψη δεδομένων εντός αρχείων `JPEG, BMP, WAV, και AU`, ικανό να ενσωματώνει και να εξάγει κρυπτογραφημένα δεδομένα. Η εγκατάσταση είναι απλή χρησιμοποιώντας το `apt`, και ο [πηγαίος κώδικας είναι διαθέσιμος στο GitHub](https://github.com/StefanoDeVuono/steghide).
+Το Steghide διευκολύνει την απόκρυψη δεδομένων μέσα σε `JPEG, BMP, WAV, και AU` αρχεία, ικανό να ενσωματώνει και να εξάγει κρυπτογραφημένα δεδομένα. Η εγκατάσταση είναι απλή χρησιμοποιώντας `apt`, και ο [κώδικας πηγής είναι διαθέσιμος στο GitHub](https://github.com/StefanoDeVuono/steghide).
 
 **Εντολές:**
 
-* Το `steghide info file` αποκαλύπτει αν ένα αρχείο περιέχει κρυμμένα δεδομένα.
-* Το `steghide extract -sf file [--passphrase password]` εξάγει τα κρυμμένα δεδομένα, με τον κωδικό πρόσβασης να είναι προαιρετικός.
+* `steghide info file` αποκαλύπτει αν ένα αρχείο περιέχει κρυμμένα δεδομένα.
+* `steghide extract -sf file [--passphrase password]` εξάγει τα κρυμμένα δεδομένα, ο κωδικός πρόσβασης είναι προαιρετικός.
 
-Για εξαγωγή μέσω ιστοσελίδας, επισκεφθείτε [αυτή την ιστοσελίδα](https://futureboy.us/stegano/decinput.html).
+Για εξαγωγή μέσω διαδικτύου, επισκεφθείτε [αυτή την ιστοσελίδα](https://futureboy.us/stegano/decinput.html).
 
-**Επίθεση Βίας με το Stegcracker:**
+**Επίθεση Bruteforce με Stegcracker:**
 
-* Για να δοκιμάσετε την αποκωδικοποίηση κωδικών πρόσβασης στο Steghide, χρησιμοποιήστε το [stegcracker](https://github.com/Paradoxis/StegCracker.git) ως εξής:
+* Για να προσπαθήσετε να σπάσετε τον κωδικό πρόσβασης στο Steghide, χρησιμοποιήστε [stegcracker](https://github.com/Paradoxis/StegCracker.git) ως εξής:
 ```bash
 stegcracker <file> [<wordlist>]
 ```
-### **zsteg για αρχεία PNG και BMP**
+### **zsteg για PNG και BMP Αρχεία**
 
-Το zsteg εξειδικεύεται στην αποκάλυψη κρυμμένων δεδομένων σε αρχεία PNG και BMP. Η εγκατάσταση γίνεται μέσω `gem install zsteg`, με την [πηγή του στο GitHub](https://github.com/zed-0xff/zsteg).
+zsteg ειδικεύεται στην αποκάλυψη κρυφών δεδομένων σε αρχεία PNG και BMP. Η εγκατάσταση γίνεται μέσω `gem install zsteg`, με την [πηγή στο GitHub](https://github.com/zed-0xff/zsteg).
 
 **Εντολές:**
 
-* Το `zsteg -a file` εφαρμόζει όλες τις μεθόδους ανίχνευσης σε ένα αρχείο.
-* Το `zsteg -E file` καθορίζει ένα φορτίο για την εξαγωγή δεδομένων.
+* `zsteg -a file` εφαρμόζει όλες τις μεθόδους ανίχνευσης σε ένα αρχείο.
+* `zsteg -E file` καθορίζει ένα payload για εξαγωγή δεδομένων.
 
 ### **StegoVeritas και Stegsolve**
 
-Το **stegoVeritas** ελέγχει τα μεταδεδομένα, εκτελεί μετασχηματισμούς εικόνας και εφαρμόζει αναζήτηση LSB μεταξύ άλλων χαρακτηριστικών. Χρησιμοποιήστε `stegoveritas.py -h` για μια πλήρη λίστα επιλογών και `stegoveritas.py stego.jpg` για να εκτελέσετε όλους τους ελέγχους.
+**stegoVeritas** ελέγχει τα μεταδεδομένα, εκτελεί μετασχηματισμούς εικόνας και εφαρμόζει LSB brute forcing μεταξύ άλλων χαρακτηριστικών. Χρησιμοποιήστε `stegoveritas.py -h` για μια πλήρη λίστα επιλογών και `stegoveritas.py stego.jpg` για να εκτελέσετε όλους τους ελέγχους.
 
-Το **Stegsolve** εφαρμόζει διάφορα φίλτρα χρωμάτων για να αποκαλύψει κρυμμένα κείμενα ή μηνύματα μέσα σε εικόνες. Είναι διαθέσιμο στο [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
+**Stegsolve** εφαρμόζει διάφορα φίλτρα χρώματος για να αποκαλύψει κρυφά κείμενα ή μηνύματα μέσα σε εικόνες. Είναι διαθέσιμο στο [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
-### **FFT για Ανίχνευση Κρυμμένου Περιεχομένου**
+### **FFT για Ανίχνευση Κρυφού Περιεχομένου**
 
-Οι τεχνικές Fast Fourier Transform (FFT) μπορούν να αποκαλύψουν κρυμμένο περιεχόμενο σε εικόνες. Χρήσιμοι πόροι περιλαμβάνουν:
+Οι τεχνικές Fast Fourier Transform (FFT) μπορούν να αποκαλύψουν κρυφό περιεχόμενο σε εικόνες. Χρήσιμοι πόροι περιλαμβάνουν:
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -135,7 +127,7 @@ stegcracker <file> [<wordlist>]
 
 ### **Stegpy για Αρχεία Ήχου και Εικόνας**
 
-Το Stegpy επιτρέπει την ενσωμάτωση πληροφοριών σε αρχεία εικόνας και ήχου, υποστηρίζοντας μορφές όπως PNG, BMP, GIF, WebP και WAV. Είναι διαθέσιμο στο [GitHub](https://github.com/dhsdshdhk/stegpy).
+Stegpy επιτρέπει την ενσωμάτωση πληροφοριών σε αρχεία εικόνας και ήχου, υποστηρίζοντας μορφές όπως PNG, BMP, GIF, WebP και WAV. Είναι διαθέσιμο στο [GitHub](https://github.com/dhsdshdhk/stegpy).
 
 ### **Pngcheck για Ανάλυση Αρχείων PNG**
 
@@ -144,9 +136,9 @@ stegcracker <file> [<wordlist>]
 apt-get install pngcheck
 pngcheck stego.png
 ```
-### **Επιπρόσθετα Εργαλεία για Ανάλυση Εικόνων**
+### **Επιπλέον Εργαλεία για Ανάλυση Εικόνας**
 
-Για περαιτέρω εξερεύνηση, εξετάστε την επίσκεψη:
+Για περαιτέρω εξερεύνηση, σκεφτείτε να επισκεφθείτε:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 * [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -156,25 +148,25 @@ pngcheck stego.png
 
 ## **Εξαγωγή Δεδομένων από Ήχους**
 
-Η **ακουστική στεγανογραφία** προσφέρει ένα μοναδικό τρόπο για την κρυψοκάλυψη πληροφοριών μέσα σε αρχεία ήχου. Διάφορα εργαλεία χρησιμοποιούνται για την ενσωμάτωση ή την ανάκτηση κρυφού περιεχομένου.
+**Audio steganography** προσφέρει μια μοναδική μέθοδο για την απόκρυψη πληροφοριών μέσα σε αρχεία ήχου. Διάφορα εργαλεία χρησιμοποιούνται για την ενσωμάτωση ή την ανάκτηση κρυφού περιεχομένου.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Το Steghide είναι ένα ευέλικτο εργαλείο σχεδιασμένο για την απόκρυψη δεδομένων σε αρχεία JPEG, BMP, WAV και AU. Λεπτομερείς οδηγίες παρέχονται στο [έγγραφο με τα κόλπα της stego](stego-tricks.md#steghide).
+Steghide είναι ένα ευέλικτο εργαλείο σχεδιασμένο για την απόκρυψη δεδομένων σε αρχεία JPEG, BMP, WAV και AU. Λεπτομερείς οδηγίες παρέχονται στην [τεκμηρίωση stego tricks](stego-tricks.md#steghide).
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-Αυτό το εργαλείο είναι συμβατό με μια ποικιλία μορφών, συμπεριλαμβανομένων PNG, BMP, GIF, WebP και WAV. Για περισσότερες πληροφορίες, ανατρέξτε στην [ενότητα του Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
+Αυτό το εργαλείο είναι συμβατό με μια ποικιλία μορφών, συμπεριλαμβανομένων των PNG, BMP, GIF, WebP και WAV. Για περισσότερες πληροφορίες, ανατρέξτε στην [ενότητα του Stegpy](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
 
 ### **ffmpeg**
 
-Το ffmpeg είναι κρίσιμο για την αξιολόγηση της ακεραιότητας των αρχείων ήχου, επισημαίνοντας λεπτομερείς πληροφορίες και εντοπίζοντας οποιεσδήποτε αντιφάσεις.
+ffmpeg είναι κρίσιμο για την αξιολόγηση της ακεραιότητας των αρχείων ήχου, επισημαίνοντας λεπτομερείς πληροφορίες και εντοπίζοντας τυχόν ανωμαλίες.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-Το WavSteg ξεχωρίζει στην απόκρυψη και εξαγωγή δεδομένων μέσα σε αρχεία WAV χρησιμοποιώντας τη στρατηγική του λιγότερο σημαντικού bit. Είναι προσβάσιμο στο [GitHub](https://github.com/ragibson/Steganography#WavSteg). Οι εντολές περιλαμβάνουν:
+Το WavSteg διακρίνεται στην απόκρυψη και εξαγωγή δεδομένων μέσα σε αρχεία WAV χρησιμοποιώντας τη στρατηγική του λιγότερο σημαντικού bit. Είναι διαθέσιμο στο [GitHub](https://github.com/ragibson/Steganography#WavSteg). Οι εντολές περιλαμβάνουν:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -182,51 +174,47 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
 ### **Deepsound**
 
-Το Deepsound επιτρέπει την κρυπτογράφηση και ανίχνευση πληροφοριών μέσα σε αρχεία ήχου χρησιμοποιώντας το AES-256. Μπορεί να ληφθεί από [την επίσημη σελίδα](http://jpinsoft.net/deepsound/download.aspx).
+Το Deepsound επιτρέπει την κρυπτογράφηση και ανίχνευση πληροφοριών μέσα σε αρχεία ήχου χρησιμοποιώντας AES-256. Μπορεί να κατέβει από [την επίσημη σελίδα](http://jpinsoft.net/deepsound/download.aspx).
 
 ### **Sonic Visualizer**
 
-Ένα ανεκτίμητο εργαλείο για οπτική και αναλυτική επιθεώρηση αρχείων ήχου, το Sonic Visualizer μπορεί να αποκαλύψει κρυμμένα στοιχεία που δεν είναι ανιχνεύσιμα με άλλα μέσα. Επισκεφθείτε την [επίσημη ιστοσελίδα](https://www.sonicvisualiser.org/) για περισσότερες πληροφορίες.
+Ένα ανεκτίμητο εργαλείο για οπτική και αναλυτική επιθεώρηση αρχείων ήχου, το Sonic Visualizer μπορεί να αποκαλύψει κρυμμένα στοιχεία που δεν ανιχνεύονται με άλλες μεθόδους. Επισκεφθείτε την [επίσημη ιστοσελίδα](https://www.sonicvisualiser.org/) για περισσότερα.
 
-### **DTMF Tones - Ήχοι Κλήσης**
+### **DTMF Tones - Dial Tones**
 
-Η ανίχνευση των τόνων DTMF σε αρχεία ήχου μπορεί να επιτευχθεί μέσω online εργαλείων όπως αυτός ο [ανιχνευτής DTMF](https://unframework.github.io/dtmf-detect/) και το [DialABC](http://dialabc.com/sound/detect/index.html).
+Η ανίχνευση τόνων DTMF σε αρχεία ήχου μπορεί να επιτευχθεί μέσω διαδικτυακών εργαλείων όπως [αυτόν τον ανιχνευτή DTMF](https://unframework.github.io/dtmf-detect/) και [DialABC](http://dialabc.com/sound/detect/index.html).
 
-## **Άλλες Τεχνικές**
+## **Other Techniques**
 
-### **Δυαδικό Μήκος SQRT - QR Code**
+### **Binary Length SQRT - QR Code**
 
-Δεδομένα που αντιστοιχούν σε έναν ακέραιο αριθμό όταν υψώνονται στο τετράγωνο ενδέχεται να αντιπροσωπεύουν έναν κωδικό QR. Χρησιμοποιήστε αυτό το απόσπασμα για έλεγχο:
+Δυαδικά δεδομένα που τετραγωνίζονται σε ακέραιο αριθμό μπορεί να αντιπροσωπεύουν έναν QR code. Χρησιμοποιήστε αυτό το απόσπασμα για να ελέγξετε:
 ```python
 import math
 math.sqrt(2500) #50
 ```
-### **Μετάφραση Braille**
+Για τη μετατροπή δυαδικών σε εικόνα, ελέγξτε το [dcode](https://www.dcode.fr/binary-image). Για να διαβάσετε QR κωδικούς, χρησιμοποιήστε [αυτόν τον διαδικτυακό αναγνώστη γραμμωτού κώδικα](https://online-barcode-reader.inliteresearch.com/).
 
-Για τη μετάφραση Braille, το [Branah Braille Translator](https://www.branah.com/braille-translator) είναι ένα εξαιρετικό εργαλείο.
+### **Μετάφραση Μπράιγ**
+
+Για τη μετάφραση Μπράιγ, ο [Μεταφραστής Μπράιγ Branah](https://www.branah.com/braille-translator) είναι μια εξαιρετική πηγή.
 
 ## **Αναφορές**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Ομάδα Ασφαλείας Try Hard**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Μάθετε & εξασκηθείτε στο Hacking του AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Μάθετε & εξασκηθείτε στο Hacking του GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Μάθετε & εξασκηθείτε στο AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Μάθετε & εξασκηθείτε στο GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Υποστηρίξτε το HackTricks</summary>
+<summary>Υποστήριξη HackTricks</summary>
 
 * Ελέγξτε τα [**σχέδια συνδρομής**](https://github.com/sponsors/carlospolop)!
-* **Εγγραφείτε** στην 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs** στα αποθετήρια [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Εγγραφείτε στην** 💬 [**ομάδα Discord**](https://discord.gg/hRep4RUj7f) ή στην [**ομάδα telegram**](https://t.me/peass) ή **ακολουθήστε** μας στο **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Μοιραστείτε κόλπα hacking υποβάλλοντας PRs στα** [**HackTricks**](https://github.com/carlospolop/hacktricks) και [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
