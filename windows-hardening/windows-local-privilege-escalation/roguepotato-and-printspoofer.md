@@ -15,22 +15,8 @@ Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ist eine **Dark-Web**-unterstützte Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder dessen Kunden durch **Stealer-Malware** **kompromittiert** wurden.
-
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die aus informationsstehlender Malware resultieren.
-
-Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
-**JuicyPotato funktioniert nicht** auf Windows Server 2019 und Windows 10 Build 1809 und höher. Allerdings können [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato)**,** [**EfsPotato**](https://github.com/zcgonvh/EfsPotato)**,** [**DCOMPotato**](https://github.com/zcgonvh/DCOMPotato)** verwendet werden, um **die gleichen Berechtigungen zu nutzen und Zugriff auf `NT AUTHORITY\SYSTEM`**-Ebene zu erhalten. Dieser [Blogbeitrag](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/) geht ausführlich auf das Tool `PrintSpoofer` ein, das verwendet werden kann, um die Impersonationsberechtigungen auf Windows 10 und Server 2019-Hosts auszunutzen, wo JuicyPotato nicht mehr funktioniert.
+**JuicyPotato funktioniert nicht** auf Windows Server 2019 und Windows 10 Build 1809 und höher. Allerdings können [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato)**,** [**EfsPotato**](https://github.com/zcgonvh/EfsPotato)**,** [**DCOMPotato**](https://github.com/zcgonvh/DCOMPotato)** verwendet werden, um **die gleichen Berechtigungen zu nutzen und Zugriff auf `NT AUTHORITY\SYSTEM`** zu erhalten. Dieser [Blogbeitrag](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/) geht ausführlich auf das `PrintSpoofer`-Tool ein, das verwendet werden kann, um die Identitätsprivilegien auf Windows 10 und Server 2019-Hosts auszunutzen, auf denen JuicyPotato nicht mehr funktioniert.
 {% endhint %}
 
 ## Schnelle Demo
@@ -117,17 +103,6 @@ nt authority\system
 * [https://github.com/zcgonvh/EfsPotato](https://github.com/zcgonvh/EfsPotato)
 * [https://github.com/zcgonvh/DCOMPotato](https://github.com/zcgonvh/DCOMPotato)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ist eine **dark-web**-gestützte Suchmaschine, die **kostenlose** Funktionen anbietet, um zu überprüfen, ob ein Unternehmen oder dessen Kunden durch **Stealer-Malware** **kompromittiert** wurden.
-
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die durch informationsstehlende Malware verursacht werden.
-
-Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

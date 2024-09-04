@@ -15,19 +15,6 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ist eine **Dark-Web**-unterstützte Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder dessen Kunden durch **Stealer-Malware** **kompromittiert** wurden.
-
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die durch informationsstehlende Malware verursacht werden.
-
-Du kannst ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Verbessere deine Wireshark-Fähigkeiten
 
@@ -44,7 +31,7 @@ Die folgenden Tutorials sind großartig, um einige coole grundlegende Tricks zu 
 
 **Experteninformationen**
 
-Wenn du auf _**Analyse** --> **Experteninformationen**_ klickst, erhältst du eine **Übersicht** darüber, was in den **analysierten** Paketen passiert:
+Durch Klicken auf _**Analyse** --> **Experteninformationen**_ erhältst du eine **Übersicht** darüber, was in den **analysierten** Paketen passiert:
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
@@ -56,7 +43,7 @@ Unter _**Statistiken --> Aufgelöste Adressen**_ findest du mehrere **Informatio
 
 **Protokollhierarchie**
 
-Unter _**Statistiken --> Protokollhierarchie**_ kannst du die **Protokolle** **finden**, die an der Kommunikation beteiligt sind, sowie Daten über sie.
+Unter _**Statistiken --> Protokollhierarchie**_ findest du die **Protokolle**, die an der Kommunikation beteiligt sind, sowie Daten über sie.
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
@@ -72,7 +59,7 @@ Unter _**Statistiken --> Endpunkte**_ findest du eine **Zusammenfassung der Endp
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
-**DNS-Informationen**
+**DNS-Info**
 
 Unter _**Statistiken --> DNS**_ findest du Statistiken über die erfassten DNS-Anfragen.
 
@@ -126,7 +113,7 @@ In der aktuellen Wireshark-Version musst du anstelle von `bootp` nach `DHCP` suc
 
 ![](<../../../.gitbook/assets/image (1003).png>)
 
-## Entschlüsselung von TLS
+## TLS entschlüsseln
 
 ### Entschlüsselung von HTTPS-Verkehr mit dem privaten Schlüssel des Servers
 
@@ -179,29 +166,17 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ist eine **dark-web**-gestützte Suchmaschine, die **kostenlose** Funktionen anbietet, um zu überprüfen, ob ein Unternehmen oder dessen Kunden durch **Stealer-Malware** **kompromittiert** wurden.
-
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die aus informationsstehlender Malware resultieren.
-
-Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
-Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
-* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}

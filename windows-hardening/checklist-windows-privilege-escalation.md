@@ -6,7 +6,7 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
 * Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -15,15 +15,7 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-### **Beste Tool zur Suche nach Windows lokalen Privilegieneskalationsvektoren:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Das beste Tool, um nach Windows lokalen Privilegieneskalationsvektoren zu suchen:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 ### [Systeminfo](windows-local-privilege-escalation/#system-info)
 
@@ -75,7 +67,7 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 * [ ] [Kannst du **irgendeinen Dienst** **modifizieren**?](windows-local-privilege-escalation/#permissions)
 * [ ] [Kannst du **die Binärdatei** modifizieren, die von einem **Dienst** **ausgeführt** wird?](windows-local-privilege-escalation/#modify-service-binary-path)
 * [ ] [Kannst du **die Registrierung** eines **Dienstes** **modifizieren**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
-* [ ] [Kannst du von einem **nicht zitierten Dienst** Binärdateipfad profitieren?](windows-local-privilege-escalation/#unquoted-service-paths)
+* [ ] [Kannst du von einem **nicht zitierten Dienst** Binärdateipfad **profitieren**?](windows-local-privilege-escalation/#unquoted-service-paths)
 
 ### [**Anwendungen**](windows-local-privilege-escalation/#applications)
 
@@ -87,7 +79,7 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * [ ] Kannst du **in einen beliebigen Ordner im PATH schreiben**?
 * [ ] Gibt es eine bekannte Dienst-Binärdatei, die **versucht, eine nicht existierende DLL zu laden**?
-* [ ] Kannst du **in einen beliebigen** **Binärordner** **schreiben**?
+* [ ] Kannst du **in einen beliebigen** **Binärdateiordner** **schreiben**?
 
 ### [Netzwerk](windows-local-privilege-escalation/#network)
 
@@ -99,10 +91,10 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 * [ ] [**Winlogon**](windows-local-privilege-escalation/#winlogon-credentials) Anmeldeinformationen
 * [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) Anmeldeinformationen, die du verwenden könntest?
 * [ ] Interessante [**DPAPI-Anmeldeinformationen**](windows-local-privilege-escalation/#dpapi)?
-* [ ] Passwörter von gespeicherten [**Wifi-Netzwerken**](windows-local-privilege-escalation/#wifi)?
+* [ ] Passwörter von gespeicherten [**WLAN-Netzwerken**](windows-local-privilege-escalation/#wifi)?
 * [ ] Interessante Informationen in [**gespeicherten RDP-Verbindungen**](windows-local-privilege-escalation/#saved-rdp-connections)?
 * [ ] Passwörter in [**kürzlich ausgeführten Befehlen**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] [**Remote Desktop Credentials Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager) Passwörter?
+* [ ] [**Remote Desktop Credential Manager**](windows-local-privilege-escalation/#remote-desktop-credential-manager) Passwörter?
 * [ ] [**AppCmd.exe** existiert](windows-local-privilege-escalation/#appcmd-exe)? Anmeldeinformationen?
 * [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? DLL-Seitenladung?
 
@@ -117,12 +109,12 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 * [ ] [**Zwischengespeichertes GPP-Passwort**](windows-local-privilege-escalation/#cached-gpp-pasword)?
 * [ ] Passwort in [**IIS-Webkonfigurationsdatei**](windows-local-privilege-escalation/#iis-web-config)?
 * [ ] Interessante Informationen in [**Webprotokollen**](windows-local-privilege-escalation/#logs)?
-* [ ] Möchtest du [**nach Anmeldeinformationen**](windows-local-privilege-escalation/#ask-for-credentials) beim Benutzer fragen?
+* [ ] Möchtest du [**den Benutzer nach Anmeldeinformationen fragen**](windows-local-privilege-escalation/#ask-for-credentials)?
 * [ ] Interessante [**Dateien im Papierkorb**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
 * [ ] Andere [**Registrierungen mit Anmeldeinformationen**](windows-local-privilege-escalation/#inside-the-registry)?
 * [ ] Innerhalb [**von Browserdaten**](windows-local-privilege-escalation/#browsers-history) (Datenbanken, Verlauf, Lesezeichen, ...)?
 * [ ] [**Allgemeine Passwortsuche**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) in Dateien und Registrierung
-* [ ] [**Tools**](windows-local-privilege-escalation/#tools-that-search-for-passwords), um automatisch nach Passwörtern zu suchen
+* [ ] [**Tools**](windows-local-privilege-escalation/#tools-that-search-for-passwords) zur automatischen Suche nach Passwörtern
 
 ### [Leckende Handler](windows-local-privilege-escalation/#leaked-handlers)
 
@@ -132,19 +124,13 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * [ ] Überprüfe, ob du es ausnutzen kannst
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstütze HackTricks</summary>
 
 * Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

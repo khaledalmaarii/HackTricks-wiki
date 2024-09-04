@@ -15,23 +15,16 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Intro <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero kann **Funkfrequenzen im Bereich von 300-928 MHz empfangen und übertragen** mit seinem eingebauten Modul, das Fernbedienungen lesen, speichern und emulieren kann. Diese Steuerungen werden zur Interaktion mit Toren, Barrieren, Funk-Schlössern, Fernbedienungsschaltern, kabellosen Türklingeln, smarten Lichtern und mehr verwendet. Flipper Zero kann dir helfen zu lernen, ob deine Sicherheit kompromittiert ist.
+Flipper Zero kann **Funkfrequenzen im Bereich von 300-928 MHz empfangen und übertragen** mit seinem eingebauten Modul, das Fernbedienungen lesen, speichern und emulieren kann. Diese Steuerungen werden zur Interaktion mit Toren, Barrieren, Funk-Schlössern, Fernbedienungsschaltern, kabellosen Türklingeln, smarten Lichtern und mehr verwendet. Flipper Zero kann dir helfen zu lernen, ob deine Sicherheit gefährdet ist.
 
 <figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
 ## Sub-GHz Hardware <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero hat ein eingebautes Sub-1 GHz Modul, das auf einem [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101-Chip](https://www.ti.com/lit/ds/symlink/cc1101.pdf) basiert und eine Funkantenne hat (die maximale Reichweite beträgt 50 Meter). Sowohl der CC1101-Chip als auch die Antenne sind dafür ausgelegt, bei Frequenzen in den Bändern 300-348 MHz, 387-464 MHz und 779-928 MHz zu arbeiten.
+Flipper Zero hat ein eingebautes Sub-1 GHz Modul, das auf einem [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101 Chip](https://www.ti.com/lit/ds/symlink/cc1101.pdf) basiert und eine Funkantenne hat (die maximale Reichweite beträgt 50 Meter). Sowohl der CC1101 Chip als auch die Antenne sind dafür ausgelegt, bei Frequenzen in den Bändern 300-348 MHz, 387-464 MHz und 779-928 MHz zu arbeiten.
 
 <figure><img src="../../../.gitbook/assets/image (923).png" alt=""><figcaption></figcaption></figure>
 
@@ -110,7 +103,7 @@ Füge Signale aus einer konfigurierten Liste von Protokollen hinzu
 | Security+2.0\_315                                               | 315.00 | Dynamisch |
 | Security+2.0\_390                                               | 390.00 | Dynamisch |
 
-### Unterstützte Sub-GHz-Anbieter
+### Unterstützte Sub-GHz Anbieter
 
 Überprüfe die Liste unter [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
 
@@ -127,12 +120,6 @@ Erhalte dBms der gespeicherten Frequenzen
 ## Referenz
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

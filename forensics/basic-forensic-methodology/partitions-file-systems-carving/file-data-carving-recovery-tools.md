@@ -15,17 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
-Mehr Tools unter [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
+Weitere Tools unter [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
@@ -33,7 +25,7 @@ Das am häufigsten verwendete Tool in der Forensik zum Extrahieren von Dateien a
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** ist ein Tool zur Analyse von Binärdateien, um eingebettete Inhalte zu finden. Es kann über `apt` installiert werden und der Quellcode ist auf [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** ist ein Tool zur Analyse von Binärdateien, um eingebettete Inhalte zu finden. Es kann über `apt` installiert werden und der Quellcode befindet sich auf [GitHub](https://github.com/ReFirmLabs/binwalk).
 
 **Nützliche Befehle**:
 ```bash
@@ -44,7 +36,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Ein weiteres gängiges Tool, um versteckte Dateien zu finden, ist **foremost**. Die Konfigurationsdatei von foremost befindet sich in `/etc/foremost.conf`. Wenn Sie nur nach bestimmten Dateien suchen möchten, kommentieren Sie diese aus. Wenn Sie nichts auskommentieren, sucht foremost nach den standardmäßig konfigurierten Dateitypen.
+Ein weiteres gängiges Tool, um versteckte Dateien zu finden, ist **foremost**. Die Konfigurationsdatei von foremost finden Sie unter `/etc/foremost.conf`. Wenn Sie nur nach bestimmten Dateien suchen möchten, kommentieren Sie diese aus. Wenn Sie nichts auskommentieren, sucht foremost nach den standardmäßig konfigurierten Dateitypen.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -59,9 +51,9 @@ scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-Dieses Tool ist in Kali enthalten, kann aber hier gefunden werden: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Dieses Tool ist in Kali enthalten, aber Sie können es hier finden: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Dieses Tool kann ein Image scannen und wird **pcaps** darin **extrahieren**, **Netzwerkinformationen (URLs, Domains, IPs, MACs, Mails)** und weitere **Dateien**. Sie müssen nur Folgendes tun:
+Dieses Tool kann ein Image scannen und wird **pcaps** darin **extrahieren**, **Netzwerkinformationen (URLs, Domains, IPs, MACs, Mails)** und weitere **Dateien**. Sie müssen nur:
 ```
 bulk_extractor memory.img -o out_folder
 ```
@@ -100,16 +92,10 @@ Sucht nach AES-Schlüsseln, indem es nach ihren Schlüsselschemata sucht. In der
 
 Laden Sie [hier herunter](https://sourceforge.net/projects/findaes/).
 
-## Ergänzende Werkzeuge
+## Ergänzende Tools
 
 Sie können [**viu** ](https://github.com/atanunq/viu) verwenden, um Bilder aus dem Terminal anzuzeigen.\
-Sie können das Linux-Befehlszeilenwerkzeug **pdftotext** verwenden, um ein PDF in Text umzuwandeln und es zu lesen.
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
+Sie können das Linux-Befehlszeilen-Tool **pdftotext** verwenden, um ein PDF in Text umzuwandeln und es zu lesen.
 
 {% hint style="success" %}
 Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

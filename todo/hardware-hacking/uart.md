@@ -6,34 +6,21 @@ Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
 * Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
+* **Teilen Sie Hacking-Tricks, indem Sie PRs zu den** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos einreichen.
 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ist eine **Dark-Web**-unterstützte Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder dessen Kunden durch **Stealer-Malware** **kompromittiert** wurden.
-
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die durch informationsstehlende Malware verursacht werden.
-
-Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Grundinformationen
 
 UART ist ein serielles Protokoll, was bedeutet, dass es Daten zwischen Komponenten ein Bit nach dem anderen überträgt. Im Gegensatz dazu übertragen parallele Kommunikationsprotokolle Daten gleichzeitig über mehrere Kanäle. Zu den gängigen seriellen Protokollen gehören RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express und USB.
 
-Im Allgemeinen wird die Leitung hoch gehalten (bei einem logischen Wert von 1), während sich UART im Leerlaufzustand befindet. Um den Beginn einer Datenübertragung zu signalisieren, sendet der Sender ein Startbit an den Empfänger, während das Signal niedrig gehalten wird (bei einem logischen Wert von 0). Anschließend sendet der Sender fünf bis acht Datenbits, die die eigentliche Nachricht enthalten, gefolgt von einem optionalen Paritätsbit und einem oder zwei Stoppbits (mit einem logischen Wert von 1), abhängig von der Konfiguration. Das Paritätsbit, das zur Fehlerüberprüfung verwendet wird, ist in der Praxis selten zu sehen. Das Stoppbit (oder die Stoppbits) signalisiert das Ende der Übertragung.
+Im Allgemeinen wird die Leitung hoch gehalten (bei einem logischen Wert von 1), während UART im Leerlaufzustand ist. Um den Beginn einer Datenübertragung zu signalisieren, sendet der Sender ein Startbit an den Empfänger, während das Signal niedrig gehalten wird (bei einem logischen Wert von 0). Danach sendet der Sender fünf bis acht Datenbits, die die eigentliche Nachricht enthalten, gefolgt von einem optionalen Paritätsbit und einem oder zwei Stoppbits (mit einem logischen Wert von 1), abhängig von der Konfiguration. Das Paritätsbit, das zur Fehlerüberprüfung verwendet wird, ist in der Praxis selten zu sehen. Das Stoppbit (oder die Stoppbits) signalisieren das Ende der Übertragung.
 
 Wir nennen die häufigste Konfiguration 8N1: acht Datenbits, keine Parität und ein Stoppbit. Wenn wir beispielsweise das Zeichen C oder 0x43 in ASCII in einer 8N1 UART-Konfiguration senden wollten, würden wir die folgenden Bits senden: 0 (das Startbit); 0, 1, 0, 0, 0, 0, 1, 1 (der Wert von 0x43 in binär) und 0 (das Stoppbit).
 
@@ -43,29 +30,29 @@ Hardware-Tools zur Kommunikation mit UART:
 
 * USB-zu-Seriell-Adapter
 * Adapter mit den CP2102- oder PL2303-Chips
-* Multifunktionswerkzeug wie: Bus Pirate, der Adafruit FT232H, der Shikra oder das Attify Badge
+* Multifunktionswerkzeuge wie: Bus Pirate, der Adafruit FT232H, der Shikra oder das Attify Badge
 
 ### Identifizierung von UART-Ports
 
-UART hat 4 Ports: **TX**(Transmit), **RX**(Receive), **Vcc**(Spannung) und **GND**(Masse). Sie könnten in der Lage sein, 4 Ports mit den Buchstaben **`TX`** und **`RX`** auf der PCB **geschrieben** zu finden. Wenn es jedoch keine Hinweise gibt, müssen Sie möglicherweise versuchen, sie selbst mit einem **Multimeter** oder einem **Logikanalysator** zu finden.
+UART hat 4 Ports: **TX**(Transmit), **RX**(Receive), **Vcc**(Spannung) und **GND**(Masse). Sie könnten in der Lage sein, 4 Ports mit den Buchstaben **`TX`** und **`RX`** **auf** der PCB **geschrieben** zu finden. Wenn es jedoch keine Hinweise gibt, müssen Sie möglicherweise versuchen, sie selbst mit einem **Multimeter** oder einem **Logikanalysator** zu finden.
 
 Mit einem **Multimeter** und dem Gerät, das ausgeschaltet ist:
 
-* Um den **GND**-Pin zu identifizieren, verwenden Sie den **Durchgangstestmodus**, platzieren Sie die schwarze Sonde auf Masse und testen Sie mit der roten, bis Sie einen Ton vom Multimeter hören. Mehrere GND-Pins können auf der PCB gefunden werden, sodass Sie möglicherweise den zu UART gehörenden gefunden haben oder nicht.
-* Um den **VCC-Port** zu identifizieren, stellen Sie den **Gleichspannungsmodus** ein und setzen Sie ihn auf 20 V. Schwarze Sonde auf Masse und rote Sonde auf den Pin. Schalten Sie das Gerät ein. Wenn das Multimeter eine konstante Spannung von entweder 3,3 V oder 5 V misst, haben Sie den Vcc-Pin gefunden. Wenn Sie andere Spannungen erhalten, versuchen Sie es mit anderen Ports erneut.
-* Um den **TX**-Port zu identifizieren, stellen Sie den **Gleichspannungsmodus** auf bis zu 20 V ein, schwarze Sonde auf Masse und rote Sonde auf den Pin, und schalten Sie das Gerät ein. Wenn Sie feststellen, dass die Spannung für einige Sekunden schwankt und dann auf den Vcc-Wert stabilisiert, haben Sie höchstwahrscheinlich den TX-Port gefunden. Dies liegt daran, dass beim Einschalten einige Debug-Daten gesendet werden.
-* Der **RX-Port** wäre der nächstgelegene zu den anderen 3, er hat die niedrigste Spannungsfluktuation und den niedrigsten Gesamtwert aller UART-Pins.
+* Um den **GND**-Pin zu identifizieren, verwenden Sie den **Durchgangstestmodus**, legen Sie die schwarze Sonde auf Masse und testen Sie mit der roten, bis Sie einen Ton vom Multimeter hören. Mehrere GND-Pins können auf der PCB gefunden werden, sodass Sie möglicherweise den zu UART gehörenden gefunden haben oder nicht.
+* Um den **VCC-Port** zu identifizieren, stellen Sie den **Gleichstromspannungsmodus** ein und setzen Sie ihn auf 20 V. Schwarze Sonde auf Masse und rote Sonde auf den Pin. Schalten Sie das Gerät ein. Wenn das Multimeter eine konstante Spannung von entweder 3,3 V oder 5 V misst, haben Sie den Vcc-Pin gefunden. Wenn Sie andere Spannungen erhalten, versuchen Sie es mit anderen Ports erneut.
+* Um den **TX**-**Port** zu identifizieren, stellen Sie den **Gleichstromspannungsmodus** auf bis zu 20 V ein, schwarze Sonde auf Masse und rote Sonde auf den Pin, und schalten Sie das Gerät ein. Wenn Sie feststellen, dass die Spannung für einige Sekunden schwankt und dann auf den Vcc-Wert stabilisiert, haben Sie höchstwahrscheinlich den TX-Port gefunden. Dies liegt daran, dass beim Einschalten einige Debug-Daten gesendet werden.
+* Der **RX-Port** wäre der, der den anderen 3 am nächsten ist, er hat die niedrigste Spannungsfluktuation und den niedrigsten Gesamtwert aller UART-Pins.
 
 Sie können die TX- und RX-Ports verwechseln und es würde nichts passieren, aber wenn Sie den GND- und den VCC-Port verwechseln, könnten Sie die Schaltung beschädigen.
 
-In einigen Zielgeräten ist der UART-Port vom Hersteller deaktiviert, indem RX oder TX oder sogar beide deaktiviert werden. In diesem Fall kann es hilfreich sein, die Verbindungen auf der Leiterplatte nachzuvollziehen und einen Breakout-Punkt zu finden. Ein starkes Indiz dafür, dass kein UART erkannt wird und die Schaltung unterbrochen ist, ist die Überprüfung der Gerätezulassung. Wenn das Gerät mit einer Garantie geliefert wurde, lässt der Hersteller einige Debug-Schnittstellen (in diesem Fall UART) und muss daher den UART getrennt haben und würde ihn während des Debuggens wieder anschließen. Diese Breakout-Pins können durch Löten oder Jumperdrähte verbunden werden.
+In einigen Zielgeräten ist der UART-Port vom Hersteller deaktiviert, indem RX oder TX oder sogar beide deaktiviert werden. In diesem Fall kann es hilfreich sein, die Verbindungen auf der Leiterplatte nachzuvollziehen und einen Breakout-Punkt zu finden. Ein starkes Indiz dafür, dass kein UART erkannt wird und die Schaltung unterbrochen ist, ist die Überprüfung der Gerätezulassung. Wenn das Gerät mit einer Garantie geliefert wurde, lässt der Hersteller einige Debug-Schnittstellen (in diesem Fall UART) und hat daher den UART wahrscheinlich getrennt und würde ihn während des Debuggens wieder anschließen. Diese Breakout-Pins können durch Löten oder Jumperdrähte verbunden werden.
 
 ### Identifizierung der UART-Baudrate
 
-Der einfachste Weg, die richtige Baudrate zu identifizieren, besteht darin, die **TX-Pin-Ausgabe zu betrachten und die Daten zu lesen**. Wenn die empfangenen Daten nicht lesbar sind, wechseln Sie zur nächsten möglichen Baudrate, bis die Daten lesbar werden. Sie können einen USB-zu-Seriell-Adapter oder ein Multifunktionsgerät wie Bus Pirate verwenden, um dies zu tun, zusammen mit einem Hilfsskript wie [baudrate.py](https://github.com/devttys0/baudrate/). Die häufigsten Baudraten sind 9600, 38400, 19200, 57600 und 115200.
+Der einfachste Weg, die richtige Baudrate zu identifizieren, besteht darin, den **TX-Pin-Ausgang zu betrachten und die Daten zu lesen**. Wenn die Daten, die Sie erhalten, nicht lesbar sind, wechseln Sie zur nächsten möglichen Baudrate, bis die Daten lesbar werden. Sie können einen USB-zu-Seriell-Adapter oder ein Multifunktionsgerät wie Bus Pirate verwenden, um dies zu tun, zusammen mit einem Hilfsskript wie [baudrate.py](https://github.com/devttys0/baudrate/). Die häufigsten Baudraten sind 9600, 38400, 19200, 57600 und 115200.
 
 {% hint style="danger" %}
-Es ist wichtig zu beachten, dass Sie in diesem Protokoll das TX eines Geräts mit dem RX des anderen verbinden müssen!
+Es ist wichtig zu beachten, dass Sie in diesem Protokoll den TX eines Geräts mit dem RX des anderen verbinden müssen!
 {% endhint %}
 
 ## CP210X UART zu TTY-Adapter
@@ -90,13 +77,13 @@ Konfigurieren Sie die Einstellungen wie Baudrate und Gerätename in der `Serial 
 
 Nach der Konfiguration verwenden Sie den Befehl `minicom`, um die UART-Konsole zu starten.
 
-## UART über Arduino UNO R3 (Entfernbarer Atmel 328p-Chip)
+## UART über Arduino UNO R3 (Entfernbarer Atmel 328p Chip)
 
-Falls UART-Serial-zu-USB-Adapter nicht verfügbar sind, kann Arduino UNO R3 mit einem schnellen Hack verwendet werden. Da Arduino UNO R3 normalerweise überall erhältlich ist, kann dies viel Zeit sparen.
+Falls UART Serial zu USB-Adapter nicht verfügbar sind, kann Arduino UNO R3 mit einem schnellen Hack verwendet werden. Da Arduino UNO R3 normalerweise überall erhältlich ist, kann dies viel Zeit sparen.
 
-Arduino UNO R3 hat einen USB-zu-Serial-Adapter, der auf der Platine selbst integriert ist. Um eine UART-Verbindung herzustellen, ziehen Sie einfach den Atmel 328p-Mikrocontroller-Chip von der Platine ab. Dieser Hack funktioniert bei Arduino UNO R3-Varianten, bei denen der Atmel 328p nicht auf der Platine verlötet ist (SMD-Version wird verwendet). Verbinden Sie den RX-Pin des Arduino (Digital Pin 0) mit dem TX-Pin der UART-Schnittstelle und den TX-Pin des Arduino (Digital Pin 1) mit dem RX-Pin der UART-Schnittstelle.
+Arduino UNO R3 hat einen USB-zu-Serial-Adapter, der auf der Platine selbst integriert ist. Um eine UART-Verbindung herzustellen, ziehen Sie einfach den Atmel 328p Mikrocontroller-Chip von der Platine ab. Dieser Hack funktioniert bei Arduino UNO R3-Varianten, bei denen der Atmel 328p nicht auf der Platine verlötet ist (SMD-Version wird verwendet). Verbinden Sie den RX-Pin des Arduino (Digital Pin 0) mit dem TX-Pin der UART-Schnittstelle und den TX-Pin des Arduino (Digital Pin 1) mit dem RX-Pin der UART-Schnittstelle.
 
-Schließlich wird empfohlen, die Arduino IDE zu verwenden, um die serielle Konsole zu erhalten. Wählen Sie im Menü im Abschnitt `tools` die Option `Serial Console` und setzen Sie die Baudrate gemäß der UART-Schnittstelle.
+Schließlich wird empfohlen, die Arduino IDE zu verwenden, um die serielle Konsole zu erhalten. Wählen Sie im Abschnitt `tools` im Menü die Option `Serial Console` und setzen Sie die Baudrate gemäß der UART-Schnittstelle.
 
 ## Bus Pirate
 
@@ -174,7 +161,7 @@ waiting a few secs to repeat....
 ```
 ## Dumping Firmware with UART Console
 
-UART Console bietet eine großartige Möglichkeit, mit der zugrunde liegenden Firmware in einer Laufzeitumgebung zu arbeiten. Aber wenn der Zugriff auf die UART-Konsole schreibgeschützt ist, kann dies viele Einschränkungen mit sich bringen. In vielen eingebetteten Geräten wird die Firmware in EEPROMs gespeichert und in Prozessoren mit flüchtigem Speicher ausgeführt. Daher bleibt die Firmware schreibgeschützt, da die ursprüngliche Firmware während der Herstellung im EEPROM selbst gespeichert ist und alle neuen Dateien aufgrund des flüchtigen Speichers verloren gehen würden. Daher ist das Dumpen von Firmware eine wertvolle Anstrengung, wenn man mit eingebetteten Firmwares arbeitet.
+UART Console bietet eine großartige Möglichkeit, mit der zugrunde liegenden Firmware in einer Laufzeitumgebung zu arbeiten. Aber wenn der Zugriff auf die UART-Konsole schreibgeschützt ist, kann dies viele Einschränkungen mit sich bringen. In vielen eingebetteten Geräten wird die Firmware in EEPROMs gespeichert und auf Prozessoren mit flüchtigem Speicher ausgeführt. Daher bleibt die Firmware schreibgeschützt, da die ursprüngliche Firmware während der Herstellung im EEPROM selbst gespeichert ist und alle neuen Dateien aufgrund des flüchtigen Speichers verloren gehen würden. Daher ist das Dumpen von Firmware eine wertvolle Anstrengung, wenn man mit eingebetteten Firmwares arbeitet.
 
 Es gibt viele Möglichkeiten, dies zu tun, und der SPI-Abschnitt behandelt Methoden, um Firmware direkt aus dem EEPROM mit verschiedenen Geräten zu extrahieren. Es wird jedoch empfohlen, zuerst zu versuchen, die Firmware mit UART zu dumpen, da das Dumpen von Firmware mit physischen Geräten und externen Interaktionen riskant sein kann.
 
@@ -190,25 +177,13 @@ md
 ```
 welches für "Speicherabbild" steht. Dies wird den Speicher (EEPROM-Inhalt) auf dem Bildschirm ausgeben. Es wird empfohlen, die Ausgabe der seriellen Konsole zu protokollieren, bevor Sie das Verfahren starten, um das Speicherabbild zu erfassen.
 
-Schließlich entfernen Sie einfach alle unnötigen Daten aus der Protokolldatei und speichern Sie die Datei als `filename.rom` und verwenden Sie binwalk, um die Inhalte zu extrahieren:
+Schließlich entfernen Sie einfach alle unnötigen Daten aus der Protokolldatei und speichern Sie die Datei als `filename.rom` und verwenden Sie binwalk, um den Inhalt zu extrahieren:
 ```
 binwalk -e <filename.rom>
 ```
 Dies wird die möglichen Inhalte des EEPROMs gemäß den in der Hex-Datei gefundenen Signaturen auflisten.
 
-Es ist jedoch wichtig zu beachten, dass der uboot nicht immer entsperrt ist, selbst wenn er verwendet wird. Wenn die Eingabetaste nichts bewirkt, überprüfen Sie andere Tasten wie die Leertaste usw. Wenn der Bootloader gesperrt ist und nicht unterbrochen wird, funktioniert diese Methode nicht. Um zu überprüfen, ob uboot der Bootloader für das Gerät ist, überprüfen Sie die Ausgabe auf der UART-Konsole während des Bootvorgangs des Geräts. Es könnte während des Bootens uboot erwähnen.
-
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ist eine **dark-web**-unterstützte Suchmaschine, die **kostenlose** Funktionen bietet, um zu überprüfen, ob ein Unternehmen oder dessen Kunden von **Stealer-Malware** **kompromittiert** wurden.
-
-Das Hauptziel von WhiteIntel ist es, Kontoübernahmen und Ransomware-Angriffe zu bekämpfen, die durch informationsstehlende Malware verursacht werden.
-
-Sie können ihre Website besuchen und ihre Engine **kostenlos** ausprobieren unter:
-
-{% embed url="https://whiteintel.io" %}
+Es ist jedoch zu beachten, dass der U-Boot nicht immer entsperrt ist, selbst wenn er verwendet wird. Wenn die Eingabetaste nichts bewirkt, überprüfen Sie andere Tasten wie die Leertaste usw. Wenn der Bootloader gesperrt ist und nicht unterbrochen wird, funktioniert diese Methode nicht. Um zu überprüfen, ob U-Boot der Bootloader für das Gerät ist, überprüfen Sie die Ausgabe auf der UART-Konsole während des Bootvorgangs des Geräts. Es könnte U-Boot während des Bootens erwähnen.
 
 {% hint style="success" %}
 Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -216,7 +191,7 @@ Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
 * Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

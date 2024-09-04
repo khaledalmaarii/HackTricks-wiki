@@ -15,14 +15,6 @@ Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Globale Variablen
 
 Die globalen Variablen **werden** von **Kindprozessen** geerbt.
@@ -71,7 +63,7 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 * **PS1** – die Standardaufforderung in bash.
 * **PATH** – speichert den Pfad aller Verzeichnisse, die die Binärdateien enthalten, die du ausführen möchtest, indem du nur den Namen der Datei angibst und nicht den relativen oder absoluten Pfad.
 * **PWD** – das aktuelle Arbeitsverzeichnis.
-* **SHELL** – der Pfad zur aktuellen Befehlszeile (zum Beispiel **/bin/bash**).
+* **SHELL** – der Pfad zur aktuellen Befehlszeilen-Shell (zum Beispiel **/bin/bash**).
 * **TERM** – der aktuelle Terminaltyp (zum Beispiel **xterm**).
 * **TZ** – deine Zeitzone.
 * **USER** – dein aktueller Benutzername.
@@ -86,7 +78,7 @@ export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Ändern Sie **den Wert dieser Variablen auf 0**, damit beim **Beenden Ihrer Sitzung** kein Befehl in die **Historie-Datei** (\~/.bash\_history) hinzugefügt wird.
+Ändern Sie **den Wert dieser Variablen auf 0**, damit beim **Beenden Ihrer Sitzung** kein Befehl in die **Historie-Datei** (\~/.bash\_history) aufgenommen wird.
 ```bash
 export HISTSIZE=0
 ```
@@ -108,7 +100,7 @@ export SSL_CERT_DIR=/path/to/ca-certificates
 
 Ändern Sie, wie Ihr Prompt aussieht.
 
-[**Dies ist ein Beispiel**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
+[**Das ist ein Beispiel**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
 Root:
 
@@ -126,11 +118,6 @@ Ein Hintergrundjob, ein gestoppter und der letzte Befehl wurde nicht korrekt bee
 
 ![](<../.gitbook/assets/image (715).png>)
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -138,7 +125,7 @@ Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Unterstützen Sie HackTricks</summary>
 
 * Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
