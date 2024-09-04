@@ -10,22 +10,15 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Intro <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero inaweza **kupokea na kutuma masafa ya redio katika anuwai ya 300-928 MHz** kwa kutumia moduli yake iliyojengwa, ambayo inaweza kusoma, kuhifadhi, na kuiga remote controls. Remote hizi zinatumika kwa mwingiliano na milango, vizuizi, funguo za redio, swichi za remote control, kengele za mlango zisizo na waya, mwanga wa smart, na zaidi. Flipper Zero inaweza kukusaidia kujifunza ikiwa usalama wako umeathirika.
+Flipper Zero inaweza **kupokea na kutuma masafa ya redio katika anuwai ya 300-928 MHz** kwa moduli yake iliyojengwa, ambayo inaweza kusoma, kuhifadhi, na kuiga remote controls. Remote hizi zinatumika kwa mwingiliano na milango, vizuizi, funguo za redio, swichi za remote control, kengele za mlango zisizo na waya, mwanga wa smart, na zaidi. Flipper Zero inaweza kukusaidia kujifunza ikiwa usalama wako umeathirika.
 
 <figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
@@ -43,7 +36,7 @@ Flipper Zero ina moduli ya sub-1 GHz iliyojengwa inayotegemea [﻿](https://www.
 Jinsi ya kupata ni masafa gani remote inatumia
 {% endhint %}
 
-Wakati wa kuchambua, Flipper Zero inascan nguvu za ishara (RSSI) katika masafa yote yanayopatikana katika usanidi wa masafa. Flipper Zero inaonyesha masafa yenye thamani ya juu ya RSSI, ikiwa na nguvu ya ishara zaidi ya -90 [dBm](https://en.wikipedia.org/wiki/DBm).
+Wakati wa kuchambua, Flipper Zero inachanganua nguvu za ishara (RSSI) katika masafa yote yanayopatikana katika usanidi wa masafa. Flipper Zero inaonyesha masafa yenye thamani ya juu ya RSSI, ikiwa na nguvu ya ishara zaidi ya -90 [dBm](https://en.wikipedia.org/wiki/DBm).
 
 Ili kubaini masafa ya remote, fanya yafuatayo:
 
@@ -55,31 +48,31 @@ Ili kubaini masafa ya remote, fanya yafuatayo:
 ### Read
 
 {% hint style="info" %}
-Pata taarifa kuhusu masafa yanayotumika (pia njia nyingine ya kupata ni masafa gani yanayotumika)
+Pata habari kuhusu masafa yanayotumika (pia njia nyingine ya kupata ni masafa gani yanayotumika)
 {% endhint %}
 
-Chaguo la **Read** **linasikiliza kwenye masafa yaliyosanidiwa** kwenye moduli iliyotajwa: 433.92 AM kwa msingi. Ikiwa **kitu kinapatikana** wakati wa kusoma, **taarifa inatolewa** kwenye skrini. Taarifa hii inaweza kutumika kuiga ishara siku zijazo.
+Chaguo la **Read** **linasikiliza kwenye masafa yaliyosanidiwa** kwenye moduli iliyotajwa: 433.92 AM kwa chaguo-msingi. Ikiwa **kitu kinapatikana** wakati wa kusoma, **habari inatolewa** kwenye skrini. Habari hii inaweza kutumika kuiga ishara siku zijazo.
 
 Wakati Read inatumika, inawezekana kubonyeza **kitufe cha kushoto** na **kuisakinisha**.\
-Wakati huu ina **modulations 4** (AM270, AM650, FM328 na FM476), na **masafa kadhaa muhimu** yaliyohifadhiwa:
+Katika wakati huu ina **modulations 4** (AM270, AM650, FM328 na FM476), na **masafa kadhaa muhimu** yaliyohifadhiwa:
 
 <figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
 
-Unaweza kuweka **yoyote inayokuvutia**, hata hivyo, ikiwa **hujui ni masafa gani** yanaweza kuwa yanatumika na remote ulionayo, **weka Hopping kuwa ON** (Off kwa msingi), na bonyeza kitufe mara kadhaa hadi Flipper ikiteka na kukupa taarifa unayohitaji kuweka masafa.
+Unaweza kuweka **yoyote inayokuvutia**, hata hivyo, ikiwa **hujui ni masafa gani** yanaweza kuwa yanayotumiwa na remote ulionayo, **weka Hopping kuwa ON** (Off kwa chaguo-msingi), na bonyeza kitufe mara kadhaa hadi Flipper ikiteka na kukupa habari unayohitaji kuweka masafa.
 
 {% hint style="danger" %}
-Kubadilisha kati ya masafa kunachukua muda, kwa hivyo ishara zinazotumwa wakati wa kubadilisha zinaweza kupuuziliwa mbali. Kwa ajili ya kupokea ishara bora, weka masafa thabiti lililowekwa na Frequency Analyzer.
+Kubadilisha kati ya masafa kunachukua muda, kwa hivyo ishara zinazotumwa wakati wa kubadilisha zinaweza kupuuziliwa mbali. Kwa kupokea ishara bora, weka masafa thabiti yaliyopangwa na Frequency Analyzer.
 {% endhint %}
 
 ### **Read Raw**
 
 {% hint style="info" %}
-Kununua (na kurudia) ishara katika masafa yaliyosanidiwa
+Pora (na rudia) ishara katika masafa yaliyosanidiwa
 {% endhint %}
 
-Chaguo la **Read Raw** **linarekodi ishara** zinazotumwa katika masafa yanayosikilizwa. Hii inaweza kutumika **kukunja** ishara na **kurudia** hiyo.
+Chaguo la **Read Raw** **linarekodi ishara** zinazotumwa katika masafa yanayosikilizwa. Hii inaweza kutumika **kuiba** ishara na **kurudia** hiyo.
 
-Kwa msingi **Read Raw pia iko katika 433.92 katika AM650**, lakini ikiwa na chaguo la Read umegundua kuwa ishara inayokuvutia iko katika **masafa/modulation tofauti, unaweza pia kubadilisha hiyo** kwa kubonyeza kushoto (wakati uko ndani ya chaguo la Read Raw).
+Kwa chaguo-msingi **Read Raw pia iko katika 433.92 katika AM650**, lakini ikiwa kwa chaguo la Read umepata kuwa ishara inayokuvutia iko katika **masafa/modulation tofauti, unaweza pia kubadilisha hiyo** kwa kubonyeza kushoto (wakati uko ndani ya chaguo la Read Raw).
 
 ### Brute-Force
 
@@ -128,12 +121,6 @@ Pata dBms za masafa yaliyohifadhiwa
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -144,7 +131,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

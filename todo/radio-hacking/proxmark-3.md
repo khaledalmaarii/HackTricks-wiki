@@ -15,22 +15,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Kuashiria Mifumo ya RFID kwa Proxmark3
+## Kuashiria Mifumo ya RFID kwa kutumia Proxmark3
 
 Jambo la kwanza unahitaji kufanya ni kuwa na [**Proxmark3**](https://proxmark.com) na [**kufunga programu na utegemezi wake**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
 ### Kuashiria MIFARE Classic 1KB
 
 Ina **sehemu 16**, kila moja ina **blocks 4** na kila block ina **16B**. UID iko katika sehemu 0 block 0 (na haiwezi kubadilishwa).\
-Ili kufikia kila sehemu unahitaji **funguo 2** (**A** na **B**) ambazo zimehifadhiwa katika **block 3 ya kila sehemu** (sehemu trailer). Sehemu trailer pia inahifadhi **bit za ufikiaji** ambazo zinatoa **ruhusa za kusoma na kuandika** kwenye **kila block** kwa kutumia funguo 2.\
+Ili kufikia kila sehemu unahitaji **funguo 2** (**A** na **B**) ambazo zimehifadhiwa katika **block 3 ya kila sehemu** (sehemu trailer). Sehemu trailer pia inahifadhi **vigezo vya ufikiaji** vinavyotoa **ruhusa za kusoma na kuandika** kwenye **kila block** kwa kutumia funguo 2.\
 Funguo 2 ni muhimu kutoa ruhusa za kusoma ikiwa unajua ya kwanza na kuandika ikiwa unajua ya pili (kwa mfano).
 
 Mashambulizi kadhaa yanaweza kufanywa
@@ -52,11 +44,11 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-The Proxmark3 allows to perform other actions like **eavesdropping** a **Tag to Reader communication** to try to find sensitive data. In this card you could just sniff the communication with and calculate the used key because the **cryptographic operations used are weak** and knowing the plain and cipher text you can calculate it (`mfkey64` tool).
+Proxmark3 inaruhusu kufanya vitendo vingine kama **kupeleleza** mawasiliano ya **Tag na Reader** ili kujaribu kupata data nyeti. Katika kadi hii unaweza tu kunusa mawasiliano na kuhesabu funguo iliyotumika kwa sababu **operesheni za kijasusi zilizotumika ni dhaifu** na kujua maandiko ya wazi na maandiko ya cipher unaweza kuhesabu (`mfkey64` tool).
 
-### Raw Commands
+### Amri Mbichi
 
-Mifumo ya IoT wakati mwingine hutumia **nonbranded or noncommercial tags**. Katika kesi hii, unaweza kutumia Proxmark3 kutuma **raw commands to the tags**.
+Mifumo ya IoT wakati mwingine hutumia **vitambulisho visivyo na chapa au visivyo vya kibiashara**. Katika kesi hii, unaweza kutumia Proxmark3 kutuma **amri mbichi za kawaida kwa vitambulisho**.
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -70,18 +62,11 @@ Kwa habari hii unaweza kujaribu kutafuta taarifa kuhusu kadi na kuhusu njia ya k
 
 ### Scripts
 
-Programu ya Proxmark3 inakuja na orodha iliyopakiwa awali ya **scripts za automatisering** ambazo unaweza kutumia kufanya kazi rahisi. Ili kupata orodha kamili, tumia amri ya `script list`. Kisha, tumia amri ya `script run`, ikifuatiwa na jina la script:
+Programu ya Proxmark3 inakuja na orodha iliyopakiwa ya awali ya **scripts za automatisering** ambazo unaweza kutumia kufanya kazi rahisi. Ili kupata orodha kamili, tumia amri ya `script list`. Kisha, tumia amri ya `script run`, ikifuatiwa na jina la script:
 ```
 proxmark3> script run mfkeys
 ```
-You can create a script to **fuzz tag readers**, so copying the data of a **valid card** just write a **Lua script** that **randomize** one or more random **bytes** and check if the **reader crashes** with any iteration.
-
-**Jaribu Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
+Unaweza kuunda skripti ili **fuzz tag readers**, hivyo kunakili data ya **kadi halali** andika tu **Lua script** ambayo **randomize** byte moja au zaidi za nasibu na uangalie kama **reader inashindwa** na iteration yoyote.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

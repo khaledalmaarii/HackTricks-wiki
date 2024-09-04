@@ -15,31 +15,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia ikiwa kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
-
-Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
-
-Unaweza kuangalia tovuti yao na kujaribu injini yao **bure** kwenye:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
-**JuicyPotato haitumiki** kwenye Windows Server 2019 na Windows 10 build 1809 kuendelea. Hata hivyo, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) zinaweza kutumika ili **kuongeza haki sawa na kupata ufikiaji wa kiwango cha `NT AUTHORITY\SYSTEM`**. _**Angalia:**_
+**JuicyPotato haitumiki** kwenye Windows Server 2019 na Windows 10 build 1809 kuendelea. Hata hivyo, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) zinaweza kutumika **kuchukua faida ya ruhusa sawa na kupata `NT AUTHORITY\SYSTEM`** kiwango cha ufikiaji. _**Angalia:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
 [roguepotato-and-printspoofer.md](roguepotato-and-printspoofer.md)
 {% endcontent-ref %}
 
-## Juicy Potato (kuabudu haki za dhahabu) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
+## Juicy Potato (kuabudu ruhusa za dhahabu) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_Versheni iliyopambwa ya_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, ikiwa na juisi kidogo, yaani **chombo kingine cha Kuongeza Haki za Mitaa, kutoka Akaunti za Huduma za Windows hadi NT AUTHORITY\SYSTEM**_
+_**Toleo lililo na sukari la**_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, likiwa na juisi kidogo, yaani **chombo kingine cha Kuinua Ruhusa za Mitaa, kutoka Akaunti za Huduma za Windows hadi NT AUTHORITY\SYSTEM**_
 
 #### Unaweza kupakua juicypotato kutoka [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)
 
@@ -47,36 +33,36 @@ _Versheni iliyopambwa ya_ [_RottenPotatoNG_](https://github.com/breenmachine/Rot
 
 [**Kutoka kwa juicy-potato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) na [mabadiliko yake](https://github.com/decoder-it/lonelypotato) yanatumia mnyororo wa kuongeza haki kulingana na [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [huduma](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) ikiwa na msikilizaji wa MiTM kwenye `127.0.0.1:6666` na unapokuwa na haki za `SeImpersonate` au `SeAssignPrimaryToken`. Wakati wa ukaguzi wa toleo la Windows tuligundua usanidi ambapo `BITS` ulikuwa umezimwa makusudi na bandari `6666` ilikuwa imechukuliwa.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) na [toleo lake](https://github.com/decoder-it/lonelypotato) linachukua faida ya mnyororo wa kuinua ruhusa kulingana na [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [huduma](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) ikiwa na msikilizaji wa MiTM kwenye `127.0.0.1:6666` na unapokuwa na ruhusa za `SeImpersonate` au `SeAssignPrimaryToken`. Wakati wa ukaguzi wa toleo la Windows tuligundua usanidi ambapo `BITS` ulikuwa umezimwa kwa makusudi na bandari `6666` ilikuwa imechukuliwa.
 
-Tuliamua kuunda silaha [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Sema hello kwa Juicy Potato**.
+Tuliamua kuunda silaha [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Sema habari kwa Juicy Potato**.
 
-> Kwa nadharia, angalia [Rotten Potato - Kuongeza Haki kutoka Akaunti za Huduma hadi SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) na ufuate mnyororo wa viungo na rejeleo.
+> Kwa nadharia, angalia [Rotten Potato - Kuinua Ruhusa kutoka Akaunti za Huduma hadi SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) na fuata mnyororo wa viungo na marejeleo.
 
 Tuligundua kwamba, mbali na `BITS` kuna seva kadhaa za COM tunaweza kuabudu. Zinahitaji tu:
 
-1. kuwa na uwezo wa kuanzishwa na mtumiaji wa sasa, kawaida "mtumiaji wa huduma" ambaye ana haki za kujiwakilisha
+1. kuwa na uwezo wa kuanzishwa na mtumiaji wa sasa, kawaida "mtumiaji wa huduma" ambaye ana ruhusa za kujiwakilisha
 2. kutekeleza interface ya `IMarshal`
 3. kukimbia kama mtumiaji aliyeinuliwa (SYSTEM, Administrator, …)
 
-Baada ya majaribio kadhaa tulipata na kujaribu orodha pana ya [CLSID za kuvutia](http://ohpe.it/juicy-potato/CLSID/) kwenye toleo kadhaa za Windows.
+Baada ya majaribio kadhaa tulipata na kujaribu orodha kubwa ya [CLSID za kuvutia](http://ohpe.it/juicy-potato/CLSID/) kwenye matoleo kadhaa ya Windows.
 
 ### Maelezo ya Juicy <a href="#juicy-details" id="juicy-details"></a>
 
 JuicyPotato inakuwezesha:
 
 * **CLSID ya Lengo** _chagua CLSID yoyote unayotaka._ [_Hapa_](http://ohpe.it/juicy-potato/CLSID/) _unaweza kupata orodha iliyopangwa kwa OS._
-* **Bandari ya Kusikiliza ya COM** _mwelekeo wa bandari ya kusikiliza ya COM unayopendelea (badala ya 6666 iliyohardcoded)_
+* **Bandari ya Kusikiliza ya COM** _mwelekeo wa bandari ya kusikiliza ya COM unayopendelea (badala ya 6666 iliyowekwa kwenye msimbo)_
 * **Anwani ya IP ya Kusikiliza ya COM** _fungua seva kwenye IP yoyote_
-* **Njia ya uundaji wa mchakato** _kulingana na haki za mtumiaji aliyejiwakilisha unaweza kuchagua kutoka:_
+* **Njia ya uundaji wa mchakato** _kulingana na ruhusa za mtumiaji aliyejiwakilisha unaweza kuchagua kutoka:_
 * `CreateProcessWithToken` (inahitaji `SeImpersonate`)
 * `CreateProcessAsUser` (inahitaji `SeAssignPrimaryToken`)
 * `zote`
-* **Mchakato wa kuzindua** _anzisha executable au script ikiwa unyakuzi unafanikiwa_
-* **Argumenti za Mchakato** _binafsisha hoja za mchakato ulioanzishwa_
+* **Mchakato wa kuzindua** _zindua executable au script ikiwa unyakuzi unafanikiwa_
+* **Argumenti za Mchakato** _binafsisha hoja za mchakato uliozinduliwa_
 * **Anwani ya Seva ya RPC** _kwa njia ya siri unaweza kujiandikisha kwa seva ya RPC ya nje_
 * **Bandari ya Seva ya RPC** _inafaa ikiwa unataka kujiandikisha kwa seva ya nje na firewall inazuia bandari `135`…_
-* **MODE YA TESTI** _hasa kwa madhumuni ya majaribio, yaani, kujaribu CLSIDs. Inaunda DCOM na kuchapisha mtumiaji wa token. Angalia_ [_hapa kwa majaribio_](http://ohpe.it/juicy-potato/Test/)
+* **MTIHANI wa hali** _hasa kwa madhumuni ya majaribio, yaani, kujaribu CLSIDs. Inaunda DCOM na kuchapisha mtumiaji wa token. Angalia_ [_hapa kwa majaribio_](http://ohpe.it/juicy-potato/Test/)
 
 ### Matumizi <a href="#usage" id="usage"></a>
 ```
@@ -142,9 +128,9 @@ Mara nyingi, CLSID ya default ambayo JuicyPotato inatumia **haifanyi kazi** na e
 
 Kwanza, utahitaji baadhi ya executable mbali na juicypotato.exe.
 
-Pakua [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) na uipakie kwenye kikao chako cha PS, na pakua na uendeshe [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). Skripti hiyo itaunda orodha ya CLSIDs zinazowezekana za kujaribu.
+Pakua [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) na upakue kwenye kikao chako cha PS, na pakua na tekeleza [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). Skripti hiyo itaunda orodha ya CLSIDs zinazowezekana za kujaribu.
 
-Kisha pakua [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(badilisha njia ya orodha ya CLSID na kwa executable ya juicypotato) na uendeshe. Itaanza kujaribu kila CLSID, na **wakati nambari ya bandari inabadilika, itamaanisha kwamba CLSID ilifanya kazi**.
+Kisha pakua [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(badilisha njia ya orodha ya CLSID na kwa executable ya juicypotato) na uitekeleze. Itaanza kujaribu kila CLSID, na **wakati nambari ya bandari inabadilika, itamaanisha kwamba CLSID ilifanya kazi**.
 
 **Angalia** CLSIDs zinazofanya kazi **ukitumia parameter -c**
 
@@ -152,17 +138,6 @@ Kisha pakua [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia ikiwa kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
-
-Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware ya kuiba taarifa.
-
-Unaweza kuangalia tovuti yao na kujaribu injini yao **bure** kwenye:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -1,57 +1,44 @@
-# Kudondosha Kumbukumbu za Kumbukumbu za macOS
+# macOS Memory Dumping
 
 {% hint style="success" %}
-Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Timu Nyekundu Mtaalam (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Timu Nyekundu Mtaalam (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>unga mkono HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa michango**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
+## Memory Artifacts
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malware za wizi**.
+### Swap Files
 
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
+Faili za kubadilishana, kama `/private/var/vm/swapfile0`, hutumikia kama **cache wakati kumbukumbu ya kimwili imejaa**. Wakati hakuna nafasi zaidi katika kumbukumbu ya kimwili, data yake inahamishwa kwenye faili ya kubadilishana na kisha inarudishwa kwenye kumbukumbu ya kimwili inapohitajika. Faili nyingi za kubadilishana zinaweza kuwepo, zikiwa na majina kama swapfile0, swapfile1, na kadhalika.
 
-Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
+### Hibernate Image
 
-{% embed url="https://whiteintel.io" %}
+Faili iliyoko kwenye `/private/var/vm/sleepimage` ni muhimu wakati wa **hali ya kulala**. **Data kutoka kwenye kumbukumbu huhifadhiwa katika faili hii wakati OS X inalala**. Wakati kompyuta inapoamka, mfumo unapata data ya kumbukumbu kutoka kwenye faili hii, ikiruhusu mtumiaji kuendelea mahali alipoacha.
 
-***
+Inafaa kutajwa kwamba kwenye mifumo ya kisasa ya MacOS, faili hii kwa kawaida imefungwa kwa sababu za usalama, na kufanya urejeleaji kuwa mgumu.
 
-## Vitu vya Kumbukumbu
+* Ili kuangalia kama usimbaji umewezeshwa kwa sleepimage, amri `sysctl vm.swapusage` inaweza kutumika. Hii itaonyesha kama faili imefungwa.
 
-### Faili za Kubadilishana
+### Memory Pressure Logs
 
-Faili za kubadilishana, kama vile `/private/var/vm/swapfile0`, hutumika kama **akiba wakati kumbukumbu ya kimwili imejaa**. Wakati hakuna nafasi zaidi katika kumbukumbu ya kimwili, data yake inahamishwa kwenye faili ya kubadilishana na kisha kurudishwa kwenye kumbukumbu ya kimwili kama inavyohitajika. Faili za kubadilishana nyingi zinaweza kuwepo, zenye majina kama swapfile0, swapfile1, na kadhalika.
+Faili nyingine muhimu inayohusiana na kumbukumbu katika mifumo ya MacOS ni **kumbukumbu ya shinikizo la kumbukumbu**. Kumbukumbu hizi ziko katika `/var/log` na zina maelezo ya kina kuhusu matumizi ya kumbukumbu ya mfumo na matukio ya shinikizo. Zinweza kuwa na manufaa hasa kwa kutambua matatizo yanayohusiana na kumbukumbu au kuelewa jinsi mfumo unavyosimamia kumbukumbu kwa muda.
 
-### Picha ya Kulala
+## Dumping memory with osxpmem
 
-Faili iliyoko katika `/private/var/vm/sleepimage` ni muhimu wakati wa **hali ya kulala**. **Data kutoka kumbukumbu hifadhiwa katika faili hii wakati OS X inalala**. Kwa kuamsha kompyuta, mfumo unapata data ya kumbukumbu kutoka kwenye faili hii, kuruhusu mtumiaji kuendelea pale walipoishia.
+Ili kutupa kumbukumbu katika mashine ya MacOS unaweza kutumia [**osxpmem**](https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip).
 
-Ni muhimu kutambua kwamba kwenye mifumo ya MacOS ya kisasa, faili hii kawaida imefichwa kwa sababu za usalama, hivyo kufanya kupona kuwa ngumu.
-
-* Ili kuthibitisha ikiwa uchawi umewezeshwa kwa sleepimage, amri `sysctl vm.swapusage` inaweza kutumika. Hii itaonyesha ikiwa faili imefichwa.
-
-### Kumbukumbu ya Shinikizo la Kumbukumbu
-
-Faili nyingine muhimu inayohusiana na kumbukumbu kwenye mifumo ya MacOS ni **kumbukumbu ya shinikizo la kumbukumbu**. Kumbukumbu hizi ziko katika `/var/log` na zina taarifa za kina kuhusu matumizi ya kumbukumbu ya mfumo na matukio ya shinikizo. Zinaweza kuwa muhimu hasa kwa kugundua masuala yanayohusiana na kumbukumbu au kuelewa jinsi mfumo unavyosimamia kumbukumbu kwa muda.
-
-## Kudondosha kumbukumbu na osxpmem
-
-Ili kudondosha kumbukumbu kwenye kifaa cha MacOS unaweza kutumia [**osxpmem**](https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip).
-
-**Maelezo**: Maelekezo yafuatayo yatafanya kazi tu kwa Macs zenye muundo wa Intel. Zana hii sasa imehifadhiwa na toleo la mwisho lilikuwa mwaka 2017. Binari iliyopakuliwa kwa kutumia maelekezo yaliyotolewa hapa inalenga chips za Intel kwani Apple Silicon haikuwepo mwaka 2017. Inaweza kuwa inawezekana kuchakata binari kwa muundo wa arm64 lakini utalazimika kujaribu mwenyewe.
+**Note**: Maelekezo yafuatayo yatatumika tu kwa Macs zenye usanifu wa Intel. Chombo hiki sasa kimehifadhiwa na toleo la mwisho lilikuwa mwaka 2017. Binary iliyopakuliwa kwa kutumia maelekezo hapa chini inalenga chips za Intel kwani Apple Silicon haikuwapo mwaka 2017. Inaweza kuwa inawezekana kukusanya binary kwa usanifu wa arm64 lakini itabidi ujaribu mwenyewe.
 ```bash
 #Dump raw format
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
@@ -59,16 +46,16 @@ sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 #Dump aff4 format
 sudo osxpmem.app/osxpmem -o /tmp/dump_mem.aff4
 ```
-Kama unapata kosa hili: `osxpmem.app/MacPmem.kext failed to load - (libkern/kext) authentication failure (file ownership/permissions); check the system/kernel logs for errors or try kextutil(8)` Unaweza kulirekebisha kwa kufanya:
+Ikiwa unakutana na kosa hili: `osxpmem.app/MacPmem.kext failed to load - (libkern/kext) authentication failure (file ownership/permissions); check the system/kernel logs for errors or try kextutil(8)` Unaweza kulitatua kwa kufanya:
 ```bash
 sudo cp -r osxpmem.app/MacPmem.kext "/tmp/"
 sudo kextutil "/tmp/MacPmem.kext"
 #Allow the kext in "Security & Privacy --> General"
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 ```
-**Makosa mengine** yanaweza kusuluhishwa kwa **kuruhusu mzigo wa kext** katika "Usalama & Faragha --> Jumla", tu **ruhusu**.
+**Makosa mengine** yanaweza kurekebishwa kwa **kuruhusu upakiaji wa kext** katika "Usalama & Faragha --> Kawaida", tu **ruhusu**.
 
-Unaweza pia kutumia hii **mistari moja** kupakua programu, kuruhusu kext na kudondosha kumbukumbu:
+Unaweza pia kutumia hii **oneliner** kupakua programu, kupakia kext na kutupa kumbukumbu: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -77,29 +64,18 @@ cd /tmp; wget https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-
 ```
 {% endcode %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utaftaji inayotumia **dark-web** ambayo inatoa huduma za **bure** za kuangalia ikiwa kampuni au wateja wake wameathiriwa na **malwares za kuiba**.
-
-Lengo kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulio ya ransomware yanayotokana na malware za kuiba taarifa.
-
-Unaweza kutembelea tovuti yao na kujaribu injini yao **bure** kwa:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-Jifunze & jifanye AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & jifanye GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**Kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}

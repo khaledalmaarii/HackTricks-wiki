@@ -1,59 +1,45 @@
-# Kutafuta Kanuni za Chanzo Kwa Upana
+# Wide Source Code Search
 
 {% hint style="success" %}
-Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>unga mkono HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Kikundi cha Usalama cha Kujaribu Kwa Bidii**
+Lengo la ukurasa huu ni kuorodhesha **majukwaa yanayoruhusu kutafuta msimbo** (halisi au regex) katika maelfu/mamilioni ya repos katika jukwaa moja au zaidi.
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+Hii inasaidia katika matukio kadhaa kutafuta **habari zilizovuja** au kwa mifumo ya **udhaifu**.
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-Lengo la ukurasa huu ni kuhesabu **majukwaa yanayoruhusu kutafuta kanuni** (halisi au regex) katika maelfu/mamilioni ya repos kwenye majukwaa moja au zaidi.
-
-Hii husaidia katika hali kadhaa za **kutafuta taarifa zilizovuja** au kwa **mifano ya vulnerabilities**.
-
-* [**SourceGraph**](https://sourcegraph.com/search): Tafuta katika mamilioni ya repos. Kuna toleo la bure na toleo la biashara (na siku 15 za bure). Inasaidia regexes.
-* [**Github Search**](https://github.com/search): Tafuta kote Github. Inasaidia regexes.
-* Labda ni muhimu pia kuangalia [**Github Code Search**](https://cs.github.com/).
+* [**SourceGraph**](https://sourcegraph.com/search): Tafuta katika maelfu ya repos. Kuna toleo la bure na toleo la biashara (pamoja na siku 15 za bure). Inasaidia regexes.
+* [**Github Search**](https://github.com/search): Tafuta katika Github. Inasaidia regexes.
+* Labda pia ni muhimu kuangalia [**Github Code Search**](https://cs.github.com/).
 * [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Tafuta katika miradi ya Gitlab. Inasaidia regexes.
-* [**SearchCode**](https://searchcode.com/): Tafuta kanuni katika miradi mamilioni.
+* [**SearchCode**](https://searchcode.com/): Tafuta msimbo katika mamilioni ya miradi.
 
 {% hint style="warning" %}
-Unapotafuta uvujaji katika repo na kuendesha kitu kama `git log -p` usisahau kwamba kunaweza kuwa na ** matawi mengine na commits nyingine** zinazohifadhi siri!
+Unapofanya utafutaji wa habari zilizovuja katika repo na kukimbiza kitu kama `git log -p` usisahau kunaweza kuwa na **matawi mengine yenye commits nyingine** yanayoshikilia siri!
 {% endhint %}
 
-**Kikundi cha Usalama cha Kujaribu Kwa Bidii**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Jifunze na zoezi la Udukuzi wa AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalam wa Timu Nyekundu ya AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze na zoezi la Udukuzi wa GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Mafunzo ya HackTricks kwa Wataalam wa Timu Nyekundu ya GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>unga mkono HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au kikundi cha [**telegram**](https://t.me/peass) au **tufuate** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

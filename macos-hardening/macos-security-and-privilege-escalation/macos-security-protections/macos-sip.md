@@ -15,30 +15,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia ikiwa kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
-
-Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
-
-Unaweza kuangalia tovuti yao na kujaribu injini yao kwa **bure** kwenye:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## **Basic Information**
 
-**System Integrity Protection (SIP)** katika macOS ni mekanism iliyoundwa kuzuia hata watumiaji wenye mamlaka makubwa kufanya mabadiliko yasiyoidhinishwa kwenye folda muhimu za mfumo. Kipengele hiki kina jukumu muhimu katika kudumisha uadilifu wa mfumo kwa kuzuia vitendo kama kuongeza, kubadilisha, au kufuta faili katika maeneo yaliyolindwa. Folda kuu zinazolindwa na SIP ni pamoja na:
+**Ulinzi wa Uadilifu wa Mfumo (SIP)** katika macOS ni mekanizma iliyoundwa kuzuia hata watumiaji wenye mamlaka makubwa kufanya mabadiliko yasiyoidhinishwa kwenye folda muhimu za mfumo. Kipengele hiki kina jukumu muhimu katika kudumisha uadilifu wa mfumo kwa kuzuia vitendo kama kuongeza, kubadilisha, au kufuta faili katika maeneo yaliyolindwa. Folda kuu zinazolindwa na SIP ni pamoja na:
 
 * **/System**
 * **/bin**
 * **/sbin**
 * **/usr**
 
-Sheria zinazosimamia tabia ya SIP zimefafanuliwa katika faili ya usanidi iliyoko **`/System/Library/Sandbox/rootless.conf`**. Ndani ya faili hii, njia ambazo zinaanzishwa na nyota (\*) zinatambulika kama visingizio vya vizuizi vya SIP ambavyo ni vikali.
+Sheria zinazosimamia tabia ya SIP zimefafanuliwa katika faili la usanidi lililoko kwenye **`/System/Library/Sandbox/rootless.conf`**. Ndani ya faili hii, njia ambazo zinaanzishwa na nyota (\*) zinatambulishwa kama visingizio kwa vizuizi vya SIP ambavyo ni vikali.
 
 Fikiria mfano ulio hapa chini:
 ```javascript
@@ -61,24 +48,24 @@ Kwa upande mwingine:
 ls -lOd /usr/libexec
 drwxr-xr-x  338 root  wheel  restricted 10816 May 13 00:29 /usr/libexec
 ```
-Here, the **`restricted`** flag indicates that the `/usr/libexec` directory is protected by SIP. In a SIP-protected directory, files cannot be created, modified, or deleted.
+Hapa, bendera **`restricted`** inaonyesha kwamba saraka ya `/usr/libexec` inalindwa na SIP. Katika saraka iliyo na ulinzi wa SIP, faili haziwezi kuundwa, kubadilishwa, au kufutwa.
 
-Moreover, if a file contains the attribute **`com.apple.rootless`** extended **attribute**, that file will also be **protected by SIP**.
+Zaidi ya hayo, ikiwa faili ina sifa **`com.apple.rootless`** sifa ya **kupanuliwa**, faili hiyo pia itakuwa **inalindwa na SIP**.
 
-**SIP also limits other root actions** like:
+**SIP pia inakadiria vitendo vingine vya root** kama:
 
-* Loading untrusted kernel extensions
-* Getting task-ports for Apple-signed processes
-* Modifying NVRAM variables
-* Allowing kernel debugging
+* Kupakia nyongeza za kernel zisizoaminika
+* Kupata task-ports kwa michakato iliyosainiwa na Apple
+* Kubadilisha mabadiliko ya NVRAM
+* Kuruhusu ufuatiliaji wa kernel
 
-Options are maintained in nvram variable as a bitflag (`csr-active-config` on Intel and `lp-sip0` is read from the booted Device Tree for ARM). You can find the flags in the XNU source code in `csr.sh`:
+Chaguo zinawekwa katika mabadiliko ya nvram kama bitflag (`csr-active-config` kwenye Intel na `lp-sip0` inasomwa kutoka kwa Mti wa Kifaa kilichozinduliwa kwa ARM). Unaweza kupata bendera hizo katika msimbo wa chanzo wa XNU katika `csr.sh`:
 
 <figure><img src="../../../.gitbook/assets/image (1192).png" alt=""><figcaption></figcaption></figure>
 
-### SIP Status
+### Hali ya SIP
 
-You can check if SIP is enabled on your system with the following command:
+Unaweza kuangalia ikiwa SIP imewezeshwa kwenye mfumo wako kwa amri ifuatayo:
 ```bash
 csrutil status
 ```
@@ -93,8 +80,8 @@ csrutil enable --without debug
 ### Other Restrictions
 
 * **Inakata kupakia nyongeza za kernel zisizo na saini** (kexts), kuhakikisha kwamba nyongeza zilizothibitishwa pekee ndizo zinazoingiliana na kernel ya mfumo.
-* **Inazuia ufuatiliaji** wa michakato ya mfumo wa macOS, ikilinda sehemu muhimu za mfumo kutokana na ufikiaji na mabadiliko yasiyoidhinishwa.
-* **Inakandamiza zana** kama dtrace kutoka kuangalia michakato ya mfumo, ikilinda zaidi uadilifu wa uendeshaji wa mfumo.
+* **Inazuia ufuatiliaji** wa michakato ya mfumo wa macOS, ikilinda vipengele vya msingi vya mfumo kutokana na ufikiaji na mabadiliko yasiyoidhinishwa.
+* **Inakandamiza zana** kama dtrace kutoka kuangalia michakato ya mfumo, ikilinda zaidi uaminifu wa uendeshaji wa mfumo.
 
 [**Jifunze zaidi kuhusu taarifa za SIP katika mazungumzo haya**](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)**.**
 
@@ -103,13 +90,13 @@ csrutil enable --without debug
 Kupita SIP kunamwezesha mshambuliaji:
 
 * **Kufikia Data za Mtumiaji**: Kusoma data nyeti za mtumiaji kama barua, ujumbe, na historia ya Safari kutoka kwa akaunti zote za mtumiaji.
-* **TCC Bypass**: Manipulate moja kwa moja hifadhidata ya TCC (Transparency, Consent, and Control) ili kutoa ufikiaji usioidhinishwa kwa kamera, kipaza sauti, na rasilimali nyingine.
-* **Kuweka Uthabiti**: Kuweka malware katika maeneo yaliyo na ulinzi wa SIP, ikifanya iwe ngumu kuondoa, hata kwa ruhusa za root. Hii pia inajumuisha uwezekano wa kuingilia kati Zana ya Kuondoa Malware (MRT).
+* **TCC Bypass**: Kudhibiti moja kwa moja hifadhidata ya TCC (Transparency, Consent, and Control) ili kutoa ufikiaji usioidhinishwa kwa kamera, kipaza sauti, na rasilimali nyingine.
+* **Kuweka Uthabiti**: Kuweka malware katika maeneo yaliyo na ulinzi wa SIP, na kufanya iwe ngumu kuondoa, hata kwa ruhusa za root. Hii pia inajumuisha uwezekano wa kuingilia kati Zana ya Kuondoa Malware (MRT).
 * **Kupakia Nyongeza za Kernel**: Ingawa kuna ulinzi wa ziada, kupita SIP kunarahisisha mchakato wa kupakia nyongeza za kernel zisizo na saini.
 
 ### Installer Packages
 
-**Pakiti za installer zilizotiwa saini na cheti cha Apple** zinaweza kupita ulinzi wake. Hii inamaanisha kwamba hata pakiti zilizotiwa saini na waendelezaji wa kawaida zitazuiwa ikiwa zitajaribu kubadilisha saraka zilizo na ulinzi wa SIP.
+**Pakiti za installer zilizotiwa saini na cheti cha Apple** zinaweza kupita ulinzi wake. Hii inamaanisha kwamba hata pakiti zilizotiwa saini na waendelezaji wa kawaida zitazuiliwa ikiwa zitajaribu kubadilisha saraka zilizo na ulinzi wa SIP.
 
 ### Inexistent SIP file
 
@@ -123,29 +110,29 @@ Ruhusa **`com.apple.rootless.install.heritable`** inaruhusu kupita SIP
 
 #### [CVE-2019-8561](https://objective-see.org/blog/blog\_0x42.html) <a href="#cve" id="cve"></a>
 
-Iligundulika kwamba ilikuwa inawezekana **kubadilisha pakiti ya installer baada ya mfumo kuthibitisha saini yake** ya msimbo na kisha, mfumo ungeweka pakiti mbaya badala ya asili. Kadri vitendo hivi vilifanywa na **`system_installd`**, ingekuwa inaruhusu kupita SIP.
+Iligundulika kwamba ilikuwa inawezekana **kubadilisha pakiti ya installer baada ya mfumo kuthibitisha saini yake** na kisha, mfumo ungeweka pakiti mbaya badala ya asili. Kadri vitendo hivi vilifanywa na **`system_installd`**, ingekuwa inaruhusu kupita SIP.
 
 #### [CVE-2020–9854](https://objective-see.org/blog/blog\_0x4D.html) <a href="#cve-unauthd-chain" id="cve-unauthd-chain"></a>
 
-Ikiwa pakiti ilipakiwa kutoka picha iliyowekwa au diski ya nje **installer** ingekuwa **inaendesha** binary kutoka **safu hiyo ya faili** (badala ya eneo lililokuwa na ulinzi wa SIP), ikifanya **`system_installd`** kuendesha binary isiyo na mpangilio.
+Ikiwa pakiti ilipakiwa kutoka picha iliyowekwa au diski ya nje **installer** ingekuwa **inasimamia** binary kutoka **safu hiyo ya faili** (badala ya eneo lililokuwa na ulinzi wa SIP), ikifanya **`system_installd`** kuendesha binary isiyo na mpangilio.
 
 #### CVE-2021-30892 - Shrootless
 
-[**Watafiti kutoka kwenye chapisho hili la blog**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) waligundua udhaifu katika mfumo wa Ulinzi wa Uadilifu wa Mfumo (SIP) wa macOS, uliopewa jina la 'Shrootless'. Udhaifu huu unahusiana na **`system_installd`** daemon, ambayo ina ruhusa, **`com.apple.rootless.install.heritable`**, inayoruhusu mchakato wowote wa mtoto kupita vizuizi vya mfumo wa faili wa SIP.
+[**Watafiti kutoka kwenye chapisho hili la blog**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) waligundua udhaifu katika mfumo wa Ulinzi wa Uaminifu wa Mfumo wa macOS (SIP), uliopewa jina la 'Shrootless'. Udhaifu huu unahusiana na **`system_installd`** daemon, ambayo ina ruhusa, **`com.apple.rootless.install.heritable`**, inayoruhusu mchakato wowote wa mtoto wake kupita vizuizi vya mfumo wa faili wa SIP.
 
-**`system_installd`** daemon itainua pakiti ambazo zimewekwa saini na **Apple**.
+**`system_installd`** daemon itasakinisha pakiti ambazo zimewekwa saini na **Apple**.
 
-Watafiti waligundua kwamba wakati wa ufungaji wa pakiti iliyotiwa saini na Apple (.pkg file), **`system_installd`** **inaendesha** yoyote **post-install** scripts zilizojumuishwa katika pakiti. Scripts hizi zinaendeshwa na shell ya kawaida, **`zsh`**, ambayo moja kwa moja **inaendesha** amri kutoka kwa **`/etc/zshenv`** faili, ikiwa ipo, hata katika hali isiyo ya mwingiliano. Tabia hii inaweza kutumiwa na washambuliaji: kwa kuunda faili mbaya ya `/etc/zshenv` na kusubiri **`system_installd` itumie `zsh`**, wangeweza kufanya operesheni zisizo na mpangilio kwenye kifaa.
+Watafiti waligundua kwamba wakati wa usakinishaji wa pakiti iliyotiwa saini na Apple (.pkg file), **`system_installd`** **inaendesha** yoyote **post-install** scripts zilizojumuishwa katika pakiti. Scripts hizi zinaendeshwa na shell ya kawaida, **`zsh`**, ambayo moja kwa moja **inaendesha** amri kutoka kwa **`/etc/zshenv`** faili, ikiwa ipo, hata katika hali isiyo ya mwingiliano. Tabia hii inaweza kutumiwa na washambuliaji: kwa kuunda faili mbaya ya `/etc/zshenv` na kusubiri **`system_installd` itumie `zsh`**, wangeweza kufanya operesheni zisizo na mpangilio kwenye kifaa.
 
-Zaidi ya hayo, iligundulika kwamba **`/etc/zshenv` inaweza kutumika kama mbinu ya jumla ya shambulio**, sio tu kwa kupita SIP. Kila wasifu wa mtumiaji una faili `~/.zshenv`, ambayo inafanya kazi sawa na `/etc/zshenv` lakini haitahitaji ruhusa za root. Faili hii inaweza kutumika kama mbinu ya uthabiti, ikichochewa kila wakati `zsh` inaanza, au kama mbinu ya kuinua ruhusa. Ikiwa mtumiaji wa admin anainua hadi root kwa kutumia `sudo -s` au `sudo <command>`, faili ya `~/.zshenv` itachochewa, ikiongeza kwa ufanisi hadi root.
+Zaidi ya hayo, iligundulika kwamba **`/etc/zshenv` inaweza kutumika kama mbinu ya jumla ya shambulio**, sio tu kwa kupita SIP. Kila wasifu wa mtumiaji una faili `~/.zshenv`, ambayo inafanya kazi sawa na `/etc/zshenv` lakini haitahitaji ruhusa za root. Faili hii inaweza kutumika kama mbinu ya uthabiti, ikichochewa kila wakati `zsh` inaanza, au kama mbinu ya kupandisha ruhusa. Ikiwa mtumiaji wa admin anapandisha hadi root kwa kutumia `sudo -s` au `sudo <command>`, faili ya `~/.zshenv` itachochewa, ikipandisha kwa ufanisi hadi root.
 
 #### [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)
 
-Katika [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) iligundulika kwamba mchakato sawa wa **`system_installd`** bado unaweza kutumiwa vibaya kwa sababu ilikuwa ikiweka **script ya baada ya ufungaji ndani ya folda yenye jina la nasibu iliyo na ulinzi wa SIP ndani ya `/tmp`**. Jambo ni kwamba **`/tmp` yenyewe haina ulinzi wa SIP**, hivyo ilikuwa inawezekana **kuiweka** picha **ya virtual juu yake**, kisha **installer** ingekuwa ikiweka script ya **post-install**, **kuondoa** picha ya virtual, **kuunda upya** folda zote na **kuongeza** script ya **post installation** na **payload** ya kutekeleza.
+Katika [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) iligundulika kwamba mchakato sawa wa **`system_installd`** bado unaweza kutumiwa vibaya kwa sababu ilikuwa ikiweka **script ya baada ya usakinishaji ndani ya folda yenye jina la nasibu iliyo na ulinzi wa SIP ndani ya `/tmp`**. Jambo ni kwamba **`/tmp` yenyewe haina ulinzi wa SIP**, hivyo ilikuwa inawezekana **kuiweka** picha **ya virtual juu yake**, kisha **installer** ingekuwa ikiweka script ya **post-install**, **kuondoa** picha ya virtual, **kuunda upya** folda zote na **kuongeza** script ya **post installation** na **payload** ya kutekeleza.
 
 #### [fsck\_cs utility](https://www.theregister.com/2016/03/30/apple\_os\_x\_rootless/)
 
-Udhaifu ulitambuliwa ambapo **`fsck_cs`** ilipotoshwa kuharibu faili muhimu, kutokana na uwezo wake wa kufuata **viungo vya alama**. Kwa haswa, washambuliaji walitengeneza kiungo kutoka _`/dev/diskX`_ hadi faili `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Kuendesha **`fsck_cs`** kwenye _`/dev/diskX`_ kulisababisha uharibifu wa `Info.plist`. Uadilifu wa faili hii ni muhimu kwa SIP (Ulinzi wa Uadilifu wa Mfumo) wa mfumo wa uendeshaji, ambayo inasimamia upakiaji wa nyongeza za kernel. Mara tu ikiharibiwa, uwezo wa SIP wa kudhibiti uondoaji wa kernel unaharibiwa.
+Udhaifu ulitambuliwa ambapo **`fsck_cs`** ilipotoshwa kuharibu faili muhimu, kutokana na uwezo wake wa kufuata **viungo vya ishara**. Kwa haswa, washambuliaji walitengeneza kiungo kutoka _`/dev/diskX`_ hadi faili `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Kutekeleza **`fsck_cs`** kwenye _`/dev/diskX`_ kulisababisha uharibifu wa `Info.plist`. Uaminifu wa faili hii ni muhimu kwa SIP (Ulinzi wa Uaminifu wa Mfumo) wa mfumo wa uendeshaji, ambayo inasimamia upakiaji wa nyongeza za kernel. Mara baada ya kuharibika, uwezo wa SIP wa kudhibiti uondoaji wa kernel unaharibiwa.
 
 Amri za kutumia udhaifu huu ni:
 ```bash
@@ -167,17 +154,17 @@ hdiutil attach -mountpoint /System/Library/Snadbox/ evil.dmg
 ```
 #### [Upgrader bypass (2016)](https://objective-see.org/blog/blog\_0x14.html)
 
-Mfumo umewekwa kuanzisha kutoka kwa picha ya diski ya msaidizi iliyo ndani ya `Install macOS Sierra.app` ili kuboresha OS, ikitumia zana ya `bless`. Amri inayotumika ni kama ifuatavyo:
+Mfumo umewekwa kuanzisha kutoka kwa picha ya diski ya mfunguo iliyojumuishwa ndani ya `Install macOS Sierra.app` ili kuboresha OS, ikitumia zana ya `bless`. Amri inayotumika ni kama ifuatavyo:
 ```bash
 /usr/sbin/bless -setBoot -folder /Volumes/Macintosh HD/macOS Install Data -bootefi /Volumes/Macintosh HD/macOS Install Data/boot.efi -options config="\macOS Install Data\com.apple.Boot" -label macOS Installer
 ```
 The security of this process can be compromised if an attacker alters the upgrade image (`InstallESD.dmg`) before booting. The strategy involves substituting a dynamic loader (dyld) with a malicious version (`libBaseIA.dylib`). This replacement results in the execution of the attacker's code when the installer is initiated.
 
-Usalama wa mchakato huu unaweza kuathiriwa ikiwa mshambuliaji atabadilisha picha ya sasisho (`InstallESD.dmg`) kabla ya kuanzisha. Mkakati huu unahusisha kubadilisha mzigo wa dinamik (dyld) na toleo la uhalifu (`libBaseIA.dylib`). Badiliko hili linapelekea utekelezaji wa msimbo wa mshambuliaji wakati mchakato wa usakinishaji unapoanzishwa.
+Usalama wa mchakato huu unaweza kuathiriwa ikiwa mshambuliaji atabadilisha picha ya sasisho (`InstallESD.dmg`) kabla ya kuanzisha. Mkakati huu unahusisha kubadilisha mzigo wa dinamik (dyld) na toleo la uhalifu (`libBaseIA.dylib`). Badiliko hili linapelekea utekelezaji wa msimbo wa mshambuliaji wakati mchakato wa kusakinisha unapoanzishwa.
 
 The attacker's code gains control during the upgrade process, exploiting the system's trust in the installer. The attack proceeds by altering the `InstallESD.dmg` image via method swizzling, particularly targeting the `extractBootBits` method. This allows the injection of malicious code before the disk image is employed.
 
-Msimbo wa mshambuliaji unapata udhibiti wakati wa mchakato wa sasisho, ukitumia imani ya mfumo kwa mchakato wa usakinishaji. Shambulio linaendelea kwa kubadilisha picha ya `InstallESD.dmg` kupitia mbinu ya swizzling, hasa ikilenga mbinu ya `extractBootBits`. Hii inaruhusu sindano ya msimbo wa uhalifu kabla ya picha ya diski kutumika.
+Msimbo wa mshambuliaji unapata udhibiti wakati wa mchakato wa sasisho, ukitumia imani ya mfumo kwa mchakato wa kusakinisha. Shambulio linaendelea kwa kubadilisha picha ya `InstallESD.dmg` kupitia mbinu ya swizzling, hasa ikilenga mbinu ya `extractBootBits`. Hii inaruhusu sindano ya msimbo wa uhalifu kabla ya picha ya diski kutumika.
 
 Moreover, within the `InstallESD.dmg`, there's a `BaseSystem.dmg`, which serves as the upgrade code's root file system. Injecting a dynamic library into this allows the malicious code to operate within a process capable of altering OS-level files, significantly increasing the potential for system compromise.
 
@@ -187,7 +174,7 @@ Zaidi ya hayo, ndani ya `InstallESD.dmg`, kuna `BaseSystem.dmg`, ambayo inatumik
 
 In this talk from [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk), it's shown how **`systemmigrationd`** (which can bypass SIP) executes a **bash** and a **perl** script, which can be abused via env variables **`BASH_ENV`** and **`PERL5OPT`**.
 
-Katika mazungumzo haya kutoka [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk), inaonyeshwa jinsi **`systemmigrationd`** (ambayo inaweza kupita SIP) inatekeleza **bash** na **perl** script, ambazo zinaweza kutumika vibaya kupitia mabadiliko ya mazingira **`BASH_ENV`** na **`PERL5OPT`**.
+Katika mazungumzo haya kutoka [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk), inaonyeshwa jinsi **`systemmigrationd`** (ambayo inaweza kupita SIP) inavyotekeleza **bash** na **perl** script, ambazo zinaweza kutumika vibaya kupitia mabadiliko ya mazingira **`BASH_ENV`** na **`PERL5OPT`**.
 
 #### CVE-2023-42860 <a href="#cve-a-detailed-look" id="cve-a-detailed-look"></a>
 
@@ -197,7 +184,7 @@ Kama [**ilivyoelezwa katika chapisho hili la blog**](https://blog.kandji.io/appl
 ```bash
 /usr/bin/chflags -h norestricted "${SHARED_SUPPORT_PATH}/SharedSupport.dmg"
 ```
-and ilikuw possible kuunda symlink katika `${SHARED_SUPPORT_PATH}/SharedSupport.dmg` ambayo ingemruhusu mtumiaji **kuzuia kikomo chochote, akipita ulinzi wa SIP**.
+and ilikuw possible kuunda symlink katika `${SHARED_SUPPORT_PATH}/SharedSupport.dmg` ambayo ingemruhusu mtumiaji **kuzuia kikomo chochote, kupita ulinzi wa SIP**.
 
 ### **com.apple.rootless.install**
 
@@ -205,7 +192,7 @@ and ilikuw possible kuunda symlink katika `${SHARED_SUPPORT_PATH}/SharedSupport.
 Ruhusa **`com.apple.rootless.install`** inaruhusu kupita SIP
 {% endhint %}
 
-Ruhusa `com.apple.rootless.install` inajulikana kupita Ulinzi wa Uadilifu wa Mfumo (SIP) kwenye macOS. Hii ilitajwa kwa kiasi fulani kuhusiana na [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/).
+Ruhusa `com.apple.rootless.install` inajulikana kupita Ulinzi wa Uadilifu wa Mfumo (SIP) kwenye macOS. Hii ilitajwa kwa kiasi kikubwa kuhusiana na [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/).
 
 Katika kesi hii maalum, huduma ya mfumo wa XPC iliyoko katika `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc` ina ruhusa hii. Hii inaruhusu mchakato unaohusiana kupita vikwazo vya SIP. Zaidi ya hayo, huduma hii inatoa njia ambayo inaruhusu kuhamasisha faili bila kutekeleza hatua zozote za usalama.
 
@@ -213,11 +200,11 @@ Katika kesi hii maalum, huduma ya mfumo wa XPC iliyoko katika `/System/Library/P
 
 Sealed System Snapshots ni kipengele kilichozinduliwa na Apple katika **macOS Big Sur (macOS 11)** kama sehemu ya **Ulinzi wa Uadilifu wa Mfumo (SIP)** ili kutoa safu ya ziada ya usalama na utulivu wa mfumo. Kimsingi ni toleo la mfumo wa volume lisiloweza kubadilishwa.
 
-Hapa kuna muonekano wa kina:
+Hapa kuna muonekano wa kina zaidi:
 
-1. **Mfumo Usio Badilika**: Sealed System Snapshots hufanya volume ya mfumo wa macOS "isiyoweza kubadilishwa", ikimaanisha kwamba haiwezi kubadilishwa. Hii inazuia mabadiliko yoyote yasiyoidhinishwa au ya bahati mbaya kwenye mfumo ambayo yanaweza kuathiri usalama au utulivu wa mfumo.
-2. **Maktaba ya Programu za Mfumo**: Unapofunga masasisho au maboresho ya macOS, macOS huunda snapshot mpya ya mfumo. Volume ya kuanzisha ya macOS kisha inatumia **APFS (Apple File System)** kubadilisha kwenda kwenye snapshot hii mpya. Mchakato mzima wa kutekeleza masasisho unakuwa salama zaidi na wa kuaminika kwani mfumo unaweza kila wakati kurudi kwenye snapshot ya awali ikiwa kitu kikienda vibaya wakati wa masasisho.
-3. **Kutenganisha Data**: Kwa kushirikiana na dhana ya Kutenganisha Data na Mfumo iliyozintroduced katika macOS Catalina, kipengele cha Sealed System Snapshot kinahakikisha kwamba data na mipangilio yako yote huhifadhiwa kwenye volume tofauti ya "**Data**". Kutenganisha hii kunafanya data yako kuwa huru kutoka kwa mfumo, ambayo inarahisisha mchakato wa masasisho ya mfumo na kuimarisha usalama wa mfumo.
+1. **Mfumo Usio Badilika**: Sealed System Snapshots hufanya volume ya mfumo wa macOS "isiyoweza kubadilishwa", ikimaanisha kwamba haiwezi kubadilishwa. Hii inazuia mabadiliko yoyote yasiyoidhinishwa au ya bahati ambayo yanaweza kuathiri usalama au utulivu wa mfumo.
+2. **Maktaba ya Programu za Mfumo**: Unapoweka masasisho au maboresho ya macOS, macOS huunda snapshot mpya ya mfumo. Volume ya kuanzisha ya macOS kisha inatumia **APFS (Apple File System)** kubadilisha kwenda kwenye snapshot hii mpya. Mchakato mzima wa kutekeleza masasisho unakuwa salama zaidi na wa kuaminika kwani mfumo unaweza kila wakati kurudi kwenye snapshot ya awali ikiwa kitu kikienda vibaya wakati wa masasisho.
+3. **Kutenganisha Data**: Kwa kushirikiana na dhana ya Kutenganisha Data na Mfumo iliyozinduliwa katika macOS Catalina, kipengele cha Sealed System Snapshot kinahakikisha kwamba data na mipangilio yako yote huhifadhiwa kwenye volume tofauti ya "**Data**". Kutenganisha hii kunafanya data yako kuwa huru kutoka kwa mfumo, ambayo inarahisisha mchakato wa masasisho ya mfumo na kuimarisha usalama wa mfumo.
 
 Kumbuka kwamba snapshots hizi zinadhibitiwa kiotomatiki na macOS na hazichukui nafasi ya ziada kwenye diski yako, shukrani kwa uwezo wa kushiriki nafasi wa APFS. Pia ni muhimu kutambua kwamba snapshots hizi ni tofauti na **Time Machine snapshots**, ambazo ni nakala za mfumo mzima zinazoweza kufikiwa na mtumiaji.
 
@@ -276,17 +263,6 @@ Zaidi ya hayo, diski ya snapshot pia imewekwa kama **read-only**:
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia kama kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
-
-Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
-
-Unaweza kuangalia tovuti yao na kujaribu injini yao kwa **bure** kwenye:
-
-{% embed url="https://whiteintel.io" %}
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)

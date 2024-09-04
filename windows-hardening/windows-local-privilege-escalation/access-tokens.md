@@ -15,25 +15,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia kama kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
-
-Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
-
-Unaweza kuangalia tovuti yao na kujaribu injini yao kwa **bure** kwenye:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Access Tokens
 
-Kila **mtumiaji aliyeingia** kwenye mfumo **ana token ya ufikiaji yenye taarifa za usalama** kwa ajili ya kikao hicho cha kuingia. Mfumo huunda token ya ufikiaji wakati mtumiaji anaingia. **Kila mchakato unaotekelezwa** kwa niaba ya mtumiaji **una nakala ya token ya ufikiaji**. Token hiyo inatambulisha mtumiaji, vikundi vya mtumiaji, na ruhusa za mtumiaji. Token pia ina SID ya kuingia (Identifier ya Usalama) inayotambulisha kikao cha sasa cha kuingia.
+Kila **mtumiaji aliyeingia** kwenye mfumo **ana token ya ufikiaji yenye taarifa za usalama** kwa ajili ya kikao hicho cha kuingia. Mfumo huunda token ya ufikiaji wakati mtumiaji anapoingia. **Kila mchakato unaotekelezwa** kwa niaba ya mtumiaji **una nakala ya token ya ufikiaji**. Token hiyo inatambulisha mtumiaji, vikundi vya mtumiaji, na ruhusa za mtumiaji. Token pia ina SID ya kuingia (Identifier ya Usalama) inayotambulisha kikao cha sasa cha kuingia.
 
-Unaweza kuona taarifa hii ukitekeleza `whoami /all`
+Unaweza kuona taarifa hii kwa kutekeleza `whoami /all`
 ```
 whoami /all
 
@@ -92,65 +79,54 @@ Ikiwa una **uthibitisho halali wa mtumiaji mwingine yeyote**, unaweza **kuunda**
 ```
 runas /user:domain\username cmd.exe
 ```
-The **access token** ina **rejea** ya vikao vya kuingia ndani ya **LSASS**, hii ni muhimu ikiwa mchakato unahitaji kufikia baadhi ya vitu vya mtandao.\
+The **access token** ina **rejea** ya vikao vya kuingia ndani ya **LSASS**, hii ni muhimu ikiwa mchakato unahitaji kufikia vitu fulani vya mtandao.\
 Unaweza kuzindua mchakato ambao **unatumia sifa tofauti za kufikia huduma za mtandao** kwa kutumia:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Hii ni muhimu ikiwa una akidi muhimu za kufikia vitu katika mtandao lakini akidi hizo si halali ndani ya mwenyeji wa sasa kwani zitatumika tu katika mtandao (katika mwenyeji wa sasa, ruhusa za mtumiaji wako wa sasa zitatumika).
+This is useful if you have useful credentials to access objects in the network but those credentials aren't valid inside the current host as they are only going to be used in the network (in the current host your current user privileges will be used).
 
-### Aina za tokeni
+### Types of tokens
 
-Kuna aina mbili za tokeni zinazopatikana:
+There are two types of tokens available:
 
-* **Tokeni Kuu**: Inatumika kama uwakilishi wa akidi za usalama za mchakato. Uundaji na uhusiano wa tokeni kuu na michakato ni vitendo vinavyohitaji ruhusa za juu, ikisisitiza kanuni ya kutenganisha ruhusa. Kwa kawaida, huduma ya uthibitishaji inawajibika kwa uundaji wa tokeni, wakati huduma ya kuingia inashughulikia uhusiano wake na kiolesura cha mfumo wa uendeshaji wa mtumiaji. Inafaa kutaja kwamba michakato inarithi tokeni kuu ya mchakato wao wa mzazi wakati wa uundaji.
-* **Tokeni ya Kuiga**: Inamuwezesha programu ya seva kuchukua kitambulisho cha mteja kwa muda ili kufikia vitu salama. Mekanismu hii imegawanywa katika viwango vinne vya uendeshaji:
-* **Kujulikana**: Inatoa ufikiaji wa seva sawa na wa mtumiaji asiyejulikana.
-* **Utambulisho**: Inaruhusu seva kuthibitisha kitambulisho cha mteja bila kukitumia kwa ufikiaji wa vitu.
-* **Kuiga**: Inamuwezesha seva kufanya kazi chini ya kitambulisho cha mteja.
-* **Delegation**: Kama Kuiga lakini inajumuisha uwezo wa kupanua dhana hii ya kitambulisho kwa mifumo ya mbali ambayo seva inawasiliana nayo, kuhakikisha uhifadhi wa akidi.
+* **Primary Token**: Inatumika kama uwakilishi wa sifa za usalama za mchakato. Uundaji na uhusiano wa tokeni za msingi na michakato ni vitendo vinavyohitaji mamlaka ya juu, ikisisitiza kanuni ya kutenganisha mamlaka. Kwa kawaida, huduma ya uthibitishaji inawajibika kwa uundaji wa tokeni, wakati huduma ya kuingia inashughulikia uhusiano wake na kiolesura cha mfumo wa uendeshaji wa mtumiaji. Inafaa kutaja kwamba michakato inarithi tokeni ya msingi ya mchakato wake wa mzazi wakati wa uundaji.
+* **Impersonation Token**: Inamuwezesha programu ya seva kuchukua kitambulisho cha mteja kwa muda ili kufikia vitu salama. Mekanismu hii imegawanywa katika viwango vinne vya uendeshaji:
+* **Anonymous**: Inatoa ufikiaji wa seva sawa na wa mtumiaji asiyejulikana.
+* **Identification**: Inaruhusu seva kuthibitisha kitambulisho cha mteja bila kukitumia kwa ufikiaji wa vitu.
+* **Impersonation**: Inamwezesha seva kufanya kazi chini ya kitambulisho cha mteja.
+* **Delegation**: Ni sawa na Impersonation lakini inajumuisha uwezo wa kupanua dhana hii ya kitambulisho kwa mifumo ya mbali ambayo seva inawasiliana nayo, kuhakikisha uhifadhi wa sifa.
 
-#### Tokeni za Kuiga
+#### Impersonate Tokens
 
-Kwa kutumia moduli ya _**incognito**_ ya metasploit ikiwa una ruhusa za kutosha unaweza kwa urahisi **orodhesha** na **kuiga** tokeni nyingine. Hii inaweza kuwa muhimu kufanya **vitendo kana kwamba wewe ni mtumiaji mwingine**. Unaweza pia **kuinua ruhusa** kwa kutumia mbinu hii.
+Using the _**incognito**_ module of metasploit if you have enough privileges you can easily **list** and **impersonate** other **tokens**. This could be useful to perform **actions as if you where the other user**. You could also **escalate privileges** with this technique.
 
-### Ruhusa za Tokeni
+### Token Privileges
 
-Jifunze ni zipi **ruhusa za tokeni zinaweza kutumika vibaya ili kuinua ruhusa:**
+Learn which **token privileges can be abused to escalate privileges:**
 
 {% content-ref url="privilege-escalation-abusing-tokens.md" %}
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-Angalia [**ruhusa zote zinazowezekana za tokeni na baadhi ya maelezo kwenye ukurasa huu wa nje**](https://github.com/gtworek/Priv2Admin).
+Take a look to [**all the possible token privileges and some definitions on this external page**](https://github.com/gtworek/Priv2Admin).
 
-## Marejeleo
+## References
 
-Jifunze zaidi kuhusu tokeni katika mafunzo haya: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) na [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
+Learn more about tokens in this tutorials: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) and [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** inayotoa kazi za **bure** kuangalia ikiwa kampuni au wateja wake wamekuwa **wameathiriwa** na **stealer malwares**.
-
-Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware ya kuiba taarifa.
-
-Unaweza kuangalia tovuti yao na kujaribu injini yao **bure** kwenye:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-Jifunze & fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Jifunze & fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
-* **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **fuata** sisi kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki mbinu za udukuzi kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

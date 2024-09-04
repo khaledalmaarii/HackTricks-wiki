@@ -15,21 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) ni injini ya utafutaji inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia ikiwa kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
-
-Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
-
-Unaweza kuangalia tovuti yao na kujaribu injini yao kwa **bure** kwenye:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-Ikiwa una pcap yenye data inayokuwa **exfiltrated by DNSCat** (bila kutumia usimbuaji), unaweza kupata maudhui yaliyokuwa yakiwekwa nje.
+Ikiwa una pcap yenye data inay **exfiltrated na DNSCat** (bila kutumia usimbuaji), unaweza kupata maudhui yaliyotolewa.
 
 Unahitaji tu kujua kwamba **bytes 9 za kwanza** si data halisi bali zinahusiana na **C\&C communication**:
 ```python

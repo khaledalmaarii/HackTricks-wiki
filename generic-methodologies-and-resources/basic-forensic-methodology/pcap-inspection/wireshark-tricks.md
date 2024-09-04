@@ -15,25 +15,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ni injini ya kutafuta inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia kama kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
-
-Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
-
-Unaweza kuangalia tovuti yao na kujaribu injini yao kwa **bure** kwenye:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Improve your Wireshark skills
 
 ### Tutorials
 
-Mafunzo yafuatayo ni mazuri kujifunza mbinu za msingi:
+The following tutorials are amazing to learn some cool basic tricks:
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
@@ -44,73 +31,73 @@ Mafunzo yafuatayo ni mazuri kujifunza mbinu za msingi:
 
 **Expert Information**
 
-Kubofya kwenye _**Analyze** --> **Expert Information**_ utapata **muonekano** wa kile kinachotokea katika pakiti **zilizochambuliwa**:
+Clicking on _**Analyze** --> **Expert Information**_ you will have an **overview** of what is happening in the packets **analyzed**:
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
 **Resolved Addresses**
 
-Chini ya _**Statistics --> Resolved Addresses**_ unaweza kupata **taarifa** kadhaa ambazo zimekuwa "**resolved**" na wireshark kama port/transport hadi protocol, MAC hadi mtengenezaji, nk. Ni ya kuvutia kujua kile kinachohusika katika mawasiliano.
+Under _**Statistics --> Resolved Addresses**_ you can find several **information** that was "**resolved**" by wireshark like port/transport to protocol, MAC to the manufacturer, etc. It is interesting to know what is implicated in the communication.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
 **Protocol Hierarchy**
 
-Chini ya _**Statistics --> Protocol Hierarchy**_ unaweza kupata **protocols** **zinazo husika** katika mawasiliano na data kuhusu hizo.
+Under _**Statistics --> Protocol Hierarchy**_ you can find the **protocols** **involved** in the communication and data about them.
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **Conversations**
 
-Chini ya _**Statistics --> Conversations**_ unaweza kupata **muhtasari wa mazungumzo** katika mawasiliano na data kuhusu hizo.
+Under _**Statistics --> Conversations**_ you can find a **summary of the conversations** in the communication and data about them.
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **Endpoints**
 
-Chini ya _**Statistics --> Endpoints**_ unaweza kupata **muhtasari wa endpoints** katika mawasiliano na data kuhusu kila moja yao.
+Under _**Statistics --> Endpoints**_ you can find a **summary of the endpoints** in the communication and data about each of them.
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
 **DNS info**
 
-Chini ya _**Statistics --> DNS**_ unaweza kupata takwimu kuhusu ombi la DNS lililokamatwa.
+Under _**Statistics --> DNS**_ you can find statistics about the DNS request captured.
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
 **I/O Graph**
 
-Chini ya _**Statistics --> I/O Graph**_ unaweza kupata **grafu ya mawasiliano.**
+Under _**Statistics --> I/O Graph**_ you can find a **graph of the communication.**
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
 ### Filters
 
-Hapa unaweza kupata chujio za wireshark kulingana na protocol: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
-Chujio zingine za kuvutia:
+Here you can find wireshark filter depending on the protocol: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+Other interesting filters:
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-* HTTP na trafiki ya mwanzo ya HTTPS
+* HTTP na trafiki ya awali ya HTTPS
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-* HTTP na trafiki ya mwanzo ya HTTPS + TCP SYN
+* HTTP na trafiki ya awali ya HTTPS + TCP SYN
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-* HTTP na trafiki ya mwanzo ya HTTPS + TCP SYN + maombi ya DNS
+* HTTP na trafiki ya awali ya HTTPS + TCP SYN + maombi ya DNS
 
 ### Search
 
-Ikiwa unataka **kutafuta** **maudhui** ndani ya **pakiti** za vikao bonyeza _CTRL+f_. Unaweza kuongeza tabaka mpya kwenye bar ya habari kuu (No., Wakati, Chanzo, nk.) kwa kubonyeza kitufe cha kulia na kisha kuhariri safu.
+If you want to **search** for **content** inside the **packets** of the sessions press _CTRL+f_. You can add new layers to the main information bar (No., Time, Source, etc.) by pressing the right button and then the edit column.
 
 ### Free pcap labs
 
-**Fanya mazoezi na changamoto za bure za:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**Practice with the free challenges of:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
 ## Identifying Domains
 
-Unaweza kuongeza safu inayonyesha kichwa cha HTTP cha Host:
+You can add a column that shows the Host HTTP header:
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-Na safu inayoongeza jina la Server kutoka kwa muunganisho wa HTTPS unaoanzisha (**ssl.handshake.type == 1**):
+And a column that add the Server name from an initiating HTTPS connection (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
@@ -118,7 +105,7 @@ Na safu inayoongeza jina la Server kutoka kwa muunganisho wa HTTPS unaoanzisha (
 
 ### From DHCP
 
-Katika Wireshark ya sasa badala ya `bootp` unahitaji kutafuta `DHCP`
+In current Wireshark instead of `bootp` you need to search for `DHCP`
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
@@ -134,25 +121,25 @@ _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-Bonyeza _Edit_ na ongeza data zote za server na funguo binafsi (_IP, Port, Protocol, Key file na password_)
+Press _Edit_ and add all the data of the server and the private key (_IP, Port, Protocol, Key file and password_)
 
 ### Decrypting https traffic with symmetric session keys
 
-Firefox na Chrome zina uwezo wa kurekodi funguo za kikao za TLS, ambazo zinaweza kutumika na Wireshark kufungua trafiki ya TLS. Hii inaruhusu uchambuzi wa kina wa mawasiliano salama. Maelezo zaidi juu ya jinsi ya kufanya ufunguo huu yanaweza kupatikana katika mwongozo kwenye [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Both Firefox and Chrome have the capability to log TLS session keys, which can be used with Wireshark to decrypt TLS traffic. This allows for in-depth analysis of secure communications. More details on how to perform this decryption can be found in a guide at [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
-Ili kugundua hii tafuta ndani ya mazingira kwa variable `SSLKEYLOGFILE`
+To detect this search inside the environment for to variable `SSLKEYLOGFILE`
 
-Faili ya funguo zilizoshirikiwa itakuwa na muonekano huu:
+A file of shared keys will look like this:
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Ili kuingiza hii katika wireshark nenda kwa \_edit > preference > protocol > ssl > na uingize katika (Pre)-Master-Secret log filename:
+To import this in wireshark go to \_edit > preference > protocol > ssl > and import it in (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
 ## ADB communication
 
-Toa APK kutoka kwa mawasiliano ya ADB ambapo APK ilitumwa:
+Extract an APK from an ADB communication where the APK was sent:
 ```python
 from scapy.all import *
 
@@ -179,18 +166,6 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) ni injini ya kutafuta inayotumiwa na **dark-web** ambayo inatoa kazi za **bure** kuangalia ikiwa kampuni au wateja wake wamekuwa **compromised** na **stealer malwares**.
-
-Lengo lao kuu la WhiteIntel ni kupambana na utekaji wa akaunti na mashambulizi ya ransomware yanayotokana na malware inayopora taarifa.
-
-Unaweza kuangalia tovuti yao na kujaribu injini yao kwa **bure** kwenye:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
 Jifunze na fanya mazoezi ya AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -201,7 +176,7 @@ Jifunze na fanya mazoezi ya GCP Hacking: <img src="/.gitbook/assets/grte.png" al
 
 * Angalia [**mpango wa usajili**](https://github.com/sponsors/carlospolop)!
 * **Jiunge na** 💬 [**kikundi cha Discord**](https://discord.gg/hRep4RUj7f) au [**kikundi cha telegram**](https://t.me/peass) au **tufuatilie** kwenye **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Shiriki hila za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
+* **Shiriki mbinu za hacking kwa kuwasilisha PRs kwa** [**HackTricks**](https://github.com/carlospolop/hacktricks) na [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos za github.
 
 </details>
 {% endhint %}
