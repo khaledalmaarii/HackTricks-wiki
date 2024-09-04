@@ -15,21 +15,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Atakowanie systemów RFID za pomocą Proxmark3
 
-Pierwszą rzeczą, którą musisz zrobić, to mieć [**Proxmark3**](https://proxmark.com) i [**zainstalować oprogramowanie i jego zależności**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
+Pierwszą rzeczą, którą musisz zrobić, to mieć [**Proxmark3**](https://proxmark.com) i [**zainstalować oprogramowanie oraz jego zależności**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
 ### Atakowanie MIFARE Classic 1KB
 
-Ma **16 sektorów**, z których każdy ma **4 bloki**, a każdy blok zawiera **16B**. UID znajduje się w sektorze 0 bloku 0 (i nie można go zmienić).\
+Ma **16 sektorów**, z których każdy ma **4 bloki**, a każdy blok zawiera **16B**. UID znajduje się w sektorze 0, bloku 0 (i nie może być zmieniany).\
 Aby uzyskać dostęp do każdego sektora, potrzebujesz **2 kluczy** (**A** i **B**), które są przechowywane w **bloku 3 każdego sektora** (trailer sektora). Trailer sektora przechowuje również **bity dostępu**, które dają **uprawnienia do odczytu i zapisu** na **każdym bloku** przy użyciu 2 kluczy.\
 2 klucze są przydatne do nadawania uprawnień do odczytu, jeśli znasz pierwszy, i zapisu, jeśli znasz drugi (na przykład).
 
@@ -52,7 +44,7 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Proxmark3 pozwala na wykonywanie innych działań, takich jak **podsłuchiwanie** komunikacji **Tag do Czytnika**, aby spróbować znaleźć wrażliwe dane. W tej karcie możesz po prostu podsłuchiwać komunikację i obliczyć używany klucz, ponieważ **operacje kryptograficzne są słabe**, a znając tekst jawny i szyfrowany, możesz go obliczyć (narzędzie `mfkey64`).
+Proxmark3 pozwala na wykonywanie innych działań, takich jak **podsłuchiwanie** komunikacji **Tag do Czytnika**, aby spróbować znaleźć wrażliwe dane. W tej karcie możesz po prostu przechwycić komunikację i obliczyć używany klucz, ponieważ **operacje kryptograficzne są słabe**, a znając tekst jawny i szyfrowany, możesz go obliczyć (narzędzie `mfkey64`).
 
 ### Surowe Komendy
 
@@ -76,13 +68,6 @@ proxmark3> script run mfkeys
 ```
 Możesz stworzyć skrypt do **fuzz tag readers**, więc kopiując dane z **ważnej karty**, wystarczy napisać **skrypt Lua**, który **losuje** jeden lub więcej losowych **bajtów** i sprawdza, czy **czytnik się zawiesza** przy jakiejkolwiek iteracji.
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -92,7 +77,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

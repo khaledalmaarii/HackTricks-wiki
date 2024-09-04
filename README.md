@@ -5,7 +5,7 @@
 _Hacktricks logos & motion design by_ [_@ppiernacho_](https://www.instagram.com/ppieranacho/)_._
 
 {% hint style="success" %}
-**Witamy w wiki, gdzie znajdziesz każdą sztuczkę/technikę hakerską, którą nauczyłem się z CTF, aplikacji w rzeczywistym życiu, czytania badań i wiadomości.**
+**Witamy w wiki, gdzie znajdziesz każdą sztuczkę/technikę hakerską, cokolwiek nauczyłem się z CTF, aplikacji w rzeczywistości, czytania badań i wiadomości.**
 {% endhint %}
 
 Aby rozpocząć, zapoznaj się z tą stroną, gdzie znajdziesz **typowy przebieg**, który **powinieneś śledzić podczas pentestingu** jednej lub więcej **maszyn:**
@@ -32,7 +32,7 @@ Możesz sprawdzić ich **blog** pod adresem [**https://blog.stmcyber.com**](http
 
 <figure><img src=".gitbook/assets/image (45).png" alt=""><figcaption></figcaption></figure>
 
-[**RootedCON**](https://www.rootedcon.com) to najważniejsze wydarzenie związane z cyberbezpieczeństwem w **Hiszpanii** i jedno z najważniejszych w **Europie**. Z **misją promowania wiedzy technicznej**, ten kongres jest gorącym punktem spotkań dla profesjonalistów technologicznych i cyberbezpieczeństwa w każdej dziedzinie.
+[**RootedCON**](https://www.rootedcon.com) to najważniejsze wydarzenie związane z cyberbezpieczeństwem w **Hiszpanii** i jedno z najważniejszych w **Europie**. Z **misją promowania wiedzy technicznej**, ten kongres jest gorącym punktem spotkań dla profesjonalistów technologii i cyberbezpieczeństwa w każdej dziedzinie.
 
 {% embed url="https://www.rootedcon.com/" %}
 
@@ -71,7 +71,7 @@ Dołącz do serwera [**HackenProof Discord**](https://discord.com/invite/N3FrSbm
 
 * **Wgląd w hacking:** Angażuj się w treści, które zagłębiają się w emocje i wyzwania związane z hackingiem
 * **Aktualności o hackingu w czasie rzeczywistym:** Bądź na bieżąco z dynamicznym światem hackingu dzięki aktualnym wiadomościom i wglądom
-* **Najnowsze ogłoszenia:** Bądź informowany o najnowszych nagrodach za błędy oraz istotnych aktualizacjach platformy
+* **Najnowsze ogłoszenia:** Bądź na bieżąco z nowymi nagrodami bug bounty i istotnymi aktualizacjami platformy
 
 **Dołącz do nas na** [**Discord**](https://discord.com/invite/N3FrSbmwdy) i zacznij współpracować z najlepszymi hakerami już dziś!
 
@@ -87,54 +87,20 @@ Dołącz do serwera [**HackenProof Discord**](https://discord.com/invite/N3FrSbm
 
 ***
 
-### [SerpApi](https://serpapi.com/)
-
-<figure><img src=".gitbook/assets/image (5) (1).png" alt=""><figcaption></figcaption></figure>
-
-SerpApi oferuje szybkie i łatwe API w czasie rzeczywistym do **uzyskiwania wyników wyszukiwania**. Zbierają dane z wyszukiwarek, obsługują proxy, rozwiązują captchy i analizują wszystkie bogate dane strukturalne dla Ciebie.
-
-Subskrypcja jednego z planów SerpApi obejmuje dostęp do ponad 50 różnych API do zbierania danych z różnych wyszukiwarek, w tym Google, Bing, Baidu, Yahoo, Yandex i innych.\
-W przeciwieństwie do innych dostawców, **SerpApi nie tylko zbiera organiczne wyniki**. Odpowiedzi SerpApi konsekwentnie zawierają wszystkie reklamy, obrazy i filmy inline, grafy wiedzy oraz inne elementy i funkcje obecne w wynikach wyszukiwania.
-
-Obecni klienci SerpApi to **Apple, Shopify i GrubHub**.\
-Aby uzyskać więcej informacji, sprawdź ich [**blog**](https://serpapi.com/blog/)**,** lub wypróbuj przykład w ich [**playground**](https://serpapi.com/playground)**.**\
-Możesz **utworzyć darmowe konto** [**tutaj**](https://serpapi.com/users/sign\_up)**.**
-
-***
-
-### [Try Hard Security Group](https://discord.gg/tryhardsecurity)
-
-<figure><img src=".gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ### [WebSec](https://websec.nl/)
 
 <figure><img src=".gitbook/assets/websec (1).svg" alt=""><figcaption></figcaption></figure>
 
 [**WebSec**](https://websec.nl) to profesjonalna firma zajmująca się cyberbezpieczeństwem z siedzibą w **Amsterdamie**, która pomaga **chronić** firmy **na całym świecie** przed najnowszymi zagrożeniami w zakresie cyberbezpieczeństwa, oferując **usługi ofensywne** z **nowoczesnym** podejściem.
 
-WebSec to **wszechstronna firma zabezpieczająca**, co oznacza, że robią wszystko; Pentesting, **Audyty** Bezpieczeństwa, Szkolenia w zakresie Świadomości, Kampanie Phishingowe, Przegląd Kodów, Rozwój Eksploatacji, Outsourcing Ekspertów Bezpieczeństwa i wiele więcej.
+WebSec to **wszystko w jednym** firma zabezpieczająca, co oznacza, że robią wszystko; Pentesting, **Audyty** Bezpieczeństwa, Szkolenia w zakresie Świadomości, Kampanie Phishingowe, Przegląd Kodów, Rozwój Eksploatacji, Outsourcing Ekspertów ds. Bezpieczeństwa i wiele więcej.
 
-Kolejną fajną rzeczą w WebSec jest to, że w przeciwieństwie do średniej w branży, WebSec jest **bardzo pewny swoich umiejętności**, do tego stopnia, że **gwarantują najlepsze wyniki jakościowe**, jak stwierdzają na swojej stronie "**Jeśli nie możemy tego zhakować, nie płacisz!**". Aby uzyskać więcej informacji, zapoznaj się z ich [**stroną internetową**](https://websec.nl/en/) i [**blogiem**](https://websec.nl/blog/)!
+Kolejną fajną rzeczą w WebSec jest to, że w przeciwieństwie do średniej w branży, WebSec jest **bardzo pewny swoich umiejętności**, do tego stopnia, że **gwarantują najlepsze wyniki jakościowe**, jak stwierdzają na swojej stronie "**Jeśli nie możemy tego zhakować, nie płacisz!**". Aby uzyskać więcej informacji, zapoznaj się z ich [**stroną**](https://websec.nl/en/) i [**blogiem**](https://websec.nl/blog/)!
 
-Oprócz powyższego, WebSec jest również **zaangażowanym wsparciem dla HackTricks.**
+Oprócz powyższego, WebSec jest również **zaangażowanym wsparciem HackTricks.**
 
 {% embed url="https://www.youtube.com/watch?v=Zq2JycGDCPM" %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src=".gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) to **wyszukiwarka** zasilana **dark webem**, która oferuje **darmowe** funkcje do sprawdzania, czy firma lub jej klienci zostali **skompromentowani** przez **złośliwe oprogramowanie kradnące dane**.
-
-Ich głównym celem jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego dane.
-
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
-
-{% embed url="https://whiteintel.io" %}
 
 ## License & Disclaimer
 
@@ -158,8 +124,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hakerskimi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

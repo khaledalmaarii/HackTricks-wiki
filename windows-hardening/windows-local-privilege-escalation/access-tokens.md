@@ -15,23 +15,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) to **silnik wyszukiwania** zasilany **dark-web**, który oferuje **darmowe** funkcjonalności do sprawdzenia, czy firma lub jej klienci zostali **skompromentowani** przez **złośliwe oprogramowanie kradnące**.
-
-Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
-
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Access Tokens
 
-Każdy **użytkownik zalogowany** do systemu **posiada token dostępu z informacjami o bezpieczeństwie** dla tej sesji logowania. System tworzy token dostępu, gdy użytkownik się loguje. **Każdy proces wykonywany** w imieniu użytkownika **ma kopię tokena dostępu**. Token identyfikuje użytkownika, grupy użytkownika i uprawnienia użytkownika. Token zawiera również SID logowania (Identifikator bezpieczeństwa), który identyfikuje bieżącą sesję logowania.
+Każdy **użytkownik zalogowany** do systemu **posiada token dostępu z informacjami o bezpieczeństwie** dla tej sesji logowania. System tworzy token dostępu, gdy użytkownik się loguje. **Każdy proces wykonywany** w imieniu użytkownika **ma kopię tokena dostępu**. Token identyfikuje użytkownika, grupy użytkownika oraz uprawnienia użytkownika. Token zawiera również SID logowania (Identifikator Bezpieczeństwa), który identyfikuje bieżącą sesję logowania.
 
 Możesz zobaczyć te informacje, wykonując `whoami /all`
 ```
@@ -97,7 +84,7 @@ Możesz uruchomić proces, który **używa różnych poświadczeń do uzyskiwani
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-To jest przydatne, jeśli masz użyteczne dane uwierzytelniające do uzyskania dostępu do obiektów w sieci, ale te dane uwierzytelniające nie są ważne w bieżącym hoście, ponieważ będą używane tylko w sieci (w bieżącym hoście będą używane uprawnienia bieżącego użytkownika).
+To jest przydatne, jeśli masz użyteczne poświadczenia do uzyskania dostępu do obiektów w sieci, ale te poświadczenia nie są ważne w bieżącym hoście, ponieważ będą używane tylko w sieci (w bieżącym hoście będą używane uprawnienia bieżącego użytkownika).
 
 ### Typy tokenów
 
@@ -106,13 +93,13 @@ Dostępne są dwa typy tokenów:
 * **Token główny**: Służy jako reprezentacja poświadczeń bezpieczeństwa procesu. Tworzenie i przypisywanie tokenów głównych do procesów to działania wymagające podwyższonych uprawnień, co podkreśla zasadę separacji uprawnień. Zazwyczaj usługa uwierzytelniania jest odpowiedzialna za tworzenie tokenów, podczas gdy usługa logowania zajmuje się ich przypisaniem do powłoki systemu operacyjnego użytkownika. Warto zauważyć, że procesy dziedziczą token główny swojego procesu macierzystego w momencie tworzenia.
 * **Token impersonacji**: Umożliwia aplikacji serwerowej tymczasowe przyjęcie tożsamości klienta w celu uzyskania dostępu do zabezpieczonych obiektów. Mechanizm ten jest podzielony na cztery poziomy działania:
 * **Anonimowy**: Przyznaje dostęp serwera podobny do tego, który ma nieznany użytkownik.
-* **Identyfikacja**: Umożliwia serwerowi weryfikację tożsamości klienta bez wykorzystania jej do uzyskania dostępu do obiektów.
+* **Identyfikacja**: Pozwala serwerowi zweryfikować tożsamość klienta bez wykorzystania jej do uzyskania dostępu do obiektów.
 * **Impersonacja**: Umożliwia serwerowi działanie pod tożsamością klienta.
 * **Delegacja**: Podobna do impersonacji, ale obejmuje możliwość rozszerzenia tej tożsamości na zdalne systemy, z którymi serwer wchodzi w interakcje, zapewniając zachowanie poświadczeń.
 
 #### Tokeny impersonacji
 
-Używając modułu _**incognito**_ w metasploit, jeśli masz wystarczające uprawnienia, możesz łatwo **wylistować** i **imponować** inne **tokeny**. Może to być przydatne do wykonywania **działań tak, jakbyś był innym użytkownikiem**. Możesz również **eskalować uprawnienia** za pomocą tej techniki.
+Używając modułu _**incognito**_ w metasploit, jeśli masz wystarczające uprawnienia, możesz łatwo **wylistować** i **imponować** innymi **tokenami**. Może to być przydatne do wykonywania **działań tak, jakbyś był innym użytkownikiem**. Możesz również **eskalować uprawnienia** za pomocą tej techniki.
 
 ### Uprawnienia tokenów
 
@@ -128,17 +115,6 @@ Zobacz [**wszystkie możliwe uprawnienia tokenów i niektóre definicje na tej z
 
 Dowiedz się więcej o tokenach w tych samouczkach: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) i [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) to **silnik wyszukiwania** zasilany **dark-webem**, który oferuje **darmowe** funkcjonalności do sprawdzenia, czy firma lub jej klienci zostali **skompromentowani** przez **złośliwe oprogramowanie kradnące**.
-
-Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
-
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -149,8 +125,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

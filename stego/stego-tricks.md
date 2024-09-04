@@ -15,14 +15,6 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## **Ekstrakcja danych z plików**
 
 ### **Binwalk**
@@ -135,7 +127,7 @@ Techniki szybkiej transformaty Fouriera (FFT) mogą ujawniać ukrytą zawartoś�
 
 ### **Stegpy dla plików audio i obrazów**
 
-Stegpy pozwala na osadzanie informacji w plikach obrazów i audio, obsługując formaty takie jak PNG, BMP, GIF, WebP i WAV. Jest dostępny na [GitHubie](https://github.com/dhsdshdhk/stegpy).
+Stegpy pozwala na osadzanie informacji w plikach obrazów i audio, wspierając formaty takie jak PNG, BMP, GIF, WebP i WAV. Jest dostępny na [GitHubie](https://github.com/dhsdshdhk/stegpy).
 
 ### **Pngcheck do analizy plików PNG**
 
@@ -149,7 +141,7 @@ pngcheck stego.png
 Aby dalej eksplorować, rozważ odwiedzenie:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
-* [Analiza poziomu błędu obrazu](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [Analiza poziomu błędów obrazu](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
 * [Outguess](https://github.com/resurrecting-open-source-projects/outguess)
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
@@ -186,7 +178,7 @@ Deepsound pozwala na szyfrowanie i wykrywanie informacji w plikach dźwiękowych
 
 ### **Sonic Visualizer**
 
-Niezastąpione narzędzie do wizualnej i analitycznej inspekcji plików audio, Sonic Visualizer może ujawniać ukryte elementy niewykrywalne innymi metodami. Odwiedź [oficjalną stronę](https://www.sonicvisualiser.org/), aby dowiedzieć się więcej.
+Niezastąpione narzędzie do wizualnej i analitycznej inspekcji plików audio, Sonic Visualizer może ujawniać ukryte elementy, które są niedostrzegalne innymi metodami. Odwiedź [oficjalną stronę](https://www.sonicvisualiser.org/), aby dowiedzieć się więcej.
 
 ### **DTMF Tones - Dial Tones**
 
@@ -211,12 +203,6 @@ For translating Braille, the [Branah Braille Translator](https://www.branah.com/
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

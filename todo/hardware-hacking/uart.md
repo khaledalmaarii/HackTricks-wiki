@@ -15,25 +15,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) to **silnik wyszukiwania** zasilany przez **dark-web**, który oferuje **darmowe** funkcje do sprawdzenia, czy firma lub jej klienci zostali **skompromentowani** przez **złośliwe oprogramowanie kradnące**.
-
-Głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
-
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Podstawowe informacje
 
-UART to protokół szeregowy, co oznacza, że przesyła dane między komponentami jeden bit na raz. W przeciwieństwie do tego, protokoły komunikacji równoległej przesyłają dane jednocześnie przez wiele kanałów. Do powszechnych protokołów szeregowych należą RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express i USB.
+UART to protokół szeregowy, co oznacza, że przesyła dane między komponentami jeden bit na raz. W przeciwieństwie do tego, protokoły komunikacji równoległej przesyłają dane jednocześnie przez wiele kanałów. Powszechne protokoły szeregowe to RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express i USB.
 
-Ogólnie rzecz biorąc, linia jest utrzymywana w stanie wysokim (na wartości logicznej 1), gdy UART jest w stanie bezczynności. Następnie, aby sygnalizować początek transferu danych, nadajnik wysyła bit startowy do odbiornika, podczas którego sygnał jest utrzymywany w stanie niskim (na wartości logicznej 0). Następnie nadajnik wysyła od pięciu do ośmiu bitów danych zawierających rzeczywistą wiadomość, po czym następuje opcjonalny bit parzystości i jeden lub dwa bity stopu (z wartością logiczną 1), w zależności od konfiguracji. Bit parzystości, używany do sprawdzania błędów, rzadko występuje w praktyce. Bit stopu (lub bity) oznaczają koniec transmisji.
+Ogólnie linia jest utrzymywana w stanie wysokim (na wartości logicznej 1), gdy UART jest w stanie bezczynności. Następnie, aby sygnalizować początek transferu danych, nadajnik wysyła bit startowy do odbiornika, podczas którego sygnał jest utrzymywany w stanie niskim (na wartości logicznej 0). Następnie nadajnik wysyła od pięciu do ośmiu bitów danych zawierających rzeczywistą wiadomość, po czym następuje opcjonalny bit parzystości i jeden lub dwa bity stopu (z wartością logiczną 1), w zależności od konfiguracji. Bit parzystości, używany do sprawdzania błędów, rzadko występuje w praktyce. Bit stopu (lub bity) oznaczają koniec transmisji.
 
 Najczęściej spotykaną konfigurację nazywamy 8N1: osiem bitów danych, brak parzystości i jeden bit stopu. Na przykład, jeśli chcielibyśmy wysłać znak C, czyli 0x43 w ASCII, w konfiguracji UART 8N1, wysłalibyśmy następujące bity: 0 (bit startowy); 0, 1, 0, 0, 0, 0, 1, 1 (wartość 0x43 w systemie binarnym) i 0 (bit stopu).
 
@@ -47,22 +34,22 @@ Narzędzia sprzętowe do komunikacji z UART:
 
 ### Identyfikacja portów UART
 
-UART ma 4 porty: **TX**(Transmit), **RX**(Receive), **Vcc**(Napięcie) i **GND**(Ziemia). Możesz znaleźć 4 porty z literami **`TX`** i **`RX`** **napisanymi** na PCB. Ale jeśli nie ma żadnych oznaczeń, możesz spróbować znaleźć je samodzielnie, używając **multimetru** lub **analizatora logicznego**.
+UART ma 4 porty: **TX**(Transmit), **RX**(Receive), **Vcc**(Voltage) i **GND**(Ground). Możesz znaleźć 4 porty z literami **`TX`** i **`RX`** **napisanymi** na PCB. Ale jeśli nie ma żadnych wskazówek, możesz spróbować znaleźć je samodzielnie, używając **multimetru** lub **analizatora logicznego**.
 
 Z użyciem **multimetru** i zasilania urządzenia wyłączonego:
 
 * Aby zidentyfikować pin **GND**, użyj trybu **Testu Ciągłości**, umieść czarny przewód w ziemi i testuj czerwonym, aż usłyszysz dźwięk z multimetru. Na PCB można znaleźć kilka pinów GND, więc możesz znaleźć lub nie ten, który należy do UART.
-* Aby zidentyfikować port **VCC**, ustaw tryb **napięcia stałego** i ustaw go na 20 V. Czarny przewód na ziemi, a czerwony na pinie. Włącz urządzenie. Jeśli multimetr mierzy stałe napięcie 3.3 V lub 5 V, znalazłeś pin Vcc. Jeśli otrzymasz inne napięcia, spróbuj z innymi portami.
-* Aby zidentyfikować port **TX**, ustaw tryb **napięcia stałego** na 20 V, czarny przewód na ziemi, a czerwony na pinie, i włącz urządzenie. Jeśli zauważysz, że napięcie przez kilka sekund się waha, a następnie stabilizuje się na wartości Vcc, najprawdopodobniej znalazłeś port TX. Dzieje się tak, ponieważ podczas włączania wysyła pewne dane debugowe.
+* Aby zidentyfikować port **VCC**, ustaw tryb **DC voltage** i ustaw go na 20 V. Czarny przewód na ziemi, a czerwony na pinie. Włącz urządzenie. Jeśli multimetr mierzy stałe napięcie 3.3 V lub 5 V, znalazłeś pin Vcc. Jeśli otrzymasz inne napięcia, spróbuj z innymi portami.
+* Aby zidentyfikować port **TX**, ustaw tryb **DC voltage** na 20 V, czarny przewód na ziemi, a czerwony na pinie, i włącz urządzenie. Jeśli zauważysz, że napięcie waha się przez kilka sekund, a następnie stabilizuje się na wartości Vcc, najprawdopodobniej znalazłeś port TX. Dzieje się tak, ponieważ podczas włączania wysyła pewne dane debugowania.
 * Port **RX** będzie najbliższy pozostałym 3, ma najmniejsze wahania napięcia i najniższą ogólną wartość ze wszystkich pinów UART.
 
 Możesz pomylić porty TX i RX i nic się nie stanie, ale jeśli pomylisz porty GND i VCC, możesz uszkodzić obwód.
 
-W niektórych urządzeniach docelowych port UART jest wyłączany przez producenta poprzez dezaktywację RX lub TX, a nawet obu. W takim przypadku pomocne może być prześledzenie połączeń na płytce drukowanej i znalezienie punktu wyjścia. Silnym wskazaniem na potwierdzenie braku wykrycia UART i przerwania obwodu jest sprawdzenie gwarancji urządzenia. Jeśli urządzenie zostało dostarczone z jakąś gwarancją, producent pozostawia pewne interfejsy debugowe (w tym przypadku UART) i dlatego musiał odłączyć UART, a następnie ponownie go podłączyć podczas debugowania. Te piny wyjściowe można połączyć przez lutowanie lub przewody zworkowe.
+W niektórych urządzeniach docelowych port UART jest wyłączany przez producenta poprzez wyłączenie RX lub TX lub nawet obu. W takim przypadku może być pomocne prześledzenie połączeń na płytce drukowanej i znalezienie punktu wyjścia. Silnym wskazaniem na potwierdzenie braku wykrycia UART i przerwania obwodu jest sprawdzenie gwarancji urządzenia. Jeśli urządzenie zostało wysłane z jakąś gwarancją, producent pozostawia pewne interfejsy debugowania (w tym przypadku UART) i dlatego musiał odłączyć UART, a następnie ponownie go podłączyć podczas debugowania. Te piny wyjściowe można połączyć przez lutowanie lub przewody zworkowe.
 
 ### Identyfikacja prędkości baud UART
 
-Najłatwiejszym sposobem na zidentyfikowanie poprawnej prędkości baud jest spojrzenie na **wyjście pinu TX i próba odczytania danych**. Jeśli dane, które otrzymujesz, nie są czytelne, przełącz się na następną możliwą prędkość baud, aż dane staną się czytelne. Możesz użyć adaptera USB na szeregowy lub urządzenia wielofunkcyjnego, takiego jak Bus Pirate, aby to zrobić, w połączeniu z pomocnym skryptem, takim jak [baudrate.py](https://github.com/devttys0/baudrate/). Najczęściej spotykane prędkości baud to 9600, 38400, 19200, 57600 i 115200.
+Najłatwiejszym sposobem na zidentyfikowanie poprawnej prędkości baud jest spojrzenie na **wyjście pinu TX i próba odczytania danych**. Jeśli dane, które otrzymujesz, nie są czytelne, przełącz się na następną możliwą prędkość baud, aż dane staną się czytelne. Możesz użyć adaptera USB na szeregowy lub urządzenia wielofunkcyjnego, takiego jak Bus Pirate, aby to zrobić, w połączeniu z pomocnym skryptem, takim jak [baudrate.py](https://github.com/devttys0/baudrate/). Najczęstsze prędkości baud to 9600, 38400, 19200, 57600 i 115200.
 
 {% hint style="danger" %}
 Ważne jest, aby pamiętać, że w tym protokole musisz połączyć TX jednego urządzenia z RX drugiego!
@@ -70,7 +57,7 @@ Ważne jest, aby pamiętać, że w tym protokole musisz połączyć TX jednego u
 
 ## Adapter CP210X UART do TTY
 
-Chip CP210X jest używany w wielu płytkach prototypowych, takich jak NodeMCU (z esp8266) do komunikacji szeregowej. Te adaptery są stosunkowo niedrogie i mogą być używane do podłączenia do interfejsu UART docelowego. Urządzenie ma 5 pinów: 5V, GND, RXD, TXD, 3.3V. Upewnij się, że podłączasz napięcie zgodnie z wymaganiami docelowego urządzenia, aby uniknąć uszkodzeń. Na koniec podłącz pin RXD adaptera do TXD docelowego, a pin TXD adaptera do RXD docelowego.
+Chip CP210X jest używany w wielu płytkach prototypowych, takich jak NodeMCU (z esp8266) do komunikacji szeregowej. Te adaptery są stosunkowo niedrogie i mogą być używane do łączenia z interfejsem UART urządzenia docelowego. Urządzenie ma 5 pinów: 5V, GND, RXD, TXD, 3.3V. Upewnij się, że podłączasz napięcie zgodnie z wymaganiami urządzenia docelowego, aby uniknąć uszkodzeń. Na koniec podłącz pin RXD adaptera do TXD urządzenia docelowego i pin TXD adaptera do RXD urządzenia docelowego.
 
 W przypadku, gdy adapter nie jest wykrywany, upewnij się, że sterowniki CP210X są zainstalowane w systemie gospodarza. Gdy adapter zostanie wykryty i podłączony, można używać narzędzi takich jak picocom, minicom lub screen.
 
@@ -92,15 +79,15 @@ Po skonfigurowaniu użyj polecenia `minicom`, aby uruchomić konsolę UART.
 
 ## UART przez Arduino UNO R3 (wymienny chip Atmel 328p)
 
-W przypadku braku adapterów UART Serial do USB, Arduino UNO R3 można użyć z szybkim hackiem. Ponieważ Arduino UNO R3 jest zazwyczaj dostępne wszędzie, może to zaoszczędzić dużo czasu.
+W przypadku braku adapterów UART Serial do USB, Arduino UNO R3 można wykorzystać w szybkim hacku. Ponieważ Arduino UNO R3 jest zazwyczaj dostępne wszędzie, może to zaoszczędzić dużo czasu.
 
-Arduino UNO R3 ma wbudowany adapter USB do Serial na samej płycie. Aby uzyskać połączenie UART, wystarczy wyjąć chip mikrokontrolera Atmel 328p z płyty. Ten hack działa na wariantach Arduino UNO R3, które mają Atmel 328p niewlutowany na płycie (używana jest wersja SMD). Podłącz pin RX Arduino (pin cyfrowy 0) do pinu TX interfejsu UART i pin TX Arduino (pin cyfrowy 1) do pinu RX interfejsu UART.
+Arduino UNO R3 ma wbudowany adapter USB do Serial na samej płycie. Aby uzyskać połączenie UART, wystarczy wyjąć chip mikrokontrolera Atmel 328p z płyty. Ten hack działa na wariantach Arduino UNO R3, które mają Atmel 328p niewlutowany na płycie (używana jest wersja SMD). Podłącz pin RX Arduino (Pin Cyfrowy 0) do pinu TX interfejsu UART i pin TX Arduino (Pin Cyfrowy 1) do pinu RX interfejsu UART.
 
 Na koniec zaleca się użycie Arduino IDE, aby uzyskać konsolę szeregową. W sekcji `tools` w menu wybierz opcję `Serial Console` i ustaw prędkość baud zgodnie z interfejsem UART.
 
 ## Bus Pirate
 
-W tym scenariuszu zamierzamy podsłuchiwać komunikację UART Arduino, które wysyła wszystkie wydruki programu do monitora szeregowego.
+W tym scenariuszu zamierzamy podsłuchiwać komunikację UART Arduino, które wysyła wszystkie wydruki programu do Monitorowania Szeregowego.
 ```bash
 # Check the modes
 UART>m
@@ -174,7 +161,7 @@ waiting a few secs to repeat....
 ```
 ## Dumping Firmware with UART Console
 
-UART Console zapewnia doskonały sposób na pracę z podstawowym oprogramowaniem w środowisku czasu rzeczywistego. Jednak gdy dostęp do UART Console jest tylko do odczytu, może to wprowadzać wiele ograniczeń. W wielu urządzeniach wbudowanych oprogramowanie jest przechowywane w EEPROM i wykonywane w procesorach, które mają pamięć ulotną. Dlatego oprogramowanie jest utrzymywane w trybie tylko do odczytu, ponieważ oryginalne oprogramowanie podczas produkcji znajduje się w samym EEPROM, a wszelkie nowe pliki mogłyby zostać utracone z powodu pamięci ulotnej. Dlatego zrzut oprogramowania jest cennym wysiłkiem podczas pracy z wbudowanymi oprogramowaniami.
+UART Console zapewnia doskonały sposób na pracę z podstawowym oprogramowaniem w środowisku uruchomieniowym. Jednak gdy dostęp do UART Console jest tylko do odczytu, może to wprowadzać wiele ograniczeń. W wielu urządzeniach wbudowanych oprogramowanie jest przechowywane w EEPROM i wykonywane w procesorach, które mają pamięć ulotną. Dlatego oprogramowanie jest utrzymywane w trybie tylko do odczytu, ponieważ oryginalne oprogramowanie podczas produkcji znajduje się wewnątrz EEPROM, a wszelkie nowe pliki mogłyby zostać utracone z powodu pamięci ulotnej. Dlatego zrzut oprogramowania jest cennym wysiłkiem podczas pracy z wbudowanymi oprogramowaniami.
 
 Istnieje wiele sposobów, aby to zrobić, a sekcja SPI obejmuje metody ekstrakcji oprogramowania bezpośrednio z EEPROM za pomocą różnych urządzeń. Chociaż zaleca się najpierw spróbować zrzutu oprogramowania za pomocą UART, ponieważ zrzut oprogramowania za pomocą urządzeń fizycznych i interakcji zewnętrznych może być ryzykowny.
 
@@ -198,29 +185,17 @@ To będzie lista możliwych zawartości z EEPROM zgodnie z podpisami znalezionym
 
 Należy jednak zauważyć, że nie zawsze uboot jest odblokowany, nawet jeśli jest używany. Jeśli klawisz Enter nie działa, sprawdź inne klawisze, takie jak klawisz Spacji itp. Jeśli bootloader jest zablokowany i nie zostanie przerwany, ta metoda nie zadziała. Aby sprawdzić, czy uboot jest bootloaderem dla urządzenia, sprawdź wyjście na konsoli UART podczas uruchamiania urządzenia. Może wspominać o uboot podczas uruchamiania.
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) to **silnik wyszukiwania** zasilany przez **dark-web**, który oferuje **darmowe** funkcjonalności do sprawdzenia, czy firma lub jej klienci zostali **skompromentowani** przez **złośliwe oprogramowanie kradnące**.
-
-Głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
-
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
-Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wsparcie dla HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

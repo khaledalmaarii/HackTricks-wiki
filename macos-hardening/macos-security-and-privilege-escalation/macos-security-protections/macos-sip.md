@@ -15,19 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) to **silnik wyszukiwania** zasilany **dark-web**, który oferuje **darmowe** funkcje do sprawdzenia, czy firma lub jej klienci zostali **skompromentowani** przez **złośliwe oprogramowanie kradnące dane**.
-
-Głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego dane.
-
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## **Podstawowe informacje**
 
@@ -47,7 +34,7 @@ Rozważ poniższy przykład:
 * /usr/local
 * /usr/share/man
 ```
-Ten fragment sugeruje, że chociaż SIP ogólnie zabezpiecza katalog **`/usr`**, istnieją konkretne podkatalogi (`/usr/libexec/cups`, `/usr/local` i `/usr/share/man`), w których modyfikacje są dozwolone, co wskazuje gwiazdka (\*) poprzedzająca ich ścieżki.
+Ten fragment sugeruje, że chociaż SIP generalnie zabezpiecza katalog **`/usr`**, istnieją konkretne podkatalogi (`/usr/libexec/cups`, `/usr/local` i `/usr/share/man`), w których modyfikacje są dozwolone, co wskazuje gwiazdka (\*) poprzedzająca ich ścieżki.
 
 Aby sprawdzić, czy katalog lub plik jest chroniony przez SIP, możesz użyć polecenia **`ls -lOd`**, aby sprawdzić obecność flagi **`restricted`** lub **`sunlnk`**. Na przykład:
 ```bash
@@ -65,14 +52,14 @@ Tutaj flaga **`restricted`** wskazuje, że katalog `/usr/libexec` jest chroniony
 
 Ponadto, jeśli plik zawiera atrybut **`com.apple.rootless`** jako rozszerzony **atrybut**, ten plik również będzie **chroniony przez SIP**.
 
-**SIP ogranicza także inne działania roota**, takie jak:
+**SIP ogranicza również inne działania roota**, takie jak:
 
 * Ładowanie nieufnych rozszerzeń jądra
 * Uzyskiwanie portów zadań dla procesów podpisanych przez Apple
 * Modyfikowanie zmiennych NVRAM
 * Umożliwianie debugowania jądra
 
-Opcje są przechowywane w zmiennej nvram jako bitflag (`csr-active-config` na Intel i `lp-sip0` jest odczytywane z uruchomionego drzewa urządzeń dla ARM). Flagi można znaleźć w kodzie źródłowym XNU w `csr.sh`:
+Opcje są przechowywane w zmiennej nvram jako bitflaga (`csr-active-config` na Intel i `lp-sip0` jest odczytywane z uruchomionego drzewa urządzeń dla ARM). Flagi można znaleźć w kodzie źródłowym XNU w `csr.sh`:
 
 <figure><img src="../../../.gitbook/assets/image (1192).png" alt=""><figcaption></figcaption></figure>
 
@@ -131,17 +118,17 @@ Jeśli pakiet był instalowany z zamontowanego obrazu lub zewnętrznego dysku, *
 
 #### CVE-2021-30892 - Shrootless
 
-[**Badacze z tego wpisu na blogu**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) odkryli lukę w mechanizmie Ochrony Integralności Systemu (SIP) w macOS, nazwaną luką 'Shrootless'. Ta luka koncentruje się na demonie **`system_installd`**, który ma uprawnienie **`com.apple.rootless.install.heritable`**, które pozwala dowolnym jego procesom potomnym na obejście ograniczeń systemu plików SIP.
+[**Badacze z tego wpisu na blogu**](https://www.microsoft.com/en-us/security/blog/2021/10/28/microsoft-finds-new-macos-vulnerability-shrootless-that-could-bypass-system-integrity-protection/) odkryli lukę w mechanizmie Ochrony Integralności Systemu (SIP) macOS, nazwaną luką 'Shrootless'. Ta luka koncentruje się na demonie **`system_installd`**, który ma uprawnienie **`com.apple.rootless.install.heritable`**, które pozwala dowolnym jego procesom potomnym na obejście ograniczeń systemu plików SIP.
 
 Demon **`system_installd`** zainstaluje pakiety, które zostały podpisane przez **Apple**.
 
 Badacze odkryli, że podczas instalacji pakietu podpisanego przez Apple (.pkg), **`system_installd`** **uruchamia** wszelkie **skrypty po instalacji** zawarte w pakiecie. Te skrypty są wykonywane przez domyślną powłokę, **`zsh`**, która automatycznie **uruchamia** polecenia z pliku **`/etc/zshenv`**, jeśli istnieje, nawet w trybie nieinteraktywnym. To zachowanie mogłoby być wykorzystane przez atakujących: tworząc złośliwy plik `/etc/zshenv` i czekając na **`system_installd`, aby wywołać `zsh`**, mogliby przeprowadzać dowolne operacje na urządzeniu.
 
-Ponadto odkryto, że **`/etc/zshenv`** mogłoby być używane jako ogólna technika ataku, nie tylko do obejścia SIP. Każdy profil użytkownika ma plik `~/.zshenv`, który zachowuje się tak samo jak `/etc/zshenv`, ale nie wymaga uprawnień roota. Plik ten mógłby być używany jako mechanizm trwałości, uruchamiając się za każdym razem, gdy `zsh` się uruchamia, lub jako mechanizm podwyższenia uprawnień. Jeśli użytkownik administracyjny podniesie uprawnienia do roota, używając `sudo -s` lub `sudo <polecenie>`, plik `~/.zshenv` zostanie uruchomiony, skutecznie podnosząc uprawnienia do roota.
+Ponadto odkryto, że **`/etc/zshenv`** mogłoby być używane jako ogólna technika ataku, nie tylko do obejścia SIP. Każdy profil użytkownika ma plik `~/.zshenv`, który zachowuje się tak samo jak `/etc/zshenv`, ale nie wymaga uprawnień roota. Plik ten mógłby być używany jako mechanizm trwałości, uruchamiając się za każdym razem, gdy `zsh` się uruchamia, lub jako mechanizm podwyższenia uprawnień. Jeśli użytkownik administracyjny podniesie uprawnienia do roota za pomocą `sudo -s` lub `sudo <polecenie>`, plik `~/.zshenv` zostanie uruchomiony, skutecznie podnosząc uprawnienia do roota.
 
 #### [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)
 
-W [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) odkryto, że ten sam proces **`system_installd`** mógł być nadal nadużywany, ponieważ umieszczał **skrypt po instalacji w losowo nazwanym folderze chronionym przez SIP w `/tmp`**. Problem polega na tym, że **`/tmp`** sam w sobie nie jest chroniony przez SIP, więc możliwe było **zamontowanie** **wirtualnego obrazu na nim**, a następnie **instalator** umieściłby tam **skrypt po instalacji**, **odmontował** wirtualny obraz, **odtworzył** wszystkie **foldery** i **dodał** **skrypt po instalacji** z **ładunkiem** do wykonania.
+W [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) odkryto, że ten sam proces **`system_installd`** mógł być nadal nadużywany, ponieważ umieszczał **skrypt po instalacji w losowo nazwanym folderze chronionym przez SIP w `/tmp`**. Problem polega na tym, że **`/tmp` sam w sobie nie jest chroniony przez SIP**, więc możliwe było **zamontowanie** **obrazu wirtualnego na nim**, a następnie **instalator** umieściłby tam **skrypt po instalacji**, **odmontował** obraz wirtualny, **odtworzył** wszystkie **foldery** i **dodał** **skrypt po instalacji** z **ładunkiem** do wykonania.
 
 #### [fsck\_cs utility](https://www.theregister.com/2016/03/30/apple\_os\_x\_rootless/)
 
@@ -154,7 +141,7 @@ fsck_cs /dev/diskX 1>&-
 touch /Library/Extensions/
 reboot
 ```
-Wykorzystanie tej luki ma poważne konsekwencje. Plik `Info.plist`, normalnie odpowiedzialny za zarządzanie uprawnieniami dla rozszerzeń jądra, staje się nieskuteczny. Obejmuje to niemożność dodania do czarnej listy niektórych rozszerzeń, takich jak `AppleHWAccess.kext`. W konsekwencji, gdy mechanizm kontrolny SIP jest uszkodzony, to rozszerzenie może być załadowane, co umożliwia nieautoryzowany dostęp do odczytu i zapisu pamięci RAM systemu.
+Wykorzystanie tej luki ma poważne konsekwencje. Plik `Info.plist`, normalnie odpowiedzialny za zarządzanie uprawnieniami dla rozszerzeń jądra, staje się nieskuteczny. Obejmuje to niemożność dodania do czarnej listy niektórych rozszerzeń, takich jak `AppleHWAccess.kext`. W konsekwencji, gdy mechanizm kontrolny SIP jest uszkodzony, to rozszerzenie może być załadowane, co daje nieautoryzowany dostęp do odczytu i zapisu pamięci RAM systemu.
 
 #### [Mount over SIP protected folders](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)
 
@@ -179,7 +166,7 @@ Ponadto, w `InstallESD.dmg` znajduje się `BaseSystem.dmg`, który służy jako 
 
 #### [systemmigrationd (2023)](https://www.youtube.com/watch?v=zxZesAN-TEk)
 
-W tym wykładzie z [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk) pokazano, jak **`systemmigrationd`** (który może omijać SIP) wykonuje skrypt **bash** i skrypt **perl**, które mogą być nadużywane za pomocą zmiennych środowiskowych **`BASH_ENV`** i **`PERL5OPT`**.
+W tym wykładzie z [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk) pokazano, jak **`systemmigrationd`** (które może omijać SIP) wykonuje skrypt **bash** i skrypt **perl**, które mogą być nadużywane za pomocą zmiennych środowiskowych **`BASH_ENV`** i **`PERL5OPT`**.
 
 #### CVE-2023-42860 <a href="#cve-a-detailed-look" id="cve-a-detailed-look"></a>
 
@@ -266,17 +253,6 @@ Ponadto, dysk migawki jest również zamontowany jako **tylko do odczytu**:
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) to **silnik wyszukiwania** zasilany **dark-webem**, który oferuje **darmowe** funkcjonalności do sprawdzenia, czy firma lub jej klienci zostali **skompromentowani** przez **złośliwe oprogramowanie kradnące**.
-
-Ich głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
-
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
-
-{% embed url="https://whiteintel.io" %}
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -286,8 +262,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

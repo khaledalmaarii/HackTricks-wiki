@@ -15,25 +15,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) to **silnik wyszukiwania** zasilany przez **dark-web**, który oferuje **darmowe** funkcje do sprawdzenia, czy firma lub jej klienci zostali **skompromentowani** przez **złośliwe oprogramowanie kradnące**.
-
-Głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z złośliwego oprogramowania kradnącego informacje.
-
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Improve your Wireshark skills
 
 ### Tutorials
 
-Następujące samouczki są świetne do nauki kilku fajnych podstawowych trików:
+The following tutorials are amazing to learn some cool basic tricks:
 
 * [https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/](https://unit42.paloaltonetworks.com/unit42-customizing-wireshark-changing-column-display/)
 * [https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/](https://unit42.paloaltonetworks.com/using-wireshark-display-filter-expressions/)
@@ -56,19 +43,19 @@ Pod _**Statistics --> Resolved Addresses**_ możesz znaleźć kilka **informacji
 
 **Protocol Hierarchy**
 
-Pod _**Statistics --> Protocol Hierarchy**_ możesz znaleźć **protokoły** **zaangażowane** w komunikację oraz dane o nich.
+Pod _**Statistics --> Protocol Hierarchy**_ możesz znaleźć **protokoły** **zaangażowane** w komunikację oraz dane na ich temat.
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **Conversations**
 
-Pod _**Statistics --> Conversations**_ możesz znaleźć **podsumowanie rozmów** w komunikacji oraz dane o nich.
+Pod _**Statistics --> Conversations**_ możesz znaleźć **podsumowanie rozmów** w komunikacji oraz dane na ich temat.
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **Endpoints**
 
-Pod _**Statistics --> Endpoints**_ możesz znaleźć **podsumowanie punktów końcowych** w komunikacji oraz dane o każdym z nich.
+Pod _**Statistics --> Endpoints**_ możesz znaleźć **podsumowanie punktów końcowych** w komunikacji oraz dane na ich temat.
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
@@ -98,7 +85,7 @@ Inne interesujące filtry:
 
 ### Search
 
-Jeśli chcesz **wyszukiwać** **treść** wewnątrz **pakietów** sesji, naciśnij _CTRL+f_. Możesz dodać nowe warstwy do głównego paska informacji (Nr, Czas, Źródło itp.) naciskając prawy przycisk i następnie edytując kolumnę.
+Jeśli chcesz **wyszukiwać** **treść** wewnątrz **pakietów** sesji, naciśnij _CTRL+f_. Możesz dodać nowe warstwy do głównego paska informacyjnego (Nr, Czas, Źródło itp.) naciskając prawy przycisk i następnie edytując kolumnę.
 
 ### Free pcap labs
 
@@ -140,7 +127,7 @@ Naciśnij _Edit_ i dodaj wszystkie dane serwera oraz klucz prywatny (_IP, Port, 
 
 Zarówno Firefox, jak i Chrome mają możliwość rejestrowania kluczy sesji TLS, które można wykorzystać z Wireshark do odszyfrowania ruchu TLS. Umożliwia to szczegółową analizę zabezpieczonej komunikacji. Więcej informacji na temat tego, jak przeprowadzić to odszyfrowanie, można znaleźć w przewodniku na stronie [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
-Aby to wykryć, przeszukaj środowisko pod kątem zmiennej `SSLKEYLOGFILE`
+Aby to wykryć, przeszukaj środowisko w poszukiwaniu zmiennej `SSLKEYLOGFILE`
 
 Plik z kluczami współdzielonymi będzie wyglądał tak:
 
@@ -179,18 +166,6 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) to **wyszukiwarka** zasilana **dark-web**, która oferuje **darmowe** funkcje sprawdzania, czy firma lub jej klienci zostali **skompromentowani** przez **malware kradnące**.
-
-Głównym celem WhiteIntel jest zwalczanie przejęć kont i ataków ransomware wynikających z malware kradnącego informacje.
-
-Możesz sprawdzić ich stronę internetową i wypróbować ich silnik za **darmo** pod adresem:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -201,7 +176,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

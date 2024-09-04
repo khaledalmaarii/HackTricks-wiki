@@ -15,17 +15,10 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Wprowadzenie <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero może **odbierać i transmitować częstotliwości radiowe w zakresie 300-928 MHz** dzięki wbudowanemu modułowi, który może odczytywać, zapisywać i emulować piloty. Te piloty są używane do interakcji z bramami, barierami, zamkami radiowymi, przełącznikami zdalnego sterowania, bezprzewodowymi dzwonkami, inteligentnymi światłami i innymi. Flipper Zero może pomóc Ci dowiedzieć się, czy Twoje bezpieczeństwo zostało naruszone.
+Flipper Zero może **odbierać i transmitować częstotliwości radiowe w zakresie 300-928 MHz** dzięki wbudowanemu modułowi, który może odczytywać, zapisywać i emulować piloty. Te piloty są używane do interakcji z bramami, barierami, zamkami radiowymi, przełącznikami zdalnego sterowania, bezprzewodowymi dzwonkami, inteligentnymi światłami i innymi. Flipper Zero może pomóc Ci dowiedzieć się, czy Twoje bezpieczeństwo jest zagrożone.
 
 <figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
@@ -60,7 +53,7 @@ Znajdź informacje o używanej częstotliwości (to także inny sposób na znale
 
 Opcja **Odczyt** **nasłuchuje na skonfigurowanej częstotliwości** na wskazanej modulacji: 433.92 AM domyślnie. Jeśli **coś zostanie znalezione** podczas odczytu, **informacje są podawane** na ekranie. Te informacje mogą być użyte do replikacji sygnału w przyszłości.
 
-Podczas korzystania z Odczytu można nacisnąć **lewy przycisk** i **skonfigurować go**.\
+Podczas korzystania z Odczytu, można nacisnąć **lewy przycisk** i **skonfigurować go**.\
 W tym momencie ma **4 modulacje** (AM270, AM650, FM328 i FM476) oraz **kilka istotnych częstotliwości** zapisanych:
 
 <figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
@@ -93,22 +86,22 @@ Dodaj sygnały z skonfigurowanej listy protokołów
 
 #### Lista [obsługiwanych protokołów](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>
 
-| Princeton\_433 (działa z większością systemów statycznych) | 433.92 | Statyczny  |
-| ---------------------------------------------------------- | ------ | --------- |
-| Nice Flo 12bit\_433                                       | 433.92 | Statyczny  |
-| Nice Flo 24bit\_433                                       | 433.92 | Statyczny  |
-| CAME 12bit\_433                                           | 433.92 | Statyczny  |
-| CAME 24bit\_433                                           | 433.92 | Statyczny  |
-| Linear\_300                                               | 300.00 | Statyczny  |
-| CAME TWEE                                                 | 433.92 | Statyczny  |
-| Gate TX\_433                                              | 433.92 | Statyczny  |
-| DoorHan\_315                                              | 315.00 | Dynamiczny |
-| DoorHan\_433                                              | 433.92 | Dynamiczny |
-| LiftMaster\_315                                           | 315.00 | Dynamiczny |
-| LiftMaster\_390                                           | 390.00 | Dynamiczny |
-| Security+2.0\_310                                         | 310.00 | Dynamiczny |
-| Security+2.0\_315                                         | 315.00 | Dynamiczny |
-| Security+2.0\_390                                         | 390.00 | Dynamiczny |
+| Princeton\_433 (działa z większością systemów kodów statycznych) | 433.92 | Statyczny  |
+| --------------------------------------------------------------- | ------ | ------- |
+| Nice Flo 12bit\_433                                             | 433.92 | Statyczny  |
+| Nice Flo 24bit\_433                                             | 433.92 | Statyczny  |
+| CAME 12bit\_433                                                 | 433.92 | Statyczny  |
+| CAME 24bit\_433                                                 | 433.92 | Statyczny  |
+| Linear\_300                                                     | 300.00 | Statyczny  |
+| CAME TWEE                                                       | 433.92 | Statyczny  |
+| Gate TX\_433                                                    | 433.92 | Statyczny  |
+| DoorHan\_315                                                    | 315.00 | Dynamiczny |
+| DoorHan\_433                                                    | 433.92 | Dynamiczny |
+| LiftMaster\_315                                                 | 315.00 | Dynamiczny |
+| LiftMaster\_390                                                 | 390.00 | Dynamiczny |
+| Security+2.0\_310                                               | 310.00 | Dynamiczny |
+| Security+2.0\_315                                               | 315.00 | Dynamiczny |
+| Security+2.0\_390                                               | 390.00 | Dynamiczny |
 
 ### Obsługiwani dostawcy Sub-GHz
 
@@ -127,12 +120,6 @@ Uzyskaj dBms zapisanych częstotliwości
 ## Referencje
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -9,19 +9,11 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
-
-**Grupa Try Hard Security**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ### **Najlepsze narzędzie do wyszukiwania wektorów eskalacji uprawnień lokalnych w systemie Windows:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
@@ -44,7 +36,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 * [ ] Sprawdź [**LAPS**](windows-local-privilege-escalation/#laps)
 * [ ] Sprawdź, czy [**WDigest**](windows-local-privilege-escalation/#wdigest) jest aktywny
 * [ ] [**Ochrona LSA**](windows-local-privilege-escalation/#lsa-protection)?
-* [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
+* [ ] [**Guard Credentials**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [ ] [**Zapisane poświadczenia**](windows-local-privilege-escalation/#cached-credentials)?
 * [ ] Sprawdź, czy jakikolwiek [**AV**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-av-bypass/README.md)
 * [ ] [**Polityka AppLocker**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
@@ -54,7 +46,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 * [ ] Czy jesteś [**członkiem jakiejkolwiek grupy z uprawnieniami**](windows-local-privilege-escalation/#privileged-groups)?
 * [ ] Sprawdź, czy masz [jakiekolwiek z tych tokenów włączonych](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [ ] [**Sesje użytkowników**](windows-local-privilege-escalation/#logged-users-sessions)?
-* [ ] Sprawdź [**domy** użytkowników](windows-local-privilege-escalation/#home-folders) (dostęp?)
+* [ ] Sprawdź [**domy użytkowników**](windows-local-privilege-escalation/#home-folders) (dostęp?)
 * [ ] Sprawdź [**Politykę haseł**](windows-local-privilege-escalation/#password-policy)
 * [ ] Co jest [**w schowku**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
@@ -63,9 +55,9 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 * [ ] Sprawdź **aktualne** [**informacje o sieci**](windows-local-privilege-escalation/#network)
 * [ ] Sprawdź **ukryte lokalne usługi** ograniczone do zewnątrz
 
-### [Uruchamiane procesy](windows-local-privilege-escalation/#running-processes)
+### [Uruchomione procesy](windows-local-privilege-escalation/#running-processes)
 
-* [ ] Uprawnienia [**plików i folderów procesów**](windows-local-privilege-escalation/#file-and-folder-permissions)
+* [ ] Uprawnienia [**plików i folderów binariów procesów**](windows-local-privilege-escalation/#file-and-folder-permissions)
 * [ ] [**Wydobywanie haseł z pamięci**](windows-local-privilege-escalation/#memory-password-mining)
 * [ ] [**Niebezpieczne aplikacje GUI**](windows-local-privilege-escalation/#insecure-gui-apps)
 * [ ] Kradnij poświadczenia z **interesujących procesów** za pomocą `ProcDump.exe` ? (firefox, chrome, itd...)
@@ -73,7 +65,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 ### [Usługi](windows-local-privilege-escalation/#services)
 
 * [ ] [Czy możesz **zmodyfikować jakąkolwiek usługę**?](windows-local-privilege-escalation/#permissions)
-* [ ] [Czy możesz **zmodyfikować** **plik binarny**, który jest **wykonywany** przez jakąkolwiek **usługę**?](windows-local-privilege-escalation/#modify-service-binary-path)
+* [ ] [Czy możesz **zmodyfikować** **binarne** pliki, które są **wykonywane** przez jakąkolwiek **usługę**?](windows-local-privilege-escalation/#modify-service-binary-path)
 * [ ] [Czy możesz **zmodyfikować** **rejestr** jakiejkolwiek **usługi**?](windows-local-privilege-escalation/#services-registry-modify-permissions)
 * [ ] [Czy możesz skorzystać z jakiejkolwiek **niecytowanej ścieżki binarnej usługi**?](windows-local-privilege-escalation/#unquoted-service-paths)
 
@@ -108,7 +100,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 ### [Pliki i rejestr (Poświadczenia)](windows-local-privilege-escalation/#files-and-registry-credentials)
 
-* [ ] **Putty:** [**Poświadczenia**](windows-local-privilege-escalation/#putty-creds) **i** [**klucze hosta SSH**](windows-local-privilege-escalation/#putty-ssh-host-keys)
+* [ ] **Putty:** [**Creds**](windows-local-privilege-escalation/#putty-creds) **i** [**klucze hosta SSH**](windows-local-privilege-escalation/#putty-ssh-host-keys)
 * [ ] [**Klucze SSH w rejestrze**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
 * [ ] Hasła w [**plikach bezobsługowych**](windows-local-privilege-escalation/#unattended-files)?
 * [ ] Jakiekolwiek [**kopie zapasowe SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups)?
@@ -124,19 +116,13 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 * [ ] [**Ogólne wyszukiwanie haseł**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) w plikach i rejestrze
 * [ ] [**Narzędzia**](windows-local-privilege-escalation/#tools-that-search-for-passwords) do automatycznego wyszukiwania haseł
 
-### [Wyciekające handlerzy](windows-local-privilege-escalation/#leaked-handlers)
+### [Wyciekające uchwyty](windows-local-privilege-escalation/#leaked-handlers)
 
-* [ ] Czy masz dostęp do jakiegokolwiek handlera procesu uruchomionego przez administratora?
+* [ ] Czy masz dostęp do jakiegokolwiek uchwytu procesu uruchomionego przez administratora?
 
 ### [Impersonacja klienta Pipe](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
 * [ ] Sprawdź, czy możesz to wykorzystać
-
-**Grupa Try Hard Security**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -147,8 +133,8 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 <summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na GitHubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

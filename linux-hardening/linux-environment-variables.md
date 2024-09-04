@@ -10,18 +10,10 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
 * **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Zmienne globalne
 
@@ -69,7 +61,7 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 * **MANPATH** – lista katalogów do przeszukiwania stron podręcznika.
 * **OSTYPE** – typ systemu operacyjnego.
 * **PS1** – domyślny prompt w bash.
-* **PATH** – przechowuje ścieżkę do wszystkich katalogów, które zawierają pliki binarne, które chcesz wykonać, podając tylko nazwę pliku, a nie względną lub absolutną ścieżkę.
+* **PATH** – przechowuje ścieżkę do wszystkich katalogów, które zawierają pliki binarne, które chcesz wykonać, po prostu podając nazwę pliku, a nie względną lub absolutną ścieżkę.
 * **PWD** – bieżący katalog roboczy.
 * **SHELL** – ścieżka do bieżącej powłoki poleceń (na przykład **/bin/bash**).
 * **TERM** – bieżący typ terminala (na przykład **xterm**).
@@ -92,7 +84,7 @@ export HISTSIZE=0
 ```
 ### http\_proxy & https\_proxy
 
-Procesy będą używać **proxy** zadeklarowanego tutaj, aby połączyć się z internetem przez **http lub https**.
+Procesy będą używać zadeklarowanego **proxy** do łączenia się z internetem przez **http lub https**.
 ```bash
 export http_proxy="http://10.10.10.10:8080"
 export https_proxy="http://10.10.10.10:8080"
@@ -126,11 +118,6 @@ Jedno zadanie w tle, jedno zatrzymane, a ostatnia komenda nie zakończyła się 
 
 ![](<../.gitbook/assets/image (715).png>)
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -138,11 +125,11 @@ Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-
 
 <details>
 
-<summary>Wsparcie HackTricks</summary>
+<summary>Wsparcie dla HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Dziel się sztuczkami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
 
 </details>
 {% endhint %}

