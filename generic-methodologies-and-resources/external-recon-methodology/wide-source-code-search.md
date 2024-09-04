@@ -1,59 +1,45 @@
-# व्यापक स्रोत कोड खोज
+# Wide Source Code Search
 
 {% hint style="success" %}
-AWS हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण AWS रेड टीम एक्सपर्ट (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण GCP रेड टीम एक्सपर्ट (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks का समर्थन करें</summary>
+<summary>Support HackTricks</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Try Hard सुरक्षा समूह**
+इस पृष्ठ का लक्ष्य **प्लेटफार्मों की गणना करना है जो कोड** (शाब्दिक या regex) को हजारों/लाखों रिपोजिटरी में एक या अधिक प्लेटफार्मों में खोजने की अनुमति देते हैं।
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+यह कई अवसरों पर **लीक की गई जानकारी** या **कमजोरियों** के पैटर्न की खोज में मदद करता है।
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-इस पृष्ठ का उद्देश्य है **प्लेटफॉर्मों की सूची बनाना जो कोड खोजने की अनुमति देती हैं** (शब्दांश या रेजेक्स) हजारों/लाखों रेपो में एक या अधिक प्लेटफॉर्मों पर।
-
-यह कई अवसरों में मदद करता है **लीक हुई जानकारी** या **कमजोरियों** के पैटर्न खोजने में।
-
-* [**SourceGraph**](https://sourcegraph.com/search): मिलियनों रेपो में खोजें। एक मुफ्त संस्करण और एक एंटरप्राइज संस्करण (15 दिन का मुफ्त) है। यह रेजेक्स समर्थित करता है।
-* [**Github खोज**](https://github.com/search): Github में खोजें। यह रेजेक्स समर्थित करता है।
-* शायद यह उपयोगी हो सकता है [**Github कोड खोज**](https://cs.github.com/) भी देखना।
-* [**Gitlab उन्नत खोज**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Gitlab परियोजनाओं में खोजें। रेजेक्स समर्थित है।
-* [**SearchCode**](https://searchcode.com/): लाखों परियोजनाओं में कोड खोजें।
+* [**SourceGraph**](https://sourcegraph.com/search): लाखों रिपोजिटरी में खोजें। इसमें एक मुफ्त संस्करण और एक एंटरप्राइज संस्करण (15 दिनों के लिए मुफ्त) है। यह regex का समर्थन करता है।
+* [**Github Search**](https://github.com/search): Github में खोजें। यह regex का समर्थन करता है।
+* शायद [**Github Code Search**](https://cs.github.com/) की जांच करना भी उपयोगी हो।
+* [**Gitlab Advanced Search**](https://docs.gitlab.com/ee/user/search/advanced\_search.html): Gitlab प्रोजेक्ट्स में खोजें। regex का समर्थन करता है।
+* [**SearchCode**](https://searchcode.com/): लाखों प्रोजेक्ट्स में कोड खोजें।
 
 {% hint style="warning" %}
-जब आप किसी रेपो में लीक खोजते हैं और `git log -p` जैसी कुछ चलाते हैं, तो याद रखें कि **अन्य शाखाएं भी हो सकती हैं जिनमें अन्य कमिट्स** जो सीक्रेट्स रखते हैं!
+जब आप किसी रिपोजिटरी में लीक की तलाश कर रहे हों और कुछ ऐसा चलाते हैं जैसे `git log -p` तो न भूलें कि वहाँ **अन्य शाखाएँ हो सकती हैं जिनमें अन्य कमिट्स** हो सकते हैं जिनमें रहस्य हो सकते हैं!
 {% endhint %}
 
-**Try Hard सुरक्षा समूह**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-AWS हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण AWS रेड टीम एक्सपर्ट (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण GCP रेड टीम एक्सपर्ट (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks का समर्थन करें</summary>
+<summary>Support HackTricks</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

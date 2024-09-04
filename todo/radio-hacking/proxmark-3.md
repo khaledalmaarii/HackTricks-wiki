@@ -15,22 +15,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Proxmark3 के साथ RFID सिस्टम पर हमला करना
 
-आपको जो पहली चीज़ करने की ज़रूरत है वह है [**Proxmark3**](https://proxmark.com) होना और [**सॉफ़्टवेयर और इसके निर्भरताएँ स्थापित करना**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
+आपको जो पहली चीज़ करनी है वह है [**Proxmark3**](https://proxmark.com) होना और [**सॉफ़्टवेयर और इसके निर्भरताएँ स्थापित करना**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
 
 ### MIFARE Classic 1KB पर हमला करना
 
 इसमें **16 सेक्टर** हैं, प्रत्येक में **4 ब्लॉक** हैं और प्रत्येक ब्लॉक में **16B** होता है। UID सेक्टर 0 ब्लॉक 0 में है (और इसे बदला नहीं जा सकता)।\
-प्रत्येक सेक्टर तक पहुँचने के लिए आपको **2 कुंजियाँ** (**A** और **B**) चाहिए जो **प्रत्येक सेक्टर के ब्लॉक 3** (सेक्टर ट्रेलर) में संग्रहीत होती हैं। सेक्टर ट्रेलर **एक्सेस बिट्स** भी संग्रहीत करता है जो **प्रत्येक ब्लॉक** पर **पढ़ने और लिखने** की अनुमति देते हैं 2 कुंजियों का उपयोग करके।\
+प्रत्येक सेक्टर तक पहुँचने के लिए आपको **2 कुंजियाँ** (**A** और **B**) चाहिए जो **प्रत्येक सेक्टर के ब्लॉक 3 में** संग्रहीत होती हैं (सेक्टर ट्रेलर)। सेक्टर ट्रेलर **एक्सेस बिट्स** भी संग्रहीत करता है जो **प्रत्येक ब्लॉक** पर **पढ़ने और लिखने** की अनुमति देते हैं 2 कुंजियों का उपयोग करके।\
 2 कुंजियाँ पढ़ने की अनुमति देने के लिए उपयोगी हैं यदि आप पहली को जानते हैं और लिखने के लिए यदि आप दूसरी को जानते हैं (उदाहरण के लिए)।
 
 कई हमले किए जा सकते हैं
@@ -70,18 +62,11 @@ Valid ISO14443A Tag Found - Quiting Search
 
 ### Scripts
 
-Proxmark3 सॉफ़्टवेयर एक प्रीलोडेड **स्वचालन स्क्रिप्ट** की सूची के साथ आता है जिसका उपयोग आप सरल कार्यों को करने के लिए कर सकते हैं। पूरी सूची प्राप्त करने के लिए, `script list` कमांड का उपयोग करें। इसके बाद, स्क्रिप्ट के नाम के साथ `script run` कमांड का उपयोग करें:
+Proxmark3 सॉफ़्टवेयर एक प्रीलोडेड **स्वचालन स्क्रिप्ट** की सूची के साथ आता है जिसका उपयोग आप सरल कार्यों को करने के लिए कर सकते हैं। पूरी सूची प्राप्त करने के लिए, `script list` कमांड का उपयोग करें। इसके बाद, `script run` कमांड का उपयोग करें, उसके बाद स्क्रिप्ट का नाम:
 ```
 proxmark3> script run mfkeys
 ```
-आप एक स्क्रिप्ट बना सकते हैं ताकि **फज़ टैग रीडर्स** को, इसलिए एक **मान्य कार्ड** का डेटा कॉपी करने के लिए बस एक **Lua स्क्रिप्ट** लिखें जो एक या एक से अधिक यादृच्छिक **बाइट्स** को **रैंडमाइज** करे और जांचें कि क्या **रीडर क्रैश** होता है किसी भी पुनरावृत्ति के साथ।
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
+आप एक स्क्रिप्ट बना सकते हैं ताकि **फज़ टैग रीडर्स** को, इसलिए एक **मान्य कार्ड** का डेटा कॉपी करने के लिए बस एक **Lua स्क्रिप्ट** लिखें जो एक या अधिक यादृच्छिक **बाइट्स** को **रैंडमाइज़** करे और जांचें कि क्या **रीडर क्रैश** होता है किसी भी पुनरावृत्ति के साथ।
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

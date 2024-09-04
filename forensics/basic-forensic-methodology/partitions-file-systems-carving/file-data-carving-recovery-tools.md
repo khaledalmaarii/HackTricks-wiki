@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
 More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
@@ -35,7 +27,7 @@ More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github
 
 **Binwalk** एक उपकरण है जो बाइनरी फ़ाइलों का विश्लेषण करने के लिए अंतर्निहित सामग्री खोजने के लिए है। इसे `apt` के माध्यम से इंस्टॉल किया जा सकता है और इसका स्रोत [GitHub](https://github.com/ReFirmLabs/binwalk) पर है।
 
-**उपयोगी कमांड**:
+**Useful commands**:
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
@@ -44,7 +36,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-एक और सामान्य उपकरण जो छिपी हुई फ़ाइलों को खोजने के लिए है वह है **foremost**। आप foremost की कॉन्फ़िगरेशन फ़ाइल `/etc/foremost.conf` में पा सकते हैं। यदि आप केवल कुछ विशिष्ट फ़ाइलों के लिए खोज करना चाहते हैं, तो उन्हें अनकमेंट करें। यदि आप कुछ भी अनकमेंट नहीं करते हैं, तो foremost अपनी डिफ़ॉल्ट कॉन्फ़िगर की गई फ़ाइल प्रकारों के लिए खोज करेगा।
+छिपी हुई फ़ाइलों को खोजने के लिए एक और सामान्य उपकरण **foremost** है। आप foremost की कॉन्फ़िगरेशन फ़ाइल `/etc/foremost.conf` में पा सकते हैं। यदि आप केवल कुछ विशिष्ट फ़ाइलों के लिए खोज करना चाहते हैं, तो उन्हें अनकमेंट करें। यदि आप कुछ भी अनकमेंट नहीं करते हैं, तो foremost अपनी डिफ़ॉल्ट कॉन्फ़िगर की गई फ़ाइल प्रकारों के लिए खोज करेगा।
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -65,7 +57,7 @@ scalpel file.img -o output
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navigate through **सभी जानकारी** that the tool has gathered (passwords?), **विश्लेषण करें** the **पैकेट** (read[ **Pcaps analysis**](../pcap-inspection/)), search for **अजीब डोमेन** (domains related to **malware** or **non-existent**).
+Navigate through **सभी जानकारी** that the tool has gathered (passwords?), **विश्लेषण करें** the **पैकेट** (read[ **Pcaps analysis**](../pcap-inspection/)), search for **अजीब डोमेन** (domains related to **malware** or **गैर-मौजूद**).
 
 ### PhotoRec
 
@@ -77,7 +69,7 @@ It comes with GUI and CLI versions. You can select the **फाइल-प्र�
 
 ### binvis
 
-Check the [कोड](https://code.google.com/archive/p/binvis/) and the [वेब पेज टूल](https://binvis.io/#/).
+Check the [code](https://code.google.com/archive/p/binvis/) and the [web page tool](https://binvis.io/#/).
 
 #### Features of BinVis
 
@@ -105,12 +97,6 @@ Download [यहाँ](https://sourceforge.net/projects/findaes/).
 You can use [**viu** ](https://github.com/atanunq/viu)to see images from the terminal.\
 You can use the linux command line tool **pdftotext** to transform a pdf into text and read it.
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -119,7 +105,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <summary>Support HackTricks</summary>
 
-* Check the [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop)!
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
 * **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 

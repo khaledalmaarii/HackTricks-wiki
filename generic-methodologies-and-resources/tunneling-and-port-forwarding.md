@@ -1,32 +1,24 @@
 # Tunneling and Port Forwarding
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks का समर्थन करें</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) में शामिल हों या **Twitter** 🐦 पर हमें **फॉलो करें** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos में PRs सबमिट करें।
 
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Nmap tip
+## Nmap टिप
 
 {% hint style="warning" %}
-**ICMP** और **SYN** स्कैन को सॉक्स प्रॉक्सी के माध्यम से टनल नहीं किया जा सकता, इसलिए हमें **पिंग डिस्कवरी** (`-Pn`) को **अक्षम** करना होगा और इसके लिए **TCP स्कैन** (`-sT`) निर्दिष्ट करना होगा।
+**ICMP** और **SYN** स्कैन को सॉक्स प्रॉक्सी के माध्यम से टनल नहीं किया जा सकता, इसलिए हमें **पिंग डिस्कवरी** को **अक्षम** करना होगा (`-Pn`) और इसके काम करने के लिए **TCP स्कैन** (`-sT`) निर्दिष्ट करना होगा।
 {% endhint %}
 
 ## **Bash**
@@ -177,9 +169,9 @@ To note:
 
 - Beacon का रिवर्स पोर्ट फॉरवर्ड **टीम सर्वर के लिए ट्रैफ़िक टनल करने के लिए डिज़ाइन किया गया है, व्यक्तिगत मशीनों के बीच रिले करने के लिए नहीं**।
 - ट्रैफ़िक **बीकन के C2 ट्रैफ़िक के भीतर टनल किया जाता है**, जिसमें P2P लिंक शामिल हैं।
-- **उच्च पोर्ट पर रिवर्स पोर्ट फॉरवर्ड बनाने के लिए प्रशासनिक विशेषाधिकार की आवश्यकता नहीं है**।
+- **रिवर्स पोर्ट फॉरवर्ड बनाने के लिए एडमिन विशेषाधिकार की आवश्यकता नहीं है** उच्च पोर्ट पर।
 
-### rPort2Port स्थानीय
+### rPort2Port local
 
 {% hint style="warning" %}
 इस मामले में, **पोर्ट बीकन होस्ट में खोला जाता है**, टीम सर्वर में नहीं और **ट्रैफ़िक को कोबाल्ट स्ट्राइक क्लाइंट** (टीम सर्वर को नहीं) पर भेजा जाता है और वहां से निर्दिष्ट होस्ट:पोर्ट पर भेजा जाता है।
@@ -199,7 +191,7 @@ python reGeorgSocksProxy.py -p 8080 -u http://upload.sensepost.net:8080/tunnel/t
 ## Chisel
 
 आप इसे [https://github.com/jpillora/chisel](https://github.com/jpillora/chisel) के रिलीज़ पृष्ठ से डाउनलोड कर सकते हैं।\
-आपको **क्लाइंट और सर्वर के लिए समान संस्करण का उपयोग करना होगा** 
+आपको **क्लाइंट और सर्वर के लिए समान संस्करण का उपयोग करना होगा।**
 
 ### socks
 ```bash
@@ -336,9 +328,9 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-अब हम **RDP** के माध्यम से **victim** से **`mstsc.exe`** का उपयोग करके **connect** कर सकते हैं, और हमें एक **prompt** प्राप्त होना चाहिए जिसमें कहा गया है कि **SocksOverRDP plugin is enabled**, और यह **127.0.0.1:1080** पर **listen** करेगा।
+अब हम **RDP** के माध्यम से **victim** से **`mstsc.exe`** का उपयोग करके **connect** कर सकते हैं, और हमें एक **prompt** प्राप्त होना चाहिए जिसमें कहा गया है कि **SocksOverRDP plugin is enabled**, और यह **listen** करेगा **127.0.0.1:1080** पर।
 
-**RDP** के माध्यम से **connect** करें और victim मशीन में `SocksOverRDP-Server.exe` बाइनरी को अपलोड और निष्पादित करें:
+**Connect** करें **RDP** के माध्यम से और victim मशीन में `SocksOverRDP-Server.exe` बाइनरी को अपलोड और निष्पादित करें:
 ```
 C:\SocksOverRDP-x64> SocksOverRDP-Server.exe
 ```
@@ -393,7 +385,7 @@ attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
 #You can see the victim at 1.1.1.2
 ```
-The tunnel बहुत धीमा होगा। आप इस टनल के माध्यम से एक संकुचित SSH कनेक्शन बना सकते हैं:
+The tunnel will be very slow. You can create a compressed SSH connection through this tunnel by using:
 ```
 ssh <user>@1.1.1.2 -C -c blowfish-cbc,arcfour -o CompressionLevel=9 -D 1080
 ```
@@ -426,18 +418,18 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 
 Proxychains `gethostbyname` libc कॉल को इंटरसेप्ट करता है और tcp DNS अनुरोध को socks प्रॉक्सी के माध्यम से टनल करता है। **डिफ़ॉल्ट** रूप से, **DNS** सर्वर जो proxychains उपयोग करता है वह **4.2.2.2** है (हार्डकोडेड)। इसे बदलने के लिए, फ़ाइल संपादित करें: _/usr/lib/proxychains3/proxyresolv_ और IP बदलें। यदि आप **Windows वातावरण** में हैं, तो आप **डोमेन कंट्रोलर** का IP सेट कर सकते हैं।
 
-## गो में टनल
+## Go में टनल
 
 [https://github.com/hotnops/gtunnel](https://github.com/hotnops/gtunnel)
 
 ## ICMP टनलिंग
 
-### हैंस
+### Hans
 
 [https://github.com/friedrich/hans](https://github.com/friedrich/hans)\
 [https://github.com/albertzak/hanstunnel](https://github.com/albertzak/hanstunnel)
 
-दोनों सिस्टम में रूट की आवश्यकता होती है ताकि tun एडाप्टर बनाए जा सकें और ICMP इको अनुरोधों का उपयोग करके उनके बीच डेटा टनल किया जा सके।
+दोनों सिस्टम में रूट की आवश्यकता होती है ताकि tun अडाप्टर बनाए जा सकें और ICMP इको अनुरोधों का उपयोग करके उनके बीच डेटा टनल किया जा सके।
 ```bash
 ./hans -v -f -s 1.1.1.1 -p P@ssw0rd #Start listening (1.1.1.1 is IP of the new vpn connection)
 ./hans -f -c <server_ip> -p P@ssw0rd -v
@@ -496,7 +488,7 @@ chmod a+x ./ngrok
 #### HTTP कॉल्स की स्निफिंग
 
 *XSS, SSRF, SSTI ... के लिए उपयोगी*
-stdout से सीधे या HTTP इंटरफेस [http://127.0.0.1:4040](http://127.0.0.1:4000) में।
+सीधे stdout से या HTTP इंटरफेस [http://127.0.0.1:4040](http://127.0.0.1:4000) में।
 
 #### आंतरिक HTTP सेवा का टनलिंग
 ```bash
@@ -527,25 +519,17 @@ addr: file:///tmp/httpbin/
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
 
-**ट्राई हार्ड सुरक्षा समूह**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 {% hint style="success" %}
-AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+सीखें और AWS हैकिंग का अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+सीखें और GCP हैकिंग का अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks का समर्थन करें</summary>
 
 * [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) जांचें!
-* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) में शामिल हों या **हमें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो करें।**
-* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें। 
+* **शामिल हों** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**टेलीग्राम समूह**](https://t.me/peass) या **हमें** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** पर फॉलो करें।**
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।
 
 </details>
 {% endhint %}

