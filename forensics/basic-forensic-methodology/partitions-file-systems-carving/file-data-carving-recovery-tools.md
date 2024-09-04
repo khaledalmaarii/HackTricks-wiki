@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
 More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
@@ -59,19 +51,19 @@ scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-이 도구는 칼리 안에 포함되어 있지만, 여기에서 찾을 수 있습니다: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+이 도구는 칼리 안에 포함되어 있지만 여기에서 찾을 수 있습니다: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-이 도구는 이미지를 스캔하고 그 안에서 **pcap**을 **추출**하며, **네트워크 정보 (URL, 도메인, IP, MAC, 메일)** 및 더 많은 **파일**을 추출할 수 있습니다. 당신이 해야 할 일은:
+이 도구는 이미지를 스캔하고 그 안에서 **pcap**을 **추출**하며, **네트워크 정보 (URL, 도메인, IP, MAC, 메일)** 및 기타 **파일**을 추출할 수 있습니다. 당신이 해야 할 일은:
 ```
 bulk_extractor memory.img -o out_folder
 ```
-모든 정보를 탐색하세요 (비밀번호?), 패킷을 분석하세요 (읽기: [**Pcaps 분석**](../pcap-inspection/)), 이상한 도메인을 검색하세요 (악성코드 또는 존재하지 않는 도메인과 관련된 도메인).
+모든 정보를 탐색하세요 **도구가 수집한** (비밀번호?), **패킷을 분석**하세요 (읽기 [**Pcaps 분석**](../pcap-inspection/)), **이상한 도메인**을 검색하세요 ( **악성코드** 또는 **존재하지 않는** 도메인과 관련된).
 
 ### PhotoRec
 
 [https://www.cgsecurity.org/wiki/TestDisk\_Download](https://www.cgsecurity.org/wiki/TestDisk\_Download)에서 찾을 수 있습니다.
 
-GUI 및 CLI 버전이 제공됩니다. PhotoRec이 검색할 **파일 유형**을 선택할 수 있습니다.
+GUI 및 CLI 버전이 함께 제공됩니다. PhotoRec이 검색할 **파일 유형**을 선택할 수 있습니다.
 
 ![](<../../../.gitbook/assets/image (524).png>)
 
@@ -85,12 +77,12 @@ GUI 및 CLI 버전이 제공됩니다. PhotoRec이 검색할 **파일 유형**�
 * 다양한 초점에 대한 여러 플롯
 * 샘플의 일부에 집중
 * PE 또는 ELF 실행 파일에서 **문자열 및 리소스 보기**
-* 파일에 대한 암호 분석 패턴 얻기
-* 패커 또는 인코더 알고리즘 **발견**
+* 파일에 대한 암호 분석을 위한 **패턴** 얻기
+* **패커** 또는 인코더 알고리즘 **찾기**
 * 패턴으로 스테가노그래피 **식별**
 * **시각적** 바이너리 차이 비교
 
-BinVis는 블랙박스 시나리오에서 **알 수 없는 대상에 익숙해지기 위한 훌륭한 출발점**입니다.
+BinVis는 블랙박스 시나리오에서 **알 수 없는 대상에 익숙해지기 위한 훌륭한 시작점**입니다.
 
 ## 특정 데이터 카빙 도구
 
@@ -105,22 +97,16 @@ BinVis는 블랙박스 시나리오에서 **알 수 없는 대상에 익숙해�
 [**viu**](https://github.com/atanunq/viu)를 사용하여 터미널에서 이미지를 볼 수 있습니다.\
 리눅스 명령줄 도구 **pdftotext**를 사용하여 PDF를 텍스트로 변환하고 읽을 수 있습니다.
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-AWS 해킹 배우고 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 배우고 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하세요!
-* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* 💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter**에서 **팔로우**하세요 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.
 
 </details>

@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## **파일에서 데이터 추출하기**
 
 ### **Binwalk**
@@ -75,7 +67,7 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
-## **숨겨진 데이터 추출하기**
+## **텍스트에서 숨겨진 데이터 추출하기**
 
 ### **공간에서 숨겨진 데이터**
 
@@ -146,7 +138,7 @@ pngcheck stego.png
 ```
 ### **이미지 분석을 위한 추가 도구**
 
-더 많은 탐색을 원하시면 다음을 방문해 보세요:
+더 많은 탐색을 원하신다면 다음을 방문해 보세요:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 * [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -174,7 +166,7 @@ ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg는 가장 덜 중요한 비트 전략을 사용하여 WAV 파일 내에서 데이터를 숨기고 추출하는 데 뛰어납니다. [GitHub](https://github.com/ragibson/Steganography#WavSteg)에서 접근할 수 있습니다. 명령어는 다음과 같습니다:
+WavSteg은 가장 덜 중요한 비트 전략을 사용하여 WAV 파일 내에서 데이터를 숨기고 추출하는 데 뛰어납니다. [GitHub](https://github.com/ragibson/Steganography#WavSteg)에서 접근할 수 있습니다. 명령어는 다음과 같습니다:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -201,34 +193,28 @@ Sonic Visualizer는 오디오 파일의 시각적 및 분석적 검사를 위한
 import math
 math.sqrt(2500) #50
 ```
-For binary to image conversion, check [dcode](https://www.dcode.fr/binary-image). To read QR codes, use [this online barcode reader](https://online-barcode-reader.inliteresearch.com/).
+이진수를 이미지로 변환하려면 [dcode](https://www.dcode.fr/binary-image)를 확인하세요. QR 코드를 읽으려면 [이 온라인 바코드 리더](https://online-barcode-reader.inliteresearch.com/)를 사용하세요.
 
 ### **점자 번역**
 
-For translating Braille, the [Branah Braille Translator](https://www.branah.com/braille-translator) is an excellent resource.
+점자를 번역하기 위해 [Branah Braille Translator](https://www.branah.com/braille-translator)는 훌륭한 자원입니다.
 
 ## **참고문헌**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks 지원하기</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

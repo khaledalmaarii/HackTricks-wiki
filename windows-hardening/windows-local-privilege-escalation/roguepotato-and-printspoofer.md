@@ -15,22 +15,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io)는 **다크 웹** 기반의 검색 엔진으로, 기업이나 고객이 **stealer malwares**에 의해 **침해**되었는지 확인할 수 있는 **무료** 기능을 제공합니다.
-
-WhiteIntel의 주요 목표는 정보 탈취 악성 소프트웨어로 인한 계정 탈취 및 랜섬웨어 공격에 맞서 싸우는 것입니다.
-
-그들의 웹사이트를 확인하고 **무료**로 엔진을 사용해 볼 수 있습니다:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
-**JuicyPotato는** Windows Server 2019 및 Windows 10 빌드 1809 이상에서 **작동하지 않습니다**. 그러나, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato)**,** [**EfsPotato**](https://github.com/zcgonvh/EfsPotato)**,** [**DCOMPotato**](https://github.com/zcgonvh/DCOMPotato)**를 사용하여 **동일한 권한을 활용하고 `NT AUTHORITY\SYSTEM`** 수준의 접근을 얻을 수 있습니다. 이 [블로그 게시물](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/)은 JuicyPotato가 더 이상 작동하지 않는 Windows 10 및 Server 2019 호스트에서 임시 권한을 남용하는 데 사용할 수 있는 `PrintSpoofer` 도구에 대해 심층적으로 설명합니다.
+**JuicyPotato는** Windows Server 2019 및 Windows 10 빌드 1809 이상에서 **작동하지 않습니다. 그러나** [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato)**,** [**GodPotato**](https://github.com/BeichenDream/GodPotato)**,** [**EfsPotato**](https://github.com/zcgonvh/EfsPotato)**,** [**DCOMPotato**](https://github.com/zcgonvh/DCOMPotato)**를 사용하여 **동일한 권한을 활용하고 `NT AUTHORITY\SYSTEM`** 수준의 액세스를 얻을 수 있습니다. 이 [블로그 게시물](https://itm4n.github.io/printspoofer-abusing-impersonate-privileges/)은 JuicyPotato가 더 이상 작동하지 않는 Windows 10 및 Server 2019 호스트에서 가장기능을 남용하는 데 사용할 수 있는 `PrintSpoofer` 도구에 대해 자세히 설명합니다.
 {% endhint %}
 
 ## Quick Demo
@@ -117,17 +103,6 @@ nt authority\system
 * [https://github.com/zcgonvh/EfsPotato](https://github.com/zcgonvh/EfsPotato)
 * [https://github.com/zcgonvh/DCOMPotato](https://github.com/zcgonvh/DCOMPotato)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io)는 **다크 웹** 기반의 검색 엔진으로, 기업이나 고객이 **스틸러 맬웨어**에 의해 **침해**되었는지 확인할 수 있는 **무료** 기능을 제공합니다.
-
-WhiteIntel의 주요 목표는 정보 탈취 맬웨어로 인한 계정 탈취 및 랜섬웨어 공격에 맞서 싸우는 것입니다.
-
-그들의 웹사이트를 확인하고 **무료**로 엔진을 사용해 볼 수 있습니다:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -139,7 +114,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **해킹 트릭을 공유하려면 [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

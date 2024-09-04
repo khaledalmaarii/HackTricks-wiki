@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Proxmark3로 RFID 시스템 공격하기
 
 가장 먼저 해야 할 일은 [**Proxmark3**](https://proxmark.com)를 가지고 [**소프트웨어와 그 의존성 설치하기**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)입니다.
@@ -56,7 +48,7 @@ Proxmark3는 **태그와 리더 간의 통신을 도청**하여 민감한 데이
 
 ### Raw Commands
 
-IoT 시스템은 때때로 **브랜드가 없거나 상업적이지 않은 태그**를 사용합니다. 이 경우 Proxmark3를 사용하여 태그에 사용자 정의 **원시 명령을 전송**할 수 있습니다.
+IoT 시스템은 때때로 **비브랜드 또는 비상업적 태그**를 사용합니다. 이 경우 Proxmark3를 사용하여 태그에 사용자 정의 **원시 명령을 전송**할 수 있습니다.
 ```bash
 proxmark3> hf search UID : 80 55 4b 6c ATQA : 00 04
 SAK : 08 [2]
@@ -74,14 +66,7 @@ Proxmark3 소프트웨어에는 간단한 작업을 수행하는 데 사용할 �
 ```
 proxmark3> script run mfkeys
 ```
-You can create a script to **fuzz tag readers**, so copying the data of a **valid card** just write a **Lua script** that **randomize** one or more random **bytes** and check if the **reader crashes** with any iteration.
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
+당신은 **태그 리더**를 **퍼즈**하기 위한 스크립트를 만들 수 있습니다. 유효한 **카드**의 데이터를 복사하려면, 하나 이상의 무작위 **바이트**를 **무작위화**하고 각 반복에서 **리더가 충돌하는지** 확인하는 **Lua 스크립트**를 작성하세요.
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

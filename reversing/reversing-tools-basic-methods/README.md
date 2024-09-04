@@ -15,38 +15,30 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
+## ImGui 기반 리버싱 도구
 
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## ImGui Based Reversing tools
-
-Software:
+소프트웨어:
 
 * ReverseKit: [https://github.com/zer0condition/ReverseKit](https://github.com/zer0condition/ReverseKit)
 
-## Wasm decompiler / Wat compiler
+## Wasm 디컴파일러 / Wat 컴파일러
 
-Online:
+온라인:
 
-* Use [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) to **decompile** from wasm (binary) to wat (clear text)
-* Use [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/) to **compile** from wat to wasm
-* you can also try to use [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) to decompile
+* [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html)를 사용하여 **디컴파일**합니다 (wasm(바이너리)에서 wat(명확한 텍스트)로)
+* [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/)를 사용하여 **컴파일**합니다 (wat에서 wasm으로)
+* [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/)를 사용하여 디컴파일할 수도 있습니다.
 
-Software:
+소프트웨어:
 
 * [https://www.pnfsoftware.com/jeb/demo](https://www.pnfsoftware.com/jeb/demo)
 * [https://github.com/wwwg/wasmdec](https://github.com/wwwg/wasmdec)
 
-## .NET decompiler
+## .NET 디컴파일러
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
-dotPeek는 **라이브러리** (.dll), **Windows 메타데이터 파일** (.winmd), 및 **실행 파일** (.exe)을 포함한 여러 형식을 **디컴파일**하고 검사하는 디컴파일러입니다. 디컴파일된 후, 어셈블리는 Visual Studio 프로젝트 (.csproj)로 저장할 수 있습니다.
+dotPeek는 **라이브러리**(.dll), **Windows 메타데이터 파일**(.winmd), 및 **실행 파일**(.exe)을 포함한 여러 형식을 **디컴파일**하고 검사하는 디컴파일러입니다. 디컴파일된 후, 어셈블리는 Visual Studio 프로젝트(.csproj)로 저장할 수 있습니다.
 
 여기서의 장점은 잃어버린 소스 코드를 레거시 어셈블리에서 복원해야 할 경우, 이 작업이 시간을 절약할 수 있다는 것입니다. 또한, dotPeek는 디컴파일된 코드 전반에 걸쳐 유용한 탐색 기능을 제공하여 **Xamarin 알고리즘 분석**에 적합한 도구 중 하나입니다.
 
@@ -63,10 +55,10 @@ dotPeek는 **라이브러리** (.dll), **Windows 메타데이터 파일** (.winm
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[ILSpy plugin for Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): 모든 운영 체제에서 사용할 수 있습니다 (VSCode에서 직접 설치할 수 있으며, git을 다운로드할 필요가 없습니다. **Extensions**를 클릭하고 **ILSpy**를 검색하세요).\
-**디컴파일**, **수정** 및 **다시 컴파일**해야 하는 경우 [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) 또는 그 활발히 유지되는 포크인 [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases)를 사용할 수 있습니다. (**우클릭 -> 메서드 수정**으로 함수 내부의 내용을 변경할 수 있습니다).
+[Visual Studio Code용 ILSpy 플러그인](https://github.com/icsharpcode/ilspy-vscode): 모든 운영 체제에서 사용할 수 있습니다 (VSCode에서 직접 설치할 수 있으며, git을 다운로드할 필요가 없습니다. **Extensions**를 클릭하고 **ILSpy**를 검색하세요).\
+**디컴파일**, **수정** 및 **다시 컴파일**해야 하는 경우 [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) 또는 그 활발히 유지되는 포크인 [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases)를 사용할 수 있습니다. (**우클릭 -> 메서드 수정**하여 함수 내부의 내용을 변경합니다).
 
-### DNSpy Logging
+### DNSpy 로깅
 
 **DNSpy가 파일에 정보를 기록하도록 하려면**, 다음 코드를 사용할 수 있습니다:
 ```cs
@@ -99,9 +91,9 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-이것은 필요합니다. 왜냐하면 이렇게 하지 않으면 **runtime** 동안 여러 **optimisations**가 코드에 적용되어 **break-point가 절대 도달하지 않거나** 일부 **변수가 존재하지 않을 수 있기 때문입니다**.
+이것은 필요합니다. 왜냐하면 이렇게 하지 않으면 **runtime** 동안 여러 **optimisations**가 코드에 적용되고, 디버깅 중에 **break-point가 결코 도달되지 않거나** 일부 **변수가 존재하지 않을 수 있기 때문입니다**.
 
-그런 다음, .NET 애플리케이션이 **IIS**에 의해 **run**되고 있다면 다음과 같이 **restart**할 수 있습니다:
+그런 다음, .NET 애플리케이션이 **IIS**에 의해 **run**되고 있다면, 다음과 같이 **restart**할 수 있습니다:
 ```
 iisreset /noforce
 ```
@@ -155,13 +147,13 @@ iisreset /noforce
 * **rundll32 로드** (C:\Windows\System32\rundll32.exe의 64비트 및 C:\Windows\SysWOW64\rundll32.exe의 32비트)
 * **명령줄 변경** (_File --> Change Command Line_) 및 DLL의 경로와 호출하려는 함수를 설정합니다. 예: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * _Options --> Settings_에서 "**DLL Entry**"를 선택합니다.
-* 그런 다음 **실행 시작**을 클릭하면 디버거가 각 DLL 메인에서 중지되며, 어느 시점에서 **당신의 DLL의 DLL Entry에서 중지**됩니다. 거기서 중단점을 설정하고 싶은 지점을 검색하면 됩니다.
+* 그런 다음 **실행 시작**하면 디버거가 각 DLL의 메인에서 중지되며, 어느 시점에서 **당신의 DLL의 DLL Entry에서 중지**됩니다. 거기서 중단점을 설정하고 싶은 지점을 검색하면 됩니다.
 
-실행이 어떤 이유로 win64dbg에서 중지되면 **win64dbg 창의 상단**에서 **어떤 코드에 있는지** 확인할 수 있습니다:
+실행이 어떤 이유로 win64dbg에서 중지되면 **어떤 코드에 있는지** win64dbg 창의 **상단**에서 확인할 수 있습니다:
 
 ![](<../../.gitbook/assets/image (842).png>)
 
-그런 다음 이 정보를 통해 디버깅하려는 DLL에서 실행이 중지된 시점을 확인할 수 있습니다.
+그런 다음, 이 정보를 통해 디버깅하려는 DLL에서 실행이 중지된 시점을 확인할 수 있습니다.
 
 ## GUI 앱 / 비디오 게임
 
@@ -183,10 +175,10 @@ iisreset /noforce
 
 ### blobrunner로 쉘코드 디버깅
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner)는 **쉘코드**를 메모리 공간에 **할당**하고, 쉘코드가 할당된 **메모리 주소**를 **지시**하며, 실행을 **중지**합니다.\
-그런 다음 **디버거**(Ida 또는 x64dbg)를 프로세스에 연결하고 **지정된 메모리 주소에 중단점**을 설정한 후 **실행을 재개**해야 합니다. 이렇게 하면 쉘코드를 디버깅할 수 있습니다.
+[**Blobrunner**](https://github.com/OALabs/BlobRunner)는 **쉘코드**를 메모리 공간에 **할당**하고, 쉘코드가 할당된 **메모리 주소**를 **지시**하며 실행을 **중지**합니다.\
+그런 다음, 프로세스에 **디버거**(Ida 또는 x64dbg)를 연결하고 **지정된 메모리 주소에 중단점**을 설정한 후 **실행을 재개**해야 합니다. 이렇게 하면 쉘코드를 디버깅할 수 있습니다.
 
-릴리스 GitHub 페이지에는 컴파일된 릴리스를 포함하는 zip 파일이 포함되어 있습니다: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
+릴리스 GitHub 페이지에는 컴파일된 릴리스를 포함하는 zip 파일이 있습니다: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 Blobrunner의 약간 수정된 버전은 다음 링크에서 찾을 수 있습니다. 컴파일하려면 **Visual Studio Code에서 C/C++ 프로젝트를 생성하고 코드를 복사하여 붙여넣고 빌드**하면 됩니다.
 
 {% content-ref url="blobrunner.md" %}
@@ -195,11 +187,11 @@ Blobrunner의 약간 수정된 버전은 다음 링크에서 찾을 수 있습�
 
 ### jmp2it로 쉘코드 디버깅
 
-[**jmp2it**](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)는 blobrunner와 매우 유사합니다. **쉘코드**를 메모리 공간에 **할당**하고 **영원한 루프**를 시작합니다. 그런 다음 **디버거를 프로세스에 연결**하고, **시작을 누르고 2-5초 기다린 후 중지**를 누르면 **영원한 루프** 안에 있게 됩니다. 영원한 루프의 다음 명령으로 점프하면 쉘코드에 대한 호출이 이루어지고, 결국 쉘코드를 실행하게 됩니다.
+[**jmp2it**](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)는 blobrunner와 매우 유사합니다. **쉘코드**를 메모리 공간에 **할당**하고 **영원한 루프**를 시작합니다. 그런 다음 프로세스에 **디버거를 연결**하고, **시작을 누른 후 2-5초 기다렸다가 중지**를 누르면 **영원한 루프** 안에 있게 됩니다. 영원한 루프의 다음 명령으로 점프하면 쉘코드에 대한 호출이 있을 것이며, 결국 쉘코드를 실행하게 됩니다.
 
 ![](<../../.gitbook/assets/image (509).png>)
 
-컴파일된 버전의 [jmp2it는 릴리스 페이지에서 다운로드할 수 있습니다](https://github.com/adamkramer/jmp2it/releases/).
+컴파일된 버전은 [릴리스 페이지에서 jmp2it를 다운로드](https://github.com/adamkramer/jmp2it/releases/)할 수 있습니다.
 
 ### Cutter를 사용한 쉘코드 디버깅
 
@@ -209,7 +201,7 @@ Cutter는 "파일 열기"와 "쉘코드 열기"를 허용합니다. 제 경우�
 
 ![](<../../.gitbook/assets/image (562).png>)
 
-원하는 위치에서 에뮬레이션을 시작하려면 그곳에 bp를 설정하면 Cutter가 자동으로 그곳에서 에뮬레이션을 시작합니다:
+원하는 위치에서 에뮬레이션을 시작하려면 그곳에 bp를 설정하면 Cutter가 자동으로 그곳에서 에뮬레이션을 시작할 것입니다:
 
 ![](<../../.gitbook/assets/image (589).png>)
 
@@ -231,24 +223,24 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg는 원하는 옵션을 선택하고 셸코드를 실행할 수 있는 그래픽 런처를 제공합니다.
+scDbg는 원하는 옵션을 선택하고 shellcode를 실행할 수 있는 그래픽 런처를 제공합니다.
 
 ![](<../../.gitbook/assets/image (258).png>)
 
-**Create Dump** 옵션은 메모리에서 셸코드에 동적으로 변경이 이루어질 경우 최종 셸코드를 덤프합니다(디코딩된 셸코드를 다운로드하는 데 유용함). **start offset**은 특정 오프셋에서 셸코드를 시작하는 데 유용할 수 있습니다. **Debug Shell** 옵션은 scDbg 터미널을 사용하여 셸코드를 디버깅하는 데 유용합니다(하지만 이 문제에 대해서는 이전에 설명한 옵션들이 더 좋다고 생각합니다. Ida 또는 x64dbg를 사용할 수 있기 때문입니다).
+**Create Dump** 옵션은 메모리에서 shellcode에 동적으로 변경이 이루어질 경우 최종 shellcode를 덤프합니다(디코딩된 shellcode를 다운로드하는 데 유용합니다). **start offset**은 특정 오프셋에서 shellcode를 시작하는 데 유용할 수 있습니다. **Debug Shell** 옵션은 scDbg 터미널을 사용하여 shellcode를 디버깅하는 데 유용합니다(하지만 이 문제에 대해서는 이전에 설명한 옵션이 더 좋다고 생각합니다. 왜냐하면 Ida 또는 x64dbg를 사용할 수 있기 때문입니다).
 
 ### CyberChef를 사용한 디스어셈블링
 
-셸코드 파일을 입력으로 업로드하고 다음 레시피를 사용하여 디컴파일합니다: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
+shellcode 파일을 입력으로 업로드하고 다음 레시피를 사용하여 디컴파일합니다: [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-이 오브퓨스케이터는 **`mov`**에 대한 모든 명령어를 수정합니다(정말 멋짐). 또한 실행 흐름을 변경하기 위해 인터럽트를 사용합니다. 작동 방식에 대한 자세한 정보는 다음을 참조하십시오:
+이 난독화 도구는 **모든 `mov` 명령어를 수정합니다**(정말 멋집니다). 또한 실행 흐름을 변경하기 위해 인터럽트를 사용합니다. 작동 방식에 대한 자세한 정보는 다음을 참조하십시오:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-운이 좋다면 [demovfuscator](https://github.com/kirschju/demovfuscator)가 바이너리를 디오브퓨스케이트할 것입니다. 여러 종속성이 있습니다.
+운이 좋다면 [demovfuscator](https://github.com/kirschju/demovfuscator)가 이진 파일을 디오브스케이트할 것입니다. 여러 종속성이 있습니다.
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
@@ -347,7 +339,7 @@ FUN_08000dd0(&DAT_02009584,0x6000000,&DAT_030000dc);
 FUN_08000354(&DAT_030000dc,0x3c);
 uVar4 = DAT_030004d8;
 ```
-이 코드를 발견했습니다:
+이 코드를 찾았습니다:
 ```c
 do {
 DAT_030004da = uVar4; //This is the last key pressed
@@ -359,7 +351,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-마지막 if는 **`uVar4`**가 **마지막 Keys**에 있는지 확인하고 현재 키가 아닌지 확인합니다. 현재 키는 **`uVar1`**에 저장됩니다.
+마지막 if는 **`uVar4`**가 **마지막 Keys**에 있고 현재 키가 아닌지 확인하고 있으며, 현재 키는 **`uVar1`**에 저장됩니다.
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -390,7 +382,7 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 이전 코드에서 **uVar1** (누른 버튼의 **값**이 있는 곳)을 몇 가지 값과 비교하고 있는 것을 볼 수 있습니다:
 
 * 먼저, **값 4** (**SELECT** 버튼)와 비교됩니다: 이 챌린지에서 이 버튼은 화면을 지웁니다.
-* 그 다음, **값 8** (**START** 버튼)과 비교됩니다: 이 챌린지에서 이 버튼은 코드가 플래그를 얻기 위한 유효한지 확인합니다.
+* 다음으로, **값 8** (**START** 버튼)과 비교됩니다: 이 챌린지에서 이 버튼은 코드가 플래그를 얻기 위한 유효한지 확인합니다.
 * 이 경우 **`DAT_030000d8`** 변수가 0xf3과 비교되며, 값이 같으면 일부 코드가 실행됩니다.
 * 다른 경우에는 일부 cont (`DAT_030000d4`)가 확인됩니다. 이는 코드에 들어간 직후 1을 더하기 때문에 cont입니다.\
 **8보다 작으면** **`DAT_030000d8`**에 값을 **더하는** 작업이 수행됩니다 (기본적으로 cont가 8보다 작을 때 이 변수에 눌린 키의 값을 더하고 있습니다).
@@ -408,22 +400,16 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (이진 역난독화)
 
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우고 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우고 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks 지원하기</summary>
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 가입하거나, **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
 * **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>

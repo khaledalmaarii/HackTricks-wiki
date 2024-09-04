@@ -15,21 +15,8 @@ Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io)는 **다크 웹** 기반의 검색 엔진으로, 기업이나 고객이 **탈취 악성코드**에 의해 **침해**되었는지 확인할 수 있는 **무료** 기능을 제공합니다.
-
-WhiteIntel의 주요 목표는 정보 탈취 악성코드로 인한 계정 탈취 및 랜섬웨어 공격에 맞서 싸우는 것입니다.
-
-그들의 웹사이트를 확인하고 **무료**로 엔진을 사용해 볼 수 있습니다:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-## Static Analysis
+## 정적 분석
 
 ### otool & objdump & nm
 ```bash
@@ -115,11 +102,11 @@ ldid -S/tmp/entl.xml <binary>
 ### SuspiciousPackage
 
 [**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html)는 **.pkg** 파일(설치 프로그램)을 검사하고 설치하기 전에 내부 내용을 확인하는 데 유용한 도구입니다.\
-이 설치 프로그램에는 맬웨어 작성자가 일반적으로 **persist** **the** **malware**를 악용하는 `preinstall` 및 `postinstall` bash 스크립트가 포함되어 있습니다.
+이 설치 프로그램에는 맬웨어 작성자가 일반적으로 **맬웨어**를 **지속**하기 위해 악용하는 `preinstall` 및 `postinstall` bash 스크립트가 포함되어 있습니다.
 
 ### hdiutil
 
-이 도구는 Apple 디스크 이미지(**.dmg**) 파일을 **mount**하여 실행하기 전에 검사할 수 있도록 합니다:
+이 도구는 Apple 디스크 이미지(**.dmg**) 파일을 **마운트**하여 실행하기 전에 검사할 수 있도록 합니다:
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
@@ -154,7 +141,7 @@ Objective-C를 사용하는 이진 파일에서 함수가 호출될 때, 컴파�
 
 이 함수가 기대하는 매개변수는 다음과 같습니다:
 
-* 첫 번째 매개변수 (**self**)는 "메시지를 받을 **클래스의 인스턴스를 가리키는 포인터**"입니다. 더 간단히 말하면, 이는 메서드가 호출되는 객체입니다. 메서드가 클래스 메서드인 경우, 이는 클래스 객체의 인스턴스(전체)이며, 인스턴스 메서드의 경우, self는 클래스의 인스턴스화된 객체를 가리킵니다.
+* 첫 번째 매개변수 (**self**)는 "메시지를 받을 **클래스의 인스턴스를 가리키는 포인터**"입니다. 더 간단히 말하면, 메서드가 호출되는 객체입니다. 메서드가 클래스 메서드인 경우, 이는 클래스 객체의 인스턴스(전체)이며, 인스턴스 메서드의 경우, self는 클래스의 인스턴스화된 객체를 가리킵니다.
 * 두 번째 매개변수 (**op**)는 "메시지를 처리하는 메서드의 선택자"입니다. 다시 말해, 이는 단순히 **메서드의 이름**입니다.
 * 나머지 매개변수는 메서드(op)에 의해 필요한 **값들**입니다.
 
@@ -180,13 +167,13 @@ x64:
 
 ### Dynadump
 
-[**Dynadump**](https://github.com/DerekSelander/dynadump)는 Objective-C 이진 파일을 클래스 덤프하는 도구입니다. GitHub에서는 dylibs를 명시하지만, 실행 파일에서도 작동합니다.
+[**Dynadump**](https://github.com/DerekSelander/dynadump)는 Objective-C 이진 파일을 클래스 덤프하는 도구입니다. GitHub에서는 dylibs를 명시하지만, 실행 파일에도 작동합니다.
 ```bash
 ./dynadump dump /path/to/bin
 ```
 At the time of the writing, this is **현재 가장 잘 작동하는 것**.
 
-#### Regular tools
+#### 일반 도구
 ```bash
 nm --dyldinfo-only /path/to/bin
 otool -ov /path/to/bin
@@ -240,7 +227,7 @@ swift demangle
 {% endhint %}
 
 {% hint style="warning" %}
-macOS에서 **시스템 이진 파일**(예: `cloudconfigurationd`)을 **계측**하려면 **SIP를 비활성화해야** 합니다 (서명만 제거하는 것은 작동하지 않습니다).
+macOS에서 **시스템 이진 파일**(예: `cloudconfigurationd`)을 **계측**하려면 **SIP를 비활성화해야** 합니다 (서명만 제거하는 것으로는 작동하지 않습니다).
 {% endhint %}
 
 ### API
@@ -270,13 +257,13 @@ macOS는 프로세스에 대한 정보를 제공하는 몇 가지 흥미로운 A
 
 MacOS는 애플리케이션을 실행할 때 **무엇을 하고 있는지** 이해하는 데 매우 유용할 수 있는 많은 로그를 생성합니다.
 
-또한, `<private>` 태그가 포함된 로그가 있어 **사용자** 또는 **컴퓨터** **식별 가능한** 정보를 **숨깁니다**. 그러나 이 정보를 **공개하기 위해 인증서를 설치할 수 있습니다**. [**여기**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)에서 설명을 따르세요.
+게다가, `<private>` 태그가 포함된 로그가 있어 **사용자** 또는 **컴퓨터** **식별 가능한** 정보를 **숨깁니다**. 그러나 이 정보를 **공개하기 위해 인증서를 설치할 수 있습니다**. [**여기**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)에서 설명을 따르세요.
 
 ### 호퍼
 
 #### 왼쪽 패널
 
-호퍼의 왼쪽 패널에서는 이진 파일의 기호(**Labels**), 절차 및 함수 목록(**Proc**), 문자열(**Str**)을 볼 수 있습니다. 이들은 모든 문자열이 아니라 Mac-O 파일의 여러 부분에서 정의된 문자열입니다 (예: _cstring 또는_ `objc_methname`).
+호퍼의 왼쪽 패널에서는 이진 파일의 기호(**Labels**), 절차 및 함수 목록(**Proc**), 문자열(**Str**)을 볼 수 있습니다. 이들은 모든 문자열이 아니라 Mac-O 파일의 여러 부분(예: _cstring 또는_ `objc_methname`)에 정의된 문자열입니다.
 
 #### 중간 패널
 
@@ -392,11 +379,11 @@ dtruss -c -p 1000 #get syscalls of PID 1000
 
 이 정보를 얻기 위해 Apple 도구 **`trace`** 또는 커스텀 도구 [kDebugView (kdv)](https://newosxbook.com/tools/kdv.html)**를 사용할 수 있습니다.**
 
-**Kdebug는 한 번에 1명의 고객만 사용할 수 있습니다.** 따라서 동시에 하나의 k-debug 기반 도구만 실행할 수 있습니다.
+**Kdebug는 한 번에 1명의 고객만 사용할 수 있습니다.** 따라서 동시에 실행할 수 있는 k-debug 기반 도구는 하나뿐입니다.
 
 ### ktrace
 
-`ktrace_*` API는 `libktrace.dylib`에서 제공되며, 이는 `Kdebug`의 래퍼입니다. 클라이언트는 `ktrace_session_create` 및 `ktrace_events_[single/class]`를 호출하여 특정 코드에 대한 콜백을 설정한 다음 `ktrace_start`로 시작할 수 있습니다.
+`ktrace_*` API는 `libktrace.dylib`에서 제공되며, 이는 `Kdebug`의 래퍼입니다. 그런 다음 클라이언트는 `ktrace_session_create` 및 `ktrace_events_[single/class]`를 호출하여 특정 코드에 대한 콜백을 설정하고 `ktrace_start`로 시작할 수 있습니다.
 
 **SIP가 활성화된 상태에서도 이 도구를 사용할 수 있습니다.**
 
@@ -422,7 +409,7 @@ Kperf에는 sysctl MIB 테이블도 있습니다: (루트로) `sysctl kperf`. �
 
 ### SpriteTree
 
-[**SpriteTree**](https://themittenmac.com/tools/)는 프로세스 간의 관계를 인쇄하는 도구입니다.\
+[**SpriteTree**](https://themittenmac.com/tools/)는 프로세스 간의 관계를 출력하는 도구입니다.\
 **`sudo eslogger fork exec rename create > cap.json`**와 같은 명령으로 Mac을 모니터링해야 합니다(이를 실행하는 터미널은 FDA가 필요합니다). 그런 다음 이 도구에서 json을 로드하여 모든 관계를 볼 수 있습니다:
 
 <figure><img src="../../../.gitbook/assets/image (1182).png" alt="" width="375"><figcaption></figcaption></figure>
@@ -455,7 +442,7 @@ fs_usage -w -f network curl #This tracks network actions
 
 ## PT\_DENY\_ATTACH <a href="#page-title" id="page-title"></a>
 
-[**이 블로그 게시물**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html)에서는 **`PT_DENY_ATTACH`**를 사용하여 디버깅을 방지하는 **실행 중인 데몬**을 **디버깅하는** 방법에 대한 예제를 찾을 수 있습니다.
+[**이 블로그 게시물**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html)에서는 **SIP가 비활성화되더라도 디버깅을 방지하기 위해 `PT_DENY_ATTACH`**를 사용한 실행 중인 데몬을 **디버깅하는 방법**에 대한 예제를 찾을 수 있습니다.
 
 ### lldb
 
@@ -474,7 +461,7 @@ settings set target.x86-disassembly-flavor intel
 lldb 내부에서 `process save-core`로 프로세스를 덤프합니다.
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) 명령어</strong></td><td><strong>설명</strong></td></tr><tr><td><strong>run (r)</strong></td><td>중단점에 도달하거나 프로세스가 종료될 때까지 계속 실행을 시작합니다.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>진입점에서 중단하며 실행을 시작합니다.</td></tr><tr><td><strong>continue (c)</strong></td><td>디버깅 중인 프로세스의 실행을 계속합니다.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>다음 명령어를 실행합니다. 이 명령어는 함수 호출을 건너뜁니다.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>다음 명령어를 실행합니다. nexti 명령어와 달리 이 명령어는 함수 호출로 들어갑니다.</td></tr><tr><td><strong>finish (f)</strong></td><td>현재 함수(“프레임”)의 나머지 명령어를 실행하고 반환 후 중단합니다.</td></tr><tr><td><strong>control + c</strong></td><td>실행을 일시 중지합니다. 프로세스가 실행(run)되었거나 계속(continue)되었으면, 현재 실행 중인 위치에서 프로세스가 중단됩니다.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> # main이라는 이름의 함수</p><p><code>b &#x3C;binname>`main</code> # 바이너리의 main 함수</p><p><code>b set -n main --shlib &#x3C;lib_name></code> # 지정된 바이너리의 main 함수</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> # 모든 NSFileManager 메서드</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # 해당 라이브러리의 모든 함수에서 중단</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> # 중단점 목록</p><p><code>br e/dis &#x3C;num></code> # 중단점 활성화/비활성화</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint # 중단점 명령어 도움말</p><p>help memory write # 메모리에 쓰기 도움말</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>메모리를 null로 종료된 문자열로 표시합니다.</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>메모리를 어셈블리 명령어로 표시합니다.</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>메모리를 바이트로 표시합니다.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>이 명령어는 매개변수로 참조된 객체를 출력합니다.</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>대부분의 Apple의 Objective-C API 또는 메서드는 객체를 반환하므로 “print object” (po) 명령어를 통해 표시해야 합니다. po가 의미 있는 출력을 생성하지 않으면 <code>x/b</code>를 사용하세요.</p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 # 해당 주소에 AAAA 쓰기<br>memory write -f s $rip+0x11f+7 "AAAA" # 해당 주소에 AAAA 쓰기</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis # 현재 함수의 디스어셈블리</p><p>dis -n &#x3C;funcname> # 함수의 디스어셈블리</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> # 함수의 디스어셈블리<br>dis -c 6 # 6줄 디스어셈블리<br>dis -c 0x100003764 -e 0x100003768 # 한 주소에서 다른 주소까지<br>dis -p -c 4 # 현재 주소에서 디스어셈블리 시작</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # x1 레지스터의 3개 구성 요소 배열 확인</td></tr><tr><td><strong>image dump sections</strong></td><td>현재 프로세스 메모리의 맵을 출력합니다.</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> # CoreNLP의 모든 기호 주소 가져오기</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) 명령어</strong></td><td><strong>설명</strong></td></tr><tr><td><strong>run (r)</strong></td><td>중단점에 도달하거나 프로세스가 종료될 때까지 계속 실행을 시작합니다.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>진입점에서 중단하며 실행을 시작합니다.</td></tr><tr><td><strong>continue (c)</strong></td><td>디버깅 중인 프로세스의 실행을 계속합니다.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>다음 명령어를 실행합니다. 이 명령어는 함수 호출을 건너뜁니다.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>다음 명령어를 실행합니다. nexti 명령어와 달리 이 명령어는 함수 호출로 들어갑니다.</td></tr><tr><td><strong>finish (f)</strong></td><td>현재 함수(“프레임”)의 나머지 명령어를 실행하고 반환 후 중단합니다.</td></tr><tr><td><strong>control + c</strong></td><td>실행을 일시 중지합니다. 프로세스가 실행(run)되었거나 계속(continue)되었다면, 현재 실행 중인 위치에서 프로세스가 중단됩니다.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> # main이라는 이름의 함수</p><p><code>b &#x3C;binname>`main</code> # 바이너리의 main 함수</p><p><code>b set -n main --shlib &#x3C;lib_name></code> # 지정된 바이너리의 main 함수</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> # 모든 NSFileManager 메서드</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # 해당 라이브러리의 모든 함수에서 중단</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> # 중단점 목록</p><p><code>br e/dis &#x3C;num></code> # 중단점 활성화/비활성화</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint # 중단점 명령어 도움말</p><p>help memory write # 메모리에 쓰기 위한 도움말</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>메모리를 null로 종료된 문자열로 표시합니다.</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>메모리를 어셈블리 명령어로 표시합니다.</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>메모리를 바이트로 표시합니다.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>이 명령어는 매개변수로 참조된 객체를 출력합니다.</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>대부분의 Apple의 Objective-C API 또는 메서드는 객체를 반환하므로 “print object” (po) 명령어를 통해 표시해야 합니다. po가 의미 있는 출력을 생성하지 않으면 <code>x/b</code>를 사용하세요.</p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 # 해당 주소에 AAAA 쓰기<br>memory write -f s $rip+0x11f+7 "AAAA" # 해당 주소에 AAAA 쓰기</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis # 현재 함수의 디스어셈블리</p><p>dis -n &#x3C;funcname> # 함수의 디스어셈블리</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> # 함수의 디스어셈블리<br>dis -c 6 # 6줄 디스어셈블리<br>dis -c 0x100003764 -e 0x100003768 # 한 주소에서 다른 주소까지<br>dis -p -c 4 # 현재 주소에서 디스어셈블리 시작</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # x1 레지스터의 3개 구성 요소 배열 확인</td></tr><tr><td><strong>image dump sections</strong></td><td>현재 프로세스 메모리의 맵을 출력합니다.</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> # CoreNLP의 모든 기호 주소 가져오기</td></tr></tbody></table>
 
 {% hint style="info" %}
 **`objc_sendMsg`** 함수를 호출할 때, **rsi** 레지스터는 null로 종료된 (“C”) 문자열로서 **메서드의 이름**을 보유합니다. lldb를 통해 이름을 출력하려면 다음과 같이 하세요:
@@ -499,7 +486,7 @@ lldb 내부에서 `process save-core`로 프로세스를 덤프합니다.
 * **`ptrace`** 시스템 호출을 **`PT_DENY_ATTACH`** 플래그와 함께 호출할 수도 있습니다. 이는 디버거가 연결하고 추적하는 것을 **방지**합니다.
 * **`sysctl`** 또는 **`ptrace`** 함수가 **가져와지는지** 확인할 수 있습니다 (하지만 악성코드는 동적으로 가져올 수 있습니다).
 * 이 글에서 언급된 바와 같이, “[디버그 방지 기술 무력화: macOS ptrace 변형](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
-“_Process # exited with **status = 45 (0x0000002d)** 메시지는 디버그 대상이 **PT\_DENY\_ATTACH**를 사용하고 있다는 신호입니다._”
+“_메시지 Process # exited with **status = 45 (0x0000002d)**는 디버그 대상이 **PT\_DENY\_ATTACH**를 사용하고 있다는 신호입니다._”
 
 ## 코어 덤프
 
@@ -515,11 +502,11 @@ lldb 내부에서 `process save-core`로 프로세스를 덤프합니다.
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash는 **충돌하는 프로세스를 분석하고 충돌 보고서를 디스크에 저장합니다**. 충돌 보고서에는 **개발자가 충돌 원인을 진단하는 데 도움이 되는 정보**가 포함되어 있습니다.\
+ReportCrash는 **충돌하는 프로세스를 분석하고 충돌 보고서를 디스크에 저장합니다**. 충돌 보고서는 **개발자가** 충돌 원인을 진단하는 데 도움이 되는 정보를 포함합니다.\
 사용자별 launchd 컨텍스트에서 **실행되는 애플리케이션 및 기타 프로세스**에 대해 ReportCrash는 LaunchAgent로 실행되며 사용자의 `~/Library/Logs/DiagnosticReports/`에 충돌 보고서를 저장합니다.\
 데몬, 시스템 launchd 컨텍스트에서 **실행되는 기타 프로세스** 및 기타 권한 있는 프로세스에 대해 ReportCrash는 LaunchDaemon으로 실행되며 시스템의 `/Library/Logs/DiagnosticReports`에 충돌 보고서를 저장합니다.
 
-충돌 보고서가 **Apple로 전송되는 것**이 걱정된다면 이를 비활성화할 수 있습니다. 그렇지 않으면 충돌 보고서는 **서버가 어떻게 충돌했는지** 알아내는 데 유용할 수 있습니다.
+충돌 보고서가 **Apple로 전송되는 것**이 걱정된다면 이를 비활성화할 수 있습니다. 그렇지 않으면 충돌 보고서는 **서버가 어떻게 충돌했는지** 파악하는 데 유용할 수 있습니다.
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -550,7 +537,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 ### Internal Handlers
 
-**다음 페이지를 확인하여** 어떤 앱이 **지정된 스킴 또는 프로토콜을 처리하는지 확인하는 방법을 알아보세요:**
+**다음 페이지를 확인하세요** 어떤 앱이 **지정된 스킴 또는 프로토콜을 처리하는지 찾는 방법을 알아보세요:**
 
 {% content-ref url="../macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](../macos-file-extension-apps.md)
@@ -565,7 +552,7 @@ dtrace -n 'syscall::recv*:entry { printf("-> %s (pid=%d)", execname, pid); }' >>
 sort -u recv.log > procs.txt
 cat procs.txt
 ```
-또는 `netstat` 또는 `lsof`를 사용하십시오.
+또는 `netstat` 또는 `lsof`를 사용하세요.
 
 ### Libgmalloc
 
@@ -585,9 +572,9 @@ CLI 도구에 작동합니다.
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-macOS GUI 도구와 "**그냥 작동"**합니다. 일부 macOS 앱은 고유한 파일 이름, 올바른 확장자와 같은 특정 요구 사항이 있으며, 샌드박스(`~/Library/Containers/com.apple.Safari/Data`)에서 파일을 읽어야 합니다...
+macOS GUI 도구와 "**그냥 작동합니다**". 일부 macOS 앱은 고유한 파일 이름, 올바른 확장자와 같은 특정 요구 사항이 있으며, 샌드박스에서 파일을 읽어야 합니다 (`~/Library/Containers/com.apple.Safari/Data`)...
 
-몇 가지 예시: 
+몇 가지 예: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -615,43 +602,31 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 ```
 {% endcode %}
 
-### More Fuzzing MacOS Info
+### 더 많은 퍼징 MacOS 정보
 
 * [https://www.youtube.com/watch?v=T5xfL9tEg44](https://www.youtube.com/watch?v=T5xfL9tEg44)
 * [https://github.com/bnagy/slides/blob/master/OSXScale.pdf](https://github.com/bnagy/slides/blob/master/OSXScale.pdf)
 * [https://github.com/bnagy/francis/tree/master/exploitaben](https://github.com/bnagy/francis/tree/master/exploitaben)
 * [https://github.com/ant4g0nist/crashwrangler](https://github.com/ant4g0nist/crashwrangler)
 
-## References
+## 참고문헌
 
-* [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
+* [**OS X 사고 대응: 스크립팅 및 분석**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://www.youtube.com/watch?v=T5xfL9tEg44**](https://www.youtube.com/watch?v=T5xfL9tEg44)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
-* [**The Art of Mac Malware: The Guide to Analyzing Malicious Software**](https://taomm.org/)
-
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io)는 **다크 웹** 기반의 검색 엔진으로, 회사나 고객이 **스틸러 맬웨어**에 의해 **침해**되었는지 확인할 수 있는 **무료** 기능을 제공합니다.
-
-WhiteIntel의 주요 목표는 정보 탈취 맬웨어로 인한 계정 탈취 및 랜섬웨어 공격에 맞서 싸우는 것입니다.
-
-그들의 웹사이트를 확인하고 **무료**로 엔진을 사용해 볼 수 있습니다:
-
-{% embed url="https://whiteintel.io" %}
+* [**Mac 악성코드의 예술: 악성 소프트웨어 분석 가이드**](https://taomm.org/)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks 지원하기</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

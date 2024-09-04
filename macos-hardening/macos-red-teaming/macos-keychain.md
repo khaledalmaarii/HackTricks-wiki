@@ -15,26 +15,13 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io)는 **다크 웹** 기반의 검색 엔진으로, 기업이나 고객이 **stealer malwares**에 의해 **침해**되었는지 확인할 수 있는 **무료** 기능을 제공합니다.
-
-WhiteIntel의 주요 목표는 정보 탈취 악성 소프트웨어로 인한 계정 탈취 및 랜섬웨어 공격에 맞서 싸우는 것입니다.
-
-그들의 웹사이트를 확인하고 **무료**로 엔진을 사용해 볼 수 있습니다:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Main Keychains
 
-* **사용자 키체인** (`~/Library/Keychains/login.keycahin-db`): 애플리케이션 비밀번호, 인터넷 비밀번호, 사용자 생성 인증서, 네트워크 비밀번호 및 사용자 생성 공개/개인 키와 같은 **사용자 특정 자격 증명**을 저장하는 데 사용됩니다.
-* **시스템 키체인** (`/Library/Keychains/System.keychain`): WiFi 비밀번호, 시스템 루트 인증서, 시스템 개인 키 및 시스템 애플리케이션 비밀번호와 같은 **시스템 전체 자격 증명**을 저장합니다.
+* **사용자 키체인** (`~/Library/Keychains/login.keycahin-db`), 애플리케이션 비밀번호, 인터넷 비밀번호, 사용자 생성 인증서, 네트워크 비밀번호 및 사용자 생성 공개/개인 키와 같은 **사용자 특정 자격 증명**을 저장하는 데 사용됩니다.
+* **시스템 키체인** (`/Library/Keychains/System.keychain`), WiFi 비밀번호, 시스템 루트 인증서, 시스템 개인 키 및 시스템 애플리케이션 비밀번호와 같은 **시스템 전체 자격 증명**을 저장합니다.
 
-### 비밀번호 키체인 접근
+### Password Keychain Access
 
 이 파일들은 본래 보호가 없고 **다운로드**할 수 있지만, 암호화되어 있으며 **사용자의 평문 비밀번호로 복호화**해야 합니다. [**Chainbreaker**](https://github.com/n0fate/chainbreaker)와 같은 도구를 사용하여 복호화할 수 있습니다.
 
@@ -42,40 +29,40 @@ WhiteIntel의 주요 목표는 정보 탈취 악성 소프트웨어로 인한 �
 
 ### ACLs
 
-키체인의 각 항목은 **Access Control Lists (ACLs)**에 의해 관리되며, 이는 키체인 항목에 대해 다양한 작업을 수행할 수 있는 사람을 규정합니다:
+키체인의 각 항목은 **액세스 제어 목록(ACLs)**에 의해 관리되며, 이는 누가 키체인 항목에 대해 다양한 작업을 수행할 수 있는지를 규정합니다:
 
-* **ACLAuhtorizationExportClear**: 보유자가 비밀의 평문을 얻을 수 있도록 허용합니다.
-* **ACLAuhtorizationExportWrapped**: 보유자가 다른 제공된 비밀번호로 암호화된 평문을 얻을 수 있도록 허용합니다.
+* **ACLAuhtorizationExportClear**: 보유자가 비밀의 평문을 가져올 수 있도록 허용합니다.
+* **ACLAuhtorizationExportWrapped**: 보유자가 다른 제공된 비밀번호로 암호화된 평문을 가져올 수 있도록 허용합니다.
 * **ACLAuhtorizationAny**: 보유자가 모든 작업을 수행할 수 있도록 허용합니다.
 
 ACL은 이러한 작업을 사용자에게 요청하지 않고 수행할 수 있는 **신뢰할 수 있는 애플리케이션 목록**과 함께 제공됩니다. 이는 다음과 같을 수 있습니다:
 
 * **N`il`** (인증 필요 없음, **모두 신뢰됨**)
 * **빈** 목록 (**아무도** 신뢰되지 않음)
-* **특정 애플리케이션**의 **목록**.
+* 특정 **애플리케이션**의 **목록**.
 
 또한 항목에는 **`ACLAuthorizationPartitionID`**라는 키가 포함될 수 있으며, 이는 **teamid, apple,** 및 **cdhash**를 식별하는 데 사용됩니다.
 
-* **teamid**가 지정된 경우, **프롬프트 없이** 항목 값을 **접근하기 위해** 사용된 애플리케이션은 **같은 teamid**를 가져야 합니다.
-* **apple**이 지정된 경우, 애플리케이션은 **Apple**에 의해 **서명**되어야 합니다.
+* **teamid**가 지정된 경우, **프롬프트 없이** 항목 값을 **액세스**하려면 사용된 애플리케이션이 **같은 teamid**를 가져야 합니다.
+* **apple**이 지정된 경우, 앱은 **Apple**에 의해 **서명**되어야 합니다.
 * **cdhash**가 표시된 경우, **앱**은 특정 **cdhash**를 가져야 합니다.
 
-### 키체인 항목 생성
+### Creating a Keychain Entry
 
 **`Keychain Access.app`**를 사용하여 **새로운** **항목**이 생성될 때 다음 규칙이 적용됩니다:
 
 * 모든 앱이 암호화할 수 있습니다.
-* **어떤 앱도** 내보내기/복호화할 수 없습니다 (사용자에게 요청 없이).
+* **아무 앱도** 내보내기/복호화할 수 없습니다(사용자에게 요청하지 않고).
 * 모든 앱이 무결성 검사를 볼 수 있습니다.
-* 어떤 앱도 ACL을 변경할 수 없습니다.
+* 아무 앱도 ACL을 변경할 수 없습니다.
 * **partitionID**는 **`apple`**로 설정됩니다.
 
 **애플리케이션이 키체인에 항목을 생성할 때** 규칙은 약간 다릅니다:
 
 * 모든 앱이 암호화할 수 있습니다.
-* 오직 **생성 애플리케이션**(또는 명시적으로 추가된 다른 앱)만이 내보내기/복호화할 수 있습니다 (사용자에게 요청 없이).
+* 오직 **생성 애플리케이션**(또는 명시적으로 추가된 다른 앱)만이 내보내기/복호화할 수 있습니다(사용자에게 요청하지 않고).
 * 모든 앱이 무결성 검사를 볼 수 있습니다.
-* 어떤 앱도 ACL을 변경할 수 없습니다.
+* 아무 앱도 ACL을 변경할 수 없습니다.
 * **partitionID**는 **`teamid:[teamID here]`**로 설정됩니다.
 
 ## Accessing the Keychain
@@ -117,7 +104,7 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 * API **`SecAccessCopyACLList`**를 사용하여 **키체인 항목의 ACL**을 가져올 수 있으며, 각 목록에는 다음과 같은 ACL 목록이 반환됩니다 (예: `ACLAuhtorizationExportClear` 및 이전에 언급된 다른 항목들):
 * 설명
 * **신뢰할 수 있는 애플리케이션 목록**. 이는 다음과 같을 수 있습니다:
-* 애플리케이션: /Applications/Slack.app
+* 앱: /Applications/Slack.app
 * 바이너리: /usr/libexec/airportd
 * 그룹: group://AirPort
 
@@ -128,10 +115,10 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 
 그리고 **프롬프트 없이 비밀을 내보내기 위한 요구 사항**은 다음과 같습니다:
 
-* **1개 이상의 신뢰할 수 있는** 애플리케이션이 나열된 경우:
+* **1개 이상의 신뢰할 수 있는** 앱이 나열된 경우:
 * 적절한 **권한**이 필요합니다 (**`Nil`**, 또는 비밀 정보에 접근하기 위한 권한의 허용 목록에 **포함**되어야 함)
 * 코드 서명이 **PartitionID**와 일치해야 합니다
-* 코드 서명이 하나의 **신뢰할 수 있는 애플리케이션**과 일치해야 합니다 (또는 올바른 KeychainAccessGroup의 구성원이어야 함)
+* 코드 서명이 하나의 **신뢰할 수 있는 앱**과 일치해야 합니다 (또는 올바른 KeychainAccessGroup의 구성원이어야 함)
 * **모든 애플리케이션이 신뢰할 수 있는 경우**:
 * 적절한 **권한**이 필요합니다
 * 코드 서명이 **PartitionID**와 일치해야 합니다
@@ -153,29 +140,18 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io)는 **다크 웹** 기반의 검색 엔진으로, 기업이나 고객이 **탈취 악성코드**에 의해 **침해**되었는지 확인할 수 있는 **무료** 기능을 제공합니다.
-
-WhiteIntel의 주요 목표는 정보 탈취 악성코드로 인한 계정 탈취 및 랜섬웨어 공격에 맞서 싸우는 것입니다.
-
-그들의 웹사이트를 확인하고 **무료**로 엔진을 사용해 볼 수 있습니다:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-AWS 해킹 배우기 및 연습하기:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 배우기 및 연습하기: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우고 연습하기:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우고 연습하기: <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks 지원하기</summary>
 
-* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나, **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **해킹 팁을 공유하려면 [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하세요.**
+* [**구독 계획**](https://github.com/sponsors/carlospolop)을 확인하세요!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **해킹 트릭을 공유하려면 [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하세요.**
 
 </details>
 {% endhint %}

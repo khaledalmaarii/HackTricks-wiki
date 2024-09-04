@@ -15,34 +15,20 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io)는 **다크 웹** 기반의 검색 엔진으로, 기업이나 고객이 **stealer malwares**에 의해 **침해**되었는지 확인할 수 있는 **무료** 기능을 제공합니다.
-
-WhiteIntel의 주요 목표는 정보 탈취 악성 소프트웨어로 인한 계정 탈취 및 랜섬웨어 공격에 맞서 싸우는 것입니다.
-
-그들의 웹사이트를 확인하고 **무료**로 엔진을 사용해 볼 수 있습니다:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 ## Integrity Levels
 
-Windows Vista 및 이후 버전에서는 모든 보호된 항목에 **무결성 수준** 태그가 붙습니다. 이 설정은 대부분의 파일과 레지스트리 키에 "중간" 무결성 수준을 할당하며, Internet Explorer 7이 낮은 무결성 수준에서 쓸 수 있는 특정 폴더와 파일을 제외합니다. 기본 동작은 표준 사용자가 시작한 프로세스가 중간 무결성 수준을 가지며, 서비스는 일반적으로 시스템 무결성 수준에서 작동합니다. 높은 무결성 레이블은 루트 디렉터리를 보호합니다.
+Windows Vista 및 이후 버전에서는 모든 보호된 항목에 **무결성 수준** 태그가 있습니다. 이 설정은 주로 파일 및 레지스트리 키에 "중간" 무결성 수준을 할당하며, Internet Explorer 7이 낮은 무결성 수준에서 쓸 수 있는 특정 폴더 및 파일을 제외합니다. 기본 동작은 표준 사용자가 시작한 프로세스가 중간 무결성 수준을 가지며, 서비스는 일반적으로 시스템 무결성 수준에서 작동합니다. 높은 무결성 레이블은 루트 디렉터리를 보호합니다.
 
 주요 규칙은 객체의 무결성 수준보다 낮은 무결성 수준을 가진 프로세스가 객체를 수정할 수 없다는 것입니다. 무결성 수준은 다음과 같습니다:
 
 * **신뢰할 수 없음**: 이 수준은 익명 로그인이 있는 프로세스를 위한 것입니다. %%%예: Chrome%%%
 * **낮음**: 주로 인터넷 상호작용을 위해, 특히 Internet Explorer의 보호 모드에서 관련 파일 및 프로세스와 특정 폴더(예: **임시 인터넷 폴더**)에 영향을 미칩니다. 낮은 무결성 프로세스는 레지스트리 쓰기 접근 및 제한된 사용자 프로필 쓰기 접근을 포함하여 상당한 제한을 받습니다.
-* **중간**: 대부분의 활동에 대한 기본 수준으로, 표준 사용자 및 특정 무결성 수준이 없는 객체에 할당됩니다. 관리자의 그룹의 구성원도 기본적으로 이 수준에서 작동합니다.
-* **높음**: 관리자를 위해 예약되어 있으며, 낮은 무결성 수준의 객체를 수정할 수 있도록 허용합니다. 높은 수준의 객체도 포함됩니다.
+* **중간**: 대부분의 활동에 대한 기본 수준으로, 표준 사용자 및 특정 무결성 수준이 없는 객체에 할당됩니다. 관리자의 그룹 구성원조차도 기본적으로 이 수준에서 작동합니다.
+* **높음**: 관리자를 위해 예약되어 있으며, 낮은 무결성 수준의 객체를 수정할 수 있도록 하며, 높은 수준의 객체도 포함됩니다.
 * **시스템**: Windows 커널 및 핵심 서비스의 가장 높은 운영 수준으로, 관리자조차도 접근할 수 없으며, 중요한 시스템 기능을 보호합니다.
-* **설치자**: 모든 다른 수준 위에 있는 고유한 수준으로, 이 수준의 객체는 다른 모든 객체를 제거할 수 있습니다.
+* **설치자**: 모든 다른 수준 위에 있는 고유한 수준으로, 이 수준의 객체가 다른 모든 객체를 제거할 수 있도록 합니다.
 
-**Process Explorer**를 사용하여 프로세스의 무결성 수준을 확인할 수 있으며, 프로세스의 **속성**에 접근하고 "**보안**" 탭을 확인하면 됩니다:
+**Process Explorer**를 사용하여 프로세스의 무결성 수준을 확인할 수 있으며, 프로세스의 **속성**에 접근하고 "**보안**" 탭을 확인합니다:
 
 ![](<../../.gitbook/assets/image (824).png>)
 
@@ -50,10 +36,10 @@ Windows Vista 및 이후 버전에서는 모든 보호된 항목에 **무결성 
 
 ![](<../../.gitbook/assets/image (325).png>)
 
-### Integrity Levels in File-system
+### 파일 시스템의 무결성 수준
 
 파일 시스템 내의 객체는 **최소 무결성 수준 요구 사항**이 필요할 수 있으며, 프로세스가 이 무결성 수준을 가지지 않으면 상호작용할 수 없습니다.\
-예를 들어, **일반 사용자 콘솔에서 일반 파일을 생성하고 권한을 확인해 보겠습니다**:
+예를 들어, **일반 사용자 콘솔에서 파일을 생성하고 권한을 확인해 보겠습니다**:
 ```
 echo asd >asd.txt
 icacls asd.txt
@@ -64,7 +50,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-이제 파일에 최소 무결성 수준을 **높음**으로 설정합시다. 이는 **관리자**로 실행되는 **콘솔**에서 **반드시 수행해야** 하며, **일반 콘솔**은 중간 무결성 수준에서 실행되므로 객체에 높은 무결성 수준을 할당할 수 **없습니다**.
+이제 파일에 최소 무결성 수준을 **높음**으로 설정합시다. 이는 **관리자로 실행되는 콘솔**에서 **반드시 수행해야** 하며, **일반 콘솔**은 중간 무결성 수준에서 실행되므로 객체에 높은 무결성 수준을 할당할 수 **없습니다**:
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -79,7 +65,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-이제 흥미로운 부분입니다. 사용자 `DESKTOP-IDJHTKP\user`가 파일에 대해 **전체 권한**을 가지고 있는 것을 볼 수 있습니다(실제로 이 사용자가 파일을 생성했습니다). 그러나 최소 무결성 수준이 구현되어 있기 때문에, 그는 더 이상 파일을 수정할 수 없습니다. 그가 높은 무결성 수준에서 실행되고 있지 않는 한 말이죠(그는 파일을 읽을 수는 있습니다):
+이제 흥미로운 부분입니다. 사용자 `DESKTOP-IDJHTKP\user`가 파일에 대해 **전체 권한**을 가지고 있는 것을 볼 수 있습니다(실제로 이 사용자가 파일을 생성했습니다). 그러나 최소 무결성 수준이 구현되어 있기 때문에, 그는 더 이상 파일을 수정할 수 없습니다. 그가 높은 무결성 수준에서 실행되지 않는 한 말이죠(그는 파일을 읽을 수는 있습니다):
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -112,33 +98,22 @@ Mandatory Label\Low Mandatory Level:(NW)
 
 ### 프로세스의 무결성 수준
 
-모든 파일과 폴더가 최소 무결성 수준을 가지는 것은 아니지만, **모든 프로세스는 무결성 수준에서 실행됩니다**. 파일 시스템에서 발생한 것과 유사하게, **프로세스가 다른 프로세스 내부에 쓰기를 원할 경우 최소한 동일한 무결성 수준을 가져야 합니다**. 이는 낮은 무결성 수준을 가진 프로세스가 중간 무결성 수준을 가진 프로세스에 대한 전체 액세스 핸들을 열 수 없음을 의미합니다.
+모든 파일과 폴더가 최소 무결성 수준을 가지는 것은 아닙니다, **하지만 모든 프로세스는 무결성 수준에서 실행됩니다**. 파일 시스템에서 발생한 것과 유사하게, **프로세스가 다른 프로세스 내부에 쓰기를 원할 경우 최소한 동일한 무결성 수준을 가져야 합니다**. 이는 낮은 무결성 수준을 가진 프로세스가 중간 무결성 수준을 가진 프로세스에 대한 전체 액세스 핸들을 열 수 없음을 의미합니다.
 
-이 섹션과 이전 섹션에서 언급된 제한으로 인해, 보안 관점에서 항상 **가능한 낮은 무결성 수준에서 프로세스를 실행하는 것이 권장됩니다**.
+이 섹션과 이전 섹션에서 언급된 제한으로 인해, 보안 관점에서 볼 때, 항상 **가능한 낮은 무결성 수준에서 프로세스를 실행하는 것이 권장됩니다**.
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io)는 **다크 웹** 기반의 검색 엔진으로, 기업이나 고객이 **탈취 악성코드**에 의해 **침해**되었는지 확인하는 **무료** 기능을 제공합니다.
-
-WhiteIntel의 주요 목표는 정보 탈취 악성코드로 인한 계정 탈취 및 랜섬웨어 공격에 맞서 싸우는 것입니다.
-
-그들의 웹사이트를 확인하고 **무료**로 엔진을 사용해 볼 수 있습니다:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원하기</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
-* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

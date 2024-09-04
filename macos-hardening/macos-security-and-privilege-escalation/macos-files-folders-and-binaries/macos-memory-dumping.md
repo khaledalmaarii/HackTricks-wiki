@@ -1,57 +1,44 @@
-# macOS 메모리 덤프
+# macOS Memory Dumping
 
 {% hint style="success" %}
-AWS 해킹 학습 및 실습:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹 학습 및 실습: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks 지원</summary>
+<summary>Support HackTricks</summary>
 
-* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* 💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* **HackTricks** 및 **HackTricks Cloud** 깃허브 저장소에 PR을 제출하여 해킹 요령을 공유하세요.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
+## Memory Artifacts
 
-[**WhiteIntel**](https://whiteintel.io)은 **다크 웹**을 기반으로 하는 검색 엔진으로, 회사나 그 고객이 **스틸러 악성 소프트웨어**에 의해 **침해**당했는지 확인할 수 있는 **무료** 기능을 제공합니다.
+### Swap Files
 
-WhiteIntel의 주요 목표는 정보를 도난당한 악성 소프트웨어로 인한 계정 탈취 및 랜섬웨어 공격을 막는 것입니다.
+스왑 파일은 `/private/var/vm/swapfile0`와 같은 경로에 위치하며, **물리적 메모리가 가득 찼을 때 캐시 역할을 합니다**. 물리적 메모리에 더 이상 공간이 없을 경우, 데이터는 스왑 파일로 전송되고 필요에 따라 다시 물리적 메모리로 가져옵니다. 여러 개의 스왑 파일이 존재할 수 있으며, 이름은 swapfile0, swapfile1 등으로 되어 있습니다.
 
-그들의 웹사이트를 방문하여 **무료**로 엔진을 시험해 볼 수 있습니다:
+### Hibernate Image
 
-{% embed url="https://whiteintel.io" %}
+`/private/var/vm/sleepimage`에 위치한 파일은 **최면 모드**에서 중요합니다. **OS X가 최면 상태에 들어갈 때 메모리의 데이터가 이 파일에 저장됩니다**. 컴퓨터가 깨어나면 시스템은 이 파일에서 메모리 데이터를 검색하여 사용자가 중단한 지점에서 계속할 수 있도록 합니다.
 
-***
+현대 MacOS 시스템에서는 이 파일이 보안상의 이유로 일반적으로 암호화되어 있어 복구가 어렵다는 점은 주목할 가치가 있습니다.
 
-## 메모리 아티팩트
+* sleepimage의 암호화가 활성화되어 있는지 확인하려면 `sysctl vm.swapusage` 명령을 실행할 수 있습니다. 이 명령은 파일이 암호화되어 있는지 여부를 보여줍니다.
 
-### 스왑 파일
+### Memory Pressure Logs
 
-`/private/var/vm/swapfile0`와 같은 스왑 파일은 **물리 메모리가 가득 찼을 때 캐시로 작동**합니다. 물리 메모리에 더 이상 공간이 없을 때 해당 데이터는 스왑 파일로 전송되고 필요할 때 다시 물리 메모리로 가져옵니다. swapfile0, swapfile1 등과 같은 이름의 여러 스왑 파일이 존재할 수 있습니다.
+MacOS 시스템에서 또 다른 중요한 메모리 관련 파일은 **메모리 압력 로그**입니다. 이 로그는 `/var/log`에 위치하며 시스템의 메모리 사용량 및 압력 이벤트에 대한 자세한 정보를 포함하고 있습니다. 메모리 관련 문제를 진단하거나 시스템이 시간이 지남에 따라 메모리를 관리하는 방식을 이해하는 데 특히 유용할 수 있습니다.
 
-### 휴면 이미지
-
-`/private/var/vm/sleepimage`에 위치한 파일은 **휴면 모드** 중에 중요합니다. **OS X가 휴면 상태일 때 메모리 데이터가 이 파일에 저장**됩니다. 컴퓨터를 깨우면 시스템이 이 파일에서 메모리 데이터를 검색하여 사용자가 중단한 곳에서 계속할 수 있게 합니다.
-
-현대의 MacOS 시스템에서는 이 파일이 일반적으로 보안상의 이유로 암호화되어 복구가 어려워집니다.
-
-* `sysctl vm.swapusage` 명령을 실행하여 sleepimage에 대한 암호화가 활성화되었는지 확인할 수 있습니다. 이를 통해 파일이 암호화되었는지 확인할 수 있습니다.
-
-### 메모리 압력 로그
-
-MacOS 시스템에서 또 다른 중요한 메모리 관련 파일은 **메모리 압력 로그**입니다. 이 로그는 `/var/log`에 위치하며 시스템의 메모리 사용량 및 압력 이벤트에 대한 상세한 정보를 포함합니다. 이 로그는 메모리 관련 문제를 진단하거나 시스템이 시간이 지남에 따라 메모리를 관리하는 방식을 이해하는 데 유용할 수 있습니다.
-
-## osxpmem을 사용한 메모리 덤프
+## Dumping memory with osxpmem
 
 MacOS 기기에서 메모리를 덤프하려면 [**osxpmem**](https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-2.1.post4.zip)을 사용할 수 있습니다.
 
-**참고**: 아래 지침은 인텔 아키텍처를 사용하는 Mac에만 적용됩니다. 이 도구는 현재 보관 중이며 마지막 릴리스는 2017년에 있었습니다. 아래 지침을 사용하여 다운로드한 이진 파일은 Apple Silicon이 2017년에 없었기 때문에 인텔 칩을 대상으로 합니다. arm64 아키텍처용 이진 파일을 컴파일하는 것이 가능할 수 있지만 직접 시도해봐야 합니다.
+**참고**: 다음 지침은 Intel 아키텍처를 가진 Mac에서만 작동합니다. 이 도구는 현재 아카이브 상태이며 마지막 릴리스는 2017년에 이루어졌습니다. 아래 지침을 사용하여 다운로드한 바이너리는 2017년에 Apple Silicon이 없었기 때문에 Intel 칩을 대상으로 합니다. arm64 아키텍처용으로 바이너리를 컴파일할 수 있을 수도 있지만, 직접 시도해 보아야 합니다.
 ```bash
 #Dump raw format
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
@@ -59,16 +46,16 @@ sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 #Dump aff4 format
 sudo osxpmem.app/osxpmem -o /tmp/dump_mem.aff4
 ```
-만약 다음 오류를 발견하면: `osxpmem.app/MacPmem.kext failed to load - (libkern/kext) authentication failure (file ownership/permissions); check the system/kernel logs for errors or try kextutil(8)` 다음을 수행하여 해결할 수 있습니다:
+만약 다음과 같은 오류를 발견하면: `osxpmem.app/MacPmem.kext failed to load - (libkern/kext) authentication failure (file ownership/permissions); check the system/kernel logs for errors or try kextutil(8)` 다음과 같이 수정할 수 있습니다:
 ```bash
 sudo cp -r osxpmem.app/MacPmem.kext "/tmp/"
 sudo kextutil "/tmp/MacPmem.kext"
 #Allow the kext in "Security & Privacy --> General"
 sudo osxpmem.app/osxpmem --format raw -o /tmp/dump_mem
 ```
-**다른 오류**는 "보안 및 개인 정보 보호 --> 일반"에서 **kext 로드를 허용**함으로써 **수정**될 수 있습니다. 그냥 **허용**하세요.
+**다른 오류**는 "보안 및 개인 정보 보호 --> 일반"에서 **kext의 로드를 허용**하여 수정할 수 있습니다. 그냥 **허용**하세요.
 
-또한 이 **원라이너**를 사용하여 애플리케이션을 다운로드하고 kext를 로드하고 메모리를 덤프할 수 있습니다:
+이 **원라이너**를 사용하여 애플리케이션을 다운로드하고, kext를 로드하고, 메모리를 덤프할 수 있습니다:
 
 {% code overflow="wrap" %}
 ```bash
@@ -77,29 +64,18 @@ cd /tmp; wget https://github.com/google/rekall/releases/download/v1.5.1/osxpmem-
 ```
 {% endcode %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io)은 **다크 웹**을 활용한 검색 엔진으로, 회사나 그 고객이 **스틸러 악성 소프트웨어**에 의해 **침해**당했는지 확인하는 **무료** 기능을 제공합니다.
-
-WhiteIntel의 주요 목표는 정보를 도난하는 악성 소프트웨어로 인한 계정 탈취와 랜섬웨어 공격을 막는 것입니다.
-
-그들의 웹사이트를 방문하여 엔진을 **무료**로 사용해 볼 수 있습니다:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-AWS 해킹을 배우고 실습하세요:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP 해킹을 배우고 실습하세요: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks 지원하기</summary>
 
-* [**구독 요금제**](https://github.com/sponsors/carlospolop)를 확인하세요!
-* 💬 [**디스코드 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 **참여**하거나 **트위터** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우**하세요.
-* [**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃헙 레포지토리에 PR을 제출하여 해킹 트릭을 공유하세요.
+* [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
+* **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

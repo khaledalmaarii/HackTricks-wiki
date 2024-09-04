@@ -15,15 +15,7 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-[**Flipper Zero**](https://flipperzero.one/)를 사용하면:
+[**Flipper Zero**](https://flipperzero.one/)를 사용하여:
 
 * **라디오 주파수 듣기/캡처/재생:** [**Sub-GHz**](fz-sub-ghz.md)
 * **NFC 카드 읽기/캡처/에뮬레이트:** [**NFC**](fz-nfc.md)
@@ -35,12 +27,6 @@ GCP 해킹 배우기 및 연습하기: <img src="/.gitbook/assets/grte.png" alt=
 * **Snake 게임하기**
 
 **기타 Flipper Zero 리소스는** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)에서 확인하세요.
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 AWS 해킹 배우기 및 연습하기:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
