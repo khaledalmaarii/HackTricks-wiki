@@ -1,33 +1,25 @@
 # Stego Tricks
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'da takip edin.**
-* **Hacking ipuçlarını paylaşın,** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek.
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## **Dosyalardan Veri Çıkartma**
 
 ### **Binwalk**
 
-Gömülü gizli dosyaları ve verileri aramak için bir araçtır. `apt` ile kurulur ve kaynağı [GitHub](https://github.com/ReFirmLabs/binwalk)'ta mevcuttur.
+Gömülü gizli dosyaları ve verileri aramak için kullanılan bir araçtır. `apt` ile kurulur ve kaynak kodu [GitHub](https://github.com/ReFirmLabs/binwalk) üzerinde mevcuttur.
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -47,7 +39,7 @@ exiftool file # Shows the metadata
 ```
 ### **Exiv2**
 
-Exiftool'e benzer, metadata görüntüleme için. `apt` ile kurulabilir, kaynağı [GitHub](https://github.com/Exiv2/exiv2)'da bulunmaktadır ve [resmi web sitesi](http://www.exiv2.org/) vardır.
+Exiftool'e benzer, metadata görüntüleme için. `apt` ile kurulabilir, [GitHub](https://github.com/Exiv2/exiv2)'da kaynak mevcuttur ve [resmi web sitesi](http://www.exiv2.org/) vardır.
 ```bash
 exiv2 file # Shows the metadata
 ```
@@ -71,7 +63,7 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```
 ### **Karşılaştırma (cmp)**
 
-Çevrimiçi bulunan orijinal versiyonla değiştirilmiş bir dosyayı karşılaştırmak için kullanışlıdır.
+Çevrimiçi bulunan orijinal versiyonuyla değiştirilmiş bir dosyayı karşılaştırmak için kullanışlıdır.
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
@@ -79,13 +71,13 @@ cmp original.jpg stego.jpg -b -l
 
 ### **Boşluklardaki Gizli Veriler**
 
-Görünüşte boş alanlardaki görünmez karakterler bilgi saklayabilir. Bu verileri çıkarmak için [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder) adresini ziyaret edin.
+Görünüşte boş olan alanlardaki görünmez karakterler bilgi saklayabilir. Bu verileri çıkarmak için [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder) adresini ziyaret edin.
 
-## **Görüntülerden Veri Çıkarma**
+## **Görüntülerden Veri Çıkarılması**
 
 ### **GraphicMagick ile Görüntü Ayrıntılarını Belirleme**
 
-[GraphicMagick](https://imagemagick.org/script/download.php), görüntü dosyası türlerini belirlemek ve olası bozulmaları tanımlamak için kullanılır. Bir görüntüyü incelemek için aşağıdaki komutu çalıştırın:
+[GraphicMagick](https://imagemagick.org/script/download.php), görüntü dosya türlerini belirlemek ve olası bozulmaları tanımlamak için kullanılır. Bir görüntüyü incelemek için aşağıdaki komutu çalıştırın:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
@@ -123,7 +115,7 @@ zsteg, PNG ve BMP dosyalarında gizli verileri ortaya çıkarmada uzmanlaşmış
 
 **stegoVeritas**, meta verileri kontrol eder, görüntü dönüşümleri gerçekleştirir ve diğer özelliklerin yanı sıra LSB brute forcing uygular. Tüm seçeneklerin tam listesi için `stegoveritas.py -h` kullanın ve tüm kontrolleri gerçekleştirmek için `stegoveritas.py stego.jpg` komutunu çalıştırın.
 
-**Stegsolve**, görüntülerdeki gizli metinleri veya mesajları ortaya çıkarmak için çeşitli renk filtreleri uygular. [GitHub'da](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve) mevcuttur.
+**Stegsolve**, görüntülerde gizli metinleri veya mesajları ortaya çıkarmak için çeşitli renk filtreleri uygular. [GitHub'da](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve) mevcuttur.
 
 ### **Gizli İçerik Tespiti için FFT**
 
@@ -131,7 +123,7 @@ Hızlı Fourier Dönüşümü (FFT) teknikleri, görüntülerde gizli içeriği 
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
-* [FFTStegPic GitHub'da](https://github.com/0xcomposure/FFTStegPic)
+* [GitHub'da FFTStegPic](https://github.com/0xcomposure/FFTStegPic)
 
 ### **Stegpy Ses ve Görüntü Dosyaları için**
 
@@ -164,7 +156,7 @@ Steghide, JPEG, BMP, WAV ve AU dosyalarında veri gizlemek için tasarlanmış �
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-Bu araç, PNG, BMP, GIF, WebP ve WAV dahil olmak üzere çeşitli formatlarla uyumludur. Daha fazla bilgi için [Stegpy bölümüne](stego-tricks.md#stegpy-png-bmp-gif-webp-wav) bakın.
+Bu araç, PNG, BMP, GIF, WebP ve WAV dahil olmak üzere çeşitli formatlarla uyumludur. Daha fazla bilgi için [Stegpy'nin bölümüne](stego-tricks.md#stegpy-png-bmp-gif-webp-wav) bakın.
 
 ### **ffmpeg**
 
@@ -182,7 +174,7 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
 ### **Deepsound**
 
-Deepsound, ses dosyaları içindeki bilgilerin AES-256 kullanarak şifrelenmesi ve tespit edilmesi için bir araçtır. [resmi sayfadan](http://jpinsoft.net/deepsound/download.aspx) indirilebilir.
+Deepsound, AES-256 kullanarak ses dosyaları içindeki bilgilerin şifrelenmesi ve tespit edilmesini sağlar. [resmi sayfadan](http://jpinsoft.net/deepsound/download.aspx) indirilebilir.
 
 ### **Sonic Visualizer**
 
@@ -205,18 +197,12 @@ For binary to image conversion, check [dcode](https://www.dcode.fr/binary-image)
 
 ### **Braille Çevirisi**
 
-Braille çevirisi için [Branah Braille Translator](https://www.branah.com/braille-translator) mükemmel bir kaynaktır.
+Braille çevirisi için, [Branah Braille Translator](https://www.branah.com/braille-translator) mükemmel bir kaynaktır.
 
 ## **Referanslar**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -224,11 +210,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 <details>
 
-<summary>HackTricks'i Destekleyin</summary>
+<summary>Support HackTricks</summary>
 
-* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'ı takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

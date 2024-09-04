@@ -9,25 +9,12 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grt
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io), bir şirketin veya müşterilerinin **stealer malwares** tarafından **tehdit edilip edilmediğini** kontrol etmek için **ücretsiz** işlevsellikler sunan **karanlık ağ** destekli bir arama motorudur.
-
-WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
-
-Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Statik Analiz
 
@@ -115,11 +102,11 @@ ldid -S/tmp/entl.xml <binary>
 ### SuspiciousPackage
 
 [**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) , **.pkg** dosyalarını (kurulum dosyaları) incelemek ve yüklemeden önce içeriğini görmek için yararlı bir araçtır.\
-Bu kurulum dosyaları, kötü amaçlı yazılım yazarlarının genellikle kötüye kullandığı `preinstall` ve `postinstall` bash betikleri içerir, bu da **kötü amaçlı yazılımın** **sürekliliğini** sağlar.
+Bu kurulum dosyaları, kötü amaçlı yazılım yazarlarının genellikle kötü amaçlı yazılımı **sürdürmek** için kötüye kullandığı `preinstall` ve `postinstall` bash betikleri içerir.
 
 ### hdiutil
 
-Bu araç, herhangi bir şeyi çalıştırmadan önce Apple disk görüntülerini (**.dmg**) **monte** etmeye olanak tanır:
+Bu araç, herhangi bir şeyi çalıştırmadan önce Apple disk görüntülerini (**.dmg**) incelemek için **monte** etmeye olanak tanır:
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
@@ -129,7 +116,7 @@ It will be mounted in `/Volumes`
 
 * Yüksek entropi kontrolü
 * String'leri kontrol et (anlaşılır string yoksa, packed)
-* MacOS için UPX packer, "\_\_XHDR" adında bir bölüm oluşturur
+* MacOS için UPX packer, "\_\_XHDR" adlı bir bölüm oluşturur
 
 ## Statik Objective-C analizi
 
@@ -148,13 +135,13 @@ Bu isimlerin, ikilinin tersine çevrilmesini zorlaştırmak için obfuscate edil
 
 ### Fonksiyon çağrısı
 
-Bir ikilide Objective-C kullanan bir fonksiyon çağrıldığında, derlenmiş kod o fonksiyonu çağırmak yerine **`objc_msgSend`** çağrısını yapar. Bu, nihai fonksiyonu çağıracaktır:
+Bir ikili dosyada Objective-C kullanan bir fonksiyon çağrıldığında, derlenmiş kod o fonksiyonu çağırmak yerine **`objc_msgSend`** çağrısını yapar. Bu, nihai fonksiyonu çağıracaktır:
 
 ![](<../../../.gitbook/assets/image (305).png>)
 
 Bu fonksiyonun beklediği parametreler şunlardır:
 
-* İlk parametre (**self**) "mesajı alacak **sınıfın örneğine işaret eden bir işaretçi**"dir. Daha basit bir ifadeyle, bu, metodun çağrıldığı nesnedir. Eğer metod bir sınıf metoduysa, bu sınıf nesnesinin (bütün olarak) bir örneği olacaktır, oysa bir örnek metodu için, self sınıfın bir nesnesi olarak oluşturulmuş bir örneğe işaret edecektir.
+* İlk parametre (**self**) "mesajı alacak **sınıfın örneğine işaret eden bir işaretçi**"dir. Daha basit bir ifadeyle, bu, metodun çağrıldığı nesnedir. Eğer metod bir sınıf metoduysa, bu sınıf nesnesinin (bütün olarak) bir örneği olacaktır, oysa bir örnek metodu için self, sınıfın bir örneğine işaret edecektir.
 * İkinci parametre (**op**), "mesajı işleyen metodun seçicisidir". Yine, daha basit bir ifadeyle, bu sadece **metodun adıdır.**
 * Kalan parametreler, metodun gerektirdiği herhangi bir **değerdir** (op).
 
@@ -168,19 +155,19 @@ x64:
 
 | **Argument**      | **Register**                                                    | **(for) objc\_msgSend**                                |
 | ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
-| **1st argument**  | **rdi**                                                         | **self: metodun çağrıldığı nesne**                     |
-| **2nd argument**  | **rsi**                                                         | **op: metodun adı**                                    |
-| **3rd argument**  | **rdx**                                                         | **metoda 1. argüman**                                 |
-| **4th argument**  | **rcx**                                                         | **metoda 2. argüman**                                 |
-| **5th argument**  | **r8**                                                          | **metoda 3. argüman**                                 |
-| **6th argument**  | **r9**                                                          | **metoda 4. argüman**                                 |
-| **7th+ argument** | <p><strong>rsp+</strong><br><strong>(stack'te)</strong></p>   | **metoda 5. ve üzeri argüman**                         |
+| **1st argument**  | **rdi**                                                         | **self: methodun çağrıldığı nesne**                    |
+| **2nd argument**  | **rsi**                                                         | **op: metodun adı**                                   |
+| **3rd argument**  | **rdx**                                                         | **metodun 1. argümanı**                               |
+| **4th argument**  | **rcx**                                                         | **metodun 2. argümanı**                               |
+| **5th argument**  | **r8**                                                          | **metodun 3. argümanı**                               |
+| **6th argument**  | **r9**                                                          | **metodun 4. argümanı**                               |
+| **7th+ argument** | <p><strong>rsp+</strong><br><strong>(stack'te)</strong></p>   | **metodun 5. ve sonrası argümanları**                 |
 
 ### Dump ObjectiveC metadata
 
 ### Dynadump
 
-[**Dynadump**](https://github.com/DerekSelander/dynadump), Objective-C ikili dosyalarını sınıf dökümü yapmak için bir araçtır. Github, dylib'leri belirtmektedir ancak bu yürütülebilir dosyalarla da çalışır.
+[**Dynadump**](https://github.com/DerekSelander/dynadump), Objective-C ikili dosyalarını sınıf dökümü yapmak için bir araçtır. Github, dylib'leri belirtmektedir ancak bu, çalıştırılabilir dosyalarla da çalışır.
 ```bash
 ./dynadump dump /path/to/bin
 ```
@@ -194,13 +181,13 @@ objdump --macho --objc-meta-data /path/to/bin
 ```
 #### class-dump
 
-[**class-dump**](https://github.com/nygard/class-dump/) ObjectiveC formatında sınıflar, kategoriler ve protokoller için bildirimler üreten orijinal araçtır.
+[**class-dump**](https://github.com/nygard/class-dump/) , ObjetiveC formatında koddaki sınıflar, kategoriler ve protokoller için bildirimler üreten orijinal araçtır.
 
 Eski ve bakımsızdır, bu yüzden muhtemelen düzgün çalışmayacaktır.
 
 #### ICDump
 
-[**iCDump**](https://github.com/romainthomas/iCDump) modern ve çapraz platform Objective-C sınıf dökümüdür. Mevcut araçlarla karşılaştırıldığında, iCDump Apple ekosisteminden bağımsız olarak çalışabilir ve Python bağlamalarını açığa çıkarır.
+[**iCDump**](https://github.com/romainthomas/iCDump) modern ve çok platformlu bir Objective-C sınıf dökümüdür. Mevcut araçlarla karşılaştırıldığında, iCDump Apple ekosisteminden bağımsız olarak çalışabilir ve Python bağlamalarını açığa çıkarır.
 ```python
 import icdump
 metadata = icdump.objc.parse("/path/to/bin")
@@ -247,12 +234,12 @@ Not edin ki, macOS'ta **sistem ikililerini enstrümante etmek** (örneğin `clou
 
 macOS, süreçler hakkında bilgi veren bazı ilginç API'ler sunar:
 
-* `proc_info`: Bu, her süreç hakkında çok fazla bilgi veren ana API'dir. Diğer süreçlerin bilgilerini almak için root olmanız gerekir, ancak özel yetkilere veya mach portlarına ihtiyacınız yoktur.
+* `proc_info`: Her süreç hakkında çok fazla bilgi veren ana API'dir. Diğer süreçlerin bilgilerini almak için root olmanız gerekir, ancak özel yetkilere veya mach portlarına ihtiyacınız yoktur.
 * `libsysmon.dylib`: XPC tarafından sunulan işlevler aracılığıyla süreçler hakkında bilgi almayı sağlar, ancak `com.apple.sysmond.client` yetkisine sahip olmak gerekir.
 
 ### Stackshot & mikrostackshotlar
 
-**Stackshotting**, süreçlerin durumunu, tüm çalışan iş parçalarının çağrı yığınlarını içerecek şekilde yakalamak için kullanılan bir tekniktir. Bu, hata ayıklama, performans analizi ve sistemin belirli bir zamanda davranışını anlamak için özellikle yararlıdır. iOS ve macOS'ta, stackshotting, **`sample`** ve **`spindump`** gibi çeşitli araçlar ve yöntemler kullanılarak gerçekleştirilebilir.
+**Stackshotting**, süreçlerin durumunu, tüm çalışan iş parçacıklarının çağrı yığınlarını içerecek şekilde yakalamak için kullanılan bir tekniktir. Bu, hata ayıklama, performans analizi ve sistemin belirli bir zamanda davranışını anlamak için özellikle yararlıdır. iOS ve macOS'ta, stackshotting, **`sample`** ve **`spindump`** gibi çeşitli araçlar ve yöntemler kullanılarak gerçekleştirilebilir.
 
 ### Sysdiagnose
 
@@ -270,7 +257,7 @@ Plist'i `/System/Library/LaunchDaemons/com.apple.sysdiagnose.plist` konumunda bu
 
 MacOS, bir uygulama çalıştırırken **ne yaptığını anlamaya** yardımcı olabilecek çok sayıda günlük üretir.
 
-Ayrıca, bazı günlükler, bazı **kullanıcı** veya **bilgisayar** **tanımlanabilir** bilgileri **gizlemek için** `<private>` etiketini içerecektir. Ancak, bu bilgileri ifşa etmek için **bir sertifika yüklemek mümkündür**. [**buradan**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log) açıklamaları takip edin.
+Ayrıca, bazı günlükler, bazı **kullanıcı** veya **bilgisayar** **tanımlanabilir** bilgileri **gizlemek için** `<private>` etiketini içerecektir. Ancak, bu bilgileri açığa çıkarmak için **bir sertifika yüklemek mümkündür**. [**buradan**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log) açıklamaları takip edin.
 
 ### Hopper
 
@@ -325,8 +312,6 @@ Daha ayrıntılı bir açıklama ve daha fazla örnek için [https://illumos.org
 #### Örnekler
 
 Mevcut **DTrace betiklerini** listelemek için `man -k dtrace` komutunu çalıştırın. Örnek: `sudo dtruss -n binary`
-
-* Satır
 ```bash
 #Count the number of syscalls of each running process
 sudo dtrace -n 'syscall:::entry {@[execname] = count()}'
@@ -382,11 +367,11 @@ Bu, bir çekirdek izleme aracıdır. Belgelendirilmiş kodlar **`/usr/share/misc
 
 `kdebug` ile etkileşim kurmak için `sysctl`, `kern.kdebug` ad alanı üzerinden kullanılır ve kullanılacak MIB'ler `bsd/kern/kdebug.c` içinde uygulanan fonksiyonlarla birlikte `sys/sysctl.h` içinde bulunabilir.
 
-Kdebug ile özel bir istemci ile etkileşim kurmak için genellikle bu adımlar izlenir:
+Özel bir istemci ile kdebug ile etkileşim kurmak için genellikle bu adımlar izlenir:
 
 * KERN\_KDSETREMOVE ile mevcut ayarları kaldırın
 * KERN\_KDSETBUF ve KERN\_KDSETUP ile izlemeyi ayarlayın
-* KERN\_KDGETBUF ile tampon girişlerinin sayısını alın
+* Tampon girişlerinin sayısını almak için KERN\_KDGETBUF kullanın
 * KERN\_KDPINDEX ile izlemeyi kendi istemcinizden çıkarın
 * KERN\_KDENABLE ile izlemeyi etkinleştirin
 * KERN\_KDREADTR çağrısını yaparak tamponu okuyun
@@ -398,7 +383,7 @@ Bu bilgiyi almak için Apple aracı **`trace`** veya özel araç [kDebugView (kd
 
 ### ktrace
 
-`ktrace_*` API'leri, `Kdebug`'ın sarmalayıcıları olan `libktrace.dylib`'den gelir. Ardından, bir istemci sadece `ktrace_session_create` ve `ktrace_events_[single/class]` çağrısı yaparak belirli kodlar üzerinde geri çağırmalar ayarlayabilir ve ardından `ktrace_start` ile başlatabilir.
+`ktrace_*` API'leri, `Kdebug`'ın sarıldığı `libktrace.dylib`'den gelir. Ardından, bir istemci sadece `ktrace_session_create` ve `ktrace_events_[single/class]` çağrısını yaparak belirli kodlar üzerinde geri çağırmaları ayarlayabilir ve ardından `ktrace_start` ile başlatabilir.
 
 Bunu **SIP etkinleştirilmişken** bile kullanabilirsiniz.
 
@@ -412,7 +397,7 @@ Or `tailspin`.
 
 Bu, bir çekirdek düzeyinde profil oluşturmak için kullanılır ve `Kdebug` çağrıları ile oluşturulmuştur.
 
-Temelde, global değişken `kernel_debug_active` kontrol edilir ve ayarlandığında `kperf_kdebug_handler` çağrılır, `Kdebug` kodu ve çağrılan çekirdek çerçevesinin adresi ile. Eğer `Kdebug` kodu seçilenlerden biri ile eşleşirse, "hareketler" bir bitmap olarak yapılandırılır (seçenekler için `osfmk/kperf/action.h` dosyasına bakın).
+Temelde, global değişken `kernel_debug_active` kontrol edilir ve ayarlandığında `kperf_kdebug_handler` çağrısı yapılır, `Kdebug` kodu ve çağrılan çekirdek çerçevesinin adresi ile. Eğer `Kdebug` kodu seçilenlerden biri ile eşleşirse, "hareketler" bir bitmap olarak yapılandırılır (seçenekler için `osfmk/kperf/action.h` dosyasına bakın).
 
 Kperf'in ayrıca bir sysctl MIB tablosu vardır: (root olarak) `sysctl kperf`. Bu kodlar `osfmk/kperf/kperfbsd.c` dosyasında bulunabilir.
 
@@ -431,7 +416,7 @@ Mac'inizi **`sudo eslogger fork exec rename create > cap.json`** gibi bir komutl
 
 ### FileMonitor
 
-[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor), dosya olaylarını (oluşturma, değişiklikler ve silmeler gibi) izlemeye olanak tanır ve bu tür olaylar hakkında ayrıntılı bilgi sağlar.
+[**FileMonitor**](https://objective-see.com/products/utilities.html#FileMonitor), dosya olaylarını (oluşturma, değişiklikler ve silme gibi) izlemeye olanak tanır ve bu tür olaylar hakkında ayrıntılı bilgi sağlar.
 
 ### Crescendo
 
@@ -476,10 +461,10 @@ settings set target.x86-disassembly-flavor intel
 lldb içinde, bir işlemi `process save-core` ile dökün
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Komut</strong></td><td><strong>Açıklama</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Bir kesme noktası vurulana veya işlem sona erene kadar devam edecek şekilde yürütmeyi başlatır.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Giriş noktasında durarak yürütmeyi başlatır</td></tr><tr><td><strong>continue (c)</strong></td><td>Hedeflenen işlemin yürütülmesine devam eder.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Sonraki talimatı yürütür. Bu komut, işlev çağrılarını atlar.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Sonraki talimatı yürütür. nexti komutunun aksine, bu komut işlev çağrılarına adım atar.</td></tr><tr><td><strong>finish (f)</strong></td><td>Mevcut işlevdeki (“çerçeve”) geri kalan talimatları yürütür ve durur.</td></tr><tr><td><strong>control + c</strong></td><td>Yürütmeyi duraklatır. İşlem run (r) veya continue (c) ile çalıştırıldıysa, bu işlem durur ... mevcut yürütme yerinde.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Herhangi bir main adlı işlev</p><p><code>b &#x3C;binname>`main</code> #Bin'in ana işlevi</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Belirtilen binin ana işlevi</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Herhangi bir NSFileManager yöntemi</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # O kütüphanedeki tüm işlevlerde kesme noktası</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Kesme noktası listesi</p><p><code>br e/dis &#x3C;num></code> #Kesme noktasını etkinleştir/etkisiz hale getir</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Kesme noktası komutu hakkında yardım al</p><p>help memory write #Belleğe yazma hakkında yardım al</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/bellek adresi></strong></td><td>Belleği null-terminatlı dize olarak görüntüler.</td></tr><tr><td><strong>x/i &#x3C;reg/bellek adresi></strong></td><td>Belleği montaj talimatı olarak görüntüler.</td></tr><tr><td><strong>x/b &#x3C;reg/bellek adresi></strong></td><td>Belleği byte olarak görüntüler.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Bu, parametre ile referans verilen nesneyi yazdırır</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Apple'ın Objective-C API'lerinin veya yöntemlerinin çoğu nesne döndürdüğünden, bunlar “print object” (po) komutu ile görüntülenmelidir. Eğer po anlamlı bir çıktı üretmiyorsa <code>x/b</code> kullanın</p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #O adrese AAAA yaz<br>memory write -f s $rip+0x11f+7 "AAAA" #Adrese AAAA yaz</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Mevcut işlevi disassemble et</p><p>dis -n &#x3C;funcname> #İşlevi disassemble et</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #İşlevi disassemble et<br>dis -c 6 #6 satırı disassemble et<br>dis -c 0x100003764 -e 0x100003768 #Bir eklemden diğerine kadar<br>dis -p -c 4 #Mevcut adreste disassemble etmeye başla</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # x1 reg'deki 3 bileşenli diziyi kontrol et</td></tr><tr><td><strong>image dump sections</strong></td><td>Mevcut işlem belleğinin haritasını yazdırır</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #CoreNLP'den tüm sembollerin adresini al</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Komut</strong></td><td><strong>Açıklama</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Bir kesme noktası vurulana veya işlem sona erene kadar devam edecek şekilde yürütmeyi başlatır.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Giriş noktasında durarak yürütmeyi başlatır</td></tr><tr><td><strong>continue (c)</strong></td><td>Hata ayıklanan işlemin yürütülmesine devam eder.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Sonraki talimatı yürütür. Bu komut, işlev çağrılarını atlar.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Sonraki talimatı yürütür. nexti komutunun aksine, bu komut işlev çağrılarına adım atar.</td></tr><tr><td><strong>finish (f)</strong></td><td>Mevcut işlevdeki (“çerçeve”) geri kalan talimatları yürütür, döner ve durur.</td></tr><tr><td><strong>control + c</strong></td><td>Yürütmeyi duraklatır. İşlem run (r) veya continue (c) ile çalıştırıldıysa, bu işlem durmasına neden olur ...şu anda yürütüldüğü yerde.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Herhangi bir main adlı işlev</p><p><code>b &#x3C;binname>`main</code> #Bin'in ana işlevi</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Belirtilen binin ana işlevi</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Herhangi bir NSFileManager yöntemi</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # O kütüphanedeki tüm işlevlerde kesme noktası</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Kesme noktası listesi</p><p><code>br e/dis &#x3C;num></code> #Kesme noktasını etkinleştir/etkisiz hale getir</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Kesme noktası komutu hakkında yardım al</p><p>help memory write #Belleğe yazma hakkında yardım al</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/bellek adresi></strong></td><td>Belleği null-terminatlı dize olarak görüntüler.</td></tr><tr><td><strong>x/i &#x3C;reg/bellek adresi></strong></td><td>Belleği montaj talimatı olarak görüntüler.</td></tr><tr><td><strong>x/b &#x3C;reg/bellek adresi></strong></td><td>Belleği byte olarak görüntüler.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Bu, parametre ile referans verilen nesneyi yazdırır</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Apple’ın Objective-C API'lerinin veya yöntemlerinin çoğu nesne döndürdüğünden, bunlar “print object” (po) komutu ile görüntülenmelidir. Eğer po anlamlı bir çıktı üretmiyorsa <code>x/b</code> kullanın</p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #O adrese AAAA yaz<br>memory write -f s $rip+0x11f+7 "AAAA" #Adrese AAAA yaz</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Mevcut işlevi disassemble et</p><p>dis -n &#x3C;funcname> #İşlevi disassemble et</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #İşlevi disassemble et<br>dis -c 6 #6 satırı disassemble et<br>dis -c 0x100003764 -e 0x100003768 #Bir eklemden diğerine kadar<br>dis -p -c 4 #Mevcut adreste disassemble etmeye başla</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # x1 reg'deki 3 bileşenli diziyi kontrol et</td></tr><tr><td><strong>image dump sections</strong></td><td>Mevcut işlem belleğinin haritasını yazdırır</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #CoreNLP'den tüm sembollerin adresini al</td></tr></tbody></table>
 
 {% hint style="info" %}
-**`objc_sendMsg`** fonksiyonu çağrıldığında, **rsi** kaydedicisi **metodun adını** null-terminatlı (“C”) dize olarak tutar. lldb üzerinden adı yazdırmak için:
+**`objc_sendMsg`** fonksiyonu çağrıldığında, **rsi** kaydedicisi **metodun adını** null-terminatlı (“C”) dize olarak tutar. Adı lldb üzerinden yazdırmak için:
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -501,14 +486,14 @@ lldb içinde, bir işlemi `process save-core` ile dökün
 * Ayrıca **`ptrace`** sistem çağrısını **`PT_DENY_ATTACH`** bayrağı ile çağırabilir. Bu, bir hata ayıklayıcının bağlanmasını ve izlenmesini **engeller**.
 * **`sysctl`** veya **`ptrace`** fonksiyonunun **içe aktarıldığını** kontrol edebilirsiniz (ancak kötü amaçlı yazılım bunu dinamik olarak içe aktarabilir).
 * Bu yazıda belirtildiği gibi, “[Anti-Debug Tekniklerini Aşmak: macOS ptrace varyantları](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)” :\
-“_Process # çıkış mesajı **status = 45 (0x0000002d)** ile genellikle hata ayıklama hedefinin **PT_DENY_ATTACH** kullandığını gösteren bir işarettir_”
+“_Process # exited with **status = 45 (0x0000002d)** mesajı genellikle hata ayıklama hedefinin **PT_DENY_ATTACH** kullandığını gösteren bir işarettir_”
 
 ## Core Dumps
 
 Core dump'lar şu durumlarda oluşturulur:
 
 * `kern.coredump` sysctl 1 olarak ayarlanmışsa (varsayılan olarak)
-* İşlem suid/sgid değilse veya `kern.sugid_coredump` 1 ise (varsayılan 0'dır)
+* İşlem suid/sgid değilse veya `kern.sugid_coredump` 1 ise (varsayılan olarak 0)
 * `AS_CORE` limiti işlemi izin veriyorsa. Kod dump'larının oluşturulmasını engellemek için `ulimit -c 0` çağrılabilir ve yeniden etkinleştirmek için `ulimit -c unlimited` kullanılabilir.
 
 Bu durumlarda core dump, `kern.corefile` sysctl'e göre oluşturulur ve genellikle `/cores/core/.%P` dizininde saklanır.
@@ -517,7 +502,7 @@ Bu durumlarda core dump, `kern.corefile` sysctl'e göre oluşturulur ve genellik
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash **çöken işlemleri analiz eder ve bir çökme raporunu diske kaydeder**. Bir çökme raporu, bir geliştiricinin çökme nedenini teşhis etmesine **yardımcı olabilecek** bilgileri içerir.\
+ReportCrash **çöken işlemleri analiz eder ve bir çökme raporunu diske kaydeder**. Bir çökme raporu, bir geliştiricinin çökme nedenini teşhis etmesine yardımcı olabilecek bilgileri içerir.\
 Kullanıcı başına launchd bağlamında **çalışan uygulamalar ve diğer işlemler** için, ReportCrash bir LaunchAgent olarak çalışır ve çökme raporlarını kullanıcının `~/Library/Logs/DiagnosticReports/` dizinine kaydeder.\
 Daimonlar, sistem launchd bağlamında **çalışan diğer işlemler** ve diğer ayrıcalıklı işlemler için, ReportCrash bir LaunchDaemon olarak çalışır ve çökme raporlarını sistemin `/Library/Logs/DiagnosticReports` dizinine kaydeder.
 
@@ -626,34 +611,22 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 
 ## Referanslar
 
-* [**OS X Olay Yanıtı: Betik ve Analiz**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
+* [**OS X Olay Yanıtı: Betik Yazma ve Analiz**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://www.youtube.com/watch?v=T5xfL9tEg44**](https://www.youtube.com/watch?v=T5xfL9tEg44)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**Mac Kötü Amaçlı Yazılım Sanatı: Kötü Amaçlı Yazılımları Analiz Etme Rehberi**](https://taomm.org/)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) , bir şirketin veya müşterilerinin **çalıntı kötü amaçlı yazılımlar** tarafından **tehdit edilip edilmediğini** kontrol etmek için **ücretsiz** işlevsellikler sunan **karanlık ağ** destekli bir arama motorudur.
-
-WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
-
-Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
-AWS Hacking Öğrenin & Pratik Yapın:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking Öğrenin & Pratik Yapın: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Ekip Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Ekip Uzmanı (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
 
 </details>
 {% endhint %}

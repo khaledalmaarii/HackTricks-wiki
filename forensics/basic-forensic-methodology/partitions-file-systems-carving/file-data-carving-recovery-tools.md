@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
 Daha fazla araç için [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
@@ -35,7 +27,7 @@ Görüntülerden dosya çıkarmak için adli bilimlerde en yaygın kullanılan a
 
 **Binwalk**, gömülü içeriği bulmak için ikili dosyaları analiz etmek için kullanılan bir araçtır. `apt` ile kurulabilir ve kaynak kodu [GitHub](https://github.com/ReFirmLabs/binwalk)'ta bulunmaktadır.
 
-**Kullanışlı komutlar**:
+**Useful commands**:
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
@@ -52,7 +44,7 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel**, bir dosya içinde gömülü **dosyaları** bulmak ve çıkarmak için kullanılabilecek bir başka araçtır. Bu durumda, çıkarmak istediğiniz dosya türlerini yapılandırma dosyasından (_/etc/scalpel/scalpel.conf_) yorum satırından çıkarmanız gerekecektir.
+**Scalpel**, bir dosya içinde gömülü **dosyaları** bulmak ve çıkarmak için kullanılabilecek bir başka araçtır. Bu durumda, çıkarmak istediğiniz dosya türlerini yapılandırma dosyasından (_/etc/scalpel/scalpel.conf_) yorumdan çıkarmanız gerekecektir.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -65,7 +57,7 @@ Bu araç bir görüntüyü tarayabilir ve içindeki **pcap'leri** **çıkartabil
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Tüm **bilgileri** gözden geçirin (şifreler?), **paketleri analiz edin** (okuyun [**Pcaps analizi**](../pcap-inspection/)), **garip alan adlarını** arayın (**kötü amaçlı yazılım** veya **var olmayan** alan adları ile ilgili).
+Tüm **bilgileri** (şifreler?) **gözden geçirin**, **paketleri** **analiz edin** (okuyun [**Pcaps analizi**](../pcap-inspection/)), **garip alan adlarını** (**kötü amaçlı yazılım** veya **var olmayan** alan adlarıyla ilgili) arayın.
 
 ### PhotoRec
 
@@ -84,7 +76,7 @@ GUI ve CLI sürümleri ile gelir. PhotoRec'in aramasını istediğiniz **dosya t
 * Görsel ve aktif **yapı görüntüleyici**
 * Farklı odak noktaları için birden fazla grafik
 * Bir örneğin bölümlerine odaklanma
-* PE veya ELF yürütülebilir dosyalarda **dizeleri ve kaynakları** görme
+* PE veya ELF yürütülebilir dosyalarda **dize ve kaynakları** görme
 * Dosyalar üzerinde kriptoanaliz için **desenler** elde etme
 * **Packer** veya kodlayıcı algoritmalarını **belirleme**
 * Desenler ile Steganografi **tanımlama**
@@ -104,12 +96,6 @@ Anahtar programlarını arayarak AES anahtarlarını arar. TrueCrypt ve BitLocke
 
 Terminalden görüntüleri görmek için [**viu** ](https://github.com/atanunq/viu) kullanabilirsiniz.\
 Bir pdf'yi metne dönüştürmek ve okumak için linux komut satırı aracı **pdftotext** kullanabilirsiniz.
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

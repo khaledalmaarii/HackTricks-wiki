@@ -1,8 +1,8 @@
 # FZ - Sub-GHz
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -15,17 +15,10 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Giriş <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero, **uzaktan kumandaları okuyabilen, kaydedebilen ve taklit edebilen yerleşik modülü ile 300-928 MHz aralığında radyo frekanslarını **alabilir ve iletebilir. Bu kumandalar, kapılar, engeller, radyo kilitleri, uzaktan kumanda anahtarları, kablosuz kapı zilleri, akıllı ışıklar ve daha fazlası ile etkileşim için kullanılır. Flipper Zero, güvenliğinizin tehlikeye girip girmediğini öğrenmenize yardımcı olabilir.
+Flipper Zero, **uzaktan kumandaları okuyabilen, kaydedebilen ve taklit edebilen yerleşik modülü ile 300-928 MHz aralığında radyo frekanslarını **alabilir ve iletebilir. Bu kontroller, kapılar, engeller, radyo kilitleri, uzaktan kumanda anahtarları, kablosuz kapı zilleri, akıllı ışıklar ve daha fazlası ile etkileşim için kullanılır. Flipper Zero, güvenliğinizin tehlikeye girip girmediğini öğrenmenize yardımcı olabilir.
 
 <figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
@@ -43,7 +36,7 @@ Flipper Zero, [﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC1101
 Uzaktan kumandanın hangi frekansı kullandığını nasıl bulabilirsiniz
 {% endhint %}
 
-Analiz sırasında, Flipper Zero, frekans yapılandırmasında mevcut olan tüm frekanslarda sinyal gücünü (RSSI) tarar. Flipper Zero, -90 [dBm](https://en.wikipedia.org/wiki/DBm) değerinden daha yüksek sinyal gücüne sahip en yüksek RSSI değerine sahip frekansı gösterir.
+Analiz sırasında, Flipper Zero, frekans yapılandırmasında mevcut olan tüm frekanslarda sinyal gücünü (RSSI) tarar. Flipper Zero, -90 [dBm](https://en.wikipedia.org/wiki/DBm) değerinden daha yüksek sinyal gücüne sahip en yüksek RSSI değerine sahip frekansı görüntüler.
 
 Uzaktan kumandanın frekansını belirlemek için aşağıdakileri yapın:
 
@@ -55,17 +48,17 @@ Uzaktan kumandanın frekansını belirlemek için aşağıdakileri yapın:
 ### Oku
 
 {% hint style="info" %}
-Kullanılan frekans hakkında bilgi bulun (hangi frekansın kullanıldığını bulmanın başka bir yolu)
+Kullanılan frekans hakkında bilgi bulun (aynı zamanda hangi frekansın kullanıldığını bulmanın başka bir yolu)
 {% endhint %}
 
 **Oku** seçeneği, belirtilen modülasyonda **yapılandırılmış frekansta dinler**: varsayılan olarak 433.92 AM. Eğer **okuma sırasında bir şey bulunursa**, ekranda **bilgi verilir**. Bu bilgi, gelecekte sinyali çoğaltmak için kullanılabilir.
 
-Okuma sırasında, **sol düğmeye** basarak **ayar yapmanız** mümkündür.\
+Okuma kullanılırken, **sol düğmeye** basıp **yapılandırmak** mümkündür.\
 Bu anda **4 modülasyon** (AM270, AM650, FM328 ve FM476) ve **birçok ilgili frekans** saklanmıştır:
 
 <figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
 
-**İlginizi çeken herhangi birini** ayarlayabilirsiniz, ancak eğer **uzaktan kumandanızın hangi frekansı kullandığından emin değilseniz**, **Hopping'i AÇIK** (varsayılan olarak Kapalı) ayarlayın ve Flipper bunu yakalayana kadar düğmeye birkaç kez basın, böylece frekansı ayarlamak için gereken bilgiyi alırsınız.
+**İlginizi çeken herhangi birini** ayarlayabilirsiniz, ancak eğer **uzaktan kumandanızın hangi frekansı kullanabileceğinden emin değilseniz**, **Hopping'i AÇIK** (varsayılan olarak Kapalı) ayarlayın ve Flipper bunu yakalayana kadar düğmeye birkaç kez basın, ardından frekansı ayarlamak için ihtiyacınız olan bilgiyi alırsınız.
 
 {% hint style="danger" %}
 Frekanslar arasında geçiş yapmak biraz zaman alır, bu nedenle geçiş sırasında iletilen sinyaller kaçırılabilir. Daha iyi sinyal alımı için, Frekans Analizörü tarafından belirlenen sabit bir frekans ayarlayın.
@@ -79,16 +72,16 @@ Yapılandırılmış frekansta bir sinyali çalın (ve tekrar edin)
 
 **Ham Oku** seçeneği, dinleme frekansında gönderilen sinyalleri **kaydeder**. Bu, bir sinyali **çalmak** ve **tekrar etmek** için kullanılabilir.
 
-Varsayılan olarak **Ham Oku da 433.92 AM650**'de bulunmaktadır, ancak Okuma seçeneği ile ilginizi çeken sinyalin **farklı bir frekans/modülasyonda olduğunu bulursanız, bunu da** sol düğmeye basarak değiştirebilirsiniz (Ham Oku seçeneği içindeyken).
+Varsayılan olarak **Ham Oku da 433.92 AM650**'de bulunmaktadır, ancak Okuma seçeneği ile ilginizi çeken sinyalin **farklı bir frekans/modülasyonda olduğunu bulursanız, bunu da değiştirebilirsiniz** (Ham Oku seçeneği içindeyken sola basarak).
 
 ### Kaba Kuvvet
 
-Eğer garaj kapısında kullanılan protokolü biliyorsanız, **tüm kodları üretebilir ve bunları Flipper Zero ile gönderebilirsiniz.** Bu, genel yaygın garaj türlerini destekleyen bir örnektir: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+Eğer garaj kapısı tarafından kullanılan protokolü biliyorsanız, **tüm kodları üretebilir ve bunları Flipper Zero ile gönderebilirsiniz.** Bu, genel yaygın garaj türlerini destekleyen bir örnektir: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### Manuel Ekle
 
 {% hint style="info" %}
-Yapılandırılmış bir protokol listesine sinyaller ekleyin
+Yapılandırılmış bir protokol listesinde sinyalleri ekleyin
 {% endhint %}
 
 #### [desteklenen protokoller](https://docs.flipperzero.one/sub-ghz/add-new-remote) listesi <a href="#id-3iglu" id="id-3iglu"></a>
@@ -112,11 +105,11 @@ Yapılandırılmış bir protokol listesine sinyaller ekleyin
 
 ### Desteklenen Sub-GHz satıcıları
 
-[https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors) adresinde listeyi kontrol edin.
+[https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors) adresindeki listeyi kontrol edin.
 
 ### Bölgeye göre desteklenen frekanslar
 
-[https://docs.flipperzero.one/sub-ghz/frequencies](https://docs.flipperzero.one/sub-ghz/frequencies) adresinde listeyi kontrol edin.
+[https://docs.flipperzero.one/sub-ghz/frequencies](https://docs.flipperzero.one/sub-ghz/frequencies) adresindeki listeyi kontrol edin.
 
 ### Test
 
@@ -128,15 +121,9 @@ Kaydedilen frekansların dBms'ini alın
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

@@ -9,25 +9,11 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **Hacking ipuçlarını paylaşın,** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
-
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io), bir şirketin veya müşterilerinin **zararlı yazılımlar** tarafından **tehdit edilip edilmediğini** kontrol etmek için **ücretsiz** işlevsellikler sunan **karanlık ağ** destekli bir arama motorudur.
-
-WhiteIntel'in ana hedefi, bilgi çalan zararlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
-
-Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 {% hint style="warning" %}
 **JuicyPotato,** Windows Server 2019 ve Windows 10 build 1809 ve sonrasında **çalışmaz.** Ancak, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) ile **aynı ayrıcalıkları kullanarak `NT AUTHORITY\SYSTEM`** düzeyinde erişim elde edebilirsiniz. _**Kontrol Et:**_
@@ -39,25 +25,25 @@ Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
 
 ## Juicy Potato (altın ayrıcalıkları kötüye kullanma) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_Biraz meyve suyu eklenmiş_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, yani **Windows Servis Hesaplarından NT AUTHORITY\SYSTEM'e başka bir Yerel Ayrıcalık Yükseltme aracı**_
+_**RottenPotatoNG**_ [_sürümünün şekerli bir versiyonu,_](https://github.com/breenmachine/RottenPotatoNG) _biraz meyve suyu ile, yani **Windows Servis Hesaplarından NT AUTHORITY\SYSTEM** düzeyine başka bir Yerel Ayrıcalık Yükseltme aracı._
 
 #### Juicypotato'yu [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts) adresinden indirebilirsiniz.
 
 ### Özet <a href="#summary" id="summary"></a>
 
-[**juicy-potato Readme'den**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
+[**Juicy-potato Readme'den**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) ve onun [varyantları](https://github.com/decoder-it/lonelypotato), [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [servisi](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) temelinde ayrıcalık yükseltme zincirini kullanır ve `127.0.0.1:6666` üzerinde MiTM dinleyicisi vardır ve `SeImpersonate` veya `SeAssignPrimaryToken` ayrıcalıklarına sahip olduğunuzda çalışır. Bir Windows build incelemesi sırasında, `BITS`'in kasıtlı olarak devre dışı bırakıldığı ve `6666` portunun alındığı bir kurulum bulduk.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) ve onun [varyantları](https://github.com/decoder-it/lonelypotato), [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [servisine](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) dayanan ayrıcalık yükseltme zincirini kullanır ve `127.0.0.1:6666` üzerinde MiTM dinleyicisi vardır ve `SeImpersonate` veya `SeAssignPrimaryToken` ayrıcalıklarına sahip olduğunuzda çalışır. Bir Windows build incelemesi sırasında, `BITS`'in kasıtlı olarak devre dışı bırakıldığı ve `6666` portunun alındığı bir kurulum bulduk.
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG)'yi silahlandırmaya karar verdik: **Juicy Potato'ya merhaba deyin**.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG)'yi silahlandırmaya karar verdik: **Juicy Potato'ya merhaba deyin.**
 
-> Teori için, [Rotten Potato - Hizmet Hesaplarından SYSTEM'e Ayrıcalık Yükseltme](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) sayfasını inceleyin ve bağlantılar ve referanslar zincirini takip edin.
+> Teori için, [Rotten Potato - Servis Hesaplarından SYSTEM'e Ayrıcalık Yükseltme](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) sayfasını inceleyin ve bağlantılar ve referanslar zincirini takip edin.
 
 `BITS` dışında, kötüye kullanabileceğimiz birkaç COM sunucusu olduğunu keşfettik. Bunların sadece:
 
-1. mevcut kullanıcı tarafından örneklendirilebilir olması, genellikle taklit ayrıcalıklarına sahip bir "hizmet kullanıcısı"
+1. mevcut kullanıcı tarafından örneklendirilebilir olması, genellikle taklit ayrıcalıklarına sahip bir "servis kullanıcısı"
 2. `IMarshal` arayüzünü uygulaması
-3. yükseltilmiş bir kullanıcı (SYSTEM, Yönetici, ...) olarak çalışması gerekir.
+3. yükseltilmiş bir kullanıcı (SYSTEM, Administrator, …) olarak çalışması gerekir.
 
 Biraz test yaptıktan sonra, birkaç Windows sürümünde [ilginç CLSID'lerin](http://ohpe.it/juicy-potato/CLSID/) kapsamlı bir listesini elde ettik ve test ettik.
 
@@ -71,7 +57,7 @@ JuicyPotato, size şunları sağlar:
 * **İşlem oluşturma modu** _taklit edilen kullanıcının ayrıcalıklarına bağlı olarak şunlardan birini seçebilirsiniz:_
 * `CreateProcessWithToken` (gerekli `SeImpersonate`)
 * `CreateProcessAsUser` (gerekli `SeAssignPrimaryToken`)
-* `her ikisi`
+* `her ikisi de`
 * **Başlatılacak işlem** _sömürü başarılı olursa bir yürütülebilir dosya veya betik başlatın_
 * **İşlem Argümanı** _başlatılan işlem argümanlarını özelleştirin_
 * **RPC Sunucu adresi** _gizli bir yaklaşım için harici bir RPC sunucusuna kimlik doğrulaması yapabilirsiniz_
@@ -101,7 +87,7 @@ Optional args:
 
 Eğer kullanıcının `SeImpersonate` veya `SeAssignPrimaryToken` ayrıcalıkları varsa, o zaman **SYSTEM**'siniz.
 
-Bu COM Sunucularının kötüye kullanımını önlemek neredeyse imkansızdır. Bu nesnelerin izinlerini `DCOMCNFG` aracılığıyla değiştirmeyi düşünebilirsiniz ama iyi şanslar, bu zorlayıcı olacak.
+Tüm bu COM Sunucularının kötüye kullanımını önlemek neredeyse imkansızdır. Bu nesnelerin izinlerini `DCOMCNFG` aracılığıyla değiştirmeyi düşünebilirsiniz ama iyi şanslar, bu zorlayıcı olacak.
 
 Gerçek çözüm, `* SERVICE` hesapları altında çalışan hassas hesapları ve uygulamaları korumaktır. `DCOM`'u durdurmak kesinlikle bu istismarı engelleyecektir ancak temel işletim sistemi üzerinde ciddi bir etki yaratabilir.
 
@@ -152,17 +138,6 @@ Sonra [test\_clsid.bat](https://github.com/ohpe/juicy-potato/blob/master/Test/te
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) **dark-web** destekli bir arama motorudur ve bir şirketin veya müşterilerinin **stealer malwares** tarafından **tehdit edilip edilmediğini** kontrol etmek için **ücretsiz** işlevsellikler sunar.
-
-WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
-
-Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -174,7 +149,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
 * **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
 
 </details>
 {% endhint %}

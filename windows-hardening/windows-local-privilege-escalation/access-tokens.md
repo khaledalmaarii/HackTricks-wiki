@@ -15,23 +15,10 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) **karanlık ağ** destekli bir arama motorudur ve bir şirketin veya müşterilerinin **tehdit altına alınıp alınmadığını** kontrol etmek için **ücretsiz** işlevler sunar.
-
-WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
-
-Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Erişim Jetonları
 
-Sisteme **giriş yapmış her kullanıcı**, o oturum için **güvenlik bilgileriyle bir erişim jetonu taşır**. Kullanıcı giriş yaptığında sistem bir erişim jetonu oluşturur. **Kullanıcı adına yürütülen her işlem**, **erişim jetonunun bir kopyasına** sahiptir. Jeton, kullanıcıyı, kullanıcının gruplarını ve kullanıcının ayrıcalıklarını tanımlar. Bir jeton ayrıca mevcut oturum açma işlemini tanımlayan bir oturum açma SID'si (Güvenlik Tanımlayıcısı) içerir.
+Her **sisteme giriş yapmış kullanıcı**, o oturum için **güvenlik bilgileriyle bir erişim jetonu taşır**. Sistem, kullanıcı giriş yaptığında bir erişim jetonu oluşturur. **Kullanıcı adına yürütülen her işlem**, **erişim jetonunun bir kopyasına** sahiptir. Jeton, kullanıcıyı, kullanıcının gruplarını ve kullanıcının ayrıcalıklarını tanımlar. Bir jeton ayrıca, mevcut oturum açma işlemini tanımlayan bir oturum açma SID'si (Güvenlik Tanımlayıcısı) içerir.
 
 Bu bilgiyi `whoami /all` komutunu çalıştırarak görebilirsiniz.
 ```
@@ -103,9 +90,9 @@ Bu, ağdaki nesnelere erişim için geçerli kimlik bilgilerine sahip olduğunuz
 
 İki tür token mevcuttur:
 
-* **Birincil Token**: Bir sürecin güvenlik kimlik bilgilerini temsil eder. Birincil tokenların oluşturulması ve süreçlerle ilişkilendirilmesi, ayrıcalık ayrımı ilkesini vurgulayan, yükseltilmiş ayrıcalıklar gerektiren eylemlerdir. Genellikle, bir kimlik doğrulama hizmeti token oluşturma ile sorumluyken, bir oturum açma hizmeti bunun kullanıcı işletim sistemi kabuğu ile ilişkilendirilmesinden sorumludur. Süreçlerin, oluşturulduklarında ebeveyn süreçlerinin birincil tokenını miras aldığını belirtmekte fayda var.
+* **Birincil Token**: Bir sürecin güvenlik kimlik bilgilerini temsil eder. Birincil tokenların oluşturulması ve süreçlerle ilişkilendirilmesi, ayrıcalık ayrımını vurgulayan, yükseltilmiş ayrıcalıklar gerektiren eylemlerdir. Genellikle, bir kimlik doğrulama hizmeti token oluşturma işlemini üstlenirken, bir oturum açma hizmeti bunun kullanıcı işletim sistemi kabuğuyla ilişkilendirilmesini yönetir. Süreçlerin, oluşturulduklarında ebeveyn süreçlerinin birincil tokenını miras aldığını belirtmek gerekir.
 * **Taklit Token**: Bir sunucu uygulamasının, güvenli nesnelere erişim için istemcinin kimliğini geçici olarak benimsemesini sağlar. Bu mekanizma dört işlem seviyesine ayrılmıştır:
-* **Anonim**: Sunucuya, tanımlanamayan bir kullanıcınınki gibi erişim izni verir.
+* **Anonim**: Sunucuya, tanımlanamayan bir kullanıcınınki gibi erişim sağlar.
 * **Kimlik Doğrulama**: Sunucunun, nesne erişimi için kullanmadan istemcinin kimliğini doğrulamasına olanak tanır.
 * **Taklit**: Sunucunun, istemcinin kimliği altında çalışmasını sağlar.
 * **Delege**: Taklit ile benzer, ancak sunucunun etkileşimde bulunduğu uzak sistemlere bu kimlik varsayımını genişletme yeteneğini içerir, kimlik bilgilerini korur.
@@ -122,27 +109,16 @@ Hangi **token ayrıcalıklarının ayrıcalıkları yükseltmek için kötüye k
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-[**tüm olası token ayrıcalıklarına ve bu dış sayfadaki bazı tanımlara**](https://github.com/gtworek/Priv2Admin) göz atın.
+[**tüm olası token ayrıcalıkları ve bu dış sayfadaki bazı tanımlar**](https://github.com/gtworek/Priv2Admin) için bir göz atın.
 
 ## Referanslar
 
 Tokenlar hakkında daha fazla bilgi edinin: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) ve [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io), bir şirketin veya müşterilerinin **stealer malwares** tarafından **tehdit edilip edilmediğini** kontrol etmek için **ücretsiz** işlevler sunan bir **dark-web** destekli arama motorudur.
-
-WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirmeleri ve fidye yazılımı saldırılarıyla mücadele etmektir.
-
-Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

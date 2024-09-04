@@ -1,33 +1,20 @@
 # Wireshark tricks
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricks'i Destekleyin</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** bizi takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) **stealer malwares** tarafından **tehdit altına alınmış** bir şirketin veya müşterilerinin olup olmadığını kontrol etmek için **ücretsiz** işlevler sunan bir **dark-web** destekli arama motorudur.
-
-WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirme ve fidye yazılımı saldırılarıyla mücadele etmektir.
-
-Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Wireshark becerilerinizi geliştirin
 
@@ -50,7 +37,7 @@ _**Analyze** --> **Expert Information**_ seçeneğine tıkladığınızda, **ana
 
 **Çözülmüş Adresler**
 
-_**Statistics --> Resolved Addresses**_ altında, wireshark tarafından "**çözülen**" birçok **bilgi** bulabilirsiniz; örneğin, port/taşıyıcıdan protokole, MAC'tan üreticiye vb. İletişimde nelerin yer aldığını bilmek ilginçtir.
+_**Statistics --> Resolved Addresses**_ altında, wireshark tarafından "**çözülen**" çeşitli **bilgiler** bulabilirsiniz; örneğin port/taşıyıcıdan protokole, MAC'tan üreticiye vb. İletişimde nelerin yer aldığını bilmek ilginçtir.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
@@ -62,13 +49,13 @@ _**Statistics --> Protocol Hierarchy**_ altında, iletişimde yer alan **protoko
 
 **Görüşmeler**
 
-_**Statistics --> Conversations**_ altında, iletişimdeki **görüşmelerin özeti** ve bunlarla ilgili verileri bulabilirsiniz.
+_**Statistics --> Conversations**_ altında, iletişimdeki **görüşmelerin** bir özetini ve bunlarla ilgili verileri bulabilirsiniz.
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **Uç Noktalar**
 
-_**Statistics --> Endpoints**_ altında, iletişimdeki **uç noktaların özeti** ve her biriyle ilgili verileri bulabilirsiniz.
+_**Statistics --> Endpoints**_ altında, iletişimdeki **uç noktaların** bir özetini ve her biriyle ilgili verileri bulabilirsiniz.
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
@@ -80,7 +67,7 @@ _**Statistics --> DNS**_ altında, yakalanan DNS isteği hakkında istatistikler
 
 **G/Ç Grafiği**
 
-_**Statistics --> I/O Graph**_ altında, iletişimin **grafiğini** bulabilirsiniz.
+_**Statistics --> I/O Graph**_ altında, iletişimin bir **grafiğini** bulabilirsiniz.
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
@@ -98,7 +85,7 @@ Diğer ilginç filtreler:
 
 ### Arama
 
-Eğer oturumların **paketleri** içinde **içerik** aramak istiyorsanız, _CTRL+f_ tuşlarına basın. Ana bilgi çubuğuna (No., Zaman, Kaynak vb.) yeni katmanlar eklemek için sağ tıklayıp ardından sütunu düzenleyebilirsiniz.
+Eğer oturumların **paketleri** içinde **içerik** aramak istiyorsanız _CTRL+f_ tuşlarına basın. Ana bilgi çubuğuna (No., Zaman, Kaynak vb.) yeni katmanlar eklemek için sağ tıklayıp ardından sütunu düzenleyebilirsiniz.
 
 ### Ücretsiz pcap laboratuvarları
 
@@ -110,7 +97,7 @@ HTTP başlığını gösteren bir sütun ekleyebilirsiniz:
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-Ve bir HTTPS bağlantısının başlatan sunucu adını ekleyen bir sütun (**ssl.handshake.type == 1**):
+Ve bir HTTPS bağlantısını başlatan sunucu adını ekleyen bir sütun (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
@@ -134,7 +121,7 @@ _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-Sunucu ve özel anahtarın tüm verilerini (_IP, Port, Protokol, Anahtar dosyası ve şifre_) eklemek için _Edit_ seçeneğine tıklayın.
+Sunucu ve özel anahtarın tüm verilerini (_IP, Port, Protokol, Anahtar dosyası ve şifre_) eklemek için _Edit_ seçeneğine basın.
 
 ### Simetrik oturum anahtarları ile https trafiğini şifre çözme
 
@@ -152,7 +139,7 @@ Bunu wireshark'a aktarmak için _edit > preference > protocol > ssl > ve (Pre)-M
 
 ## ADB iletişimi
 
-APK'nin gönderildiği bir ADB iletişiminden bir APK çıkarın:
+APK'nın gönderildiği bir ADB iletişiminden bir APK çıkarın:
 ```python
 from scapy.all import *
 
@@ -179,28 +166,16 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io), bir şirketin veya müşterilerinin **stealer malwares** tarafından **tehdit altına alınıp alınmadığını** kontrol etmek için **ücretsiz** işlevler sunan bir **dark-web** destekli arama motorudur.
-
-WhiteIntel'in ana hedefi, bilgi çalan kötü amaçlı yazılımlardan kaynaklanan hesap ele geçirme ve fidye yazılımı saldırılarıyla mücadele etmektir.
-
-Web sitelerini kontrol edebilir ve motorlarını **ücretsiz** deneyebilirsiniz:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>

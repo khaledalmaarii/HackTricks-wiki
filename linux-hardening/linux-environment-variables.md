@@ -9,19 +9,11 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** bizi **takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
-
-**Try Hard Güvenlik Grubu**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Küresel değişkenler
 
@@ -61,14 +53,14 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 * **DISPLAY** – **X** tarafından kullanılan ekran. Bu değişken genellikle **:0.0** olarak ayarlanır, bu da mevcut bilgisayardaki ilk ekranı ifade eder.
 * **EDITOR** – kullanıcının tercih ettiği metin düzenleyici.
 * **HISTFILESIZE** – geçmiş dosyasında bulunan maksimum satır sayısı.
-* **HISTSIZE** – kullanıcı oturumunu bitirdiğinde geçmiş dosyasına eklenen satır sayısı.
+* **HISTSIZE** – kullanıcının oturumunu bitirdiğinde geçmiş dosyasına eklenen satır sayısı.
 * **HOME** – ev dizininiz.
 * **HOSTNAME** – bilgisayarın ana bilgisayar adı.
 * **LANG** – mevcut diliniz.
 * **MAIL** – kullanıcının posta kuyruğunun yeri. Genellikle **/var/spool/mail/USER**.
-* **MANPATH** – kılavuz sayfalarını aramak için dizinlerin listesi.
+* **MANPATH** – kılavuz sayfalarını aramak için dizinler listesi.
 * **OSTYPE** – işletim sisteminin türü.
-* **PS1** – bash'teki varsayılan istem.
+* **PS1** – bash'deki varsayılan istem.
 * **PATH** – yalnızca dosya adını belirterek çalıştırmak istediğiniz ikili dosyaların bulunduğu tüm dizinlerin yolunu saklar, göreli veya mutlak yol ile değil.
 * **PWD** – mevcut çalışma dizini.
 * **SHELL** – mevcut komut kabuğunun yolu (örneğin, **/bin/bash**).
@@ -80,13 +72,13 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 
 ### **HISTFILESIZE**
 
-Bu değişkenin **değerini 0 olarak değiştirin**, böylece **oturumunuzu kapattığınızda** **geçmiş dosyası** (\~/.bash\_history) **silinecektir**.
+Bu değişkenin **değerini 0 olarak değiştirin**, böylece **oturumunuzu bitirdiğinizde** **geçmiş dosyası** (\~/.bash\_history) **silinecektir**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Bu **değişkenin değerini 0 olarak değiştirin**, böylece **oturumunuzu sonlandırdığınızda** herhangi bir komut **geçmiş dosyasına** (\~/.bash\_history) eklenecektir.
+Bu **değişkenin değerini 0 olarak değiştirin**, böylece **oturumunuzu sonlandırdığınızda** herhangi bir komut **tarih dosyasına** (\~/.bash\_history) eklenecektir.
 ```bash
 export HISTSIZE=0
 ```
@@ -106,7 +98,7 @@ export SSL_CERT_DIR=/path/to/ca-certificates
 ```
 ### PS1
 
-İstemci görünümünü değiştirin.
+İstediğiniz şekilde istemci görünümünü değiştirin.
 
 [**Bu bir örnektir**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
@@ -126,11 +118,6 @@ Bir arka planda çalışan iş, bir durdurulmuş ve son komut doğru bir şekild
 
 ![](<../.gitbook/assets/image (715).png>)
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

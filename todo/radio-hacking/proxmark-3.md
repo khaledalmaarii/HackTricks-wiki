@@ -9,19 +9,11 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **bizi** **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** takip edin.**
+* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Proxmark3 ile RFID Sistemlerine Saldırmak
 
@@ -30,8 +22,8 @@ Yapmanız gereken ilk şey bir [**Proxmark3**](https://proxmark.com) edinmek ve 
 ### MIFARE Classic 1KB'ye Saldırmak
 
 **16 sektör** vardır, her birinde **4 blok** ve her blokta **16B** bulunur. UID, sektör 0 blok 0'da (ve değiştirilemez).\
-Her sektöre erişmek için **2 anahtara** (**A** ve **B**) ihtiyacınız var, bunlar **her sektörün blok 3'ünde** (sektör trailer) saklanır. Sektör trailer ayrıca **okuma ve yazma** izinlerini veren **erişim bitlerini** saklar.\
-2 anahtar, ilkini biliyorsanız okumak için ve ikincisini biliyorsanız yazmak için izin vermek için kullanışlıdır (örneğin).
+Her sektöre erişmek için **2 anahtara** (**A** ve **B**) ihtiyacınız var, bunlar **her sektörün blok 3'ünde** saklanır (sektör trailer). Sektör trailer ayrıca **okuma ve yazma** izinlerini veren **erişim bitlerini** saklar.\
+2 anahtar, ilkini biliyorsanız okumak ve ikincisini biliyorsanız yazmak için izin vermek için kullanışlıdır (örneğin).
 
 Birçok saldırı gerçekleştirilebilir.
 ```bash
@@ -68,20 +60,13 @@ Valid ISO14443A Tag Found - Quiting Search
 ```
 Bu bilgilerle kart hakkında ve onunla iletişim kurma yöntemi hakkında bilgi aramayı deneyebilirsiniz. Proxmark3, şu şekilde ham komutlar göndermeye olanak tanır: `hf 14a raw -p -b 7 26`
 
-### Scripts
+### Scriptler
 
 Proxmark3 yazılımı, basit görevleri yerine getirmek için kullanabileceğiniz önceden yüklenmiş **otomasyon scriptleri** listesi ile birlikte gelir. Tam listeyi almak için `script list` komutunu kullanın. Ardından, scriptin adını takip eden `script run` komutunu kullanın:
 ```
 proxmark3> script run mfkeys
 ```
-Bir **fuzz tag okuyucuları** oluşturmak için bir script yazabilirsiniz, böylece bir **geçerli kartın** verilerini kopyalayarak bir **Lua scripti** yazın, bir veya daha fazla rastgele **byte**'ı **rastgeleleştirip** her iterasyonda **okuyucunun çöküp çökmediğini** kontrol edin.
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
+Bir **fuzz tag okuyucuları** oluşturmak için bir script yazabilirsiniz, böylece bir **geçerli kartın** verilerini kopyalamak için sadece bir **Lua scripti** yazın, bir veya daha fazla rastgele **byte**'ı **rastgeleleştirip** her iterasyonda **okuyucunun çöküp çökmediğini** kontrol edin.
 
 {% hint style="success" %}
 AWS Hacking'i öğrenin ve pratik yapın:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -92,8 +77,8 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 <summary>HackTricks'i Destekleyin</summary>
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
-* **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter'da** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**'i takip edin.**
-* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
+* **Bize katılın** 💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) veya **Twitter'da** bizi **takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Hacking ipuçlarını [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek paylaşın.
 
 </details>
 {% endhint %}
