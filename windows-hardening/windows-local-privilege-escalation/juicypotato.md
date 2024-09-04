@@ -15,20 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malware robador**.
-
-Su objetivo principal de WhiteIntel es combatir la toma de cuentas y los ataques de ransomware resultantes de malware que roba información.
-
-Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
 **JuicyPotato no funciona** en Windows Server 2019 y Windows 10 build 1809 en adelante. Sin embargo, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) se pueden usar para **aprovechar los mismos privilegios y obtener acceso a nivel `NT AUTHORITY\SYSTEM`**. _**Ver:**_
 {% endhint %}
@@ -47,7 +33,7 @@ _Una versión azucarada de_ [_RottenPotatoNG_](https://github.com/breenmachine/R
 
 [**Del Readme de juicy-potato**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) y sus [variantes](https://github.com/decoder-it/lonelypotato) aprovechan la cadena de escalada de privilegios basada en [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [servicio](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) teniendo el oyente MiTM en `127.0.0.1:6666` y cuando tienes privilegios `SeImpersonate` o `SeAssignPrimaryToken`. Durante una revisión de la construcción de Windows encontramos una configuración donde `BITS` estaba intencionalmente deshabilitado y el puerto `6666` estaba ocupado.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) y sus [variantes](https://github.com/decoder-it/lonelypotato) aprovechan la cadena de escalada de privilegios basada en [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [servicio](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) teniendo el oyente MiTM en `127.0.0.1:6666` y cuando tienes privilegios `SeImpersonate` o `SeAssignPrimaryToken`. Durante una revisión de la build de Windows encontramos una configuración donde `BITS` estaba intencionalmente deshabilitado y el puerto `6666` estaba ocupado.
 
 Decidimos armar [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Saluda a Juicy Potato**.
 
@@ -68,13 +54,13 @@ JuicyPotato te permite:
 * **CLSID objetivo** _elige cualquier CLSID que desees._ [_Aquí_](http://ohpe.it/juicy-potato/CLSID/) _puedes encontrar la lista organizada por SO._
 * **Puerto de escucha COM** _define el puerto de escucha COM que prefieras (en lugar del 6666 codificado en duro)_
 * **Dirección IP de escucha COM** _vincula el servidor a cualquier IP_
-* **Modo de creación de procesos** _dependiendo de los privilegios del usuario suplantado, puedes elegir entre:_
+* **Modo de creación de procesos** _dependiendo de los privilegios del usuario suplantado puedes elegir entre:_
 * `CreateProcessWithToken` (necesita `SeImpersonate`)
 * `CreateProcessAsUser` (necesita `SeAssignPrimaryToken`)
 * `ambos`
-* **Proceso a lanzar** _lanzar un ejecutable o script si la explotación tiene éxito_
+* **Proceso a lanzar** _lanza un ejecutable o script si la explotación tiene éxito_
 * **Argumento del proceso** _personaliza los argumentos del proceso lanzado_
-* **Dirección del servidor RPC** _para un enfoque sigiloso, puedes autenticarte en un servidor RPC externo_
+* **Dirección del servidor RPC** _para un enfoque sigiloso puedes autenticarte en un servidor RPC externo_
 * **Puerto del servidor RPC** _útil si deseas autenticarte en un servidor externo y el firewall está bloqueando el puerto `135`…_
 * **MODO DE PRUEBA** _principalmente para fines de prueba, es decir, probando CLSIDs. Crea el DCOM e imprime el usuario del token. Ver_ [_aquí para pruebas_](http://ohpe.it/juicy-potato/Test/)
 
@@ -101,7 +87,7 @@ Optional args:
 
 Si el usuario tiene privilegios `SeImpersonate` o `SeAssignPrimaryToken`, entonces eres **SYSTEM**.
 
-Es casi imposible prevenir el abuso de todos estos Servidores COM. Podrías pensar en modificar los permisos de estos objetos a través de `DCOMCNFG`, pero buena suerte, esto va a ser un desafío.
+Es casi imposible prevenir el abuso de todos estos servidores COM. Podrías pensar en modificar los permisos de estos objetos a través de `DCOMCNFG`, pero buena suerte, esto va a ser un desafío.
 
 La solución real es proteger cuentas y aplicaciones sensibles que se ejecutan bajo las cuentas `* SERVICE`. Detener `DCOM` ciertamente inhibiría este exploit, pero podría tener un impacto serio en el sistema operativo subyacente.
 
@@ -134,7 +120,7 @@ c:\Users\Public>
 
 ## Problemas de CLSID
 
-A menudo, el CLSID predeterminado que utiliza JuicyPotato **no funciona** y el exploit falla. Por lo general, se necesitan múltiples intentos para encontrar un **CLSID funcional**. Para obtener una lista de CLSIDs para probar en un sistema operativo específico, debes visitar esta página:
+A menudo, el CLSID predeterminado que utiliza JuicyPotato **no funciona** y el exploit falla. Por lo general, se requieren múltiples intentos para encontrar un **CLSID funcional**. Para obtener una lista de CLSIDs para probar en un sistema operativo específico, debes visitar esta página:
 
 {% embed url="https://ohpe.it/juicy-potato/CLSID/" %}
 
@@ -152,17 +138,6 @@ Luego descarga [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/mast
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
-
-Su objetivo principal de WhiteIntel es combatir la toma de cuentas y los ataques de ransomware resultantes de malware que roba información.
-
-Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -15,19 +15,6 @@ Aprende y practica Hacking en GCP: <img src="../../../.gitbook/assets/grte.png" 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
-
-Su objetivo principal de WhiteIntel es combatir la toma de cuentas y los ataques de ransomware resultantes de malware que roba información.
-
-Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Análisis Estático
 
@@ -127,7 +114,7 @@ It will be mounted in `/Volumes`
 
 ### Binaries empaquetados
 
-* Verificar la alta entropía
+* Verificar alta entropía
 * Verificar las cadenas (si casi no hay cadenas comprensibles, empaquetado)
 * El empaquetador UPX para MacOS genera una sección llamada "\_\_XHDR"
 
@@ -144,7 +131,7 @@ Tenga en cuenta que los programas escritos en Objective-C **retienen** sus decla
 * Las variables de instancia de la interfaz
 * Los protocolos definidos
 
-Tenga en cuenta que estos nombres podrían estar ofuscados para dificultar la inversión del binario.
+Tenga en cuenta que estos nombres podrían estar ofuscados para dificultar la reversión del binario.
 
 ### Llamada a funciones
 
@@ -170,11 +157,11 @@ x64:
 | ----------------- | -------------------------------------------------------------- | ------------------------------------------------------ |
 | **1er argumento**  | **rdi**                                                        | **self: objeto sobre el cual se invoca el método**     |
 | **2do argumento**  | **rsi**                                                        | **op: nombre del método**                              |
-| **3er argumento**  | **rdx**                                                        | **1er argumento para el método**                        |
-| **4to argumento**  | **rcx**                                                        | **2do argumento para el método**                        |
-| **5to argumento**  | **r8**                                                         | **3er argumento para el método**                        |
-| **6to argumento**  | **r9**                                                         | **4to argumento para el método**                        |
-| **7mo+ argumento** | <p><strong>rsp+</strong><br><strong>(en la pila)</strong></p> | **5to+ argumento para el método**                       |
+| **3er argumento**  | **rdx**                                                        | **1er argumento al método**                            |
+| **4to argumento**  | **rcx**                                                        | **2do argumento al método**                            |
+| **5to argumento**  | **r8**                                                         | **3er argumento al método**                            |
+| **6to argumento**  | **r9**                                                         | **4to argumento al método**                            |
+| **7mo+ argumento** | <p><strong>rsp+</strong><br><strong>(en la pila)</strong></p> | **5to+ argumento al método**                           |
 
 ### Volcar metadatos de ObjectiveC
 
@@ -410,11 +397,11 @@ Or `tailspin`.
 
 ### kperf
 
-Esto se utiliza para hacer un perfilado a nivel de kernel y está construido utilizando llamadas de `Kdebug`.
+Esto se utiliza para hacer un perfil a nivel de kernel y está construido utilizando llamadas `Kdebug`.
 
-Básicamente, se verifica la variable global `kernel_debug_active` y si está configurada, llama a `kperf_kdebug_handler` con el código de `Kdebug` y la dirección del marco del kernel que llama. Si el código de `Kdebug` coincide con uno seleccionado, obtiene las "acciones" configuradas como un bitmap (consulta `osfmk/kperf/action.h` para las opciones).
+Básicamente, se verifica la variable global `kernel_debug_active` y si está configurada, llama a `kperf_kdebug_handler` con el código `Kdebug` y la dirección del marco del kernel que llama. Si el código `Kdebug` coincide con uno seleccionado, obtiene las "acciones" configuradas como un bitmap (consulta `osfmk/kperf/action.h` para las opciones).
 
-Kperf también tiene una tabla MIB de sysctl: (como root) `sysctl kperf`. Este código se puede encontrar en `osfmk/kperf/kperfbsd.c`.
+Kperf también tiene una tabla MIB de sysctl: (como root) `sysctl kperf`. Estos códigos se pueden encontrar en `osfmk/kperf/kperfbsd.c`.
 
 Además, un subconjunto de la funcionalidad de Kperf reside en `kpc`, que proporciona información sobre los contadores de rendimiento de la máquina.
 
@@ -476,7 +463,7 @@ settings set target.x86-disassembly-flavor intel
 Dentro de lldb, volcar un proceso con `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Comando</strong></td><td><strong>Descripción</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Iniciar la ejecución, que continuará sin interrupciones hasta que se alcance un punto de interrupción o el proceso termine.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Iniciar la ejecución deteniéndose en el punto de entrada</td></tr><tr><td><strong>continue (c)</strong></td><td>Continuar la ejecución del proceso depurado.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Ejecutar la siguiente instrucción. Este comando omitirá las llamadas a funciones.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Ejecutar la siguiente instrucción. A diferencia del comando nexti, este comando entrará en las llamadas a funciones.</td></tr><tr><td><strong>finish (f)</strong></td><td>Ejecutar el resto de las instrucciones en la función actual (“frame”) y detenerse.</td></tr><tr><td><strong>control + c</strong></td><td>Pausar la ejecución. Si el proceso ha sido ejecutado (r) o continuado (c), esto hará que el proceso se detenga ...donde sea que esté ejecutándose actualmente.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Cualquier función llamada main</p><p><code>b &#x3C;binname>`main</code> #Función principal del bin</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Función principal del bin indicado</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Cualquier método de NSFileManager</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # Romper en todas las funciones de esa biblioteca</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Lista de puntos de interrupción</p><p><code>br e/dis &#x3C;num></code> #Habilitar/Deshabilitar punto de interrupción</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obtener ayuda del comando breakpoint</p><p>help memory write #Obtener ayuda para escribir en la memoria</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formato</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/dirección de memoria></strong></td><td>Mostrar la memoria como una cadena terminada en nulo.</td></tr><tr><td><strong>x/i &#x3C;reg/dirección de memoria></strong></td><td>Mostrar la memoria como instrucción de ensamblador.</td></tr><tr><td><strong>x/b &#x3C;reg/dirección de memoria></strong></td><td>Mostrar la memoria como byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Esto imprimirá el objeto referenciado por el parámetro</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Nota que la mayoría de las APIs o métodos de Objective-C de Apple devuelven objetos, y por lo tanto deben ser mostrados a través del comando “print object” (po). Si po no produce una salida significativa, usa <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Escribir AAAA en esa dirección<br>memory write -f s $rip+0x11f+7 "AAAA" #Escribir AAAA en la dirección</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Desensamblar función actual</p><p>dis -n &#x3C;funcname> #Desensamblar función</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Desensamblar función<br>dis -c 6 #Desensamblar 6 líneas<br>dis -c 0x100003764 -e 0x100003768 # Desde una dirección hasta la otra<br>dis -p -c 4 # Comenzar en la dirección actual desensamblando</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Verificar array de 3 componentes en el registro x1</td></tr><tr><td><strong>image dump sections</strong></td><td>Imprimir mapa de la memoria del proceso actual</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #Obtener la dirección de todos los símbolos de CoreNLP</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Comando</strong></td><td><strong>Descripción</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Iniciar la ejecución, que continuará sin interrupciones hasta que se alcance un punto de interrupción o el proceso termine.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Iniciar la ejecución deteniéndose en el punto de entrada</td></tr><tr><td><strong>continue (c)</strong></td><td>Continuar la ejecución del proceso depurado.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Ejecutar la siguiente instrucción. Este comando omitirá las llamadas a funciones.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Ejecutar la siguiente instrucción. A diferencia del comando nexti, este comando entrará en las llamadas a funciones.</td></tr><tr><td><strong>finish (f)</strong></td><td>Ejecutar el resto de las instrucciones en la función actual (“frame”) y detenerse.</td></tr><tr><td><strong>control + c</strong></td><td>Pausar la ejecución. Si el proceso ha sido ejecutado (r) o continuado (c), esto hará que el proceso se detenga ...donde sea que esté ejecutándose actualmente.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Cualquier función llamada main</p><p><code>b &#x3C;binname>`main</code> #Función principal del bin</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Función principal del bin indicado</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Cualquier método de NSFileManager</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # Interrumpir en todas las funciones de esa biblioteca</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Lista de puntos de interrupción</p><p><code>br e/dis &#x3C;num></code> #Habilitar/Deshabilitar punto de interrupción</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Obtener ayuda sobre el comando de punto de interrupción</p><p>help memory write #Obtener ayuda para escribir en la memoria</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formato</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/dirección de memoria></strong></td><td>Mostrar la memoria como una cadena terminada en nulo.</td></tr><tr><td><strong>x/i &#x3C;reg/dirección de memoria></strong></td><td>Mostrar la memoria como instrucción de ensamblador.</td></tr><tr><td><strong>x/b &#x3C;reg/dirección de memoria></strong></td><td>Mostrar la memoria como byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Esto imprimirá el objeto referenciado por el parámetro</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Nota que la mayoría de las APIs o métodos de Objective-C de Apple devuelven objetos, y por lo tanto deben ser mostrados a través del comando “print object” (po). Si po no produce una salida significativa, usa <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Escribir AAAA en esa dirección<br>memory write -f s $rip+0x11f+7 "AAAA" #Escribir AAAA en la dirección</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Desensamblar la función actual</p><p>dis -n &#x3C;funcname> #Desensamblar función</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Desensamblar función<br>dis -c 6 #Desensamblar 6 líneas<br>dis -c 0x100003764 -e 0x100003768 # Desde una dirección hasta la otra<br>dis -p -c 4 # Comenzar en la dirección actual desensamblando</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Verificar array de 3 componentes en el registro x1</td></tr><tr><td><strong>image dump sections</strong></td><td>Imprimir el mapa de la memoria del proceso actual</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #Obtener la dirección de todos los símbolos de CoreNLP</td></tr></tbody></table>
 
 {% hint style="info" %}
 Al llamar a la función **`objc_sendMsg`**, el registro **rsi** contiene el **nombre del método** como una cadena terminada en nulo (“C”). Para imprimir el nombre a través de lldb haz:
@@ -489,12 +476,12 @@ Al llamar a la función **`objc_sendMsg`**, el registro **rsi** contiene el **no
 `(lldb) reg read $rsi: rsi = 0x00000001000f1576 "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 {% endhint %}
 
-### Análisis Dinámico Anti
+### Análisis Anti-Dinámico
 
 #### Detección de VM
 
 * El comando **`sysctl hw.model`** devuelve "Mac" cuando el **host es un MacOS** pero algo diferente cuando es una VM.
-* Jugando con los valores de **`hw.logicalcpu`** y **`hw.physicalcpu`** algunos malwares intentan detectar si es una VM.
+* Jugando con los valores de **`hw.logicalcpu`** y **`hw.physicalcpu`**, algunos malwares intentan detectar si es una VM.
 * Algunos malwares también pueden **detectar** si la máquina está basada en **VMware** según la dirección MAC (00:50:56).
 * También es posible encontrar **si un proceso está siendo depurado** con un código simple como:
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //proceso siendo depurado }`
@@ -587,7 +574,7 @@ Funciona para herramientas de línea de comandos
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-Simplemente "**funciona"** con herramientas GUI de macOS. Ten en cuenta que algunas aplicaciones de macOS tienen requisitos específicos como nombres de archivos únicos, la extensión correcta, necesitan leer los archivos desde el sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
+Simplemente "**funciona"** con herramientas GUI de macOS. Tenga en cuenta que algunas aplicaciones de macOS tienen requisitos específicos, como nombres de archivos únicos, la extensión correcta, necesitan leer los archivos desde el sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
 
 Algunos ejemplos:
 
@@ -631,18 +618,6 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**The Art of Mac Malware: The Guide to Analyzing Malicious Software**](https://taomm.org/)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malware de robo**.
-
-Su objetivo principal de WhiteIntel es combatir la toma de cuentas y los ataques de ransomware resultantes de malware que roba información.
-
-Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprende y practica Hacking en GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -653,7 +628,7 @@ Aprende y practica Hacking en GCP: <img src="../../../.gitbook/assets/grte.png" 
 
 * Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositorios de github.
+* **Comparte trucos de hacking enviando PRs a los** [**repositorios de HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

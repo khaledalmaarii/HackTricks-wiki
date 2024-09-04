@@ -15,20 +15,6 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
-
-Su objetivo principal de WhiteIntel es combatir la toma de cuentas y los ataques de ransomware resultantes de malware que roba información.
-
-Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
-
-{% embed url="https://whiteintel.io" %}
-
----
-
 ## Recuperación de Contraseña de BIOS y Seguridad del Sistema
 
 **Restablecer la BIOS** se puede lograr de varias maneras. La mayoría de las placas base incluyen una **batería** que, al ser retirada durante aproximadamente **30 minutos**, restablecerá la configuración de la BIOS, incluida la contraseña. Alternativamente, se puede ajustar un **puente en la placa base** para restablecer estas configuraciones conectando pines específicos.
@@ -45,7 +31,7 @@ Para sistemas modernos que utilizan **UEFI** en lugar de la BIOS tradicional, se
 
 ### Análisis de RAM y Ataques de Arranque en Frío
 
-La RAM retiene datos brevemente después de que se corta la energía, generalmente durante **1 a 2 minutos**. Esta persistencia se puede extender a **10 minutos** aplicando sustancias frías, como nitrógeno líquido. Durante este período extendido, se puede crear un **volcado de memoria** utilizando herramientas como **dd.exe** y **volatility** para análisis.
+La RAM retiene datos brevemente después de que se corta la energía, generalmente durante **1 a 2 minutos**. Esta persistencia se puede extender a **10 minutos** aplicando sustancias frías, como nitrógeno líquido. Durante este período extendido, se puede crear un **volcado de memoria** utilizando herramientas como **dd.exe** y **volatility** para su análisis.
 
 ### Ataques de Acceso Directo a la Memoria (DMA)
 
@@ -73,25 +59,13 @@ Dispositivos como **Rubber Ducky** y **Teensyduino** sirven como plataformas par
 
 Los privilegios de administrador permiten la creación de copias de archivos sensibles, incluido el archivo **SAM**, a través de PowerShell.
 
-### Eludir la Encriptación de BitLocker
+### Eludir la Encriptación BitLocker
 
-La encriptación de BitLocker puede potencialmente ser eludida si se encuentra la **contraseña de recuperación** dentro de un archivo de volcado de memoria (**MEMORY.DMP**). Herramientas como **Elcomsoft Forensic Disk Decryptor** o **Passware Kit Forensic** pueden ser utilizadas para este propósito.
+La encriptación BitLocker puede potencialmente ser eludida si se encuentra la **contraseña de recuperación** dentro de un archivo de volcado de memoria (**MEMORY.DMP**). Herramientas como **Elcomsoft Forensic Disk Decryptor** o **Passware Kit Forensic** pueden ser utilizadas para este propósito.
 
 ### Ingeniería Social para Adición de Clave de Recuperación
 
-Se puede agregar una nueva clave de recuperación de BitLocker a través de tácticas de ingeniería social, convenciendo a un usuario para que ejecute un comando que añade una nueva clave de recuperación compuesta de ceros, simplificando así el proceso de desencriptación.
-
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malwares robadores**.
-
-Su objetivo principal de WhiteIntel es combatir la toma de cuentas y los ataques de ransomware resultantes de malware que roba información.
-
-Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
-
-{% embed url="https://whiteintel.io" %}
+Se puede agregar una nueva clave de recuperación de BitLocker a través de tácticas de ingeniería social, convenciendo a un usuario para que ejecute un comando que añade una nueva clave de recuperación compuesta de ceros, simplificando así el proceso de descifrado.
 
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

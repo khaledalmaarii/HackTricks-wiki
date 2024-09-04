@@ -15,19 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malware de robo**.
-
-Su objetivo principal en WhiteIntel es combatir la toma de control de cuentas y los ataques de ransomware resultantes de malware que roba información.
-
-Puedes visitar su sitio web y probar su motor de búsqueda de forma **gratuita** en:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## **Información Básica**
 
@@ -38,7 +25,7 @@ Puedes visitar su sitio web y probar su motor de búsqueda de forma **gratuita**
 * **/sbin**
 * **/usr**
 
-Las reglas que rigen el comportamiento de SIP se definen en el archivo de configuración ubicado en **`/System/Library/Sandbox/rootless.conf`**. Dentro de este archivo, las rutas que están precedidas por un asterisco (\*) se denotan como excepciones a las estrictas restricciones de SIP.
+Las reglas que rigen el comportamiento de SIP se definen en el archivo de configuración ubicado en **`/System/Library/Sandbox/rootless.conf`**. Dentro de este archivo, las rutas que están precedidas por un asterisco (\*) se denotan como excepciones a las estrictas restricciones de SIP. 
 
 Considera el siguiente ejemplo:
 ```javascript
@@ -54,7 +41,7 @@ Para verificar si un directorio o archivo está protegido por SIP, puedes usar e
 ls -lOd /usr/libexec/cups
 drwxr-xr-x  11 root  wheel  sunlnk 352 May 13 00:29 /usr/libexec/cups
 ```
-En este caso, el **`sunlnk`** flag significa que el directorio `/usr/libexec/cups` **no puede ser eliminado**, aunque los archivos dentro de él pueden ser creados, modificados o eliminados.
+En este caso, el **`sunlnk`** flag significa que el directorio `/usr/libexec/cups` **no puede ser eliminado**, aunque se pueden crear, modificar o eliminar archivos dentro de él.
 
 Por otro lado:
 ```bash
@@ -63,14 +50,14 @@ drwxr-xr-x  338 root  wheel  restricted 10816 May 13 00:29 /usr/libexec
 ```
 Aquí, la **`restricted`** flag indica que el directorio `/usr/libexec` está protegido por SIP. En un directorio protegido por SIP, no se pueden crear, modificar o eliminar archivos.
 
-Además, si un archivo contiene el atributo **`com.apple.rootless`** atributo **extendido**, ese archivo también estará **protegido por SIP**.
+Además, si un archivo contiene el atributo **`com.apple.rootless`** atributo extendido, ese archivo también estará **protegido por SIP**.
 
 **SIP también limita otras acciones de root** como:
 
 * Cargar extensiones de kernel no confiables
 * Obtener puertos de tarea para procesos firmados por Apple
 * Modificar variables de NVRAM
-* Permitir depuración del kernel
+* Permitir la depuración del kernel
 
 Las opciones se mantienen en la variable nvram como un bitflag (`csr-active-config` en Intel y `lp-sip0` se lee del Device Tree arrancado para ARM). Puedes encontrar las flags en el código fuente de XNU en `csr.sh`:
 
@@ -98,7 +85,7 @@ csrutil enable --without debug
 
 [**Aprende más sobre la información de SIP en esta charla**](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)**.**
 
-## Bypasses de SIP
+## Bypass de SIP
 
 Eludir SIP permite a un atacante:
 
@@ -113,7 +100,7 @@ Eludir SIP permite a un atacante:
 
 ### Archivo SIP Inexistente
 
-Una posible laguna es que si un archivo está especificado en **`rootless.conf` pero no existe actualmente**, puede ser creado. El malware podría explotar esto para **establecer persistencia** en el sistema. Por ejemplo, un programa malicioso podría crear un archivo .plist en `/System/Library/LaunchDaemons` si está listado en `rootless.conf` pero no presente.
+Una posible laguna es que si un archivo está especificado en **`rootless.conf` pero no existe actualmente**, se puede crear. El malware podría explotar esto para **establecer persistencia** en el sistema. Por ejemplo, un programa malicioso podría crear un archivo .plist en `/System/Library/LaunchDaemons` si está listado en `rootless.conf` pero no presente.
 
 ### com.apple.rootless.install.heritable
 
@@ -137,7 +124,7 @@ El demonio **`system_installd`** instalará paquetes que han sido firmados por *
 
 Los investigadores encontraron que durante la instalación de un paquete firmado por Apple (archivo .pkg), **`system_installd`** **ejecuta** cualquier **script post-instalación** incluido en el paquete. Estos scripts son ejecutados por el shell predeterminado, **`zsh`**, que automáticamente **ejecuta** comandos del archivo **`/etc/zshenv`**, si existe, incluso en modo no interactivo. Este comportamiento podría ser explotado por atacantes: al crear un archivo malicioso `/etc/zshenv` y esperar a que **`system_installd` invoque `zsh`**, podrían realizar operaciones arbitrarias en el dispositivo.
 
-Además, se descubrió que **`/etc/zshenv` podría ser utilizado como una técnica de ataque general**, no solo para un bypass de SIP. Cada perfil de usuario tiene un archivo `~/.zshenv`, que se comporta de la misma manera que `/etc/zshenv` pero no requiere permisos de root. Este archivo podría ser utilizado como un mecanismo de persistencia, activándose cada vez que se inicia `zsh`, o como un mecanismo de elevación de privilegios. Si un usuario administrador se eleva a root usando `sudo -s` o `sudo <comando>`, el archivo `~/.zshenv` se activaría, elevando efectivamente a root.
+Además, se descubrió que **`/etc/zshenv` podría ser utilizado como una técnica de ataque general**, no solo para un bypass de SIP. Cada perfil de usuario tiene un archivo `~/.zshenv`, que se comporta de la misma manera que `/etc/zshenv` pero no requiere permisos de root. Este archivo podría ser utilizado como un mecanismo de persistencia, activándose cada vez que se inicia `zsh`, o como un mecanismo de elevación de privilegios. Si un usuario administrador se eleva a root usando `sudo -s` o `sudo <comando>`, el archivo `~/.zshenv` se activaría, elevándose efectivamente a root.
 
 #### [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)
 
@@ -187,7 +174,7 @@ Como [**se detalla en esta publicación del blog**](https://blog.kandji.io/apple
 ```bash
 /usr/bin/chflags -h norestricted "${SHARED_SUPPORT_PATH}/SharedSupport.dmg"
 ```
-y fue posible crear un symlink en `${SHARED_SUPPORT_PATH}/SharedSupport.dmg` que permitiría a un usuario **desbloquear cualquier archivo, eludiendo la protección SIP**.
+y fue posible crear un symlink en `${SHARED_SUPPORT_PATH}/SharedSupport.dmg` que permitiría a un usuario **eliminar restricciones de cualquier archivo, eludiendo la protección SIP**.
 
 ### **com.apple.rootless.install**
 
@@ -207,7 +194,7 @@ Aquí hay una mirada más detallada:
 
 1. **Sistema Inmutable**: Las Instantáneas del Sistema Selladas hacen que el volumen del sistema macOS sea "inmutable", lo que significa que no puede ser modificado. Esto previene cualquier cambio no autorizado o accidental en el sistema que podría comprometer la seguridad o la estabilidad del sistema.
 2. **Actualizaciones de Software del Sistema**: Cuando instalas actualizaciones o mejoras de macOS, macOS crea una nueva instantánea del sistema. El volumen de inicio de macOS luego utiliza **APFS (Apple File System)** para cambiar a esta nueva instantánea. Todo el proceso de aplicación de actualizaciones se vuelve más seguro y confiable, ya que el sistema siempre puede revertir a la instantánea anterior si algo sale mal durante la actualización.
-3. **Separación de Datos**: En conjunto con el concepto de separación de Datos y Volumen del Sistema introducido en macOS Catalina, la característica de Instantánea del Sistema Sellada asegura que todos tus datos y configuraciones se almacenen en un volumen de "**Datos**" separado. Esta separación hace que tus datos sean independientes del sistema, lo que simplifica el proceso de actualizaciones del sistema y mejora la seguridad del sistema.
+3. **Separación de Datos**: En conjunto con el concepto de separación de Datos y Volumen del Sistema introducido en macOS Catalina, la característica de Instantánea del Sistema Sellada asegura que todos tus datos y configuraciones se almacenen en un volumen separado "**Data**". Esta separación hace que tus datos sean independientes del sistema, lo que simplifica el proceso de actualizaciones del sistema y mejora la seguridad del sistema.
 
 Recuerda que estas instantáneas son gestionadas automáticamente por macOS y no ocupan espacio adicional en tu disco, gracias a las capacidades de compartición de espacio de APFS. También es importante notar que estas instantáneas son diferentes de las **instantáneas de Time Machine**, que son copias de seguridad accesibles por el usuario de todo el sistema.
 
@@ -244,17 +231,17 @@ El comando **`diskutil apfs list`** lista los **detalles de los volúmenes APFS*
 </strong>[...]
 +-> Volumen disk3s5 281959B7-07A1-4940-BDDF-6419360F3327
 |   ---------------------------------------------------
-|   Disco de Volumen APFS (Rol):   disk3s5 (Datos)
-|   Nombre:                      Macintosh HD - Datos (Sin distinción de mayúsculas)
+|   Disco de Volumen APFS (Rol):   disk3s5 (Data)
+|   Nombre:                      Macintosh HD - Data (Sin distinción de mayúsculas)
 <strong>    |   Punto de Montaje:               /System/Volumes/Data
 </strong><strong>    |   Capacidad Consumida:         412071784448 B (412.1 GB)
 </strong>    |   Sellado:                    No
 |   FileVault:                 Sí (Desbloqueado)
 </code></pre>
 
-En la salida anterior es posible ver que **las ubicaciones accesibles por el usuario** están montadas bajo `/System/Volumes/Data`.
+En la salida anterior es posible ver que **los lugares accesibles por el usuario** están montados bajo `/System/Volumes/Data`.
 
-Además, la **instantánea del volumen del sistema de macOS** está montada en `/` y está **sellada** (firmada criptográficamente por el OS). Por lo tanto, si se elude SIP y se modifica, el **OS no arrancará más**.
+Además, la **instantánea del volumen del sistema de macOS** está montada en `/` y está **sellada** (firmada criptográficamente por el OS). Así que, si se elude SIP y se modifica, el **OS ya no arrancará**.
 
 También es posible **verificar que el sellado está habilitado** ejecutando:
 ```bash
@@ -266,17 +253,6 @@ Además, el disco de instantánea también se monta como **solo lectura**:
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) es un motor de búsqueda alimentado por la **dark-web** que ofrece funcionalidades **gratuitas** para verificar si una empresa o sus clientes han sido **comprometidos** por **malware robador**.
-
-Su objetivo principal de WhiteIntel es combatir la toma de cuentas y los ataques de ransomware resultantes de malware que roba información.
-
-Puedes visitar su sitio web y probar su motor de forma **gratuita** en:
-
-{% embed url="https://whiteintel.io" %}
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)

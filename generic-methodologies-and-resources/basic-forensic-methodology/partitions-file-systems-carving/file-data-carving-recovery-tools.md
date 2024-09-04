@@ -15,17 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
+## Herramientas de Carving y Recuperación
 
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Carving & Recovery tools
-
-More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
+Más herramientas en [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
@@ -33,7 +25,7 @@ La herramienta más común utilizada en forense para extraer archivos de imágen
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** es una herramienta para analizar archivos binarios y encontrar contenido incrustado. Se puede instalar a través de `apt` y su código fuente está en [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** es una herramienta para analizar archivos binarios para encontrar contenido incrustado. Se puede instalar a través de `apt` y su código fuente está en [GitHub](https://github.com/ReFirmLabs/binwalk).
 
 **Comandos útiles**:
 ```bash
@@ -65,7 +57,7 @@ Esta herramienta puede escanear una imagen y **extraer pcaps** dentro de ella, *
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navega a través de **toda la información** que la herramienta ha recopilado (¿contraseñas?), **analiza** los **paquetes** (lee [**análisis de Pcaps**](../pcap-inspection/)), busca **dominios extraños** (dominios relacionados con **malware** o **inexistentes**).
+Navega a través de **toda la información** que la herramienta ha recopilado (¿contraseñas?), **analiza** los **paquetes** (lee[ **análisis de Pcaps**](../pcap-inspection/)), busca **dominios extraños** (dominios relacionados con **malware** o **inexistentes**).
 
 ### PhotoRec
 
@@ -81,7 +73,7 @@ Revisa el [código](https://code.google.com/archive/p/binvis/) y la [página web
 
 #### Características de BinVis
 
-* Visual y activo **visor de estructuras**
+* Visualizador de **estructura** visual y activa
 * Múltiples gráficos para diferentes puntos de enfoque
 * Enfocándose en porciones de una muestra
 * **Viendo cadenas y recursos**, en ejecutables PE o ELF, por ejemplo.
@@ -96,20 +88,14 @@ BinVis es un gran **punto de partida para familiarizarse con un objetivo descono
 
 ### FindAES
 
-Busca claves AES buscando sus horarios de clave. Capaz de encontrar claves de 128, 192 y 256 bits, como las utilizadas por TrueCrypt y BitLocker.
+Busca claves AES buscando sus programaciones de claves. Capaz de encontrar claves de 128, 192 y 256 bits, como las utilizadas por TrueCrypt y BitLocker.
 
 Descarga [aquí](https://sourceforge.net/projects/findaes/).
 
 ## Herramientas complementarias
 
-Puedes usar [**viu**](https://github.com/atanunq/viu) para ver imágenes desde la terminal.\
+Puedes usar [**viu** ](https://github.com/atanunq/viu) para ver imágenes desde la terminal.\
 Puedes usar la herramienta de línea de comandos de linux **pdftotext** para transformar un pdf en texto y leerlo.
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

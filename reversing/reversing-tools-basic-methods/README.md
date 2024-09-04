@@ -15,14 +15,6 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-**Grupo de Seguridad Try Hard**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Herramientas de Reversión Basadas en ImGui
 
 Software:
@@ -48,7 +40,7 @@ Software:
 
 dotPeek es un descompilador que **descompila y examina múltiples formatos**, incluyendo **bibliotecas** (.dll), **archivos de metadatos de Windows** (.winmd) y **ejecutables** (.exe). Una vez descompilado, un ensamblaje puede ser guardado como un proyecto de Visual Studio (.csproj).
 
-El mérito aquí es que si un código fuente perdido requiere restauración desde un ensamblaje legado, esta acción puede ahorrar tiempo. Además, dotPeek proporciona una navegación útil a través del código descompilado, convirtiéndolo en una de las herramientas perfectas para **análisis de algoritmos de Xamarin.**
+El mérito aquí es que si un código fuente perdido requiere restauración desde un ensamblaje legado, esta acción puede ahorrar tiempo. Además, dotPeek proporciona una navegación útil a través del código descompilado, convirtiéndolo en una de las herramientas perfectas para el **análisis de algoritmos de Xamarin.**
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
@@ -64,7 +56,7 @@ Con un modelo de complemento integral y una API que extiende la herramienta para
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
 [Plugin de ILSpy para Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Puedes tenerlo en cualquier sistema operativo (puedes instalarlo directamente desde VSCode, no es necesario descargar el git. Haz clic en **Extensiones** y **busca ILSpy**).\
-Si necesitas **descompilar**, **modificar** y **recompilar** de nuevo, puedes usar [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) o un fork mantenido activamente de él, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Clic derecho -> Modificar método** para cambiar algo dentro de una función).
+Si necesitas **descompilar**, **modificar** y **recompilar** nuevamente, puedes usar [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) o un fork mantenido activamente de él, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Clic derecho -> Modificar método** para cambiar algo dentro de una función).
 
 ### Registro de DNSpy
 
@@ -78,7 +70,7 @@ File.AppendAllText(path, "Password: " + password + "\n");
 
 Para depurar código usando DNSpy, necesitas:
 
-Primero, cambia los **atributos de ensamblado** relacionados con **la depuración**:
+Primero, cambia los **atributos de la Asamblea** relacionados con **la depuración**:
 
 ![](<../../.gitbook/assets/image (973).png>)
 ```aspnet
@@ -99,7 +91,7 @@ Luego guarda el nuevo archivo a través de _**Archivo >> Guardar módulo...**_:
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Esto es necesario porque si no lo haces, en **tiempo de ejecución** se aplicarán varias **optimizaciones** al código y podría ser posible que mientras depuras un **punto de interrupción nunca se active** o que algunas **variables no existan**.
+Esto es necesario porque si no lo haces, en **tiempo de ejecución** se aplicarán varias **optimizaciones** al código y podría ser posible que mientras depuras un **punto de interrupción nunca se active** o algunas **variables no existan**.
 
 Luego, si tu aplicación .NET está siendo **ejecutada** por **IIS**, puedes **reiniciarla** con:
 ```
@@ -137,16 +129,16 @@ Haz clic derecho en cualquier módulo en **Assembly Explorer** y haz clic en **S
 ### Usando IDA
 
 * **Cargar rundll32** (64 bits en C:\Windows\System32\rundll32.exe y 32 bits en C:\Windows\SysWOW64\rundll32.exe)
-* Selecciona el depurador **Windbg**
-* Selecciona "**Suspend on library load/unload**"
+* Seleccionar el depurador **Windbg**
+* Seleccionar "**Suspend on library load/unload**"
 
 ![](<../../.gitbook/assets/image (868).png>)
 
-* Configura los **parámetros** de la ejecución poniendo la **ruta a la DLL** y la función que deseas llamar:
+* Configurar los **parámetros** de la ejecución poniendo la **ruta a la DLL** y la función que deseas llamar:
 
 ![](<../../.gitbook/assets/image (704).png>)
 
-Luego, cuando comiences a depurar, **la ejecución se detendrá cuando se cargue cada DLL**, luego, cuando rundll32 cargue tu DLL, la ejecución se detendrá.
+Luego, cuando comiences a depurar **la ejecución se detendrá cuando se cargue cada DLL**, luego, cuando rundll32 cargue tu DLL, la ejecución se detendrá.
 
 Pero, ¿cómo puedes llegar al código de la DLL que fue cargada? Usando este método, no sé cómo.
 
@@ -154,8 +146,8 @@ Pero, ¿cómo puedes llegar al código de la DLL que fue cargada? Usando este m�
 
 * **Cargar rundll32** (64 bits en C:\Windows\System32\rundll32.exe y 32 bits en C:\Windows\SysWOW64\rundll32.exe)
 * **Cambiar la línea de comandos** (_File --> Change Command Line_) y establecer la ruta de la dll y la función que deseas llamar, por ejemplo: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
-* Cambia _Options --> Settings_ y selecciona "**DLL Entry**".
-* Luego **inicia la ejecución**, el depurador se detendrá en cada main de dll, en algún momento te **detendrás en la entrada de la dll de tu dll**. Desde allí, solo busca los puntos donde deseas poner un punto de interrupción.
+* Cambiar _Options --> Settings_ y seleccionar "**DLL Entry**".
+* Luego **iniciar la ejecución**, el depurador se detendrá en cada main de dll, en algún momento te **detendrás en la entrada de la dll** que deseas depurar. Desde allí, solo busca los puntos donde deseas poner un punto de interrupción.
 
 Ten en cuenta que cuando la ejecución se detiene por cualquier razón en win64dbg, puedes ver **en qué código estás** mirando en **la parte superior de la ventana de win64dbg**:
 
@@ -195,7 +187,7 @@ Puedes encontrar una versión ligeramente modificada de Blobrunner en el siguien
 
 ### Depurando un shellcode con jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) es muy similar a blobrunner. **Asignará** el **shellcode** dentro de un espacio de memoria y comenzará un **bucle eterno**. Luego necesitas **adjuntar el depurador** al proceso, **presionar iniciar, esperar 2-5 segundos y presionar detener** y te encontrarás dentro del **bucle eterno**. Salta a la siguiente instrucción del bucle eterno ya que será una llamada al shellcode, y finalmente te encontrarás ejecutando el shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) es muy similar a blobrunner. **Asignará** el **shellcode** dentro de un espacio de memoria y comenzará un **bucle eterno**. Luego necesitas **adjuntar el depurador** al proceso, **presionar iniciar, esperar 2-5 segundos y presionar detener** y te encontrarás dentro del **bucle eterno**. Salta a la siguiente instrucción del bucle eterno, ya que será una llamada al shellcode, y finalmente te encontrarás ejecutando el shellcode.
 
 ![](<../../.gitbook/assets/image (509).png>)
 
@@ -205,7 +197,7 @@ Puedes descargar una versión compilada de [jmp2it en la página de lanzamientos
 
 [**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) es la GUI de radare. Usando cutter puedes emular el shellcode e inspeccionarlo dinámicamente.
 
-Ten en cuenta que Cutter te permite "Abrir archivo" y "Abrir shellcode". En mi caso, cuando abrí el shellcode como un archivo, lo descompiló correctamente, pero cuando lo abrí como un shellcode no:
+Ten en cuenta que Cutter te permite "Abrir archivo" y "Abrir shellcode". En mi caso, cuando abrí el shellcode como un archivo, lo descompiló correctamente, pero cuando lo abrí como un shellcode no lo hizo:
 
 ![](<../../.gitbook/assets/image (562).png>)
 
@@ -222,7 +214,7 @@ Puedes ver la pila, por ejemplo, dentro de un volcado hexadecimal:
 ### Desofuscando shellcode y obteniendo funciones ejecutadas
 
 Deberías probar [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
-Te dirá cosas como **qué funciones** está utilizando el shellcode y si el shellcode se **decodifica** a sí mismo en memoria.
+Te dirá cosas como **qué funciones** está utilizando el shellcode y si el shellcode se está **decodificando** a sí mismo en memoria.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -235,7 +227,7 @@ scDbg también cuenta con un lanzador gráfico donde puedes seleccionar las opci
 
 ![](<../../.gitbook/assets/image (258).png>)
 
-La opción **Create Dump** volcará el shellcode final si se realiza algún cambio en el shellcode dinámicamente en memoria (útil para descargar el shellcode decodificado). El **start offset** puede ser útil para iniciar el shellcode en un desplazamiento específico. La opción **Debug Shell** es útil para depurar el shellcode utilizando el terminal de scDbg (sin embargo, encuentro que cualquiera de las opciones explicadas antes es mejor para este asunto, ya que podrás usar Ida o x64dbg).
+La opción **Create Dump** volcará el shellcode final si se realiza algún cambio en el shellcode dinámicamente en memoria (útil para descargar el shellcode decodificado). El **start offset** puede ser útil para iniciar el shellcode en un desplazamiento específico. La opción **Debug Shell** es útil para depurar el shellcode utilizando el terminal de scDbg (sin embargo, encuentro que cualquiera de las opciones explicadas anteriormente es mejor para este asunto, ya que podrás usar Ida o x64dbg).
 
 ### Desensamblando usando CyberChef
 
@@ -270,7 +262,7 @@ Teniendo el **nombre** de las **funciones** que se están llamando, búscalas en
 
 Para binarios compilados en Delphi puedes usar [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
 
-Si tienes que revertir un binario de Delphi, te sugeriría usar el plugin de IDA [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
+Si tienes que hacer ingeniería inversa a un binario de Delphi, te sugeriría usar el plugin de IDA [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
 
 Solo presiona **ATL+f7** (importar plugin de python en IDA) y selecciona el plugin de python.
 
@@ -280,7 +272,7 @@ También es muy interesante porque si presionas un botón en la aplicación grá
 
 ## Golang
 
-Si tienes que revertir un binario de Golang, te sugeriría usar el plugin de IDA [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
+Si tienes que hacer ingeniería inversa a un binario de Golang, te sugeriría usar el plugin de IDA [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
 
 Solo presiona **ATL+f7** (importar plugin de python en IDA) y selecciona el plugin de python.
 
@@ -324,7 +316,7 @@ Así que, en este tipo de programa, la parte interesante será **cómo el progra
 
 ![](<../../.gitbook/assets/image (447).png>)
 
-En la imagen anterior puedes encontrar que la función es llamada desde **FUN\_080015a8** (direcciones: _0x080015fa_ y _0x080017ac_).
+En la imagen anterior puedes ver que la función es llamada desde **FUN\_080015a8** (direcciones: _0x080015fa_ y _0x080017ac_).
 
 En esa función, después de algunas operaciones de inicialización (sin ninguna importancia):
 ```c
@@ -393,7 +385,7 @@ En el código anterior, puedes ver que estamos comparando **uVar1** (el lugar do
 * Luego, se compara con el **valor 8** (botón **START**): En el desafío, esto verifica si el código es válido para obtener la bandera.
 * En este caso, la var **`DAT_030000d8`** se compara con 0xf3 y si el valor es el mismo, se ejecuta algún código.
 * En cualquier otro caso, se verifica algún cont (`DAT_030000d4`). Es un cont porque se suma 1 justo después de entrar en el código.\
-**Si** es menor que 8, se realiza algo que involucra **sumar** valores a \*\*`DAT_030000d8` \*\* (básicamente, se están sumando los valores de las teclas presionadas en esta variable siempre que el cont sea menor que 8).
+**Si** es menor que 8, se realiza algo que involucra **sumar** valores a \*\*`DAT_030000d8` \*\* (básicamente, se suman los valores de las teclas presionadas en esta variable siempre que el cont sea menor que 8).
 
 Así que, en este desafío, conociendo los valores de los botones, necesitabas **presionar una combinación con una longitud menor que 8 cuya suma resultante sea 0xf3.**
 
@@ -408,12 +400,6 @@ Así que, en este desafío, conociendo los valores de los botones, necesitabas *
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Desofuscación binaria)
 
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -422,9 +408,9 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 <summary>Apoya a HackTricks</summary>
 
-* Revisa los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
+* ¡Consulta los [**planes de suscripción**](https://github.com/sponsors/carlospolop)!
 * **Únete al** 💬 [**grupo de Discord**](https://discord.gg/hRep4RUj7f) o al [**grupo de telegram**](https://t.me/peass) o **síguenos** en **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Comparte trucos de hacking enviando PRs a los** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos de github.
+* **Comparte trucos de hacking enviando PRs a los repositorios de** [**HackTricks**](https://github.com/carlospolop/hacktricks) y [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

