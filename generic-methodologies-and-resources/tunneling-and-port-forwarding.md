@@ -15,14 +15,6 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Dica do Nmap
 
 {% hint style="warning" %}
@@ -167,7 +159,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-Neste caso, a **porta é aberta no host beacon**, não no Team Server, e o tráfego é enviado para o Team Server e, a partir daí, para o host:porta indicado.
+Neste caso, a **porta é aberta no host beacon**, não no Servidor da Equipe, e o tráfego é enviado para o Servidor da Equipe e, a partir daí, para o host:porta indicado.
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -175,8 +167,8 @@ rportfwd stop [bind port]
 ```
 Para notar:
 
-- O **reverso port forward do Beacon** é projetado para **tunar o tráfego para o Servidor da Equipe, não para relatar entre máquinas individuais**.
-- O tráfego é **tunelado dentro do tráfego C2 do Beacon**, incluindo links P2P.
+- O **reverso port forward do Beacon** é projetado para **túnel de tráfego para o Servidor da Equipe, não para retransmissão entre máquinas individuais**.
+- O tráfego é **tuneado dentro do tráfego C2 do Beacon**, incluindo links P2P.
 - **Privilégios de administrador não são necessários** para criar reversos port forwards em portas altas.
 
 ### rPort2Port local
@@ -210,7 +202,7 @@ Você precisa usar a **mesma versão para cliente e servidor**
 ./chisel server -v -p 8080 --socks5 #Server -- Victim (needs to have port 8080 exposed)
 ./chisel client -v 10.10.10.10:8080 socks #Attacker
 ```
-### Encaminhamento de portas
+### Encaminhamento de porta
 ```bash
 ./chisel_1.7.6_linux_amd64 server -p 12312 --reverse #Server -- Attacker
 ./chisel_1.7.6_linux_amd64 client 10.10.14.20:12312 R:4505:127.0.0.1:4505 #Client -- Victim
@@ -228,7 +220,7 @@ attacker> python server.py --server-port 9999 --server-ip 0.0.0.0 --proxy-ip 127
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999
 ```
-Fazer pivot através do **NTLM proxy**
+Pivotar através do **NTLM proxy**
 ```bash
 victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999 --ntlm-proxy-ip <proxy_ip> --ntlm-proxy-port 8080 --domain CONTOSO.COM --username Alice --password P@ssw0rd
 ```
@@ -357,7 +349,7 @@ Em **Perfil -> Regras de Proxificação** adicione o nome do programa a ser prox
 ## Bypass de proxy NTLM
 
 A ferramenta mencionada anteriormente: **Rpivot**\
-**OpenVPN** também pode contorná-lo, configurando essas opções no arquivo de configuração:
+**OpenVPN** também pode contorná-lo, definindo essas opções no arquivo de configuração:
 ```bash
 http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 ```
@@ -365,7 +357,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Ele se autentica contra um proxy e vincula uma porta local que é encaminhada para o serviço externo que você especificar. Então, você pode usar a ferramenta de sua escolha através dessa porta.\
+Ele autentica contra um proxy e vincula uma porta local que é encaminhada para o serviço externo que você especificar. Então, você pode usar a ferramenta de sua escolha através dessa porta.\
 Por exemplo, encaminhe a porta 443.
 ```
 Username Alice
@@ -462,7 +454,7 @@ ssh -D 9050 -p 2222 -l user 127.0.0.1
 ## ngrok
 
 **[ngrok](https://ngrok.com/) é uma ferramenta para expor soluções à Internet em uma linha de comando.**
-*As URIs de exposição são como:* **UID.ngrok.io**
+*URIs de exposição são como:* **UID.ngrok.io**
 
 ### Instalação
 
@@ -527,25 +519,17 @@ addr: file:///tmp/httpbin/
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Suporte ao HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

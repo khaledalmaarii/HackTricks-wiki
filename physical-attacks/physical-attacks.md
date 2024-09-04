@@ -6,7 +6,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -15,37 +15,23 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode verificar o site deles e experimentar o mecanismo **gratuitamente** em:
-
-{% embed url="https://whiteintel.io" %}
-
----
-
 ## Recuperação de Senha da BIOS e Segurança do Sistema
 
 **Redefinir a BIOS** pode ser feito de várias maneiras. A maioria das placas-mãe inclui uma **bateria** que, quando removida por cerca de **30 minutos**, redefinirá as configurações da BIOS, incluindo a senha. Alternativamente, um **jumper na placa-mãe** pode ser ajustado para redefinir essas configurações conectando pinos específicos.
 
 Para situações em que ajustes de hardware não são possíveis ou práticos, **ferramentas de software** oferecem uma solução. Executar um sistema a partir de um **Live CD/USB** com distribuições como **Kali Linux** fornece acesso a ferramentas como **_killCmos_** e **_CmosPWD_**, que podem ajudar na recuperação da senha da BIOS.
 
-Nos casos em que a senha da BIOS é desconhecida, inseri-la incorretamente **três vezes** geralmente resultará em um código de erro. Esse código pode ser usado em sites como [https://bios-pw.org](https://bios-pw.org) para potencialmente recuperar uma senha utilizável.
+Nos casos em que a senha da BIOS é desconhecida, inseri-la incorretamente **três vezes** geralmente resultará em um código de erro. Este código pode ser usado em sites como [https://bios-pw.org](https://bios-pw.org) para potencialmente recuperar uma senha utilizável.
 
 ### Segurança UEFI
 
-Para sistemas modernos que usam **UEFI** em vez da BIOS tradicional, a ferramenta **chipsec** pode ser utilizada para analisar e modificar configurações UEFI, incluindo a desativação do **Secure Boot**. Isso pode ser realizado com o seguinte comando:
+Para sistemas modernos que utilizam **UEFI** em vez da BIOS tradicional, a ferramenta **chipsec** pode ser utilizada para analisar e modificar configurações UEFI, incluindo a desativação do **Secure Boot**. Isso pode ser realizado com o seguinte comando:
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
 ### Análise de RAM e Ataques de Cold Boot
 
-A RAM retém dados brevemente após a interrupção da energia, geralmente por **1 a 2 minutos**. Essa persistência pode ser estendida para **10 minutos** aplicando substâncias frias, como nitrogênio líquido. Durante esse período estendido, um **dump de memória** pode ser criado usando ferramentas como **dd.exe** e **volatility** para análise.
+A RAM retém dados brevemente após a energia ser cortada, geralmente por **1 a 2 minutos**. Essa persistência pode ser estendida para **10 minutos** aplicando substâncias frias, como nitrogênio líquido. Durante esse período estendido, um **dump de memória** pode ser criado usando ferramentas como **dd.exe** e **volatility** para análise.
 
 ### Ataques de Acesso Direto à Memória (DMA)
 
@@ -62,8 +48,8 @@ Alterar binários do sistema como **_sethc.exe_** ou **_Utilman.exe_** com uma c
 #### Atalhos de Inicialização e Recuperação
 
 - **Supr**: Acessar configurações da BIOS.
-- **F8**: Entrar no modo de recuperação.
-- Pressionar **Shift** após a faixa do Windows pode contornar o autologon.
+- **F8**: Entrar no modo de Recuperação.
+- Pressionar **Shift** após a bandeira do Windows pode contornar o autologon.
 
 #### Dispositivos BAD USB
 
@@ -81,25 +67,13 @@ A criptografia BitLocker pode potencialmente ser contornada se a **senha de recu
 
 Uma nova chave de recuperação do BitLocker pode ser adicionada através de táticas de engenharia social, convencendo um usuário a executar um comando que adiciona uma nova chave de recuperação composta de zeros, simplificando assim o processo de descriptografia.
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode verificar o site deles e experimentar o mecanismo **gratuitamente** em:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

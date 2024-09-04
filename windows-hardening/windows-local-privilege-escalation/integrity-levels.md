@@ -15,28 +15,14 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um motor de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode conferir o site deles e experimentar o motor gratuitamente em:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 ## Níveis de Integridade
 
-No Windows Vista e versões posteriores, todos os itens protegidos vêm com uma etiqueta de **nível de integridade**. Essa configuração atribui principalmente um nível de integridade "médio" a arquivos e chaves de registro, exceto para certas pastas e arquivos que o Internet Explorer 7 pode gravar em um nível de integridade baixo. O comportamento padrão é que processos iniciados por usuários padrão tenham um nível de integridade médio, enquanto serviços normalmente operam em um nível de integridade do sistema. Um rótulo de alta integridade protege o diretório raiz.
+No Windows Vista e versões posteriores, todos os itens protegidos vêm com uma etiqueta de **nível de integridade**. Essa configuração atribui principalmente um nível de integridade "médio" a arquivos e chaves de registro, exceto por certas pastas e arquivos que o Internet Explorer 7 pode gravar em um nível de integridade baixo. O comportamento padrão é que processos iniciados por usuários padrão tenham um nível de integridade médio, enquanto serviços normalmente operam em um nível de integridade do sistema. Um rótulo de alta integridade protege o diretório raiz.
 
 Uma regra chave é que objetos não podem ser modificados por processos com um nível de integridade inferior ao nível do objeto. Os níveis de integridade são:
 
 * **Não confiável**: Este nível é para processos com logins anônimos. %%%Exemplo: Chrome%%%
-* **Baixo**: Principalmente para interações na internet, especialmente no Modo Protegido do Internet Explorer, afetando arquivos e processos associados, e certas pastas como a **Pasta Temporária da Internet**. Processos de baixa integridade enfrentam restrições significativas, incluindo sem acesso para gravação no registro e acesso limitado para gravação no perfil do usuário.
+* **Baixo**: Principalmente para interações na internet, especialmente no Modo Protegido do Internet Explorer, afetando arquivos e processos associados, e certas pastas como a **Pasta Temporária da Internet**. Processos de baixa integridade enfrentam restrições significativas, incluindo sem acesso de gravação no registro e acesso limitado de gravação no perfil do usuário.
 * **Médio**: O nível padrão para a maioria das atividades, atribuído a usuários padrão e objetos sem níveis de integridade específicos. Mesmo membros do grupo de Administradores operam neste nível por padrão.
 * **Alto**: Reservado para administradores, permitindo que eles modifiquem objetos em níveis de integridade inferiores, incluindo aqueles no próprio nível alto.
 * **Sistema**: O nível operacional mais alto para o kernel do Windows e serviços essenciais, fora do alcance mesmo para administradores, garantindo a proteção de funções vitais do sistema.
@@ -89,7 +75,7 @@ C:\Users\Public\asd.txt
 Access is denied.
 ```
 {% hint style="info" %}
-**Portanto, quando um arquivo tem um nível de integridade mínimo, para modificá-lo você precisa estar executando pelo menos nesse nível de integridade.**
+**Portanto, quando um arquivo tem um nível mínimo de integridade, para modificá-lo você precisa estar executando pelo menos nesse nível de integridade.**
 {% endhint %}
 
 ### Níveis de Integridade em Binários
@@ -116,29 +102,18 @@ Nem todos os arquivos e pastas têm um nível mínimo de integridade, **mas todo
 
 Devido às restrições comentadas nesta e na seção anterior, do ponto de vista de segurança, é sempre **recomendado executar um processo no nível de integridade mais baixo possível**.
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um motor de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode verificar o site deles e experimentar o motor gratuitamente em:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -15,60 +15,47 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode verificar o site deles e experimentar o mecanismo **gratuitamente** em:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-## Basic Information
+## Informações Básicas
 
 UART é um protocolo serial, o que significa que transfere dados entre componentes um bit de cada vez. Em contraste, os protocolos de comunicação paralela transmitem dados simultaneamente através de múltiplos canais. Protocolos seriais comuns incluem RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express e USB.
 
-Geralmente, a linha é mantida alta (em um valor lógico 1) enquanto o UART está no estado ocioso. Então, para sinalizar o início de uma transferência de dados, o transmissor envia um bit de início para o receptor, durante o qual o sinal é mantido baixo (em um valor lógico 0). Em seguida, o transmissor envia de cinco a oito bits de dados contendo a mensagem real, seguidos por um bit de paridade opcional e um ou dois bits de parada (com um valor lógico 1), dependendo da configuração. O bit de paridade, usado para verificação de erros, raramente é visto na prática. O bit (ou bits) de parada significam o fim da transmissão.
+Geralmente, a linha é mantida alta (em um valor lógico 1) enquanto o UART está no estado ocioso. Então, para sinalizar o início de uma transferência de dados, o transmissor envia um bit de início para o receptor, durante o qual o sinal é mantido baixo (em um valor lógico 0). Em seguida, o transmissor envia de cinco a oito bits de dados contendo a mensagem real, seguidos por um bit de paridade opcional e um ou dois bits de parada (com um valor lógico 1), dependendo da configuração. O bit de paridade, usado para verificação de erros, raramente é visto na prática. O bit de parada (ou bits) sinaliza o fim da transmissão.
 
-Chamamos a configuração mais comum de 8N1: oito bits de dados, sem paridade e um bit de parada. Por exemplo, se quisermos enviar o caractere C, ou 0x43 em ASCII, em uma configuração UART 8N1, enviaríamos os seguintes bits: 0 (o bit de início); 0, 1, 0, 0, 0, 0, 1, 1 (o valor de 0x43 em binário), e 0 (o bit de parada).
+Chamamos a configuração mais comum de 8N1: oito bits de dados, sem paridade e um bit de parada. Por exemplo, se quisermos enviar o caractere C, ou 0x43 em ASCII, em uma configuração UART 8N1, enviaríamos os seguintes bits: 0 (o bit de início); 0, 1, 0, 0, 0, 0, 1, 1 (o valor de 0x43 em binário) e 0 (o bit de parada).
 
 ![](<../../.gitbook/assets/image (764).png>)
 
 Ferramentas de hardware para se comunicar com UART:
 
-* Adaptador USB-para-serial
+* Adaptador USB-serial
 * Adaptadores com os chips CP2102 ou PL2303
 * Ferramenta multifuncional como: Bus Pirate, o Adafruit FT232H, o Shikra ou o Attify Badge
 
-### Identifying UART Ports
+### Identificando Portas UART
 
 UART tem 4 portas: **TX**(Transmitir), **RX**(Receber), **Vcc**(Tensão) e **GND**(Terra). Você pode ser capaz de encontrar 4 portas com as letras **`TX`** e **`RX`** **escritas** na PCB. Mas se não houver indicação, você pode precisar tentar encontrá-las usando um **multímetro** ou um **analisador lógico**.
 
 Com um **multímetro** e o dispositivo desligado:
 
 * Para identificar o pino **GND**, use o modo de **Teste de Continuidade**, coloque a ponta de prova preta no terra e teste com a vermelha até ouvir um som do multímetro. Vários pinos GND podem ser encontrados na PCB, então você pode ter encontrado ou não o que pertence ao UART.
-* Para identificar a porta **VCC**, configure o **modo de tensão DC** e ajuste para 20 V de tensão. Ponta de prova preta no terra e ponta de prova vermelha no pino. Ligue o dispositivo. Se o multímetro medir uma tensão constante de 3,3 V ou 5 V, você encontrou o pino Vcc. Se você obtiver outras tensões, tente com outros pinos.
+* Para identificar a porta **VCC**, configure o **modo de tensão DC** e ajuste para 20 V de tensão. Ponta de prova preta no terra e ponta de prova vermelha no pino. Ligue o dispositivo. Se o multímetro medir uma tensão constante de 3,3 V ou 5 V, você encontrou o pino Vcc. Se você obtiver outras tensões, tente com outras portas.
 * Para identificar a porta **TX**, configure o **modo de tensão DC** até 20 V de tensão, ponta de prova preta no terra e ponta de prova vermelha no pino, e ligue o dispositivo. Se você perceber que a tensão flutua por alguns segundos e depois se estabiliza no valor Vcc, você provavelmente encontrou a porta TX. Isso ocorre porque ao ligar, ele envia alguns dados de depuração.
 * A porta **RX** seria a mais próxima das outras 3, ela tem a menor flutuação de tensão e o menor valor geral de todos os pinos UART.
 
-Você pode confundir as portas TX e RX e nada aconteceria, mas se você confundir o GND e a porta VCC, pode danificar o circuito.
+Você pode confundir as portas TX e RX e nada aconteceria, mas se confundir as portas GND e VCC, você pode queimar o circuito.
 
 Em alguns dispositivos-alvo, a porta UART é desativada pelo fabricante desativando RX ou TX ou até mesmo ambos. Nesse caso, pode ser útil rastrear as conexões na placa de circuito e encontrar algum ponto de quebra. Uma forte dica para confirmar a não detecção do UART e a quebra do circuito é verificar a garantia do dispositivo. Se o dispositivo foi enviado com alguma garantia, o fabricante deixa algumas interfaces de depuração (neste caso, UART) e, portanto, deve ter desconectado o UART e o reconectaria durante a depuração. Esses pinos de quebra podem ser conectados por soldagem ou fios jumper.
 
-### Identifying the UART Baud Rate
+### Identificando a Taxa de Baud do UART
 
-A maneira mais fácil de identificar a taxa de baud correta é olhar para a **saída do pino TX e tentar ler os dados**. Se os dados que você recebe não forem legíveis, mude para a próxima taxa de baud possível até que os dados se tornem legíveis. Você pode usar um adaptador USB-para-serial ou um dispositivo multifuncional como o Bus Pirate para fazer isso, emparelhado com um script auxiliar, como [baudrate.py](https://github.com/devttys0/baudrate/). As taxas de baud mais comuns são 9600, 38400, 19200, 57600 e 115200.
+A maneira mais fácil de identificar a taxa de baud correta é olhar para a **saída do pino TX e tentar ler os dados**. Se os dados que você recebe não forem legíveis, mude para a próxima taxa de baud possível até que os dados se tornem legíveis. Você pode usar um adaptador USB-serial ou um dispositivo multifuncional como o Bus Pirate para fazer isso, emparelhado com um script auxiliar, como [baudrate.py](https://github.com/devttys0/baudrate/). As taxas de baud mais comuns são 9600, 38400, 19200, 57600 e 115200.
 
 {% hint style="danger" %}
 É importante notar que neste protocolo você precisa conectar o TX de um dispositivo ao RX do outro!
 {% endhint %}
 
-## CP210X UART to TTY Adapter
+## Adaptador CP210X UART para TTY
 
 O Chip CP210X é usado em muitas placas de prototipagem como NodeMCU (com esp8266) para Comunicação Serial. Esses adaptadores são relativamente baratos e podem ser usados para se conectar à interface UART do alvo. O dispositivo tem 5 pinos: 5V, GND, RXD, TXD, 3.3V. Certifique-se de conectar a tensão conforme suportado pelo alvo para evitar danos. Finalmente, conecte o pino RXD do Adaptador ao TXD do alvo e o pino TXD do Adaptador ao RXD do alvo.
 
@@ -86,7 +73,7 @@ Para minicom, use o seguinte comando para configurá-lo:
 ```
 minicom -s
 ```
-Configure as configurações, como baudrate e nome do dispositivo na opção `Configuração da porta serial`.
+Configure as configurações, como baudrate e nome do dispositivo na opção `Serial port setup`.
 
 Após a configuração, use o comando `minicom` para iniciar o Console UART.
 
@@ -96,11 +83,11 @@ Caso adaptadores UART Serial para USB não estejam disponíveis, o Arduino UNO R
 
 O Arduino UNO R3 possui um adaptador USB para Serial embutido na própria placa. Para obter a conexão UART, basta retirar o chip microcontrolador Atmel 328p da placa. Este hack funciona em variantes do Arduino UNO R3 que têm o Atmel 328p não soldado na placa (a versão SMD é usada nele). Conecte o pino RX do Arduino (Pino Digital 0) ao pino TX da Interface UART e o pino TX do Arduino (Pino Digital 1) ao pino RX da interface UART.
 
-Finalmente, é recomendado usar o Arduino IDE para obter o Console Serial. Na seção `ferramentas` no menu, selecione a opção `Console Serial` e defina a taxa de transmissão de acordo com a interface UART.
+Finalmente, é recomendado usar o Arduino IDE para obter o Console Serial. Na seção `tools` do menu, selecione a opção `Serial Console` e defina a taxa de transmissão de acordo com a interface UART.
 
 ## Bus Pirate
 
-Neste cenário, vamos espionar a comunicação UART do Arduino que está enviando todas as impressões do programa para o Monitor Serial.
+Neste cenário, vamos espionar a comunicação UART do Arduino que está enviando todos os prints do programa para o Serial Monitor.
 ```bash
 # Check the modes
 UART>m
@@ -198,18 +185,6 @@ Isso listará os possíveis conteúdos da EEPROM de acordo com as assinaturas en
 
 Embora seja necessário notar que nem sempre o uboot está desbloqueado, mesmo que esteja sendo usado. Se a tecla Enter não fizer nada, verifique outras teclas como a tecla Espaço, etc. Se o bootloader estiver bloqueado e não for interrompido, esse método não funcionará. Para verificar se o uboot é o bootloader do dispositivo, verifique a saída no Console UART enquanto o dispositivo está inicializando. Pode mencionar uboot durante a inicialização.
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode verificar o site deles e experimentar o mecanismo **gratuitamente** em:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -218,7 +193,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <summary>Support HackTricks</summary>
 
-* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 

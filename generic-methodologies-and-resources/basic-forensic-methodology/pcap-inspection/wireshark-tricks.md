@@ -9,25 +9,12 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 <summary>Suporte ao HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos no** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um motor de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode conferir o site deles e experimentar o motor **gratuitamente** em:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Melhore suas habilidades no Wireshark
 
@@ -42,9 +29,9 @@ Os seguintes tutoriais são incríveis para aprender alguns truques básicos leg
 
 ### Informações Analisadas
 
-**Informações de Especialista**
+**Informações do Especialista**
 
-Clicando em _**Analisar** --> **Informações de Especialista**_ você terá uma **visão geral** do que está acontecendo nos pacotes **analisados**:
+Clicando em _**Analisar** --> **Informações do Especialista**_ você terá uma **visão geral** do que está acontecendo nos pacotes **analisados**:
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
@@ -78,9 +65,9 @@ Em _**Estatísticas --> DNS**_ você pode encontrar estatísticas sobre a solici
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
-**Gráfico de I/O**
+**Gráfico I/O**
 
-Em _**Estatísticas --> Gráfico de I/O**_ você pode encontrar um **gráfico da comunicação.**
+Em _**Estatísticas --> Gráfico I/O**_ você pode encontrar um **gráfico da comunicação.**
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
@@ -98,7 +85,7 @@ Outros filtros interessantes:
 
 ### Pesquisa
 
-Se você quiser **pesquisar** por **conteúdo** dentro dos **pacotes** das sessões, pressione _CTRL+f_. Você pode adicionar novas camadas à barra de informações principal (No., Hora, Fonte, etc.) pressionando o botão direito e depois a edição da coluna.
+Se você quiser **pesquisar** por **conteúdo** dentro dos **pacotes** das sessões, pressione _CTRL+f_. Você pode adicionar novas camadas à barra de informações principal (No., Hora, Fonte, etc.) pressionando o botão direito e depois editando a coluna.
 
 ### Laboratórios pcap gratuitos
 
@@ -106,7 +93,7 @@ Se você quiser **pesquisar** por **conteúdo** dentro dos **pacotes** das sess�
 
 ## Identificando Domínios
 
-Você pode adicionar uma coluna que mostra o cabeçalho HTTP Host:
+Você pode adicionar uma coluna que mostra o cabeçalho Host HTTP:
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
@@ -130,7 +117,7 @@ No Wireshark atual, em vez de `bootp`, você precisa procurar por `DHCP`
 
 ### Decriptando tráfego https com a chave privada do servidor
 
-_editar>preferência>protocolo>ssl>_
+_edit>preferência>protocolo>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
@@ -179,18 +166,6 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um motor de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode verificar o site deles e experimentar o motor **gratuitamente** em:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -201,7 +176,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}

@@ -15,14 +15,6 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Ferramentas de Reversão Baseadas em ImGui
 
 Software:
@@ -63,12 +55,12 @@ Com um modelo de add-in abrangente e uma API que estende a ferramenta para atend
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[Plugin ILSpy para Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Você pode tê-lo em qualquer sistema operacional (você pode instalá-lo diretamente do VSCode, sem necessidade de baixar o git. Clique em **Extensões** e **pesquise ILSpy**).\
+[Plugin ILSpy para Visual Studio Code](https://github.com/icsharpcode/ilspy-vscode): Você pode tê-lo em qualquer sistema operacional (pode instalá-lo diretamente do VSCode, sem necessidade de baixar o git. Clique em **Extensões** e **pesquise ILSpy**).\
 Se você precisar **descompilar**, **modificar** e **recompilar** novamente, pode usar [**dnSpy**](https://github.com/dnSpy/dnSpy/releases) ou um fork ativamente mantido dele, [**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases). (**Clique com o botão direito -> Modificar Método** para alterar algo dentro de uma função).
 
-### Registro do DNSpy
+### Registro DNSpy
 
-Para fazer o **DNSpy registrar algumas informações em um arquivo**, você pode usar este trecho:
+Para fazer **DNSpy registrar algumas informações em um arquivo**, você pode usar este trecho:
 ```cs
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
@@ -99,9 +91,9 @@ Em seguida, salve o novo arquivo via _**File >> Save module...**_:
 
 ![](<../../.gitbook/assets/image (602).png>)
 
-Isso é necessário porque se você não fizer isso, durante a **execução** várias **otimizações** serão aplicadas ao código e pode ser possível que enquanto depurando um **ponto de interrupção nunca seja atingido** ou algumas **variáveis não existam**.
+Isso é necessário porque se você não fizer isso, em **runtime** várias **optimisations** serão aplicadas ao código e pode ser possível que enquanto depurando um **break-point nunca seja atingido** ou algumas **variables não existam**.
 
-Então, se sua aplicação .NET estiver sendo **executada** pelo **IIS**, você pode **reiniciá-la** com:
+Então, se sua aplicação .NET estiver sendo **run** pelo **IIS**, você pode **restart** ela com:
 ```
 iisreset /noforce
 ```
@@ -123,7 +115,7 @@ Clique em qualquer módulo em **Módulos** e selecione **Abrir Todos os Módulos
 
 ![](<../../.gitbook/assets/image (922).png>)
 
-Clique com o botão direito em qualquer módulo no **Explorador de Assemblies** e clique em **Classificar Assemblies**:
+Clique com o botão direito em qualquer módulo em **Explorador de Assemblies** e clique em **Classificar Assemblies**:
 
 ![](<../../.gitbook/assets/image (339).png>)
 
@@ -137,7 +129,7 @@ Clique com o botão direito em qualquer módulo no **Explorador de Assemblies** 
 ### Usando IDA
 
 * **Carregar rundll32** (64 bits em C:\Windows\System32\rundll32.exe e 32 bits em C:\Windows\SysWOW64\rundll32.exe)
-* Selecionar o depurador **Windbg**
+* Selecionar depurador **Windbg**
 * Selecionar "**Suspender ao carregar/descarregar biblioteca**"
 
 ![](<../../.gitbook/assets/image (868).png>)
@@ -155,7 +147,7 @@ Mas, como você pode chegar ao código da DLL que foi carregada? Usando este mé
 * **Carregar rundll32** (64 bits em C:\Windows\System32\rundll32.exe e 32 bits em C:\Windows\SysWOW64\rundll32.exe)
 * **Alterar a Linha de Comando** (_Arquivo --> Alterar Linha de Comando_) e definir o caminho da dll e a função que você deseja chamar, por exemplo: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Alterar _Opções --> Configurações_ e selecionar "**Entrada da DLL**".
-* Então **inicie a execução**, o depurador irá parar em cada main da dll, em algum momento você irá **parar na entrada da dll da sua dll**. A partir daí, basta procurar os pontos onde você deseja colocar um ponto de interrupção.
+* Então **inicie a execução**, o depurador irá parar em cada main da dll, em algum momento você irá **parar na Entrada da dll**. A partir daí, basta procurar os pontos onde você deseja colocar um ponto de interrupção.
 
 Observe que quando a execução é interrompida por qualquer motivo no win64dbg, você pode ver **em qual código você está** olhando no **topo da janela do win64dbg**:
 
@@ -195,7 +187,7 @@ Você pode encontrar uma versão ligeiramente modificada do Blobrunner no seguin
 
 ### Depurando um shellcode com jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) é muito semelhante ao blobrunner. Ele irá **alocar** o **shellcode** dentro de um espaço de memória e iniciar um **loop eterno**. Você então precisa **anexar o depurador** ao processo, **clicar em iniciar, esperar 2-5 segundos e pressionar parar** e você se encontrará dentro do **loop eterno**. Salte para a próxima instrução do loop eterno, pois será uma chamada ao shellcode, e finalmente você se encontrará executando o shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) é muito semelhante ao blobrunner. Ele irá **alocar** o **shellcode** dentro de um espaço de memória e iniciar um **loop eterno**. Você então precisa **anexar o depurador** ao processo, **iniciar, esperar 2-5 segundos e pressionar parar** e você se encontrará dentro do **loop eterno**. Salte para a próxima instrução do loop eterno, pois será uma chamada ao shellcode, e finalmente você se encontrará executando o shellcode.
 
 ![](<../../.gitbook/assets/image (509).png>)
 
@@ -219,7 +211,7 @@ Você pode ver a pilha, por exemplo, dentro de um despejo hexadecimal:
 
 ![](<../../.gitbook/assets/image (186).png>)
 
-### Deobfuscando shellcode e obtendo funções executadas
+### Desofuscando shellcode e obtendo funções executadas
 
 Você deve tentar [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
 Ele irá te informar coisas como **quais funções** o shellcode está usando e se o shellcode está **decodificando** a si mesmo na memória.
@@ -326,7 +318,7 @@ Então, neste tipo de programa, a parte interessante será **como o programa tra
 
 Na imagem anterior, você pode ver que a função é chamada de **FUN\_080015a8** (endereços: _0x080015fa_ e _0x080017ac_).
 
-Nesta função, após algumas operações de inicialização (sem importância):
+Nessa função, após algumas operações de inicialização (sem importância):
 ```c
 void FUN_080015a8(void)
 
@@ -359,7 +351,7 @@ uVar2 = DAT_030004dc;
 uVar1 = *puVar6;
 if ((uVar1 & DAT_030004da & ~uVar4) != 0) {
 ```
-A última verificação está checando se **`uVar4`** está nas **últimas Chaves** e não é a chave atual, também chamada de soltar um botão (a chave atual está armazenada em **`uVar1`**).
+O último if está verificando se **`uVar4`** está nas **últimas Chaves** e não é a chave atual, também chamada de soltar um botão (a chave atual está armazenada em **`uVar1`**).
 ```c
 if (uVar1 == 4) {
 DAT_030000d4 = 0;
@@ -407,12 +399,6 @@ Portanto, neste desafio, sabendo os valores dos botões, você precisava **press
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Desofuscação binária)
-
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

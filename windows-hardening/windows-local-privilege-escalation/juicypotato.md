@@ -15,22 +15,8 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um motor de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode conferir o site deles e experimentar o motor gratuitamente em:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
-**JuicyPotato não funciona** no Windows Server 2019 e Windows 10 build 1809 em diante. No entanto, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) podem ser usados para **aproveitar os mesmos privilégios e obter acesso ao nível `NT AUTHORITY\SYSTEM`**. _**Verifique:**_
+**JuicyPotato não funciona** no Windows Server 2019 e no Windows 10 build 1809 em diante. No entanto, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) podem ser usados para **aproveitar os mesmos privilégios e obter acesso ao nível `NT AUTHORITY\SYSTEM`**. _**Verifique:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -49,7 +35,7 @@ _Uma versão adoçada do_ [_RottenPotatoNG_](https://github.com/breenmachine/Rot
 
 [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) e suas [variantes](https://github.com/decoder-it/lonelypotato) aproveitam a cadeia de escalonamento de privilégios baseada no [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [serviço](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) tendo o ouvinte MiTM em `127.0.0.1:6666` e quando você tem privilégios `SeImpersonate` ou `SeAssignPrimaryToken`. Durante uma revisão de build do Windows, encontramos uma configuração onde `BITS` foi intencionalmente desativado e a porta `6666` foi ocupada.
 
-Decidimos transformar em arma [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Diga olá para Juicy Potato**.
+Decidimos armar [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Diga olá para Juicy Potato**.
 
 > Para a teoria, veja [Rotten Potato - Escalação de Privilégios de Contas de Serviço para SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) e siga a cadeia de links e referências.
 
@@ -73,9 +59,9 @@ JuicyPotato permite que você:
 * `CreateProcessAsUser` (precisa de `SeAssignPrimaryToken`)
 * `ambos`
 * **Processo a ser iniciado** _inicie um executável ou script se a exploração for bem-sucedida_
-* **Argumento do processo** _personalize os argumentos do processo iniciado_
-* **Endereço do servidor RPC** _para uma abordagem furtiva, você pode se autenticar em um servidor RPC externo_
-* **Porta do servidor RPC** _útil se você quiser se autenticar em um servidor externo e o firewall estiver bloqueando a porta `135`…_
+* **Argumento do Processo** _personalize os argumentos do processo iniciado_
+* **Endereço do Servidor RPC** _para uma abordagem furtiva, você pode se autenticar em um servidor RPC externo_
+* **Porta do Servidor RPC** _útil se você quiser se autenticar em um servidor externo e o firewall estiver bloqueando a porta `135`…_
 * **MODO DE TESTE** _principalmente para fins de teste, ou seja, testando CLSIDs. Ele cria o DCOM e imprime o usuário do token. Veja_ [_aqui para testes_](http://ohpe.it/juicy-potato/Test/)
 
 ### Uso <a href="#usage" id="usage"></a>
@@ -144,7 +130,7 @@ Primeiro, você precisará de alguns executáveis além do juicypotato.exe.
 
 Baixe [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) e carregue-o em sua sessão PS, e baixe e execute [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). Esse script criará uma lista de possíveis CLSIDs para testar.
 
-Em seguida, baixe [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat) (mude o caminho para a lista de CLSID e para o executável juicypotato) e execute-o. Ele começará a tentar cada CLSID, e **quando o número da porta mudar, isso significará que o CLSID funcionou**.
+Em seguida, baixe [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(mude o caminho para a lista de CLSID e para o executável juicypotato) e execute-o. Ele começará a tentar cada CLSID, e **quando o número da porta mudar, isso significará que o CLSID funcionou**.
 
 **Verifique** os CLSIDs funcionais **usando o parâmetro -c**
 
@@ -152,17 +138,6 @@ Em seguida, baixe [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/m
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode verificar o site deles e experimentar o mecanismo **gratuitamente** em:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

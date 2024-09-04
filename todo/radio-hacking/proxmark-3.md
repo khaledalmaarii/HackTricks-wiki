@@ -10,18 +10,10 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Atacando Sistemas RFID com Proxmark3
 
@@ -30,7 +22,7 @@ A primeira coisa que você precisa fazer é ter um [**Proxmark3**](https://proxm
 ### Atacando MIFARE Classic 1KB
 
 Ele possui **16 setores**, cada um deles tem **4 blocos** e cada bloco contém **16B**. O UID está no setor 0 bloco 0 (e não pode ser alterado).\
-Para acessar cada setor, você precisa de **2 chaves** (**A** e **B**) que estão armazenadas em **bloco 3 de cada setor** (trailer do setor). O trailer do setor também armazena os **bits de acesso** que dão as permissões de **leitura e escrita** em **cada bloco** usando as 2 chaves.\
+Para acessar cada setor, você precisa de **2 chaves** (**A** e **B**) que estão armazenadas no **bloco 3 de cada setor** (trailer do setor). O trailer do setor também armazena os **bits de acesso** que dão as permissões de **leitura e escrita** em **cada bloco** usando as 2 chaves.\
 2 chaves são úteis para dar permissões de leitura se você souber a primeira e de escrita se souber a segunda (por exemplo).
 
 Vários ataques podem ser realizados
@@ -52,7 +44,7 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-O Proxmark3 permite realizar outras ações, como **escutar** uma **comunicação de Tag para Leitor** para tentar encontrar dados sensíveis. Neste cartão, você poderia apenas capturar a comunicação e calcular a chave usada porque as **operações criptográficas utilizadas são fracas** e conhecendo o texto simples e o texto cifrado, você pode calculá-la (ferramenta `mfkey64`).
+O Proxmark3 permite realizar outras ações, como **eavesdropping** em uma **comunicação de Tag para Leitor** para tentar encontrar dados sensíveis. Neste cartão, você poderia apenas espionar a comunicação e calcular a chave usada porque as **operações criptográficas utilizadas são fracas** e conhecendo o texto simples e o texto cifrado, você pode calculá-la (ferramenta `mfkey64`).
 
 ### Comandos Brutos
 
@@ -76,24 +68,17 @@ proxmark3> script run mfkeys
 ```
 Você pode criar um script para **fuzz tag readers**, então copiando os dados de um **valid card** apenas escreva um **Lua script** que **randomize** um ou mais **bytes** aleatórios e verifique se o **reader crashes** com qualquer iteração.
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-
 {% hint style="success" %}
-Aprenda e pratique AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Support HackTricks</summary>
 
-* Confira os [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

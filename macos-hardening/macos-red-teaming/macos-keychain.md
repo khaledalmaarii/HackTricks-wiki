@@ -15,30 +15,17 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um motor de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode verificar o site deles e experimentar o motor **gratuitamente** em:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-## Principais Keychains
+## Main Keychains
 
 * O **User Keychain** (`~/Library/Keychains/login.keycahin-db`), que é usado para armazenar **credenciais específicas do usuário** como senhas de aplicativos, senhas da internet, certificados gerados pelo usuário, senhas de rede e chaves públicas/privadas geradas pelo usuário.
 * O **System Keychain** (`/Library/Keychains/System.keychain`), que armazena **credenciais de sistema** como senhas de WiFi, certificados raiz do sistema, chaves privadas do sistema e senhas de aplicativos do sistema.
 
-### Acesso ao Keychain de Senhas
+### Password Keychain Access
 
-Esses arquivos, embora não tenham proteção inerente e possam ser **baixados**, são criptografados e requerem a **senha em texto simples do usuário para serem descriptografados**. Uma ferramenta como [**Chainbreaker**](https://github.com/n0fate/chainbreaker) pode ser usada para a descriptografia.
+Esses arquivos, embora não tenham proteção inerente e possam ser **baixados**, são criptografados e requerem a **senha em texto claro do usuário para serem descriptografados**. Uma ferramenta como [**Chainbreaker**](https://github.com/n0fate/chainbreaker) pode ser usada para descriptografia.
 
-## Proteções de Entradas do Keychain
+## Keychain Entries Protections
 
 ### ACLs
 
@@ -60,7 +47,7 @@ Além disso, a entrada pode conter a chave **`ACLAuthorizationPartitionID`,** qu
 * Se o **apple** for especificado, então o aplicativo precisa ser **assinado** pela **Apple**.
 * Se o **cdhash** for indicado, então o **aplicativo** deve ter o **cdhash** específico.
 
-### Criando uma Entrada no Keychain
+### Creating a Keychain Entry
 
 Quando uma **nova** **entrada** é criada usando **`Keychain Access.app`**, as seguintes regras se aplicam:
 
@@ -78,7 +65,7 @@ Quando um **aplicativo cria uma entrada no keychain**, as regras são um pouco d
 * Nenhum aplicativo pode alterar as ACLs.
 * O **partitionID** é definido como **`teamid:[teamID aqui]`**.
 
-## Acessando o Keychain
+## Accessing the Keychain
 
 ### `security`
 ```bash
@@ -153,17 +140,6 @@ Se **apple** estiver indicado no **partitionID**, você poderia acessá-lo com *
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um mecanismo de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares de roubo**.
-
-O objetivo principal do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode verificar o site deles e experimentar o mecanismo **gratuitamente** em:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -175,7 +151,7 @@ Aprenda e pratique Hacking GCP: <img src="../../.gitbook/assets/grte.png" alt=""
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}

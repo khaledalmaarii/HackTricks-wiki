@@ -1,33 +1,25 @@
-# Truques de Stego
+# Stego Tricks
 
 {% hint style="success" %}
-Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Treinamento HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Treinamento HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Apoie o HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Verifique os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para os repositórios** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
-
-**Grupo de Segurança Try Hard**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## **Extraindo Dados de Arquivos**
 
 ### **Binwalk**
 
-Uma ferramenta para buscar arquivos binários para encontrar arquivos e dados ocultos. É instalado via `apt` e seu código fonte está disponível no [GitHub](https://github.com/ReFirmLabs/binwalk).
+Uma ferramenta para buscar arquivos binários por arquivos e dados ocultos embutidos. É instalada via `apt` e seu código-fonte está disponível no [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -41,23 +33,23 @@ foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Ajuda a visualizar metadados de arquivos, disponível [aqui](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
+Ajuda a visualizar os metadados do arquivo, disponível [aqui](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
 ### **Exiv2**
 
-Similar to exiftool, para visualização de metadados. Instalável via `apt`, código fonte no [GitHub](https://github.com/Exiv2/exiv2), e possui um [site oficial](http://www.exiv2.org/).
+Semelhante ao exiftool, para visualização de metadados. Instalável via `apt`, código-fonte no [GitHub](https://github.com/Exiv2/exiv2), e possui um [site oficial](http://www.exiv2.org/).
 ```bash
 exiv2 file # Shows the metadata
 ```
-### **Ficheiro**
+### **Arquivo**
 
-Identifica o tipo de ficheiro com o qual estás a lidar.
+Identifique o tipo de arquivo com o qual você está lidando.
 
-### **Cadeias de Caracteres**
+### **Strings**
 
-Extrai cadeias de caracteres legíveis de ficheiros, utilizando várias configurações de codificação para filtrar a saída.
+Extrai strings legíveis de arquivos, usando várias configurações de codificação para filtrar a saída.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -83,7 +75,7 @@ Caracteres invisíveis em espaços aparentemente vazios podem esconder informaç
 
 ## **Extraindo Dados de Imagens**
 
-### **Identificando Detalhes da Imagem com o GraphicMagick**
+### **Identificando Detalhes da Imagem com GraphicMagick**
 
 [GraphicMagick](https://imagemagick.org/script/download.php) serve para determinar tipos de arquivos de imagem e identificar possíveis corrupções. Execute o comando abaixo para inspecionar uma imagem:
 ```bash
@@ -95,24 +87,24 @@ Para tentar reparar uma imagem danificada, adicionar um comentário de metadados
 ```
 ### **Steghide para Ocultação de Dados**
 
-Steghide facilita a ocultação de dados em arquivos `JPEG, BMP, WAV e AU`, capaz de incorporar e extrair dados criptografados. A instalação é simples usando `apt`, e seu [código-fonte está disponível no GitHub](https://github.com/StefanoDeVuono/steghide).
+Steghide facilita a ocultação de dados dentro de arquivos `JPEG, BMP, WAV e AU`, capaz de embutir e extrair dados criptografados. A instalação é simples usando `apt`, e seu [código-fonte está disponível no GitHub](https://github.com/StefanoDeVuono/steghide).
 
 **Comandos:**
 
-* `steghide info arquivo` revela se um arquivo contém dados ocultos.
-* `steghide extract -sf arquivo [--senha senha]` extrai os dados ocultos, senha opcional.
+* `steghide info file` revela se um arquivo contém dados ocultos.
+* `steghide extract -sf file [--passphrase password]` extrai os dados ocultos, a senha é opcional.
 
 Para extração baseada na web, visite [este site](https://futureboy.us/stegano/decinput.html).
 
 **Ataque de Força Bruta com Stegcracker:**
 
-* Para tentar a quebra de senha no Steghide, use [stegcracker](https://github.com/Paradoxis/StegCracker.git) da seguinte forma:
+* Para tentar quebrar a senha no Steghide, use [stegcracker](https://github.com/Paradoxis/StegCracker.git) da seguinte forma:
 ```bash
 stegcracker <file> [<wordlist>]
 ```
 ### **zsteg para Arquivos PNG e BMP**
 
-zsteg é especializado em descobrir dados ocultos em arquivos PNG e BMP. A instalação é feita via `gem install zsteg`, com sua [fonte no GitHub](https://github.com/zed-0xff/zsteg).
+zsteg se especializa em descobrir dados ocultos em arquivos PNG e BMP. A instalação é feita via `gem install zsteg`, com seu [código-fonte no GitHub](https://github.com/zed-0xff/zsteg).
 
 **Comandos:**
 
@@ -121,44 +113,46 @@ zsteg é especializado em descobrir dados ocultos em arquivos PNG e BMP. A insta
 
 ### **StegoVeritas e Stegsolve**
 
-**stegoVeritas** verifica metadados, realiza transformações de imagem e aplica força bruta LSB, entre outras funcionalidades. Use `stegoveritas.py -h` para obter uma lista completa de opções e `stegoveritas.py stego.jpg` para executar todas as verificações.
+**stegoVeritas** verifica metadados, realiza transformações de imagem e aplica força bruta LSB, entre outros recursos. Use `stegoveritas.py -h` para uma lista completa de opções e `stegoveritas.py stego.jpg` para executar todas as verificações.
 
-**Stegsolve** aplica vários filtros de cor para revelar textos ou mensagens ocultas em imagens. Está disponível no [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
+**Stegsolve** aplica vários filtros de cor para revelar textos ou mensagens ocultas dentro de imagens. Está disponível no [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
 ### **FFT para Detecção de Conteúdo Oculto**
 
 Técnicas de Transformada Rápida de Fourier (FFT) podem revelar conteúdo oculto em imagens. Recursos úteis incluem:
 
-* [Demo EPFL](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
+* [Demonstração EPFL](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
 * [FFTStegPic no GitHub](https://github.com/0xcomposure/FFTStegPic)
 
 ### **Stegpy para Arquivos de Áudio e Imagem**
 
-Stegpy permite incorporar informações em arquivos de imagem e áudio, com suporte para formatos como PNG, BMP, GIF, WebP e WAV. Está disponível no [GitHub](https://github.com/dhsdshdhk/stegpy).
+Stegpy permite embutir informações em arquivos de imagem e áudio, suportando formatos como PNG, BMP, GIF, WebP e WAV. Está disponível no [GitHub](https://github.com/dhsdshdhk/stegpy).
 
 ### **Pngcheck para Análise de Arquivos PNG**
+
+Para analisar arquivos PNG ou validar sua autenticidade, use:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
 ```
 ### **Ferramentas Adicionais para Análise de Imagens**
 
-Para uma exploração mais aprofundada, considere visitar:
+Para uma exploração adicional, considere visitar:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
-* [Análise de Nível de Erro de Imagem](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [Análise do Nível de Erro da Imagem](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
 * [Outguess](https://github.com/resurrecting-open-source-projects/outguess)
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
 
 ## **Extraindo Dados de Áudios**
 
-A **esteganografia de áudio** oferece um método único para ocultar informações em arquivos de áudio. Diferentes ferramentas são utilizadas para embutir ou recuperar conteúdo oculto.
+**Esteganografia de áudio** oferece um método único para ocultar informações dentro de arquivos de som. Diferentes ferramentas são utilizadas para embutir ou recuperar conteúdo oculto.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghide é uma ferramenta versátil projetada para ocultar dados em arquivos JPEG, BMP, WAV e AU. Instruções detalhadas são fornecidas na [documentação de truques de estego](stego-tricks.md#steghide).
+Steghide é uma ferramenta versátil projetada para esconder dados em arquivos JPEG, BMP, WAV e AU. Instruções detalhadas estão disponíveis na [documentação de truques de stego](stego-tricks.md#steghide).
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
@@ -166,13 +160,13 @@ Esta ferramenta é compatível com uma variedade de formatos, incluindo PNG, BMP
 
 ### **ffmpeg**
 
-O ffmpeg é crucial para avaliar a integridade de arquivos de áudio, destacando informações detalhadas e identificando quaisquer discrepâncias.
+ffmpeg é crucial para avaliar a integridade dos arquivos de áudio, destacando informações detalhadas e identificando quaisquer discrepâncias.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg destaca-se em ocultar e extrair dados dentro de arquivos WAV usando a estratégia do bit menos significativo. Está acessível no [GitHub](https://github.com/ragibson/Steganography#WavSteg). Os comandos incluem:
+WavSteg se destaca em ocultar e extrair dados dentro de arquivos WAV usando a estratégia do bit menos significativo. Está acessível no [GitHub](https://github.com/ragibson/Steganography#WavSteg). Os comandos incluem:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -180,26 +174,28 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
 ### **Deepsound**
 
-Deepsound permite a criptografia e detecção de informações em arquivos de áudio usando AES-256. Pode ser baixado na [página oficial](http://jpinsoft.net/deepsound/download.aspx).
+Deepsound permite a criptografia e detecção de informações dentro de arquivos de som usando AES-256. Pode ser baixado da [página oficial](http://jpinsoft.net/deepsound/download.aspx).
 
 ### **Sonic Visualizer**
 
-Uma ferramenta inestimável para inspeção visual e analítica de arquivos de áudio, o Sonic Visualizer pode revelar elementos ocultos indetectáveis por outros meios. Visite o [site oficial](https://www.sonicvisualiser.org/) para mais informações.
+Uma ferramenta inestimável para inspeção visual e analítica de arquivos de áudio, Sonic Visualizer pode revelar elementos ocultos indetectáveis por outros meios. Visite o [site oficial](https://www.sonicvisualiser.org/) para mais informações.
 
-### **DTMF Tones - Dial Tones**
+### **Tons DTMF - Tons de Discagem**
 
-A detecção de tons DTMF em arquivos de áudio pode ser realizada por meio de ferramentas online como [este detector DTMF](https://unframework.github.io/dtmf-detect/) e [DialABC](http://dialabc.com/sound/detect/index.html).
+Detectar tons DTMF em arquivos de áudio pode ser alcançado através de ferramentas online como [este detector DTMF](https://unframework.github.io/dtmf-detect/) e [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Outras Técnicas**
 
-### **Binary Length SQRT - QR Code**
+### **Comprimento Binário SQRT - Código QR**
 
-Dados binários que resultam em um número inteiro ao serem elevados ao quadrado podem representar um código QR. Use este trecho para verificar:
+Dados binários que se elevam ao quadrado para um número inteiro podem representar um código QR. Use este trecho para verificar:
 ```python
 import math
 math.sqrt(2500) #50
 ```
-### **Tradução de Braille**
+Para conversão de binário para imagem, verifique [dcode](https://www.dcode.fr/binary-image). Para ler códigos QR, use [este leitor de código de barras online](https://online-barcode-reader.inliteresearch.com/).
+
+### **Tradução em Braille**
 
 Para traduzir Braille, o [Branah Braille Translator](https://www.branah.com/braille-translator) é um excelente recurso.
 
@@ -208,22 +204,16 @@ Para traduzir Braille, o [Branah Braille Translator](https://www.branah.com/brai
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Grupo de Segurança Try Hard**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Aprenda e pratique Hacking na AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprenda e pratique Hacking no GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Suporte ao HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
-* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga-nos** no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>

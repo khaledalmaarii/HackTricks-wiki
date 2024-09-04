@@ -15,19 +15,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) é um motor de busca alimentado pela **dark-web** que oferece funcionalidades **gratuitas** para verificar se uma empresa ou seus clientes foram **comprometidos** por **malwares ladrões**.
-
-O principal objetivo do WhiteIntel é combater a tomada de contas e ataques de ransomware resultantes de malware que rouba informações.
-
-Você pode conferir o site deles e experimentar o motor gratuitamente em:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 Se você tiver um pcap com dados sendo **exfiltrados pelo DNSCat** (sem usar criptografia), você pode encontrar o conteúdo exfiltrado.
 

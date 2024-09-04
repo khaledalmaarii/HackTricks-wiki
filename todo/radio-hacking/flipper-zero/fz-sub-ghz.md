@@ -10,18 +10,11 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Intro <a href="#kfpn7" id="kfpn7"></a>
 
@@ -43,7 +36,7 @@ Flipper Zero possui um módulo sub-1 GHz embutido baseado em um [﻿](https://ww
 Como encontrar qual frequência o controle remoto está usando
 {% endhint %}
 
-Ao analisar, o Flipper Zero está escaneando a força dos sinais (RSSI) em todas as frequências disponíveis na configuração de frequência. O Flipper Zero exibe a frequência com o maior valor de RSSI, com força de sinal superior a -90 [dBm](https://en.wikipedia.org/wiki/DBm).
+Ao analisar, o Flipper Zero está escaneando a intensidade dos sinais (RSSI) em todas as frequências disponíveis na configuração de frequência. O Flipper Zero exibe a frequência com o maior valor de RSSI, com intensidade de sinal superior a -90 [dBm](https://en.wikipedia.org/wiki/DBm).
 
 Para determinar a frequência do controle remoto, faça o seguinte:
 
@@ -65,7 +58,7 @@ Neste momento, possui **4 modulações** (AM270, AM650, FM328 e FM476), e **vár
 
 <figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
 
-Você pode definir **qualquer uma que lhe interesse**, no entanto, se você **não tiver certeza de qual frequência** pode ser a utilizada pelo controle remoto que você possui, **defina Hopping como ON** (Desligado por padrão), e pressione o botão várias vezes até que o Flipper a capture e forneça as informações que você precisa para definir a frequência.
+Você pode definir **qualquer uma que lhe interesse**, no entanto, se você **não tiver certeza de qual frequência** pode ser a usada pelo controle remoto que você possui, **defina Hopping como ATIVADO** (Desativado por padrão), e pressione o botão várias vezes até que o Flipper a capture e forneça as informações que você precisa para definir a frequência.
 
 {% hint style="danger" %}
 Alternar entre frequências leva algum tempo, portanto, sinais transmitidos no momento da troca podem ser perdidos. Para melhor recepção de sinal, defina uma frequência fixa determinada pelo Analisador de Frequência.
@@ -83,7 +76,7 @@ Por padrão, **Ler Raw também está em 433.92 em AM650**, mas se com a opção 
 
 ### Força Bruta
 
-Se você conhece o protocolo usado, por exemplo, pela porta da garagem, é possível **gerar todos os códigos e enviá-los com o Flipper Zero.** Este é um exemplo que suporta tipos comuns gerais de garagens: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+Se você conhece o protocolo usado, por exemplo, pelo portão da garagem, é possível **gerar todos os códigos e enviá-los com o Flipper Zero.** Este é um exemplo que suporta tipos comuns gerais de garagens: [**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### Adicionar Manualmente
 
@@ -94,23 +87,23 @@ Adicionar sinais de uma lista configurada de protocolos
 #### Lista de [protocolos suportados](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>
 
 | Princeton\_433 (funciona com a maioria dos sistemas de código estático) | 433.92 | Estático  |
-| --------------------------------------------------------------- | ------ | ------- |
-| Nice Flo 12bit\_433                                             | 433.92 | Estático  |
-| Nice Flo 24bit\_433                                             | 433.92 | Estático  |
-| CAME 12bit\_433                                                 | 433.92 | Estático  |
-| CAME 24bit\_433                                                 | 433.92 | Estático  |
-| Linear\_300                                                     | 300.00 | Estático  |
-| CAME TWEE                                                       | 433.92 | Estático  |
-| Gate TX\_433                                                    | 433.92 | Estático  |
-| DoorHan\_315                                                    | 315.00 | Dinâmico |
-| DoorHan\_433                                                    | 433.92 | Dinâmico |
-| LiftMaster\_315                                                 | 315.00 | Dinâmico |
-| LiftMaster\_390                                                 | 390.00 | Dinâmico |
-| Security+2.0\_310                                               | 310.00 | Dinâmico |
-| Security+2.0\_315                                               | 315.00 | Dinâmico |
-| Security+2.0\_390                                               | 390.00 | Dinâmico |
+| ------------------------------------------------------------------------ | ------ | -------- |
+| Nice Flo 12bit\_433                                                    | 433.92 | Estático  |
+| Nice Flo 24bit\_433                                                    | 433.92 | Estático  |
+| CAME 12bit\_433                                                        | 433.92 | Estático  |
+| CAME 24bit\_433                                                        | 433.92 | Estático  |
+| Linear\_300                                                            | 300.00 | Estático  |
+| CAME TWEE                                                              | 433.92 | Estático  |
+| Gate TX\_433                                                           | 433.92 | Estático  |
+| DoorHan\_315                                                           | 315.00 | Dinâmico |
+| DoorHan\_433                                                           | 433.92 | Dinâmico |
+| LiftMaster\_315                                                        | 315.00 | Dinâmico |
+| LiftMaster\_390                                                        | 390.00 | Dinâmico |
+| Security+2.0\_310                                                      | 310.00 | Dinâmico |
+| Security+2.0\_315                                                      | 315.00 | Dinâmico |
+| Security+2.0\_390                                                      | 390.00 | Dinâmico |
 
-### Vendedores Sub-GHz suportados
+### Fornecedores Sub-GHz suportados
 
 Confira a lista em [https://docs.flipperzero.one/sub-ghz/supported-vendors](https://docs.flipperzero.one/sub-ghz/supported-vendors)
 
@@ -128,12 +121,6 @@ Obtenha dBms das frequências salvas
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 Aprenda e pratique Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -144,7 +131,7 @@ Aprenda e pratique Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data
 
 * Confira os [**planos de assinatura**](https://github.com/sponsors/carlospolop)!
 * **Junte-se ao** 💬 [**grupo do Discord**](https://discord.gg/hRep4RUj7f) ou ao [**grupo do telegram**](https://t.me/peass) ou **siga**-nos no **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Compartilhe truques de hacking enviando PRs para o** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repositórios do github.
+* **Compartilhe truques de hacking enviando PRs para os repositórios do** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
 
 </details>
 {% endhint %}
