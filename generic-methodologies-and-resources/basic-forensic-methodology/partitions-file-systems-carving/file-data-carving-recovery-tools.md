@@ -15,25 +15,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
 Більше інструментів на [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
-Найбільш поширений інструмент, що використовується в судовій експертизі для витягування файлів з образів, це [**Autopsy**](https://www.autopsy.com/download/). Завантажте його, встановіть і дайте йому обробити файл, щоб знайти "сховані" файли. Зверніть увагу, що Autopsy створено для підтримки образів дисків та інших видів образів, але не простих файлів.
+Найбільш поширений інструмент, що використовується в судовій експертизі для витягування файлів з образів, це [**Autopsy**](https://www.autopsy.com/download/). Завантажте його, встановіть і дайте йому обробити файл, щоб знайти "приховані" файли. Зверніть увагу, що Autopsy створено для підтримки образів дисків та інших видів образів, але не простих файлів.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** — це інструмент для аналізу бінарних файлів з метою виявлення вбудованого контенту. Його можна встановити через `apt`, а його вихідний код доступний на [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** - це інструмент для аналізу бінарних файлів з метою виявлення вбудованого контенту. Його можна встановити через `apt`, а його вихідний код доступний на [GitHub](https://github.com/ReFirmLabs/binwalk).
 
 **Корисні команди**:
 ```bash
@@ -44,7 +36,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Ще один поширений інструмент для знаходження прихованих файлів - це **foremost**. Ви можете знайти файл конфігурації foremost у `/etc/foremost.conf`. Якщо ви хочете шукати лише деякі конкретні файли, зніміть коментар з них. Якщо ви нічого не знімете, foremost буде шукати файли за замовчуванням.
+Ще один поширений інструмент для знаходження прихованих файлів - це **foremost**. Ви можете знайти файл конфігурації foremost у `/etc/foremost.conf`. Якщо ви хочете шукати лише деякі конкретні файли, зніміть коментарі з них. Якщо ви нічого не знімете, foremost буде шукати файли за замовчуванням.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -52,7 +44,7 @@ foremost -v -i file.img -o output
 ```
 ### **Scalpel**
 
-**Scalpel** - це ще один інструмент, який можна використовувати для знаходження та вилучення **файлів, вбудованих у файл**. У цьому випадку вам потрібно буде зняти коментарі з файлів конфігурації (_/etc/scalpel/scalpel.conf_) для типів файлів, які ви хочете вилучити.
+**Scalpel** - це ще один інструмент, який можна використовувати для знаходження та вилучення **файлів, вбудованих у файл**. У цьому випадку вам потрібно буде зняти коментарі з конфігураційного файлу (_/etc/scalpel/scalpel.conf_) для типів файлів, які ви хочете вилучити.
 ```bash
 sudo apt-get install scalpel
 scalpel file.img -o output
@@ -86,7 +78,7 @@ Navigate through **всю інформацію**, яку зібрав інстр
 * Фокусування на частинах зразка
 * **Перегляд рядків та ресурсів**, у PE або ELF виконуваних файлах, наприклад
 * Отримання **шаблонів** для криптоаналізу файлів
-* **Виявлення** алгоритмів пакування або кодування
+* **Виявлення** пакувальників або алгоритмів кодування
 * **Ідентифікація** стеганографії за шаблонами
 * **Візуальне** бінарне порівняння
 
@@ -96,7 +88,7 @@ BinVis є чудовою **відправною точкою для ознайо
 
 ### FindAES
 
-Шукає ключі AES, досліджуючи їх графіки ключів. Може знаходити 128, 192 та 256 бітні ключі, такі як ті, що використовуються TrueCrypt та BitLocker.
+Шукає ключі AES, досліджуючи їх графіки ключів. Може знаходити ключі 128, 192 та 256 біт, такі як ті, що використовуються TrueCrypt та BitLocker.
 
 Завантажити [тут](https://sourceforge.net/projects/findaes/).
 
@@ -104,12 +96,6 @@ BinVis є чудовою **відправною точкою для ознайо
 
 Ви можете використовувати [**viu** ](https://github.com/atanunq/viu), щоб переглядати зображення з терміналу.\
 Ви можете використовувати командний рядок linux **pdftotext**, щоб перетворити pdf у текст і прочитати його.
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

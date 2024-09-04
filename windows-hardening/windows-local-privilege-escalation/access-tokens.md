@@ -15,19 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is a **dark-web** fueled search engine that offers **free** functionalities to check if a company or its customers have been **compromised** by **stealer malwares**.
-
-Their primary goal of WhiteIntel is to combat account takeovers and ransomware attacks resulting from information-stealing malware.
-
-You can check their website and try their engine for **free** at:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Access Tokens
 
@@ -92,7 +79,7 @@ or using _Process Explorer_ from Sysinternals (select process and access"Securit
 ```
 runas /user:domain\username cmd.exe
 ```
-**Токен доступу** також має **посилання** на сеанси входу в систему всередині **LSASS**, це корисно, якщо процесу потрібно отримати доступ до деяких об'єктів мережі.\
+**Токен доступу** також має **посилання** на сеанси входу всередині **LSASS**, це корисно, якщо процесу потрібно отримати доступ до деяких об'єктів мережі.\
 Ви можете запустити процес, який **використовує різні облікові дані для доступу до мережевих служб**, використовуючи:
 ```
 runas /user:domain\username /netonly cmd.exe
@@ -112,7 +99,7 @@ runas /user:domain\username /netonly cmd.exe
 
 #### Токени уособлення
 
-Використовуючи модуль _**incognito**_ метасплойту, якщо у вас достатньо привілеїв, ви можете легко **переглядати** та **уособлювати** інші **токени**. Це може бути корисно для виконання **дій так, ніби ви є іншим користувачем**. Ви також можете **підвищити привілеї** за допомогою цієї техніки.
+Використовуючи модуль _**incognito**_ метасплойта, якщо у вас достатньо привілеїв, ви можете легко **переглядати** та **уособлювати** інші **токени**. Це може бути корисно для виконання **дій так, ніби ви є іншим користувачем**. Ви також можете **підвищити привілеї** за допомогою цієї техніки.
 
 ### Привілеї токенів
 
@@ -128,21 +115,10 @@ runas /user:domain\username /netonly cmd.exe
 
 Дізнайтеся більше про токени в цих навчальних посібниках: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) та [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) є **пошуковою системою** на основі **темного вебу**, яка пропонує **безкоштовні** функції для перевірки, чи була компанія або її клієнти **компрометовані** **шкідливими програмами-крадіями**.
-
-Їхня основна мета WhiteIntel - боротися з захопленнями облікових записів та атаками програм-вимагачів, що виникають внаслідок шкідливих програм, що крадуть інформацію.
-
-Ви можете перевірити їхній веб-сайт і спробувати їхній двигун **безкоштовно** за адресою:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-Дізнайтеся та практикуйте Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Дізнайтеся та практикуйте Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Дізнайтеся та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Дізнайтеся та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

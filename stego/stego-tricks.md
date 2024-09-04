@@ -15,19 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## **Витягування даних з файлів**
 
 ### **Binwalk**
 
-Інструмент для пошуку бінарних файлів на наявність вбудованих прихованих файлів та даних. Він встановлюється через `apt`, а його вихідний код доступний на [GitHub](https://github.com/ReFirmLabs/binwalk).
+Інструмент для пошуку бінарних файлів на наявність вбудованих прихованих файлів і даних. Він встановлюється через `apt`, а його вихідний код доступний на [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -75,15 +67,15 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
-## **Витягування прихованих даних у тексті**
+## **Витягування Схованих Даних у Тексті**
 
-### **Приховані дані в пробілах**
+### **Сховані Дані в Пробілах**
 
 Невидимі символи в, здавалося б, порожніх пробілах можуть приховувати інформацію. Щоб витягти ці дані, відвідайте [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
 
-## **Витягування даних з зображень**
+## **Витягування Даних з Зображень**
 
-### **Визначення деталей зображення за допомогою GraphicMagick**
+### **Визначення Деталей Зображення за Допомогою GraphicMagick**
 
 [GraphicMagick](https://imagemagick.org/script/download.php) служить для визначення типів файлів зображень та виявлення потенційних пошкоджень. Виконайте команду нижче, щоб перевірити зображення:
 ```bash
@@ -112,7 +104,7 @@ stegcracker <file> [<wordlist>]
 ```
 ### **zsteg для PNG та BMP файлів**
 
-zsteg спеціалізується на виявленні прихованих даних у PNG та BMP файлах. Встановлення виконується через `gem install zsteg`, з [джерелом на GitHub](https://github.com/zed-0xff/zsteg).
+zsteg спеціалізується на виявленні прихованих даних у PNG та BMP файлах. Встановлення здійснюється через `gem install zsteg`, з [джерелом на GitHub](https://github.com/zed-0xff/zsteg).
 
 **Команди:**
 
@@ -135,7 +127,7 @@ zsteg спеціалізується на виявленні приховани�
 
 ### **Stegpy для аудіо та зображень**
 
-Stegpy дозволяє вбудовувати інформацію в зображення та аудіофайли, підтримуючи формати, такі як PNG, BMP, GIF, WebP та WAV. Доступний на [GitHub](https://github.com/dhsdshdhk/stegpy).
+Stegpy дозволяє вбудовувати інформацію в аудіо та зображення, підтримуючи формати, такі як PNG, BMP, GIF, WebP та WAV. Доступний на [GitHub](https://github.com/dhsdshdhk/stegpy).
 
 ### **Pngcheck для аналізу PNG файлів**
 
@@ -149,7 +141,7 @@ pngcheck stego.png
 Для подальшого дослідження, розгляньте можливість відвідування:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
-* [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [Аналіз рівня помилок зображення](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
 * [Outguess](https://github.com/resurrecting-open-source-projects/outguess)
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
@@ -182,7 +174,7 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
 ### **Deepsound**
 
-Deepsound дозволяє шифрувати та виявляти інформацію в аудіофайлах за допомогою AES-256. Його можна завантажити з [офіційної сторінки](http://jpinsoft.net/deepsound/download.aspx).
+Deepsound дозволяє шифрувати та виявляти інформацію в звукових файлах за допомогою AES-256. Його можна завантажити з [офіційної сторінки](http://jpinsoft.net/deepsound/download.aspx).
 
 ### **Sonic Visualizer**
 
@@ -190,13 +182,13 @@ Deepsound дозволяє шифрувати та виявляти інформ
 
 ### **DTMF Tones - Dial Tones**
 
-Виявлення DTMF тонів в аудіофайлах можна здійснити за допомогою онлайн-інструментів, таких як [цей детектор DTMF](https://unframework.github.io/dtmf-detect/) та [DialABC](http://dialabc.com/sound/detect/index.html).
+Виявлення DTMF тонів в аудіофайлах можна здійснити за допомогою онлайн-інструментів, таких як [цей DTMF детектор](https://unframework.github.io/dtmf-detect/) та [DialABC](http://dialabc.com/sound/detect/index.html).
 
 ## **Other Techniques**
 
 ### **Binary Length SQRT - QR Code**
 
-Бінарні дані, які в квадраті дають ціле число, можуть представляти QR-код. Використовуйте цей фрагмент коду для перевірки:
+Бінарні дані, які підносяться до квадрату, можуть представляти QR-код. Використовуйте цей фрагмент коду для перевірки:
 ```python
 import math
 math.sqrt(2500) #50
@@ -212,15 +204,9 @@ math.sqrt(2500) #50
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Спробуйте Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вчіться та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вчіться та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -228,7 +214,7 @@ math.sqrt(2500) #50
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
 {% endhint %}

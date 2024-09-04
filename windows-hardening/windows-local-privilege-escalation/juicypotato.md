@@ -15,22 +15,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) - це **пошукова система**, що працює на основі **темного вебу**, яка пропонує **безкоштовні** функції для перевірки, чи була компанія або її клієнти **скомпрометовані** **шкідливими програмами-крадіями**.
-
-Основна мета WhiteIntel - боротися з захопленням облікових записів та атаками програм-вимагачів, що виникають внаслідок шкідливих програм, що крадуть інформацію.
-
-Ви можете перевірити їхній вебсайт і спробувати їхній двигун **безкоштовно** за адресою:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
-**JuicyPotato не працює** на Windows Server 2019 та Windows 10 версії 1809 і вище. Однак, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) можуть бути використані для **отримання тих же привілеїв і отримання доступу рівня `NT AUTHORITY\SYSTEM`**. _**Перевірте:**_
+**JuicyPotato не працює** на Windows Server 2019 та Windows 10 версії 1809 і новіших. Однак, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) можуть бути використані для **отримання тих же привілеїв і доступу на рівні `NT AUTHORITY\SYSTEM`**. _**Перевірте:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -39,7 +25,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ## Juicy Potato (зловживання золотими привілеями) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_Цукрова версія_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, з трохи соку, тобто **інший інструмент підвищення локальних привілеїв, з облікових записів служб Windows до NT AUTHORITY\SYSTEM**_
+_Цукрова версія_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, з трохи соку, тобто **інший інструмент для підвищення локальних привілеїв, з облікових записів служб Windows до NT AUTHORITY\SYSTEM**_
 
 #### Ви можете завантажити juicypotato з [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)
 
@@ -47,9 +33,9 @@ _Цукрова версія_ [_RottenPotatoNG_](https://github.com/breenmachine
 
 [**З Readme juicy-potato**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) та його [варіанти](https://github.com/decoder-it/lonelypotato) використовують ланцюг підвищення привілеїв на основі [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [сервісу](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126), що має MiTM слухача на `127.0.0.1:6666`, і коли у вас є привілеї `SeImpersonate` або `SeAssignPrimaryToken`. Під час перевірки збірки Windows ми виявили налаштування, де `BITS` був навмисно вимкнений, а порт `6666` був зайнятий.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) та його [варіанти](https://github.com/decoder-it/lonelypotato) використовують ланцюг підвищення привілеїв на основі [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [сервісу](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126), маючи MiTM слухача на `127.0.0.1:6666`, і коли у вас є привілеї `SeImpersonate` або `SeAssignPrimaryToken`. Під час огляду збірки Windows ми виявили налаштування, де `BITS` був навмисно вимкнений, а порт `6666` був зайнятий.
 
-Ми вирішили озброїти [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Скажіть привіт Juicy Potato**.
+Ми вирішили озброїти [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Привітайте Juicy Potato**.
 
 > Для теорії дивіться [Rotten Potato - Підвищення привілеїв з облікових записів служб до SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) і слідкуйте за ланцюгом посилань і посилань.
 
@@ -57,7 +43,7 @@ _Цукрова версія_ [_RottenPotatoNG_](https://github.com/breenmachine
 
 1. бути інстанційованими поточним користувачем, зазвичай "користувачем служби", який має привілеї імперсонації
 2. реалізовувати інтерфейс `IMarshal`
-3. працювати як підвищений користувач (SYSTEM, Адміністратор тощо)
+3. працювати як підвищений користувач (SYSTEM, Адміністратор, …)
 
 Після деяких тестувань ми отримали та протестували розширений список [цікавих CLSID](http://ohpe.it/juicy-potato/CLSID/) на кількох версіях Windows.
 
@@ -97,7 +83,7 @@ Optional args:
 ```
 ### Final thoughts <a href="#final-thoughts" id="final-thoughts"></a>
 
-[**From juicy-potato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
+[**З juicy-potato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
 
 Якщо у користувача є привілеї `SeImpersonate` або `SeAssignPrimaryToken`, то ви **SYSTEM**.
 
@@ -152,29 +138,18 @@ c:\Users\Public>
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) є **пошуковою системою** на основі **темного вебу**, яка пропонує **безкоштовні** функції для перевірки, чи була компанія або її клієнти **компрометовані** **шкідливими програмами-крадіями**.
-
-Їхня основна мета - боротися з захопленнями облікових записів та атаками програм-вимагачів, що виникають внаслідок шкідливих програм, що крадуть інформацію.
-
-Ви можете перевірити їхній вебсайт і спробувати їхній двигун **безкоштовно** за адресою:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-Вчіться та практикуйте Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вчіться та практикуйте Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вчіться та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вчіться та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Підтримка HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
 {% endhint %}

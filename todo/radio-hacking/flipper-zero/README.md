@@ -6,41 +6,27 @@
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Підтримати HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
 {% endhint %}
 
-**Група Try Hard Security**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 З [**Flipper Zero**](https://flipperzero.one/) ви можете:
 
 * **Слухати/Захоплювати/Відтворювати радіочастоти:** [**Sub-GHz**](fz-sub-ghz.md)
-* **Читати/Захоплювати/Емілювати NFC картки:** [**NFC**](fz-nfc.md)
-* **Читати/Захоплювати/Емілювати 125kHz мітки:** [**125kHz RFID**](fz-125khz-rfid.md)
+* **Читати/Захоплювати/Емітувати NFC картки:** [**NFC**](fz-nfc.md)
+* **Читати/Захоплювати/Емітувати 125kHz мітки:** [**125kHz RFID**](fz-125khz-rfid.md)
 * **Читати/Захоплювати/Відправляти інфрачервоні сигнали:** [**Infrared**](fz-infrared.md)
-* **Читати/Захоплювати/Емілювати iButtons:** [**iButton**](../ibutton.md)
+* **Читати/Захоплювати/Емітувати iButtons:** [**iButton**](../ibutton.md)
 * **Використовувати як Bad USB**
 * **Використовувати як ключ безпеки (U2F)**
 * **Грати в змійку**
 
-**Інші ресурси Flipper Zero на** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)
-
-**Група Try Hard Security**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
+**Інші ресурси Flipper Zero в** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)
 
 {% hint style="success" %}
 Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -48,11 +34,11 @@
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Підтримати HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
 * **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
 {% endhint %}

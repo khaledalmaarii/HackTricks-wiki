@@ -15,19 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) є **пошуковою системою**, що працює на основі **темного вебу**, яка пропонує **безкоштовні** функції для перевірки, чи була компанія або її клієнти **компрометовані** **шкідливими програмами**.
-
-Основна мета WhiteIntel - боротися з захопленням облікових записів та атаками програм-вимагачів, що виникають внаслідок шкідливих програм, які крадуть інформацію.
-
-Ви можете перевірити їхній вебсайт і спробувати їхній двигун **безкоштовно** за адресою:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Improve your Wireshark skills
 
@@ -50,37 +37,37 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 **Resolved Addresses**
 
-У розділі _**Statistics --> Resolved Addresses**_ ви можете знайти кілька **інформацій**, які були "**розв'язані**" Wireshark, таких як порт/транспорт до протоколу, MAC до виробника тощо. Цікаво знати, що залучено в комунікацію.
+У _**Statistics --> Resolved Addresses**_ ви можете знайти кілька **інформації**, яка була "**розв'язана**" Wireshark, наприклад, порт/транспорт до протоколу, MAC до виробника тощо. Цікаво знати, що залучено в комунікацію.
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
 **Protocol Hierarchy**
 
-У розділі _**Statistics --> Protocol Hierarchy**_ ви можете знайти **протоколи**, **залучені** в комунікацію, та дані про них.
+У _**Statistics --> Protocol Hierarchy**_ ви можете знайти **протоколи**, **залучені** в комунікацію, та дані про них.
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **Conversations**
 
-У розділі _**Statistics --> Conversations**_ ви можете знайти **резюме розмов** у комунікації та дані про них.
+У _**Statistics --> Conversations**_ ви можете знайти **резюме розмов** у комунікації та дані про них.
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **Endpoints**
 
-У розділі _**Statistics --> Endpoints**_ ви можете знайти **резюме кінцевих точок** у комунікації та дані про кожну з них.
+У _**Statistics --> Endpoints**_ ви можете знайти **резюме кінцевих точок** у комунікації та дані про кожну з них.
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
 **DNS info**
 
-У розділі _**Statistics --> DNS**_ ви можете знайти статистику про захоплені DNS запити.
+У _**Statistics --> DNS**_ ви можете знайти статистику про захоплені DNS запити.
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
 **I/O Graph**
 
-У розділі _**Statistics --> I/O Graph**_ ви можете знайти **графік комунікації.**
+У _**Statistics --> I/O Graph**_ ви можете знайти **графік комунікації.**
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
@@ -102,7 +89,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 ### Free pcap labs
 
-**Практикуйтеся з безкоштовними завданнями на:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**Практикуйтеся з безкоштовними викликами на:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
 ## Identifying Domains
 
@@ -138,7 +125,7 @@ _edit>preference>protocol>ssl>_
 
 ### Decrypting https traffic with symmetric session keys
 
-Як Firefox, так і Chrome мають можливість записувати TLS сесійні ключі, які можна використовувати з Wireshark для розшифровки TLS трафіку. Це дозволяє проводити детальний аналіз захищених комунікацій. Більше деталей про те, як виконати цю розшифровку, можна знайти в посібнику на [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+Як Firefox, так і Chrome мають можливість записувати TLS сесійні ключі, які можна використовувати з Wireshark для розшифровки TLS трафіку. Це дозволяє проводити детальний аналіз захищених комунікацій. Більше деталей про те, як виконати це розшифрування, можна знайти в посібнику на [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
 Щоб виявити це, шукайте в середовищі змінну `SSLKEYLOGFILE`
 
@@ -179,29 +166,17 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) — це **пошукова система**, що працює на основі **темного вебу**, яка пропонує **безкоштовні** функції для перевірки, чи була компанія або її клієнти **компрометовані** **шкідливими програмами-крадіями**.
-
-Основна мета WhiteIntel — боротися з захопленням облікових записів та атаками програм-вимагачів, що виникають внаслідок шкідливих програм, які крадуть інформацію.
-
-Ви можете перевірити їхній вебсайт і спробувати їхній двигун **безкоштовно** за адресою:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Підтримайте HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
 {% endhint %}

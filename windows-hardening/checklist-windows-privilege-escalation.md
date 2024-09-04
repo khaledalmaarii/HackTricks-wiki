@@ -15,22 +15,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ### **Найкращий інструмент для пошуку векторів підвищення привілеїв у Windows:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 ### [System Info](windows-local-privilege-escalation/#system-info)
 
 * [ ] Отримати [**інформацію про систему**](windows-local-privilege-escalation/#system-info)
 * [ ] Шукати **kernel** [**експлойти за допомогою скриптів**](windows-local-privilege-escalation/#version-exploits)
-* [ ] Використовувати **Google для пошуку** kernel **експлойтів**
-* [ ] Використовувати **searchsploit для пошуку** kernel **експлойтів**
+* [ ] Використовувати **Google для пошуку** експлойтів **ядра**
+* [ ] Використовувати **searchsploit для пошуку** експлойтів **ядра**
 * [ ] Цікава інформація в [**env vars**](windows-local-privilege-escalation/#environment)?
 * [ ] Паролі в [**історії PowerShell**](windows-local-privilege-escalation/#powershell-history)?
 * [ ] Цікава інформація в [**налаштуваннях Інтернету**](windows-local-privilege-escalation/#internet-settings)?
@@ -46,15 +38,15 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 * [ ] [**LSA Protection**](windows-local-privilege-escalation/#lsa-protection)?
 * [ ] [**Credentials Guard**](windows-local-privilege-escalation/#credentials-guard)[?](windows-local-privilege-escalation/#cached-credentials)
 * [ ] [**Кешовані облікові дані**](windows-local-privilege-escalation/#cached-credentials)?
-* [ ] Перевірити, чи є [**AV**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-av-bypass/README.md)
+* [ ] Перевірити, чи є якийсь [**AV**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-av-bypass/README.md)
 * [ ] [**Політика AppLocker**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
 * [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
 * [ ] [**Привілеї користувачів**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] Перевірити [**поточні** привілеї **користувача**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] Чи є ви [**членом будь-якої привілейованої групи**](windows-local-privilege-escalation/#privileged-groups)?
-* [ ] Перевірити, чи є у вас [будь-які з цих токенів, що активовані](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
+* [ ] Перевірити, чи є у вас [будь-які з цих токенів, активованих](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [ ] [**Сесії користувачів**](windows-local-privilege-escalation/#logged-users-sessions)?
-* [ ] Перевірити[ **домашні папки користувачів**](windows-local-privilege-escalation/#home-folders) (доступ?)
+* [ ] Перевірити [**домашні папки користувачів**](windows-local-privilege-escalation/#home-folders) (доступ?)
 * [ ] Перевірити [**Політику паролів**](windows-local-privilege-escalation/#password-policy)
 * [ ] Що [**всередині буфера обміну**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
@@ -87,11 +79,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * [ ] Чи можете ви **записувати в будь-яку папку всередині PATH**?
 * [ ] Чи є відомий бінарний файл служби, який **намагається завантажити будь-який неіснуючий DLL**?
-* [ ] Чи можете ви **записувати** в будь-яку **папку бінарних файлів**?
+* [ ] Чи можете ви **записувати** в будь-яку **папку з бінарними файлами**?
 
 ### [Network](windows-local-privilege-escalation/#network)
 
-* [ ] Перерахувати мережу (спільні ресурси, інтерфейси, маршрути, сусіди, ...)
+* [ ] Перерахувати мережу (спільні ресурси, інтерфейси, маршрути, сусіди тощо ...)
 * [ ] Уважно перевірити мережеві служби, що слухають на localhost (127.0.0.1)
 
 ### [Windows Credentials](windows-local-privilege-escalation/#windows-credentials)
@@ -102,7 +94,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 * [ ] Паролі збережених [**Wifi мереж**](windows-local-privilege-escalation/#wifi)?
 * [ ] Цікава інформація в [**збережених RDP з'єднаннях**](windows-local-privilege-escalation/#saved-rdp-connections)?
 * [ ] Паролі в [**недавніх командах**](windows-local-privilege-escalation/#recently-run-commands)?
-* [ ] [**Менеджер облікових даних для віддаленого робочого столу**](windows-local-privilege-escalation/#remote-desktop-credential-manager) паролі?
+* [ ] [**Менеджер облікових даних віддаленого робочого столу**](windows-local-privilege-escalation/#remote-desktop-credential-manager) паролі?
 * [ ] [**AppCmd.exe** існує](windows-local-privilege-escalation/#appcmd-exe)? Облікові дані?
 * [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)? Завантаження DLL з боку?
 
@@ -120,7 +112,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 * [ ] Чи хочете ви [**попросити облікові дані**](windows-local-privilege-escalation/#ask-for-credentials) у користувача?
 * [ ] Цікаві [**файли всередині Кошика**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
 * [ ] Інші [**реєстри, що містять облікові дані**](windows-local-privilege-escalation/#inside-the-registry)?
-* [ ] Всередині [**даних браузера**](windows-local-privilege-escalation/#browsers-history) (бази даних, історія, закладки, ...)?
+* [ ] Всередині [**даних браузера**](windows-local-privilege-escalation/#browsers-history) (бази даних, історія, закладки тощо)?
 * [ ] [**Загальний пошук паролів**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) у файлах та реєстрі
 * [ ] [**Інструменти**](windows-local-privilege-escalation/#tools-that-search-for-passwords) для автоматичного пошуку паролів
 
@@ -131,12 +123,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 ### [Pipe Client Impersonation](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
 * [ ] Перевірте, чи можете ви це зловживати
-
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

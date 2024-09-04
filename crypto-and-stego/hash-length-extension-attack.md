@@ -15,23 +15,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-#### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is a **dark-web** fueled search engine that offers **free** functionalities to check if a company or its customers have been **compromised** by **stealer malwares**.
-
-Their primary goal of WhiteIntel is to combat account takeovers and ransomware attacks resulting from information-stealing malware.
-
-You can check their website and try their engine for **free** at:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Summary of the attack
 
-Уявіть собі сервер, який **підписує** деякі **дані**, **додаючи** **секрет** до деяких відомих відкритих текстових даних, а потім хешуючи ці дані. Якщо ви знаєте:
+Уявіть собі сервер, який **підписує** деякі **дані**, **додаючи** **секрет** до відомих відкритих текстових даних, а потім хешуючи ці дані. Якщо ви знаєте:
 
 * **Довжину секрету** (це також можна перебрати з заданого діапазону довжин)
 * **Відкриті текстові дані**
@@ -44,7 +31,7 @@ You can check their website and try their engine for **free** at:
 
 ### How?
 
-В основному, вразливі алгоритми генерують хеші, спочатку **хешуючи блок даних**, а потім, **з** **раніше** створеного **хешу** (стану), вони **додають наступний блок даних** і **хешують його**.
+В основному вразливі алгоритми генерують хеші, спочатку **хешуючи блок даних**, а потім, **з** **раніше** створеного **хешу** (стану), вони **додають наступний блок даних** і **хешують його**.
 
 Тоді уявіть, що секрет - "secret", а дані - "data", MD5 "secretdata" дорівнює 6036708eba0d11f6ef52ad44e8b74d5b.\
 Якщо зловмисник хоче додати рядок "append", він може:
@@ -62,17 +49,7 @@ You can check their website and try their engine for **free** at:
 
 Ви можете знайти цю атаку добре поясненою на [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 
-#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is a **dark-web** fueled search engine that offers **free** functionalities to check if a company or its customers have been **compromised** by **stealer malwares**.
-
-Their primary goal of WhiteIntel is to combat account takeovers and ransomware attacks resulting from information-stealing malware.
-
-You can check their website and try their engine for **free** at:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

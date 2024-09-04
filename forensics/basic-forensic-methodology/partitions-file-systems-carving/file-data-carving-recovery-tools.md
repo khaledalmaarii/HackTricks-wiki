@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
 Більше інструментів на [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
@@ -44,7 +36,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Ще один поширений інструмент для знаходження прихованих файлів - це **foremost**. Ви можете знайти файл конфігурації foremost у `/etc/foremost.conf`. Якщо ви хочете шукати лише деякі конкретні файли, зніміть коментарі з них. Якщо ви нічого не знімете, foremost буде шукати файли за замовчуванням.
+Ще один поширений інструмент для знаходження прихованих файлів - це **foremost**. Ви можете знайти файл конфігурації foremost у `/etc/foremost.conf`. Якщо ви хочете шукати лише деякі конкретні файли, зніміть коментар з них. Якщо ви нічого не знімете, foremost буде шукати файли за замовчуванням.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -59,7 +51,7 @@ scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-Цей інструмент входить до складу Kali, але ви можете знайти його тут: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+Цей інструмент входить до складу kali, але ви можете знайти його тут: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
 Цей інструмент може сканувати зображення і **витягувати pcaps** всередині нього, **мережеву інформацію (URL, домени, IP, MAC, електронні листи)** та інші **файли**. Вам потрібно лише зробити:
 ```
@@ -96,24 +88,18 @@ BinVis є чудовою **відправною точкою для ознайо
 
 ### FindAES
 
-Шукає ключі AES, досліджуючи їх графіки ключів. Може знаходити ключі 128, 192 та 256 біт, такі як ті, що використовуються TrueCrypt та BitLocker.
+Шукає ключі AES, досліджуючи їх графіки ключів. Може знаходити 128, 192 та 256 бітні ключі, такі як ті, що використовуються TrueCrypt та BitLocker.
 
 Завантажте [тут](https://sourceforge.net/projects/findaes/).
 
 ## Додаткові інструменти
 
 Ви можете використовувати [**viu**](https://github.com/atanunq/viu), щоб переглядати зображення з терміналу.\
-Ви можете використовувати командний рядок linux **pdftotext**, щоб перетворити pdf на текст і прочитати його.
-
-**Спробуйте Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
+Ви можете використовувати командний рядок linux **pdftotext**, щоб перетворити pdf у текст і прочитати його.
 
 {% hint style="success" %}
-Вчіться та практикуйте Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Вчіться та практикуйте Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Вчіться та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Вчіться та практикуйте GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

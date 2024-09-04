@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Глобальні змінні
 
 Глобальні змінні **будуть** успадковані **дочірніми процесами**.
@@ -32,7 +24,7 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
-Ця змінна буде доступна для ваших поточних сесій та їх дочірніх процесів.
+Ця змінна буде доступна у ваших поточних сесіях та їх дочірніх процесах.
 
 Ви можете **видалити** змінну, виконавши:
 ```bash
@@ -80,13 +72,13 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 
 ### **HISTFILESIZE**
 
-Змініть **значення цієї змінної на 0**, щоб коли ви **закінчите свою сесію**, **файл історії** (\~/.bash\_history) **був видалений**.
+Змініть **значення цієї змінної на 0**, щоб, коли ви **закінчите свою сесію**, **файл історії** (\~/.bash\_history) **був видалений**.
 ```bash
 export HISTFILESIZE=0
 ```
 ### **HISTSIZE**
 
-Змініть **значення цієї змінної на 0**, щоб, коли ви **закінчите свою сесію**, будь-яка команда не додавалася до **файлу історії** (\~/.bash\_history).
+Змініть **значення цієї змінної на 0**, щоб, коли ви **закінчите свою сесію**, будь-яка команда була додана до **файлу історії** (\~/.bash\_history).
 ```bash
 export HISTSIZE=0
 ```
@@ -126,11 +118,6 @@ Root:
 
 ![](<../.gitbook/assets/image (715).png>)
 
-**Спробуйте Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Вчіться та практикуйте AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -141,7 +128,7 @@ Root:
 <summary>Підтримайте HackTricks</summary>
 
 * Перевірте [**плани підписки**](https://github.com/sponsors/carlospolop)!
-* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи Telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Приєднуйтесь до** 💬 [**групи Discord**](https://discord.gg/hRep4RUj7f) або [**групи telegram**](https://t.me/peass) або **слідкуйте** за нами в **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Діліться хакерськими трюками, надсилаючи PR до** [**HackTricks**](https://github.com/carlospolop/hacktricks) та [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) репозиторіїв на github.
 
 </details>
