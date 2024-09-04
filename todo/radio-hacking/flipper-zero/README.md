@@ -15,32 +15,18 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 </details>
 {% endhint %}
 
-**Gruppo Try Hard Security**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 Con [**Flipper Zero**](https://flipperzero.one/) puoi:
 
 * **Ascoltare/Catturare/Riprodurre frequenze radio:** [**Sub-GHz**](fz-sub-ghz.md)
 * **Leggere/Catturare/Emulare carte NFC:** [**NFC**](fz-nfc.md)
 * **Leggere/Catturare/Emulare tag a 125kHz:** [**125kHz RFID**](fz-125khz-rfid.md)
-* **Leggere/Catturare/Inviare segnali infrarossi:** [**Infrarossi**](fz-infrared.md)
-* **Leggere/Catturare/Emulare iButtons:** [**iButton**](../ibutton.md)
+* **Leggere/Catturare/Inviate segnali infrarossi:** [**Infrarossi**](fz-infrared.md)
+* **Leggere/Catturare/Emulare iButton:** [**iButton**](../ibutton.md)
 * **Usarlo come Bad USB**
 * **Usarlo come chiave di sicurezza (U2F)**
 * **Giocare a Snake**
 
 **Altre risorse Flipper Zero in** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)
-
-**Gruppo Try Hard Security**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

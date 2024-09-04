@@ -15,23 +15,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere le assunzioni di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Access Tokens
 
-Ogni **utente connesso** al sistema **detiene un token di accesso con informazioni di sicurezza** per quella sessione di accesso. Il sistema crea un token di accesso quando l'utente accede. **Ogni processo eseguito** per conto dell'utente **ha una copia del token di accesso**. Il token identifica l'utente, i gruppi dell'utente e i privilegi dell'utente. Un token contiene anche un SID di accesso (Identificatore di Sicurezza) che identifica l'attuale sessione di accesso.
+Ogni **utente connesso** al sistema **possiede un token di accesso con informazioni di sicurezza** per quella sessione di accesso. Il sistema crea un token di accesso quando l'utente effettua il login. **Ogni processo eseguito** per conto dell'utente **ha una copia del token di accesso**. Il token identifica l'utente, i gruppi dell'utente e i privilegi dell'utente. Un token contiene anche un SID di accesso (Security Identifier) che identifica l'attuale sessione di accesso.
 
 Puoi vedere queste informazioni eseguendo `whoami /all`
 ```
@@ -77,18 +64,18 @@ SeUndockPrivilege             Remove computer from docking station Disabled
 SeIncreaseWorkingSetPrivilege Increase a process working set       Disabled
 SeTimeZonePrivilege           Change the time zone                 Disabled
 ```
-or using _Process Explorer_ from Sysinternals (select process and access"Security" tab):
+or usando _Process Explorer_ di Sysinternals (seleziona il processo e accedi alla scheda "Sicurezza"):
 
 ![](<../../.gitbook/assets/image (772).png>)
 
 ### Amministratore locale
 
-Quando un amministratore locale accede, **vengono creati due token di accesso**: uno con diritti di amministratore e l'altro con diritti normali. **Per impostazione predefinita**, quando questo utente esegue un processo, viene utilizzato quello con diritti **regolari** (non amministratore). Quando questo utente cerca di **eseguire** qualsiasi cosa **come amministratore** ("Esegui come amministratore" ad esempio), verrà utilizzato il **UAC** per chiedere il permesso.\
+Quando un amministratore locale accede, **vengono creati due token di accesso**: uno con diritti di amministratore e l'altro con diritti normali. **Per impostazione predefinita**, quando questo utente esegue un processo, viene utilizzato quello con diritti **regolari** (non amministratore). Quando questo utente cerca di **eseguire** qualsiasi cosa **come amministratore** ("Esegui come amministratore", ad esempio), verrà utilizzato il **UAC** per chiedere il permesso.\
 Se vuoi [**saperne di più sul UAC leggi questa pagina**](../authentication-credentials-uac-and-efs/#uac)**.**
 
 ### Impersonificazione delle credenziali utente
 
-Se hai **credenziali valide di un altro utente**, puoi **creare** una **nuova sessione di accesso** con quelle credenziali :
+Se hai **credenziali valide di un altro utente**, puoi **creare** una **nuova sessione di accesso** con quelle credenziali:
 ```
 runas /user:domain\username cmd.exe
 ```
@@ -97,22 +84,22 @@ Puoi avviare un processo che **utilizza credenziali diverse per accedere ai serv
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-Questo è utile se hai credenziali utili per accedere a oggetti nella rete, ma quelle credenziali non sono valide all'interno dell'host attuale poiché saranno utilizzate solo nella rete (nell'host attuale verranno utilizzati i privilegi dell'utente corrente).
+Questo è utile se hai credenziali utili per accedere a oggetti nella rete, ma quelle credenziali non sono valide all'interno dell'host attuale poiché verranno utilizzate solo nella rete (nell'host attuale verranno utilizzati i privilegi dell'utente corrente).
 
 ### Tipi di token
 
 Ci sono due tipi di token disponibili:
 
-* **Token Primario**: Serve come rappresentazione delle credenziali di sicurezza di un processo. La creazione e l'associazione di token primari con i processi sono azioni che richiedono privilegi elevati, sottolineando il principio di separazione dei privilegi. Tipicamente, un servizio di autenticazione è responsabile della creazione del token, mentre un servizio di accesso gestisce la sua associazione con la shell del sistema operativo dell'utente. Vale la pena notare che i processi ereditano il token primario del loro processo padre al momento della creazione.
+* **Token Primario**: Serve come rappresentazione delle credenziali di sicurezza di un processo. La creazione e l'associazione di token primari con i processi sono azioni che richiedono privilegi elevati, sottolineando il principio di separazione dei privilegi. Tipicamente, un servizio di autenticazione è responsabile della creazione del token, mentre un servizio di accesso gestisce la sua associazione con la shell del sistema operativo dell'utente. È importante notare che i processi ereditano il token primario del loro processo padre al momento della creazione.
 * **Token di Impersonificazione**: Consente a un'applicazione server di adottare temporaneamente l'identità del cliente per accedere a oggetti sicuri. Questo meccanismo è stratificato in quattro livelli di operazione:
 * **Anonimo**: Concede accesso al server simile a quello di un utente non identificato.
 * **Identificazione**: Consente al server di verificare l'identità del cliente senza utilizzarla per l'accesso agli oggetti.
-* **Impersonificazione**: Consente al server di operare sotto l'identità del cliente.
+* **Impersonificazione**: Abilita il server a operare sotto l'identità del cliente.
 * **Delegazione**: Simile all'Impersonificazione, ma include la possibilità di estendere questa assunzione di identità a sistemi remoti con cui il server interagisce, garantendo la preservazione delle credenziali.
 
 #### Token di Impersonificazione
 
-Utilizzando il modulo _**incognito**_ di metasploit, se hai abbastanza privilegi, puoi facilmente **elencare** e **impersonare** altri **token**. Questo potrebbe essere utile per eseguire **azioni come se fossi l'altro utente**. Potresti anche **escalare i privilegi** con questa tecnica.
+Utilizzando il modulo _**incognito**_ di metasploit, se hai abbastanza privilegi, puoi facilmente **elencare** e **impersonificare** altri **token**. Questo potrebbe essere utile per eseguire **azioni come se fossi l'altro utente**. Potresti anche **escalare i privilegi** con questa tecnica.
 
 ### Privilegi del Token
 
@@ -128,21 +115,10 @@ Dai un'occhiata a [**tutti i possibili privilegi del token e alcune definizioni 
 
 Scopri di più sui token in questi tutorial: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) e [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

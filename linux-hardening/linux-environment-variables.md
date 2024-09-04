@@ -1,8 +1,8 @@
 # Variabili di Ambiente Linux
 
 {% hint style="success" %}
-Impara e pratica il Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -14,14 +14,6 @@ Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 
 </details>
 {% endhint %}
-
-**Gruppo Sicurezza Try Hard**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Variabili globali
 
@@ -56,7 +48,7 @@ cat /proc/`python -c "import os; print(os.getppid())"`/environ
 ```
 ## Variabili comuni
 
-From: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
+Da: [https://geek-university.com/linux/common-environment-variables/](https://geek-university.com/linux/common-environment-variables/)
 
 * **DISPLAY** – il display utilizzato da **X**. Questa variabile è solitamente impostata su **:0.0**, il che significa il primo display sul computer attuale.
 * **EDITOR** – l'editor di testo preferito dall'utente.
@@ -65,8 +57,8 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 * **HOME** – la tua directory home.
 * **HOSTNAME** – il nome host del computer.
 * **LANG** – la tua lingua attuale.
-* **MAIL** – la posizione della spool di posta dell'utente. Di solito **/var/spool/mail/USER**.
-* **MANPATH** – l'elenco delle directory da cercare per le pagine man.
+* **MAIL** – la posizione della cassetta postale dell'utente. Di solito **/var/spool/mail/USER**.
+* **MANPATH** – l'elenco delle directory da cercare per le pagine di manuale.
 * **OSTYPE** – il tipo di sistema operativo.
 * **PS1** – il prompt predefinito in bash.
 * **PATH** – memorizza il percorso di tutte le directory che contengono file binari che desideri eseguire semplicemente specificando il nome del file e non il percorso relativo o assoluto.
@@ -126,11 +118,6 @@ Un lavoro in background, uno fermato e l'ultimo comando non ha terminato corrett
 
 ![](<../.gitbook/assets/image (715).png>)
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -142,7 +129,7 @@ Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
 
 </details>
 {% endhint %}

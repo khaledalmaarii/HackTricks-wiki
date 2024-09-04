@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
 More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
@@ -44,7 +36,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Un altro strumento comune per trovare file nascosti è **foremost**. Puoi trovare il file di configurazione di foremost in `/etc/foremost.conf`. Se vuoi cercare solo alcuni file specifici, decommentali. Se non decommenti nulla, foremost cercherà i suoi tipi di file configurati per impostazione predefinita.
+Un altro strumento comune per trovare file nascosti è **foremost**. Puoi trovare il file di configurazione di foremost in `/etc/foremost.conf`. Se desideri cercare alcuni file specifici, decommentali. Se non decommenti nulla, foremost cercherà i suoi tipi di file configurati per impostazione predefinita.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -65,7 +57,7 @@ Questo strumento può scansionare un'immagine e **estrarre pcaps** al suo intern
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Navigate through **tutte le informazioni** che lo strumento ha raccolto (password?), **analizza** i **pacchetti** (leggi[ **analisi Pcaps**](../pcap-inspection/)), cerca **domini strani** (domini relativi a **malware** o **inesistenti**).
+Naviga attraverso **tutte le informazioni** che lo strumento ha raccolto (password?), **analizza** i **pacchetti** (leggi[ **analisi Pcaps**](../pcap-inspection/)), cerca **domini strani** (domini relativi a **malware** o **inesistenti**).
 
 ### PhotoRec
 
@@ -85,7 +77,7 @@ Controlla il [codice](https://code.google.com/archive/p/binvis/) e la [pagina we
 * Plots multipli per diversi punti di interesse
 * Focalizzazione su porzioni di un campione
 * **Visualizzazione di stringhe e risorse**, in eseguibili PE o ELF, ad esempio
-* Ottenere **pattern** per la crittanalisi su file
+* Ottenere **pattern** per la crittoanalisi su file
 * **Identificare** algoritmi di packer o encoder
 * **Identificare** la steganografia tramite pattern
 * **Differenziazione** binaria visiva
@@ -104,12 +96,6 @@ Scarica [qui](https://sourceforge.net/projects/findaes/).
 
 Puoi usare [**viu** ](https://github.com/atanunq/viu) per vedere immagini dal terminale.\
 Puoi usare lo strumento da riga di comando linux **pdftotext** per trasformare un pdf in testo e leggerlo.
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

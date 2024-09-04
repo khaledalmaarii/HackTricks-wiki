@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
 More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
@@ -33,7 +25,7 @@ Lo strumento più comune utilizzato in forense per estrarre file da immagini è 
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
-**Binwalk** è uno strumento per analizzare file binari per trovare contenuti incorporati. È installabile tramite `apt` e il suo codice sorgente è su [GitHub](https://github.com/ReFirmLabs/binwalk).
+**Binwalk** è uno strumento per analizzare file binari per trovare contenuti incorporati. È installabile tramite `apt` e il suo sorgente è su [GitHub](https://github.com/ReFirmLabs/binwalk).
 
 **Comandi utili**:
 ```bash
@@ -65,7 +57,7 @@ Questo strumento può scansionare un'immagine e **estrarre pcaps** al suo intern
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Naviga attraverso **tutte le informazioni** che lo strumento ha raccolto (password?), **analizza** i **pacchetti** (leggi[ **analisi Pcaps**](../pcap-inspection/)), cerca **domini strani** (domini relativi a **malware** o **inesistenti**).
+Naviga attraverso **tutte le informazioni** che lo strumento ha raccolto (password?), **analizza** i **pacchetti** (leggi[ **analisi Pcaps**](../pcap-inspection/)), cerca **domini strani** (domini legati a **malware** o **inesistenti**).
 
 ### PhotoRec
 
@@ -104,12 +96,6 @@ Scarica [qui](https://sourceforge.net/projects/findaes/).
 
 Puoi usare [**viu** ](https://github.com/atanunq/viu) per vedere immagini dal terminale.\
 Puoi usare lo strumento da riga di comando linux **pdftotext** per trasformare un pdf in testo e leggerlo.
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

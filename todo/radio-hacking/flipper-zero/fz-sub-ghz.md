@@ -15,17 +15,10 @@ Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Intro <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero può **ricevere e trasmettere frequenze radio nell'intervallo di 300-928 MHz** con il suo modulo integrato, che può leggere, salvare ed emulare telecomandi. Questi controlli sono utilizzati per interagire con cancelli, barriere, serrature radio, interruttori a distanza, campanelli wireless, luci intelligenti e altro. Flipper Zero può aiutarti a scoprire se la tua sicurezza è compromessa.
+Flipper Zero può **ricevere e trasmettere frequenze radio nella gamma di 300-928 MHz** con il suo modulo integrato, che può leggere, salvare ed emulare telecomandi. Questi controlli sono utilizzati per interagire con cancelli, barriere, serrature radio, interruttori a distanza, campanelli wireless, luci intelligenti e altro. Flipper Zero può aiutarti a scoprire se la tua sicurezza è compromessa.
 
 <figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
@@ -40,7 +33,7 @@ Flipper Zero ha un modulo sub-1 GHz integrato basato su un [﻿](https://www.st.
 ### Analizzatore di Frequenza
 
 {% hint style="info" %}
-Come trovare quale frequenza utilizza il telecomando
+Come trovare quale frequenza sta usando il telecomando
 {% endhint %}
 
 Quando si analizza, Flipper Zero sta scansionando la forza dei segnali (RSSI) a tutte le frequenze disponibili nella configurazione di frequenza. Flipper Zero visualizza la frequenza con il valore RSSI più alto, con una forza del segnale superiore a -90 [dBm](https://en.wikipedia.org/wiki/DBm).
@@ -65,7 +58,7 @@ In questo momento ha **4 modulazioni** (AM270, AM650, FM328 e FM476), e **divers
 
 <figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
 
-Puoi impostare **quella che ti interessa**, tuttavia, se **non sei sicuro di quale frequenza** potrebbe essere quella utilizzata dal telecomando che hai, **imposta Hopping su ON** (Off per impostazione predefinita), e premi il pulsante più volte fino a quando Flipper la cattura e ti fornisce le informazioni necessarie per impostare la frequenza.
+Puoi impostare **quella che ti interessa**, tuttavia, se **non sei sicuro di quale frequenza** potrebbe essere quella utilizzata dal telecomando che hai, **imposta Hopping su ON** (Off per impostazione predefinita), e premi il pulsante più volte fino a quando Flipper non la cattura e ti fornisce le informazioni necessarie per impostare la frequenza.
 
 {% hint style="danger" %}
 Passare tra le frequenze richiede del tempo, quindi i segnali trasmessi al momento del passaggio possono essere persi. Per una migliore ricezione del segnale, imposta una frequenza fissa determinata dall'Analizzatore di Frequenza.
@@ -127,12 +120,6 @@ Ottieni dBms delle frequenze salvate
 ## Riferimento
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

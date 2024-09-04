@@ -15,20 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per controllare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il takeover degli account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
 **JuicyPotato non funziona** su Windows Server 2019 e Windows 10 build 1809 e successivi. Tuttavia, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) possono essere utilizzati per **sfruttare gli stessi privilegi e ottenere accesso a livello `NT AUTHORITY\SYSTEM`**. _**Controlla:**_
 {% endhint %}
@@ -57,7 +43,7 @@ Abbiamo scoperto che, oltre a `BITS`, ci sono diversi server COM che possiamo sf
 
 1. essere istanziabili dall'utente corrente, normalmente un "utente di servizio" che ha privilegi di impersonificazione
 2. implementare l'interfaccia `IMarshal`
-3. essere eseguiti come un utente elevato (SYSTEM, Amministratore, …)
+3. essere eseguiti come un utente elevato (SYSTEM, Administrator, …)
 
 Dopo alcuni test abbiamo ottenuto e testato un elenco esteso di [CLSID interessanti](http://ohpe.it/juicy-potato/CLSID/) su diverse versioni di Windows.
 
@@ -66,7 +52,7 @@ Dopo alcuni test abbiamo ottenuto e testato un elenco esteso di [CLSID interessa
 JuicyPotato ti consente di:
 
 * **Target CLSID** _scegli qualsiasi CLSID tu voglia._ [_Qui_](http://ohpe.it/juicy-potato/CLSID/) _puoi trovare l'elenco organizzato per OS._
-* **COM Listening port** _definisci la porta di ascolto COM che preferisci (anziché il 6666 hardcoded)_
+* **COM Listening port** _definisci la porta di ascolto COM che preferisci (invece della hardcoded 6666)_
 * **COM Listening IP address** _collega il server a qualsiasi IP_
 * **Process creation mode** _a seconda dei privilegi dell'utente impersonato puoi scegliere tra:_
 * `CreateProcessWithToken` (richiede `SeImpersonate`)
@@ -152,21 +138,10 @@ Poi scarica [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per controllare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-Impara e pratica Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -174,7 +149,7 @@ Impara e pratica Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}

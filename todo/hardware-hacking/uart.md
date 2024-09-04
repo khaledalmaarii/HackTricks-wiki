@@ -15,27 +15,14 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per controllare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Informazioni di base
 
-UART è un protocollo seriale, il che significa che trasferisce dati tra i componenti un bit alla volta. Al contrario, i protocolli di comunicazione parallela trasmettono dati simultaneamente attraverso più canali. I protocolli seriali comuni includono RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express e USB.
+UART è un protocollo seriale, il che significa che trasferisce dati tra componenti un bit alla volta. Al contrario, i protocolli di comunicazione parallela trasmettono dati simultaneamente attraverso più canali. I protocolli seriali comuni includono RS-232, I2C, SPI, CAN, Ethernet, HDMI, PCI Express e USB.
 
 In generale, la linea è mantenuta alta (a un valore logico di 1) mentre l'UART è nello stato inattivo. Poi, per segnalare l'inizio di un trasferimento di dati, il trasmettitore invia un bit di avvio al ricevitore, durante il quale il segnale è mantenuto basso (a un valore logico di 0). Successivamente, il trasmettitore invia da cinque a otto bit di dati contenenti il messaggio effettivo, seguiti da un bit di parità opzionale e uno o due bit di stop (con un valore logico di 1), a seconda della configurazione. Il bit di parità, utilizzato per il controllo degli errori, è raramente visto in pratica. Il bit di stop (o i bit) segnalano la fine della trasmissione.
 
-Chiamiamo la configurazione più comune 8N1: otto bit di dati, nessun bit di parità e un bit di stop. Ad esempio, se volessimo inviare il carattere C, o 0x43 in ASCII, in una configurazione UART 8N1, invieremmo i seguenti bit: 0 (il bit di avvio); 0, 1, 0, 0, 0, 0, 1, 1 (il valore di 0x43 in binario), e 0 (il bit di stop).
+Chiamiamo la configurazione più comune 8N1: otto bit di dati, nessuna parità e un bit di stop. Ad esempio, se volessimo inviare il carattere C, o 0x43 in ASCII, in una configurazione UART 8N1, invieremmo i seguenti bit: 0 (il bit di avvio); 0, 1, 0, 0, 0, 0, 1, 1 (il valore di 0x43 in binario), e 0 (il bit di stop).
 
 ![](<../../.gitbook/assets/image (764).png>)
 
@@ -51,10 +38,10 @@ UART ha 4 porte: **TX**(Trasmetti), **RX**(Ricevi), **Vcc**(Tensione) e **GND**(
 
 Con un **multimetro** e il dispositivo spento:
 
-* Per identificare il pin **GND**, usa la modalità **Test di Continuità**, posiziona il cavo di massa e prova con quello rosso finché non senti un suono dal multimetro. Diversi pin GND possono essere trovati nel PCB, quindi potresti aver trovato o meno quello appartenente all'UART.
+* Per identificare il pin **GND**, utilizza la modalità **Test di Continuità**, posiziona il cavo nero a terra e prova con quello rosso finché non senti un suono dal multimetro. Diversi pin GND possono essere trovati nel PCB, quindi potresti aver trovato o meno quello appartenente all'UART.
 * Per identificare la **porta VCC**, imposta la **modalità di tensione DC** e impostala su 20 V di tensione. Sonda nera a terra e sonda rossa sul pin. Accendi il dispositivo. Se il multimetro misura una tensione costante di 3.3 V o 5 V, hai trovato il pin Vcc. Se ottieni altre tensioni, riprova con altre porte.
 * Per identificare la **porta TX**, imposta la **modalità di tensione DC** fino a 20 V di tensione, sonda nera a terra e sonda rossa sul pin, e accendi il dispositivo. Se trovi che la tensione fluttua per alcuni secondi e poi si stabilizza al valore Vcc, hai molto probabilmente trovato la porta TX. Questo perché all'accensione, invia alcuni dati di debug.
-* La porta **RX** sarebbe la più vicina alle altre 3, ha la fluttuazione di tensione più bassa e il valore complessivo più basso di tutti i pin UART.
+* La **porta RX** sarebbe la più vicina alle altre 3, ha la fluttuazione di tensione più bassa e il valore complessivo più basso di tutti i pin UART.
 
 Puoi confondere le porte TX e RX e non succederebbe nulla, ma se confondi la porta GND e la porta VCC potresti danneggiare il circuito.
 
@@ -65,7 +52,7 @@ In alcuni dispositivi target, la porta UART è disabilitata dal produttore disab
 Il modo più semplice per identificare la corretta velocità di baud è guardare l'**uscita del pin TX e provare a leggere i dati**. Se i dati che ricevi non sono leggibili, passa alla successiva possibile velocità di baud finché i dati non diventano leggibili. Puoi utilizzare un adattatore USB-seriale o un dispositivo multifunzione come Bus Pirate per farlo, abbinato a uno script di aiuto, come [baudrate.py](https://github.com/devttys0/baudrate/). Le velocità di baud più comuni sono 9600, 38400, 19200, 57600 e 115200.
 
 {% hint style="danger" %}
-È importante notare che in questo protocollo devi collegare il TX di un dispositivo all'RX dell'altro!
+È importante notare che in questo protocollo è necessario collegare il TX di un dispositivo all'RX dell'altro!
 {% endhint %}
 
 ## Adattatore CP210X UART a TTY
@@ -92,11 +79,11 @@ Dopo la configurazione, usa il comando `minicom` per avviare la Console UART.
 
 ## UART Via Arduino UNO R3 (Schede con Chip Atmel 328p Rimovibile)
 
-Nel caso in cui gli adattatori UART Serial to USB non siano disponibili, l'Arduino UNO R3 può essere utilizzato con un hack veloce. Poiché l'Arduino UNO R3 è solitamente disponibile ovunque, questo può far risparmiare molto tempo.
+Nel caso in cui gli adattatori UART Serial to USB non siano disponibili, l'Arduino UNO R3 può essere utilizzato con un hack rapido. Poiché l'Arduino UNO R3 è solitamente disponibile ovunque, questo può far risparmiare molto tempo.
 
 L'Arduino UNO R3 ha un adattatore USB a Serial integrato sulla scheda stessa. Per ottenere la connessione UART, basta estrarre il chip microcontrollore Atmel 328p dalla scheda. Questo hack funziona sulle varianti di Arduino UNO R3 che hanno l'Atmel 328p non saldato sulla scheda (viene utilizzata la versione SMD). Collega il pin RX dell'Arduino (Pin Digitale 0) al pin TX dell'interfaccia UART e il pin TX dell'Arduino (Pin Digitale 1) al pin RX dell'interfaccia UART.
 
-Infine, si consiglia di utilizzare l'Arduino IDE per ottenere la Console Serial. Nella sezione `tools` nel menu, seleziona l'opzione `Serial Console` e imposta il baud rate in base all'interfaccia UART.
+Infine, si consiglia di utilizzare l'Arduino IDE per ottenere la Console Serial. Nella sezione `tools` nel menu, seleziona l'opzione `Serial Console` e imposta il baud rate secondo l'interfaccia UART.
 
 ## Bus Pirate
 
@@ -198,29 +185,17 @@ Questo elencherà i possibili contenuti dell'EEPROM in base alle firme trovate n
 
 Tuttavia, è necessario notare che non è sempre il caso che il uboot sia sbloccato anche se viene utilizzato. Se il tasto Enter non fa nulla, controlla altri tasti come il tasto Spazio, ecc. Se il bootloader è bloccato e non viene interrotto, questo metodo non funzionerebbe. Per verificare se uboot è il bootloader per il dispositivo, controlla l'output sulla Console UART durante l'avvio del dispositivo. Potrebbe menzionare uboot durante l'avvio.
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per controllare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
-Impara e pratica il Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Supporta HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
-* **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

@@ -15,30 +15,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
+## **Informazioni di base**
 
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-## **Informazioni di Base**
-
-**System Integrity Protection (SIP)** in macOS è un meccanismo progettato per impedire anche agli utenti più privilegiati di apportare modifiche non autorizzate a cartelle di sistema chiave. Questa funzione gioca un ruolo cruciale nel mantenere l'integrità del sistema limitando azioni come l'aggiunta, la modifica o la cancellazione di file in aree protette. Le cartelle principali protette da SIP includono:
+**La Protezione dell'Integrità del Sistema (SIP)** in macOS è un meccanismo progettato per impedire anche agli utenti più privilegiati di apportare modifiche non autorizzate a cartelle di sistema chiave. Questa funzione gioca un ruolo cruciale nel mantenere l'integrità del sistema limitando azioni come l'aggiunta, la modifica o la cancellazione di file in aree protette. Le cartelle principali protette da SIP includono:
 
 * **/System**
 * **/bin**
 * **/sbin**
 * **/usr**
 
-Le regole che governano il comportamento di SIP sono definite nel file di configurazione situato in **`/System/Library/Sandbox/rootless.conf`**. All'interno di questo file, i percorsi che sono preceduti da un asterisco (\*) sono indicati come eccezioni alle altrimenti rigorose restrizioni di SIP.
+Le regole che governano il comportamento del SIP sono definite nel file di configurazione situato in **`/System/Library/Sandbox/rootless.conf`**. All'interno di questo file, i percorsi che sono preceduti da un asterisco (\*) sono indicati come eccezioni alle altrimenti rigorose restrizioni del SIP.
 
 Considera l'esempio qui sotto:
 ```javascript
@@ -63,7 +50,7 @@ drwxr-xr-x  338 root  wheel  restricted 10816 May 13 00:29 /usr/libexec
 ```
 Qui, il flag **`restricted`** indica che la directory `/usr/libexec` è protetta da SIP. In una directory protetta da SIP, i file non possono essere creati, modificati o eliminati.
 
-Inoltre, se un file contiene l'attributo **`com.apple.rootless`** esteso **attribute**, quel file sarà anche **protetto da SIP**.
+Inoltre, se un file contiene l'attributo **`com.apple.rootless`** come **attributo esteso**, quel file sarà anche **protetto da SIP**.
 
 **SIP limita anche altre azioni di root** come:
 
@@ -127,7 +114,7 @@ L'attributo **`com.apple.rootless.install.heritable`** consente di bypassare SIP
 
 #### [CVE-2020–9854](https://objective-see.org/blog/blog\_0x4D.html) <a href="#cve-unauthd-chain" id="cve-unauthd-chain"></a>
 
-Se un pacchetto veniva installato da un'immagine montata o da un'unità esterna, l'**installer** **eseguiva** il binario da **quella file system** (anziché da una posizione protetta da SIP), facendo eseguire a **`system_installd`** un binario arbitrario.
+Se un pacchetto veniva installato da un'immagine montata o da un'unità esterna, l'**installer** avrebbe **eseguito** il binario da **quella file system** (invece che da una posizione protetta da SIP), facendo eseguire a **`system_installd`** un binario arbitrario.
 
 #### CVE-2021-30892 - Shrootless
 
@@ -137,7 +124,7 @@ Il demone **`system_installd`** installerà pacchetti che sono stati firmati da 
 
 I ricercatori hanno scoperto che durante l'installazione di un pacchetto firmato da Apple (.pkg file), **`system_installd`** **esegue** qualsiasi **script post-install** incluso nel pacchetto. Questi script vengono eseguiti dalla shell predefinita, **`zsh`**, che esegue automaticamente **comandi dal file** **`/etc/zshenv`**, se esiste, anche in modalità non interattiva. Questo comportamento potrebbe essere sfruttato dagli attaccanti: creando un file `/etc/zshenv` malevolo e aspettando che **`system_installd` invochi `zsh`**, potrebbero eseguire operazioni arbitrarie sul dispositivo.
 
-Inoltre, è stato scoperto che **`/etc/zshenv` potrebbe essere utilizzato come una tecnica di attacco generale**, non solo per un bypass di SIP. Ogni profilo utente ha un file `~/.zshenv`, che si comporta allo stesso modo di `/etc/zshenv` ma non richiede permessi di root. Questo file potrebbe essere utilizzato come meccanismo di persistenza, attivandosi ogni volta che `zsh` si avvia, o come meccanismo di elevazione dei privilegi. Se un utente admin si eleva a root usando `sudo -s` o `sudo <command>`, il file `~/.zshenv` verrebbe attivato, elevando effettivamente a root.
+Inoltre, è stato scoperto che **`/etc/zshenv` potrebbe essere utilizzato come una tecnica di attacco generale**, non solo per un bypass di SIP. Ogni profilo utente ha un file `~/.zshenv`, che si comporta allo stesso modo di `/etc/zshenv` ma non richiede permessi di root. Questo file potrebbe essere utilizzato come meccanismo di persistenza, attivandosi ogni volta che `zsh` si avvia, o come meccanismo di elevazione dei privilegi. Se un utente admin si eleva a root usando `sudo -s` o `sudo <command>`, il file `~/.zshenv` verrebbe attivato, elevandosi effettivamente a root.
 
 #### [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)
 
@@ -145,7 +132,7 @@ In [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-
 
 #### [fsck\_cs utility](https://www.theregister.com/2016/03/30/apple\_os\_x\_rootless/)
 
-È stata identificata una vulnerabilità in cui **`fsck_cs`** è stato ingannato a corrompere un file cruciale, a causa della sua capacità di seguire **link simbolici**. In particolare, gli attaccanti hanno creato un link da _`/dev/diskX`_ al file `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Eseguire **`fsck_cs`** su _`/dev/diskX`_ ha portato alla corruzione di `Info.plist`. L'integrità di questo file è vitale per la SIP (Protezione dell'Integrità di Sistema) del sistema operativo, che controlla il caricamento delle estensioni del kernel. Una volta corrotto, la capacità di SIP di gestire le esclusioni del kernel è compromessa.
+È stata identificata una vulnerabilità in cui **`fsck_cs`** è stato indotto a corrompere un file cruciale, a causa della sua capacità di seguire **link simbolici**. In particolare, gli attaccanti hanno creato un link da _`/dev/diskX`_ al file `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Eseguire **`fsck_cs`** su _`/dev/diskX`_ ha portato alla corruzione di `Info.plist`. L'integrità di questo file è vitale per il SIP (Protezione dell'Integrità di Sistema) del sistema operativo, che controlla il caricamento delle estensioni del kernel. Una volta corrotto, la capacità di SIP di gestire le esclusioni del kernel è compromessa.
 
 I comandi per sfruttare questa vulnerabilità sono:
 ```bash
@@ -154,7 +141,7 @@ fsck_cs /dev/diskX 1>&-
 touch /Library/Extensions/
 reboot
 ```
-L'exploitation de cette vulnérabilité a de graves implications. Le fichier `Info.plist`, normalement responsable de la gestion des autorisations pour les extensions du noyau, devient inefficace. Cela inclut l'incapacité de mettre sur liste noire certaines extensions, telles que `AppleHWAccess.kext`. Par conséquent, avec le mécanisme de contrôle de SIP hors service, cette extension peut être chargée, accordant un accès en lecture et écriture non autorisé à la RAM du système.
+L'exploitation de cette vulnérabilité a de graves implications. Le fichier `Info.plist`, normalement responsable de la gestion des autorisations pour les extensions du noyau, devient inefficace. Cela inclut l'incapacité de mettre sur liste noire certaines extensions, telles que `AppleHWAccess.kext`. Par conséquent, avec le mécanisme de contrôle de SIP hors service, cette extension peut être chargée, accordant un accès en lecture et en écriture non autorisé à la RAM du système.
 
 #### [Montare su cartelle protette da SIP](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)
 
@@ -165,7 +152,7 @@ mkdir evil
 hdiutil create -srcfolder evil evil.dmg
 hdiutil attach -mountpoint /System/Library/Snadbox/ evil.dmg
 ```
-#### [Bypass dell'upgrader (2016)](https://objective-see.org/blog/blog\_0x14.html)
+#### [Upgrader bypass (2016)](https://objective-see.org/blog/blog\_0x14.html)
 
 Il sistema è impostato per avviarsi da un'immagine disco di installazione incorporata all'interno di `Install macOS Sierra.app` per aggiornare il sistema operativo, utilizzando l'utilità `bless`. Il comando utilizzato è il seguente:
 ```bash
@@ -179,15 +166,15 @@ Inoltre, all'interno di `InstallESD.dmg`, c'è un `BaseSystem.dmg`, che funge da
 
 #### [systemmigrationd (2023)](https://www.youtube.com/watch?v=zxZesAN-TEk)
 
-In questo intervento di [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk), viene mostrato come **`systemmigrationd`** (che può bypassare SIP) esegue uno **script bash** e uno **script perl**, che possono essere abusati tramite le variabili d'ambiente **`BASH_ENV`** e **`PERL5OPT`**.
+In questo intervento di [**DEF CON 31**](https://www.youtube.com/watch?v=zxZesAN-TEk), viene mostrato come **`systemmigrationd`** (che può bypassare SIP) esegue uno **script bash** e uno **script perl**, che possono essere abusati tramite variabili d'ambiente **`BASH_ENV`** e **`PERL5OPT`**.
 
 #### CVE-2023-42860 <a href="#cve-a-detailed-look" id="cve-a-detailed-look"></a>
 
-Come [**dettagliato in questo post del blog**](https://blog.kandji.io/apple-mitigates-vulnerabilities-installer-scripts), uno script `postinstall` dai pacchetti `InstallAssistant.pkg` consentiva di eseguire:
+Come [**dettagliato in questo post del blog**](https://blog.kandji.io/apple-mitigates-vulnerabilities-installer-scripts), uno script `postinstall` da pacchetti `InstallAssistant.pkg` consentiva di eseguire:
 ```bash
 /usr/bin/chflags -h norestricted "${SHARED_SUPPORT_PATH}/SharedSupport.dmg"
 ```
-e era possibile creare un symlink in `${SHARED_SUPPORT_PATH}/SharedSupport.dmg` che consentirebbe a un utente di **rimuovere le restrizioni da qualsiasi file, eludendo la protezione SIP**.
+e era possibile creare un symlink in `${SHARED_SUPPORT_PATH}/SharedSupport.dmg` che avrebbe permesso a un utente di **rimuovere le restrizioni da qualsiasi file, eludendo la protezione SIP**.
 
 ### **com.apple.rootless.install**
 
@@ -207,7 +194,7 @@ Ecco uno sguardo più dettagliato:
 
 1. **Sistema Immutabile**: I Sealed System Snapshots rendono il volume di sistema macOS "immutabile", il che significa che non può essere modificato. Questo previene qualsiasi cambiamento non autorizzato o accidentale al sistema che potrebbe compromettere la sicurezza o la stabilità del sistema.
 2. **Aggiornamenti del Software di Sistema**: Quando installi aggiornamenti o upgrade di macOS, macOS crea un nuovo snapshot di sistema. Il volume di avvio di macOS utilizza quindi **APFS (Apple File System)** per passare a questo nuovo snapshot. L'intero processo di applicazione degli aggiornamenti diventa più sicuro e affidabile poiché il sistema può sempre tornare allo snapshot precedente se qualcosa va storto durante l'aggiornamento.
-3. **Separazione dei Dati**: Insieme al concetto di separazione dei volumi Dati e Sistema introdotto in macOS Catalina, la funzionalità Sealed System Snapshot garantisce che tutti i tuoi dati e le impostazioni siano memorizzati su un volume separato "**Dati**". Questa separazione rende i tuoi dati indipendenti dal sistema, semplificando il processo di aggiornamenti di sistema e migliorando la sicurezza del sistema.
+3. **Separazione dei Dati**: In concomitanza con il concetto di separazione dei volumi Dati e Sistema introdotto in macOS Catalina, la funzionalità Sealed System Snapshot garantisce che tutti i tuoi dati e le impostazioni siano memorizzati su un volume separato "**Dati**". Questa separazione rende i tuoi dati indipendenti dal sistema, semplificando il processo di aggiornamenti di sistema e migliorando la sicurezza del sistema.
 
 Ricorda che questi snapshot sono gestiti automaticamente da macOS e non occupano spazio aggiuntivo sul tuo disco, grazie alle capacità di condivisione dello spazio di APFS. È anche importante notare che questi snapshot sono diversi dagli **snapshot di Time Machine**, che sono backup accessibili dall'utente dell'intero sistema.
 
@@ -254,7 +241,7 @@ Il comando **`diskutil apfs list`** elenca i **dettagli dei volumi APFS** e il l
 
 Nell'output precedente è possibile vedere che **le posizioni accessibili all'utente** sono montate sotto `/System/Volumes/Data`.
 
-Inoltre, **lo snapshot del volume di sistema macOS** è montato in `/` ed è **sigillato** (firmato crittograficamente dal sistema operativo). Quindi, se SIP viene eluso e viene modificato, il **sistema operativo non si avvierà più**.
+Inoltre, **lo snapshot del volume di sistema macOS** è montato in `/` ed è **sigillato** (firmato crittograficamente dal sistema operativo). Quindi, se SIP viene eluso e modificato, il **sistema operativo non si avvierà più**.
 
 È anche possibile **verificare che il sigillo sia abilitato** eseguendo:
 ```bash
@@ -266,20 +253,9 @@ Inoltre, il disco snapshot è montato anche come **sola lettura**:
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
 {% hint style="success" %}
-Impara e pratica il hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica il hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

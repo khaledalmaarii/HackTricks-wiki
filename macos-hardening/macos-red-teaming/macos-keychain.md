@@ -15,24 +15,11 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per verificare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che ruba informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Main Keychains
 
-* Il **User Keychain** (`~/Library/Keychains/login.keycahin-db`), che viene utilizzato per memorizzare **credenziali specifiche dell'utente** come password delle applicazioni, password di internet, certificati generati dall'utente, password di rete e chiavi pubbliche/private generate dall'utente.
-* Il **System Keychain** (`/Library/Keychains/System.keychain`), che memorizza **credenziali a livello di sistema** come password WiFi, certificati radice di sistema, chiavi private di sistema e password delle applicazioni di sistema.
+* Il **Keychain Utente** (`~/Library/Keychains/login.keycahin-db`), che viene utilizzato per memorizzare **credenziali specifiche dell'utente** come password delle applicazioni, password di internet, certificati generati dall'utente, password di rete e chiavi pubbliche/private generate dall'utente.
+* Il **Keychain di Sistema** (`/Library/Keychains/System.keychain`), che memorizza **credenziali a livello di sistema** come password WiFi, certificati root di sistema, chiavi private di sistema e password delle applicazioni di sistema.
 
 ### Password Keychain Access
 
@@ -42,16 +29,16 @@ Questi file, pur non avendo protezione intrinseca e potendo essere **scaricati**
 
 ### ACLs
 
-Ogni voce nel keychain è governata da **Access Control Lists (ACLs)** che determinano chi può eseguire varie azioni sulla voce del keychain, inclusi:
+Ogni voce nel keychain è governata da **Access Control Lists (ACLs)** che stabiliscono chi può eseguire varie azioni sulla voce del keychain, inclusi:
 
 * **ACLAuhtorizationExportClear**: Consente al titolare di ottenere il testo in chiaro del segreto.
 * **ACLAuhtorizationExportWrapped**: Consente al titolare di ottenere il testo in chiaro crittografato con un'altra password fornita.
 * **ACLAuhtorizationAny**: Consente al titolare di eseguire qualsiasi azione.
 
-Le ACL sono ulteriormente accompagnate da un **elenco di applicazioni fidate** che possono eseguire queste azioni senza richiedere conferma. Questo potrebbe essere:
+Le ACL sono ulteriormente accompagnate da un **elenco di applicazioni fidate** che possono eseguire queste azioni senza richiesta. Questo potrebbe essere:
 
 * **N`il`** (nessuna autorizzazione richiesta, **tutti sono fidati**)
-* Un elenco **vuoto** (**nessuno** è fidato)
+* Un **elenco vuoto** (**nessuno** è fidato)
 * **Elenco** di **applicazioni** specifiche.
 
 Inoltre, la voce potrebbe contenere la chiave **`ACLAuthorizationPartitionID`,** che viene utilizzata per identificare il **teamid, apple,** e **cdhash.**
@@ -65,7 +52,7 @@ Inoltre, la voce potrebbe contenere la chiave **`ACLAuthorizationPartitionID`,**
 Quando viene creata una **nuova** **voce** utilizzando **`Keychain Access.app`**, si applicano le seguenti regole:
 
 * Tutte le app possono crittografare.
-* **Nessuna app** può esportare/decrittografare (senza richiedere conferma all'utente).
+* **Nessuna app** può esportare/decrittografare (senza richiedere all'utente).
 * Tutte le app possono vedere il controllo di integrità.
 * Nessuna app può modificare le ACL.
 * Il **partitionID** è impostato su **`apple`**.
@@ -73,7 +60,7 @@ Quando viene creata una **nuova** **voce** utilizzando **`Keychain Access.app`**
 Quando un'**applicazione crea una voce nel keychain**, le regole sono leggermente diverse:
 
 * Tutte le app possono crittografare.
-* Solo l'**applicazione che crea** (o altre app esplicitamente aggiunte) può esportare/decrittografare (senza richiedere conferma all'utente).
+* Solo l'**applicazione che crea** (o altre app esplicitamente aggiunte) può esportare/decrittografare (senza richiedere all'utente).
 * Tutte le app possono vedere il controllo di integrità.
 * Nessuna app può modificare le ACL.
 * Il **partitionID** è impostato su **`teamid:[teamID here]`**.
@@ -100,21 +87,21 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 ### APIs
 
 {% hint style="success" %}
-L'**enumerazione e il dumping** delle chiavi che **non genereranno un prompt** possono essere effettuati con lo strumento [**LockSmith**](https://github.com/its-a-feature/LockSmith)
+L'**enumerazione e il dumping** del keychain di segreti che **non genereranno un prompt** possono essere effettuati con lo strumento [**LockSmith**](https://github.com/its-a-feature/LockSmith)
 {% endhint %}
 
-Elenca e ottieni **info** su ogni voce del portachiavi:
+Elenca e ottieni **info** su ogni voce del keychain:
 
 * L'API **`SecItemCopyMatching`** fornisce informazioni su ogni voce e ci sono alcuni attributi che puoi impostare quando la usi:
 * **`kSecReturnData`**: Se vero, cercherà di decrittografare i dati (imposta su falso per evitare potenziali pop-up)
-* **`kSecReturnRef`**: Ottieni anche un riferimento all'elemento del portachiavi (imposta su vero nel caso in cui successivamente vedi che puoi decrittografare senza pop-up)
+* **`kSecReturnRef`**: Ottieni anche un riferimento all'elemento del keychain (imposta su vero nel caso in cui successivamente vedi che puoi decrittografare senza pop-up)
 * **`kSecReturnAttributes`**: Ottieni metadati sulle voci
 * **`kSecMatchLimit`**: Quanti risultati restituire
-* **`kSecClass`**: Che tipo di voce del portachiavi
+* **`kSecClass`**: Che tipo di voce del keychain
 
 Ottieni **ACL** di ogni voce:
 
-* Con l'API **`SecAccessCopyACLList`** puoi ottenere l'**ACL per l'elemento del portachiavi**, e restituirà un elenco di ACL (come `ACLAuhtorizationExportClear` e gli altri precedentemente menzionati) dove ogni elenco ha:
+* Con l'API **`SecAccessCopyACLList`** puoi ottenere l'**ACL per l'elemento del keychain**, e restituirà un elenco di ACL (come `ACLAuhtorizationExportClear` e gli altri precedentemente menzionati) dove ogni elenco ha:
 * Descrizione
 * **Elenco delle applicazioni fidate**. Questo potrebbe essere:
 * Un'app: /Applications/Slack.app
@@ -129,7 +116,7 @@ Esporta i dati:
 E questi sono i **requisiti** per poter **esportare un segreto senza un prompt**:
 
 * Se ci sono **1+ app fidate** elencate:
-* Necessita delle appropriate **autorizzazioni** (**`Nil`**, o essere **parte** dell'elenco delle app autorizzate ad accedere alle informazioni segrete)
+* Necessita delle appropriate **autorizzazioni** (**`Nil`**, o essere **parte** dell'elenco consentito di app nell'autorizzazione per accedere alle informazioni segrete)
 * Necessita che la firma del codice corrisponda al **PartitionID**
 * Necessita che la firma del codice corrisponda a quella di un **app fidata** (o essere un membro del giusto KeychainAccessGroup)
 * Se **tutte le applicazioni sono fidate**:
@@ -140,12 +127,12 @@ E questi sono i **requisiti** per poter **esportare un segreto senza un prompt**
 {% hint style="danger" %}
 Pertanto, se c'è **1 applicazione elencata**, è necessario **iniettare codice in quell'applicazione**.
 
-Se **apple** è indicato nel **partitionID**, potresti accedervi con **`osascript`** quindi qualsiasi cosa che stia fidando tutte le applicazioni con apple nel partitionID. **`Python`** potrebbe anche essere usato per questo.
+Se **apple** è indicato nel **partitionID**, potresti accedervi con **`osascript`** quindi qualsiasi cosa che stia fidando tutte le applicazioni con apple nel partitionID. **`Python`** potrebbe essere utilizzato anche per questo.
 {% endhint %}
 
 ### Due attributi aggiuntivi
 
-* **Invisible**: È un flag booleano per **nascondere** la voce dall'app **UI** del portachiavi
+* **Invisible**: È un flag booleano per **nascondere** la voce dall'app Keychain **UI**
 * **General**: Serve a memorizzare **metadati** (quindi NON È CRIPTATO)
 * Microsoft memorizzava in testo chiaro tutti i token di aggiornamento per accedere a endpoint sensibili.
 
@@ -153,17 +140,6 @@ Se **apple** è indicato nel **partitionID**, potresti accedervi con **`osascrip
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per controllare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere le assunzioni di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Impara e pratica il hacking AWS:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\

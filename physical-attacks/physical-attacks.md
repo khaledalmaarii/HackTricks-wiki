@@ -15,25 +15,11 @@ Impara e pratica il Hacking GCP: <img src="/.gitbook/assets/grte.png" alt="" dat
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per controllare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
-
----
-
 ## Recupero della Password del BIOS e Sicurezza del Sistema
 
 **Ripristinare il BIOS** può essere realizzato in diversi modi. La maggior parte delle schede madri include una **batteria** che, se rimossa per circa **30 minuti**, ripristinerà le impostazioni del BIOS, inclusa la password. In alternativa, un **jumper sulla scheda madre** può essere regolato per ripristinare queste impostazioni collegando pin specifici.
 
-Per situazioni in cui le regolazioni hardware non sono possibili o pratiche, gli **strumenti software** offrono una soluzione. Eseguire un sistema da un **Live CD/USB** con distribuzioni come **Kali Linux** fornisce accesso a strumenti come **_killCmos_** e **_CmosPWD_**, che possono assistere nel recupero della password del BIOS.
+Per situazioni in cui le regolazioni hardware non sono possibili o pratiche, **strumenti software** offrono una soluzione. Eseguire un sistema da un **Live CD/USB** con distribuzioni come **Kali Linux** fornisce accesso a strumenti come **_killCmos_** e **_CmosPWD_**, che possono assistere nel recupero della password del BIOS.
 
 Nei casi in cui la password del BIOS è sconosciuta, inserirla in modo errato **tre volte** di solito comporta un codice di errore. Questo codice può essere utilizzato su siti web come [https://bios-pw.org](https://bios-pw.org) per potenzialmente recuperare una password utilizzabile.
 
@@ -45,11 +31,11 @@ Per i sistemi moderni che utilizzano **UEFI** invece del tradizionale BIOS, lo s
 
 ### Analisi della RAM e Attacchi Cold Boot
 
-La RAM conserva i dati brevemente dopo che l'alimentazione è stata interrotta, di solito per **1-2 minuti**. Questa persistenza può essere estesa a **10 minuti** applicando sostanze fredde, come l'azoto liquido. Durante questo periodo prolungato, è possibile creare un **dump di memoria** utilizzando strumenti come **dd.exe** e **volatility** per l'analisi.
+La RAM conserva i dati brevemente dopo che l'alimentazione è stata interrotta, di solito per **1-2 minuti**. Questa persistenza può essere estesa a **10 minuti** applicando sostanze fredde, come l'azoto liquido. Durante questo periodo prolungato, può essere creato un **dump di memoria** utilizzando strumenti come **dd.exe** e **volatility** per l'analisi.
 
 ### Attacchi Direct Memory Access (DMA)
 
-**INCEPTION** è uno strumento progettato per la **manipolazione della memoria fisica** tramite DMA, compatibile con interfacce come **FireWire** e **Thunderbolt**. Consente di bypassare le procedure di accesso patchando la memoria per accettare qualsiasi password. Tuttavia, è inefficace contro i sistemi **Windows 10**.
+**INCEPTION** è uno strumento progettato per la **manipolazione della memoria fisica** tramite DMA, compatibile con interfacce come **FireWire** e **Thunderbolt**. Permette di bypassare le procedure di accesso patchando la memoria per accettare qualsiasi password. Tuttavia, è inefficace contro i sistemi **Windows 10**.
 
 ### Live CD/USB per Accesso al Sistema
 
@@ -77,21 +63,9 @@ I privilegi di amministratore consentono la creazione di copie di file sensibili
 
 La crittografia BitLocker può potenzialmente essere bypassata se la **password di recupero** viene trovata all'interno di un file di dump di memoria (**MEMORY.DMP**). Strumenti come **Elcomsoft Forensic Disk Decryptor** o **Passware Kit Forensic** possono essere utilizzati a questo scopo.
 
-### Ingegneria Sociale per l'Aggiunta della Chiave di Recupero
+### Ingegneria Sociale per Aggiunta della Chiave di Recupero
 
 Una nuova chiave di recupero BitLocker può essere aggiunta attraverso tattiche di ingegneria sociale, convincendo un utente a eseguire un comando che aggiunge una nuova chiave di recupero composta da zeri, semplificando così il processo di decrittazione.
-
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per controllare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Impara e pratica il Hacking AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

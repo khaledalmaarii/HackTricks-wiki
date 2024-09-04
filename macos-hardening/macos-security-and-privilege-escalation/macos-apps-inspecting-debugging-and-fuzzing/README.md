@@ -15,19 +15,6 @@ Impara e pratica GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per controllare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Analisi Statica
 
@@ -119,7 +106,7 @@ Questi installer hanno script bash `preinstall` e `postinstall` che gli autori d
 
 ### hdiutil
 
-Questo strumento consente di **mount** i file immagine disco Apple (**.dmg**) per ispezionarli prima di eseguire qualsiasi cosa:
+Questo strumento consente di **mount** le immagini disco Apple (**.dmg**) per ispezionarle prima di eseguire qualsiasi cosa:
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
@@ -128,7 +115,7 @@ It will be mounted in `/Volumes`
 ### Packed binaries
 
 * Controlla l'alta entropia
-* Controlla le stringhe (se non ci sono stringhe comprensibili, è impacchettato)
+* Controlla le stringhe (se ci sono quasi nessuna stringa comprensibile, impacchettato)
 * Il pacchetto UPX per MacOS genera una sezione chiamata "\_\_XHDR"
 
 ## Static Objective-C analysis
@@ -154,8 +141,8 @@ Quando una funzione viene chiamata in un binario che utilizza Objective-C, il co
 
 I parametri che questa funzione si aspetta sono:
 
-* Il primo parametro (**self**) è "un puntatore che punta all'**istanza della classe che deve ricevere il messaggio**". In altre parole, è l'oggetto su cui viene invocato il metodo. Se il metodo è un metodo di classe, questo sarà un'istanza dell'oggetto classe (nel suo insieme), mentre per un metodo di istanza, self punterà a un'istanza instanziata della classe come oggetto.
-* Il secondo parametro, (**op**), è "il selettore del metodo che gestisce il messaggio". In termini più semplici, questo è solo il **nome del metodo.**
+* Il primo parametro (**self**) è "un puntatore che punta all'**istanza della classe che deve ricevere il messaggio**". In termini più semplici, è l'oggetto su cui viene invocato il metodo. Se il metodo è un metodo di classe, questo sarà un'istanza dell'oggetto classe (nel suo insieme), mentre per un metodo di istanza, self punterà a un'istanza instanziata della classe come oggetto.
+* Il secondo parametro, (**op**), è "il selettore del metodo che gestisce il messaggio". Ancora una volta, in termini più semplici, questo è solo il **nome del metodo.**
 * I parametri rimanenti sono eventuali **valori richiesti dal metodo** (op).
 
 Vedi come **ottenere queste informazioni facilmente con `lldb` in ARM64** in questa pagina:
@@ -170,17 +157,17 @@ x64:
 | ----------------- | -------------------------------------------------------------- | ------------------------------------------------------ |
 | **1° argomento**  | **rdi**                                                        | **self: oggetto su cui viene invocato il metodo**      |
 | **2° argomento**  | **rsi**                                                        | **op: nome del metodo**                                |
-| **3° argomento**  | **rdx**                                                        | **1° argomento del metodo**                            |
-| **4° argomento**  | **rcx**                                                        | **2° argomento del metodo**                            |
-| **5° argomento**  | **r8**                                                         | **3° argomento del metodo**                            |
-| **6° argomento**  | **r9**                                                         | **4° argomento del metodo**                            |
-| **7°+ argomento** | <p><strong>rsp+</strong><br><strong>(sullo stack)</strong></p> | **5°+ argomento del metodo**                           |
+| **3° argomento**  | **rdx**                                                        | **1° argomento per il metodo**                         |
+| **4° argomento**  | **rcx**                                                        | **2° argomento per il metodo**                         |
+| **5° argomento**  | **r8**                                                         | **3° argomento per il metodo**                         |
+| **6° argomento**  | **r9**                                                         | **4° argomento per il metodo**                         |
+| **7°+ argomento** | <p><strong>rsp+</strong><br><strong>(sullo stack)</strong></p> | **5°+ argomento per il metodo**                        |
 
 ### Dump ObjectiveC metadata
 
 ### Dynadump
 
-[**Dynadump**](https://github.com/DerekSelander/dynadump) è uno strumento per il class-dump di binari Objective-C. Il github specifica dylibs ma funziona anche con eseguibili.
+[**Dynadump**](https://github.com/DerekSelander/dynadump) è uno strumento per il class-dump di binari Objective-C. Il github specifica dylibs ma questo funziona anche con eseguibili.
 ```bash
 ./dynadump dump /path/to/bin
 ```
@@ -380,7 +367,7 @@ dtruss -c -p 1000 #get syscalls of PID 1000
 
 Strumenti come `latency`, `sc_usage`, `fs_usage` e `trace` lo utilizzano internamente.
 
-Per interfacciarsi con `kdebug` si utilizza `sysctl` sul namespace `kern.kdebug` e i MIB da utilizzare possono essere trovati in `sys/sysctl.h`, con le funzioni implementate in `bsd/kern/kdebug.c`.
+Per interfacciarsi con `kdebug`, si utilizza `sysctl` sul namespace `kern.kdebug` e i MIB da utilizzare possono essere trovati in `sys/sysctl.h`, con le funzioni implementate in `bsd/kern/kdebug.c`.
 
 Per interagire con kdebug con un client personalizzato, questi sono solitamente i passaggi:
 
@@ -392,15 +379,15 @@ Per interagire con kdebug con un client personalizzato, questi sono solitamente 
 * Leggere il buffer chiamando KERN\_KDREADTR
 * Per abbinare ogni thread al suo processo, chiamare KERN\_KDTHRMAP.
 
-Per ottenere queste informazioni è possibile utilizzare lo strumento Apple **`trace`** o lo strumento personalizzato [kDebugView (kdv)](https://newosxbook.com/tools/kdv.html)**.**
+Per ottenere queste informazioni, è possibile utilizzare lo strumento Apple **`trace`** o lo strumento personalizzato [kDebugView (kdv)](https://newosxbook.com/tools/kdv.html)**.**
 
 **Nota che Kdebug è disponibile solo per 1 cliente alla volta.** Quindi solo uno strumento alimentato da k-debug può essere eseguito contemporaneamente.
 
 ### ktrace
 
-Le API `ktrace_*` provengono da `libktrace.dylib` che avvolgono quelle di `Kdebug`. Quindi, un client può semplicemente chiamare `ktrace_session_create` e `ktrace_events_[single/class]` per impostare callback su codici specifici e poi avviarlo con `ktrace_start`.
+Le API `ktrace_*` provengono da `libktrace.dylib`, che avvolge quelle di `Kdebug`. Quindi, un client può semplicemente chiamare `ktrace_session_create` e `ktrace_events_[single/class]` per impostare callback su codici specifici e poi avviarlo con `ktrace_start`.
 
-Puoi utilizzare questo anche con **SIP attivato**
+Puoi utilizzare questo anche con **SIP attivato**.
 
 Puoi utilizzare come client l'utilità `ktrace`:
 ```bash
@@ -461,7 +448,7 @@ In [**questo post del blog**](https://knight.sc/debugging/2019/06/03/debugging-a
 
 ### lldb
 
-**lldb** è lo strumento de **facto** per il **debugging** di binari **macOS**.
+**lldb** è lo strumento de **facto** per il **debugging** dei binari **macOS**.
 ```bash
 lldb ./malware.bin
 lldb -p 1122
@@ -476,7 +463,7 @@ settings set target.x86-disassembly-flavor intel
 All'interno di lldb, dump un processo con `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Comando</strong></td><td><strong>Descrizione</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Inizia l'esecuzione, che continuerà senza interruzioni fino a quando non viene colpito un breakpoint o il processo termina.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Inizia l'esecuzione fermandosi al punto di ingresso</td></tr><tr><td><strong>continue (c)</strong></td><td>Continua l'esecuzione del processo in debug.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Esegui la prossima istruzione. Questo comando salterà le chiamate di funzione.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Esegui la prossima istruzione. A differenza del comando nexti, questo comando entrerà nelle chiamate di funzione.</td></tr><tr><td><strong>finish (f)</strong></td><td>Esegui il resto delle istruzioni nella funzione corrente (“frame”) restituisci e fermati.</td></tr><tr><td><strong>control + c</strong></td><td>Metti in pausa l'esecuzione. Se il processo è stato eseguito (r) o continuato (c), questo causerà l'arresto del processo ...dove si trova attualmente in esecuzione.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Qualsiasi funzione chiamata main</p><p><code>b &#x3C;binname>`main</code> #Funzione principale del bin</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Funzione principale del bin indicato</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Qualsiasi metodo NSFileManager</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # Interrompi in tutte le funzioni di quella libreria</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Elenco dei breakpoint</p><p><code>br e/dis &#x3C;num></code> #Abilita/Disabilita breakpoint</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Ottieni aiuto sul comando breakpoint</p><p>help memory write #Ottieni aiuto per scrivere nella memoria</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>Visualizza la memoria come una stringa terminata da null.</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>Visualizza la memoria come istruzione assembly.</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>Visualizza la memoria come byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Questo stamperà l'oggetto referenziato dal parametro</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Nota che la maggior parte delle API o dei metodi Objective-C di Apple restituiscono oggetti, e quindi dovrebbero essere visualizzati tramite il comando “print object” (po). Se po non produce un output significativo usa <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Scrivi AAAA in quell'indirizzo<br>memory write -f s $rip+0x11f+7 "AAAA" #Scrivi AAAA nell'indirizzo</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Disassembla la funzione corrente</p><p>dis -n &#x3C;funcname> #Disassembla la funzione</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Disassembla la funzione<br>dis -c 6 #Disassembla 6 righe<br>dis -c 0x100003764 -e 0x100003768 # Da un'addizione all'altra<br>dis -p -c 4 # Inizia nell'indirizzo corrente disassemblando</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Controlla l'array di 3 componenti nel registro x1</td></tr><tr><td><strong>image dump sections</strong></td><td>Stampa la mappa della memoria del processo corrente</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #Ottieni l'indirizzo di tutti i simboli da CoreNLP</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Comando</strong></td><td><strong>Descrizione</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Inizia l'esecuzione, che continuerà senza interruzioni fino a quando non viene colpito un breakpoint o il processo termina.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Inizia l'esecuzione fermandosi al punto di ingresso</td></tr><tr><td><strong>continue (c)</strong></td><td>Continua l'esecuzione del processo in debug.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Esegui la prossima istruzione. Questo comando salterà le chiamate di funzione.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Esegui la prossima istruzione. A differenza del comando nexti, questo comando entrerà nelle chiamate di funzione.</td></tr><tr><td><strong>finish (f)</strong></td><td>Esegui il resto delle istruzioni nella funzione corrente (“frame”) restituisci e ferma.</td></tr><tr><td><strong>control + c</strong></td><td>Metti in pausa l'esecuzione. Se il processo è stato eseguito (r) o continuato (c), questo causerà l'arresto del processo ...dove si trova attualmente in esecuzione.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Qualsiasi funzione chiamata main</p><p><code>b &#x3C;binname>`main</code> #Funzione principale del bin</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Funzione principale del bin indicato</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Qualsiasi metodo NSFileManager</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # Interrompi in tutte le funzioni di quella libreria</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Elenco dei breakpoint</p><p><code>br e/dis &#x3C;num></code> #Abilita/Disabilita breakpoint</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Ottieni aiuto sul comando breakpoint</p><p>help memory write #Ottieni aiuto per scrivere nella memoria</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">formato</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>Visualizza la memoria come una stringa terminata da null.</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>Visualizza la memoria come istruzione assembly.</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>Visualizza la memoria come byte.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Questo stamperà l'oggetto referenziato dal parametro</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Nota che la maggior parte delle API o dei metodi Objective-C di Apple restituiscono oggetti, e quindi dovrebbero essere visualizzati tramite il comando “print object” (po). Se po non produce un output significativo usa <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Scrivi AAAA in quell'indirizzo<br>memory write -f s $rip+0x11f+7 "AAAA" #Scrivi AAAA nell'indirizzo</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Disassembla la funzione corrente</p><p>dis -n &#x3C;funcname> #Disassembla la funzione</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Disassembla la funzione<br>dis -c 6 #Disassembla 6 righe<br>dis -c 0x100003764 -e 0x100003768 # Da un'addizione all'altra<br>dis -p -c 4 # Inizia nell'indirizzo corrente disassemblando</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Controlla l'array di 3 componenti nel registro x1</td></tr><tr><td><strong>image dump sections</strong></td><td>Stampa la mappa della memoria del processo corrente</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #Ottieni l'indirizzo di tutti i simboli da CoreNLP</td></tr></tbody></table>
 
 {% hint style="info" %}
 Quando si chiama la funzione **`objc_sendMsg`**, il registro **rsi** contiene il **nome del metodo** come stringa terminata da null (“C”). Per stampare il nome tramite lldb fare:
@@ -518,10 +505,10 @@ In questi casi il core dump viene generato secondo `kern.corefile` sysctl e soli
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
 ReportCrash **analizza i processi in crash e salva un rapporto di crash su disco**. Un rapporto di crash contiene informazioni che possono **aiutare uno sviluppatore a diagnosticare** la causa di un crash.\
-Per le applicazioni e altri processi **in esecuzione nel contesto di launchd per utente**, ReportCrash viene eseguito come un LaunchAgent e salva i rapporti di crash nella `~/Library/Logs/DiagnosticReports/` dell'utente.\
-Per i demoni, altri processi **in esecuzione nel contesto di launchd di sistema** e altri processi privilegiati, ReportCrash viene eseguito come un LaunchDaemon e salva i rapporti di crash nei `/Library/Logs/DiagnosticReports` del sistema.
+Per le applicazioni e altri processi **in esecuzione nel contesto di launchd per utente**, ReportCrash viene eseguito come un LaunchAgent e salva i rapporti di crash nella cartella `~/Library/Logs/DiagnosticReports/` dell'utente.\
+Per i demoni, altri processi **in esecuzione nel contesto di launchd di sistema** e altri processi privilegiati, ReportCrash viene eseguito come un LaunchDaemon e salva i rapporti di crash nella cartella `/Library/Logs/DiagnosticReports` del sistema.
 
-Se sei preoccupato che i rapporti di crash **vengano inviati ad Apple**, puoi disabilitarli. Se no, i rapporti di crash possono essere utili per **capire come è andato in crash un server**.
+Se sei preoccupato che i rapporti di crash **siano inviati ad Apple**, puoi disabilitarli. In caso contrario, i rapporti di crash possono essere utili per **capire come è andato in crash un server**.
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -631,21 +618,9 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**The Art of Mac Malware: The Guide to Analyzing Malicious Software**](https://taomm.org/)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) è un motore di ricerca alimentato dal **dark-web** che offre funzionalità **gratuite** per controllare se un'azienda o i suoi clienti sono stati **compromessi** da **malware rubatori**.
-
-Il loro obiettivo principale di WhiteIntel è combattere il furto di account e gli attacchi ransomware derivanti da malware che rubano informazioni.
-
-Puoi controllare il loro sito web e provare il loro motore **gratuitamente** su:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
-Impara e pratica Hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Impara e pratica Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Impara e pratica il hacking AWS:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Impara e pratica il hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -653,7 +628,7 @@ Impara e pratica Hacking GCP: <img src="../../../.gitbook/assets/grte.png" alt="
 
 * Controlla i [**piani di abbonamento**](https://github.com/sponsors/carlospolop)!
 * **Unisciti al** 💬 [**gruppo Discord**](https://discord.gg/hRep4RUj7f) o al [**gruppo telegram**](https://t.me/peass) o **seguici** su **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos su github.
+* **Condividi trucchi di hacking inviando PR ai** [**HackTricks**](https://github.com/carlospolop/hacktricks) e [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) repos di github.
 
 </details>
 {% endhint %}
