@@ -15,14 +15,6 @@
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## 全局变量
 
 全局变量 **将被** 子进程 **继承**。
@@ -32,7 +24,7 @@
 export MYGLOBAL="hello world"
 echo $MYGLOBAL #Prints: hello world
 ```
-这个变量将被当前会话及其子进程访问。
+这个变量将可以被您当前的会话及其子进程访问。
 
 您可以通过以下方式**删除**一个变量：
 ```bash
@@ -40,7 +32,7 @@ unset MYGLOBAL
 ```
 ## Local variables
 
-**局部变量**只能被**当前的 shell/script** **访问**。
+**局部变量**只能被**当前的 shell/脚本**访问。
 ```bash
 LOCAL="my local"
 echo $LOCAL
@@ -126,11 +118,6 @@ Root:
 
 ![](<../.gitbook/assets/image (715).png>)
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 学习和实践 AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -141,7 +128,7 @@ Root:
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>

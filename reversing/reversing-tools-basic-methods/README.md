@@ -2,26 +2,18 @@
 
 {% hint style="success" %}
 学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 GCP 黑客技术： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
-
-**努力安全小组**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## 基于 ImGui 的反向工程工具
 
@@ -52,14 +44,14 @@ dotPeek 是一个反编译器，能够**反编译和检查多种格式**，包�
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
-通过全面的插件模型和扩展工具以满足您确切需求的 API，.NET Reflector 节省时间并简化开发。让我们看看这个工具提供的众多反向工程服务：
+通过全面的插件模型和扩展工具以满足您确切需求的 API，.NET Reflector 节省了时间并简化了开发。让我们看看这个工具提供的众多反向工程服务：
 
 * 提供对数据如何在库或组件中流动的洞察
 * 提供对 .NET 语言和框架的实现和使用的洞察
-* 查找未记录和未公开的功能，以更好地利用所使用的 API 和技术
+* 查找未记录和未公开的功能，以便更好地利用所使用的 API 和技术
 * 查找依赖关系和不同的程序集
 * 精确定位代码、第三方组件和库中的错误
-* 调试您所使用的所有 .NET 代码的源头
+* 调试您所使用的所有 .NET 代码的源代码
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
@@ -68,7 +60,7 @@ dotPeek 是一个反编译器，能够**反编译和检查多种格式**，包�
 
 ### DNSpy 日志记录
 
-为了让 **DNSpy 记录一些信息到文件中**，您可以使用以下代码片段：
+为了让 **DNSpy 记录一些信息到文件**，您可以使用以下代码片段：
 ```cs
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
@@ -78,7 +70,7 @@ File.AppendAllText(path, "Password: " + password + "\n");
 
 为了使用 DNSpy 调试代码，您需要：
 
-首先，修改与 **调试** 相关的 **程序集属性**：
+首先，改变与 **调试** 相关的 **程序集属性**：
 
 ![](<../../.gitbook/assets/image (973).png>)
 ```aspnet
@@ -109,7 +101,7 @@ iisreset /noforce
 
 ![](<../../.gitbook/assets/image (318).png>)
 
-然后选择 **w3wp.exe** 以附加到 **IIS server** 并点击 **attach**：
+然后选择 **w3wp.exe** 以附加到 **IIS 服务器**，并点击 **attach**：
 
 ![](<../../.gitbook/assets/image (113).png>)
 
@@ -155,9 +147,9 @@ iisreset /noforce
 * **加载 rundll32**（64位在 C:\Windows\System32\rundll32.exe，32位在 C:\Windows\SysWOW64\rundll32.exe）
 * **更改命令行**（ _File --> Change Command Line_ ）并设置 DLL 的路径和您想要调用的函数，例如："C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * 更改 _Options --> Settings_ 并选择 "**DLL Entry**"。
-* 然后 **开始执行**，调试器将在每个 DLL 主函数处停止，在某个时刻您将 **停在您的 DLL 的 DLL 入口**。从那里，只需搜索您想要放置断点的点。
+* 然后 **开始执行**，调试器将在每个 DLL 主函数处停止，在某个时刻您将 **停在您 DLL 的 DLL 入口**。从那里，只需搜索您想要放置断点的点。
 
-请注意，当执行因任何原因在 win64dbg 中停止时，您可以在 **win64dbg 窗口的顶部** 查看 **您正在查看的代码**：
+请注意，当执行因任何原因在 win64dbg 中停止时，您可以在 **win64dbg 窗口顶部** 查看 **您正在查看的代码**：
 
 ![](<../../.gitbook/assets/image (842).png>)
 
@@ -171,9 +163,9 @@ iisreset /noforce
 [cheat-engine.md](cheat-engine.md)
 {% endcontent-ref %}
 
-[**PiNCE**](https://github.com/korcankaraokcu/PINCE) 是一个面向 GNU Project Debugger (GDB) 的前端/逆向工程工具，专注于游戏。然而，它可以用于任何与逆向工程相关的内容。
+[**PiNCE**](https://github.com/korcankaraokcu/PINCE) 是一个针对 GNU 项目调试器（GDB）的前端/逆向工程工具，专注于游戏。然而，它可以用于任何与逆向工程相关的内容。
 
-[**Decompiler Explorer**](https://dogbolt.org/) 是多个反编译器的网络前端。该网络服务允许您比较不同反编译器在小型可执行文件上的输出。
+[**Decompiler Explorer**](https://dogbolt.org/) 是多个反编译器的网页前端。该网络服务允许您比较不同反编译器在小型可执行文件上的输出。
 
 ## ARM & MIPS
 
@@ -183,8 +175,8 @@ iisreset /noforce
 
 ### 使用 blobrunner 调试 shellcode
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner) 将 **分配** shellcode 到内存空间中，**指示**您 shellcode 被分配的 **内存地址** 并 **停止** 执行。\
-然后，您需要 **附加调试器**（Ida 或 x64dbg）到该进程，并在指示的内存地址上放置 **断点** 并 **恢复** 执行。这样您将调试 shellcode。
+[**Blobrunner**](https://github.com/OALabs/BlobRunner) 将 **分配** shellcode 到一块内存空间，**指示**您 shellcode 被分配的 **内存地址** 并 **停止** 执行。\
+然后，您需要 **附加调试器**（Ida 或 x64dbg）到该进程，并在 **指示的内存地址** 设置一个 **断点**，然后 **恢复** 执行。这样您将调试 shellcode。
 
 发布的 GitHub 页面包含包含已编译版本的 zip 文件：[https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 您可以在以下链接找到稍微修改过的 Blobrunner 版本。为了编译它，只需 **在 Visual Studio Code 中创建一个 C/C++ 项目，复制并粘贴代码并构建**。
@@ -195,7 +187,7 @@ iisreset /noforce
 
 ### 使用 jmp2it 调试 shellcode
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) 与 blobrunner 非常相似。它将 **分配** shellcode 到内存空间中，并启动一个 **无限循环**。然后，您需要 **附加调试器** 到该进程，**播放开始等待 2-5 秒并按停止**，您将发现自己处于 **无限循环** 中。跳到无限循环的下一条指令，因为它将是对 shellcode 的调用，最后您将发现自己正在执行 shellcode。
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) 与 blobrunner 非常相似。它将 **分配** shellcode 到一块内存空间，并启动一个 **无限循环**。然后，您需要 **附加调试器** 到该进程，**播放开始等待 2-5 秒并按停止**，您将发现自己处于 **无限循环** 中。跳到无限循环的下一条指令，因为它将是对 shellcode 的调用，最后您将发现自己正在执行 shellcode。
 
 ![](<../../.gitbook/assets/image (509).png>)
 
@@ -203,13 +195,13 @@ iisreset /noforce
 
 ### 使用 Cutter 调试 shellcode
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) 是 radare 的 GUI。使用 cutter，您可以模拟 shellcode 并动态检查它。
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) 是 radare 的 GUI。使用 Cutter，您可以模拟 shellcode 并动态检查它。
 
 请注意，Cutter 允许您 "Open File" 和 "Open Shellcode"。在我的情况下，当我将 shellcode 作为文件打开时，它正确反编译，但当我将其作为 shellcode 打开时却没有：
 
 ![](<../../.gitbook/assets/image (562).png>)
 
-为了在您想要的地方开始模拟，请在那里设置一个断点，显然 cutter 将自动从那里开始模拟：
+为了从您想要的地方开始模拟，请在那里设置一个 bp，显然 Cutter 将自动从那里开始模拟：
 
 ![](<../../.gitbook/assets/image (589).png>)
 
@@ -222,7 +214,7 @@ iisreset /noforce
 ### 反混淆 shellcode 并获取执行的函数
 
 您应该尝试 [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152)。\
-它将告诉您 shellcode 使用了 **哪些函数** 以及 shellcode 是否在内存中 **解码** 自身。
+它将告诉您 shellcode 使用了 **哪些函数**，以及 shellcode 是否在内存中 **解码** 自身。
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -253,34 +245,34 @@ scDbg 还配备了一个图形启动器，您可以选择所需的选项并执�
 apt-get install libcapstone-dev
 apt-get install libz3-dev
 ```
-并且[安装 keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md)（`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`）
+And [安装 keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-如果你正在参加一个**CTF，这个找到标志的变通方法**可能会非常有用：[https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
+如果你在玩 **CTF，这个找到 flag 的变通方法** 可能会非常有用: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
-要找到**入口点**，可以通过`::main`搜索函数，如下所示：
+要找到 **入口点**，可以通过 `::main` 搜索函数，如下所示:
 
 ![](<../../.gitbook/assets/image (1080).png>)
 
 在这种情况下，二进制文件被称为 authenticator，因此很明显这是有趣的主函数。\
-拥有被调用的**函数**的**名称**，在**互联网上**搜索它们以了解它们的**输入**和**输出**。
+拥有被调用的 **函数** 的 **名称**，在 **互联网上** 搜索它们以了解它们的 **输入** 和 **输出**。
 
 ## **Delphi**
 
 对于 Delphi 编译的二进制文件，你可以使用 [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
 
-如果你必须反向工程一个 Delphi 二进制文件，我建议你使用 IDA 插件 [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
+如果你需要反向工程一个 Delphi 二进制文件，我建议你使用 IDA 插件 [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
 
 只需按 **ATL+f7**（在 IDA 中导入 python 插件）并选择 python 插件。
 
-此插件将在调试开始时执行二进制文件并动态解析函数名称。启动调试后，再次按下开始按钮（绿色按钮或 f9），并且在真实代码的开头会触发一个断点。
+该插件将在调试开始时执行二进制文件并动态解析函数名称。启动调试后，再次按下开始按钮（绿色按钮或 f9），断点将在真实代码的开头命中。
 
-这也非常有趣，因为如果你在图形应用程序中按下一个按钮，调试器将停止在该按钮执行的函数中。
+这也非常有趣，因为如果你在图形应用程序中按下一个按钮，调试器将在该按钮执行的函数中停止。
 
 ## Golang
 
-如果你必须反向工程一个 Golang 二进制文件，我建议你使用 IDA 插件 [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
+如果你需要反向工程一个 Golang 二进制文件，我建议你使用 IDA 插件 [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
 
 只需按 **ATL+f7**（在 IDA 中导入 python 插件）并选择 python 插件。
 
@@ -288,7 +280,7 @@ apt-get install libz3-dev
 
 ## 编译的 Python
 
-在此页面中，你可以找到如何从 ELF/EXE python 编译的二进制文件中获取 python 代码：
+在此页面中，你可以找到如何从 ELF/EXE python 编译的二进制文件中获取 python 代码:
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -296,10 +288,10 @@ apt-get install libz3-dev
 
 ## GBA - Game Body Advance
 
-如果你获得了 GBA 游戏的**二进制文件**，你可以使用不同的工具来**模拟**和**调试**它：
+如果你获得了 GBA 游戏的 **二进制文件**，你可以使用不同的工具来 **模拟** 和 **调试** 它:
 
-* [**no$gba**](https://problemkaputt.de/gba.htm)（_下载调试版本_）- 包含带界面的调试器
-* [**mgba** ](https://mgba.io) - 包含 CLI 调试器
+* [**no$gba**](https://problemkaputt.de/gba.htm) (_下载调试版本_) - 包含带界面的调试器
+* [**mgba** ](https://mgba.io)- 包含 CLI 调试器
 * [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Ghidra 插件
 * [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Ghidra 插件
 
@@ -307,7 +299,7 @@ apt-get install libz3-dev
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-按下时，每个**键都有一个值**来识别它：
+按下时，每个 **键都有一个值** 来识别它:
 ```
 A = 1
 B = 2
@@ -320,11 +312,11 @@ DOWN = 128
 R = 256
 L = 256
 ```
-所以，在这种程序中，**程序如何处理用户输入**将是有趣的部分。在地址 **0x4000130** 你会找到常见的函数：**KEYINPUT**。
+所以，在这种程序中，令人感兴趣的部分将是**程序如何处理用户输入**。在地址**0x4000130**，你会找到常见的函数：**KEYINPUT**。
 
 ![](<../../.gitbook/assets/image (447).png>)
 
-在前面的图像中，你可以看到该函数是从 **FUN\_080015a8** 调用的（地址：_0x080015fa_ 和 _0x080017ac_）。
+在前面的图像中，你可以看到该函数是从**FUN\_080015a8**调用的（地址：_0x080015fa_和_0x080017ac_）。
 
 在该函数中，在一些初始化操作之后（没有任何重要性）：
 ```c
@@ -347,7 +339,7 @@ FUN_08000dd0(&DAT_02009584,0x6000000,&DAT_030000dc);
 FUN_08000354(&DAT_030000dc,0x3c);
 uVar4 = DAT_030004d8;
 ```
-找到这段代码：
+发现了这段代码：
 ```c
 do {
 DAT_030004da = uVar4; //This is the last key pressed
@@ -392,8 +384,8 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 * 首先，它与 **值 4**（**SELECT** 按钮）进行比较：在这个挑战中，这个按钮清除屏幕
 * 然后，它与 **值 8**（**START** 按钮）进行比较：在这个挑战中，这个检查代码是否有效以获取标志。
 * 在这种情况下，变量 **`DAT_030000d8`** 与 0xf3 进行比较，如果值相同，则执行某些代码。
-* 在其他情况下，检查某个 cont（`DAT_030000d4`）。这是一个 cont，因为在进入代码后它会加 1。\
-**如果** 小于 8，则会进行一些涉及 **添加** 值到 **`DAT_030000d8`** 的操作（基本上是将按下的键的值添加到这个变量中，只要 cont 小于 8）。
+* 在其他情况下，检查某个计数（`DAT_030000d4`）。这是一个计数，因为在进入代码后会加 1。\
+**如果** 小于 8，则会进行一些涉及 **添加** 值到 **`DAT_030000d8`** 的操作（基本上是将按下的键的值添加到这个变量中，只要计数小于 8）。
 
 因此，在这个挑战中，知道按钮的值，您需要 **按下一个长度小于 8 的组合，使得结果的和为 0xf3。**
 
@@ -403,27 +395,21 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 
 {% embed url="https://www.youtube.com/watch?v=VVbRe7wr3G4" %}
 
-## 课程
+## Courses
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (二进制去混淆)
 
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习和实践 GCP 黑客技术： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>

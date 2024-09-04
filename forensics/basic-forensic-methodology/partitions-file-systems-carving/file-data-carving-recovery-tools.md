@@ -9,19 +9,11 @@
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## 雕刻与恢复工具
 
@@ -61,7 +53,7 @@ scalpel file.img -o output
 
 这个工具包含在kali中，但你可以在这里找到它: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-这个工具可以扫描一个镜像并**提取其中的pcaps**，**网络信息（URLs、域名、IP、MAC、邮件）**以及更多**文件**。你只需执行：
+这个工具可以扫描一个镜像并将**提取pcaps**，**网络信息（URLs，域名，IP，MAC，邮件）**以及更多**文件**。你只需执行：
 ```
 bulk_extractor memory.img -o out_folder
 ```
@@ -105,12 +97,6 @@ BinVis是一个很好的**起点，以熟悉未知目标**在黑箱场景中。
 您可以使用[**viu**](https://github.com/atanunq/viu)从终端查看图像。\
 您可以使用Linux命令行工具**pdftotext**将PDF转换为文本并阅读。
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 学习和实践AWS黑客攻击：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 学习和实践GCP黑客攻击：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -120,7 +106,7 @@ BinVis是一个很好的**起点，以熟悉未知目标**在黑箱场景中。
 <summary>支持HackTricks</summary>
 
 * 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord小组**](https://discord.gg/hRep4RUj7f)或[**电报小组**](https://t.me/peass)或**关注**我们在**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub库提交PR分享黑客技巧。
 
 </details>

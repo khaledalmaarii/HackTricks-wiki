@@ -1,37 +1,24 @@
 # Access Tokens
 
 {% hint style="success" %}
-学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>支持 HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **侵害**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Access Tokens
 
-每个 **登录** 系统的 **用户持有一个包含安全信息的访问令牌**，用于该登录会话。用户登录时，系统会创建一个访问令牌。**每个代表用户执行的进程** **都有一个访问令牌的副本**。该令牌标识用户、用户的组和用户的权限。令牌还包含一个登录 SID（安全标识符），用于标识当前的登录会话。
+每个**登录**到系统的**用户持有一个包含安全信息的访问令牌**，用于该登录会话。当用户登录时，系统会创建一个访问令牌。**每个代表用户执行的进程**都有一个访问令牌的副本。该令牌标识用户、用户的组和用户的权限。令牌还包含一个登录SID（安全标识符），用于标识当前的登录会话。
 
 您可以通过执行 `whoami /all` 查看此信息。
 ```
@@ -83,36 +70,36 @@ SeTimeZonePrivilege           Change the time zone                 Disabled
 
 ### 本地管理员
 
-当本地管理员登录时，**会创建两个访问令牌**：一个具有管理员权限，另一个具有普通权限。**默认情况下**，当该用户执行进程时，将使用具有**常规**（非管理员）**权限的令牌**。当该用户尝试**以管理员身份执行**任何操作（例如“以管理员身份运行”）时，**UAC** 将被用来请求权限。\
+当本地管理员登录时，**会创建两个访问令牌**：一个具有管理员权限，另一个具有普通权限。**默认情况下**，当该用户执行进程时，使用的是具有**常规**（非管理员）**权限的令牌**。当该用户尝试**以管理员身份执行**任何操作（例如“以管理员身份运行”）时，**UAC** 将被用来请求权限。\
 如果您想要[**了解更多关于 UAC 的信息，请阅读此页面**](../authentication-credentials-uac-and-efs/#uac)**。**
 
-### 凭据用户 impersonation
+### 凭据用户冒充
 
 如果您拥有**任何其他用户的有效凭据**，您可以**使用这些凭据创建**一个**新的登录会话**：
 ```
 runas /user:domain\username cmd.exe
 ```
-**访问令牌**还具有**引用**在**LSASS**中的登录会话，这在进程需要访问网络的一些对象时非常有用。\
+**访问令牌**还具有**LSASS**内部登录会话的**引用**，这在进程需要访问网络的一些对象时非常有用。\
 您可以使用以下方法启动一个**使用不同凭据访问网络服务**的进程：
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
-这是有用的，如果您拥有访问网络中对象的有效凭据，但这些凭据在当前主机内无效，因为它们仅将在网络中使用（在当前主机中将使用您当前用户的权限）。
+这是有用的，如果您拥有访问网络中对象的有效凭据，但这些凭据在当前主机内无效，因为它们只会在网络中使用（在当前主机中将使用您当前用户的权限）。
 
 ### 令牌类型
 
 可用的令牌有两种类型：
 
 * **主令牌**：它作为进程安全凭据的表示。主令牌的创建和与进程的关联是需要提升权限的操作，强调了权限分离的原则。通常，身份验证服务负责令牌的创建，而登录服务则处理其与用户操作系统外壳的关联。值得注意的是，进程在创建时会继承其父进程的主令牌。
-* **模拟令牌**：使服务器应用程序能够暂时采用客户端的身份以访问安全对象。该机制分为四个操作级别：
+* ** impersonation 令牌**：使服务器应用程序能够暂时采用客户端的身份以访问安全对象。该机制分为四个操作级别：
 * **匿名**：授予服务器与未识别用户相似的访问权限。
-* **识别**：允许服务器验证客户端的身份，而不利用其进行对象访问。
-* **模拟**：使服务器能够在客户端身份下操作。
-* **委托**：类似于模拟，但包括将这种身份假设扩展到服务器交互的远程系统的能力，确保凭据的保留。
+* **身份验证**：允许服务器验证客户端的身份，而不利用其进行对象访问。
+* ** impersonation **：使服务器能够在客户端身份下操作。
+* **委托**：类似于 impersonation，但包括将此身份假设扩展到服务器交互的远程系统的能力，以确保凭据的保留。
 
-#### 模拟令牌
+#### 假冒令牌
 
-使用 metasploit 的 _**incognito**_ 模块，如果您拥有足够的权限，您可以轻松地 **列出** 和 **模拟** 其他 **令牌**。这可能有助于执行 **作为其他用户的操作**。您还可以使用此技术 **提升权限**。
+使用 metasploit 的 _**incognito**_ 模块，如果您拥有足够的权限，您可以轻松地 **列出** 和 **假冒** 其他 **令牌**。这可能有助于执行 **作为其他用户的操作**。您还可以使用此技术 **提升权限**。
 
 ### 令牌权限
 
@@ -122,34 +109,23 @@ runas /user:domain\username /netonly cmd.exe
 [privilege-escalation-abusing-tokens.md](privilege-escalation-abusing-tokens.md)
 {% endcontent-ref %}
 
-查看 [**所有可能的令牌权限及其一些定义在此外部页面**](https://github.com/gtworek/Priv2Admin)。
+查看 [**所有可能的令牌权限及其一些定义的外部页面**](https://github.com/gtworek/Priv2Admin)。
 
 ## 参考
 
 在这些教程中了解更多关于令牌的信息：[https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) 和 [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-学习和实践 AWS 黑客攻击：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习和实践 GCP 黑客攻击：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客攻击：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客攻击：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>

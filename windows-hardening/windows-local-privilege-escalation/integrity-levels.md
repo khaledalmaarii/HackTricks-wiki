@@ -15,45 +15,31 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 ## Integrity Levels
 
-在 Windows Vista 及更高版本中，所有受保护的项目都有一个 **完整性级别** 标签。此设置通常将“中等”完整性级别分配给文件和注册表项，除了某些 Internet Explorer 7 可以以低完整性级别写入的文件和文件夹。默认情况下，标准用户启动的进程具有中等完整性级别，而服务通常在系统完整性级别下运行。高完整性标签保护根目录。
+在Windows Vista及更高版本中，所有受保护的项目都有一个**完整性级别**标签。此设置通常将“中等”完整性级别分配给文件和注册表项，除了某些Internet Explorer 7可以以低完整性级别写入的文件夹和文件。默认情况下，标准用户启动的进程具有中等完整性级别，而服务通常在系统完整性级别下运行。高完整性标签保护根目录。
 
-一个关键规则是，低于对象级别的进程无法修改该对象。完整性级别如下：
+一个关键规则是，低于对象级别的完整性级别的进程无法修改对象。完整性级别如下：
 
 * **不可信**：此级别适用于匿名登录的进程。 %%%示例：Chrome%%%
-* **低**：主要用于互联网交互，特别是在 Internet Explorer 的受保护模式中，影响相关文件和进程，以及某些文件夹，如 **临时 Internet 文件夹**。低完整性进程面临重大限制，包括无法写入注册表和有限的用户配置文件写入访问权限。
+* **低**：主要用于互联网交互，特别是在Internet Explorer的保护模式下，影响相关文件和进程，以及某些文件夹，如**临时Internet文件夹**。低完整性进程面临重大限制，包括无法写入注册表和有限的用户配置文件写入访问权限。
 * **中**：大多数活动的默认级别，分配给标准用户和没有特定完整性级别的对象。即使是管理员组的成员默认也在此级别下操作。
 * **高**：保留给管理员，允许他们修改低完整性级别的对象，包括高完整性级别的对象。
-* **系统**：Windows 内核和核心服务的最高操作级别，甚至管理员也无法接触，确保保护重要的系统功能。
+* **系统**：Windows内核和核心服务的最高操作级别，甚至管理员也无法接触，确保保护重要的系统功能。
 * **安装程序**：一个独特的级别，超越所有其他级别，使该级别的对象能够卸载任何其他对象。
 
-您可以使用 **Sysinternals** 的 **Process Explorer** 获取进程的完整性级别，访问进程的 **属性** 并查看 "**安全性**" 选项卡：
+您可以使用**Sysinternals**的**Process Explorer**获取进程的完整性级别，访问进程的**属性**并查看“**安全性**”选项卡：
 
 ![](<../../.gitbook/assets/image (824).png>)
 
-您还可以使用 `whoami /groups` 获取您的 **当前完整性级别**
+您还可以使用`whoami /groups`获取您的**当前完整性级别**
 
 ![](<../../.gitbook/assets/image (325).png>)
 
 ### Integrity Levels in File-system
 
-文件系统中的对象可能需要 **最低完整性级别要求**，如果进程没有此完整性级别，则无法与其交互。\
-例如，让我们 **从普通用户控制台创建一个常规文件并检查权限**：
+文件系统中的对象可能需要**最低完整性级别要求**，如果进程没有此完整性级别，则无法与其交互。\
+例如，让我们**从常规用户控制台创建一个常规文件并检查权限**：
 ```
 echo asd >asd.txt
 icacls asd.txt
@@ -64,7 +50,7 @@ NT AUTHORITY\INTERACTIVE:(I)(M,DC)
 NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 ```
-现在，让我们为文件分配一个最低的完整性级别为 **高**。这 **必须在以** 管理员 **身份运行的控制台中完成，因为** 常规控制台 **将以中等完整性级别运行，并且** 不允许 **将高完整性级别分配给对象：
+现在，让我们为文件分配一个最低的完整性级别为 **高**。这 **必须从一个以管理员身份运行的控制台** 中完成，因为 **常规控制台** 将在中等完整性级别下运行，并且 **不允许** 将高完整性级别分配给对象：
 ```
 icacls asd.txt /setintegritylevel(oi)(ci) High
 processed file: asd.txt
@@ -79,7 +65,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-这是事情变得有趣的地方。你可以看到用户 `DESKTOP-IDJHTKP\user` 对该文件拥有 **完全权限**（实际上这是创建该文件的用户），然而，由于实施的最低完整性级别，他将无法再修改该文件，除非他在高完整性级别下运行（请注意，他仍然可以读取该文件）：
+这是事情变得有趣的地方。你可以看到用户 `DESKTOP-IDJHTKP\user` 对文件拥有 **完全权限**（实际上这是创建该文件的用户），然而，由于实施的最低完整性级别，他将无法再修改该文件，除非他在高完整性级别下运行（请注意，他仍然可以读取该文件）：
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -112,33 +98,6 @@ Mandatory Label\Low Mandatory Level:(NW)
 
 ### 进程中的完整性级别
 
-并非所有文件和文件夹都有最低完整性级别，**但所有进程都在完整性级别下运行**。与文件系统发生的情况类似，**如果一个进程想要在另一个进程内写入，它必须至少具有相同的完整性级别**。这意味着低完整性级别的进程无法以完全访问权限打开中等完整性级别进程的句柄。
+并非所有文件和文件夹都有最低完整性级别，**但所有进程都在完整性级别下运行**。与文件系统发生的情况类似，**如果一个进程想要在另一个进程内部写入，它必须至少具有相同的完整性级别**。这意味着低完整性级别的进程无法以完全访问权限打开中等完整性级别进程的句柄。
 
 由于本节和前一节中提到的限制，从安全角度来看，始终**建议以尽可能低的完整性级别运行进程**。
-
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个**暗网**驱动的搜索引擎，提供**免费**功能以检查公司或其客户是否被**窃取恶意软件**所**危害**。
-
-WhiteIntel的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-你可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
-{% hint style="success" %}
-学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>支持 HackTricks</summary>
-
-* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
-
-</details>
-{% endhint %}

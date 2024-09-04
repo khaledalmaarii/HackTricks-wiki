@@ -15,49 +15,36 @@
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## 主要钥匙串
 
-* **用户钥匙串** (`~/Library/Keychains/login.keycahin-db`)，用于存储 **用户特定凭据**，如应用程序密码、互联网密码、用户生成的证书、网络密码和用户生成的公钥/私钥。
+* **用户钥匙串** (`~/Library/Keychains/login.keycahin-db`)，用于存储 **用户特定的凭据**，如应用程序密码、互联网密码、用户生成的证书、网络密码和用户生成的公钥/私钥。
 * **系统钥匙串** (`/Library/Keychains/System.keychain`)，存储 **系统范围的凭据**，如 WiFi 密码、系统根证书、系统私钥和系统应用程序密码。
 
 ### 密码钥匙串访问
 
-这些文件虽然没有固有保护且可以被 **下载**，但它们是加密的，需要 **用户的明文密码进行解密**。可以使用像 [**Chainbreaker**](https://github.com/n0fate/chainbreaker) 这样的工具进行解密。
+这些文件虽然没有固有的保护并且可以被 **下载**，但它们是加密的，需要 **用户的明文密码进行解密**。可以使用像 [**Chainbreaker**](https://github.com/n0fate/chainbreaker) 这样的工具进行解密。
 
 ## 钥匙串条目保护
 
 ### ACLs
 
-钥匙串中的每个条目都受 **访问控制列表 (ACLs)** 的管理，规定谁可以对钥匙串条目执行各种操作，包括：
+钥匙串中的每个条目都受 **访问控制列表 (ACLs)** 的管理，规定了谁可以对钥匙串条目执行各种操作，包括：
 
 * **ACLAuhtorizationExportClear**：允许持有者获取秘密的明文。
 * **ACLAuhtorizationExportWrapped**：允许持有者获取用另一个提供的密码加密的明文。
 * **ACLAuhtorizationAny**：允许持有者执行任何操作。
 
-ACLs 还附带一个 **受信任应用程序列表**，可以在不提示的情况下执行这些操作。可能是：
+ACLs 还附带一个 **受信任应用程序列表**，可以在不提示的情况下执行这些操作。这可能是：
 
 * **N`il`**（不需要授权，**所有人都被信任**）
 * 一个 **空** 列表（**没有人**被信任）
 * **特定应用程序** 的 **列表**。
 
-条目还可能包含键 **`ACLAuthorizationPartitionID`**，用于识别 **teamid、apple** 和 **cdhash**。
+此外，条目可能包含键 **`ACLAuthorizationPartitionID`，** 用于识别 **teamid、apple** 和 **cdhash**。
 
-* 如果指定了 **teamid**，则为了在 **不提示** 的情况下 **访问条目** 值，使用的应用程序必须具有 **相同的 teamid**。
-* 如果指定了 **apple**，则应用程序需要由 **Apple** **签名**。
+* 如果指定了 **teamid**，则为了 **在不提示的情况下访问条目** 值，使用的应用程序必须具有 **相同的 teamid**。
+* 如果指定了 **apple**，则应用程序需要由 **Apple** 签名。
 * 如果指明了 **cdhash**，则 **应用程序** 必须具有特定的 **cdhash**。
 
 ### 创建钥匙串条目
@@ -100,7 +87,7 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 ### APIs
 
 {% hint style="success" %}
-**密钥链枚举和秘密转储**可以使用工具[**LockSmith**](https://github.com/its-a-feature/LockSmith)进行，这不会生成提示。
+**密钥链枚举和秘密转储**可以使用工具[**LockSmith**](https://github.com/its-a-feature/LockSmith)进行，这**不会生成提示**。
 {% endhint %}
 
 列出并获取每个密钥链条目的**信息**：
@@ -128,7 +115,7 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 
 这些是能够**在没有提示的情况下导出秘密**的**要求**：
 
-* 如果列出了**1个或多个受信任**的应用程序：
+* 如果**列出1个以上的受信任**应用程序：
 * 需要适当的**授权**（**`Nil`**，或是**允许**访问秘密信息的应用程序列表的一部分）
 * 需要代码签名与**PartitionID**匹配
 * 需要代码签名与一个**受信任的应用程序**的匹配（或是正确的KeychainAccessGroup的成员）
@@ -138,14 +125,14 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 * 如果**没有PartitionID**，则不需要此项
 
 {% hint style="danger" %}
-因此，如果列出了**1个应用程序**，您需要**在该应用程序中注入代码**。
+因此，如果**列出1个应用程序**，您需要**在该应用程序中注入代码**。
 
 如果**apple**在**partitionID**中被指示，您可以使用**`osascript`**访问它，因此任何信任所有应用程序且在partitionID中包含apple的内容。**`Python`**也可以用于此。
 {% endhint %}
 
 ### 两个额外属性
 
-* **隐形**：这是一个布尔标志，用于**隐藏**密钥链应用程序中的条目
+* **隐形**：这是一个布尔标志，用于**隐藏**密钥链条目在**UI**密钥链应用程序中
 * **通用**：用于存储**元数据**（因此它不是加密的）
 * 微软以明文存储所有访问敏感端点的刷新令牌。
 
@@ -153,17 +140,6 @@ security dump-keychain ~/Library/Keychains/login.keychain-db
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io)是一个**暗网**驱动的搜索引擎，提供**免费**功能以检查公司或其客户是否被**窃取恶意软件****入侵**。
-
-WhiteIntel的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 学习和实践AWS黑客攻击：<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -174,7 +150,7 @@ WhiteIntel的主要目标是打击由于信息窃取恶意软件导致的账户�
 <summary>支持HackTricks</summary>
 
 * 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我们在**Twitter**上的**🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f)或[**电报群组**](https://t.me/peass)或**关注**我们在**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github库提交PR来分享黑客技巧。
 
 </details>

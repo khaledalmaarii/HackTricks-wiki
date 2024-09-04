@@ -9,19 +9,11 @@
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
-
-**努力安全小组**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ### **查找 Windows 本地权限提升向量的最佳工具：** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
@@ -33,7 +25,7 @@
 * [ ] 使用 **searchsploit 搜索** 内核 **漏洞**
 * [ ] [**环境变量**](windows-local-privilege-escalation/#environment) 中的有趣信息？
 * [ ] [**PowerShell 历史**](windows-local-privilege-escalation/#powershell-history) 中的密码？
-* [ ] [**Internet 设置**](windows-local-privilege-escalation/#internet-settings) 中的有趣信息？
+* [ ] [**互联网设置**](windows-local-privilege-escalation/#internet-settings) 中的有趣信息？
 * [ ] [**驱动器**](windows-local-privilege-escalation/#drives)？
 * [ ] [**WSUS 漏洞**](windows-local-privilege-escalation/#wsus)？
 * [ ] [**AlwaysInstallElevated**](windows-local-privilege-escalation/#alwaysinstallelevated)？
@@ -50,7 +42,7 @@
 * [ ] [**AppLocker 策略**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)？
 * [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
 * [ ] [**用户权限**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] 检查 [**当前** 用户 **权限**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] 检查 [**当前**] 用户 [**权限**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] 你是 [**任何特权组的成员**](windows-local-privilege-escalation/#privileged-groups)吗？
 * [ ] 检查你是否启用了 [这些令牌](windows-local-privilege-escalation/#token-manipulation)：**SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [ ] [**用户会话**](windows-local-privilege-escalation/#logged-users-sessions)？
@@ -61,7 +53,7 @@
 ### [网络](windows-local-privilege-escalation/#network)
 
 * [ ] 检查 **当前** [**网络** **信息**](windows-local-privilege-escalation/#network)
-* [ ] 检查 **隐藏的本地服务** 是否限制外部访问
+* [ ] 检查 **限制外部访问的隐藏本地服务**
 
 ### [运行中的进程](windows-local-privilege-escalation/#running-processes)
 
@@ -85,7 +77,7 @@
 
 ### [DLL 劫持](windows-local-privilege-escalation/#path-dll-hijacking)
 
-* [ ] 你能 **在 PATH 中的任何文件夹中写入** 吗？
+* [ ] 你能 **在 PATH 中的任何文件夹写入** 吗？
 * [ ] 是否有任何已知的服务二进制文件 **尝试加载任何不存在的 DLL**？
 * [ ] 你能 **在任何二进制文件夹中写入** 吗？
 
@@ -97,13 +89,13 @@
 ### [Windows 凭据](windows-local-privilege-escalation/#windows-credentials)
 
 * [ ] [**Winlogon**](windows-local-privilege-escalation/#winlogon-credentials) 凭据
-* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) 凭据你可以使用？
+* [ ] [**Windows Vault**](windows-local-privilege-escalation/#credentials-manager-windows-vault) 中你可以使用的凭据？
 * [ ] 有趣的 [**DPAPI 凭据**](windows-local-privilege-escalation/#dpapi)？
-* [ ] 保存的 [**Wifi 网络**](windows-local-privilege-escalation/#wifi) 密码？
+* [ ] 保存的 [**Wifi 网络**](windows-local-privilege-escalation/#wifi) 的密码？
 * [ ] [**保存的 RDP 连接**](windows-local-privilege-escalation/#saved-rdp-connections) 中的有趣信息？
 * [ ] [**最近运行的命令**](windows-local-privilege-escalation/#recently-run-commands) 中的密码？
 * [ ] [**远程桌面凭据管理器**](windows-local-privilege-escalation/#remote-desktop-credential-manager) 密码？
-* [ ] [**AppCmd.exe** 是否存在](windows-local-privilege-escalation/#appcmd-exe)？凭据？
+* [ ] [**AppCmd.exe** 存在](windows-local-privilege-escalation/#appcmd-exe)吗？凭据？
 * [ ] [**SCClient.exe**](windows-local-privilege-escalation/#scclient-sccm)？DLL 侧加载？
 
 ### [文件和注册表（凭据）](windows-local-privilege-escalation/#files-and-registry-credentials)
@@ -111,16 +103,16 @@
 * [ ] **Putty:** [**凭据**](windows-local-privilege-escalation/#putty-creds) **和** [**SSH 主机密钥**](windows-local-privilege-escalation/#putty-ssh-host-keys)
 * [ ] [**注册表中的 SSH 密钥**](windows-local-privilege-escalation/#ssh-keys-in-registry)？
 * [ ] [**无人值守文件**](windows-local-privilege-escalation/#unattended-files) 中的密码？
-* [ ] 任何 [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) 备份？
+* [ ] 有任何 [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) 备份吗？
 * [ ] [**云凭据**](windows-local-privilege-escalation/#cloud-credentials)？
 * [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) 文件？
 * [ ] [**缓存的 GPP 密码**](windows-local-privilege-escalation/#cached-gpp-pasword)？
 * [ ] [**IIS Web 配置文件**](windows-local-privilege-escalation/#iis-web-config) 中的密码？
-* [ ] [**Web 日志**](windows-local-privilege-escalation/#logs) 中的有趣信息？
+* [ ] [**网络日志**](windows-local-privilege-escalation/#logs) 中的有趣信息？
 * [ ] 你想要 [**向用户请求凭据**](windows-local-privilege-escalation/#ask-for-credentials) 吗？
 * [ ] [**回收站中的有趣文件**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)？
 * [ ] 其他 [**包含凭据的注册表**](windows-local-privilege-escalation/#inside-the-registry)？
-* [ ] [**浏览器数据**](windows-local-privilege-escalation/#browsers-history) 中（数据库、历史记录、书签等）？
+* [ ] [**浏览器数据**](windows-local-privilege-escalation/#browsers-history) 中的内容（数据库、历史记录、书签等）？
 * [ ] [**通用密码搜索**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) 在文件和注册表中
 * [ ] [**工具**](windows-local-privilege-escalation/#tools-that-search-for-passwords) 自动搜索密码
 
@@ -132,12 +124,6 @@
 
 * [ ] 检查你是否可以利用它
 
-**努力安全小组**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -147,8 +133,8 @@
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

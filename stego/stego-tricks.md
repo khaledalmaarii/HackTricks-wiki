@@ -1,27 +1,19 @@
 # Stego Tricks
 
 {% hint style="success" %}
-学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## **从文件中提取数据**
 
@@ -35,7 +27,7 @@ binwalk --dd ".*" file # Extracts all data
 ```
 ### **Foremost**
 
-根据文件的头部和尾部恢复文件，对png图像非常有用。通过`apt`安装，源代码在[GitHub](https://github.com/korczis/foremost)上。
+根据文件的头部和尾部恢复文件，对 png 图像非常有用。通过 `apt` 安装，源代码在 [GitHub](https://github.com/korczis/foremost) 上。
 ```bash
 foremost -i file # Extracts data
 ```
@@ -110,34 +102,34 @@ Steghide 方便地在 `JPEG, BMP, WAV, 和 AU` 文件中隐藏数据，能够嵌
 ```bash
 stegcracker <file> [<wordlist>]
 ```
-### **zsteg for PNG and BMP Files**
+### **zsteg 用于 PNG 和 BMP 文件**
 
 zsteg 专注于揭示 PNG 和 BMP 文件中的隐藏数据。安装通过 `gem install zsteg` 完成，其 [源代码在 GitHub](https://github.com/zed-0xff/zsteg)。
 
-**Commands:**
+**命令：**
 
 * `zsteg -a file` 对文件应用所有检测方法。
 * `zsteg -E file` 指定用于数据提取的有效载荷。
 
-### **StegoVeritas and Stegsolve**
+### **StegoVeritas 和 Stegsolve**
 
 **stegoVeritas** 检查元数据，执行图像转换，并应用 LSB 暴力破解等功能。使用 `stegoveritas.py -h` 获取完整选项列表，使用 `stegoveritas.py stego.jpg` 执行所有检查。
 
 **Stegsolve** 应用各种颜色滤镜以揭示图像中的隐藏文本或消息。它可在 [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve) 上获取。
 
-### **FFT for Hidden Content Detection**
+### **FFT 用于隐藏内容检测**
 
 快速傅里叶变换 (FFT) 技术可以揭示图像中的隐蔽内容。有用的资源包括：
 
-* [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
+* [EPFL 演示](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
-* [FFTStegPic on GitHub](https://github.com/0xcomposure/FFTStegPic)
+* [GitHub 上的 FFTStegPic](https://github.com/0xcomposure/FFTStegPic)
 
-### **Stegpy for Audio and Image Files**
+### **Stegpy 用于音频和图像文件**
 
 Stegpy 允许将信息嵌入图像和音频文件，支持 PNG、BMP、GIF、WebP 和 WAV 等格式。它可在 [GitHub](https://github.com/dhsdshdhk/stegpy) 上获取。
 
-### **Pngcheck for PNG File Analysis**
+### **Pngcheck 用于 PNG 文件分析**
 
 要分析 PNG 文件或验证其真实性，请使用：
 ```bash
@@ -146,7 +138,7 @@ pngcheck stego.png
 ```
 ### **额外的图像分析工具**
 
-进一步探索，请考虑访问：
+要进一步探索，请考虑访问：
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
 * [图像误差级别分析](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
@@ -182,7 +174,7 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
 ### **Deepsound**
 
-Deepsound 允许使用 AES-256 对音频文件中的信息进行加密和检测。可以从 [the official page](http://jpinsoft.net/deepsound/download.aspx) 下载。
+Deepsound 允许使用 AES-256 对声音文件中的信息进行加密和检测。可以从 [the official page](http://jpinsoft.net/deepsound/download.aspx) 下载。
 
 ### **Sonic Visualizer**
 
@@ -201,34 +193,28 @@ Sonic Visualizer 是一个用于音频文件的视觉和分析检查的宝贵工
 import math
 math.sqrt(2500) #50
 ```
-For binary to image conversion, check [dcode](https://www.dcode.fr/binary-image). To read QR codes, use [this online barcode reader](https://online-barcode-reader.inliteresearch.com/).
+对于二进制到图像的转换，请查看 [dcode](https://www.dcode.fr/binary-image)。要读取二维码，请使用 [this online barcode reader](https://online-barcode-reader.inliteresearch.com/)。
 
 ### **盲文翻译**
 
-For translating Braille, the [Branah Braille Translator](https://www.branah.com/braille-translator) is an excellent resource.
+对于盲文翻译，[Branah Braille Translator](https://www.branah.com/braille-translator) 是一个很好的资源。
 
 ## **参考文献**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>支持 HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

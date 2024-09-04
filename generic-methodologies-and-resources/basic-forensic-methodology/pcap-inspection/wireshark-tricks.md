@@ -1,8 +1,8 @@
 # Wireshark tricks
 
 {% hint style="success" %}
-学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -15,21 +15,8 @@
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-## 提升您的 Wireshark 技能
+## 提升你的 Wireshark 技能
 
 ### 教程
 
@@ -44,49 +31,49 @@ WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户
 
 **专家信息**
 
-点击 _**分析** --> **专家信息**_，您将获得 **分析** 的数据包的 **概述**：
+点击 _**分析** --> **专家信息**_ 你将获得一个 **概述**，了解在 **分析** 的数据包中发生了什么：
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
 **已解析地址**
 
-在 _**统计信息 --> 已解析地址**_ 下，您可以找到 Wireshark "**解析**" 的多条 **信息**，如端口/传输到协议、MAC 到制造商等。了解通信中涉及的内容是很有趣的。
+在 _**统计 --> 已解析地址**_ 下，你可以找到 Wireshark "已解析" 的多种 **信息**，如端口/传输到协议、MAC 到制造商等。了解通信中涉及的内容是很有趣的。
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
 **协议层次**
 
-在 _**统计信息 --> 协议层次**_ 下，您可以找到通信中涉及的 **协议** 及其相关数据。
+在 _**统计 --> 协议层次**_ 下，你可以找到通信中涉及的 **协议** 及其相关数据。
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **对话**
 
-在 _**统计信息 --> 对话**_ 下，您可以找到通信中的 **对话摘要** 及其相关数据。
+在 _**统计 --> 对话**_ 下，你可以找到通信中的 **对话摘要** 及其相关数据。
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **端点**
 
-在 _**统计信息 --> 端点**_ 下，您可以找到通信中的 **端点摘要** 及其相关数据。
+在 _**统计 --> 端点**_ 下，你可以找到通信中的 **端点摘要** 及其相关数据。
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
 **DNS 信息**
 
-在 _**统计信息 --> DNS**_ 下，您可以找到捕获的 DNS 请求的统计信息。
+在 _**统计 --> DNS**_ 下，你可以找到捕获的 DNS 请求的统计信息。
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
 **I/O 图**
 
-在 _**统计信息 --> I/O 图**_ 下，您可以找到 **通信图**。
+在 _**统计 --> I/O 图**_ 下，你可以找到 **通信图**。
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
 ### 过滤器
 
-在这里，您可以根据协议找到 Wireshark 过滤器：[https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+在这里你可以找到根据协议的 Wireshark 过滤器：[https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 其他有趣的过滤器：
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
@@ -98,7 +85,7 @@ WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户
 
 ### 搜索
 
-如果您想在会话的 **数据包** 中 **搜索** **内容**，请按 _CTRL+f_。您可以通过右键单击并编辑列来向主信息栏（编号、时间、源等）添加新层。
+如果你想在会话的 **数据包** 中 **搜索** **内容**，请按 _CTRL+f_。你可以通过右键单击并编辑列来添加新的层到主信息栏（编号、时间、源等）。
 
 ### 免费 pcap 实验室
 
@@ -106,7 +93,7 @@ WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户
 
 ## 识别域名
 
-您可以添加一个显示 Host HTTP 头的列：
+你可以添加一个显示 Host HTTP 头的列：
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
@@ -118,7 +105,7 @@ WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户
 
 ### 从 DHCP
 
-在当前的 Wireshark 中，您需要搜索 `DHCP` 而不是 `bootp`
+在当前的 Wireshark 中，你需要搜索 `DHCP` 而不是 `bootp`
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
@@ -146,7 +133,7 @@ Firefox 和 Chrome 都具有记录 TLS 会话密钥的能力，这可以与 Wire
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-要在 Wireshark 中导入此内容，请转到 _edit > preference > protocol > ssl > 并将其导入 (Pre)-Master-Secret 日志文件名：
+要在 Wireshark 中导入此文件，请转到 _edit > preference > protocol > ssl > 并将其导入 (Pre)-Master-Secret 日志文件名：
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
@@ -179,28 +166,16 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **泄露**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
-学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习与实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>

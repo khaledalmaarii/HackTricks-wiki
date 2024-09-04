@@ -15,22 +15,8 @@
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
-**JuicyPotato 在** Windows Server 2019 和 Windows 10 build 1809 及之后版本上 **无法工作**。然而， [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) 可以用来 **利用相同的权限并获得 `NT AUTHORITY\SYSTEM`** 级别的访问权限。 _**检查：**_
+**JuicyPotato 在** Windows Server 2019 和 Windows 10 build 1809 及之后版本上**无法工作**。然而， [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**、** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**、** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) 可以用来 **利用相同的权限并获得 `NT AUTHORITY\SYSTEM`** 级别的访问权限。 _**检查：**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -39,43 +25,43 @@ WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户
 
 ## Juicy Potato (滥用黄金权限) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_一个经过改良的_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG) _版本，带有一点“果汁”，即 **另一个本地权限提升工具，从 Windows 服务账户到 NT AUTHORITY\SYSTEM**_
+_一个经过糖化的_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG) _版本，带有一点“果汁”，即 **另一个本地权限提升工具，从 Windows 服务账户到 NT AUTHORITY\SYSTEM**_
 
-#### 您可以从 [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts) 下载 juicypotato
+#### 你可以从 [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts) 下载 juicypotato
 
 ### 摘要 <a href="#summary" id="summary"></a>
 
-[**来自 juicy-potato 的 Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
+[**来自 juicy-potato 的自述文件**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) 及其 [变种](https://github.com/decoder-it/lonelypotato) 利用基于 [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [服务](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) 的权限提升链，具有在 `127.0.0.1:6666` 上的 MiTM 监听器，并且当您拥有 `SeImpersonate` 或 `SeAssignPrimaryToken` 权限时。在一次 Windows 构建审查中，我们发现了一个故意禁用 `BITS` 的设置，并且端口 `6666` 被占用。
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) 及其 [变种](https://github.com/decoder-it/lonelypotato) 利用基于 [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [服务](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) 的权限提升链，具有在 `127.0.0.1:6666` 上的 MiTM 监听器，并且当你拥有 `SeImpersonate` 或 `SeAssignPrimaryToken` 权限时。在一次 Windows 构建审查中，我们发现了一个故意禁用 `BITS` 的设置，并且端口 `6666` 被占用。
 
-我们决定将 [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) 武器化：**向 Juicy Potato 打个招呼**。
+我们决定武器化 [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG)：**向 Juicy Potato 打个招呼**。
 
-> 有关理论，请参见 [Rotten Potato - 从服务账户到 SYSTEM 的权限提升](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) 并跟踪链接和参考链。
+> 有关理论，请参见 [Rotten Potato - 从服务账户到 SYSTEM 的权限提升](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) 并跟踪链接和参考。
 
 我们发现，除了 `BITS` 之外，还有几个 COM 服务器可以利用。它们只需要：
 
-1. 可由当前用户实例化，通常是具有模拟权限的“服务用户”
+1. 由当前用户实例化，通常是具有模拟权限的“服务用户”
 2. 实现 `IMarshal` 接口
-3. 以提升的用户身份运行（SYSTEM，Administrator，…）
+3. 以提升的用户身份运行（SYSTEM、Administrator 等）
 
 经过一些测试，我们获得并测试了一份在多个 Windows 版本上的 [有趣 CLSID 列表](http://ohpe.it/juicy-potato/CLSID/)。
 
 ### Juicy 细节 <a href="#juicy-details" id="juicy-details"></a>
 
-JuicyPotato 允许您：
+JuicyPotato 允许你：
 
-* **目标 CLSID** _选择您想要的任何 CLSID。_ [_这里_](http://ohpe.it/juicy-potato/CLSID/) _您可以找到按操作系统组织的列表。_
-* **COM 监听端口** _定义您喜欢的 COM 监听端口（而不是硬编码的 6666）_
+* **目标 CLSID** _选择你想要的任何 CLSID。_ [_这里_](http://ohpe.it/juicy-potato/CLSID/) _你可以找到按操作系统组织的列表。_
+* **COM 监听端口** _定义你喜欢的 COM 监听端口（而不是硬编码的 6666）_
 * **COM 监听 IP 地址** _在任何 IP 上绑定服务器_
-* **进程创建模式** _根据模拟用户的权限，您可以选择：_
+* **进程创建模式** _根据模拟用户的权限，你可以选择：_
 * `CreateProcessWithToken`（需要 `SeImpersonate`）
 * `CreateProcessAsUser`（需要 `SeAssignPrimaryToken`）
 * `两者都可以`
-* **要启动的进程** _如果利用成功，则启动可执行文件或脚本_
+* **要启动的进程** _如果利用成功，启动一个可执行文件或脚本_
 * **进程参数** _自定义启动进程的参数_
-* **RPC 服务器地址** _为了隐蔽的方法，您可以对外部 RPC 服务器进行身份验证_
-* **RPC 服务器端口** _如果您想对外部服务器进行身份验证并且防火墙阻止端口 `135`，则很有用…_
+* **RPC 服务器地址** _为了隐蔽的方式，你可以认证到外部 RPC 服务器_
+* **RPC 服务器端口** _如果你想认证到外部服务器而防火墙阻止端口 `135`，这很有用…_
 * **测试模式** _主要用于测试目的，即测试 CLSID。它创建 DCOM 并打印令牌的用户。请参见_ [_这里进行测试_](http://ohpe.it/juicy-potato/Test/)
 
 ### 使用 <a href="#usage" id="usage"></a>
@@ -95,7 +81,7 @@ Optional args:
 -k <ip>: RPC server ip address (default 127.0.0.1)
 -n <port>: RPC server listen port (default 135)
 ```
-### 最后思考 <a href="#final-thoughts" id="final-thoughts"></a>
+### 最后想法 <a href="#final-thoughts" id="final-thoughts"></a>
 
 [**来自 juicy-potato 读我**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
 
@@ -144,25 +130,14 @@ c:\Users\Public>
 
 下载 [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) 并将其加载到您的 PS 会话中，然后下载并执行 [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1)。该脚本将创建一个可能的 CLSID 列表以供测试。
 
-然后下载 [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)（更改 CLSID 列表和 juicypotato 可执行文件的路径）并执行它。它将开始尝试每个 CLSID，**当端口号改变时，意味着 CLSID 有效**。
+然后下载 [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)（更改 CLSID 列表和 juicypotato 可执行文件的路径）并执行它。它将开始尝试每个 CLSID，**当端口号改变时，这意味着 CLSID 有效**。
 
 **使用参数 -c 检查** 有效的 CLSID
 
-## 参考
+## 参考文献
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

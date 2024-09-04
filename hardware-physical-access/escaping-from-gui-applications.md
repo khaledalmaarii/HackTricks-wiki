@@ -1,31 +1,21 @@
-# 从KIOSKs中逃脱
+# 从自助终端逃脱
 
 {% hint style="success" %}
-学习并实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习并实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>支持HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)！
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io)是一个由**暗网**推动的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的**侵害**。
-
-WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫持和勒索软件攻击。
-
-您可以在以下网址检查他们的网站并尝试他们的引擎，**免费**使用：
-
-{% embed url="https://whiteintel.io" %}
 
 ---
 
@@ -33,18 +23,18 @@ WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫�
 
 |   组件   | 操作                                                               |
 | ------------- | -------------------------------------------------------------------- |
-| 电源按钮  | 关闭并重新打开设备可能会显示启动屏幕      |
-| 电源电缆   | 检查当电源短暂中断时设备是否重新启动   |
-| USB端口     | 连接物理键盘以使用更多快捷键                        |
-| 以太网      | 网络扫描或嗅探可能会进一步利用             |
+| 电源按钮  | 关闭设备并重新打开可能会显示启动屏幕      |
+| 电源线   | 检查设备在短暂断电时是否重新启动   |
+| USB 端口     | 连接物理键盘以使用更多快捷键                        |
+| 以太网      | 网络扫描或嗅探可能会启用进一步的利用             |
 
 
-## 检查GUI应用程序内的可能操作
+## 检查 GUI 应用程序内可能的操作
 
-**常见对话框**是那些**保存文件**、**打开文件**、选择字体、颜色等选项。大多数情况下，这些对话框将**提供完整的资源管理器功能**。这意味着如果您可以访问这些选项，您将能够访问资源管理器功能：
+**常见对话框** 是 **保存文件**、**打开文件**、选择字体、颜色等选项。大多数情况下，它们将 **提供完整的资源管理器功能**。这意味着如果您可以访问这些选项，您将能够访问资源管理器功能：
 
 * 关闭/另存为
-* 打开/打开方式
+* 打开/用其他程序打开
 * 打印
 * 导出/导入
 * 搜索
@@ -59,28 +49,28 @@ WhiteIntel的主要目标是打击由信息窃取恶意软件导致的账户劫�
 
 ### 命令执行
 
-也许**使用`打开方式`**选项\*\*您可以打开/执行某种类型的shell。
+也许 **使用 `用其他程序打开`** 选项，您可以打开/执行某种 shell。
 
 #### Windows
 
-例如_cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ 在这里找到更多可用于执行命令（并执行意外操作）的二进制文件：[https://lolbas-project.github.io/](https://lolbas-project.github.io)
+例如 _cmd.exe, command.com, Powershell/Powershell ISE, mmc.exe, at.exe, taskschd.msc..._ 在这里找到更多可以用来执行命令（并执行意外操作）的二进制文件：[https://lolbas-project.github.io/](https://lolbas-project.github.io)
 
 #### \*NIX \_\_
 
-_bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https://gtfobins.github.io)
+_bash, sh, zsh..._ 更多信息请见：[https://gtfobins.github.io/](https://gtfobins.github.io)
 
 ## Windows
 
 ### 绕过路径限制
 
-* **环境变量**：有许多环境变量指向某些路径
-* **其他协议**：_about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
+* **环境变量**：有很多环境变量指向某个路径
+* **其他协议**： _about:, data:, ftp:, file:, mailto:, news:, res:, telnet:, view-source:_
 * **符号链接**
-* **快捷方式**：CTRL+N（打开新会话），CTRL+R（执行命令），CTRL+SHIFT+ESC（任务管理器），Windows+E（打开资源管理器），CTRL-B，CTRL-I（收藏夹），CTRL-H（历史记录），CTRL-L，CTRL-O（文件/打开对话框），CTRL-P（打印对话框），CTRL-S（另存为）
-* 隐藏的管理菜单：CTRL-ALT-F8，CTRL-ESC-F9
-* **Shell URI**：_shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
-* **UNC路径**：连接到共享文件夹的路径。您应该尝试连接到本地计算机的C$（"\\\127.0.0.1\c$\Windows\System32"）
-* **更多UNC路径:**
+* **快捷方式**： CTRL+N (打开新会话), CTRL+R (执行命令), CTRL+SHIFT+ESC (任务管理器), Windows+E (打开资源管理器), CTRL-B, CTRL-I (收藏夹), CTRL-H (历史记录), CTRL-L, CTRL-O (文件/打开对话框), CTRL-P (打印对话框), CTRL-S (另存为)
+* 隐藏的管理菜单： CTRL-ALT-F8, CTRL-ESC-F9
+* **Shell URI**： _shell:Administrative Tools, shell:DocumentsLibrary, shell:Librariesshell:UserProfiles, shell:Personal, shell:SearchHomeFolder, shell:Systemshell:NetworkPlacesFolder, shell:SendTo, shell:UsersProfiles, shell:Common Administrative Tools, shell:MyComputerFolder, shell:InternetFolder_
+* **UNC 路径**：连接到共享文件夹的路径。您应该尝试连接到本地计算机的 C$ ("\\\127.0.0.1\c$\Windows\System32")
+* **更多 UNC 路径：**
 
 | UNC                       | UNC            | UNC                  |
 | ------------------------- | -------------- | -------------------- |
@@ -111,47 +101,48 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 | C:\windows\\        | C:\windows/       | %WINDIR%           | %TMP%               |
 | %TEMP%              | %SYSTEMDRIVE%     | %SYSTEMROOT%       | %APPDATA%           |
 | %HOMEDRIVE%         | %HOMESHARE        |                    | <p><br></p>         |
+
 ### 快捷键
 
-* 粘滞键 - 按SHIFT键5次
-* 鼠标键 - SHIFT+ALT+NUMLOCK
-* 高对比度 - SHIFT+ALT+PRINTSCN
-* 切换键 - 按住NUMLOCK键5秒
-* 过滤键 - 按住右SHIFT键12秒
-* WINDOWS+F1 - Windows搜索
-* WINDOWS+D - 显示桌面
-* WINDOWS+E - 启动Windows资源管理器
-* WINDOWS+R - 运行
-* WINDOWS+U - 辅助功能中心
-* WINDOWS+F - 搜索
-* SHIFT+F10 - 上下文菜单
-* CTRL+SHIFT+ESC - 任务管理器
-* CTRL+ALT+DEL - 在较新的Windows版本上显示启动画面
-* F1 - 帮助 F3 - 搜索
-* F6 - 地址栏
-* F11 - 在Internet Explorer中切换全屏
-* CTRL+H - Internet Explorer历史记录
-* CTRL+T - Internet Explorer - 新标签页
-* CTRL+N - Internet Explorer - 新页面
-* CTRL+O - 打开文件
-* CTRL+S - 保存 CTRL+N - 新RDP / Citrix
+* Sticky Keys – 按 SHIFT 5 次
+* Mouse Keys – SHIFT+ALT+NUMLOCK
+* High Contrast – SHIFT+ALT+PRINTSCN
+* Toggle Keys – 按住 NUMLOCK 5 秒
+* Filter Keys – 按住右 SHIFT 12 秒
+* WINDOWS+F1 – Windows 搜索
+* WINDOWS+D – 显示桌面
+* WINDOWS+E – 启动 Windows 资源管理器
+* WINDOWS+R – 运行
+* WINDOWS+U – 辅助功能中心
+* WINDOWS+F – 搜索
+* SHIFT+F10 – 上下文菜单
+* CTRL+SHIFT+ESC – 任务管理器
+* CTRL+ALT+DEL – 在较新版本的 Windows 上显示启动画面
+* F1 – 帮助 F3 – 搜索
+* F6 – 地址栏
+* F11 – 在 Internet Explorer 中切换全屏
+* CTRL+H – Internet Explorer 历史记录
+* CTRL+T – Internet Explorer – 新标签
+* CTRL+N – Internet Explorer – 新页面
+* CTRL+O – 打开文件
+* CTRL+S – 保存 CTRL+N – 新 RDP / Citrix
 
 ### 滑动手势
 
-* 从左侧向右滑动以查看所有打开的窗口，最小化KIOSK应用程序并直接访问整个操作系统；
-* 从右侧向左滑动以打开操作中心，最小化KIOSK应用程序并直接访问整个操作系统；
-* 从顶部边缘向内滑动，使全屏模式下打开的应用程序的标题栏可见；
-* 从底部向上滑动，显示全屏应用程序中的任务栏。
+* 从左侧向右滑动以查看所有打开的窗口，最小化 KIOSK 应用并直接访问整个操作系统；
+* 从右侧向左滑动以打开操作中心，最小化 KIOSK 应用并直接访问整个操作系统；
+* 从顶部边缘向下滑动以使全屏模式下的应用程序标题栏可见；
+* 从底部向上滑动以在全屏应用中显示任务栏。
 
-### Internet Explorer技巧
+### Internet Explorer 技巧
 
 #### '图像工具栏'
 
-这是一个工具栏，当单击图像时会出现在图像的左上角。您将能够保存、打印、发送邮件、在资源管理器中打开“我的图片”。Kiosk需要使用Internet Explorer。
+这是一个在单击图像时出现在左上角的工具栏。您将能够保存、打印、发送邮件、在资源管理器中打开“我的图片”。自助终端需要使用 Internet Explorer。
 
-#### Shell协议
+#### Shell 协议
 
-键入以下URL以获取资源管理器视图：
+输入以下 URL 以获取资源管理器视图：
 
 * `shell:Administrative Tools`
 * `shell:DocumentsLibrary`
@@ -177,44 +168,44 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 
 ### 显示文件扩展名
 
-查看此页面以获取更多信息：[https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
+请查看此页面以获取更多信息：[https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml](https://www.howtohaven.com/system/show-file-extensions-in-windows-explorer.shtml)
 
 ## 浏览器技巧
 
-备份iKat版本：
+备份 iKat 版本：
 
 [http://swin.es/k/](http://swin.es/k/)\
 [http://www.ikat.kronicd.net/](http://www.ikat.kronicd.net)\\
 
-使用JavaScript创建通用对话框并访问文件资源管理器：`document.write('<input/type=file>')`\
+使用 JavaScript 创建一个通用对话框并访问文件资源管理器：`document.write('<input/type=file>')`\
 来源：https://medium.com/@Rend\_/give-me-a-browser-ill-give-you-a-shell-de19811defa0
 
 ## iPad
 
 ### 手势和按钮
 
-* 使用四根（或五根）手指向上滑动/双击主页按钮：查看多任务视图并更改应用程序
-* 使用四根或五根手指向左或向右滑动：以切换到下一个/上一个应用程序
-* 用五根手指捏屏幕/触摸主页按钮/从屏幕底部向上快速滑动一个手指：访问主屏幕
-* 用一个手指从屏幕底部向上缓慢滑动1-2英寸：会出现底栏
-* 用一个手指从屏幕顶部向下滑动：查看通知
-* 用一个手指从屏幕右上角向下滑动：查看iPad Pro的控制中心
-* 用一个手指从屏幕左侧向右滑动1-2英寸：查看今天视图
-* 用一个手指快速从屏幕中心向左或向右滑动：切换到下一个/上一个应用程序
-* 按住iPad右上角的开/关/睡眠按钮+将“滑动以关机”滑块全部向右移动：关机
-* 按住iPad右上角的开/关/睡眠按钮和主页按钮几秒钟：强制硬关机
-* 快速按下iPad右上角的开/关/睡眠按钮和主页按钮：拍摄屏幕截图，截图将在显示屏左下角弹出。同时短按两个按钮，如果您按住几秒钟，将执行强制硬关机。
+* 用四个（或五个）手指向上滑动 / 双击主屏幕按钮：查看多任务视图并切换应用
+* 用四个或五个手指向一侧滑动：以切换到下一个/上一个应用
+* 用五个手指捏合屏幕 / 按下主屏幕按钮 / 用一根手指快速从屏幕底部向上滑动：访问主屏幕
+* 用一根手指从屏幕底部滑动 1-2 英寸（慢）：停靠栏将出现
+* 用一根手指从显示器顶部向下滑动：查看通知
+* 用一根手指从屏幕右上角向下滑动：查看 iPad Pro 的控制中心
+* 用一根手指从屏幕左侧滑动 1-2 英寸：查看今日视图
+* 用一根手指从屏幕中心快速向右或向左滑动：切换到下一个/上一个应用
+* 按住右上角的开/关/睡眠按钮 + 将滑块向右移动到 **关机**：关机
+* 按住右上角的开/关/睡眠按钮和主屏幕按钮几秒钟：强制关机
+* 快速按住右上角的开/关/睡眠按钮和主屏幕按钮：截屏，截屏将弹出在显示器左下角。按住两个按钮非常短暂，如果按住几秒钟将执行强制关机。
 
 ### 快捷键
 
-您应该有一个iPad键盘或USB键盘适配器。这里只显示可帮助退出应用程序的快捷键。
+您应该有一个 iPad 键盘或 USB 键盘适配器。这里只显示可能帮助您逃离应用程序的快捷键。
 
-| 键   | 名称         |
+| 键 | 名称         |
 | --- | ------------ |
 | ⌘   | 命令      |
-| ⌥   | 选项（Alt） |
+| ⌥   | 选项 (Alt) |
 | ⇧   | Shift        |
-| ↩   | 返回       |
+| ↩   | 回车       |
 | ⇥   | Tab          |
 | ^   | 控制      |
 | ←   | 左箭头   |
@@ -224,50 +215,51 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 
 #### 系统快捷键
 
-这些快捷键用于视觉设置和声音设置，取决于iPad的使用。
+这些快捷键用于视觉设置和音量设置，具体取决于 iPad 的使用。
 
-| 快捷键 | 动作                                                                         |
+| 快捷键 | 操作                                                                         |
 | -------- | ------------------------------------------------------------------------------ |
-| F1       | 降低屏幕亮度                                                                    |
-| F2       | 增加屏幕亮度                                                                |
-| F7       | 后退一首歌                                                                  |
+| F1       | 调暗屏幕                                                                    |
+| F2       | 提亮屏幕                                                                |
+| F7       | 回到上一首歌                                                                  |
 | F8       | 播放/暂停                                                                     |
 | F9       | 跳过歌曲                                                                      |
 | F10      | 静音                                                                           |
 | F11      | 降低音量                                                                |
 | F12      | 增加音量                                                                |
-| ⌘ Space  | 显示可用语言列表；要选择一种语言，请再次点击空格键。 |
+| ⌘ 空格  | 显示可用语言列表；要选择一种，请再次按空格键。 |
 
-#### iPad导航
+#### iPad 导航
 
-| 快捷键                                           | 动作                                                  |
+| 快捷键                                           | 操作                                                  |
 | -------------------------------------------------- | ------------------------------------------------------- |
-| ⌘H                                                 | 转到主屏幕                                              |
-| ⌘⇧H (Command-Shift-H)                              | 转到主屏幕                                              |
-| ⌘ (Space)                                          | 打开Spotlight                                          |
-| ⌘⇥ (Command-Tab)                                   | 列出最近使用的十个应用程序                                 |
-| ⌘\~                                                | 转到上一个应用程序                                       |
-| ⌘⇧3 (Command-Shift-3)                              | 截图（悬停在左下角以保存或对其进行操作） |
-| ⌘⇧4                                                | 截图并在编辑器中打开                    |
-| 按住⌘                                   | 应用程序可用的快捷键列表                 |
-| ⌘⌥D (Command-Option/Alt-D)                         | 弹出Dock                                      |
-| ^⌥H (Control-Option-H)                             | 主页按钮                                             |
+| ⌘H                                                 | 返回主屏幕                                              |
+| ⌘⇧H (Command-Shift-H)                              | 返回主屏幕                                              |
+| ⌘ (空格)                                          | 打开聚焦搜索                                          |
+| ⌘⇥ (Command-Tab)                                   | 列出最近使用的十个应用                                 |
+| ⌘\~                                                | 返回上一个应用                                       |
+| ⌘⇧3 (Command-Shift-3)                              | 截屏（悬停在左下角以保存或操作） |
+| ⌘⇧4                                                | 截屏并在编辑器中打开                    |
+| 按住 ⌘                                   | 列出该应用可用的快捷键                 |
+| ⌘⌥D (Command-Option/Alt-D)                         | 打开停靠栏                                      |
+| ^⌥H (Control-Option-H)                             | 主屏幕按钮                                             |
 | ^⌥H H (Control-Option-H-H)                         | 显示多任务栏                                      |
 | ^⌥I (Control-Option-i)                             | 项目选择器                                            |
-| 逃逸键                                             | 返回按钮                                             |
+| Escape                                             | 返回按钮                                             |
 | → (右箭头)                                    | 下一个项目                                               |
 | ← (左箭头)                                     | 上一个项目                                           |
-| ↑↓ (上箭头, 下箭头)                          | 同时点击所选项目                        |
-| ⌥ ↓ (Option-下箭头)                            | 向下滚动                                             |
-| ⌥↑ (Option-上箭头)                               | 向上滚动                                               |
-| ⌥← 或 ⌥→ (Option-左箭头或Option-右箭头) | 向左或向右滚动                                    |
-| ^⌥S (Control-Option-S)                             | 打开或关闭VoiceOver语音                         |
-| ⌘⇧⇥ (Command-Shift-Tab)                            | 切换到上一个应用程序                              |
-| ⌘⇥ (Command-Tab)                                   | 切换回原始应用程序                         |
-| ←+→, 然后Option + ← 或 Option+→                   | 通过Dock导航                                   |
-#### Safari快捷键
+| ↑↓ (上箭头, 下箭头)                          | 同时点击选定的项目                        |
+| ⌥ ↓ (Option-Down arrow)                            | 向下滚动                                             |
+| ⌥↑ (Option-Up arrow)                               | 向上滚动                                               |
+| ⌥← 或 ⌥→ (Option-Left arrow 或 Option-Right arrow) | 向左或向右滚动                                    |
+| ^⌥S (Control-Option-S)                             | 开启或关闭 VoiceOver 语音                         |
+| ⌘⇧⇥ (Command-Shift-Tab)                            | 切换到上一个应用                              |
+| ⌘⇥ (Command-Tab)                                   | 切换回原始应用                         |
+| ←+→，然后 Option + ← 或 Option+→                   | 在停靠栏中导航                                   |
 
-| 快捷键                | 动作                                           |
+#### Safari 快捷键
+
+| 快捷键                | 操作                                           |
 | ----------------------- | ------------------------------------------------ |
 | ⌘L (Command-L)          | 打开位置                                    |
 | ⌘T                      | 打开新标签                                   |
@@ -276,15 +268,15 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 | ⌘.                      | 停止加载当前标签                     |
 | ^⇥                      | 切换到下一个标签                           |
 | ^⇧⇥ (Control-Shift-Tab) | 移动到上一个标签                         |
-| ⌘L                      | 选择文本输入/URL字段以修改     |
-| ⌘⇧T (Command-Shift-T)   | 打开最后关闭的标签（可多次使用） |
-| ⌘\[                     | 在浏览历史记录中返回一页      |
-| ⌘]                      | 在浏览历史记录中前进一页   |
-| ⌘⇧R                     | 激活阅读器模式                             |
+| ⌘L                      | 选择文本输入/URL 字段以进行修改     |
+| ⌘⇧T (Command-Shift-T)   | 打开最后关闭的标签（可以多次使用） |
+| ⌘\[                     | 在浏览历史中返回一页      |
+| ⌘]                      | 在浏览历史中前进一页   |
+| ⌘⇧R                     | 激活阅读模式                             |
 
 #### 邮件快捷键
 
-| 快捷键                   | 动作                       |
+| 快捷键                   | 操作                       |
 | -------------------------- | ---------------------------- |
 | ⌘L                         | 打开位置                |
 | ⌘T                         | 打开新标签               |
@@ -293,36 +285,26 @@ _bash, sh, zsh..._ 更多信息请查看：[https://gtfobins.github.io/](https:/
 | ⌘.                         | 停止加载当前标签 |
 | ⌘⌥F (Command-Option/Alt-F) | 在邮箱中搜索       |
 
-## 参考资料
+## 参考文献
 
 * [https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html](https://www.macworld.com/article/2975857/6-only-for-ipad-gestures-you-need-to-know.html)
 * [https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html](https://www.tomsguide.com/us/ipad-shortcuts,news-18205.html)
 * [https://thesweetsetup.com/best-ipad-keyboard-shortcuts/](https://thesweetsetup.com/best-ipad-keyboard-shortcuts/)
 * [http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html](http://www.iphonehacks.com/2018/03/ipad-keyboard-shortcuts.html)
 
-#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由**暗网**推动的搜索引擎，提供免费功能，用于检查公司或其客户是否受到**窃取恶意软件**的**威胁**。
-
-WhiteIntel的主要目标是打击由窃取信息的恶意软件导致的账户劫持和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-学习并练习AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习并练习GCP黑客技术: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>支持HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* 查看[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord群**](https://discord.gg/hRep4RUj7f) 或 [**电报群**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* 通过向**HackTricks**和**HackTricks Cloud** github仓库提交PR来分享黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

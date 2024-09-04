@@ -1,8 +1,8 @@
 # macOS 应用 - 检查、调试和模糊测试
 
 {% hint style="success" %}
-学习与实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-学习与实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -15,19 +15,6 @@
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## 静态分析
 
@@ -78,7 +65,7 @@ ARCH=x86_64 jtool2 --sig /System/Applications/Automator.app/Contents/MacOS/Autom
 jtool2 -d __DATA.__const myipc_server | grep MIG
 ```
 {% hint style="danger" %}
-**jtool已被disarm取代**
+**jtool 已被 disarm 取代**
 {% endhint %}
 
 ### 代码签名 / ldid
@@ -119,7 +106,7 @@ ldid -S/tmp/entl.xml <binary>
 
 ### hdiutil
 
-此工具允许 **挂载** Apple 磁盘映像（**.dmg**）文件，以便在运行任何内容之前进行检查：
+此工具允许 **挂载** Apple 磁盘映像 (**.dmg**) 文件，以便在运行任何内容之前进行检查：
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
@@ -154,11 +141,11 @@ It will be mounted in `/Volumes`
 
 该函数期望的参数是：
 
-* 第一个参数 (**self**) 是“指向 **接收消息的类实例的指针**”。更简单地说，它是正在调用该方法的对象。如果该方法是类方法，则这是类对象的一个实例（作为整体），而对于实例方法，self 将指向类的一个实例化对象。
+* 第一个参数 (**self**) 是“指向 **接收消息的类实例的指针**”。更简单地说，它是正在调用该方法的对象。如果该方法是类方法，则这是类对象的一个实例（整体），而对于实例方法，self 将指向类的一个实例化对象。
 * 第二个参数 (**op**) 是“处理消息的方法选择器”。同样，更简单地说，这只是 **方法的名称**。
 * 剩余的参数是方法所需的任何 **值**（op）。
 
-请参见如何在此页面中 **使用 `lldb` 在 ARM64 中轻松获取此信息**：
+请参见如何在 ARM64 中 **轻松获取此信息，使用 `lldb`**：
 
 {% content-ref url="arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](arm64-basic-assembly.md)
@@ -168,12 +155,12 @@ x64:
 
 | **Argument**      | **Register**                                                    | **(for) objc\_msgSend**                                |
 | ----------------- | --------------------------------------------------------------- | ------------------------------------------------------ |
-| **1st argument**  | **rdi**                                                         | **self: 正在调用该方法的对象**                         |
-| **2nd argument**  | **rsi**                                                         | **op: 方法的名称**                                     |
-| **3rd argument**  | **rdx**                                                         | **方法的第一个参数**                                   |
-| **4th argument**  | **rcx**                                                         | **方法的第二个参数**                                   |
-| **5th argument**  | **r8**                                                          | **方法的第三个参数**                                   |
-| **6th argument**  | **r9**                                                          | **方法的第四个参数**                                   |
+| **1st argument**  | **rdi**                                                         | **self: 正在调用该方法的对象**                        |
+| **2nd argument**  | **rsi**                                                         | **op: 方法的名称**                                    |
+| **3rd argument**  | **rdx**                                                         | **方法的第一个参数**                                  |
+| **4th argument**  | **rcx**                                                         | **方法的第二个参数**                                  |
+| **5th argument**  | **r8**                                                          | **方法的第三个参数**                                  |
+| **6th argument**  | **r9**                                                          | **方法的第四个参数**                                  |
 | **7th+ argument** | <p><strong>rsp+</strong><br><strong>(在栈上)</strong></p>      | **方法的第五个及以上参数**                             |
 
 ### Dump ObjectiveC metadata
@@ -225,7 +212,7 @@ Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 ```
 您可以在[**此博客文章中找到有关这些部分存储的信息**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html)。
 
-此外，**Swift 二进制文件可能具有符号**（例如，库需要存储符号以便可以调用其函数）。**符号通常以丑陋的方式包含有关函数名称和属性的信息**，因此它们非常有用，并且有“**去混淆器**”可以获取原始名称：
+此外，**Swift 二进制文件可能具有符号**（例如，库需要存储符号，以便可以调用其函数）。**符号通常以丑陋的方式包含有关函数名称和属性的信息**，因此它们非常有用，并且有“**去混淆器**”可以获取原始名称：
 ```bash
 # Ghidra plugin
 https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
@@ -236,7 +223,7 @@ swift demangle
 ## 动态分析
 
 {% hint style="warning" %}
-请注意，为了调试二进制文件，**需要禁用 SIP**（`csrutil disable` 或 `csrutil enable --without debug`），或者将二进制文件复制到临时文件夹并**移除签名**（使用 `codesign --remove-signature <binary-path>`），或者允许调试该二进制文件（您可以使用 [这个脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）。
+请注意，为了调试二进制文件，**需要禁用 SIP**（`csrutil disable` 或 `csrutil enable --without debug`），或者将二进制文件复制到临时文件夹并**移除签名**（`codesign --remove-signature <binary-path>`），或者允许调试该二进制文件（您可以使用[这个脚本](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)）。
 {% endhint %}
 
 {% hint style="warning" %}
@@ -252,13 +239,13 @@ macOS 暴露了一些有趣的 API，提供有关进程的信息：
 
 ### Stackshot & microstackshots
 
-**Stackshotting** 是一种用于捕获进程状态的技术，包括所有运行线程的调用栈。这对于调试、性能分析以及在特定时间点理解系统行为特别有用。在 iOS 和 macOS 上，可以使用多种工具和方法进行 stackshotting，例如工具 **`sample`** 和 **`spindump`**。
+**Stackshotting** 是一种用于捕获进程状态的技术，包括所有运行线程的调用栈。这对于调试、性能分析和理解系统在特定时间点的行为特别有用。在 iOS 和 macOS 上，可以使用多种工具和方法进行 stackshotting，例如工具 **`sample`** 和 **`spindump`**。
 
 ### Sysdiagnose
 
-该工具（`/usr/bini/ysdiagnose`）基本上从您的计算机收集大量信息，执行数十个不同的命令，如 `ps`、`zprint`...
+该工具（`/usr/bini/ysdiagnose`）基本上从您的计算机收集大量信息，执行数十个不同的命令，例如 `ps`、`zprint`...
 
-它必须以 **root** 身份运行，守护进程 `/usr/libexec/sysdiagnosed` 具有非常有趣的权限，如 `com.apple.system-task-ports` 和 `get-task-allow`。
+它必须以 **root** 身份运行，守护进程 `/usr/libexec/sysdiagnosed` 具有非常有趣的权限，例如 `com.apple.system-task-ports` 和 `get-task-allow`。
 
 其 plist 位于 `/System/Library/LaunchDaemons/com.apple.sysdiagnose.plist`，声明了 3 个 MachServices：
 
@@ -270,7 +257,7 @@ macOS 暴露了一些有趣的 API，提供有关进程的信息：
 
 MacOS 生成大量日志，这在运行应用程序时尝试理解**它在做什么**时非常有用。
 
-此外，有一些日志将包含标签 `<private>` 以**隐藏**某些**用户**或**计算机**的**可识别**信息。然而，可以**安装证书以披露此信息**。请按照 [**这里**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log) 的说明进行操作。
+此外，有一些日志将包含标签 `<private>` 以**隐藏**某些**用户**或**计算机**的**可识别**信息。然而，可以**安装证书以披露此信息**。请按照[**这里**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)的说明进行操作。
 
 ### Hopper
 
@@ -280,23 +267,23 @@ MacOS 生成大量日志，这在运行应用程序时尝试理解**它在做什
 
 #### 中间面板
 
-在中间面板中，您可以看到**反汇编代码**。您可以查看**原始**反汇编、**图形**、**反编译**和**二进制**，通过点击相应的图标：
+在中间面板中，您可以看到**反汇编代码**。您可以查看**原始**反汇编、**图形**、**反编译**和**二进制**，通过单击相应的图标：
 
 <figure><img src="../../../.gitbook/assets/image (343).png" alt=""><figcaption></figcaption></figure>
 
-右键单击代码对象，您可以看到**对该对象的引用**或甚至更改其名称（这在反编译的伪代码中无效）：
+右键单击代码对象，您可以查看**对/来自该对象的引用**，甚至可以更改其名称（这在反编译的伪代码中无效）：
 
 <figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
 
-此外，在**中间下方，您可以编写 python 命令**。
+此外，在**中间下方，您可以编写 Python 命令**。
 
 #### 右侧面板
 
-在右侧面板中，您可以看到有趣的信息，例如**导航历史**（以便您知道如何到达当前情况）、**调用图**，您可以看到所有**调用此函数的函数**和所有**此函数调用的函数**，以及**局部变量**信息。
+在右侧面板中，您可以看到有趣的信息，例如**导航历史**（以便您知道如何到达当前状态）、**调用图**，您可以看到所有**调用此函数的函数**和所有**此函数调用的函数**，以及**局部变量**信息。
 
 ### dtrace
 
-它允许用户以极低的**级别**访问应用程序，并提供了一种方法，让用户**跟踪** **程序**，甚至更改其执行流程。Dtrace 使用**探针**，这些探针**分布在内核中**，位于系统调用的开始和结束位置。
+它允许用户以极低的**级别**访问应用程序，并提供了一种方法，让用户能够**跟踪** **程序**，甚至更改其执行流程。Dtrace 使用**探针**，这些探针**分布在内核中**，位于系统调用的开始和结束位置。
 
 DTrace 使用 **`dtrace_probe_create`** 函数为每个系统调用创建一个探针。这些探针可以在**每个系统调用的入口和出口点**触发。与 DTrace 的交互通过 /dev/dtrace 进行，该接口仅对 root 用户可用。
 
@@ -306,7 +293,7 @@ DTrace 使用 **`dtrace_probe_create`** 函数为每个系统调用创建一个�
 您还可以使用您**编译的** **`dtrace`** 或 **`dtruss`** 二进制文件。
 {% endhint %}
 
-可以通过以下方式获取 dtrace 的可用探针：
+dtrace 的可用探针可以通过以下方式获取：
 ```bash
 dtrace -l | head
 ID   PROVIDER            MODULE                          FUNCTION NAME
@@ -320,7 +307,7 @@ ID   PROVIDER            MODULE                          FUNCTION NAME
 
 要配置 DTrace 以激活探针并指定触发时要执行的操作，我们需要使用 D 语言。
 
-更详细的解释和更多示例可以在 [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html) 中找到。
+更详细的解释和更多示例可以在 [https://illumos.org/books/dtrace/chp-intro.html](https://illumos.org/books/dtrace/chp-intro.html) 找到。
 
 #### 示例
 
@@ -396,7 +383,7 @@ dtruss -c -p 1000 #get syscalls of PID 1000
 
 ### ktrace
 
-`ktrace_*` API 来自 `libktrace.dylib`，它封装了 `Kdebug` 的 API。然后，客户端只需调用 `ktrace_session_create` 和 `ktrace_events_[single/class]` 在特定代码上设置回调，然后使用 `ktrace_start` 启动它。
+`ktrace_*` API 来自 `libktrace.dylib`，它封装了 `Kdebug` 的 API。然后，客户端只需调用 `ktrace_session_create` 和 `ktrace_events_[single/class]` 来设置特定代码的回调，然后使用 `ktrace_start` 启动它。
 
 即使在 **SIP 激活** 的情况下也可以使用这个。
 
@@ -459,7 +446,7 @@ fs_usage -w -f network curl #This tracks network actions
 
 ### lldb
 
-**lldb** 是 **macOS** 二进制 **debugging** 的事实标准工具。
+**lldb** 是 **macOS** 二进制 **调试** 的事实标准工具。
 ```bash
 lldb ./malware.bin
 lldb -p 1122
@@ -498,7 +485,7 @@ settings set target.x86-disassembly-flavor intel
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //进程正在被调试 }`
 * 它还可以调用 **`ptrace`** 系统调用，使用 **`PT_DENY_ATTACH`** 标志。这 **防止** 调试器附加和跟踪。
 * 您可以检查 **`sysctl`** 或 **`ptrace`** 函数是否被 **导入**（但恶意软件可以动态导入它）
-* 正如在这篇文章中所述，“[击败反调试技术：macOS ptrace 变体](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)”：\
+* 正如在这篇文章中所提到的，“[击败反调试技术：macOS ptrace 变体](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)”：\
 “_消息 Process # exited with **status = 45 (0x0000002d)** 通常是调试目标使用 **PT\_DENY\_ATTACH** 的明显迹象_”
 
 ## 核心转储
@@ -507,7 +494,7 @@ settings set target.x86-disassembly-flavor intel
 
 * `kern.coredump` sysctl 设置为 1（默认值）
 * 如果进程不是 suid/sgid 或 `kern.sugid_coredump` 为 1（默认值为 0）
-* `AS_CORE` 限制允许该操作。可以通过调用 `ulimit -c 0` 来抑制核心转储的创建，并通过 `ulimit -c unlimited` 重新启用它们。
+* `AS_CORE` 限制允许该操作。可以通过调用 `ulimit -c 0` 来抑制代码转储的创建，并通过 `ulimit -c unlimited` 重新启用它们。
 
 在这些情况下，核心转储根据 `kern.corefile` sysctl 生成，并通常存储在 `/cores/core/.%P` 中。
 
@@ -516,7 +503,7 @@ settings set target.x86-disassembly-flavor intel
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
 ReportCrash **分析崩溃的进程并将崩溃报告保存到磁盘**。崩溃报告包含可以 **帮助开发人员诊断** 崩溃原因的信息。\
-对于在每个用户的 launchd 上下文中 **运行的应用程序和其他进程**，ReportCrash 作为 LaunchAgent 运行，并将崩溃报告保存在用户的 `~/Library/Logs/DiagnosticReports/` 中。\
+对于在每个用户 launchd 上下文中 **运行的应用程序和其他进程**，ReportCrash 作为 LaunchAgent 运行，并将崩溃报告保存在用户的 `~/Library/Logs/DiagnosticReports/` 中。\
 对于守护进程、在系统 launchd 上下文中 **运行的其他进程** 和其他特权进程，ReportCrash 作为 LaunchDaemon 运行，并将崩溃报告保存在系统的 `/Library/Logs/DiagnosticReports` 中。
 
 如果您担心崩溃报告 **被发送到 Apple**，可以禁用它们。如果不担心，崩溃报告可以帮助 **找出服务器崩溃的原因**。
@@ -629,18 +616,6 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**Mac 恶意软件的艺术：分析恶意软件的指南**](https://taomm.org/)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
 学习和实践 AWS 黑客技术：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
 学习和实践 GCP 黑客技术：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -650,8 +625,8 @@ WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}

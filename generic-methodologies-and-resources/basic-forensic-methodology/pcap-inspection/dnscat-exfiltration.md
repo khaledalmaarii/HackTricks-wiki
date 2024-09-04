@@ -15,23 +15,11 @@
 </details>
 {% endhint %}
 
-#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
+如果你有包含 **通过 DNSCat 外泄的数据**（未使用加密）的 pcap 文件，你可以找到外泄的内容。
 
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-如果您有 pcap 文件，其中数据被 **DNSCat** **外泄**（未使用加密），您可以找到外泄的内容。
-
-您只需知道 **前 9 个字节** 不是实际数据，而是与 **C\&C 通信** 相关：
+你只需要知道 **前 9 个字节** 不是实际数据，而是与 **C\&C 通信** 相关：
 ```python
 from scapy.all import rdpcap, DNSQR, DNSRR
 import struct

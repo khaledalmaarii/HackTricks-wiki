@@ -9,37 +9,23 @@
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
----
-
 ## BIOS 密码恢复和系统安全
 
-**重置 BIOS** 可以通过几种方式实现。大多数主板都包含一个 **电池**，当移除约 **30 分钟** 后，将重置 BIOS 设置，包括密码。或者，可以通过连接特定引脚来调整 **主板上的跳线** 来重置这些设置。
+**重置 BIOS** 可以通过几种方式实现。大多数主板都包含一个 **电池**，当移除约 **30 分钟** 后，将重置 BIOS 设置，包括密码。或者，可以通过调整 **主板上的跳线** 来重置这些设置，方法是连接特定的引脚。
 
 对于无法或不实用进行硬件调整的情况，**软件工具** 提供了解决方案。使用 **Kali Linux** 等发行版从 **Live CD/USB** 启动系统，可以访问像 **_killCmos_** 和 **_CmosPWD_** 这样的工具，帮助进行 BIOS 密码恢复。
 
-如果 BIOS 密码未知，错误输入 **三次** 通常会导致错误代码。可以在像 [https://bios-pw.org](https://bios-pw.org) 这样的网站上使用此代码来检索可用密码。
+在 BIOS 密码未知的情况下，错误输入 **三次** 通常会导致错误代码。可以在像 [https://bios-pw.org](https://bios-pw.org) 这样的网站上使用此代码来检索可用的密码。
 
 ### UEFI 安全
 
-对于使用 **UEFI** 而非传统 BIOS 的现代系统，可以利用工具 **chipsec** 来分析和修改 UEFI 设置，包括禁用 **安全启动**。可以使用以下命令完成此操作：
+对于使用 **UEFI** 而非传统 BIOS 的现代系统，可以使用工具 **chipsec** 来分析和修改 UEFI 设置，包括禁用 **安全启动**。可以使用以下命令完成此操作：
 
 `python chipsec_main.py -module exploits.secure.boot.pk`
 
@@ -51,9 +37,9 @@ WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户
 
 **INCEPTION** 是一个旨在通过 DMA 进行 **物理内存操作** 的工具，兼容 **FireWire** 和 **Thunderbolt** 等接口。它允许通过修补内存以接受任何密码来绕过登录程序。然而，它对 **Windows 10** 系统无效。
 
-### Live CD/USB 进行系统访问
+### 使用 Live CD/USB 进行系统访问
 
-通过用 **_cmd.exe_** 替换系统二进制文件如 **_sethc.exe_** 或 **_Utilman.exe_**，可以提供具有系统权限的命令提示符。可以使用 **chntpw** 工具编辑 Windows 安装的 **SAM** 文件，从而允许更改密码。
+通过用 **_cmd.exe_** 替换系统二进制文件如 **_sethc.exe_** 或 **_Utilman.exe_**，可以提供具有系统权限的命令提示符。可以使用 **chntpw** 等工具编辑 Windows 安装的 **SAM** 文件，从而允许更改密码。
 
 **Kon-Boot** 是一个工具，可以在不知道密码的情况下登录 Windows 系统，通过临时修改 Windows 内核或 UEFI。更多信息可以在 [https://www.raymond.cc](https://www.raymond.cc/blog/login-to-windows-administrator-and-linux-root-account-without-knowing-or-changing-current-password/) 找到。
 
@@ -81,18 +67,6 @@ WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户
 
 可以通过社会工程学策略添加新的 BitLocker 恢复密钥，说服用户执行一个命令，添加一个由零组成的新恢复密钥，从而简化解密过程。
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="/.gitbook/assets/image (1224).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) 是一个由 **暗网** 驱动的搜索引擎，提供 **免费** 功能以检查公司或其客户是否被 **窃取恶意软件** **入侵**。
-
-WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户接管和勒索软件攻击。
-
-您可以访问他们的网站并免费尝试他们的引擎：
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
 学习和实践 AWS 黑客技术：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks 培训 AWS 红队专家 (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 学习和实践 GCP 黑客技术：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks 培训 GCP 红队专家 (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -102,8 +76,8 @@ WhiteIntel 的主要目标是打击由于信息窃取恶意软件导致的账户
 <summary>支持 HackTricks</summary>
 
 * 查看 [**订阅计划**](https://github.com/sponsors/carlospolop)!
-* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**Telegram 群组**](https://t.me/peass) 或 **关注** 我们的 **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub 仓库提交 PR 分享黑客技巧。
+* **加入** 💬 [**Discord 群组**](https://discord.gg/hRep4RUj7f) 或 [**电报群组**](https://t.me/peass) 或 **在** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)** 上关注我们。**
+* **通过向** [**HackTricks**](https://github.com/carlospolop/hacktricks) 和 [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github 仓库提交 PR 分享黑客技巧。
 
 </details>
 {% endhint %}
