@@ -15,25 +15,12 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **pretraživač** pokretan **dark-web**-om koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malvera**.
-
-Njihov primarni cilj WhiteIntel-a je da se bori protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Access Tokens
 
-Svaki **korisnik prijavljen** na sistem **ima pristupni token sa bezbednosnim informacijama** za tu sesiju prijavljivanja. Sistem kreira pristupni token kada se korisnik prijavi. **Svaki proces koji se izvršava** u ime korisnika **ima kopiju pristupnog tokena**. Token identifikuje korisnika, korisničke grupe i privilegije korisnika. Token takođe sadrži logon SID (Identifikator bezbednosti) koji identifikuje trenutnu sesiju prijavljivanja.
+Svaki **korisnik prijavljen** na sistem **ima pristupni token sa bezbednosnim informacijama** za tu sesiju prijavljivanja. Sistem kreira pristupni token kada se korisnik prijavi. **Svaki proces izvršen** u ime korisnika **ima kopiju pristupnog tokena**. Token identifikuje korisnika, korisničke grupe i privilegije korisnika. Token takođe sadrži SID za prijavljivanje (Security Identifier) koji identifikuje trenutnu sesiju prijavljivanja.
 
-Možete videti ove informacije izvršavajući `whoami /all`
+Možete videti ove informacije izvršavanjem `whoami /all`
 ```
 whoami /all
 
@@ -83,8 +70,8 @@ or using _Process Explorer_ from Sysinternals (select process and access"Securit
 
 ### Lokalni administrator
 
-Kada se lokalni administrator prijavi, **kreiraju se dva pristupna tokena**: jedan sa administratorskim pravima i drugi sa normalnim pravima. **Po defaultu**, kada ovaj korisnik izvrši proces, koristi se onaj sa **redovnim** (ne-administratorskim) **pravima**. Kada ovaj korisnik pokuša da **izvrši** bilo šta **kao administrator** ("Pokreni kao administrator" na primer), koristiće se **UAC** da zatraži dozvolu.\
-Ako želite da [**saznate više o UAC, pročitajte ovu stranicu**](../authentication-credentials-uac-and-efs/#uac)**.**
+Kada se lokalni administrator prijavi, **kreiraju se dva pristupna tokena**: jedan sa administratorskim pravima i drugi sa normalnim pravima. **Po defaultu**, kada ovaj korisnik izvrši proces, koristi se onaj sa **redovnim** (ne-administratorskim) **pravima**. Kada ovaj korisnik pokuša da **izvrši** bilo šta **kao administrator** ("Pokreni kao administrator" na primer), **UAC** će biti korišćen da zatraži dozvolu.\
+Ako želite da [**saznate više o UAC-u, pročitajte ovu stranicu**](../authentication-credentials-uac-and-efs/#uac)**.**
 
 ### Impersonacija korisničkih kredencijala
 
@@ -92,7 +79,7 @@ Ako imate **važeće kredencijale bilo kog drugog korisnika**, možete **kreirat
 ```
 runas /user:domain\username cmd.exe
 ```
-**Access token** takođe ima **referencu** na logon sesije unutar **LSASS**, što je korisno ako proces treba da pristupi nekim objektima mreže.\
+**Access token** takođe ima **referencu** na sesije prijavljivanja unutar **LSASS**, što je korisno ako proces treba da pristupi nekim objektima mreže.\
 Možete pokrenuti proces koji **koristi različite akreditive za pristup mrežnim uslugama** koristeći:
 ```
 runas /user:domain\username /netonly cmd.exe
@@ -103,7 +90,7 @@ Ovo je korisno ako imate korisne akreditive za pristup objektima u mreži, ali t
 
 Postoje dva tipa tokena dostupna:
 
-* **Primarni token**: Služi kao reprezentacija bezbednosnih akreditiva procesa. Kreiranje i povezivanje primarnih tokena sa procesima su radnje koje zahtevaju povišene privilegije, naglašavajući princip odvajanja privilegija. Obično, usluga autentifikacije je odgovorna za kreiranje tokena, dok usluga prijavljivanja upravlja njegovim povezivanjem sa operativnim sistemom korisnika. Vredno je napomenuti da procesi nasleđuju primarni token svog roditeljskog procesa prilikom kreiranja.
+* **Primarni token**: Služi kao reprezentacija bezbednosnih akreditiva procesa. Kreacija i povezivanje primarnih tokena sa procesima su radnje koje zahtevaju povišene privilegije, naglašavajući princip odvajanja privilegija. Obično, usluga autentifikacije je odgovorna za kreiranje tokena, dok usluga prijavljivanja upravlja njegovim povezivanjem sa operativnim sistemom korisnika. Vredno je napomenuti da procesi nasleđuju primarni token svog roditeljskog procesa prilikom kreacije.
 * **Token impersonacije**: Omogućava serverskoj aplikaciji da privremeno usvoji identitet klijenta za pristup sigurnim objektima. Ovaj mehanizam je stratifikovan u četiri nivoa operacije:
 * **Anonimno**: Daje serveru pristup sličan onom neidentifikovanog korisnika.
 * **Identifikacija**: Omogućava serveru da verifikuje identitet klijenta bez korišćenja za pristup objektima.
@@ -112,7 +99,7 @@ Postoje dva tipa tokena dostupna:
 
 #### Impersonate tokeni
 
-Korišćenjem _**incognito**_ modula metasploit-a, ako imate dovoljno privilegija, možete lako **prikazati** i **impersonirati** druge **tokene**. Ovo može biti korisno za izvršavanje **akcija kao da ste drugi korisnik**. Takođe možete **povišiti privilegije** ovom tehnikom.
+Korišćenjem _**incognito**_ modula metasploit-a, ako imate dovoljno privilegija, možete lako **navesti** i **impersonirati** druge **tokene**. Ovo može biti korisno za izvršavanje **akcija kao da ste drugi korisnik**. Takođe možete **povišiti privilegije** ovom tehnikom.
 
 ### Privilegije tokena
 
@@ -128,29 +115,18 @@ Pogledajte [**sve moguće privilegije tokena i neka objašnjenja na ovoj ekstern
 
 Saznajte više o tokenima u ovim tutorijalima: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) i [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malvera**.
-
-Njihov primarni cilj WhiteIntel-a je da se bori protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-Saznajte i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Saznajte i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podrška HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

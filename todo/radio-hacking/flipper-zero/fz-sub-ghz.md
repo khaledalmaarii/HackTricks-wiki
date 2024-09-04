@@ -15,17 +15,10 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Uvod <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero može **prijemati i prenositi radio frekvencije u opsegu od 300-928 MHz** sa svojim ugrađenim modulom, koji može čitati, čuvati i emulirati daljinske upravljače. Ovi upravljači se koriste za interakciju sa kapijama, preprekama, radio bravama, daljinskim prekidačima, bežičnim zvonima, pametnim svetlima i još mnogo toga. Flipper Zero može vam pomoći da saznate da li je vaša sigurnost ugrožena.
+Flipper Zero može **prijemati i prenositi radio frekvencije u opsegu od 300-928 MHz** sa svojim ugrađenim modulom, koji može čitati, čuvati i emulirati daljinske upravljače. Ovi upravljači se koriste za interakciju sa kapijama, preprekama, radio bravama, prekidačima na daljinsko upravljanje, bežičnim zvonima, pametnim svetlima i još mnogo toga. Flipper Zero može vam pomoći da saznate da li je vaša sigurnost ugrožena.
 
 <figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
@@ -40,7 +33,7 @@ Flipper Zero ima ugrađeni sub-1 GHz modul zasnovan na [﻿](https://www.st.com/
 ### Analizator frekvencije
 
 {% hint style="info" %}
-Kako pronaći koja frekvencija koristi daljinski
+Kako pronaći koja frekvencija se koristi za daljinski
 {% endhint %}
 
 Kada analizira, Flipper Zero skenira jačinu signala (RSSI) na svim frekvencijama dostupnim u konfiguraciji frekvencije. Flipper Zero prikazuje frekvenciju sa najvišom vrednošću RSSI, sa jačinom signala višom od -90 [dBm](https://en.wikipedia.org/wiki/DBm).
@@ -49,7 +42,7 @@ Da biste odredili frekvenciju daljinskog upravljača, uradite sledeće:
 
 1. Postavite daljinski upravljač vrlo blizu levo od Flipper Zero.
 2. Idite na **Glavni meni** **→ Sub-GHz**.
-3. Izaberite **Analizator frekvencije**, zatim pritisnite i držite dugme na daljinskom upravljaču koji želite da analizirate.
+3. Izaberite **Analizator frekvencije**, zatim pritisnite i držite dugme na daljinskom upravljaču koje želite da analizirate.
 4. Pregledajte vrednost frekvencije na ekranu.
 
 ### Čitanje
@@ -58,7 +51,7 @@ Da biste odredili frekvenciju daljinskog upravljača, uradite sledeće:
 Pronađite informacije o korišćenoj frekvenciji (takođe drugi način da saznate koja frekvencija se koristi)
 {% endhint %}
 
-Opcija **Čitanje** **sluša na konfigurisanom frekvenciji** na naznačenoj modulaciji: 433.92 AM po defaultu. Ako **nešto bude pronađeno** prilikom čitanja, **informacije se daju** na ekranu. Ove informacije mogu se koristiti za repliciranje signala u budućnosti.
+Opcija **Čitanje** **sluša na konfigurisanom frekvenciji** na naznačenoj modulaciji: 433.92 AM po defaultu. Ako **se nešto pronađe** prilikom čitanja, **informacije se daju** na ekranu. Ove informacije mogu se koristiti za repliciranje signala u budućnosti.
 
 Dok je Čitanje u upotrebi, moguće je pritisnuti **levo dugme** i **konfigurisati ga**.\
 U ovom trenutku ima **4 modulacije** (AM270, AM650, FM328 i FM476), i **several relevant frequencies** pohranjene:
@@ -68,18 +61,18 @@ U ovom trenutku ima **4 modulacije** (AM270, AM650, FM328 i FM476), i **several 
 Možete postaviti **bilo koju koja vas zanima**, međutim, ako niste **sigurni koja frekvencija** bi mogla biti ona koju koristi vaš daljinski, **postavite Hopping na ON** (Isključeno po defaultu), i pritisnite dugme nekoliko puta dok Flipper ne uhvati i ne pruži vam informacije koje su vam potrebne za postavljanje frekvencije.
 
 {% hint style="danger" %}
-Prebacivanje između frekvencija traje neko vreme, stoga se signali koji se prenose u trenutku prebacivanja mogu propustiti. Za bolji prijem signala, postavite fiksnu frekvenciju određenu od strane Analizatora frekvencije.
+Prebacivanje između frekvencija zahteva vreme, stoga se signali koji se prenose u trenutku prebacivanja mogu propustiti. Za bolju prijem signala, postavite fiksnu frekvenciju određenu od strane Analizatora frekvencije.
 {% endhint %}
 
 ### **Čitaj sirovo**
 
 {% hint style="info" %}
-Kradite (i ponovo šaljite) signal na konfigurisanom frekvenciji
+Ukrao (i ponovo poslao) signal na konfigurisanom frekvenciji
 {% endhint %}
 
-Opcija **Čitaj sirovo** **snima signale** koji se šalju na slušanoj frekvenciji. Ovo se može koristiti za **krađu** signala i **ponavljanje** istog.
+Opcija **Čitaj sirovo** **snima signale** poslati na slušanoj frekvenciji. Ovo se može koristiti za **krađu** signala i **ponavljanje** istog.
 
-Po defaultu **Čitaj sirovo je takođe na 433.92 u AM650**, ali ako ste sa opcijom Čitanje otkrili da signal koji vas zanima je na **drugoj frekvenciji/modulaciji, možete takođe izmeniti to** pritiskom na levo (dok ste unutar opcije Čitaj sirovo).
+Po defaultu **Čitaj sirovo je takođe na 433.92 u AM650**, ali ako ste sa opcijom Čitanje otkrili da signal koji vas zanima je na **drugoj frekvenciji/modulaciji, možete to takođe izmeniti** pritiskom na levo (dok ste unutar opcije Čitaj sirovo).
 
 ### Brute-Force
 
@@ -95,20 +88,20 @@ Dodajte signale iz konfigurisane liste protokola
 
 | Princeton\_433 (radi sa većinom sistema statičkog koda) | 433.92 | Statički  |
 | ------------------------------------------------------- | ------ | ------- |
-| Nice Flo 12bit\_433                                    | 433.92 | Statički  |
-| Nice Flo 24bit\_433                                    | 433.92 | Statički  |
-| CAME 12bit\_433                                        | 433.92 | Statički  |
-| CAME 24bit\_433                                        | 433.92 | Statički  |
-| Linear\_300                                            | 300.00 | Statički  |
-| CAME TWEE                                              | 433.92 | Statički  |
-| Gate TX\_433                                           | 433.92 | Statički  |
-| DoorHan\_315                                           | 315.00 | Dinamički |
-| DoorHan\_433                                           | 433.92 | Dinamički |
-| LiftMaster\_315                                        | 315.00 | Dinamički |
-| LiftMaster\_390                                        | 390.00 | Dinamički |
-| Security+2.0\_310                                      | 310.00 | Dinamički |
-| Security+2.0\_315                                      | 315.00 | Dinamički |
-| Security+2.0\_390                                      | 390.00 | Dinamički |
+| Nice Flo 12bit\_433                                     | 433.92 | Statički  |
+| Nice Flo 24bit\_433                                     | 433.92 | Statički  |
+| CAME 12bit\_433                                         | 433.92 | Statički  |
+| CAME 24bit\_433                                         | 433.92 | Statički  |
+| Linear\_300                                             | 300.00 | Statički  |
+| CAME TWEE                                               | 433.92 | Statički  |
+| Gate TX\_433                                            | 433.92 | Statički  |
+| DoorHan\_315                                            | 315.00 | Dinamički |
+| DoorHan\_433                                            | 433.92 | Dinamički |
+| LiftMaster\_315                                         | 315.00 | Dinamički |
+| LiftMaster\_390                                         | 390.00 | Dinamički |
+| Security+2.0\_310                                       | 310.00 | Dinamički |
+| Security+2.0\_315                                       | 315.00 | Dinamički |
+| Security+2.0\_390                                       | 390.00 | Dinamički |
 
 ### Podržani Sub-GHz dobavljači
 
@@ -127,12 +120,6 @@ Dobijte dBms sa sačuvanih frekvencija
 ## Referenca
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

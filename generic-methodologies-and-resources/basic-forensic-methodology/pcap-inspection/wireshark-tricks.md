@@ -15,19 +15,6 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malvera**.
-
-Njihov primarni cilj je da se bore protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Poboljšajte svoje veštine u Wireshark-u
 
@@ -98,11 +85,11 @@ Ostali zanimljivi filteri:
 
 ### Pretraga
 
-Ako želite da **pretražujete** za **sadržajem** unutar **paketa** sesija pritisnite _CTRL+f_. Možete dodati nove slojeve u glavnu informativnu traku (Br., Vreme, Izvor itd.) pritiskom desnog dugmeta i zatim uređivanjem kolone.
+Ako želite da **pretražujete** **sadržaj** unutar **paketa** sesija pritisnite _CTRL+f_. Možete dodati nove slojeve u glavnu informativnu traku (Br., Vreme, Izvor itd.) pritiskom desnog dugmeta i zatim uređivanjem kolone.
 
 ### Besplatni pcap laboratoriji
 
-**Vežbajte sa besplatnim izazovima na:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**Vežbajte sa besplatnim izazovima:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
 ## Identifikacija domena
 
@@ -118,7 +105,7 @@ I kolonu koja dodaje ime servera iz inicijalne HTTPS veze (**ssl.handshake.type 
 
 ### Iz DHCP
 
-U trenutnom Wireshark-u umesto `bootp` trebate pretraživati `DHCP`
+U trenutnom Wireshark-u umesto `bootp` treba da tražite `DHCP`
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
@@ -134,11 +121,11 @@ _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-Pritisnite _Edit_ i dodajte sve podatke o serveru i privatnom ključu (_IP, Port, Protokol, Datoteka ključeva i lozinka_)
+Pritisnite _Edit_ i dodajte sve podatke o serveru i privatnom ključu (_IP, Port, Protokol, Datoteka ključa i lozinka_)
 
 ### Dekriptovanje https saobraćaja sa simetričnim sesijskim ključevima
 
-I Firefox i Chrome imaju mogućnost da beleže TLS sesijske ključeve, koji se mogu koristiti sa Wireshark-om za dekriptovanje TLS saobraćaja. Ovo omogućava dubinsku analizu sigurnih komunikacija. Više detalja o tome kako izvršiti ovo dekriptovanje možete pronaći u vodiču na [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
+I Firefox i Chrome imaju mogućnost da beleže TLS sesijske ključeve, koji se mogu koristiti sa Wireshark-om za dekriptovanje TLS saobraćaja. Ovo omogućava dubinsku analizu sigurnih komunikacija. Više detalja o tome kako izvršiti ovo dekriptovanje može se naći u vodiču na [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
 Da biste to otkrili, pretražujte unutar okruženja za promenljivu `SSLKEYLOGFILE`
 
@@ -146,7 +133,7 @@ Datoteka deljenih ključeva će izgledati ovako:
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Da biste to uvezli u Wireshark, idite na \_edit > preference > protocol > ssl > i uvezite to u (Pre)-Master-Secret log filename:
+Da biste to uvezli u Wireshark, idite na _edit > preference > protocol > ssl > i uvezite to u (Pre)-Master-Secret log filename:
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
@@ -179,18 +166,6 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti bili **kompromitovani** od strane **stealer malwares**.
-
-Njihov primarni cilj WhiteIntel-a je borba protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)

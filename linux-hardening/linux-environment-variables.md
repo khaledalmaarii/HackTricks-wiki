@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Global variables
 
 Globalne promenljive **će biti** nasledjene od **dečijih procesa**.
@@ -62,17 +54,17 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 * **EDITOR** – korisnikov omiljeni tekstualni editor.
 * **HISTFILESIZE** – maksimalan broj linija sadržanih u datoteci istorije.
 * **HISTSIZE** – Broj linija dodatih u datoteku istorije kada korisnik završi svoju sesiju.
-* **HOME** – vaš početni direktorijum.
+* **HOME** – vaš kućni direktorijum.
 * **HOSTNAME** – ime računara.
 * **LANG** – vaš trenutni jezik.
 * **MAIL** – lokacija korisničkog poštanskog spremnika. Obično **/var/spool/mail/USER**.
 * **MANPATH** – lista direktorijuma za pretragu priručnika.
 * **OSTYPE** – tip operativnog sistema.
 * **PS1** – podrazumevani prompt u bash-u.
-* **PATH** – čuva putanju svih direktorijuma koji sadrže binarne datoteke koje želite da izvršite samo navođenjem imena datoteke, a ne relativnom ili apsolutnom putanjom.
+* **PATH** – čuva putanju svih direktorijuma koji sadrže binarne datoteke koje želite da izvršite samo navodeći ime datoteke, a ne relativnu ili apsolutnu putanju.
 * **PWD** – trenutni radni direktorijum.
 * **SHELL** – putanja do trenutne komandne ljuske (na primer, **/bin/bash**).
-* **TERM** – trenutna vrsta terminala (na primer, **xterm**).
+* **TERM** – trenutni tip terminala (na primer, **xterm**).
 * **TZ** – vaša vremenska zona.
 * **USER** – vaše trenutno korisničko ime.
 
@@ -106,7 +98,7 @@ export SSL_CERT_DIR=/path/to/ca-certificates
 ```
 ### PS1
 
-Promenite izgled vašeg prompta.
+Promenite kako izgleda vaš prompt.
 
 [**Ovo je primer**](https://gist.github.com/carlospolop/43f7cd50f3deea972439af3222b68808)
 
@@ -114,7 +106,7 @@ Root:
 
 ![](<../.gitbook/assets/image (897).png>)
 
-Običan korisnik:
+Redovan korisnik:
 
 ![](<../.gitbook/assets/image (740).png>)
 
@@ -122,15 +114,10 @@ Jedan, dva i tri pozadinska zadatka:
 
 ![](<../.gitbook/assets/image (145).png>)
 
-Jedan pozadinski zadatak, jedan zaustavljen i poslednja komanda nije završena ispravno:
+Jedan pozadinski zadatak, jedan zaustavljen i poslednja komanda nije završila ispravno:
 
 ![](<../.gitbook/assets/image (715).png>)
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

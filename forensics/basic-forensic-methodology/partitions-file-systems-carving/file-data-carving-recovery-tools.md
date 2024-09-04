@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
 Više alata na [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
@@ -44,7 +36,7 @@ binwalk --dd ".*" file #Displays and extracts all files from the given file
 ```
 ### Foremost
 
-Još jedan uobičajen alat za pronalaženje skrivenih fajlova je **foremost**. Konfiguracioni fajl foremost-a možete pronaći u `/etc/foremost.conf`. Ako želite da pretražujete samo neke specifične fajlove, otkomentarišite ih. Ako ne otkomentarišete ništa, foremost će pretraživati svoje podrazumevane konfiguracione tipove fajlova.
+Još jedan uobičajen alat za pronalaženje skrivenih datoteka je **foremost**. Konfiguracionu datoteku foremost možete pronaći u `/etc/foremost.conf`. Ako želite da pretražujete samo neke specifične datoteke, otkomentarišite ih. Ako ne otkomentarišete ništa, foremost će pretraživati svoje podrazumevane konfiguracione tipove datoteka.
 ```bash
 sudo apt-get install foremost
 foremost -v -i file.img -o output
@@ -84,15 +76,15 @@ Proverite [kod](https://code.google.com/archive/p/binvis/) i [web stranicu alata
 * Vizuelni i aktivni **pregledač strukture**
 * Više grafova za različite tačke fokusa
 * Fokusiranje na delove uzorka
-* **Videti stringove i resurse**, u PE ili ELF izvršnim fajlovima npr.
+* **Prikazivanje stringova i resursa**, u PE ili ELF izvršnim fajlovima npr.
 * Dobijanje **šablona** za kriptoanalizu na fajlovima
-* **Uočavanje** pakera ili enkoder algoritama
+* **Prepoznavanje** pakera ili enkodera
 * **Identifikacija** steganografije po šablonima
-* **Vizuelno** binarno poređenje
+* **Vizuelno** binarno upoređivanje
 
 BinVis je odlična **polazna tačka za upoznavanje sa nepoznatim ciljem** u scenariju crne kutije.
 
-## Specifični alati za vađenje podataka
+## Specifični alati za carving podataka
 
 ### FindAES
 
@@ -105,23 +97,17 @@ Preuzmite [ovde](https://sourceforge.net/projects/findaes/).
 Možete koristiti [**viu**](https://github.com/atanunq/viu) da vidite slike iz terminala.\
 Možete koristiti linux komandnu liniju alat **pdftotext** da transformišete pdf u tekst i pročitate ga.
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

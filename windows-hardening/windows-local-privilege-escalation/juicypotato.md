@@ -15,22 +15,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti bili **kompromitovani** od strane **stealer malvera**.
-
-Njihov primarni cilj je da se bore protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
-**JuicyPotato ne radi** na Windows Server 2019 i Windows 10 verziji 1809 i novijim. Međutim, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) mogu se koristiti za **iskorišćavanje istih privilegija i dobijanje pristupa na nivou `NT AUTHORITY\SYSTEM`**. _**Proverite:**_
+**JuicyPotato ne radi** na Windows Server 2019 i Windows 10 verziji 1809 i novijim. Međutim, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) mogu se koristiti za **iskorišćavanje istih privilegija i dobijanje `NT AUTHORITY\SYSTEM`** nivo pristupa. _**Proverite:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -39,7 +25,7 @@ Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **bespla
 
 ## Juicy Potato (zloupotreba zlatnih privilegija) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_Slađana verzija_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, sa malo soka, tj. **još jedan alat za lokalnu eskalaciju privilegija, od Windows servisnih naloga do NT AUTHORITY\SYSTEM**_
+_Slađena verzija_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, sa malo soka, tj. **još jedan alat za lokalnu eskalaciju privilegija, od Windows servisnih naloga do NT AUTHORITY\SYSTEM**_
 
 #### Možete preuzeti juicypotato sa [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)
 
@@ -47,7 +33,7 @@ _Slađana verzija_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPota
 
 [**Iz juicypotato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) i njene [varijante](https://github.com/decoder-it/lonelypotato) koriste lanac eskalacije privilegija zasnovan na [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [servisu](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) koji ima MiTM slušalac na `127.0.0.1:6666` i kada imate privilegije `SeImpersonate` ili `SeAssignPrimaryToken`. Tokom pregleda Windows verzije otkrili smo postavku gde je `BITS` namerno onemogućen i port `6666` je zauzet.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) i njene [varijante](https://github.com/decoder-it/lonelypotato) koriste lanac eskalacije privilegija zasnovan na [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [servisu](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) koji ima MiTM slušalac na `127.0.0.1:6666` i kada imate `SeImpersonate` ili `SeAssignPrimaryToken` privilegije. Tokom pregleda Windows verzije otkrili smo podešavanje gde je `BITS` namerno onemogućen i port `6666` je zauzet.
 
 Odlučili smo da oružamo [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG): **Pozdravite Juicy Potato**.
 
@@ -59,14 +45,14 @@ Otkrili smo da, osim `BITS`, postoji nekoliko COM servera koje možemo zloupotre
 2. implementiraju `IMarshal` interfejs
 3. rade kao uzvišeni korisnik (SYSTEM, Administrator, …)
 
-Nakon nekog testiranja dobili smo i testirali opširnu listu [zanimljivih CLSID-ova](http://ohpe.it/juicy-potato/CLSID/) na nekoliko verzija Windows-a.
+Nakon nekog testiranja dobili smo i testirali opsežnu listu [zanimljivih CLSID-ova](http://ohpe.it/juicy-potato/CLSID/) na nekoliko verzija Windows-a.
 
 ### Sočne informacije <a href="#juicy-details" id="juicy-details"></a>
 
-JuicyPotato vam omogućava da:
+JuicyPotato vam omogućava:
 
 * **Ciljani CLSID** _izaberite bilo koji CLSID koji želite._ [_Ovde_](http://ohpe.it/juicy-potato/CLSID/) _možete pronaći listu organizovanu po OS-u._
-* **COM slušalac port** _definišite COM slušalac port koji preferirate (umesto maršalizovanog hardkodiranog 6666)_
+* **COM slušalac port** _definišite COM slušalac port koji preferirate (umesto marširanog hardkodiranog 6666)_
 * **COM slušalac IP adresa** _vežite server na bilo koju IP adresu_
 * **Način kreiranja procesa** _u zavisnosti od privilegija impersoniranog korisnika možete izabrati:_
 * `CreateProcessWithToken` (potrebne `SeImpersonate`)
@@ -97,19 +83,19 @@ Optional args:
 ```
 ### Final thoughts <a href="#final-thoughts" id="final-thoughts"></a>
 
-[**From juicy-potato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
+[**Iz juicy-potato Readme**](https://github.com/ohpe/juicy-potato/blob/master/README.md#final-thoughts)**:**
 
 Ako korisnik ima `SeImpersonate` ili `SeAssignPrimaryToken` privilegije, onda ste **SYSTEM**.
 
 Skoro je nemoguće sprečiti zloupotrebu svih ovih COM servera. Možete razmisliti o modifikaciji dozvola ovih objekata putem `DCOMCNFG`, ali srećno, ovo će biti izazovno.
 
-Stvarno rešenje je zaštita osetljivih naloga i aplikacija koje rade pod `* SERVICE` nalozima. Zaustavljanje `DCOM` bi sigurno sprečilo ovu eksploataciju, ali bi moglo imati ozbiljan uticaj na osnovni OS.
+Pravo rešenje je zaštita osetljivih naloga i aplikacija koje rade pod `* SERVICE` nalozima. Zaustavljanje `DCOM` bi sigurno sprečilo ovu eksploataciju, ali bi moglo imati ozbiljan uticaj na osnovni operativni sistem.
 
-From: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
+Iz: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
 ## Examples
 
-Note: Visit [this page](https://ohpe.it/juicy-potato/CLSID/) for a list of CLSIDs to try.
+Napomena: Posetite [ovu stranicu](https://ohpe.it/juicy-potato/CLSID/) za listu CLSID-ova koje možete isprobati.
 
 ### Get a nc.exe reverse shell
 ```
@@ -144,7 +130,7 @@ Prvo, biće vam potrebni neki izvršni fajlovi osim juicypotato.exe.
 
 Preuzmite [Join-Object.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/utils/Join-Object.ps1) i učitajte ga u vašu PS sesiju, a zatim preuzmite i izvršite [GetCLSID.ps1](https://github.com/ohpe/juicy-potato/blob/master/CLSID/GetCLSID.ps1). Taj skript će kreirati listu mogućih CLSID-ova za testiranje.
 
-Zatim preuzmite [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(promenite putanju do liste CLSID-ova i do juicypotato izvršnog fajla) i izvršite ga. Počeće da isprobava svaki CLSID, i **kada se broj porta promeni, to će značiti da je CLSID radio**.
+Zatim preuzmite [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Test/test\_clsid.bat)(promenite putanju do liste CLSID-ova i do juicypotato izvršnog fajla) i izvršite ga. Počeće da pokušava svaki CLSID, i **kada se broj porta promeni, to će značiti da je CLSID radio**.
 
 **Proverite** funkcionalne CLSID-ove **koristeći parametar -c**
 
@@ -152,17 +138,6 @@ Zatim preuzmite [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/mas
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pokretan pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malvera**.
-
-Njihov primarni cilj WhiteIntel-a je da se bori protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

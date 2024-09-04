@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## ImGui Based Reversing tools
 
 Software:
@@ -48,7 +40,7 @@ Software:
 
 dotPeek je dekompajler koji **dekompajlira i ispituje više formata**, uključujući **biblioteke** (.dll), **Windows metapodatkovne datoteke** (.winmd) i **izvršne datoteke** (.exe). Kada se dekompajlira, skup može biti sačuvan kao Visual Studio projekat (.csproj).
 
-Vrednost ovde je da ako izgubljeni izvorni kod zahteva obnavljanje iz nasleđenog skupa, ova akcija može uštedeti vreme. Pored toga, dotPeek pruža praktičnu navigaciju kroz dekompajlirani kod, čineći ga jednim od savršenih alata za **analizu Xamarin algoritama.**
+Vrednost ovde je u tome što ako izgubljeni izvorni kod zahteva obnavljanje iz nasleđenog skupa, ova akcija može uštedeti vreme. Pored toga, dotPeek pruža praktičnu navigaciju kroz dekompajlirani kod, čineći ga jednim od savršenih alata za **Xamarin analizu algoritama.**
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
@@ -68,7 +60,7 @@ Ako trebate da **dekompajlirate**, **modifikujete** i **ponovo kompajlirate**, m
 
 ### DNSpy Logging
 
-Da biste **DNSpy zabeležio neke informacije u datoteku**, možete koristiti ovaj isječak:
+Da biste **DNSpy-u omogućili da zabeleži neke informacije u datoteku**, možete koristiti ovaj isječak:
 ```cs
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
@@ -76,9 +68,9 @@ File.AppendAllText(path, "Password: " + password + "\n");
 ```
 ### DNSpy Debugging
 
-Da biste debagovali kod koristeći DNSpy, potrebno je da:
+Da biste debagovali kod koristeći DNSpy, potrebno je:
 
-Prvo, promenite **atribute skupa** vezane za **debugging**:
+Prvo, promenite **atribute Assembly** vezane za **debugging**:
 
 ![](<../../.gitbook/assets/image (973).png>)
 ```aspnet
@@ -142,11 +134,11 @@ Desni klik na bilo koji modul u **Assembly Explorer** i kliknite na **Sort Assem
 
 ![](<../../.gitbook/assets/image (868).png>)
 
-* Konfigurišite **parametre** izvršenja postavljanjem **puta do DLL-a** i funkcije koju želite da pozovete:
+* Konfigurišite **parametre** izvršavanja postavljanjem **puta do DLL-a** i funkcije koju želite da pozovete:
 
 ![](<../../.gitbook/assets/image (704).png>)
 
-Zatim, kada započnete debagovanje **izvršenje će biti zaustavljeno kada se svaki DLL učita**, zatim, kada rundll32 učita vaš DLL, izvršenje će biti zaustavljeno.
+Zatim, kada započnete debagovanje **izvršavanje će biti zaustavljeno kada se svaki DLL učita**, zatim, kada rundll32 učita vaš DLL, izvršavanje će biti zaustavljeno.
 
 Ali, kako možete doći do koda DLL-a koji je učitan? Koristeći ovu metodu, ne znam kako.
 
@@ -155,13 +147,13 @@ Ali, kako možete doći do koda DLL-a koji je učitan? Koristeći ovu metodu, ne
 * **Učitajte rundll32** (64bit u C:\Windows\System32\rundll32.exe i 32 bit u C:\Windows\SysWOW64\rundll32.exe)
 * **Promenite Command Line** (_File --> Change Command Line_) i postavite putanju DLL-a i funkciju koju želite da pozovete, na primer: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Promenite _Options --> Settings_ i odaberite "**DLL Entry**".
-* Zatim **pokrenite izvršenje**, debager će se zaustaviti na svakom glavnom DLL-u, u nekom trenutku ćete **stati u DLL Entry vašeg DLL-a**. Odatle, samo potražite tačke gde želite da postavite breakpoint.
+* Zatim **pokrenite izvršavanje**, debager će se zaustaviti na svakom glavnom DLL-u, u nekom trenutku ćete **stati u DLL Entry vašeg DLL-a**. Odatle, samo potražite tačke na kojima želite da postavite breakpoint.
 
-Primetite da kada je izvršenje zaustavljeno iz bilo kog razloga u win64dbg možete videti **u kojem kodu se nalazite** gledajući **na vrhu win64dbg prozora**:
+Primetite da kada je izvršavanje zaustavljeno iz bilo kog razloga u win64dbg možete videti **u kojem kodu se nalazite** gledajući u **gornjem delu win64dbg prozora**:
 
 ![](<../../.gitbook/assets/image (842).png>)
 
-Zatim, gledajući ovo možete videti kada je izvršenje zaustavljeno u DLL-u koji želite da debagujete.
+Zatim, gledajući ovo možete videti kada je izvršavanje zaustavljeno u DLL-u koji želite da debagujete.
 
 ## GUI aplikacije / Video igre
 
@@ -173,7 +165,7 @@ Zatim, gledajući ovo možete videti kada je izvršenje zaustavljeno u DLL-u koj
 
 [**PiNCE**](https://github.com/korcankaraokcu/PINCE) je alat za obrnutu inženjering koji se koristi za GNU Project Debugger (GDB), fokusiran na igre. Međutim, može se koristiti za bilo šta vezano za obrnutu inženjering.
 
-[**Decompiler Explorer**](https://dogbolt.org/) je web interfejs za nekoliko dekompilatora. Ova web usluga vam omogućava da uporedite izlaz različitih dekompilatora na malim izvršnim datotekama.
+[**Decompiler Explorer**](https://dogbolt.org/) je web interfejs za brojne dekompilatore. Ova web usluga vam omogućava da uporedite izlaz različitih dekompilatora na malim izvršnim datotekama.
 
 ## ARM & MIPS
 
@@ -183,8 +175,8 @@ Zatim, gledajući ovo možete videti kada je izvršenje zaustavljeno u DLL-u koj
 
 ### Debagovanje shellcode-a sa blobrunner
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner) će **alokovati** **shellcode** unutar prostora memorije, **pokazaće** vam **adresu memorije** gde je shellcode alokovan i **zaustaviće** izvršenje.\
-Zatim, trebate **priključiti debager** (Ida ili x64dbg) na proces i postaviti **breakpoint na naznačenoj adresi memorije** i **nastaviti** izvršenje. Na ovaj način ćete debagovati shellcode.
+[**Blobrunner**](https://github.com/OALabs/BlobRunner) će **alokovati** **shellcode** unutar prostora memorije, **pokazaće** vam **adresu memorije** gde je shellcode alokovan i **zaustaviće** izvršavanje.\
+Zatim, trebate **priključiti debager** (Ida ili x64dbg) na proces i postaviti **breakpoint na naznačenu adresu memorije** i **nastaviti** izvršavanje. Na ovaj način ćete debagovati shellcode.
 
 Stranica sa izdanjima na github-u sadrži zip-ove sa kompajliranim izdanjima: [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 Možete pronaći malo izmenjenu verziju Blobrunner-a na sledećem linku. Da biste je kompajlirali, samo **napravite C/C++ projekat u Visual Studio Code, kopirajte i nalepite kod i izgradite ga**.
@@ -195,7 +187,7 @@ Možete pronaći malo izmenjenu verziju Blobrunner-a na sledećem linku. Da bist
 
 ### Debagovanje shellcode-a sa jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) je vrlo sličan blobrunner-u. On će **alokovati** **shellcode** unutar prostora memorije i započeti **večnu petlju**. Zatim trebate **priključiti debager** na proces, **pritisnuti start, sačekati 2-5 sekundi i pritisnuti stop** i naći ćete se unutar **večite petlje**. Preskočite na sledeću instrukciju večite petlje jer će to biti poziv na shellcode, i na kraju ćete se naći kako izvršavate shellcode.
+[**jmp2it**](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) je vrlo sličan blobrunner-u. On će **alokovati** **shellcode** unutar prostora memorije i započeti **večnu petlju**. Zatim trebate **priključiti debager** na proces, **pritisnuti start, sačekati 2-5 sekundi i pritisnuti stop** i naći ćete se unutar **večne petlje**. Preskočite na sledeću instrukciju večne petlje jer će to biti poziv na shellcode, i na kraju ćete se naći u izvršavanju shellcode-a.
 
 ![](<../../.gitbook/assets/image (509).png>)
 
@@ -222,7 +214,7 @@ Možete videti stek, na primer, unutar hex dump-a:
 ### Deobfuskacija shellcode-a i dobijanje izvršenih funkcija
 
 Trebalo bi da probate [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152).\
-Reći će vam stvari kao što su **koje funkcije** shellcode koristi i da li se shellcode **dekodira** sam u memoriji.
+Reći će vam stvari kao što su **koje funkcije** koristi shellcode i da li se shellcode **dekodira** u memoriji.
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -243,52 +235,52 @@ Otpremite svoj shellcode fajl kao ulaz i koristite sledeći recept za dekompilac
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
-Ovaj obfuskator **modifikuje sve instrukcije za `mov`**(da, stvarno cool). Takođe koristi prekide za promenu toka izvršenja. Za više informacija o tome kako to funkcioniše:
+Ovaj obfuskator **modifikuje sve instrukcije za `mov`** (da, stvarno kul). Takođe koristi prekide za promenu toka izvršenja. Za više informacija o tome kako to funkcioniše:
 
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-Ako imate sreće [demovfuscator](https://github.com/kirschju/demovfuscator) će deobfuskovati binarni fajl. Ima nekoliko zavisnosti
+Ako imate sreće, [demovfuscator](https://github.com/kirschju/demovfuscator) će deobfuskovati binarni fajl. Ima nekoliko zavisnosti
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
 ```
 And [install keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-If you are playing a **CTF, this workaround to find the flag** could be very useful: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
+Ako učestvujete u **CTF, ovaj zaobilazni način za pronalaženje zastavice** može biti veoma koristan: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
-To find the **entry point** search the functions by `::main` like in:
+Da pronađete **ulaznu tačku** pretražujte funkcije po `::main` kao u:
 
 ![](<../../.gitbook/assets/image (1080).png>)
 
-In this case the binary was called authenticator, so it's pretty obvious that this is the interesting main function.\
-Having the **name** of the **functions** being called, search for them on the **Internet** to learn about their **inputs** and **outputs**.
+U ovom slučaju, binarni fajl se zvao authenticator, tako da je prilično očigledno da je ovo zanimljiva glavna funkcija.\
+Imajući **ime** **funkcija** koje se pozivaju, pretražujte ih na **Internetu** da biste saznali više o njihovim **ulazima** i **izlazima**.
 
 ## **Delphi**
 
-For Delphi compiled binaries you can use [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
+Za Delphi kompajlirane binarne fajlove možete koristiti [https://github.com/crypto2011/IDR](https://github.com/crypto2011/IDR)
 
-If you have to reverse a Delphi binary I would suggest you to use the IDA plugin [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
+Ako morate da obrnite Delphi binarni fajl, preporučujem da koristite IDA dodatak [https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)
 
-Just press **ATL+f7** (import python plugin in IDA) and select the python plugin.
+Samo pritisnite **ATL+f7** (import python plugin u IDA) i izaberite python dodatak.
 
-This plugin will execute the binary and resolve function names dynamically at the start of the debugging. After starting the debugging press again the Start button (the green one or f9) and a breakpoint will hit in the beginning of the real code.
+Ovaj dodatak će izvršiti binarni fajl i dinamički rešiti imena funkcija na početku debagovanja. Nakon pokretanja debagovanja ponovo pritisnite dugme Start (zeleno ili f9) i breakpoint će se aktivirati na početku pravog koda.
 
-It is also very interesting because if you press a button in the graphic application the debugger will stop in the function executed by that bottom.
+Takođe je veoma zanimljivo jer ako pritisnete dugme u grafičkoj aplikaciji, debager će se zaustaviti u funkciji koja se izvršava tim dugmetom.
 
 ## Golang
 
-If you have to reverse a Golang binary I would suggest you to use the IDA plugin [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
+Ako morate da obrnite Golang binarni fajl, preporučujem da koristite IDA dodatak [https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)
 
-Just press **ATL+f7** (import python plugin in IDA) and select the python plugin.
+Samo pritisnite **ATL+f7** (import python plugin u IDA) i izaberite python dodatak.
 
-This will resolve the names of the functions.
+Ovo će rešiti imena funkcija.
 
-## Compiled Python
+## Kompajlirani Python
 
-In this page you can find how to get the python code from an ELF/EXE python compiled binary:
+Na ovoj stranici možete pronaći kako da dobijete python kod iz ELF/EXE python kompajliranog binarnog fajla:
 
 {% content-ref url="../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md" %}
 [.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
@@ -296,18 +288,18 @@ In this page you can find how to get the python code from an ELF/EXE python comp
 
 ## GBA - Game Body Advance
 
-If you get the **binary** of a GBA game you can use different tools to **emulate** and **debug** it:
+Ako dobijete **binarni** fajl GBA igre, možete koristiti različite alate za **emulaciju** i **debug**:
 
-* [**no$gba**](https://problemkaputt.de/gba.htm) (_Download the debug version_) - Contains a debugger with interface
-* [**mgba** ](https://mgba.io)- Contains a CLI debugger
-* [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Ghidra plugin
-* [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Ghidra plugin
+* [**no$gba**](https://problemkaputt.de/gba.htm) (_Preuzmite debug verziju_) - Sadrži debager sa interfejsom
+* [**mgba** ](https://mgba.io)- Sadrži CLI debager
+* [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Ghidra dodatak
+* [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Ghidra dodatak
 
-In [**no$gba**](https://problemkaputt.de/gba.htm), in _**Options --> Emulation Setup --> Controls**_\*\* \*\* you can see how to press the Game Boy Advance **buttons**
+U [**no$gba**](https://problemkaputt.de/gba.htm), u _**Options --> Emulation Setup --> Controls**_\*\* \*\* možete videti kako pritisnuti dugmadi Game Boy Advance
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-When pressed, each **key has a value** to identify it:
+Kada se pritisne, svaki **taster ima vrednost** koja ga identifikuje:
 ```
 A = 1
 B = 2
@@ -391,8 +383,8 @@ U prethodnom kodu možete videti da upoređujemo **uVar1** (mesto gde se nalazi 
 
 * Prvo, upoređuje se sa **vrednošću 4** (**SELECT** dugme): U izazovu ovo dugme briše ekran.
 * Zatim, upoređuje se sa **vrednošću 8** (**START** dugme): U izazovu ovo proverava da li je kod validan za dobijanje zastavice.
-* U ovom slučaju var **`DAT_030000d8`** se upoređuje sa 0xf3 i ako je vrednost ista, neki kod se izvršava.
-* U svim drugim slučajevima, neki kont (`DAT_030000d4`) se proverava. To je kont jer dodaje 1 odmah nakon ulaska u kod.\
+* U ovom slučaju var **`DAT_030000d8`** se upoređuje sa 0xf3 i ako je vrednost ista, izvršava se neki kod.
+* U svim drugim slučajevima, proverava se neki kont (`DAT_030000d4`). To je kont jer dodaje 1 odmah nakon ulaska u kod.\
 **Ako** je manje od 8, nešto što uključuje **dodavanje** vrednosti u \*\*`DAT_030000d8` \*\* se radi (u suštini dodaje vrednosti pritisnutih tastera u ovoj varijabli sve dok je kont manji od 8).
 
 Dakle, u ovom izazovu, znajući vrednosti dugmadi, trebalo je da **pritisnete kombinaciju dužine manje od 8 koja rezultira sabiranjem 0xf3.**
@@ -407,12 +399,6 @@ Dakle, u ovom izazovu, znajući vrednosti dugmadi, trebalo je da **pritisnete ko
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Binarna deobfuskacija)
-
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

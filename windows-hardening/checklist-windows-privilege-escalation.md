@@ -1,4 +1,4 @@
-# Lista za proveru - Lokalna eskalacija privilegija na Windows-u
+# Lista provere - Lokalna eskalacija privilegija na Windows-u
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -14,14 +14,6 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ### **Najbolji alat za pronalaženje vektora lokalne eskalacije privilegija na Windows-u:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
@@ -49,14 +41,14 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 * [ ] Proverite da li postoji neki [**AV**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-av-bypass/README.md)
 * [ ] [**AppLocker politika**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
 * [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
-* [ ] [**Privilegije korisnika**](windows-local-privilege-escalation/#users-and-groups)
-* [ ] Proverite [**trenutne** privilegije **korisnika**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] [**Korisničke privilegije**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] Proverite [**trenutne** korisničke **privilegije**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] Da li ste [**član neke privilegovane grupe**](windows-local-privilege-escalation/#privileged-groups)?
 * [ ] Proverite da li imate [neki od ovih tokena aktiviranih](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [ ] [**Sesije korisnika**](windows-local-privilege-escalation/#logged-users-sessions)?
 * [ ] Proverite [**korisničke domove**](windows-local-privilege-escalation/#home-folders) (pristup?)
 * [ ] Proverite [**Politiku lozinki**](windows-local-privilege-escalation/#password-policy)
-* [ ] Šta je [**unutar Clipboard-a**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
+* [ ] Šta je [**u Clipboard-u**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
 ### [Mreža](windows-local-privilege-escalation/#network)
 
@@ -68,7 +60,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 * [ ] Binarne datoteke procesa [**dozvole datoteka i foldera**](windows-local-privilege-escalation/#file-and-folder-permissions)
 * [ ] [**Rudarenje lozinki iz memorije**](windows-local-privilege-escalation/#memory-password-mining)
 * [ ] [**Neosigurane GUI aplikacije**](windows-local-privilege-escalation/#insecure-gui-apps)
-* [ ] Ukrao kredencijale sa **zanimljivim procesima** putem `ProcDump.exe` ? (firefox, chrome, itd ...)
+* [ ] Ukrao kredencijale sa **zanimljivih procesa** putem `ProcDump.exe` ? (firefox, chrome, itd ...)
 
 ### [Usluge](windows-local-privilege-escalation/#services)
 
@@ -79,7 +71,7 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 
 ### [**Aplikacije**](windows-local-privilege-escalation/#applications)
 
-* [ ] **Pisanje** [**dozvola na instaliranim aplikacijama**](windows-local-privilege-escalation/#write-permissions)
+* [ ] **Dozvole** [**pisanja na instaliranim aplikacijama**](windows-local-privilege-escalation/#write-permissions)
 * [ ] [**Aplikacije pri pokretanju**](windows-local-privilege-escalation/#run-at-startup)
 * [ ] **Ranljive** [**drajvere**](windows-local-privilege-escalation/#drivers)
 
@@ -111,17 +103,17 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 * [ ] **Putty:** [**Kredencijali**](windows-local-privilege-escalation/#putty-creds) **i** [**SSH host ključevi**](windows-local-privilege-escalation/#putty-ssh-host-keys)
 * [ ] [**SSH ključevi u registru**](windows-local-privilege-escalation/#ssh-keys-in-registry)?
 * [ ] Lozinke u [**nepridruženim datotekama**](windows-local-privilege-escalation/#unattended-files)?
-* [ ] Da li postoji neka [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) rezervna kopija?
+* [ ] Da li postoji neki [**SAM & SYSTEM**](windows-local-privilege-escalation/#sam-and-system-backups) backup?
 * [ ] [**Cloud kredencijali**](windows-local-privilege-escalation/#cloud-credentials)?
 * [ ] [**McAfee SiteList.xml**](windows-local-privilege-escalation/#mcafee-sitelist.xml) datoteka?
 * [ ] [**Keširana GPP lozinka**](windows-local-privilege-escalation/#cached-gpp-pasword)?
 * [ ] Lozinka u [**IIS Web config datoteci**](windows-local-privilege-escalation/#iis-web-config)?
 * [ ] Zanimljive informacije u [**web** **logovima**](windows-local-privilege-escalation/#logs)?
 * [ ] Da li želite da [**tražite kredencijale**](windows-local-privilege-escalation/#ask-for-credentials) od korisnika?
-* [ ] Zanimljive [**datoteke unutar Korpe za otpatke**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
+* [ ] Zanimljive [**datoteke unutar korpe za otpatke**](windows-local-privilege-escalation/#credentials-in-the-recyclebin)?
 * [ ] Druge [**registri koji sadrže kredencijale**](windows-local-privilege-escalation/#inside-the-registry)?
 * [ ] Unutar [**podataka pretraživača**](windows-local-privilege-escalation/#browsers-history) (dbs, istorija, obeleživači, ...)?
-* [ ] [**Opšta pretraga lozinki**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) u datotekama i registru
+* [ ] [**Generička pretraga lozinki**](windows-local-privilege-escalation/#generic-password-search-in-files-and-registry) u datotekama i registru
 * [ ] [**Alati**](windows-local-privilege-escalation/#tools-that-search-for-passwords) za automatsku pretragu lozinki
 
 ### [Procureni handleri](windows-local-privilege-escalation/#leaked-handlers)
@@ -131,12 +123,6 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 ### [Impersonacija klijenta cevi](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
 * [ ] Proverite da li možete da to zloupotrebite
-
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

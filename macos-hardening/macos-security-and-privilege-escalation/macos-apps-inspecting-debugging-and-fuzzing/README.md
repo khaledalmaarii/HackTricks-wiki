@@ -15,21 +15,8 @@ Učite i vežbajte GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pokretan pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malvera**.
-
-Njihov primarni cilj je da se bore protiv preuzimanja naloga i ransomware napada koji proizilaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-## Staticka analiza
+## Staticka Analiza
 
 ### otool & objdump & nm
 ```bash
@@ -115,7 +102,7 @@ ldid -S/tmp/entl.xml <binary>
 ### SuspiciousPackage
 
 [**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) је алат користан за инспекцију **.pkg** фајлова (инсталатера) и за преглед садржаја пре инсталирања.\
-Ови инсталатери имају `preinstall` и `postinstall` bash скрипте које аутори малвера обично злоупотребљавају да **одрже** **малвер**.
+Ови инсталатери имају `preinstall` и `postinstall` bash скрипте које аутори малвера обично злоупотребљавају да **постигну** **упорност** **малвера**.
 
 ### hdiutil
 
@@ -139,10 +126,10 @@ It will be mounted in `/Volumes`
 Napomena da programi napisani u Objective-C **zadržavaju** svoje deklaracije klasa **kada** **se kompajluju** u [Mach-O binarne datoteke](../macos-files-folders-and-binaries/universal-binaries-and-mach-o-format.md). Takve deklaracije klasa **uključuju** ime i tip:
 {% endhint %}
 
-* Definisane interfejse
+* Definisani interfejsi
 * Metode interfejsa
 * Instance varijable interfejsa
-* Definisane protokole
+* Definisani protokoli
 
 Napomena da ova imena mogu biti obfuskovana kako bi se otežalo obrnuto inženjerstvo binarne datoteke.
 
@@ -225,7 +212,7 @@ Mem: 0x1000274cc-0x100027608        __TEXT.__swift5_capture
 ```
 Možete pronaći dodatne informacije o [**informacijama koje se čuvaju u ovoj sekciji u ovom blog postu**](https://knight.sc/reverse%20engineering/2019/07/17/swift-metadata.html).
 
-Pored toga, **Swift binarni fajlovi mogu imati simbole** (na primer, biblioteke treba da čuvaju simbole kako bi se njihove funkcije mogle pozivati). **Simboli obično imaju informacije o imenu funkcije** i atributima na ružan način, tako da su veoma korisni i postoje "**demangleri"** koji mogu dobiti originalno ime:
+Pored toga, **Swift binarni fajlovi mogu imati simbole** (na primer, biblioteke treba da čuvaju simbole kako bi se njihove funkcije mogle pozivati). **Simboli obično imaju informacije o imenu funkcije** i atributima na ružan način, tako da su veoma korisni i postoje "**demangleri**" koji mogu dobiti originalno ime:
 ```bash
 # Ghidra plugin
 https://github.com/ghidraninja/ghidra_scripts/blob/master/swift_demangler.py
@@ -243,7 +230,7 @@ Napomena da je za debagovanje binarnih datoteka, **SIP potrebno onemogućiti** (
 Napomena da je za **instrumentaciju sistemskih binarnih datoteka**, (kao što je `cloudconfigurationd`) na macOS-u, **SIP potrebno onemogućiti** (samo uklanjanje potpisa neće raditi).
 {% endhint %}
 
-### API-ji
+### API
 
 macOS izlaže neke zanimljive API-je koji daju informacije o procesima:
 
@@ -270,17 +257,17 @@ Njegov plist se nalazi u `/System/Library/LaunchDaemons/com.apple.sysdiagnose.pl
 
 MacOS generiše mnogo logova koji mogu biti veoma korisni kada se pokreće aplikacija koja pokušava da razume **šta radi**.
 
-Štaviše, postoje neki logovi koji će sadržati oznaku `<private>` da **sakriju** neke **korisničke** ili **računarske** **identifikabilne** informacije. Međutim, moguće je **instalirati sertifikat da bi se otkrile ove informacije**. Pratite objašnjenja [**ovde**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
+Štaviše, postoje neki logovi koji će sadržati oznaku `<private>` da **sakriju** neke **korisničke** ili **računarske** **identifikacione** informacije. Međutim, moguće je **instalirati sertifikat da bi se otkrile ove informacije**. Pratite objašnjenja [**ovde**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log).
 
 ### Hopper
 
 #### Levo dugme
 
-U levom panelu Hoper-a moguće je videti simbole (**Oznake**) binarne datoteke, listu procedura i funkcija (**Proc**) i stringove (**Str**). To nisu svi stringovi, već oni definisani u nekoliko delova Mac-O datoteke (kao što su _cstring ili_ `objc_methname`).
+U levom panelu hoppera moguće je videti simbole (**Labels**) binarne datoteke, listu procedura i funkcija (**Proc**) i stringove (**Str**). To nisu svi stringovi, već oni definisani u nekoliko delova Mac-O datoteke (kao što su _cstring ili_ `objc_methname`).
 
 #### Srednji panel
 
-U srednjem panelu možete videti **disasemblirani kod**. I možete ga videti kao **sirovi** disasembler, kao **graf**, kao **dekompajliran** i kao **binarni** klikom na odgovarajuću ikonu:
+U srednjem panelu možete videti **disasemblirani kod**. I možete ga videti kao **sirov** disasembler, kao **graf**, kao **dekompajliran** i kao **binarni** klikom na odgovarajuću ikonu:
 
 <figure><img src="../../../.gitbook/assets/image (343).png" alt=""><figcaption></figcaption></figure>
 
@@ -325,6 +312,8 @@ Detaljnije objašnjenje i više primera možete pronaći na [https://illumos.org
 #### Primeri
 
 Pokrenite `man -k dtrace` da biste prikazali **dostupne DTrace skripte**. Primer: `sudo dtruss -n binary`
+
+* U liniji
 ```bash
 #Count the number of syscalls of each running process
 sudo dtrace -n 'syscall:::entry {@[execname] = count()}'
@@ -414,7 +403,7 @@ U suštini, globalna promenljiva `kernel_debug_active` se proverava i ako je pos
 
 Kperf takođe ima sysctl MIB tabelu: (kao root) `sysctl kperf`. Ovi kodovi se mogu naći u `osfmk/kperf/kperfbsd.c`.
 
-Štaviše, podskup funkcionalnosti Kperfa se nalazi u `kpc`, koji pruža informacije o brojačima performansi mašine.
+Pored toga, deo funkcionalnosti Kperfa se nalazi u `kpc`, koji pruža informacije o brojačima performansi mašine.
 
 ### ProcessMonitor
 
@@ -423,7 +412,7 @@ Kperf takođe ima sysctl MIB tabelu: (kao root) `sysctl kperf`. Ovi kodovi se mo
 ### SpriteTree
 
 [**SpriteTree**](https://themittenmac.com/tools/) je alat koji štampa odnose između procesa.\
-Morate pratiti svoj mac sa komandom kao **`sudo eslogger fork exec rename create > cap.json`** (terminal koji pokreće ovo zahteva FDA). A zatim možete učitati json u ovaj alat da biste videli sve odnose:
+Morate pratiti vaš mac sa komandom kao **`sudo eslogger fork exec rename create > cap.json`** (terminal koji pokreće ovo zahteva FDA). A zatim možete učitati json u ovaj alat da biste videli sve odnose:
 
 <figure><img src="../../../.gitbook/assets/image (1182).png" alt="" width="375"><figcaption></figcaption></figure>
 
@@ -437,7 +426,7 @@ Morate pratiti svoj mac sa komandom kao **`sudo eslogger fork exec rename create
 
 ### Apple Instruments
 
-[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) su deo Xcode-ovih razvojnog alata – koriste se za praćenje performansi aplikacija, identifikovanje curenja memorije i praćenje aktivnosti na datotečnom sistemu.
+[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) su deo Xcode-ovih razvojnog alata – koriste se za praćenje performansi aplikacija, identifikaciju curenja memorije i praćenje aktivnosti na datotečnom sistemu.
 
 ![](<../../../.gitbook/assets/image (1138).png>)
 
@@ -474,10 +463,10 @@ settings set target.x86-disassembly-flavor intel
 Unutar lldb, dump-ujte proces sa `process save-core`
 {% endhint %}
 
-<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Komanda</strong></td><td><strong>Opis</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Pokreće izvršavanje, koje će se nastaviti bez prekida dok se ne dostigne tačka prekida ili proces ne završi.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Pokreće izvršavanje zaustavljajući se na ulaznoj tački</td></tr><tr><td><strong>continue (c)</strong></td><td>Nastavlja izvršavanje debagovanog procesa.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Izvršava sledeću instrukciju. Ova komanda će preskočiti pozive funkcija.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Izvršava sledeću instrukciju. Za razliku od nexti komande, ova komanda će ući u pozive funkcija.</td></tr><tr><td><strong>finish (f)</strong></td><td>Izvršava ostatak instrukcija u trenutnoj funkciji (“frame”) i vraća se i zaustavlja.</td></tr><tr><td><strong>control + c</strong></td><td>Pauzira izvršavanje. Ako je proces pokrenut (r) ili nastavljen (c), ovo će uzrokovati da proces stane ...gde god trenutno izvršava.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Bilo koja funkcija nazvana main</p><p><code>b &#x3C;binname>`main</code> #Glavna funkcija binarnih datoteka</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Glavna funkcija označenog binarnih datoteka</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Bilo koja NSFileManager metoda</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # Prekini u svim funkcijama te biblioteke</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Lista tačaka prekida</p><p><code>br e/dis &#x3C;num></code> #Omogući/Onemogući tačku prekida</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Dobijte pomoć za komandu tačke prekida</p><p>help memory write #Dobijte pomoć za pisanje u memoriju</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/adresa u memoriji></strong></td><td>Prikazuje memoriju kao string koji se završava nulom.</td></tr><tr><td><strong>x/i &#x3C;reg/adresa u memoriji></strong></td><td>Prikazuje memoriju kao instrukciju asemblera.</td></tr><tr><td><strong>x/b &#x3C;reg/adresa u memoriji></strong></td><td>Prikazuje memoriju kao bajt.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Ovo će odštampati objekat na koji se poziva parametar</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Napomena da većina Apple-ovih Objective-C API-ja ili metoda vraća objekte, i stoga bi trebala biti prikazana putem komande “print object” (po). Ako po ne daje smislen izlaz, koristite <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Upiši AAAA na tu adresu<br>memory write -f s $rip+0x11f+7 "AAAA" #Upiši AAAA na adresu</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Disas trenutnu funkciju</p><p>dis -n &#x3C;funcname> #Disas funkciju</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Disas funkciju<br>dis -c 6 #Disas 6 linija<br>dis -c 0x100003764 -e 0x100003768 # Od jedne adrese do druge<br>dis -p -c 4 # Počni u trenutnoj adresi disasemblerajući</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Proveri niz od 3 komponente u x1 registru</td></tr><tr><td><strong>image dump sections</strong></td><td>Štampa mapu trenutne memorije procesa</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #Dobij adresu svih simbola iz CoreNLP</td></tr></tbody></table>
+<table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) Komanda</strong></td><td><strong>Opis</strong></td></tr><tr><td><strong>run (r)</strong></td><td>Pokreće izvršavanje, koje će se nastaviti bez prekida dok se ne dostigne tačka prekida ili proces ne završi.</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>Pokreće izvršavanje zaustavljajući se na ulaznoj tački</td></tr><tr><td><strong>continue (c)</strong></td><td>Nastavlja izvršavanje debagovanog procesa.</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>Izvršava sledeću instrukciju. Ova komanda će preskočiti pozive funkcija.</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>Izvršava sledeću instrukciju. Za razliku od nexti komande, ova komanda će ući u pozive funkcija.</td></tr><tr><td><strong>finish (f)</strong></td><td>Izvršava ostatak instrukcija u trenutnoj funkciji (“frame”) i vraća se i zaustavlja.</td></tr><tr><td><strong>control + c</strong></td><td>Pauzira izvršavanje. Ako je proces pokrenut (r) ili nastavljen (c), ovo će uzrokovati da proces stane ...gde god trenutno izvršava.</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #Bilo koja funkcija nazvana main</p><p><code>b &#x3C;binname>`main</code> #Glavna funkcija binarija</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #Glavna funkcija označenog binarija</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #Bilo koja NSFileManager metoda</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> # Prekini u svim funkcijama te biblioteke</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #Lista tačaka prekida</p><p><code>br e/dis &#x3C;num></code> #Omogući/Onemogući tačku prekida</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #Dobijte pomoć za komandu tačke prekida</p><p>help memory write #Dobijte pomoć za pisanje u memoriju</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/adresa u memoriji></strong></td><td>Prikazuje memoriju kao string koji se završava nulom.</td></tr><tr><td><strong>x/i &#x3C;reg/adresa u memoriji></strong></td><td>Prikazuje memoriju kao instrukciju asemblera.</td></tr><tr><td><strong>x/b &#x3C;reg/adresa u memoriji></strong></td><td>Prikazuje memoriju kao bajt.</td></tr><tr><td><strong>print object (po)</strong></td><td><p>Ovo će odštampati objekat na koji se poziva parametar</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>Napomena da većina Apple-ovih Objective-C API-ja ili metoda vraća objekte, i stoga bi trebala biti prikazana putem komande “print object” (po). Ako po ne daje smislen izlaz, koristite <code>x/b</code></p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #Upiši AAAA na tu adresu<br>memory write -f s $rip+0x11f+7 "AAAA" #Upiši AAAA na adresu</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #Disas trenutnu funkciju</p><p>dis -n &#x3C;funcname> #Disas funkciju</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #Disas funkciju<br>dis -c 6 #Disas 6 linija<br>dis -c 0x100003764 -e 0x100003768 # Od jedne adrese do druge<br>dis -p -c 4 # Počni u trenutnoj adresi disasemblerajući</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # Proveri niz od 3 komponente u x1 registru</td></tr><tr><td><strong>image dump sections</strong></td><td>Štampa mapu trenutne memorije procesa</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #Dobij adresu svih simbola iz CoreNLP</td></tr></tbody></table>
 
 {% hint style="info" %}
-Kada pozivate funkciju **`objc_sendMsg`**, registar **rsi** sadrži **ime metode** kao string koji se završava nulom (“C”). Da biste odštampali ime putem lldb, uradite:
+Kada pozivate funkciju **`objc_sendMsg`**, registri **rsi** sadrži **ime metode** kao string koji se završava nulom (“C”). Da biste odštampali ime putem lldb, uradite:
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -507,9 +496,9 @@ Core dumps se kreiraju ako:
 
 * `kern.coredump` sysctl je postavljen na 1 (po defaultu)
 * Ako proces nije suid/sgid ili `kern.sugid_coredump` je 1 (po defaultu je 0)
-* `AS_CORE` limit dozvoljava operaciju. Moguće je suprimirati kreiranje core dumps pozivom `ulimit -c 0` i ponovo ih omogućiti sa `ulimit -c unlimited`.
+* `AS_CORE` limit dozvoljava operaciju. Moguće je suprimirati kreiranje core dump-ova pozivom `ulimit -c 0` i ponovo ih omogućiti sa `ulimit -c unlimited`.
 
-U tim slučajevima, core dumps se generišu prema `kern.corefile` sysctl i obično se čuvaju u `/cores/core/.%P`.
+U tim slučajevima, core dump se generiše prema `kern.corefile` sysctl i obično se čuva u `/cores/core/.%P`.
 
 ## Fuzzing
 
@@ -517,7 +506,7 @@ U tim slučajevima, core dumps se generišu prema `kern.corefile` sysctl i obič
 
 ReportCrash **analizira procese koji se ruše i čuva izveštaj o padu na disk**. Izveštaj o padu sadrži informacije koje mogu **pomoći programeru da dijagnostikuje** uzrok pada.\
 Za aplikacije i druge procese **koji se izvršavaju u kontekstu per-user launchd**, ReportCrash se pokreće kao LaunchAgent i čuva izveštaje o padu u korisnikovom `~/Library/Logs/DiagnosticReports/`\
-Za demone, druge procese **koji se izvršavaju u sistemskom launchd kontekstu** i druge privilegovane procese, ReportCrash se pokreće kao LaunchDaemon i čuva izveštaje o padu u sistemskom `/Library/Logs/DiagnosticReports`
+Za demone, druge procese **koji se izvršavaju u kontekstu sistemskog launchd** i druge privilegovane procese, ReportCrash se pokreće kao LaunchDaemon i čuva izveštaje o padu u sistemskom `/Library/Logs/DiagnosticReports`
 
 Ako ste zabrinuti zbog izveštaja o padu **koji se šalju Apple-u**, možete ih onemogućiti. Ako ne, izveštaji o padu mogu biti korisni za **utvrđivanje kako je server pao**.
 ```bash
@@ -585,7 +574,7 @@ Radi za CLI alate
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-Prosto radi sa macOS GUI alatima. Imajte na umu da neki macOS aplikacije imaju specifične zahteve kao što su jedinstvena imena datoteka, prava ekstenzija, potreba da se čitaju datoteke iz sandbox-a (`~/Library/Containers/com.apple.Safari/Data`)...
+Prosto radi sa macOS GUI alatima. Imajte na umu da neki macOS aplikacije imaju specifične zahteve kao što su jedinstvena imena datoteka, prava ekstenzija, potreba da se datoteke čitaju iz sandbox-a (`~/Library/Containers/com.apple.Safari/Data`)...
 
 Neki primeri:
 
@@ -615,7 +604,7 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 ```
 {% endcode %}
 
-### Više informacija o Fuzzingu za MacOS
+### Više informacija o Fuzzingu na MacOS-u
 
 * [https://www.youtube.com/watch?v=T5xfL9tEg44](https://www.youtube.com/watch?v=T5xfL9tEg44)
 * [https://github.com/bnagy/slides/blob/master/OSXScale.pdf](https://github.com/bnagy/slides/blob/master/OSXScale.pdf)
@@ -628,18 +617,6 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 * [**https://www.youtube.com/watch?v=T5xfL9tEg44**](https://www.youtube.com/watch?v=T5xfL9tEg44)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**The Art of Mac Malware: The Guide to Analyzing Malicious Software**](https://taomm.org/)
-
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti bili **kompromitovani** od strane **stealer malwares**.
-
-Njihov primarni cilj je da se bore protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera za krađu informacija.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\

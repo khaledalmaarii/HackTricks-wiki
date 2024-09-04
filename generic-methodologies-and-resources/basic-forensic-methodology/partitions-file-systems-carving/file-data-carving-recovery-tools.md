@@ -15,21 +15,13 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Carving & Recovery tools
 
 Više alata na [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
-Najčešći alat korišćen u forenzici za ekstrakciju fajlova iz slika je [**Autopsy**](https://www.autopsy.com/download/). Preuzmite ga, instalirajte i omogućite mu da učita fajl kako bi pronašao "skrivene" fajlove. Imajte na umu da je Autopsy napravljen da podržava disk slike i druge vrste slika, ali ne i obične fajlove.
+Najčešći alat korišćen u forenzici za ekstrakciju fajlova iz slika je [**Autopsy**](https://www.autopsy.com/download/). Preuzmite ga, instalirajte i omogućite mu da učita fajl kako bi pronašao "sakrivene" fajlove. Imajte na umu da je Autopsy napravljen da podržava disk slike i druge vrste slika, ali ne i obične fajlove.
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
@@ -61,7 +53,7 @@ scalpel file.img -o output
 
 Ovaj alat dolazi unutar kali, ali ga možete pronaći ovde: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-Ovaj alat može skenirati sliku i **izvući pcaps** unutar nje, **mrežne informacije (URL-ovi, domeni, IP adrese, MAC adrese, e-mailovi)** i još **datoteka**. Samo treba da uradite:
+Ovaj alat može skenirati sliku i **izvući pcaps** unutar nje, **mrežne informacije (URL-ovi, domene, IP adrese, MAC adrese, e-mailovi)** i još **datoteka**. Samo treba da uradite:
 ```
 bulk_extractor memory.img -o out_folder
 ```
@@ -92,24 +84,18 @@ Proverite [kod](https://code.google.com/archive/p/binvis/) i [web stranicu alata
 
 BinVis je odlična **polazna tačka za upoznavanje sa nepoznatim ciljem** u scenariju crne kutije.
 
-## Specifični alati za carving podataka
+## Specifični alati za vađenje podataka
 
 ### FindAES
 
-Pretražuje AES ključeve tražeći njihove rasporede ključeva. Sposoban je da pronađe 128, 192 i 256 bitne ključeve, kao što su oni koje koriste TrueCrypt i BitLocker.
+Pretražuje AES ključeve tražeći njihove rasporede ključeva. Sposoban je da pronađe 128, 192 i 256 bitne ključeve, kao što su oni korišćeni od strane TrueCrypt i BitLocker.
 
 Preuzmite [ovde](https://sourceforge.net/projects/findaes/).
 
 ## Dodatni alati
 
 Možete koristiti [**viu**](https://github.com/atanunq/viu) da vidite slike iz terminala.\
-Možete koristiti linux komandnu liniju **pdftotext** da transformišete pdf u tekst i pročitate ga.
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
+Možete koristiti linux komandnu liniju alat **pdftotext** da transformišete pdf u tekst i pročitate ga.
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

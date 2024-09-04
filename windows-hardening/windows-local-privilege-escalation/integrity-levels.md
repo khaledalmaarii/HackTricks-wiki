@@ -15,30 +15,16 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malwares**.
-
-Njihov primarni cilj je da se bore protiv preuzimanja naloga i ransomware napada koji proizilaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 ## Integrity Levels
 
-U Windows Vista i novijim verzijama, svi zaštićeni predmeti dolaze sa oznakom **nivoa integriteta**. Ova postavka uglavnom dodeljuje "srednji" nivo integriteta datotekama i registracionim ključevima, osim za određene foldere i datoteke kojima Internet Explorer 7 može pisati na niskom nivou integriteta. Podrazumevano ponašanje je da procesi koje pokreću standardni korisnici imaju srednji nivo integriteta, dok servisi obično rade na sistemskom nivou integriteta. Oznaka visokog integriteta štiti korenski direktorijum.
+U Windows Vista i novijim verzijama, svi zaštićeni predmeti dolaze sa oznakom **nivoa integriteta**. Ova postavka uglavnom dodeljuje "srednji" nivo integriteta datotekama i registracionim ključevima, osim za određene foldere i datoteke kojima Internet Explorer 7 može pristupiti na niskom nivou integriteta. Podrazumevano ponašanje je da procesi koje pokreću standardni korisnici imaju srednji nivo integriteta, dok servisi obično rade na sistemskom nivou integriteta. Oznaka visokog integriteta štiti korenski direktorijum.
 
 Ključna pravila su da objekti ne mogu biti modifikovani od strane procesa sa nižim nivoom integriteta od nivoa objekta. Nivoi integriteta su:
 
 * **Nepouzdano**: Ovaj nivo je za procese sa anonimnim prijavama. %%%Primer: Chrome%%%
-* **Nizak**: Uglavnom za internet interakcije, posebno u Zaštićenom režimu Internet Explorera, utičući na povezane datoteke i procese, kao i određene foldere poput **Privremenog internet foldera**. Procesi sa niskim integritetom suočavaju se sa značajnim ograničenjima, uključujući nedostatak pristupa za pisanje u registru i ograničen pristup pisanju u korisnički profil.
-* **Srednji**: Podrazumevani nivo za većinu aktivnosti, dodeljen standardnim korisnicima i objektima bez specifičnih nivoa integriteta. Čak i članovi Administratorske grupe rade na ovom nivou podrazumevano.
-* **Visok**: Rezervisan za administratore, omogućavajući im da modifikuju objekte na nižim nivoima integriteta, uključujući one na visokom nivou.
+* **Nisko**: Uglavnom za internet interakcije, posebno u Zaštićenom režimu Internet Explorera, utičući na povezane datoteke i procese, kao i određene foldere poput **Privremenog internet foldera**. Procesi sa niskim integritetom suočavaju se sa značajnim ograničenjima, uključujući nedostatak pristupa za pisanje u registru i ograničen pristup pisanju korisničkog profila.
+* **Srednje**: Podrazumevani nivo za većinu aktivnosti, dodeljen standardnim korisnicima i objektima bez specifičnih nivoa integriteta. Čak i članovi Administratorske grupe rade na ovom nivou podrazumevano.
+* **Visoko**: Rezervisano za administratore, omogućavajući im da modifikuju objekte na nižim nivoima integriteta, uključujući one na visokom nivou.
 * **Sistem**: Najviši operativni nivo za Windows kernel i osnovne servise, van domašaja čak i za administratore, osiguravajući zaštitu vitalnih sistemskih funkcija.
 * **Instalater**: Jedinstveni nivo koji stoji iznad svih drugih, omogućavajući objektima na ovom nivou da deinstaliraju bilo koji drugi objekat.
 
@@ -46,14 +32,14 @@ Možete dobiti nivo integriteta procesa koristeći **Process Explorer** iz **Sys
 
 ![](<../../.gitbook/assets/image (824).png>)
 
-Takođe možete dobiti svoj **trenutni nivo integriteta** koristeći `whoami /groups`
+Takođe možete dobiti **trenutni nivo integriteta** koristeći `whoami /groups`
 
 ![](<../../.gitbook/assets/image (325).png>)
 
 ### Integrity Levels in File-system
 
-Objekat unutar fajl sistema može zahtevati **minimalni nivo integriteta** i ako proces nema ovaj nivo integriteta, neće moći da interaguje sa njim.\
-Na primer, hajde da **napravimo običnu datoteku iz konzole običnog korisnika i proverimo dozvole**:
+Objekat unutar fajl sistema može imati **minimalne zahteve za nivo integriteta** i ako proces nema ovaj nivo integriteta, neće moći da interaguje sa njim.\
+Na primer, hajde da **napravimo regularnu datoteku iz konzole regularnog korisnika i proverimo dozvole**:
 ```
 echo asd >asd.txt
 icacls asd.txt
@@ -112,33 +98,6 @@ Za radoznale, ako dodelite visoki nivo integriteta binarnom fajlu (`icacls C:\Wi
 
 ### Nivoi Integriteta u Procesima
 
-Nisu svi fajlovi i fascikle imaju minimalni nivo integriteta, **ali svi procesi rade pod nivoom integriteta**. I slično onome što se desilo sa fajl sistemom, **ako proces želi da piše unutar drugog procesa, mora imati barem isti nivo integriteta**. To znači da proces sa niskim nivoom integriteta ne može otvoriti handle sa punim pristupom procesu sa srednjim nivoom integriteta.
+Nisu svi fajlovi i fascikle imaju minimalni nivo integriteta, **ali svi procesi rade pod nivoom integriteta**. I slično onome što se desilo sa fajlskim sistemom, **ako proces želi da piše unutar drugog procesa, mora imati barem isti nivo integriteta**. To znači da proces sa niskim nivoom integriteta ne može otvoriti handle sa punim pristupom procesu sa srednjim nivoom integriteta.
 
 Zbog ograničenja komentisanih u ovoj i prethodnoj sekciji, sa bezbednosnog stanovišta, uvek je **preporučljivo pokrenuti proces na najnižem mogućem nivou integriteta**.
-
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **pretraživač** pokretan **dark-web**-om koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malvera**.
-
-Njihov primarni cilj WhiteIntel-a je da se bori protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
-
-{% hint style="success" %}
-Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Podrška HackTricks</summary>
-
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
-
-</details>
-{% endhint %}

@@ -15,18 +15,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Nmap tip
 
 {% hint style="warning" %}
-**ICMP** i **SYN** skeniranja ne mogu se tunelovati kroz socks proksije, tako da moramo **onemogućiti ping otkrivanje** (`-Pn`) i odrediti **TCP skeniranja** (`-sT`) da bi ovo radilo.
+**ICMP** i **SYN** skeniranja ne mogu biti tunelovana kroz socks proksije, tako da moramo **onemogućiti ping otkrivanje** (`-Pn`) i odrediti **TCP skeniranja** (`-sT`) da bi ovo radilo.
 {% endhint %}
 
 ## **Bash**
@@ -77,9 +69,9 @@ Lokalni port --> Kompromitovani host (SSH) --> Gde god
 ```bash
 ssh -f -N -D <attacker_port> <username>@<ip_compromised> #All sent to local port will exit through the compromised server (use as proxy)
 ```
-### Обратно пренос порта
+### Обратно прослеђивање порта
 
-Ово је корисно за добијање обрнутог шелла из унутрашњих хостова преко DMZ-а до вашег хоста:
+Ово је корисно за добијање обрнутог шелла изнутра хостова преко DMZ-а до вашег хоста:
 ```bash
 ssh -i dmz_key -R <dmz_internal_ip>:443:0.0.0.0:7000 root@10.129.203.111 -vN
 # Now you can send a rev to dmz_internal_ip:443 and caputure it in localhost:7000
@@ -112,7 +104,7 @@ route add -net 10.0.0.0/16 gw 1.1.1.1
 ## SSHUTTLE
 
 Možete **tunelovati** putem **ssh** sav **saobraćaj** ka **podmreži** kroz host.\
-Na primer, proslediti sav saobraćaj koji ide ka 10.10.10.0/24
+Na primer, prosleđivanje savremenog saobraćaja koji ide ka 10.10.10.0/24
 ```bash
 pip install sshuttle
 sshuttle -r user@host 10.10.10.10/24
@@ -126,7 +118,7 @@ sshuttle -D -r user@host 10.10.10.10 0/0 --ssh-cmd 'ssh -i ./id_rsa'
 
 ### Port2Port
 
-Lokalni port --> Kompromitovana mašina (aktivna sesija) --> Treća\_mašina:Port
+Lokalni port --> Kompromitovani host (aktivna sesija) --> Treća\_kutija:Port
 ```bash
 # Inside a meterpreter session
 portfwd add -l <attacker_port> -p <Remote_port> -r <Remote_host>
@@ -167,7 +159,7 @@ proxychains nmap -n -Pn -sT -p445,3389,5985 10.10.17.25
 ### rPort2Port
 
 {% hint style="warning" %}
-U ovom slučaju, **port je otvoren na beacon host-u**, a ne na Team Server-u, a saobraćaj se šalje na Team Server i odatle na navedeni host:port
+U ovom slučaju, **port je otvoren na beacon hostu**, a ne na Team Serveru, a saobraćaj se šalje na Team Server i odatle na navedeni host:port
 {% endhint %}
 ```bash
 rportfwd [bind port] [forward host] [forward port]
@@ -175,9 +167,9 @@ rportfwd stop [bind port]
 ```
 To note:
 
-- Beaconova reverzna port preusmeravanja je dizajnirana da **tuneluje saobraćaj ka Team Server-u, a ne za preusmeravanje između pojedinačnih mašina**.
+- Beaconov obrnuti port forwarding je dizajniran da **tuneluje saobraćaj ka Team Server-u, a ne za preusmeravanje između pojedinačnih mašina**.
 - Saobraćaj je **tunelovan unutar Beaconovog C2 saobraćaja**, uključujući P2P linkove.
-- **Administratorske privilegije nisu potrebne** za kreiranje reverznih port preusmeravanja na visokim portovima.
+- **Administratorske privilegije nisu potrebne** za kreiranje obrnuti port forwarding na visokim portovima.
 
 ### rPort2Port local
 
@@ -351,8 +343,8 @@ Sada možete koristiti [**Proxifier**](https://www.proxifier.com/) **da proksira
 ## Proksiranje Windows GUI aplikacija
 
 Možete naterati Windows GUI aplikacije da prolaze kroz proksi koristeći [**Proxifier**](https://www.proxifier.com/).\
-U **Profil -> Proksi serveri** dodajte IP adresu i port SOCKS servera.\
-U **Profil -> Pravila proksiranja** dodajte ime programa koji želite da proksirate i veze ka IP adresama koje želite da proksirate.
+U **Profile -> Proxy Servers** dodajte IP adresu i port SOCKS servera.\
+U **Profile -> Proxification Rules** dodajte ime programa koji želite da proksirate i veze ka IP adresama koje želite da proksirate.
 
 ## NTLM proksi zaobilaženje
 
@@ -365,7 +357,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Ovaj alat se autentifikuje protiv proksija i vezuje port lokalno koji se prosleđuje eksternoj usluzi koju odredite. Zatim možete koristiti alat po vašem izboru kroz ovaj port.\
+Ovaj alat se autentifikuje protiv proksija i vezuje lokalni port koji se prosleđuje eksternoj usluzi koju odredite. Zatim možete koristiti alat po vašem izboru kroz ovaj port.\
 Na primer, prosledite port 443.
 ```
 Username Alice
@@ -526,14 +518,6 @@ addr: file:///tmp/httpbin/
 
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 {% hint style="success" %}
 Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -15,21 +15,9 @@ Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data
 </details>
 {% endhint %}
 
-#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
 
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malvera**.
-
-Njihov primarni cilj je da se bore protiv preuzimanja naloga i ransomware napada koji proizilaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-Ako imate pcap sa podacima koji se **ekstrahuju putem DNSCat** (bez korišćenja enkripcije), možete pronaći ekstrahovane sadržaje.
+Ako imate pcap sa podacima koji se **ekstrahuju putem DNSCat** (bez korišćenja enkripcije), možete pronaći ekstrahovani sadržaj.
 
 Samo treba da znate da su **prvih 9 bajtova** lažni podaci, ali su povezani sa **C\&C komunikacijom**:
 ```python

@@ -15,36 +15,23 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-#### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malwares**.
-
-Njihov primarni cilj WhiteIntel-a je da se bori protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Summary of the attack
 
-Zamislite server koji **potpisuje** neke **podatke** tako što **dodaje** **tajnu** nekim poznatim čistim tekstualnim podacima i zatim hešira te podatke. Ako znate:
+Zamislite server koji **potpisuje** neke **podatke** dodajući **tajnu** nekim poznatim čistim tekstualnim podacima i zatim heširajući te podatke. Ako znate:
 
 * **Dužinu tajne** (to se može takođe bruteforce-ovati iz datog opsega dužine)
 * **Čiste tekstualne podatke**
-* **Algoritam (i on je ranjiv na ovaj napad)**
+* **Algoritam (i da je ranjiv na ovaj napad)**
 * **Padding je poznat**
-* Obično se koristi podrazumevani, tako da ako su ispunjena ostala 3 zahteva, ovo takođe jeste
+* Obično se koristi podrazumevani, tako da ako su ispunjena druga 3 zahteva, ovo takođe jeste
 * Padding varira u zavisnosti od dužine tajne + podataka, zato je potrebna dužina tajne
 
 Tada je moguće da **napadač** **doda** **podatke** i **generiše** važeći **potpis** za **prethodne podatke + dodate podatke**.
 
 ### How?
 
-U suštini, ranjivi algoritmi generišu heševe tako što prvo **heširaju blok podataka**, a zatim, **iz** **prethodno** kreiranog **heša** (stanja), **dodaju sledeći blok podataka** i **heširaju ga**.
+U suštini, ranjivi algoritmi generišu heševe prvo **heširajući blok podataka**, a zatim, **iz** **prethodno** kreiranog **heša** (stanja), **dodaju sledeći blok podataka** i **heširaju ga**.
 
 Zamislite da je tajna "secret" a podaci su "data", MD5 od "secretdata" je 6036708eba0d11f6ef52ad44e8b74d5b.\
 Ako napadač želi da doda string "append" može:
@@ -62,17 +49,7 @@ Ako napadač želi da doda string "append" može:
 
 Možete pronaći ovaj napad dobro objašnjen na [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 
-#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malwares**.
-
-Njihov primarni cilj WhiteIntel-a je da se bori protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

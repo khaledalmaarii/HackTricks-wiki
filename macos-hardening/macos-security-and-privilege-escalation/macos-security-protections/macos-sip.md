@@ -15,23 +15,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti **kompromitovani** od strane **stealer malvera**.
-
-Njihov primarni cilj WhiteIntel-a je da se bori protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## **Osnovne informacije**
 
-**Zaštita integriteta sistema (SIP)** u macOS-u je mehanizam dizajniran da spreči čak i najprivilegovanije korisnike da prave neovlašćene promene u ključnim sistemskim folderima. Ova funkcija igra ključnu ulogu u održavanju integriteta sistema ograničavanjem radnji kao što su dodavanje, modifikovanje ili brisanje datoteka u zaštićenim oblastima. Primarni folderi zaštićeni SIP-om uključuju:
+**Zaštita integriteta sistema (SIP)** u macOS-u je mehanizam dizajniran da spreči čak i najprivilegovanije korisnike da vrše neovlašćene promene u ključnim sistemskim folderima. Ova funkcija igra ključnu ulogu u održavanju integriteta sistema ograničavanjem radnji kao što su dodavanje, modifikovanje ili brisanje datoteka u zaštićenim oblastima. Glavni folderi zaštićeni SIP-om uključuju:
 
 * **/System**
 * **/bin**
@@ -61,7 +48,7 @@ S druge strane:
 ls -lOd /usr/libexec
 drwxr-xr-x  338 root  wheel  restricted 10816 May 13 00:29 /usr/libexec
 ```
-Ovde, **`restricted`** zastavica označava da je direktorijum `/usr/libexec` zaštićen SIP-om. U direktorijumu zaštićenom SIP-om, fajlovi ne mogu biti kreirani, modifikovani ili obrisani.
+Ovde, **`restricted`** oznaka ukazuje da je direktorijum `/usr/libexec` zaštićen SIP-om. U direktorijumu zaštićenom SIP-om, fajlovi ne mogu biti kreirani, modifikovani ili obrisani.
 
 Pored toga, ako fajl sadrži atribut **`com.apple.rootless`** prošireni **atribut**, taj fajl će takođe biti **zaštićen SIP-om**.
 
@@ -72,7 +59,7 @@ Pored toga, ako fajl sadrži atribut **`com.apple.rootless`** prošireni **atrib
 * Modifikovanje NVRAM varijabli
 * Omogućavanje kernel debagovanja
 
-Opcije se čuvaju u nvram varijabli kao bitflag (`csr-active-config` na Intel-u i `lp-sip0` se čita iz pokrenutog Device Tree-a za ARM). Možete pronaći zastavice u XNU izvoru u `csr.sh`:
+Opcije se čuvaju u nvram varijabli kao bitflag (`csr-active-config` na Intel-u i `lp-sip0` se čita iz pokrenutog Device Tree-a za ARM). Možete pronaći oznake u XNU izvor kodu u `csr.sh`:
 
 <figure><img src="../../../.gitbook/assets/image (1192).png" alt=""><figcaption></figcaption></figure>
 
@@ -82,11 +69,11 @@ Možete proveriti da li je SIP omogućen na vašem sistemu pomoću sledeće koma
 ```bash
 csrutil status
 ```
-Ako treba da onemogućite SIP, morate restartovati računar u režimu oporavka (pritiskom na Command+R tokom pokretanja), a zatim izvršiti sledeću komandu:
+Ako treba da onemogućite SIP, morate ponovo pokrenuti računar u režimu oporavka (pritiskom na Command+R tokom pokretanja), a zatim izvršiti sledeću komandu:
 ```bash
 csrutil disable
 ```
-Ako želite da zadržite SIP uključen, ali uklonite zaštite od debagovanja, to možete učiniti sa:
+Ako želite da zadržite SIP uključen, ali da uklonite zaštite od debagovanja, to možete učiniti sa:
 ```bash
 csrutil enable --without debug
 ```
@@ -113,7 +100,7 @@ Obilaženje SIP omogućava napadaču da:
 
 ### Nepostojeći SIP fajl
 
-Jedna potencijalna rupa je da ako je fajl naveden u **`rootless.conf` ali trenutno ne postoji**, može biti kreiran. Malver bi mogao iskoristiti ovo da **uspostavi postojanost** na sistemu. Na primer, zlonameran program bi mogao kreirati .plist fajl u `/System/Library/LaunchDaemons` ako je naveden u `rootless.conf` ali nije prisutan.
+Jedna potencijalna rupa je da ako je fajl naveden u **`rootless.conf` ali trenutno ne postoji**, može biti kreiran. Malver bi mogao iskoristiti ovo da **uspostavi postojanost** na sistemu. Na primer, zlonameran program bi mogao da kreira .plist fajl u `/System/Library/LaunchDaemons` ako je naveden u `rootless.conf` ali nije prisutan.
 
 ### com.apple.rootless.install.heritable
 
@@ -123,11 +110,11 @@ Pravo **`com.apple.rootless.install.heritable`** omogućava zaobilaženje SIP-a
 
 #### [CVE-2019-8561](https://objective-see.org/blog/blog\_0x42.html) <a href="#cve" id="cve"></a>
 
-Otkriveno je da je moguće **zamijeniti instalacijski paket nakon što je sistem verifikovao njegov kod** potpis i tada bi sistem instalirao zlonamerni paket umesto originalnog. Kako su ove radnje izvršene od strane **`system_installd`**, to bi omogućilo zaobilaženje SIP-a.
+Otkriveno je da je moguće **zamijeniti instalacijski paket nakon što je sistem verifikovao njegov kod** potpis i tada bi sistem instalirao zlonamerni paket umesto originalnog. Kako su ove radnje vršene od strane **`system_installd`**, to bi omogućilo zaobilaženje SIP-a.
 
 #### [CVE-2020–9854](https://objective-see.org/blog/blog\_0x4D.html) <a href="#cve-unauthd-chain" id="cve-unauthd-chain"></a>
 
-Ako je paket instaliran sa montirane slike ili spoljnog diska, **instalater** bi **izvršio** binarni fajl iz **tog fajl sistema** (umesto iz SIP zaštićene lokacije), čineći da **`system_installd`** izvrši proizvoljni binarni fajl.
+Ako je paket instaliran sa montirane slike ili spoljnog diska, **instalater** bi **izvršio** binarni fajl iz **tog fajl sistema** (umesto iz SIP-om zaštićene lokacije), čineći da **`system_installd`** izvrši proizvoljni binarni fajl.
 
 #### CVE-2021-30892 - Shrootless
 
@@ -135,17 +122,17 @@ Ako je paket instaliran sa montirane slike ili spoljnog diska, **instalater** bi
 
 **`system_installd`** demon će instalirati pakete koji su potpisani od strane **Apple-a**.
 
-Istraživači su otkrili da tokom instalacije paketa potpisanog od Apple-a (.pkg fajl), **`system_installd`** **izvršava** sve **post-install** skripte uključene u paket. Ove skripte se izvršavaju od strane podrazumevanog shella, **`zsh`**, koji automatski **izvršava** komande iz **`/etc/zshenv`** fajla, ako postoji, čak i u neinteraktivnom režimu. Ovo ponašanje bi mogli iskoristiti napadači: kreiranjem zlonamernog `/etc/zshenv` fajla i čekanjem da **`system_installd` pozove `zsh`**, mogli bi izvršiti proizvoljne operacije na uređaju.
+Istraživači su otkrili da tokom instalacije paketa potpisanog od Apple-a (.pkg fajl), **`system_installd`** **izvršava** sve **post-install** skripte uključene u paket. Ove skripte se izvršavaju od strane podrazumevanog shella, **`zsh`**, koji automatski **izvršava** komande iz **`/etc/zshenv`** fajla, ako postoji, čak i u neinteraktivnom režimu. Ovo ponašanje bi mogli iskoristiti napadači: kreiranjem zlonamernog `/etc/zshenv` fajla i čekanjem da **`system_installd` pozove `zsh`**, mogli bi izvesti proizvoljne operacije na uređaju.
 
 Pored toga, otkriveno je da se **`/etc/zshenv` može koristiti kao opšta tehnika napada**, ne samo za zaobilaženje SIP-a. Svaki korisnički profil ima `~/.zshenv` fajl, koji se ponaša na isti način kao `/etc/zshenv` ali ne zahteva root privilegije. Ovaj fajl bi mogao biti korišćen kao mehanizam postojanosti, aktivirajući se svaki put kada `zsh` startuje, ili kao mehanizam za podizanje privilegija. Ako admin korisnik podigne privilegije na root koristeći `sudo -s` ili `sudo <komanda>`, `~/.zshenv` fajl bi bio aktiviran, efektivno podižući na root.
 
 #### [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/)
 
-U [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) otkriveno je da se isti **`system_installd`** proces još uvek može zloupotrebiti jer je stavljao **post-install skriptu unutar nasumično imenovane fascikle zaštićene SIP-om unutar `/tmp`**. Stvar je u tome da **`/tmp` sam po sebi nije zaštićen SIP-om**, tako da je bilo moguće **montirati** **virtuelnu sliku na nju**, zatim bi **instalater** stavio **post-install skriptu** unutra, **odmontirao** virtuelnu sliku, **ponovo kreirao** sve **fascikle** i **dodao** **post instalacionu** skriptu sa **payload-om** za izvršavanje.
+U [**CVE-2022-22583**](https://perception-point.io/blog/technical-analysis-cve-2022-22583/) otkriveno je da se isti **`system_installd`** proces još uvek može zloupotrebiti jer je stavljao **post-install skriptu unutar nasumično imenovane fascikle zaštićene SIP-om unutar `/tmp`**. Stvar je u tome da **`/tmp` sam po sebi nije zaštićen SIP-om**, tako da je bilo moguće **montirati** **virtuelnu sliku na njega**, zatim bi **instalater** stavio **post-install skriptu** unutra, **odmontirao** virtuelnu sliku, **ponovo kreirao** sve **fascikle** i **dodao** **post-install** skriptu sa **payload-om** za izvršavanje.
 
 #### [fsck\_cs utility](https://www.theregister.com/2016/03/30/apple\_os\_x\_rootless/)
 
-Identifikovana je ranjivost gde je **`fsck_cs`** bio zavaravan da korumpira ključni fajl, zbog svoje sposobnosti da prati **simboličke linkove**. Konkretno, napadači su kreirali link sa _`/dev/diskX`_ na fajl `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Izvršavanje **`fsck_cs`** na _`/dev/diskX`_ dovelo je do korupcije `Info.plist`. Integritet ovog fajla je vitalan za SIP (Sistemsku zaštitu integriteta) operativnog sistema, koja kontroliše učitavanje kernel ekstenzija. Kada je korumpiran, sposobnost SIP-a da upravlja isključenjima kernela je kompromitovana.
+Identifikovana je ranjivost gde je **`fsck_cs`** bio zavaravan da korumpira ključni fajl, zbog svoje sposobnosti da prati **simboličke linkove**. Konkretno, napadači su kreirali link sa _`/dev/diskX`_ na fajl `/System/Library/Extensions/AppleKextExcludeList.kext/Contents/Info.plist`. Izvršavanje **`fsck_cs`** na _`/dev/diskX`_ dovelo je do korupcije `Info.plist`. Integritet ovog fajla je vitalan za SIP (Sistemsku Integritetnu Zaštitu) operativnog sistema, koja kontroliše učitavanje kernel ekstenzija. Kada je korumpiran, sposobnost SIP-a da upravlja isključenjima kernela je kompromitovana.
 
 Komande za iskorišćavanje ove ranjivosti su:
 ```bash
@@ -154,7 +141,7 @@ fsck_cs /dev/diskX 1>&-
 touch /Library/Extensions/
 reboot
 ```
-Eksploatacija ove ranjivosti ima ozbiljne posledice. Datoteka `Info.plist`, koja je obično odgovorna za upravljanje dozvolama za kernel ekstenzije, postaje neefikasna. To uključuje nemogućnost stavljanja određenih ekstenzija na crnu listu, kao što je `AppleHWAccess.kext`. Kao rezultat toga, sa kontrolnim mehanizmom SIP-a van funkcije, ova ekstenzija može biti učitana, omogućavajući neovlašćen pristup za čitanje i pisanje RAM-u sistema.
+Eksploatacija ove ranjivosti ima ozbiljne posledice. Datoteka `Info.plist`, koja je obično odgovorna za upravljanje dozvolama za kernel ekstenzije, postaje neefikasna. To uključuje nemogućnost stavljanja određenih ekstenzija na crnu listu, kao što je `AppleHWAccess.kext`. Kao rezultat toga, sa kontrolnim mehanizmom SIP-a van funkcije, ova ekstenzija može biti učitana, omogućavajući neovlašćen pristup za čitanje i pisanje u RAM sistema.
 
 #### [Montiranje preko SIP zaštićenih foldera](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)
 
@@ -167,15 +154,15 @@ hdiutil attach -mountpoint /System/Library/Snadbox/ evil.dmg
 ```
 #### [Obilaženje nadogradnje (2016)](https://objective-see.org/blog/blog\_0x14.html)
 
-Sistem je podešen da se pokreće sa ugrađenog instalacionog diska unutar `Install macOS Sierra.app` za nadogradnju operativnog sistema, koristeći `bless` alat. Korisćena komanda je sledeća:
+Sistem je podešen da se pokrene sa ugrađenog instalacionog diska unutar `Install macOS Sierra.app` za nadogradnju operativnog sistema, koristeći `bless` alat. Korisćena komanda je sledeća:
 ```bash
 /usr/sbin/bless -setBoot -folder /Volumes/Macintosh HD/macOS Install Data -bootefi /Volumes/Macintosh HD/macOS Install Data/boot.efi -options config="\macOS Install Data\com.apple.Boot" -label macOS Installer
 ```
-Bezbednost ovog procesa može biti ugrožena ako napadač izmeni sliku za nadogradnju (`InstallESD.dmg`) pre pokretanja. Strategija uključuje zamenu dinamičkog učitavača (dyld) sa zloćudnom verzijom (`libBaseIA.dylib`). Ova zamena rezultira izvršavanjem napadačevog koda kada se pokrene instalater.
+Bezbednost ovog procesa može biti kompromitovana ako napadač izmeni sliku nadogradnje (`InstallESD.dmg`) pre pokretanja. Strategija uključuje zamenu dinamičkog učitavača (dyld) sa zloćudnom verzijom (`libBaseIA.dylib`). Ova zamena rezultira izvršavanjem napadačevog koda kada se pokrene instalater.
 
 Napadačev kod preuzima kontrolu tokom procesa nadogradnje, koristeći poverenje sistema u instalater. Napad se nastavlja izmenom slike `InstallESD.dmg` putem metode swizzling, posebno ciljanjem na metodu `extractBootBits`. Ovo omogućava injekciju zloćudnog koda pre nego što se slika diska upotrebi.
 
-Štaviše, unutar `InstallESD.dmg`, postoji `BaseSystem.dmg`, koji služi kao korenski fajl sistem nadogradnje. Injekcija dinamičke biblioteke u ovo omogućava zloćudnom kodu da funkcioniše unutar procesa sposobnog za izmenu fajlova na nivou OS-a, značajno povećavajući potencijal za kompromitovanje sistema.
+Štaviše, unutar `InstallESD.dmg`, postoji `BaseSystem.dmg`, koja služi kao korenski fajl sistem nadogradnje. Injekcija dinamičke biblioteke u ovo omogućava zloćudnom kodu da funkcioniše unutar procesa sposobnog za izmenu OS nivoa fajlova, značajno povećavajući potencijal za kompromitovanje sistema.
 
 #### [systemmigrationd (2023)](https://www.youtube.com/watch?v=zxZesAN-TEk)
 
@@ -187,27 +174,27 @@ Kao što je [**detaljno opisano u ovom blog postu**](https://blog.kandji.io/appl
 ```bash
 /usr/bin/chflags -h norestricted "${SHARED_SUPPORT_PATH}/SharedSupport.dmg"
 ```
-and moguće je kreirati symlink u `${SHARED_SUPPORT_PATH}/SharedSupport.dmg` koji bi omogućio korisniku da **ukloni ograničenja sa bilo kog fajla, zaobilazeći SIP zaštitu**.
+and it was possible to create a symlink in `${SHARED_SUPPORT_PATH}/SharedSupport.dmg` that would allow a user to **unrestrict any file, bypassing SIP protection**.
 
 ### **com.apple.rootless.install**
 
 {% hint style="danger" %}
-Entitlement **`com.apple.rootless.install`** omogućava zaobilaženje SIP-a
+Entitlet **`com.apple.rootless.install`** omogućava zaobilaženje SIP-a
 {% endhint %}
 
-Entitlement `com.apple.rootless.install` je poznat po tome što zaobilazi zaštitu integriteta sistema (SIP) na macOS-u. Ovo je posebno pomenuto u vezi sa [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/).
+Entitlet `com.apple.rootless.install` je poznat po tome što zaobilazi zaštitu integriteta sistema (SIP) na macOS-u. Ovo je posebno pomenuto u vezi sa [**CVE-2022-26712**](https://jhftss.github.io/CVE-2022-26712-The-POC-For-SIP-Bypass-Is-Even-Tweetable/).
 
-U ovom specifičnom slučaju, sistemska XPC usluga koja se nalazi na `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc` poseduje ovaj entitlement. Ovo omogućava povezanim procesima da zaobiđu SIP ograničenja. Pored toga, ova usluga posebno predstavlja metodu koja omogućava premještanje fajlova bez primene bilo kakvih bezbednosnih mera.
+U ovom specifičnom slučaju, sistemska XPC usluga koja se nalazi na `/System/Library/PrivateFrameworks/ShoveService.framework/Versions/A/XPCServices/SystemShoveService.xpc` poseduje ovaj entitlet. Ovo omogućava povezanim procesima da zaobiđu SIP ograničenja. Pored toga, ova usluga posebno predstavlja metodu koja omogućava premještanje datoteka bez primene bilo kakvih bezbednosnih mera.
 
-## Zapečaćene sistemske snimke
+## Sealed System Snapshots
 
-Zapečaćene sistemske snimke su funkcija koju je Apple uveo u **macOS Big Sur (macOS 11)** kao deo svog mehanizma **zaštite integriteta sistema (SIP)** kako bi pružio dodatni sloj bezbednosti i stabilnosti sistema. One su u suštini verzije sistemskog volumena koje su samo za čitanje.
+Sealed System Snapshots su funkcija koju je Apple uveo u **macOS Big Sur (macOS 11)** kao deo svog mehanizma **System Integrity Protection (SIP)** kako bi pružio dodatni sloj bezbednosti i stabilnosti sistema. Oni su u suštini verzije sistemskog volumena koje su samo za čitanje.
 
 Evo detaljnijeg pregleda:
 
-1. **Nepromenljiv sistem**: Zapečaćene sistemske snimke čine macOS sistemski volumen "nepromenljivim", što znači da ne može biti modifikovan. Ovo sprečava bilo kakve neovlašćene ili slučajne promene na sistemu koje bi mogle ugroziti bezbednost ili stabilnost sistema.
-2. **Ažuriranja sistemskog softvera**: Kada instalirate ažuriranja ili nadogradnje za macOS, macOS kreira novu sistemsku snimku. Zatim, macOS pokretački volumen koristi **APFS (Apple File System)** da pređe na ovu novu snimku. Ceo proces primene ažuriranja postaje sigurniji i pouzdaniji jer se sistem uvek može vratiti na prethodnu snimku ako nešto pođe po zlu tokom ažuriranja.
-3. **Separacija podataka**: U skladu sa konceptom separacije podataka i sistemskog volumena uvedenim u macOS Catalina, funkcija zapečaćenih sistemskih snimaka osigurava da su svi vaši podaci i podešavanja smešteni na odvojenom "**Data**" volumenu. Ova separacija čini vaše podatke nezavisnim od sistema, što pojednostavljuje proces ažuriranja sistema i poboljšava bezbednost sistema.
+1. **Nepromenljiv sistem**: Sealed System Snapshots čine da sistemski volumen macOS-a bude "nepromenljiv", što znači da ne može biti modifikovan. Ovo sprečava bilo kakve neovlašćene ili slučajne promene u sistemu koje bi mogle ugroziti bezbednost ili stabilnost sistema.
+2. **Ažuriranja sistemskog softvera**: Kada instalirate ažuriranja ili nadogradnje za macOS, macOS kreira novu sistemsku snimku. Zatim, pokretački volumen macOS-a koristi **APFS (Apple File System)** da pređe na ovu novu snimku. Ceo proces primene ažuriranja postaje sigurniji i pouzdaniji jer se sistem uvek može vratiti na prethodnu snimku ako nešto pođe po zlu tokom ažuriranja.
+3. **Separacija podataka**: U skladu sa konceptom separacije podataka i sistemskog volumena uvedenim u macOS Catalina, funkcija Sealed System Snapshot osigurava da su svi vaši podaci i podešavanja pohranjeni na odvojenom "**Data**" volumenu. Ova separacija čini vaše podatke nezavisnim od sistema, što pojednostavljuje proces ažuriranja sistema i poboljšava bezbednost sistema.
 
 Zapamtite da ove snimke automatski upravlja macOS i ne zauzimaju dodatni prostor na vašem disku, zahvaljujući mogućnostima deljenja prostora APFS-a. Takođe je važno napomenuti da su ove snimke različite od **Time Machine snimaka**, koje su korisnički dostupne sigurnosne kopije celog sistema.
 
@@ -254,7 +241,7 @@ Komanda **`diskutil apfs list`** prikazuje **detalje o APFS volumenima** i njiho
 
 U prethodnom izlazu je moguće videti da su **lokacije dostupne korisnicima** montirane pod `/System/Volumes/Data`.
 
-Pored toga, **macOS sistemska snimka volumena** je montirana u `/` i ona je **zapečaćena** (kriptografski potpisana od strane OS-a). Dakle, ako se SIP zaobiđe i modifikuje, **OS više neće moći da se pokrene**.
+Pored toga, **sistemsku snimku volumena macOS** montira se u `/` i ona je **sealed** (kriptografski potpisana od strane OS-a). Dakle, ako se SIP zaobiđe i modifikuje, **OS više neće moći da se pokrene**.
 
 Takođe je moguće **proveriti da li je pečat omogućen** pokretanjem:
 ```bash
@@ -266,28 +253,17 @@ Pored toga, snapshot disk je takođe montiran kao **samo za čitanje**:
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) je **dark-web** pretraživač koji nudi **besplatne** funkcionalnosti za proveru da li je neka kompanija ili njeni klijenti bili **kompromitovani** od strane **stealer malvera**.
-
-Njihov primarni cilj WhiteIntel-a je borba protiv preuzimanja naloga i ransomware napada koji proizlaze iz malvera koji krade informacije.
-
-Možete proveriti njihovu veb stranicu i isprobati njihov pretraživač **besplatno** na:
-
-{% embed url="https://whiteintel.io" %}
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Podržite HackTricks</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
+* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
 
 </details>
 {% endhint %}

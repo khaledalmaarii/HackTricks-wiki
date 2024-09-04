@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Napad na RFID sisteme sa Proxmark3
 
 Prva stvar koju treba da uradite je da imate [**Proxmark3**](https://proxmark.com) i [**instalirate softver i njegove zavisnosti**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux)[**s**](https://github.com/Proxmark/proxmark3/wiki/Kali-Linux).
@@ -30,10 +22,10 @@ Prva stvar koju treba da uradite je da imate [**Proxmark3**](https://proxmark.co
 ### Napad na MIFARE Classic 1KB
 
 Ima **16 sektora**, svaki od njih ima **4 bloka** i svaki blok sadrži **16B**. UID se nalazi u sektoru 0 bloku 0 (i ne može se menjati).\
-Da biste pristupili svakom sektoru, potrebna su vam **2 ključa** (**A** i **B**) koji su smešteni u **bloku 3 svakog sektora** (sektorski trailer). Sektorski trailer takođe čuva **bitove pristupa** koji daju **dozvole za čitanje i pisanje** na **svakom bloku** koristeći 2 ključa.\
+Da biste pristupili svakom sektoru, potrebna su vam **2 ključa** (**A** i **B**) koja su smeštena u **bloku 3 svakog sektora** (sektorski trailer). Sektorski trailer takođe čuva **pristupne bitove** koji daju **dozvole za čitanje i pisanje** na **svakom bloku** koristeći 2 ključa.\
 2 ključa su korisna za davanje dozvola za čitanje ako znate prvi i pisanje ako znate drugi (na primer).
 
-Mogu se izvesti nekoliko napada
+Mogu se izvršiti nekoliko napada
 ```bash
 proxmark3> hf mf #List attacks
 
@@ -52,7 +44,7 @@ proxmark3> hf mf eset 01 000102030405060708090a0b0c0d0e0f # Write those bytes to
 proxmark3> hf mf eget 01 # Read block 1
 proxmark3> hf mf wrbl 01 B FFFFFFFFFFFF 000102030405060708090a0b0c0d0e0f # Write to the card
 ```
-Proxmark3 omogućava izvođenje drugih radnji kao što je **prisluškivanje** komunikacije između **Tag-a i čitača** kako bi se pokušalo pronaći osetljive podatke. Na ovoj kartici možete jednostavno presresti komunikaciju i izračunati korišćeni ključ jer su **kriptografske operacije slabe** i poznavajući običan i šifrovani tekst možete ga izračunati (`mfkey64` alat).
+Proxmark3 omogućava izvođenje drugih akcija kao što je **prisluškivanje** komunikacije između **Tag-a i Čitača** kako bi se pokušalo pronaći osetljive podatke. Na ovoj kartici možete jednostavno presresti komunikaciju i izračunati korišćeni ključ jer su **kriptografske operacije slabe** i poznavajući običan i šifrovani tekst možete ga izračunati (alat `mfkey64`).
 
 ### Raw Commands
 
@@ -66,7 +58,7 @@ No chinese magic backdoor command detected
 Prng detection: WEAK
 Valid ISO14443A Tag Found - Quiting Search
 ```
-Sa ovim informacijama možete pokušati da potražite informacije o kartici i o načinu komunikacije sa njom. Proxmark3 omogućava slanje sirovih komandi kao što su: `hf 14a raw -p -b 7 26`
+Sa ovom informacijom možete pokušati da potražite informacije o kartici i o načinu komunikacije sa njom. Proxmark3 omogućava slanje sirovih komandi kao što su: `hf 14a raw -p -b 7 26`
 
 ### Skripte
 
@@ -74,26 +66,19 @@ Proxmark3 softver dolazi sa unapred učitanom listom **automatskih skripti** koj
 ```
 proxmark3> script run mfkeys
 ```
-Možete kreirati skriptu za **fuzz tag čitače**, tako što ćete kopirati podatke sa **validne kartice**, jednostavno napišite **Lua skriptu** koja **randomizuje** jedan ili više nasumičnih **bajtova** i proverite da li **čitač pada** sa bilo kojom iteracijom.
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
+Možete kreirati skriptu za **fuzz tag čitače**, tako što ćete kopirati podatke sa **validne kartice** jednostavno napišite **Lua skriptu** koja **randomizuje** jedan ili više nasumičnih **bajtova** i proverite da li **čitač pada** sa bilo kojom iteracijom.
 
 {% hint style="success" %}
-Učite i vežbajte AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Učite i vežbajte GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Podržite HackTricks</summary>
+<summary>Support HackTricks</summary>
 
-* Proverite [**planove pretplate**](https://github.com/sponsors/carlospolop)!
-* **Pridružite se** 💬 [**Discord grupi**](https://discord.gg/hRep4RUj7f) ili [**telegram grupi**](https://t.me/peass) ili **pratite** nas na **Twitteru** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Podelite hakerske trikove slanjem PR-ova na** [**HackTricks**](https://github.com/carlospolop/hacktricks) i [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repozitorijume.
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
