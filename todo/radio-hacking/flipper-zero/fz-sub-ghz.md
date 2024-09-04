@@ -1,8 +1,8 @@
 # FZ - Sub-GHz
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -15,17 +15,10 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
 
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
+## Intro <a href="#kfpn7" id="kfpn7"></a>
 
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## はじめに <a href="#kfpn7" id="kfpn7"></a>
-
-Flipper Zeroは、**300-928 MHzの範囲でラジオ周波数を受信および送信**できる内蔵モジュールを備えており、リモコンを読み取り、保存し、エミュレートできます。これらのリモコンは、ゲート、バリア、ラジオロック、リモートスイッチ、ワイヤレスドアベル、スマートライトなどとのインタラクションに使用されます。Flipper Zeroは、あなたのセキュリティが侵害されているかどうかを学ぶ手助けをします。
+Flipper Zeroは、**300-928 MHzの範囲の無線周波数を受信および送信**できる内蔵モジュールを備えており、リモコンを読み取り、保存し、エミュレートできます。これらのコントロールは、ゲート、バリア、無線ロック、リモートコントロールスイッチ、ワイヤレスドアベル、スマートライトなどとのインタラクションに使用されます。Flipper Zeroは、あなたのセキュリティが侵害されているかどうかを学ぶのに役立ちます。
 
 <figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
@@ -43,9 +36,9 @@ Flipper Zeroは、[﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC
 リモコンが使用している周波数を見つける方法
 {% endhint %}
 
-分析中、Flipper Zeroは周波数設定で利用可能なすべての周波数で信号強度（RSSI）をスキャンしています。Flipper Zeroは、-90 [dBm](https://en.wikipedia.org/wiki/DBm)より高い信号強度を持つ最高のRSSI値の周波数を表示します。
+分析中、Flipper Zeroは周波数設定で利用可能なすべての周波数で信号強度（RSSI）をスキャンしています。Flipper Zeroは、-90 [dBm](https://en.wikipedia.org/wiki/DBm)より高い信号強度を持つRSSI値が最も高い周波数を表示します。
 
-リモコンの周波数を特定するには、次の手順を実行します。
+リモコンの周波数を特定するには、次の手順を実行します：
 
 1. リモコンをFlipper Zeroの左側に非常に近く置きます。
 2. **メインメニュー** **→ Sub-GHz**に移動します。
@@ -58,17 +51,17 @@ Flipper Zeroは、[﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC
 使用されている周波数に関する情報を見つける（使用されている周波数を見つける別の方法）
 {% endhint %}
 
-**読み取り**オプションは、指定された変調で**設定された周波数をリスニング**します：デフォルトは433.92 AMです。**読み取り中に何かが見つかった場合、**画面に**情報が表示されます**。この情報は、将来的に信号を再現するために使用できます。
+**読み取り**オプションは、指定された変調で**設定された周波数をリスニング**します：デフォルトは433.92 AMです。読み取り中に**何かが見つかった場合**、**情報が画面に表示されます**。この情報は、将来信号を再現するために使用できます。
 
 読み取り中は、**左ボタン**を押して**設定する**ことができます。\
 この時点で、**4つの変調**（AM270、AM650、FM328、FM476）と**いくつかの関連周波数**が保存されています：
 
 <figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
 
-**興味のある周波数を設定できますが、**リモコンが使用している可能性のある周波数が**不明な場合は、HoppingをONに設定**（デフォルトはOFF）し、Flipperがそれをキャプチャして周波数を設定するために必要な情報を提供するまでボタンを何度も押してください。
+**興味のある周波数を設定できます**が、リモコンが使用している周波数が**不明な場合**は、**ホッピングをONに設定**（デフォルトはOFF）し、Flipperがそれをキャプチャして周波数を設定するために必要な情報を提供するまでボタンを何度も押してください。
 
 {% hint style="danger" %}
-周波数を切り替えるには時間がかかるため、切り替え時に送信された信号が失われる可能性があります。信号の受信を改善するために、周波数アナライザーによって決定された固定周波数を設定してください。
+周波数を切り替えるのには時間がかかるため、切り替え時に送信された信号が見逃される可能性があります。信号受信を改善するために、周波数アナライザーによって決定された固定周波数を設定してください。
 {% endhint %}
 
 ### **生データの読み取り**
@@ -77,13 +70,13 @@ Flipper Zeroは、[﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC
 設定された周波数で信号を盗む（再生する）
 {% endhint %}
 
-**生データの読み取り**オプションは、リスニング周波数で送信された信号を**記録**します。これを使用して、信号を**盗み**、**繰り返す**ことができます。
+**生データの読み取り**オプションは、リスニング周波数で送信された信号を**記録**します。これは、信号を**盗む**ために使用でき、**繰り返す**ことができます。
 
-デフォルトでは、**生データの読み取りも433.92 AM650**で行われますが、読み取りオプションで興味のある信号が**異なる周波数/変調**であることがわかった場合は、左ボタンを押してそれを変更することもできます（生データの読み取りオプション内で）。
+デフォルトでは、**生データの読み取りもAM650の433.92で行われます**が、読み取りオプションで興味のある信号が**異なる周波数/変調**であることがわかった場合は、（生データの読み取りオプション内で）左を押すことでそれを変更できます。
 
 ### ブルートフォース
 
-ガレージドアで使用されるプロトコルがわかっている場合、Flipper Zeroを使用して**すべてのコードを生成し、送信することが可能です。**これは一般的なガレージのタイプをサポートする例です：[**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
+ガレージドアで使用されるプロトコルがわかっている場合、Flipper Zeroを使用して**すべてのコードを生成し、送信することが可能です。** これは一般的なガレージのタイプをサポートする例です：[**https://github.com/tobiabocchi/flipperzero-bruteforce**](https://github.com/tobiabocchi/flipperzero-bruteforce)
 
 ### 手動で追加
 
@@ -93,22 +86,22 @@ Flipper Zeroは、[﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC
 
 #### [サポートされているプロトコルのリスト](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>
 
-| Princeton\_433（ほとんどの静的コードシステムで動作） | 433.92 | 静的  |
-| --------------------------------------------------------------- | ------ | ------- |
-| Nice Flo 12bit\_433                                             | 433.92 | 静的  |
-| Nice Flo 24bit\_433                                             | 433.92 | 静的  |
-| CAME 12bit\_433                                                 | 433.92 | 静的  |
-| CAME 24bit\_433                                                 | 433.92 | 静的  |
-| Linear\_300                                                     | 300.00 | 静的  |
-| CAME TWEE                                                       | 433.92 | 静的  |
-| Gate TX\_433                                                    | 433.92 | 静的  |
-| DoorHan\_315                                                    | 315.00 | 動的  |
-| DoorHan\_433                                                    | 433.92 | 動的  |
-| LiftMaster\_315                                                 | 315.00 | 動的  |
-| LiftMaster\_390                                                 | 390.00 | 動的  |
-| Security+2.0\_310                                               | 310.00 | 動的  |
-| Security+2.0\_315                                               | 315.00 | 動的  |
-| Security+2.0\_390                                               | 390.00 | 動的  |
+| Princeton\_433（静的コードシステムの大多数で動作） | 433.92 | 静的  |
+| --------------------------------------------------- | ------ | ----- |
+| Nice Flo 12bit\_433                                 | 433.92 | 静的  |
+| Nice Flo 24bit\_433                                 | 433.92 | 静的  |
+| CAME 12bit\_433                                     | 433.92 | 静的  |
+| CAME 24bit\_433                                     | 433.92 | 静的  |
+| Linear\_300                                         | 300.00 | 静的  |
+| CAME TWEE                                           | 433.92 | 静的  |
+| Gate TX\_433                                        | 433.92 | 静的  |
+| DoorHan\_315                                        | 315.00 | 動的  |
+| DoorHan\_433                                        | 433.92 | 動的  |
+| LiftMaster\_315                                     | 315.00 | 動的  |
+| LiftMaster\_390                                     | 390.00 | 動的  |
+| Security+2.0\_310                                   | 310.00 | 動的  |
+| Security+2.0\_315                                   | 315.00 | 動的  |
+| Security+2.0\_390                                   | 390.00 | 動的  |
 
 ### サポートされているSub-GHzベンダー
 
@@ -128,15 +121,9 @@ Flipper Zeroは、[﻿](https://www.st.com/en/nfc/st25r3916.html#overview)﻿[CC
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

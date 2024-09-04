@@ -10,37 +10,23 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 [**Flipper Zero**](https://flipperzero.one/)を使用すると、次のことができます：
 
-* **ラジオ周波数をリスニング/キャプチャ/リプレイする:** [**Sub-GHz**](fz-sub-ghz.md)
-* **NFCカードを読み取り/キャプチャ/エミュレートする:** [**NFC**](fz-nfc.md)
-* **125kHzタグを読み取り/キャプチャ/エミュレートする:** [**125kHz RFID**](fz-125khz-rfid.md)
-* **赤外線信号を読み取り/キャプチャ/送信する:** [**Infrared**](fz-infrared.md)
-* **iButtonを読み取り/キャプチャ/エミュレートする:** [**iButton**](../ibutton.md)
+* **ラジオ周波数をリスン/キャプチャ/リプレイする:** [**Sub-GHz**](fz-sub-ghz.md)
+* **NFCカードを読み取る/キャプチャする/エミュレートする:** [**NFC**](fz-nfc.md)
+* **125kHzタグを読み取る/キャプチャする/エミュレートする:** [**125kHz RFID**](fz-125khz-rfid.md)
+* **赤外線信号を読み取る/キャプチャする/送信する:** [**Infrared**](fz-infrared.md)
+* **iButtonを読み取る/キャプチャする/エミュレートする:** [**iButton**](../ibutton.md)
 * **Bad USBとして使用する**
 * **セキュリティキー（U2F）として使用する**
 * **スネークをプレイする**
 
-**その他のFlipper Zeroリソースは** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)
-
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
+**他のFlipper Zeroリソースは** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)
 
 {% hint style="success" %}
 AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -52,7 +38,7 @@ GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png"
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
 * **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
+* **[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。**
 
 </details>
 {% endhint %}

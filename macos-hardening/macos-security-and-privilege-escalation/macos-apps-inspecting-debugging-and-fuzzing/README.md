@@ -1,35 +1,22 @@
-# macOS Apps - Inspecting, debugging and Fuzzing
+# macOSアプリ - 検査、デバッグ、ファジング
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricksをサポートする</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) は、企業やその顧客が **stealer malwares** によって **compromised** されているかどうかを確認するための **無料** 機能を提供する **ダークウェブ** に基づいた検索エンジンです。
-
-WhiteIntel の主な目標は、情報を盗むマルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
-
-彼らのウェブサイトをチェックし、**無料** でエンジンを試すことができます:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-## Static Analysis
+## 静的分析
 
 ### otool & objdump & nm
 ```bash
@@ -51,7 +38,7 @@ nm -m ./tccd # List of symbols
 ```
 ### jtool2 & Disarm
 
-あなたは[**ここから disarm をダウンロードできます**](https://newosxbook.com/tools/disarm.html)。
+ここから[**disarmをダウンロードできます**](https://newosxbook.com/tools/disarm.html)。
 ```bash
 ARCH=arm64e disarm -c -i -I --signature /path/bin # Get bin info and signature
 ARCH=arm64e disarm -c -l /path/bin # Get binary sections
@@ -60,7 +47,7 @@ ARCH=arm64e disarm -c -S /path/bin # Get symbols (func names, strings...)
 ARCH=arm64e disarm -c -d /path/bin # Get disasembled
 jtool2 -d __DATA.__const myipc_server | grep MIG # Get MIG info
 ```
-ここから[**jtool2をダウンロード**](http://www.newosxbook.com/tools/jtool.html)するか、`brew`を使ってインストールできます。
+ここから[**jtool2をダウンロードできます**](http://www.newosxbook.com/tools/jtool.html) または `brew` を使ってインストールできます。
 ```bash
 # Install
 brew install --cask jtool2
@@ -115,11 +102,11 @@ ldid -S/tmp/entl.xml <binary>
 ### SuspiciousPackage
 
 [**SuspiciousPackage**](https://mothersruin.com/software/SuspiciousPackage/get.html) は、**.pkg** ファイル（インストーラー）を検査し、インストールする前にその内容を確認するのに役立つツールです。\
-これらのインストーラーには、マルウェア作成者が通常悪用する `preinstall` および `postinstall` bash スクリプトがあります。これにより、**マルウェア**を**持続**させることができます。
+これらのインストーラーには、マルウェア作成者が通常悪用する `preinstall` および `postinstall` bash スクリプトがあります。
 
 ### hdiutil
 
-このツールは、Apple のディスクイメージ（**.dmg**）ファイルを**マウント**して、何かを実行する前に検査することを可能にします：
+このツールは、Apple のディスクイメージ（**.dmg**）ファイルを**マウント**して、何かを実行する前にそれらを検査することを可能にします：
 ```bash
 hdiutil attach ~/Downloads/Firefox\ 58.0.2.dmg
 ```
@@ -144,7 +131,7 @@ Objective-Cで書かれたプログラムは、[Mach-Oバイナリ](../macos-fil
 * インターフェースインスタンス変数
 * 定義されたプロトコル
 
-これらの名前は、バイナリのリバースエンジニアリングを難しくするために難読化される可能性があることに注意してください。
+これらの名前は、バイナリのリバースエンジニアリングをより困難にするために難読化される可能性があることに注意してください。
 
 ### Function calling
 
@@ -158,7 +145,7 @@ Objective-Cを使用するバイナリで関数が呼び出されると、コン
 * 2番目のパラメータ（**op**）は「メッセージを処理するメソッドのセレクタ」です。再度、簡単に言えば、これは単に**メソッドの名前**です。
 * 残りのパラメータは、メソッド（op）によって必要とされる**値**です。
 
-この情報を**ARM64で`lldb`を使って簡単に取得する方法**をこのページで確認してください：
+この情報を**`lldb`を使用してARM64で簡単に取得する方法**については、このページを参照してください：
 
 {% content-ref url="arm64-basic-assembly.md" %}
 [arm64-basic-assembly.md](arm64-basic-assembly.md)
@@ -236,11 +223,11 @@ swift demangle
 ## 動的分析
 
 {% hint style="warning" %}
-バイナリをデバッグするには、**SIPを無効にする必要があります**（`csrutil disable`または`csrutil enable --without debug`）またはバイナリを一時フォルダにコピーし、`codesign --remove-signature <binary-path>`で**署名を削除する**か、バイナリのデバッグを許可する必要があります（[このスクリプト](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)を使用できます）。
+バイナリをデバッグするには、**SIPを無効にする必要があります**（`csrutil disable`または`csrutil enable --without debug`）またはバイナリを一時フォルダにコピーして**署名を削除する**必要があります（`codesign --remove-signature <binary-path>`）またはバイナリのデバッグを許可する必要があります（[このスクリプト](https://gist.github.com/carlospolop/a66b8d72bb8f43913c4b5ae45672578b)を使用できます）。
 {% endhint %}
 
 {% hint style="warning" %}
-macOSで**システムバイナリ**（例えば`cloudconfigurationd`）を**計測する**には、**SIPを無効にする必要があります**（署名を削除するだけでは機能しません）。
+macOSで**システムバイナリ**（例えば`cloudconfigurationd`）を**計測**するには、**SIPを無効にする必要があります**（署名を削除するだけでは機能しません）。
 {% endhint %}
 
 ### API
@@ -252,25 +239,25 @@ macOSはプロセスに関する情報を提供するいくつかの興味深い
 
 ### スタックショットとマイクロスタックショット
 
-**スタックショット**は、プロセスの状態をキャプチャするための技術で、すべての実行中のスレッドのコールスタックを含みます。これは、デバッグ、パフォーマンス分析、特定の時点でのシステムの動作を理解するのに特に役立ちます。iOSおよびmacOSでは、**`sample`**や**`spindump`**などのツールや方法を使用してスタックショットを実行できます。
+**スタックショット**は、プロセスの状態をキャプチャするための技術で、すべての実行中のスレッドのコールスタックを含みます。これは、デバッグ、パフォーマンス分析、特定の時点でのシステムの動作を理解するために特に有用です。iOSおよびmacOSでは、**`sample`**や**`spindump`**などのツールや方法を使用してスタックショットを実行できます。
 
 ### Sysdiagnose
 
-このツール（`/usr/bini/ysdiagnose`）は、`ps`、`zprint`などの異なるコマンドを数十個実行して、コンピュータから多くの情報を収集します。
+このツール（`/usr/bini/ysdiagnose`）は、基本的に`ps`、`zprint`などの異なるコマンドを数十個実行してコンピュータから多くの情報を収集します。
 
-**root**として実行する必要があり、デーモン`/usr/libexec/sysdiagnosed`は、`com.apple.system-task-ports`や`get-task-allow`などの非常に興味深い権限を持っています。
+**root**として実行する必要があり、デーモン`/usr/libexec/sysdiagnosed`は`com.apple.system-task-ports`や`get-task-allow`などの非常に興味深い権限を持っています。
 
 そのplistは`/System/Library/LaunchDaemons/com.apple.sysdiagnose.plist`にあり、3つのMachServicesを宣言しています：
 
 * `com.apple.sysdiagnose.CacheDelete`: /var/rmp内の古いアーカイブを削除します
 * `com.apple.sysdiagnose.kernel.ipc`: 特殊ポート23（カーネル）
-* `com.apple.sysdiagnose.service.xpc`: `Libsysdiagnose` Obj-Cクラスを介したユーザーモードインターフェース。辞書内に3つの引数（`compress`、`display`、`run`）を渡すことができます。
+* `com.apple.sysdiagnose.service.xpc`: `Libsysdiagnose` Obj-Cクラスを介したユーザーモードインターフェース。辞書内に3つの引数を渡すことができます（`compress`、`display`、`run`）
 
 ### 統一ログ
 
 MacOSは、アプリケーションを実行して**何をしているのか**を理解する際に非常に役立つ多くのログを生成します。
 
-さらに、いくつかのログには`<private>`タグが含まれ、**ユーザー**または**コンピュータ**の**識別可能**な情報を**隠す**ために使用されます。ただし、**この情報を開示するための証明書をインストールすることが可能です**。詳細は[**こちら**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)を参照してください。
+さらに、いくつかのログには`<private>`タグが含まれ、**ユーザー**または**コンピュータ**の**識別可能**な情報を**隠す**ために使用されます。ただし、この情報を開示するための**証明書をインストールすることが可能です**。詳細は[**こちら**](https://superuser.com/questions/1532031/how-to-show-private-data-in-macos-unified-log)を参照してください。
 
 ### Hopper
 
@@ -288,11 +275,11 @@ Hopperの左パネルでは、バイナリのシンボル（**ラベル**）、�
 
 <figure><img src="../../../.gitbook/assets/image (1117).png" alt=""><figcaption></figcaption></figure>
 
-さらに、**中央下部ではPythonコマンドを入力することができます**。
+さらに、**中央下部ではPythonコマンドを入力できます**。
 
 #### 右パネル
 
-右パネルでは、**ナビゲーション履歴**（現在の状況にどのように到達したかを知るため）、**コールグラフ**（この関数を呼び出すすべての**関数**と、この関数が呼び出すすべての関数を見ることができます）、および**ローカル変数**の情報など、興味深い情報を見ることができます。
+右パネルでは、**ナビゲーション履歴**（現在の状況にどのように到達したかを知るため）、**コールグラフ**（この関数を呼び出すすべての**関数**とこの関数が呼び出すすべての関数を見ることができる）、および**ローカル変数**の情報などの興味深い情報を見ることができます。
 
 ### dtrace
 
@@ -303,7 +290,7 @@ DTraceは、各システムコールのプローブを作成するために**`dt
 {% hint style="success" %}
 SIP保護を完全に無効にせずにDtraceを有効にするには、リカバリモードで次のコマンドを実行できます：`csrutil enable --without dtrace`
 
-また、**`dtrace`**または**`dtruss`**バイナリを**自分でコンパイルした**ものを使用することもできます。
+また、**`dtrace`**または**`dtruss`**バイナリを**コンパイルした**ものを使用することもできます。
 {% endhint %}
 
 dtraceの利用可能なプローブは次のコマンドで取得できます：
@@ -378,7 +365,7 @@ dtruss -c -p 1000 #get syscalls of PID 1000
 
 これはカーネルトレース機能です。文書化されたコードは **`/usr/share/misc/trace.codes`** にあります。
 
-`latency`、`sc_usage`、`fs_usage`、および `trace` のようなツールは内部でこれを使用します。
+`latency`、`sc_usage`、`fs_usage`、および `trace` などのツールは内部でこれを使用します。
 
 `kdebug` とインターフェースするために、`sysctl` が `kern.kdebug` 名前空間を介して使用され、使用する MIB は `bsd/kern/kdebug.c` に実装された関数を持つ `sys/sysctl.h` にあります。
 
@@ -439,7 +426,7 @@ Kperf には sysctl MIB テーブルもあります：（root として）`sysct
 
 ### Apple Instruments
 
-[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) は、アプリケーションのパフォーマンスを監視し、メモリリークを特定し、ファイルシステムのアクティビティを追跡するために使用される Xcode の開発者ツールの一部です。
+[**Apple Instruments**](https://developer.apple.com/library/archive/documentation/Performance/Conceptual/CellularBestPractices/Appendix/Appendix.html) は Xcode の開発者ツールの一部で、アプリケーションのパフォーマンスを監視し、メモリリークを特定し、ファイルシステムのアクティビティを追跡するために使用されます。
 
 ![](<../../../.gitbook/assets/image (1138).png>)
 
@@ -457,7 +444,7 @@ fs_usage -w -f network curl #This tracks network actions
 
 ## PT\_DENY\_ATTACH <a href="#page-title" id="page-title"></a>
 
-[**このブログ記事**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html) では、SIP が無効になっていてもデバッグを防ぐために **`PT_DENY_ATTACH`** を使用した **実行中のデーモンをデバッグする** 方法の例を見つけることができます。
+[**このブログ記事**](https://knight.sc/debugging/2019/06/03/debugging-apple-binaries-that-use-pt-deny-attach.html) では、SIP が無効になっていてもデバッグを防ぐために **`PT_DENY_ATTACH`** を使用した **実行中のデーモン** を **デバッグ** する方法の例を見つけることができます。
 
 ### lldb
 
@@ -479,7 +466,7 @@ lldb内で、`process save-core`を使用してプロセスをダンプします
 <table data-header-hidden><thead><tr><th width="225"></th><th></th></tr></thead><tbody><tr><td><strong>(lldb) コマンド</strong></td><td><strong>説明</strong></td></tr><tr><td><strong>run (r)</strong></td><td>実行を開始し、ブレークポイントがヒットするかプロセスが終了するまで継続します。</td></tr><tr><td><strong>process launch --stop-at-entry</strong></td><td>エントリポイントで停止する実行を開始します</td></tr><tr><td><strong>continue (c)</strong></td><td>デバッグ中のプロセスの実行を続けます。</td></tr><tr><td><strong>nexti (n / ni)</strong></td><td>次の命令を実行します。このコマンドは関数呼び出しをスキップします。</td></tr><tr><td><strong>stepi (s / si)</strong></td><td>次の命令を実行します。nextiコマンドとは異なり、このコマンドは関数呼び出しに入ります。</td></tr><tr><td><strong>finish (f)</strong></td><td>現在の関数（“フレーム”）内の残りの命令を実行し、戻って停止します。</td></tr><tr><td><strong>control + c</strong></td><td>実行を一時停止します。プロセスが実行（r）または続行（c）されている場合、これはプロセスを現在実行中の場所で停止させます。</td></tr><tr><td><strong>breakpoint (b)</strong></td><td><p><code>b main</code> #mainと呼ばれる任意の関数</p><p><code>b &#x3C;binname>`main</code> #バイナリのメイン関数</p><p><code>b set -n main --shlib &#x3C;lib_name></code> #指定されたバイナリのメイン関数</p><p><code>breakpoint set -r '\[NSFileManager .*\]$'</code> #任意のNSFileManagerメソッド</p><p><code>breakpoint set -r '\[NSFileManager contentsOfDirectoryAtPath:.*\]$'</code></p><p><code>break set -r . -s libobjc.A.dylib</code> #そのライブラリのすべての関数でブレーク</p><p><code>b -a 0x0000000100004bd9</code></p><p><code>br l</code> #ブレークポイントリスト</p><p><code>br e/dis &#x3C;num></code> #ブレークポイントを有効/無効にする</p><p>breakpoint delete &#x3C;num></p></td></tr><tr><td><strong>help</strong></td><td><p>help breakpoint #ブレークポイントコマンドのヘルプを取得</p><p>help memory write #メモリへの書き込みのヘルプを取得</p></td></tr><tr><td><strong>reg</strong></td><td><p>reg read</p><p>reg read $rax</p><p>reg read $rax --format &#x3C;<a href="https://lldb.llvm.org/use/variable.html#type-format">format</a>></p><p>reg write $rip 0x100035cc0</p></td></tr><tr><td><strong>x/s &#x3C;reg/memory address></strong></td><td>メモリをヌル終端の文字列として表示します。</td></tr><tr><td><strong>x/i &#x3C;reg/memory address></strong></td><td>メモリをアセンブリ命令として表示します。</td></tr><tr><td><strong>x/b &#x3C;reg/memory address></strong></td><td>メモリをバイトとして表示します。</td></tr><tr><td><strong>print object (po)</strong></td><td><p>これは、パラメータで参照されるオブジェクトを印刷します</p><p>po $raw</p><p><code>{</code></p><p><code>dnsChanger = {</code></p><p><code>"affiliate" = "";</code></p><p><code>"blacklist_dns" = ();</code></p><p>AppleのObjective-C APIやメソッドのほとんどはオブジェクトを返すため、"print object" (po) コマンドを介して表示する必要があります。poが意味のある出力を生成しない場合は、<code>x/b</code>を使用してください。</p></td></tr><tr><td><strong>memory</strong></td><td>memory read 0x000....<br>memory read $x0+0xf2a<br>memory write 0x100600000 -s 4 0x41414141 #そのアドレスにAAAAを書き込みます<br>memory write -f s $rip+0x11f+7 "AAAA" #そのアドレスにAAAAを書き込みます</td></tr><tr><td><strong>disassembly</strong></td><td><p>dis #現在の関数を逆アセンブル</p><p>dis -n &#x3C;funcname> #関数を逆アセンブル</p><p>dis -n &#x3C;funcname> -b &#x3C;basename> #関数を逆アセンブル<br>dis -c 6 #6行を逆アセンブル<br>dis -c 0x100003764 -e 0x100003768 #1つのアドレスから別のアドレスまで<br>dis -p -c 4 #現在のアドレスから逆アセンブルを開始</p></td></tr><tr><td><strong>parray</strong></td><td>parray 3 (char **)$x1 # x1レジスタの3コンポーネントの配列を確認</td></tr><tr><td><strong>image dump sections</strong></td><td>現在のプロセスメモリのマップを印刷します</td></tr><tr><td><strong>image dump symtab &#x3C;library></strong></td><td><code>image dump symtab CoreNLP</code> #CoreNLPのすべてのシンボルのアドレスを取得</td></tr></tbody></table>
 
 {% hint style="info" %}
-**`objc_sendMsg`**関数を呼び出すと、**rsi**レジスタには**メソッドの名前**がヌル終端の（“C”）文字列として格納されます。lldbを介して名前を印刷するには、次のようにします：
+**`objc_sendMsg`**関数を呼び出すと、**rsi**レジスタにはヌル終端の（“C”）文字列として**メソッドの名前**が保持されます。lldbを介して名前を印刷するには、次のようにします：
 
 `(lldb) x/s $rsi: 0x1000f1576: "startMiningWithPort:password:coreCount:slowMemory:currency:"`
 
@@ -493,12 +480,12 @@ lldb内で、`process save-core`を使用してプロセスをダンプします
 
 #### VM検出
 
-* コマンド**`sysctl hw.model`**は、**ホストがMacOSの場合**は"Mac"を返しますが、VMの場合は異なる値を返します。
+* コマンド**`sysctl hw.model`**は、**ホストがMacOSの場合**は"Mac"を返しますが、VMの場合は異なるものを返します。
 * **`hw.logicalcpu`**と**`hw.physicalcpu`**の値を操作することで、一部のマルウェアはVMかどうかを検出しようとします。
 * 一部のマルウェアは、MACアドレス（00:50:56）に基づいて**VMware**であるかどうかを**検出**することもできます。
 * 簡単なコードを使用して、**プロセスがデバッグされているかどうか**を確認することも可能です：
 * `if(P_TRACED == (info.kp_proc.p_flag & P_TRACED)){ //プロセスがデバッグされています }`
-* **`ptrace`**システムコールを**`PT_DENY_ATTACH`**フラグで呼び出すこともできます。これにより、デバッガがアタッチしてトレースするのを防ぎます。
+* **`ptrace`**システムコールを**`PT_DENY_ATTACH`**フラグで呼び出すこともできます。これにより、デバッガがアタッチしてトレースするのを**防ぎます**。
 * **`sysctl`**または**`ptrace`**関数が**インポートされているかどうか**を確認できます（ただし、マルウェアは動的にインポートする可能性があります）。
 * この書き込みで指摘されているように、「[デバッグ防止技術の克服：macOS ptraceバリアント](https://alexomara.com/blog/defeating-anti-debug-techniques-macos-ptrace-variants/)」：\
 “_メッセージProcess # exited with **status = 45 (0x0000002d)**は、デバッグ対象が**PT\_DENY\_ATTACH**を使用していることを示す兆候です_”
@@ -509,7 +496,7 @@ lldb内で、`process save-core`を使用してプロセスをダンプします
 
 * `kern.coredump` sysctlが1に設定されている（デフォルト）
 * プロセスがsuid/sgidでない場合、または`kern.sugid_coredump`が1である（デフォルトは0）
-* `AS_CORE`制限が操作を許可します。`ulimit -c 0`を呼び出すことでコアダンプの作成を抑制でき、`ulimit -c unlimited`で再度有効にできます。
+* `AS_CORE`制限が操作を許可します。`ulimit -c 0`を呼び出すことでコードダンプの作成を抑制でき、`ulimit -c unlimited`で再度有効にできます。
 
 これらのケースでは、コアダンプは`kern.corefile` sysctlに従って生成され、通常は`/cores/core/.%P`に保存されます。
 
@@ -519,7 +506,7 @@ lldb内で、`process save-core`を使用してプロセスをダンプします
 
 ReportCrashは**クラッシュしたプロセスを分析し、クラッシュレポートをディスクに保存します**。クラッシュレポートには、**開発者がクラッシュの原因を診断するのに役立つ情報**が含まれています。\
 ユーザーごとのlaunchdコンテキストで**実行されているアプリケーションや他のプロセス**の場合、ReportCrashはLaunchAgentとして実行され、ユーザーの`~/Library/Logs/DiagnosticReports/`にクラッシュレポートを保存します。\
-デーモン、システムlaunchdコンテキストで**実行されている他のプロセス**および他の特権プロセスの場合、ReportCrashはLaunchDaemonとして実行され、システムの`/Library/Logs/DiagnosticReports`にクラッシュレポートを保存します。
+デーモンや、システムlaunchdコンテキストで**実行されている他のプロセス**、および他の特権プロセスの場合、ReportCrashはLaunchDaemonとして実行され、システムの`/Library/Logs/DiagnosticReports`にクラッシュレポートを保存します。
 
 クラッシュレポートが**Appleに送信されることを心配している場合**は、それを無効にできます。そうでない場合、クラッシュレポートは**サーバーがどのようにクラッシュしたかを把握するのに役立ちます**。
 ```bash
@@ -552,7 +539,7 @@ sudo launchctl load -w /System/Library/LaunchDaemons/ssh.plist
 ```
 ### Internal Handlers
 
-**次のページを確認してください** どのアプリが **指定されたスキームまたはプロトコルを処理しているかを見つける方法:**
+**次のページを確認してください** どのアプリが **指定されたスキームまたはプロトコルを処理しているかを見つける方法を知るために:**
 
 {% content-ref url="../macos-file-extension-apps.md" %}
 [macos-file-extension-apps.md](../macos-file-extension-apps.md)
@@ -589,7 +576,7 @@ CLIツールに対応しています。
 
 macOS GUIツールで「**そのまま動作します**」。いくつかのmacOSアプリには、ユニークなファイル名、正しい拡張子、サンドボックスからファイルを読み取る必要があるなど、特定の要件があります（`~/Library/Containers/com.apple.Safari/Data`）...
 
-いくつかの例： 
+いくつかの例: 
 
 {% code overflow="wrap" %}
 ```bash
@@ -617,43 +604,31 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 ```
 {% endcode %}
 
-### More Fuzzing MacOS Info
+### より多くのFuzzing MacOS情報
 
 * [https://www.youtube.com/watch?v=T5xfL9tEg44](https://www.youtube.com/watch?v=T5xfL9tEg44)
 * [https://github.com/bnagy/slides/blob/master/OSXScale.pdf](https://github.com/bnagy/slides/blob/master/OSXScale.pdf)
 * [https://github.com/bnagy/francis/tree/master/exploitaben](https://github.com/bnagy/francis/tree/master/exploitaben)
 * [https://github.com/ant4g0nist/crashwrangler](https://github.com/ant4g0nist/crashwrangler)
 
-## References
+## 参考文献
 
-* [**OS X Incident Response: Scripting and Analysis**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
+* [**OS Xインシデントレスポンス：スクリプティングと分析**](https://www.amazon.com/OS-Incident-Response-Scripting-Analysis-ebook/dp/B01FHOHHVS)
 * [**https://www.youtube.com/watch?v=T5xfL9tEg44**](https://www.youtube.com/watch?v=T5xfL9tEg44)
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
-* [**The Art of Mac Malware: The Guide to Analyzing Malicious Software**](https://taomm.org/)
-
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) は、**ダークウェブ** によって駆動される検索エンジンで、企業やその顧客が **スティーラーマルウェア** によって **侵害** されているかどうかを確認するための **無料** 機能を提供しています。
-
-WhiteIntel の主な目標は、情報を盗むマルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
-
-彼らのウェブサイトをチェックして、**無料** でエンジンを試すことができます：
-
-{% embed url="https://whiteintel.io" %}
+* [**Macマルウェアの技術：悪意のあるソフトウェアを分析するためのガイド**](https://taomm.org/)
 
 {% hint style="success" %}
-Learn & practice AWS Hacking:<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Learn & practice GCP Hacking: <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>HackTricksをサポートする</summary>
 
-* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
-* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するために、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のgithubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

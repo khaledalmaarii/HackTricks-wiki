@@ -15,14 +15,6 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## ImGuiベースのリバースツール
 
 ソフトウェア：
@@ -33,8 +25,8 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 オンライン：
 
-* [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html)を使用して、**デコンパイル**を行い、wasm（バイナリ）からwat（クリアテキスト）に変換します。
-* [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/)を使用して、watからwasmに**コンパイル**します。
+* [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html)を使用して、**wasm**（バイナリ）から**wat**（クリアテキスト）に**デコンパイル**します。
+* [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/)を使用して、**wat**から**wasm**に**コンパイル**します。
 * [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/)を使用してデコンパイルを試すこともできます。
 
 ソフトウェア：
@@ -46,7 +38,7 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
-dotPeekは、**ライブラリ**（.dll）、**Windowsメタデータファイル**（.winmd）、および**実行可能ファイル**（.exe）を含む複数のフォーマットを**デコンパイル**および検査するデコンパイラです。デコンパイルされた後、アセンブリはVisual Studioプロジェクト（.csproj）として保存できます。
+dotPeekは、**ライブラリ**（.dll）、**Windowsメタデータファイル**（.winmd）、および**実行可能ファイル**（.exe）を含む**複数のフォーマットをデコンパイルおよび検査**するデコンパイラです。デコンパイルされた後、アセンブリはVisual Studioプロジェクト（.csproj）として保存できます。
 
 ここでの利点は、失われたソースコードをレガシーアセンブリから復元する必要がある場合、このアクションが時間を節約できることです。さらに、dotPeekはデコンパイルされたコード全体を便利にナビゲートできるため、**Xamarinアルゴリズム分析**に最適なツールの1つです。
 
@@ -54,21 +46,21 @@ dotPeekは、**ライブラリ**（.dll）、**Windowsメタデータファイ�
 
 包括的なアドインモデルと、ツールを正確なニーズに合わせて拡張するAPIを備えた.NET Reflectorは、時間を節約し、開発を簡素化します。このツールが提供する逆コンパイルサービスの豊富さを見てみましょう：
 
-* ライブラリやコンポーネントを通じてデータがどのように流れるかを洞察します。
-* .NET言語やフレームワークの実装と使用についての洞察を提供します。
+* ライブラリやコンポーネントを通じてデータがどのように流れるかの洞察を提供します。
+* .NET言語とフレームワークの実装と使用に関する洞察を提供します。
 * 使用されているAPIや技術からより多くの機能を引き出すために、文書化されていない機能や公開されていない機能を見つけます。
 * 依存関係や異なるアセンブリを見つけます。
 * コード、サードパーティコンポーネント、およびライブラリ内のエラーの正確な場所を追跡します。
-* 作業しているすべての.NETコードのソースをデバッグします。
+* あなたが扱うすべての.NETコードのソースをデバッグします。
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
-[Visual Studio Code用ILSpyプラグイン](https://github.com/icsharpcode/ilspy-vscode)：任意のOSで使用できます（VSCodeから直接インストールできます。gitをダウンロードする必要はありません。「**拡張機能**」をクリックし、「**ILSpy**」を検索してください）。\
-**デコンパイル**、**修正**、および再コンパイルが必要な場合は、[**dnSpy**](https://github.com/dnSpy/dnSpy/releases)またはそのアクティブにメンテナンスされているフォークである[**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases)を使用できます。（**右クリック -> メソッドを修正**して関数内の何かを変更します）。
+[Visual Studio Code用ILSpyプラグイン](https://github.com/icsharpcode/ilspy-vscode)：任意のOSで使用できます（VSCodeから直接インストールできます。gitをダウンロードする必要はありません。**拡張機能**をクリックし、**ILSpyを検索**します）。\
+**デコンパイル**、**修正**、および再**コンパイル**が必要な場合は、[**dnSpy**](https://github.com/dnSpy/dnSpy/releases)またはそのアクティブにメンテナンスされているフォークである[**dnSpyEx**](https://github.com/dnSpyEx/dnSpy/releases)を使用できます。（**右クリック -> メソッドを修正**して関数内の何かを変更します）。
 
 ### DNSpyロギング
 
-**DNSpyに情報をファイルにログ記録させる**には、次のスニペットを使用できます：
+**DNSpyにファイルに情報をログさせる**ために、次のスニペットを使用できます：
 ```cs
 using System.IO;
 path = "C:\\inetpub\\temp\\MyTest2.txt";
@@ -105,65 +97,65 @@ DebuggableAttribute.DebuggingModes.EnableEditAndContinue)]
 ```
 iisreset /noforce
 ```
-その後、デバッグを開始するには、すべてのオープンファイルを閉じ、**Debug Tab**内で**Attach to Process...**を選択します：
+Then, in order to start debugging you should close all the opened files and inside the **Debug Tab** select **Attach to Process...**:
 
 ![](<../../.gitbook/assets/image (318).png>)
 
-次に、**w3wp.exe**を選択して**IISサーバー**にアタッチし、**attach**をクリックします：
+Then select **w3wp.exe** to attach to the **IIS server** and click **attach**:
 
 ![](<../../.gitbook/assets/image (113).png>)
 
-プロセスのデバッグを行っているので、実行を停止してすべてのモジュールをロードする時間です。まず、_Debug >> Break All_をクリックし、次に_**Debug >> Windows >> Modules**_をクリックします：
+Now that we are debugging the process, it's time to stop it and load all the modules. First click on _Debug >> Break All_ and then click on _**Debug >> Windows >> Modules**_:
 
 ![](<../../.gitbook/assets/image (132).png>)
 
 ![](<../../.gitbook/assets/image (834).png>)
 
-**Modules**の任意のモジュールをクリックし、**Open All Modules**を選択します：
+Click any module on **Modules** and select **Open All Modules**:
 
 ![](<../../.gitbook/assets/image (922).png>)
 
-**Assembly Explorer**内の任意のモジュールを右クリックし、**Sort Assemblies**をクリックします：
+Right click any module in **Assembly Explorer** and click **Sort Assemblies**:
 
 ![](<../../.gitbook/assets/image (339).png>)
 
-## Javaデコンパイラ
+## Java decompiler
 
 [https://github.com/skylot/jadx](https://github.com/skylot/jadx)\
 [https://github.com/java-decompiler/jd-gui/releases](https://github.com/java-decompiler/jd-gui/releases)
 
-## DLLのデバッグ
+## Debugging DLLs
 
-### IDAを使用
+### Using IDA
 
-* **rundll32をロード**（64ビットはC:\Windows\System32\rundll32.exe、32ビットはC:\Windows\SysWOW64\rundll32.exe）
-* **Windbgデバッガ**を選択
-* "**ライブラリのロード/アンロード時に一時停止**"を選択
+* **Load rundll32** (64ビットはC:\Windows\System32\rundll32.exe、32ビットはC:\Windows\SysWOW64\rundll32.exe)
+* Select **Windbg** debugger
+* Select "**Suspend on library load/unload**"
 
 ![](<../../.gitbook/assets/image (868).png>)
 
-* 実行の**パラメータ**を設定し、**DLLのパス**と呼び出したい関数を指定します：
+* Configure the **parameters** of the execution putting the **path to the DLL** and the function that you want to call:
 
 ![](<../../.gitbook/assets/image (704).png>)
 
-次に、デバッグを開始すると、**各DLLがロードされると実行が停止**します。その後、rundll32があなたのDLLをロードすると、実行が停止します。
+Then, when you start debugging **the execution will be stopped when each DLL is loaded**, then, when rundll32 load your DLL the execution will be stopped.
 
-しかし、ロードされたDLLのコードにどうやってアクセスできますか？この方法では、私はわかりません。
+But, how can you get to the code of the DLL that was lodaded? Using this method, I don't know how.
 
-### x64dbg/x32dbgを使用
+### Using x64dbg/x32dbg
 
-* **rundll32をロード**（64ビットはC:\Windows\System32\rundll32.exe、32ビットはC:\Windows\SysWOW64\rundll32.exe）
-* **コマンドラインを変更**（_File --> Change Command Line_）し、DLLのパスと呼び出したい関数を設定します。例えば："C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
-* _Options --> Settings_を変更し、**DLL Entry**を選択します。
-* その後、**実行を開始**します。デバッガは各DLLのメインで停止し、ある時点で**あなたのDLLのDLLエントリで停止**します。そこから、ブレークポイントを設定したいポイントを検索します。
+* **Load rundll32** (64ビットはC:\Windows\System32\rundll32.exe、32ビットはC:\Windows\SysWOW64\rundll32.exe)
+* **Change the Command Line** ( _File --> Change Command Line_ ) and set the path of the dll and the function that you want to call, for example: "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
+* Change _Options --> Settings_ and select "**DLL Entry**".
+* Then **start the execution**, the debugger will stop at each dll main, at some point you will **stop in the dll Entry of your dll**. From there, just search for the points where you want to put a breakpoint.
 
-実行が何らかの理由でwin64dbgで停止した場合、**win64dbgウィンドウの上部**で**どのコードを見ているか**を確認できます：
+Notice that when the execution is stopped by any reason in win64dbg you can see **in which code you are** looking in the **top of the win64dbg window**:
 
 ![](<../../.gitbook/assets/image (842).png>)
 
-その後、実行が停止したDLLをデバッグすることができます。
+Then, looking to this ca see when the execution was stopped in the dll you want to debug.
 
-## GUIアプリ / ビデオゲーム
+## GUI Apps / Videogames
 
 [**Cheat Engine**](https://www.cheatengine.org/downloads.php)は、実行中のゲームのメモリ内に重要な値が保存されている場所を見つけて変更するための便利なプログラムです。詳細は以下を参照してください：
 
@@ -179,12 +171,12 @@ iisreset /noforce
 
 {% embed url="https://github.com/nongiach/arm_now" %}
 
-## シェルコード
+## Shellcodes
 
-### blobrunnerを使用したシェルコードのデバッグ
+### Debugging a shellcode with blobrunner
 
-[**Blobrunner**](https://github.com/OALabs/BlobRunner)は、**シェルコード**をメモリのスペース内に**割り当て**、シェルコードが割り当てられた**メモリアドレス**を**示し**、実行を**停止**します。\
-その後、プロセスに**デバッガ**（Idaまたはx64dbg）をアタッチし、**指定されたメモリアドレスにブレークポイントを設定**し、実行を**再開**します。これにより、シェルコードをデバッグできます。
+[**Blobrunner**](https://github.com/OALabs/BlobRunner)は、**shellcode**をメモリの空間内に**割り当て**、**shellcode**が割り当てられた**メモリアドレス**を**示し**、実行を**停止**します。\
+次に、プロセスに**デバッガ**（Idaまたはx64dbg）をアタッチし、**指定されたメモリアドレスにブレークポイントを設定**して、実行を**再開**します。これにより、shellcodeをデバッグできます。
 
 リリースのGitHubページには、コンパイルされたリリースを含むzipファイルがあります：[https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 Blobrunnerのわずかに修正されたバージョンは、以下のリンクで見つけることができます。コンパイルするには、**Visual Studio CodeでC/C++プロジェクトを作成し、コードをコピー＆ペーストしてビルド**します。
@@ -193,19 +185,19 @@ Blobrunnerのわずかに修正されたバージョンは、以下のリンク�
 [blobrunner.md](blobrunner.md)
 {% endcontent-ref %}
 
-### jmp2itを使用したシェルコードのデバッグ
+### Debugging a shellcode with jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)は、blobrunnerに非常に似ています。**シェルコード**をメモリのスペース内に**割り当て**、**永続ループ**を開始します。その後、プロセスに**デバッガをアタッチ**し、**再生を開始して2-5秒待ち、停止を押す**と、**永続ループ**内に入ります。永続ループの次の命令にジャンプすると、それがシェルコードへの呼び出しになります。最終的に、シェルコードを実行している自分を見つけることができます。
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4)は、blobrunnerに非常に似ています。**shellcode**をメモリの空間内に**割り当て**、**永続ループ**を開始します。次に、プロセスに**デバッガをアタッチ**し、**再生を開始して2-5秒待ち、停止を押す**と、**永続ループ**内に入ります。永続ループの次の命令にジャンプすると、それはshellcodeへの呼び出しになります。最終的に、shellcodeを実行している自分を見つけることができます。
 
 ![](<../../.gitbook/assets/image (509).png>)
 
 コンパイルされたバージョンは、[リリースページ](https://github.com/adamkramer/jmp2it/releases/)からダウンロードできます。
 
-### Cutterを使用したシェルコードのデバッグ
+### Debugging shellcode using Cutter
 
-[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0)は、radareのGUIです。Cutterを使用すると、シェルコードをエミュレートし、動的に検査できます。
+[**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0)は、radareのGUIです。Cutterを使用すると、shellcodeをエミュレートし、動的に検査できます。
 
-Cutterは「ファイルを開く」と「シェルコードを開く」を許可します。私の場合、シェルコードをファイルとして開くと正しくデコンパイルされましたが、シェルコードとして開くとそうではありませんでした：
+Cutterは「ファイルを開く」と「shellcodeを開く」を許可します。私の場合、shellcodeをファイルとして開くと正しくデコンパイルされましたが、shellcodeとして開くとそうではありませんでした：
 
 ![](<../../.gitbook/assets/image (562).png>)
 
@@ -219,10 +211,10 @@ Cutterは「ファイルを開く」と「シェルコードを開く」を許�
 
 ![](<../../.gitbook/assets/image (186).png>)
 
-### シェルコードの難読化解除と実行される関数の取得
+### Deobfuscating shellcode and getting executed functions
 
 [**scdbg**](http://sandsprite.com/blogs/index.php?uid=7\&pid=152)を試してみるべきです。\
-それは、シェルコードが使用している**関数**や、シェルコードがメモリ内で**デコード**しているかどうかを教えてくれます。
+それは、**どの関数**がshellcodeで使用されているか、またshellcodeが**メモリ内で自己デコード**しているかどうかを教えてくれます。
 ```bash
 scdbg.exe -f shellcode # Get info
 scdbg.exe -f shellcode -r #show analysis report at end of run
@@ -255,7 +247,7 @@ apt-get install libz3-dev
 ```
 And [install keystone](https://github.com/keystone-engine/keystone/blob/master/docs/COMPILE-NIX.md) (`apt-get install cmake; mkdir build; cd build; ../make-share.sh; make install`)
 
-もしあなたが**CTFをプレイしているなら、このフラグを見つけるための回避策**は非常に役立つかもしれません: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
+**CTFをプレイしている場合、このフラグを見つけるためのこの回避策**は非常に役立つかもしれません: [https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html](https://dustri.org/b/defeating-the-recons-movfuscator-crackme.html)
 
 ## Rust
 
@@ -264,7 +256,7 @@ And [install keystone](https://github.com/keystone-engine/keystone/blob/master/d
 ![](<../../.gitbook/assets/image (1080).png>)
 
 この場合、バイナリはauthenticatorと呼ばれていたので、これは興味深いメイン関数であることは明らかです。\
-呼び出されている**関数の名前**を持っているので、**インターネット**でそれらを検索して、**入力**と**出力**について学びます。
+呼び出されている**関数**の**名前**を持っているので、**インターネット**でそれらを検索して**入力**と**出力**について学びます。
 
 ## **Delphi**
 
@@ -272,21 +264,21 @@ Delphiでコンパイルされたバイナリには、[https://github.com/crypto
 
 Delphiバイナリをリバースする必要がある場合は、IDAプラグイン[https://github.com/Coldzer0/IDA-For-Delphi](https://github.com/Coldzer0/IDA-For-Delphi)を使用することをお勧めします。
 
-**ATL+f7**を押して（IDAにPythonプラグインをインポート）、Pythonプラグインを選択します。
+**ATL+f7**を押して（IDAにPythonプラグインをインポート）Pythonプラグインを選択します。
 
 このプラグインは、バイナリを実行し、デバッグの開始時に関数名を動的に解決します。デバッグを開始した後、再度スタートボタン（緑のボタンまたはf9）を押すと、実際のコードの最初でブレークポイントがヒットします。
 
-また、グラフィックアプリケーションでボタンを押すと、デバッガーはそのボタンによって実行される関数で停止するため、非常に興味深いです。
+また、グラフィックアプリケーションでボタンを押すと、デバッガーはそのボタンによって実行された関数で停止するため、非常に興味深いです。
 
 ## Golang
 
 Golangバイナリをリバースする必要がある場合は、IDAプラグイン[https://github.com/sibears/IDAGolangHelper](https://github.com/sibears/IDAGolangHelper)を使用することをお勧めします。
 
-**ATL+f7**を押して（IDAにPythonプラグインをインポート）、Pythonプラグインを選択します。
+**ATL+f7**を押して（IDAにPythonプラグインをインポート）Pythonプラグインを選択します。
 
 これにより、関数の名前が解決されます。
 
-## Compiled Python
+## コンパイルされたPython
 
 このページでは、ELF/EXE PythonコンパイルバイナリからPythonコードを取得する方法を見つけることができます:
 
@@ -294,20 +286,20 @@ Golangバイナリをリバースする必要がある場合は、IDAプラグ�
 [.pyc.md](../../generic-methodologies-and-resources/basic-forensic-methodology/specific-software-file-type-tricks/.pyc.md)
 {% endcontent-ref %}
 
-## GBA - Game Body Advance
+## GBA - ゲームボディアドバンス
 
 GBAゲームの**バイナリ**を取得した場合、さまざまなツールを使用して**エミュレート**および**デバッグ**できます:
 
-* [**no$gba**](https://problemkaputt.de/gba.htm) (_デバッグ版をダウンロード_) - インターフェースを持つデバッガーを含む
-* [**mgba** ](https://mgba.io)- CLIデバッガーを含む
+* [**no$gba**](https://problemkaputt.de/gba.htm) (_デバッグ版をダウンロード_) - インターフェース付きのデバッガーを含む
+* [**mgba** ](https://mgba.io) - CLIデバッガーを含む
 * [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Ghidraプラグイン
 * [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Ghidraプラグイン
 
-[**no$gba**](https://problemkaputt.de/gba.htm)の_**Options --> Emulation Setup --> Controls**_\*\* \*\*では、Game Boy Advanceの**ボタン**を押す方法を確認できます。
+[**no$gba**](https://problemkaputt.de/gba.htm)の_**オプション --> エミュレーション設定 --> コントロール**_\*\* \*\*では、ゲームボーイアドバンスの**ボタン**を押す方法を確認できます。
 
 ![](<../../.gitbook/assets/image (581).png>)
 
-押されると、各**キーには識別するための値**があります:
+押すと、各**キーには識別するための値**があります:
 ```
 A = 1
 B = 2
@@ -392,10 +384,10 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 * 最初に、**値4**（**SELECT**ボタン）と比較されています：このチャレンジでは、このボタンは画面をクリアします。
 * 次に、**値8**（**START**ボタン）と比較されています：このチャレンジでは、コードがフラグを取得するのに有効かどうかを確認します。
 * この場合、変数**`DAT_030000d8`**は0xf3と比較され、値が同じであればいくつかのコードが実行されます。
-* その他のケースでは、いくつかのカウント（`DAT_030000d4`）がチェックされます。これは、コードに入った直後に1を加算するため、カウントです。\
-**8未満**の場合、**`DAT_030000d8`**に値を**加算**することが行われます（基本的に、カウントが8未満である限り、この変数に押されたキーの値を加算しています）。
+* その他のケースでは、いくつかのcont（`DAT_030000d4`）がチェックされます。これは、コードに入った直後に1を加算するため、contです。\
+**8未満の場合、**\*\*`DAT_030000d8` \*\*に値を**加算する**ことが行われます（基本的に、contが8未満である限り、この変数に押されたキーの値を加算しています）。
 
-したがって、このチャレンジでは、ボタンの値を知っている必要があり、**合計が0xf3になるような長さ8未満の組み合わせを押す必要があります。**
+したがって、このチャレンジでは、ボタンの値を知っている必要があり、**結果の合計が0xf3になるように、長さが8未満の組み合わせを**押す必要があります。
 
 **このチュートリアルの参考文献：** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
@@ -408,15 +400,9 @@ DAT_030000d8 = DAT_030000d8 + 0x3a;
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD)（バイナリの難読化解除）
 
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

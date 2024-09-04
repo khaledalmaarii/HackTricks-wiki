@@ -15,19 +15,11 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## **ファイルからのデータ抽出**
 
 ### **Binwalk**
 
-埋め込まれた隠しファイルやデータを探すためのバイナリファイル用ツールです。`apt`を介してインストールされ、ソースは[GitHub](https://github.com/ReFirmLabs/binwalk)で入手可能です。
+埋め込まれた隠しファイルやデータを探すためのバイナリファイル検索ツールです。`apt`を介してインストールされ、ソースは[GitHub](https://github.com/ReFirmLabs/binwalk)で入手可能です。
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
@@ -93,16 +85,16 @@ cmp original.jpg stego.jpg -b -l
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
-### **Steghideによるデータ隠蔽**
+### **データ隠蔽のためのSteghide**
 
-Steghideは、`JPEG, BMP, WAV, and AU`ファイル内にデータを隠すことを容易にし、暗号化されたデータの埋め込みと抽出が可能です。インストールは`apt`を使用して簡単に行え、[ソースコードはGitHubで入手可能です](https://github.com/StefanoDeVuono/steghide)。
+Steghideは、`JPEG, BMP, WAV, AU`ファイル内にデータを隠すことを容易にし、暗号化されたデータの埋め込みと抽出が可能です。インストールは`apt`を使用して簡単に行え、[ソースコードはGitHubで入手可能です](https://github.com/StefanoDeVuono/steghide)。
 
 **コマンド:**
 
 * `steghide info file`は、ファイルに隠されたデータが含まれているかどうかを明らかにします。
 * `steghide extract -sf file [--passphrase password]`は、隠されたデータを抽出します。パスワードはオプションです。
 
-ウェブベースの抽出については、[このウェブサイト](https://futureboy.us/stegano/decinput.html)を訪れてください。
+ウェブベースの抽出には、[このウェブサイト](https://futureboy.us/stegano/decinput.html)を訪れてください。
 
 **Stegcrackerによるブルートフォース攻撃:**
 
@@ -135,7 +127,7 @@ zstegはPNGおよびBMPファイル内の隠れたデータを発見すること
 
 ### **Stegpy for Audio and Image Files**
 
-Stegpyは、PNG、BMP、GIF、WebP、WAVなどのフォーマットをサポートし、画像および音声ファイルに情報を埋め込むことを可能にします。これは[GitHub](https://github.com/dhsdshdhk/stegpy)で入手可能です。
+Stegpyは画像および音声ファイルに情報を埋め込むことを可能にし、PNG、BMP、GIF、WebP、WAVなどのフォーマットをサポートしています。これは[GitHub](https://github.com/dhsdshdhk/stegpy)で入手可能です。
 
 ### **Pngcheck for PNG File Analysis**
 
@@ -160,11 +152,11 @@ pngcheck stego.png
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghideは、JPEG、BMP、WAV、およびAUファイルにデータを隠すために設計された多目的ツールです。詳細な手順は[stego tricks documentation](stego-tricks.md#steghide)に記載されています。
+Steghideは、JPEG、BMP、WAV、およびAUファイルにデータを隠すために設計された多目的ツールです。詳細な指示は[stego tricks documentation](stego-tricks.md#steghide)に記載されています。
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-このツールは、PNG、BMP、GIF、WebP、およびWAVを含むさまざまなフォーマットに対応しています。詳細については[Stegpy's section](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)を参照してください。
+このツールは、PNG、BMP、GIF、WebP、およびWAVを含むさまざまなフォーマットに対応しています。詳細については、[Stegpy's section](stego-tricks.md#stegpy-png-bmp-gif-webp-wav)を参照してください。
 
 ### **ffmpeg**
 
@@ -212,22 +204,16 @@ math.sqrt(2500) #50
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
 * **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>

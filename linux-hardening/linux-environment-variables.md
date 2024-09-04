@@ -1,4 +1,4 @@
-# Linux 環境変数
+# Linux Environment Variables
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -14,14 +14,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## グローバル変数
 
@@ -64,17 +56,17 @@ From: [https://geek-university.com/linux/common-environment-variables/](https://
 * **HISTSIZE** – ユーザーがセッションを終了したときに履歴ファイルに追加される行数。
 * **HOME** – あなたのホームディレクトリ。
 * **HOSTNAME** – コンピュータのホスト名。
-* **LANG** – あなたの現在の言語。
+* **LANG** – 現在の言語。
 * **MAIL** – ユーザーのメールスプールの場所。通常は**/var/spool/mail/USER**。
 * **MANPATH** – マニュアルページを検索するためのディレクトリのリスト。
 * **OSTYPE** – オペレーティングシステムの種類。
 * **PS1** – bashのデフォルトプロンプト。
-* **PATH** – バイナリファイルを実行するためにファイル名を指定するだけで済むすべてのディレクトリのパスを格納します。
+* **PATH** – バイナリファイルを実行するためのすべてのディレクトリのパスを格納します。ファイル名を指定するだけで、相対パスや絶対パスを使わずに実行できます。
 * **PWD** – 現在の作業ディレクトリ。
 * **SHELL** – 現在のコマンドシェルへのパス（例：**/bin/bash**）。
 * **TERM** – 現在の端末タイプ（例：**xterm**）。
 * **TZ** – あなたのタイムゾーン。
-* **USER** – あなたの現在のユーザー名。
+* **USER** – 現在のユーザー名。
 
 ## Interesting variables for hacking
 
@@ -126,15 +118,10 @@ export SSL_CERT_DIR=/path/to/ca-certificates
 
 ![](<../.gitbook/assets/image (715).png>)
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、練習する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、練習する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

@@ -15,21 +15,13 @@ GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## カービングと回復ツール
 
-さらに多くのツールは[https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)にあります。
+[https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)にもっと多くのツールがあります。
 
 ### Autopsy
 
-画像からファイルを抽出するためにフォレンジックで最も一般的に使用されるツールは[**Autopsy**](https://www.autopsy.com/download/)です。ダウンロードしてインストールし、ファイルを取り込んで「隠れた」ファイルを見つけます。Autopsyはディスクイメージや他の種類のイメージをサポートするように構築されていますが、単純なファイルには対応していません。
+画像からファイルを抽出するためにフォレンジックで最も一般的に使用されるツールは[**Autopsy**](https://www.autopsy.com/download/)です。ダウンロードしてインストールし、ファイルを取り込んで「隠れた」ファイルを見つけます。Autopsyはディスクイメージや他の種類のイメージをサポートするように構築されていますが、単純なファイルには対応していないことに注意してください。
 
 ### Binwalk <a href="#binwalk" id="binwalk"></a>
 
@@ -59,9 +51,9 @@ scalpel file.img -o output
 ```
 ### Bulk Extractor
 
-このツールはkaliに含まれていますが、ここで見つけることができます: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
+このツールはKaliに含まれていますが、こちらでも見つけることができます: [https://github.com/simsong/bulk\_extractor](https://github.com/simsong/bulk\_extractor)
 
-このツールはイメージをスキャンし、その中にある**pcaps**を**抽出**し、**ネットワーク情報（URL、ドメイン、IP、MAC、メール）**やその他の**ファイル**を取得します。あなたがする必要があるのは:
+このツールはイメージをスキャンし、その中にある**pcaps**、**ネットワーク情報（URL、ドメイン、IP、MAC、メール）**、およびその他の**ファイル**を**抽出**します。あなたがする必要があるのは:
 ```
 bulk_extractor memory.img -o out_folder
 ```
@@ -86,7 +78,7 @@ GUIとCLIのバージョンがあります。PhotoRecが検索する**ファイ�
 * サンプルの一部に焦点を当てる
 * PEまたはELF実行可能ファイルの**文字列とリソース**を見る
 * ファイルの暗号解析のための**パターン**を取得
-* パッカーまたはエンコーダアルゴリズムを**特定**
+* パッカーやエンコーダアルゴリズムを**特定**
 * パターンによるステガノグラフィの**識別**
 * **視覚的**なバイナリ差分
 
@@ -96,7 +88,7 @@ BinVisは、ブラックボックスシナリオで未知のターゲットに�
 
 ### FindAES
 
-キーのスケジュールを検索することによってAESキーを検索します。TrueCryptやBitLockerで使用される128、192、256ビットのキーを見つけることができます。
+AESキーのスケジュールを検索することでAESキーを検索します。TrueCryptやBitLockerで使用される128、192、256ビットのキーを見つけることができます。
 
 [こちらからダウンロード](https://sourceforge.net/projects/findaes/)。
 
@@ -104,12 +96,6 @@ BinVisは、ブラックボックスシナリオで未知のターゲットに�
 
 [**viu**](https://github.com/atanunq/viu)を使用してターミナルから画像を見ることができます。\
 Linuxコマンドラインツール**pdftotext**を使用してPDFをテキストに変換し、読むことができます。
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 AWSハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -120,8 +106,8 @@ GCPハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)をフォローしてください。
-* [**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してハッキングトリックを共有してください。
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングのトリックを共有するために、** [**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}

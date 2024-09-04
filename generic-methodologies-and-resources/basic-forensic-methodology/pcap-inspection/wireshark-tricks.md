@@ -15,19 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) は、企業やその顧客が **stealer malwares** によって **compromised** されているかどうかを確認するための **無料** 機能を提供する **ダークウェブ** に基づいた検索エンジンです。
-
-WhiteIntel の主な目標は、情報を盗むマルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
-
-彼らのウェブサイトをチェックして、**無料** でエンジンを試すことができます:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Improve your Wireshark skills
 
@@ -44,73 +31,73 @@ WhiteIntel の主な目標は、情報を盗むマルウェアによるアカウ
 
 **Expert Information**
 
-_**Analyze** --> **Expert Information**_ をクリックすると、パケットの **analyzed** 状態の **overview** が表示されます：
+_**Analyze** --> **Expert Information**_をクリックすると、**分析された**パケットで何が起こっているかの**概要**が得られます：
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
 **Resolved Addresses**
 
-_**Statistics --> Resolved Addresses**_ の下には、wireshark によって "**resolved**" されたポート/トランスポートからプロトコル、MACから製造元などのいくつかの **information** を見つけることができます。通信に関与しているものを知るのは興味深いです。
+_**Statistics --> Resolved Addresses**_の下には、wiresharkによって「**解決された**」いくつかの**情報**（ポート/トランスポートからプロトコル、MACから製造元など）を見つけることができます。通信に関与しているものを知ることは興味深いです。
 
 ![](<../../../.gitbook/assets/image (893).png>)
 
 **Protocol Hierarchy**
 
-_**Statistics --> Protocol Hierarchy**_ の下には、通信に関与する **protocols** とそれに関するデータがあります。
+_**Statistics --> Protocol Hierarchy**_の下には、通信に関与する**プロトコル**とそれに関するデータがあります。
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **Conversations**
 
-_**Statistics --> Conversations**_ の下には、通信の **summary of the conversations** とそれに関するデータがあります。
+_**Statistics --> Conversations**_の下には、通信の**会話の概要**とそれに関するデータがあります。
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **Endpoints**
 
-_**Statistics --> Endpoints**_ の下には、通信の **summary of the endpoints** とそれぞれに関するデータがあります。
+_**Statistics --> Endpoints**_の下には、通信の**エンドポイントの概要**とそれぞれに関するデータがあります。
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
 **DNS info**
 
-_**Statistics --> DNS**_ の下には、キャプチャされた DNS リクエストに関する統計があります。
+_**Statistics --> DNS**_の下には、キャプチャされたDNSリクエストに関する統計があります。
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
 **I/O Graph**
 
-_**Statistics --> I/O Graph**_ の下には、通信の **graph** があります。
+_**Statistics --> I/O Graph**_の下には、**通信のグラフ**があります。
 
 ![](<../../../.gitbook/assets/image (992).png>)
 
 ### Filters
 
-ここでは、プロトコルに応じた wireshark フィルターを見つけることができます: [https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
+ここでは、プロトコルに応じたwiresharkフィルターを見つけることができます：[https://www.wireshark.org/docs/dfref/](https://www.wireshark.org/docs/dfref/)\
 他の興味深いフィルター：
 
 * `(http.request or ssl.handshake.type == 1) and !(udp.port eq 1900)`
-* HTTP と初期 HTTPS トラフィック
+* HTTPおよび初期HTTPSトラフィック
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002) and !(udp.port eq 1900)`
-* HTTP と初期 HTTPS トラフィック + TCP SYN
+* HTTPおよび初期HTTPSトラフィック + TCP SYN
 * `(http.request or ssl.handshake.type == 1 or tcp.flags eq 0x0002 or dns) and !(udp.port eq 1900)`
-* HTTP と初期 HTTPS トラフィック + TCP SYN + DNS リクエスト
+* HTTPおよび初期HTTPSトラフィック + TCP SYN + DNSリクエスト
 
 ### Search
 
-セッションの **packets** 内の **content** を **search** したい場合は、_CTRL+f_ を押します。メイン情報バー (No., Time, Source など) に新しいレイヤーを追加するには、右ボタンを押してから列を編集します。
+セッションの**パケット**内の**コンテンツ**を**検索**したい場合は、_CTRL+f_を押します。メイン情報バー（No.、Time、Sourceなど）に新しいレイヤーを追加するには、右ボタンを押してから列を編集します。
 
 ### Free pcap labs
 
-**無料のチャレンジで練習する:** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
+**無料のチャレンジで練習する：** [**https://www.malware-traffic-analysis.net/**](https://www.malware-traffic-analysis.net)
 
 ## Identifying Domains
 
-Host HTTP ヘッダーを表示する列を追加できます：
+Host HTTPヘッダーを表示する列を追加できます：
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-HTTPS 接続を開始する際のサーバー名を追加する列も追加できます (**ssl.handshake.type == 1**):
+そして、開始HTTPS接続からサーバー名を追加する列（**ssl.handshake.type == 1**）：
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
@@ -118,7 +105,7 @@ HTTPS 接続を開始する際のサーバー名を追加する列も追加で�
 
 ### From DHCP
 
-現在の Wireshark では `bootp` の代わりに `DHCP` を検索する必要があります。
+現在のWiresharkでは、`bootp`の代わりに`DHCP`を検索する必要があります。
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
@@ -134,25 +121,25 @@ _edit>preference>protocol>ssl>_
 
 ![](<../../../.gitbook/assets/image (1103).png>)
 
-サーバーとプライベートキーのすべてのデータ (_IP, Port, Protocol, Key file and password_) を追加するには、_Edit_ を押します。
+_サーバーとプライベートキーのすべてのデータを追加するには、_Edit_を押します（_IP、Port、Protocol、Key fileおよびpassword_）
 
 ### Decrypting https traffic with symmetric session keys
 
-Firefox と Chrome の両方には、TLS セッションキーをログに記録する機能があり、これを使用して Wireshark で TLS トラフィックを復号化できます。これにより、安全な通信の詳細な分析が可能になります。この復号化を実行する方法の詳細は、[Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/) のガイドにあります。
+FirefoxとChromeの両方は、TLSセッションキーをログに記録する機能があり、これを使用してWiresharkでTLSトラフィックを復号化できます。これにより、安全な通信の詳細な分析が可能になります。この復号化を実行する方法の詳細は、[Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/)のガイドにあります。
 
-これを検出するには、環境内で変数 `SSLKEYLOGFILE` を検索します。
+これを検出するには、環境内で変数`SSLKEYLOGFILE`を検索します。
 
 共有キーのファイルは次のようになります：
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-これを wireshark にインポートするには、_edit > preference > protocol > ssl > そして (Pre)-Master-Secret log filename にインポートします：
+これをwiresharkにインポートするには、_edit > preference > protocol > ssl >_に移動し、(Pre)-Master-Secretログファイル名にインポートします：
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
 ## ADB communication
 
-APK が送信された ADB 通信から APK を抽出します：
+APKが送信されたADB通信からAPKを抽出します：
 ```python
 from scapy.all import *
 
@@ -179,29 +166,17 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) は、**ダークウェブ** によって駆動される検索エンジンで、企業やその顧客が **スティーラーマルウェア** によって **侵害** されているかどうかを確認するための **無料** 機能を提供しています。
-
-WhiteIntel の主な目標は、情報を盗むマルウェアによるアカウント乗っ取りやランサムウェア攻撃と戦うことです。
-
-彼らのウェブサイトをチェックして、**無料** でエンジンを試すことができます：
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
-AWS ハッキングを学び、練習する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCP ハッキングを学び、練習する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>HackTricksをサポートする</summary>
 
 * [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **参加する** 💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f) または [**テレグラムグループ**](https://t.me/peass) に、または **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するために、** [**HackTricks**](https://github.com/carlospolop/hacktricks) と [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) の GitHub リポジトリに PR を提出してください。
+* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
+* **ハッキングトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)と[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
 
 </details>
 {% endhint %}
