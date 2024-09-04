@@ -15,15 +15,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-### **Beste hulpmiddel om na Windows plaaslike privilege escalatie vektore te soek:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
+### **Beste hulpmiddel om te soek na Windows plaaslike privilege escalatie vektore:** [**WinPEAS**](https://github.com/carlospolop/privilege-escalation-awesome-scripts-suite/tree/master/winPEAS)
 
 ### [Stelselinligting](windows-local-privilege-escalation/#system-info)
 
@@ -49,12 +41,12 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 * [ ] Kyk of enige [**AV**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/windows-av-bypass/README.md)
 * [ ] [**AppLocker Beleid**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/README.md#applocker-policy)?
 * [ ] [**UAC**](https://github.com/carlospolop/hacktricks/blob/master/windows-hardening/authentication-credentials-uac-and-efs/uac-user-account-control/README.md)
-* [ ] [**Gebruikers Privileges**](windows-local-privilege-escalation/#users-and-groups)
+* [ ] [**Gebruiker Privileges**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] Kyk [**huidige** gebruiker **privileges**](windows-local-privilege-escalation/#users-and-groups)
 * [ ] Is jy [**lid van enige bevoorregte groep**](windows-local-privilege-escalation/#privileged-groups)?
 * [ ] Kyk of jy [enige van hierdie tokens geaktiveer het](windows-local-privilege-escalation/#token-manipulation): **SeImpersonatePrivilege, SeAssignPrimaryPrivilege, SeTcbPrivilege, SeBackupPrivilege, SeRestorePrivilege, SeCreateTokenPrivilege, SeLoadDriverPrivilege, SeTakeOwnershipPrivilege, SeDebugPrivilege** ?
 * [ ] [**Gebruikers Sessies**](windows-local-privilege-escalation/#logged-users-sessions)?
-* [ ] Kyk[ **gebruikers tuis**](windows-local-privilege-escalation/#home-folders) (toegang?)
+* [ ] Kyk[ **gebruikers huise**](windows-local-privilege-escalation/#home-folders) (toegang?)
 * [ ] Kyk na [**Wagwoord Beleid**](windows-local-privilege-escalation/#password-policy)
 * [ ] Wat is[ **binne die Klembord**](windows-local-privilege-escalation/#get-the-content-of-the-clipboard)?
 
@@ -131,12 +123,6 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 ### [Pyp Kliënt Impersonasie](windows-local-privilege-escalation/#named-pipe-client-impersonation)
 
 * [ ] Kyk of jy dit kan misbruik
-
-**Try Hard Security Group**
-
-<figure><img src="../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

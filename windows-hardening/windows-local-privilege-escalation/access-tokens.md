@@ -15,23 +15,10 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
-
-Hul primêre doel van WhiteIntel is om rekeningoorname en ransomware-aanvalle te bekamp wat voortspruit uit inligting-steel malware.
-
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Toegangstokens
 
-Elke **gebruiker wat op die stelsel aangemeld is**, **besit 'n toegangstoken met sekuriteitsinligting** vir daardie aanmeldsessie. Die stelsel skep 'n toegangstoken wanneer die gebruiker aanmeld. **Elke proses wat namens die gebruiker uitgevoer word**, **het 'n kopie van die toegangstoken**. Die token identifiseer die gebruiker, die gebruiker se groepe, en die gebruiker se voorregte. 'n Token bevat ook 'n aanmeld SID (Security Identifier) wat die huidige aanmeldsessie identifiseer.
+Elke **gebruiker wat op die stelsel aangemeld is** **besit 'n toegangstoken met sekuriteitsinligting** vir daardie aanmeldsessie. Die stelsel skep 'n toegangstoken wanneer die gebruiker aanmeld. **Elke proses wat** namens die gebruiker **uitgevoer word, het 'n kopie van die toegangstoken**. Die token identifiseer die gebruiker, die gebruiker se groepe, en die gebruiker se voorregte. 'n Token bevat ook 'n aanmeld SID (Sekuriteitsidentifiseerder) wat die huidige aanmeldsessie identifiseer.
 
 Jy kan hierdie inligting sien deur `whoami /all` uit te voer.
 ```
@@ -83,17 +70,17 @@ or using _Process Explorer_ from Sysinternals (select process and access"Securit
 
 ### Plaaslike administrateur
 
-Wanneer 'n plaaslike administrateur aanmeld, **word twee toegangstokens geskep**: Een met administrateurregte en die ander een met normale regte. **Standaard**, wanneer hierdie gebruiker 'n proses uitvoer, word die een met **reguliere** (nie-administrateur) **regte gebruik**. Wanneer hierdie gebruiker probeer om **enige iets** **as administrateur** uit te voer ("Run as Administrator" byvoorbeeld), sal die **UAC** gebruik word om toestemming te vra.\
+Wanneer 'n plaaslike administrateur aanmeld, **word twee toegangstokens geskep**: Een met admin regte en die ander een met normale regte. **Standaard**, wanneer hierdie gebruiker 'n proses uitvoer, word die een met **reguliere** (nie-administrateur) **regte gebruik**. Wanneer hierdie gebruiker probeer om **enige iets** **as administrateur** uit te voer ("Run as Administrator" byvoorbeeld) sal die **UAC** gebruik word om toestemming te vra.\
 As jy wil [**meer oor die UAC leer, lees hierdie bladsy**](../authentication-credentials-uac-and-efs/#uac)**.**
 
-### Kredensiële gebruikersverpersoonliking
+### Kredensiële gebruiker impersonasie
 
 As jy **geldige kredensiale van enige ander gebruiker** het, kan jy 'n **nuwe aanmeldsessie** met daardie kredensiale **skep**:
 ```
 runas /user:domain\username cmd.exe
 ```
-Die **toegangsteken** het ook 'n **verwysing** na die aanmeldsessies binne die **LSASS**, dit is nuttig as die proses toegang tot sekere voorwerpe van die netwerk moet verkry.\
-Jy kan 'n proses begin wat **verskillende akrediteerbesonderhede gebruik om toegang tot netwerkdienste te verkry** deur:
+Die **toegangsteken** het ook 'n **verwysing** na die aanmeldsessies binne die **LSASS**, dit is nuttig as die proses toegang tot sekere voorwerpe van die netwerk benodig.\
+Jy kan 'n proses begin wat **verskillende geloofsbriewe gebruik om toegang tot netwerkdienste te verkry** met:
 ```
 runas /user:domain\username /netonly cmd.exe
 ```
@@ -103,12 +90,12 @@ This is useful if you have useful credentials to access objects in the network b
 
 There are two types of tokens available:
 
-* **Primary Token**: Dit dien as 'n voorstelling van 'n proses se sekuriteitsakkrediteer. Die skepping en assosiasie van primêre tokens met prosesse is aksies wat verhoogde voorregte vereis, wat die beginsel van voorregskeiding beklemtoon. Gewoonlik is 'n verifikasiediens verantwoordelik vir token skepping, terwyl 'n aanmelddiens dit hanteer met die gebruiker se bedryfstelsel-skal. Dit is die moeite werd om op te let dat prosesse die primêre token van hul ouer proses by skepping erf.
-* **Impersonation Token**: Bemagtig 'n bedienertoepassing om die kliënt se identiteit tydelik aan te neem om toegang tot veilige voorwerpe te verkry. Hierdie meganisme is gelaag in vier vlakke van werking:
+* **Primary Token**: Dit dien as 'n voorstelling van 'n proses se sekuriteitsakkrediteer. Die skepping en assosiasie van primêre tokens met prosesse is aksies wat verhoogde voorregte vereis, wat die beginsel van voorregskeiding beklemtoon. Tipies is 'n verifikasiediens verantwoordelik vir token skepping, terwyl 'n aanmelddiens dit hanteer met die gebruiker se bedryfstelsel-skal. Dit is die moeite werd om op te let dat prosesse die primêre token van hul ouer proses by skepping erf.
+* **Impersonation Token**: Bemagtig 'n bedienertoepassing om die kliënt se identiteit tydelik aan te neem vir toegang tot veilige voorwerpe. Hierdie meganisme is gelaag in vier vlakke van werking:
 * **Anonymous**: Gee bediener toegang soortgelyk aan dié van 'n onbekende gebruiker.
 * **Identification**: Laat die bediener toe om die kliënt se identiteit te verifieer sonder om dit te gebruik vir voorwerp toegang.
 * **Impersonation**: Stel die bediener in staat om onder die kliënt se identiteit te werk.
-* **Delegation**: Soortgelyk aan Impersonation, maar sluit die vermoë in om hierdie identiteit aanneming na afgeleë stelsels wat die bediener mee werk, uit te brei, wat akkrediteer behoud verseker.
+* **Delegation**: Soortgelyk aan Impersonation, maar sluit die vermoë in om hierdie identiteit aanneming uit te brei na afstandstelsels waarmee die bediener interaksie het, wat akkrediteer behoud verseker.
 
 #### Impersonate Tokens
 
@@ -128,17 +115,6 @@ Take a look to [**all the possible token privileges and some definitions on this
 
 Learn more about tokens in this tutorials: [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) and [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is a **dark-web** fueled search engine that offers **free** functionalities to check if a company or its customers have been **compromised** by **stealer malwares**.
-
-Their primary goal of WhiteIntel is to combat account takeovers and ransomware attacks resulting from information-stealing malware.
-
-You can check their website and try their engine for **free** at:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

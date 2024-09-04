@@ -10,27 +10,13 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PR's in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
-
-Hul primêre doel van WhiteIntel is om rekening oorname en ransomware aanvalle te beveg wat voortspruit uit inligting-steel malware.
-
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
-**JuicyPotato werk nie** op Windows Server 2019 en Windows 10 weergawe 1809 en later nie. egter, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) kan gebruik word om **die selfde voorregte te benut en `NT AUTHORITY\SYSTEM`** vlak toegang te verkry. _**Kyk:**_
+**JuicyPotato werk nie** op Windows Server 2019 en Windows 10 bou 1809 en later nie. egter, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) kan gebruik word om **die selfde voorregte te benut en `NT AUTHORITY\SYSTEM`** vlak toegang te verkry. _**Kyk:**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -51,13 +37,13 @@ _'n gesuikerde weergawe van_ [_RottenPotatoNG_](https://github.com/breenmachine/
 
 Ons het besluit om [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) te wapen: **Sê hallo aan Juicy Potato**.
 
-> Vir die teorie, sien [Rotten Potato - Voorreg Eskalasie van Diens Rekeninge na SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) en volg die ketting van skakels en verwysings.
+> Vir die teorie, sien [Rotten Potato - Privilege Escalation from Service Accounts to SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) en volg die ketting van skakels en verwysings.
 
 Ons het ontdek dat, behalwe `BITS`, daar 'n aantal COM bedieners is wat ons kan misbruik. Hulle moet net:
 
 1. deur die huidige gebruiker instantiëerbaar wees, normaalweg 'n “diens gebruiker” wat impersonasie voorregte het
 2. die `IMarshal` koppelvlak implementeer
-3. as 'n verhoogde gebruiker (SYSTEM, Administrator, …) loop
+3. as 'n verhoogde gebruiker (SYSTEM, Administrateur, …) loop
 
 Na 'n paar toetse het ons 'n uitgebreide lys van [interessante CLSID's](http://ohpe.it/juicy-potato/CLSID/) op verskeie Windows weergawes verkry en getoets.
 
@@ -74,8 +60,8 @@ JuicyPotato laat jou toe om:
 * `albei`
 * **Proses om te begin** _begin 'n uitvoerbare of skrip as die uitbuiting slaag_
 * **Proses Argument** _pas die begin proses argumente aan_
-* **RPC Server adres** _vir 'n stealthy benadering kan jy autentiseer by 'n eksterne RPC bediener_
-* **RPC Server poort** _nuttig as jy wil autentiseer by 'n eksterne bediener en die vuurmuur blokkeer poort `135`…_
+* **RPC Bediener adres** _vir 'n stealthy benadering kan jy autentiseer by 'n eksterne RPC bediener_
+* **RPC Bediener poort** _nuttig as jy wil autentiseer by 'n eksterne bediener en die vuurmuur blokkeer poort `135`…_
 * **TOETS modus** _hoofsaaklik vir toetsdoeleindes, d.w.s. toets CLSIDs. Dit skep die DCOM en druk die gebruiker van die token. Sien_ [_hier vir toetsing_](http://ohpe.it/juicy-potato/Test/)
 
 ### Gebruik <a href="#usage" id="usage"></a>
@@ -103,7 +89,7 @@ As die gebruiker `SeImpersonate` of `SeAssignPrimaryToken` regte het, dan is jy 
 
 Dit is byna onmoontlik om die misbruik van al hierdie COM Servers te voorkom. Jy kan dink aan die aanpassing van die regte van hierdie voorwerpe via `DCOMCNFG`, maar goeie geluk, dit gaan uitdagend wees.
 
-Die werklike oplossing is om sensitiewe rekeninge en toepassings wat onder die `* SERVICE` rekeninge loop, te beskerm. Om `DCOM` te stop, sal beslis hierdie uitbuiting inhibeer, maar kan 'n ernstige impak op die onderliggende OS hê.
+Die werklike oplossing is om sensitiewe rekeninge en toepassings wat onder die `* SERVICE` rekeninge loop, te beskerm. Om `DCOM` te stop, sal beslis hierdie ontploffing inhibeer, maar kan 'n ernstige impak op die onderliggende OS hê.
 
 From: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
@@ -152,17 +138,6 @@ Laai dan [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/blob/master/Tes
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kontroleer of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
-
-Hul primêre doel van WhiteIntel is om rekening oorname en ransomware-aanvalle te bekamp wat voortspruit uit inligting-steel malware.
-
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -172,8 +147,8 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kontroleer die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Kyk na die [**subskripsieplanne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>

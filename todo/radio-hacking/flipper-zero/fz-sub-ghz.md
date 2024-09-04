@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -15,17 +15,10 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Intro <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero kan **radiofrekwensies in die reeks van 300-928 MHz ontvang en oordra** met sy ingeboude module, wat afstandbeheerder kan lees, stoor en emuleer. Hierdie beheerders word gebruik vir interaksie met hekke, hindernisse, radio slotte, afstandbeheer skakelaars, draadlose deurbel, slim ligte, en meer. Flipper Zero kan jou help om te leer of jou sekuriteit gecompromitteer is.
+Flipper Zero kan **radiofrekwensies in die reeks van 300-928 MHz ontvang en oordra** met sy ingeboude module, wat afstandbeheerder kan lees, stoor en emuleer. Hierdie beheerders word gebruik vir interaksie met hekke, hindernisse, radio slotte, afstandbeheer skakelaars, draadlose deurklokke, slim ligte, en meer. Flipper Zero kan jou help om te leer of jou sekuriteit gecompromitteer is.
 
 <figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
@@ -43,7 +36,7 @@ Flipper Zero het 'n ingeboude sub-1 GHz module gebaseer op 'n [﻿](https://www.
 Hoe om te vind watter frekwensie die afstandbeheerder gebruik
 {% endhint %}
 
-Wanneer geanaliseer, Flipper Zero skandeer seinsterkte (RSSI) by al die frekwensies beskikbaar in frekwensie konfigurasie. Flipper Zero vertoon die frekwensie met die hoogste RSSI waarde, met seinsterkte hoër as -90 [dBm](https://en.wikipedia.org/wiki/DBm).
+Wanneer geanaliseer word, skandeer Flipper Zero die seinsterkte (RSSI) by al die frekwensies beskikbaar in frekwensie konfigurasie. Flipper Zero vertoon die frekwensie met die hoogste RSSI waarde, met seinsterkte hoër as -90 [dBm](https://en.wikipedia.org/wiki/DBm).
 
 Om die afstandbeheerder se frekwensie te bepaal, doen die volgende:
 
@@ -79,7 +72,7 @@ Steal (en herhaal) 'n sein in die geconfigureerde frekwensie
 
 Die **Lees Rau** opsie **registreer seine** wat in die luister frekwensie gestuur word. Dit kan gebruik word om 'n sein te **steel** en dit te **herhaal**.
 
-As standaard is **Lees Rau ook in 433.92 in AM650**, maar as jy met die Lees opsie gevind het dat die sein wat jou interesseer in 'n **ander frekwensie/modulering is, kan jy dit ook aanpas** deur links te druk (terwyl jy binne die Lees Rau opsie is).
+As standaard is **Lees Rau ook in 433.92 in AM650**, maar as jy met die Lees opsie gevind het dat die sein wat jou interesseer in 'n **ander frekwensie/modulering is, kan jy dit ook wysig** deur links te druk (terwyl jy binne die Lees Rau opsie is).
 
 ### Brute-Force
 
@@ -128,19 +121,13 @@ Kry dBms van die gestoor frekwensies
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

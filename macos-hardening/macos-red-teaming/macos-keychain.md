@@ -15,24 +15,11 @@ Leer & oefen GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" data-
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
-
-Hul primêre doel van WhiteIntel is om rekening oorname en ransomware-aanvalle te bekamp wat voortspruit uit inligting-steel malware.
-
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Hoof Sleutelsakke
 
-* Die **Gebruiker Sleutelsak** (`~/Library/Keychains/login.keycahin-db`), wat gebruik word om **gebruiker-spesifieke geloofsbriewe** soos toepassingswagwoorde, internetwagwoorde, gebruiker-gegenereerde sertifikate, netwerkwagwoorde, en gebruiker-gegenereerde publieke/privaat sleutels te stoor.
-* Die **Stelsel Sleutelsak** (`/Library/Keychains/System.keychain`), wat **stelsel-wye geloofsbriewe** soos WiFi wagwoorde, stelsel wortelsertifikate, stelsel private sleutels, en stelsel toepassingswagwoorde stoor.
+* Die **Gebruiker Sleutelsak** (`~/Library/Keychains/login.keycahin-db`), wat gebruik word om **gebruiker-spesifieke akrediteer** soos toepassingswagwoorde, internetwagwoorde, gebruiker-gegenereerde sertifikate, netwerkwagwoorde, en gebruiker-gegenereerde publieke/privaat sleutels te stoor.
+* Die **Stelsel Sleutelsak** (`/Library/Keychains/System.keychain`), wat **stelsel-wye akrediteer** soos WiFi wagwoorde, stelsel wortelsertifikate, stelsel privaat sleutels, en stelsel toepassingswagwoorde stoor.
 
 ### Wagwoord Sleutelsak Toegang
 
@@ -56,7 +43,7 @@ Die ACLs word verder vergesel deur 'n **lys van vertroude toepassings** wat hier
 
 Ook kan die inskrywing die sleutel **`ACLAuthorizationPartitionID`** bevat, wat gebruik word om die **teamid, apple,** en **cdhash** te identifiseer.
 
-* As die **teamid** gespesifiseer is, dan om die **inskrywing** waarde **sonder** 'n **prompt** te **toegang**, moet die gebruikte toepassing die **selfde teamid** hê.
+* As die **teamid** gespesifiseer is, dan om die **inskrywing** waarde **sonder** 'n **prompt** te **verkry** moet die gebruikte toepassing die **selfde teamid** hê.
 * As die **apple** gespesifiseer is, dan moet die app **onderteken** wees deur **Apple**.
 * As die **cdhash** aangedui is, dan moet die **app** die spesifieke **cdhash** hê.
 
@@ -68,15 +55,15 @@ Wanneer 'n **nuwe** **inskrywing** geskep word met **`Keychain Access.app`**, ge
 * **Geen apps** kan uitvoer/ontsleutel (sonder om die gebruiker te vra).
 * Alle apps kan die integriteitskontrole sien.
 * Geen apps kan ACLs verander nie.
-* Die **partitionID** is opgestel na **`apple`**.
+* Die **partitionID** is gestel op **`apple`**.
 
 Wanneer 'n **toepassing 'n inskrywing in die sleutelsak skep**, is die reëls effens anders:
 
 * Alle apps kan versleutel.
-* Slegs die **skepende toepassing** (of enige ander apps wat eksplisiet bygevoeg is) kan uitvoer/ontsleutel (sonder om die gebruiker te vra).
+* Slegs die **skep-toepassing** (of enige ander apps wat eksplisiet bygevoeg is) kan uitvoer/ontsleutel (sonder om die gebruiker te vra).
 * Alle apps kan die integriteitskontrole sien.
 * Geen apps kan die ACLs verander nie.
-* Die **partitionID** is opgestel na **`teamid:[teamID hier]`**.
+* Die **partitionID** is gestel op **`teamid:[teamID hier]`**.
 
 ## Toegang tot die Sleutelsak
 
@@ -129,41 +116,30 @@ Eksporteer die data:
 En dit is die **vereistes** om 'n **geheim sonder 'n prompt** te kan **eksporteer**:
 
 * As **1+ vertroude** apps gelys:
-* Nodig die toepaslike **autorisaties** (**`Nil`**, of wees **deel** van die toegelate lys van apps in die autorisasie om toegang tot die geheime inligting te verkry)
+* Nodig die toepaslike **autorisasies** (**`Nil`**, of wees **deel** van die toegelate lys van apps in die autorisasie om toegang tot die geheime inligting te verkry)
 * Nodig kodehandtekening om te pas by **PartitionID**
 * Nodig kodehandtekening om te pas by een **vertroude app** (of wees 'n lid van die regte KeychainAccessGroup)
 * As **alle toepassings vertrou**:
-* Nodig die toepaslike **autorisaties**
+* Nodig die toepaslike **autorisasies**
 * Nodig kodehandtekening om te pas by **PartitionID**
 * As **geen PartitionID**, dan is dit nie nodig nie
 
 {% hint style="danger" %}
 Daarom, as daar **1 toepassing gelys** is, moet jy **kode in daardie toepassing inspuit**.
 
-As **apple** aangedui word in die **partitionID**, kan jy dit met **`osascript`** benader, so enigiets wat al die toepassings met apple in die partitionID vertrou. **`Python`** kan ook hiervoor gebruik word.
+As **apple** aangedui word in die **partitionID**, kan jy dit met **`osascript`** benader, so enigiets wat alle toepassings met apple in die partitionID vertrou. **`Python`** kan ook hiervoor gebruik word.
 {% endhint %}
 
 ### Twee addisionele eienskappe
 
 * **Onsigbaar**: Dit is 'n booleaanse vlag om die inskrywing van die **UI** Keychain app te **versteek**
-* **Algemeen**: Dit is om **metadata** te stoor (so dit is NIE VERSPREKELD nie)
+* **Algemeen**: Dit is om **metadata** te stoor (so dit is NIE VERSPREID nie)
 * Microsoft het al die verfrissingstokens in platte teks gestoor om toegang tot sensitiewe eindpunte te verkry.
 
-## Verwysings
+## References
 
 * [**#OBTS v5.0: "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
-
-Hul primêre doel van WhiteIntel is om rekening oorname en ransomware-aanvalle wat voortspruit uit inligting-steel malware te bekamp.
-
-Jy kan hul webwerf nagaan en hul enjin **gratis** probeer by:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -15,19 +15,6 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
-
-Hul primêre doel van WhiteIntel is om rekening oorname en ransomware-aanvalle wat voortspruit uit inligting-steel malware te bekamp.
-
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Verbeter jou Wireshark vaardighede
 
@@ -44,7 +31,7 @@ Die volgende tutorials is wonderlik om 'n paar koel basiese truuks te leer:
 
 **Deskundige Inligting**
 
-Deur op _**Analiseer** --> **Deskundige Inligting**_ te klik, sal jy 'n **oorsig** hê van wat in die **geanaliseerde** pakkette gebeur:
+Deur te klik op _**Analiseer** --> **Deskundige Inligting**_ sal jy 'n **oorsig** hê van wat in die pakkette **geanaliseer** word:
 
 ![](<../../../.gitbook/assets/image (256).png>)
 
@@ -56,25 +43,25 @@ Onder _**Statistieke --> Opgeloste Adresse**_ kan jy verskeie **inligting** vind
 
 **Protokol Hiërargie**
 
-Onder _**Statistieke --> Protokol Hiërargie**_ kan jy die **protokolle** **betrokke** in die kommunikasie en data daaroor vind.
+Onder _**Statistieke --> Protokol Hiërargie**_ kan jy die **protokolle** **betrokke** in die kommunikasie en data oor hulle vind.
 
 ![](<../../../.gitbook/assets/image (586).png>)
 
 **Gesprekke**
 
-Onder _**Statistieke --> Gesprekke**_ kan jy 'n **opsomming van die gesprekke** in die kommunikasie en data daaroor vind.
+Onder _**Statistieke --> Gesprekke**_ kan jy 'n **opsomming van die gesprekke** in die kommunikasie en data oor hulle vind.
 
 ![](<../../../.gitbook/assets/image (453).png>)
 
 **Eindpunte**
 
-Onder _**Statistieke --> Eindpunte**_ kan jy 'n **opsomming van die eindpunte** in die kommunikasie en data oor elk van hulle vind.
+Onder _**Statistieke --> Eindpunte**_ kan jy 'n **opsomming van die eindpunte** in die kommunikasie en data oor elkeen van hulle vind.
 
 ![](<../../../.gitbook/assets/image (896).png>)
 
 **DNS inligting**
 
-Onder _**Statistieke --> DNS**_ kan jy statistieke oor die DNS versoek wat gevang is, vind.
+Onder _**Statistieke --> DNS**_ kan jy statistieke oor die DNS versoek wat gevang is vind.
 
 ![](<../../../.gitbook/assets/image (1063).png>)
 
@@ -98,7 +85,7 @@ Ander interessante filters:
 
 ### Soek
 
-As jy wil **soek** vir **inhoud** binne die **pakkette** van die sessies, druk _CTRL+f_. Jy kan nuwe lae by die hoof inligtingsbalk (No., Tyd, Bron, ens.) voeg deur die regterknoppie te druk en dan die kolom te redigeer.
+As jy wil **soek** vir **inhoud** binne die **pakkette** van die sessies druk _CTRL+f_. Jy kan nuwe lae by die hoofinligtingbalk (No., Tyd, Bron, ens.) voeg deur die regterknoppie te druk en dan die kolom te redigeer.
 
 ### Gratis pcap laboratoriums
 
@@ -110,7 +97,7 @@ Jy kan 'n kolom byvoeg wat die Host HTTP koptekst wys:
 
 ![](<../../../.gitbook/assets/image (639).png>)
 
-En 'n kolom wat die Bediener naam van 'n inisiërende HTTPS verbinding byvoeg (**ssl.handshake.type == 1**):
+En 'n kolom wat die Bediener naam van 'n inisierende HTTPS verbinding byvoeg (**ssl.handshake.type == 1**):
 
 ![](<../../../.gitbook/assets/image (408) (1).png>)
 
@@ -118,7 +105,7 @@ En 'n kolom wat die Bediener naam van 'n inisiërende HTTPS verbinding byvoeg (*
 
 ### Van DHCP
 
-In die huidige Wireshark moet jy in plaas van `bootp` soek vir `DHCP`
+In die huidige Wireshark in plaas van `bootp` moet jy soek na `DHCP`
 
 ![](<../../../.gitbook/assets/image (1013).png>)
 
@@ -138,15 +125,15 @@ Druk _Edit_ en voeg al die data van die bediener en die privaat sleutel (_IP, Po
 
 ### Ontsleuteling van https verkeer met simmetriese sessiesleutels
 
-Sowel Firefox as Chrome het die vermoë om TLS sessiesleutels te log, wat met Wireshark gebruik kan word om TLS verkeer te ontsleutel. Dit stel in-diepte analise van veilige kommunikasies moontlik. Meer besonderhede oor hoe om hierdie ontsleuteling uit te voer, kan in 'n gids by [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/) gevind word.
+Sowel Firefox as Chrome het die vermoë om TLS sessiesleutels te log, wat gebruik kan word met Wireshark om TLS verkeer te ontsleutel. Dit stel in staat tot diepgaande analise van veilige kommunikasies. Meer besonderhede oor hoe om hierdie ontsleuteling uit te voer kan gevind word in 'n gids by [Red Flag Security](https://redflagsecurity.net/2019/03/10/decrypting-tls-wireshark/).
 
-Om dit te ontdek, soek binne die omgewing vir die veranderlike `SSLKEYLOGFILE`
+Om dit te detecteer soek binne die omgewing na die veranderlike `SSLKEYLOGFILE`
 
 'n Lêer van gedeelde sleutels sal soos volg lyk:
 
 ![](<../../../.gitbook/assets/image (820).png>)
 
-Om dit in wireshark te invoer, gaan na \_edit > voorkeur > protokol > ssl > en voer dit in (Pre)-Master-Secret log lêernaam:
+Om dit in wireshark te importeer gaan na \_edit > voorkeur > protokol > ssl > en importeer dit in (Pre)-Master-Secret log lêernaam:
 
 ![](<../../../.gitbook/assets/image (989).png>)
 
@@ -179,25 +166,13 @@ f = open('all_bytes.data', 'w+b')
 f.write(all_bytes)
 f.close()
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
-
-Hul primêre doel van WhiteIntel is om rekening oorname en ransomware-aanvalle te bekamp wat voortspruit uit inligting-steel malware.
-
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
-Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Ondersteun HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

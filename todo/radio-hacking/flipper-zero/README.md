@@ -15,14 +15,6 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-**Probeer Hard Sekuriteitsgroep**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 Met [**Flipper Zero**](https://flipperzero.one/) kan jy:
 
 * **Luister/Vang/Herhaal radiofrekwensies:** [**Sub-GHz**](fz-sub-ghz.md)
@@ -35,12 +27,6 @@ Met [**Flipper Zero**](https://flipperzero.one/) kan jy:
 * **Speel Snake**
 
 **Ander Flipper Zero hulpbronne in** [**https://github.com/djsime1/awesome-flipperzer**](https://github.com/djsime1/awesome-flipperzero)
-
-**Probeer Hard Sekuriteitsgroep**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

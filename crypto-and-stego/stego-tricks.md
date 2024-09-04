@@ -1,63 +1,55 @@
-# Stego Truuks
+# Stego Tricks
 
 {% hint style="success" %}
-Leer & oefen AWS-hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP-hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Controleer die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
-* **Sluit aan by die** 💬 [**Discord-groep**](https://discord.gg/hRep4RUj7f) of die [**telegram-groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PR's in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github-opslag.
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
+* **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
-**Probeer Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## **Data Uithaal uit Lêers**
+## **Data uit Lêers Onthul**
 
 ### **Binwalk**
 
-'n Gereedskap om binêre lêers te soek vir ingeslote versteekte lêers en data. Dit word geïnstalleer via `apt` en sy bron is beskikbaar op [GitHub](https://github.com/ReFirmLabs/binwalk).
+'n Gereedskap om binêre lêers te soek na ingebedde versteekte lêers en data. Dit word geïnstalleer via `apt` en sy bron is beskikbaar op [GitHub](https://github.com/ReFirmLabs/binwalk).
 ```bash
 binwalk file # Displays the embedded data
 binwalk -e file # Extracts the data
 binwalk --dd ".*" file # Extracts all data
 ```
-### **Voorste**
+### **Foremost**
 
-Herstel lêers gebaseer op hul opskrifte en voettekste, nuttig vir png-afbeeldings. Geïnstalleer via `apt` met sy bron op [GitHub](https://github.com/korczis/foremost).
+Herstel lêers gebaseer op hul koppe en sterte, nuttig vir png prente. Geïnstalleer via `apt` met sy bron op [GitHub](https://github.com/korczis/foremost).
 ```bash
 foremost -i file # Extracts data
 ```
 ### **Exiftool**
 
-Helps om lêermetadata te sien, beskikbaar [hier](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
+Help om lêer metadata te sien, beskikbaar [hier](https://www.sno.phy.queensu.ca/\~phil/exiftool/).
 ```bash
 exiftool file # Shows the metadata
 ```
 ### **Exiv2**
 
-Soortgelyk aan exiftool, vir metadatabesoek. Installeerbaar via `apt`, bron op [GitHub](https://github.com/Exiv2/exiv2), en het 'n [amptelike webwerf](http://www.exiv2.org/).
+Soortgelyk aan exiftool, vir metadata weergawes. Installeerbaar via `apt`, bron op [GitHub](https://github.com/Exiv2/exiv2), en het 'n [amptelike webwerf](http://www.exiv2.org/).
 ```bash
 exiv2 file # Shows the metadata
 ```
 ### **Lêer**
 
-Identifiseer die tipe lêer waarmee jy werk.
+Identifiseer die tipe lêer waarmee jy te doen het.
 
 ### **Strings**
 
-Haal leesbare strings uit lêers, deur verskillende enkoderingsinstellings te gebruik om die uitset te filter.
+Onthaal leesbare strings uit lêers, met verskeie koderinginstellings om die uitvoer te filter.
 ```bash
 strings -n 6 file # Extracts strings with a minimum length of 6
 strings -n 6 file | head -n 20 # First 20 strings
@@ -71,75 +63,75 @@ strings -e B -n 6 file # 32bit strings (big-endian)
 ```
 ### **Vergelyking (cmp)**
 
-Nuttig vir die vergelyking van 'n gewysigde lêer met sy oorspronklike weergawe wat aanlyn gevind is.
+Nuttig om 'n gewysigde lêer met sy oorspronklike weergawe wat aanlyn gevind is, te vergelyk.
 ```bash
 cmp original.jpg stego.jpg -b -l
 ```
-## **Uithaling van Versteekte Data in Teks**
+## **Uittreksel van Verborgen Data in Tekst**
 
-### **Versteekte Data in Spasies**
+### **Verborgen Data in Spasies**
 
-Onsigbare karakters in ogenschijnlik leë spasies kan inligting verberg. Om hierdie data te onttrek, besoek [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
+Onsigbare karakters in blykbaar leë spasies mag inligting verberg. Om hierdie data uit te trek, besoek [https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder](https://www.irongeek.com/i.php?page=security/unicode-steganography-homoglyph-encoder).
 
-## **Uithaling van Data uit Beelde**
+## **Uittreksel van Data uit Beelde**
 
-### **Identifisering van Beelddetails met GraphicMagick**
+### **Identifisering van Beeldbesonderhede met GraphicMagick**
 
-[GraphicMagick](https://imagemagick.org/script/download.php) dien om beeldlêertipes te bepaal en potensiële korruptie te identifiseer. Voer die onderstaande bevel uit om 'n beeld te inspekteer:
+[GraphicMagick](https://imagemagick.org/script/download.php) dien om beeldlêertipes te bepaal en potensiële korrupsie te identifiseer. Voer die onderstaande opdrag uit om 'n beeld te ondersoek:
 ```bash
 ./magick identify -verbose stego.jpg
 ```
-Om 'n beskadigde beeld te probeer herstel, kan dit help om 'n metadata opmerking by te voeg:
+Om herstel op 'n beskadigde beeld te probeer, kan dit help om 'n metadata-kommentaar by te voeg:
 ```bash
 ./magick mogrify -set comment 'Extraneous bytes removed' stego.jpg
 ```
-### **Steghide vir Data Versteek**
+### **Steghide vir Data Versteeking**
 
-Steghide fasiliteer die versteek van data binne `JPEG, BMP, WAV, en AU` lêers, in staat om versleutelde data in te bed en te onttrek. Installasie is maklik met behulp van `apt`, en sy [bronkode is beskikbaar op GitHub](https://github.com/StefanoDeVuono/steghide).
+Steghide fasiliteer die verborge van data binne `JPEG, BMP, WAV, en AU` lêers, en is in staat om versleutelde data in te sluit en uit te trek. Installasie is eenvoudig met `apt`, en sy [bronskode is beskikbaar op GitHub](https://github.com/StefanoDeVuono/steghide).
 
 **Opdragte:**
 
-* `steghide info lêer` onthul of 'n lêer verskuilde data bevat.
-* `steghide extract -sf lêer [--wagwoord wagwoord]` onttrek die verskuilde data, wagwoord is opsioneel.
+* `steghide info file` onthul of 'n lêer verborge data bevat.
+* `steghide extract -sf file [--passphrase password]` trek die verborge data uit, wagwoord is opsioneel.
 
-Vir web-gebaseerde onttrekking, besoek [hierdie webwerf](https://futureboy.us/stegano/decinput.html).
+Vir web-gebaseerde ekstraksie, besoek [hierdie webwerf](https://futureboy.us/stegano/decinput.html).
 
 **Bruteforce Aanval met Stegcracker:**
 
-* Om wagwoordkraking op Steghide te probeer, gebruik [stegcracker](https://github.com/Paradoxis/StegCracker.git) soos volg:
+* Om 'n wagwoord te probeer kraak op Steghide, gebruik [stegcracker](https://github.com/Paradoxis/StegCracker.git) soos volg:
 ```bash
 stegcracker <file> [<wordlist>]
 ```
-### **zsteg vir PNG en BMP-lêers**
+### **zsteg vir PNG en BMP Lêers**
 
-zsteg spesialiseer daarin om verskuilde data in PNG- en BMP-lêers bloot te lê. Installasie word gedoen deur `gem install zsteg`, met sy [bron op GitHub](https://github.com/zed-0xff/zsteg).
+zsteg spesialiseer in die ontdekking van versteekte data in PNG en BMP lêers. Installasie word gedoen via `gem install zsteg`, met sy [bron op GitHub](https://github.com/zed-0xff/zsteg).
 
 **Opdragte:**
 
-* `zsteg -a lêer` pas alle opsporingmetodes toe op 'n lêer.
-* `zsteg -E lêer` spesifiseer 'n nuttelading vir data-ekstraksie.
+* `zsteg -a file` pas alle opsporingsmetodes op 'n lêer toe.
+* `zsteg -E file` spesifiseer 'n payload vir data-ekstraksie.
 
 ### **StegoVeritas en Stegsolve**
 
-**stegoVeritas** ondersoek metadata, voer beeldtransformasies uit, en pas LSB-brute forcing onder andere kenmerke toe. Gebruik `stegoveritas.py -h` vir 'n volledige lys van opsies en `stegoveritas.py stego.jpg` om alle kontroles uit te voer.
+**stegoVeritas** kontroleer metadata, voer beeldtransformasies uit, en pas LSB brute forcing toe onder andere funksies. Gebruik `stegoveritas.py -h` vir 'n volledige lys van opsies en `stegoveritas.py stego.jpg` om alle kontroles uit te voer.
 
-**Stegsolve** pas verskeie kleurfilters toe om verskuilde teks of boodskappe binne beelde te onthul. Dit is beskikbaar op [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
+**Stegsolve** pas verskeie kleurfilters toe om versteekte teks of boodskappe binne beelde te onthul. Dit is beskikbaar op [GitHub](https://github.com/eugenekolo/sec-tools/tree/master/stego/stegsolve/stegsolve).
 
-### **FFT vir die Opmerking van Verskuilde Inhoud**
+### **FFT vir Versteekte Inhoud Opsporing**
 
-Vinnige Fourier-transformasie (FFT) tegnieke kan verskuilde inhoud in beelde onthul. Nuttige bronne sluit in:
+Fast Fourier Transform (FFT) tegnieke kan verborge inhoud in beelde onthul. Nuttige hulpbronne sluit in:
 
 * [EPFL Demo](http://bigwww.epfl.ch/demo/ip/demos/FFT/)
 * [Ejectamenta](https://www.ejectamenta.com/Fourifier-fullscreen/)
 * [FFTStegPic op GitHub](https://github.com/0xcomposure/FFTStegPic)
 
-### **Stegpy vir Klank- en Beeldlêers**
+### **Stegpy vir Klank en Beeld Lêers**
 
-Stegpy maak dit moontlik om inligting in beeld- en klanklêers in te bed, met ondersteuning vir formate soos PNG, BMP, GIF, WebP, en WAV. Dit is beskikbaar op [GitHub](https://github.com/dhsdshdhk/stegpy).
+Stegpy laat die insluiting van inligting in beeld- en klanklêers toe, wat formate soos PNG, BMP, GIF, WebP, en WAV ondersteun. Dit is beskikbaar op [GitHub](https://github.com/dhsdshdhk/stegpy).
 
-### **Pngcheck vir PNG-lêerontleding**
+### **Pngcheck vir PNG Lêer Analise**
 
-Om PNG-lêers te ontleed of hul egtheid te valideer, gebruik:
+Om PNG lêers te analiseer of om hul egtheid te verifieer, gebruik:
 ```bash
 apt-get install pngcheck
 pngcheck stego.png
@@ -149,32 +141,32 @@ pngcheck stego.png
 Vir verdere verkenning, oorweeg om te besoek:
 
 * [Magic Eye Solver](http://magiceye.ecksdee.co.uk/)
-* [Beeld Foutvlakanalise](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
+* [Image Error Level Analysis](https://29a.ch/sandbox/2012/imageerrorlevelanalysis/)
 * [Outguess](https://github.com/resurrecting-open-source-projects/outguess)
 * [OpenStego](https://www.openstego.com/)
 * [DIIT](https://diit.sourceforge.net/)
 
-## **Data Uithaal uit Klanklêers**
+## **Data Uittrekking uit Klank**
 
-**Klanksteganografie** bied 'n unieke metode om inligting binne klanklêers te verberg. Verskillende gereedskap word gebruik vir die inbedding of herwinning van verborge inhoud.
+**Klank steganografie** bied 'n unieke metode om inligting binne klanklêers te verberg. Verskeie gereedskap word gebruik om versteekte inhoud in te sluit of te onttrek.
 
 ### **Steghide (JPEG, BMP, WAV, AU)**
 
-Steghide is 'n veelsydige gereedskap wat ontwerp is om data in JPEG, BMP, WAV, en AU lêers te verberg. Gedetailleerde instruksies word verskaf in die [stego-tricks dokumentasie](stego-tricks.md#steghide).
+Steghide is 'n veelsydige gereedskap ontwerp om data in JPEG, BMP, WAV, en AU lêers te verberg. Gedetailleerde instruksies word verskaf in die [stego tricks dokumentasie](stego-tricks.md#steghide).
 
 ### **Stegpy (PNG, BMP, GIF, WebP, WAV)**
 
-Hierdie gereedskap is verenigbaar met 'n verskeidenheid formate, insluitend PNG, BMP, GIF, WebP, en WAV. Vir meer inligting, verwys na [Stegpy se afdeling](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
+Hierdie gereedskap is versoenbaar met 'n verskeidenheid formate insluitend PNG, BMP, GIF, WebP, en WAV. Vir meer inligting, verwys na [Stegpy se afdeling](stego-tricks.md#stegpy-png-bmp-gif-webp-wav).
 
 ### **ffmpeg**
 
-ffmpeg is noodsaaklik vir die assessering van die integriteit van klanklêers, waarby gedetailleerde inligting uitgelig word en enige teenstrydighede aangedui word.
+ffmpeg is van kardinale belang vir die beoordeling van die integriteit van klanklêers, wat gedetailleerde inligting uitlig en enige afwykings aanwys.
 ```bash
 ffmpeg -v info -i stego.mp3 -f null -
 ```
 ### **WavSteg (WAV)**
 
-WavSteg blink uit in die wegsteek en onttrek van data binne WAV-lêers deur die minst betekenisvolle bit-strategie te gebruik. Dit is toeganklik op [GitHub](https://github.com/ragibson/Steganography#WavSteg). Opdragte sluit in:
+WavSteg presteer in die verborge en onttrekking van data binne WAV-lêers deur die minste betekenisvolle bit-strategie te gebruik. Dit is beskikbaar op [GitHub](https://github.com/ragibson/Steganography#WavSteg). Opdragte sluit in:
 ```bash
 python3 WavSteg.py -r -b 1 -s soundfile -o outputfile
 
@@ -182,51 +174,47 @@ python3 WavSteg.py -r -b 2 -s soundfile -o outputfile
 ```
 ### **Deepsound**
 
-Deepsound maak dit moontlik om inligting binne klanklêers te versleutel en op te spoor met behulp van AES-256. Dit kan afgelaai word vanaf [die amptelike bladsy](http://jpinsoft.net/deepsound/download.aspx).
+Deepsound stel die versleuteling en opsporing van inligting binne klanklêers moontlik deur gebruik te maak van AES-256. Dit kan afgelaai word van [die amptelike bladsy](http://jpinsoft.net/deepsound/download.aspx).
 
 ### **Sonic Visualizer**
 
-'n Onbetaalbare instrument vir visuele en analitiese inspeksie van klanklêers, Sonic Visualizer kan verborge elemente onthul wat met ander metodes onopspoorbaar is. Besoek die [ampstelike webwerf](https://www.sonicvisualiser.org/) vir meer inligting.
+'n Onskatbare hulpmiddel vir visuele en analitiese inspeksie van klanklêers, Sonic Visualizer kan versteekte elemente onthul wat deur ander middele onopspoorbaar is. Besoek die [amptelike webwerf](https://www.sonicvisualiser.org/) vir meer.
 
-### **DTMF-tone - Kies-tone**
+### **DTMF Tones - Dial Tones**
 
-Die opsporing van DTMF-tone in klanklêers kan bereik word deur aanlynhulpmiddels soos [hierdie DTMF-detektor](https://unframework.github.io/dtmf-detect/) en [DialABC](http://dialabc.com/sound/detect/index.html).
+Die opsporing van DTMF-tones in klanklêers kan bereik word deur middel van aanlyn hulpmiddels soos [hierdie DTMF-detektor](https://unframework.github.io/dtmf-detect/) en [DialABC](http://dialabc.com/sound/detect/index.html).
 
-## **Ander Tegnieke**
+## **Other Techniques**
 
-### **Binêre Lengte SQRT - QR-kode**
+### **Binary Length SQRT - QR Code**
 
-Binêre data wat tot 'n heelgetal kwadreer, kan 'n QR-kode verteenwoordig. Gebruik hierdie snipper om te kontroleer:
+Binaire data wat tot 'n heelgetal kwadrate, mag 'n QR-kode voorstel. Gebruik hierdie snit om te kontroleer:
 ```python
 import math
 math.sqrt(2500) #50
 ```
+For binêre na beeld konversie, kyk na [dcode](https://www.dcode.fr/binary-image). Om QR-kodes te lees, gebruik [hierdie aanlyn strepieskode leser](https://online-barcode-reader.inliteresearch.com/).
+
 ### **Braille Vertaling**
 
-Vir die vertaling van Braille, is die [Branah Braille Translator](https://www.branah.com/braille-translator) 'n uitstekende bron.
+Vir die vertaling van Braille, is die [Branah Braille Translator](https://www.branah.com/braille-translator) 'n uitstekende hulpbron.
 
 ## **Verwysings**
 
 * [**https://0xrick.github.io/lists/stego/**](https://0xrick.github.io/lists/stego/)
 * [**https://github.com/DominicBreuker/stego-toolkit**](https://github.com/DominicBreuker/stego-toolkit)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
-Leer & oefen AWS Hack:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Opleiding AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Leer & oefen GCP Hack: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Opleiding GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Ondersteun HackTricks</summary>
 
-* Kyk na die [**inskrywingsplanne**](https://github.com/sponsors/carlospolop)!
+* Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Deel hacktruuks deur PRs in te dien by die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+* **Deel hacking truuks deur PRs in te dien na die** [**HackTricks**](https://github.com/carlospolop/hacktricks) en [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}

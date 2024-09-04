@@ -6,7 +6,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
@@ -14,14 +14,6 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 </details>
 {% endhint %}
-
-**Probeer Hard Veiligheid Groep**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## ImGui Gebaseerde Reversing gereedskap
 
@@ -33,7 +25,7 @@ Sagtemiddel:
 
 Aanlyn:
 
-* Gebruik [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) om te **decompile** van wasm (binaar) na wat (duidelike teks)
+* Gebruik [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) om te **decompile** van wasm (binêr) na wat (duidelike teks)
 * Gebruik [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/) om te **compile** van wat na wasm
 * jy kan ook probeer om [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) te gebruik om te decompile
 
@@ -46,9 +38,9 @@ Sagtemiddel:
 
 ### [dotPeek](https://www.jetbrains.com/decompiler/)
 
-dotPeek is 'n decompiler wat **decompile en ondersoek verskeie formate**, insluitend **biblioteke** (.dll), **Windows metadata lêer**s (.winmd), en **uitvoerbare lêers** (.exe). Sodra dit gedecompileer is, kan 'n assembly as 'n Visual Studio projek (.csproj) gestoor word.
+dotPeek is 'n decompiler wat **decompile en ondersoek verskeie formate**, insluitend **biblioteke** (.dll), **Windows metadata lêers** (.winmd), en **uitvoerbare lêers** (.exe). Sodra dit gedecompileer is, kan 'n assembly as 'n Visual Studio projek (.csproj) gestoor word.
 
-Die voordeel hier is dat as 'n verlore bronkode herstel moet word uit 'n erfenis assembly, kan hierdie aksie tyd bespaar. Verder bied dotPeek handige navigasie deur die gedecompileerde kode, wat dit een van die perfekte gereedskap maak vir **Xamarin algoritme analise.**
+Die verdienste hier is dat as 'n verlore bronkode herstel moet word uit 'n erfenis assembly, kan hierdie aksie tyd bespaar. Verder bied dotPeek handige navigasie deur die gedecompileerde kode, wat dit een van die perfekte gereedskap maak vir **Xamarin algoritme analise.**
 
 ### [.NET Reflector](https://www.red-gate.com/products/reflector/)
 
@@ -58,8 +50,8 @@ Met 'n omvattende add-in model en 'n API wat die gereedskap uitbrei om aan jou p
 * Bied insig in die implementering en gebruik van .NET tale en raamwerke
 * Vind ongedokumenteerde en nie-blootgestelde funksionaliteit om meer uit die API's en tegnologieë te kry.
 * Vind afhanklikhede en verskillende assemblies
-* Spoor die presiese ligging van foute in jou kode, derdeparty-komponente, en biblioteke op.
-* Debugeer in die bron van al die .NET kode waarmee jy werk.
+* Spoor die presiese ligging van foute in jou kode, derdeparty-komponente, en biblioteke.
+* Debug in die bron van al die .NET kode waarmee jy werk.
 
 ### [ILSpy](https://github.com/icsharpcode/ILSpy) & [dnSpy](https://github.com/dnSpy/dnSpy/releases)
 
@@ -101,7 +93,7 @@ Stoor dan die nuwe lêer via _**File >> Save module...**_:
 
 Dit is nodig omdat as jy dit nie doen nie, verskeie **optimisations** tydens **runtime** op die kode toegepas sal word en dit moontlik is dat terwyl jy debugg, 'n **break-point is nooit getref** of sommige **variables bestaan nie**.
 
-As jou .NET-toepassing deur **IIS** **run** word, kan jy dit **herbegin** met:
+As jou .NET-toepassing deur **IIS** **run** word, kan jy dit met **restart**:
 ```
 iisreset /noforce
 ```
@@ -231,11 +223,11 @@ scdbg.exe -f shellcode -d #Dump decoded shellcode
 scdbg.exe -f shellcode /findsc #Find offset where starts
 scdbg.exe -f shellcode /foff 0x0000004D #Start the executing in that offset
 ```
-scDbg het ook 'n grafiese laaier waar jy die opsies kan kies wat jy wil hê en die shellcode kan uitvoer.
+scDbg het ook 'n grafiese laaier waar jy die opsies kan kies wat jy wil en die shellcode kan uitvoer.
 
 ![](<../../.gitbook/assets/image (258).png>)
 
-Die **Create Dump** opsie sal die finale shellcode dump as daar enige verandering aan die shellcode dinamies in geheue gemaak word (nuttig om die gedecodeerde shellcode af te laai). Die **start offset** kan nuttig wees om die shellcode by 'n spesifieke offset te begin. Die **Debug Shell** opsie is nuttig om die shellcode te debugeer met behulp van die scDbg terminal (ek vind egter enige van die opsies wat voorheen verduidelik is beter vir hierdie saak, aangesien jy Ida of x64dbg kan gebruik).
+Die **Create Dump** opsie sal die finale shellcode dump as enige verandering aan die shellcode dinamies in geheue gemaak word (nuttig om die gedecodeerde shellcode af te laai). Die **start offset** kan nuttig wees om die shellcode by 'n spesifieke offset te begin. Die **Debug Shell** opsie is nuttig om die shellcode te debug met behulp van die scDbg terminal (maar ek vind enige van die opsies wat voorheen verduidelik is beter vir hierdie saak, aangesien jy Ida of x64dbg kan gebruik).
 
 ### Disassembling met CyberChef
 
@@ -248,7 +240,7 @@ Hierdie obfuscator **wysig al die instruksies vir `mov`** (ja, regtig cool). Dit
 * [https://www.youtube.com/watch?v=2VF\_wPkiBJY](https://www.youtube.com/watch?v=2VF\_wPkiBJY)
 * [https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf](https://github.com/xoreaxeaxeax/movfuscator/blob/master/slides/domas\_2015\_the\_movfuscator.pdf)
 
-As jy gelukkig is, sal [demovfuscator](https://github.com/kirschju/demovfuscator) die binêre deobfuskeer. Dit het verskeie afhanklikhede.
+As jy gelukkig is, sal [demovfuscator](https://github.com/kirschju/demovfuscator) die binêre deofuskeer. Dit het verskeie afhanklikhede.
 ```
 apt-get install libcapstone-dev
 apt-get install libz3-dev
@@ -263,7 +255,7 @@ Om die **toegangspunt** te vind, soek die funksies deur `::main` soos in:
 
 ![](<../../.gitbook/assets/image (1080).png>)
 
-In hierdie geval was die binêre genaamd authenticator, so dit is redelik duidelik dat dit die interessante hooffunksie is.\
+In hierdie geval was die binêre genaamd authenticator, so dit is redelik voor die hand liggend dat dit die interessante hooffunksie is.\
 Met die **naam** van die **funksies** wat aangeroep word, soek daarna op die **Internet** om meer te leer oor hul **insette** en **uitsette**.
 
 ## **Delphi**
@@ -300,10 +292,10 @@ As jy die **binêre** van 'n GBA-speletjie kry, kan jy verskillende gereedskap g
 
 * [**no$gba**](https://problemkaputt.de/gba.htm) (_Laai die debug weergawe af_) - Bevat 'n debugger met 'n koppelvlak
 * [**mgba** ](https://mgba.io)- Bevat 'n CLI-debugger
-* [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Ghidra inprop
-* [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Ghidra inprop
+* [**gba-ghidra-loader**](https://github.com/pudii/gba-ghidra-loader) - Ghidra-inprop
+* [**GhidraGBA**](https://github.com/SiD3W4y/GhidraGBA) - Ghidra-inprop
 
-In [**no$gba**](https://problemkaputt.de/gba.htm), in _**Opsies --> Emulasie Instelling --> Beheer**_\*\* \*\* kan jy sien hoe om die Game Boy Advance **knoppies** te druk.
+In [**no$gba**](https://problemkaputt.de/gba.htm), in _**Opsies --> Emulering Instelling --> Beheer**_\*\* \*\* kan jy sien hoe om die Game Boy Advance **knoppies** te druk.
 
 ![](<../../.gitbook/assets/image (581).png>)
 
@@ -320,13 +312,13 @@ DOWN = 128
 R = 256
 L = 256
 ```
-So, in this kind of program, the interesting part will be **hoe die program die gebruiker invoer hanteer**. In die adres **0x4000130** sal jy die algemeen aangetref funksie vind: **KEYINPUT**.
+So, in this kind of program, the interesting part will be **hoe die program die gebruiker se insette hanteer**. In die adres **0x4000130** sal jy die algemeen aangetrefde funksie vind: **KEYINPUT**.
 
 ![](<../../.gitbook/assets/image (447).png>)
 
 In die vorige beeld kan jy sien dat die funksie aangeroep word vanaf **FUN\_080015a8** (adresse: _0x080015fa_ en _0x080017ac_).
 
-In daardie funksie, na 'n paar inisiasie operasies (sonder enige belangrikheid):
+In daardie funksie, na 'n paar inisiëringsoperasies (sonder enige belangrikheid):
 ```c
 void FUN_080015a8(void)
 
@@ -392,10 +384,10 @@ In die vorige kode kan jy sien dat ons **uVar1** (die plek waar die **waarde van
 * Eerstens, dit word vergelyk met die **waarde 4** (**SELECT** knoppie): In die uitdaging maak hierdie knoppie die skerm skoon.
 * Dan, dit word vergelyk met die **waarde 8** (**START** knoppie): In die uitdaging kontroleer dit of die kode geldig is om die vlag te kry.
 * In hierdie geval word die var **`DAT_030000d8`** met 0xf3 vergelyk en as die waarde dieselfde is, word 'n paar kode uitgevoer.
-* In enige ander gevalle word 'n kont (`DAT_030000d4`) nagegaan. Dit is 'n kont omdat dit 1 byvoeg net nadat dit in die kode ingaan.\
+* In enige ander gevalle word 'n kont (`DAT_030000d4`) nagegaan. Dit is 'n kont omdat dit 1 byvoeg onmiddellik nadat dit in die kode ingaan.\
 **As** dit minder as 8 is, word iets wat **byvoeg** waardes aan \*\*`DAT_030000d8` \*\* doen (basies voeg dit die waardes van die knoppies wat in hierdie veranderlike gedruk is by solank die kont minder as 8 is).
 
-So, in hierdie uitdaging, om die waardes van die knoppies te ken, moes jy **'n kombinasie druk met 'n lengte kleiner as 8 wat die resultaat toevoeging 0xf3 is.**
+So, in hierdie uitdaging, om die waardes van die knoppies te ken, moes jy **'n kombinasie met 'n lengte kleiner as 8 druk sodat die resultaat van die byvoeging 0xf3 is.**
 
 **Verwysing vir hierdie tutoriaal:** [**https://exp.codes/Nostalgia/**](https://exp.codes/Nostalgia/)
 
@@ -403,16 +395,10 @@ So, in hierdie uitdaging, om die waardes van die knoppies te ken, moes jy **'n k
 
 {% embed url="https://www.youtube.com/watch?v=VVbRe7wr3G4" %}
 
-## Cursusse
+## Courses
 
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
-* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Binêre deobfuscation)
-
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
+* [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Binaire deobfuscation)
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -420,7 +406,7 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 
 <details>
 
-<summary>Ondersteun HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Kyk na die [**subskripsie planne**](https://github.com/sponsors/carlospolop)!
 * **Sluit aan by die** 💬 [**Discord groep**](https://discord.gg/hRep4RUj7f) of die [**telegram groep**](https://t.me/peass) of **volg** ons op **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**

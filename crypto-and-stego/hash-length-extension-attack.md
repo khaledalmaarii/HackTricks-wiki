@@ -15,26 +15,13 @@ Leer & oefen GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size=
 </details>
 {% endhint %}
 
-#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
+## Summary of the attack
 
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
+Stel jou voor 'n bediener wat **onderteken** sekere **data** deur 'n **geheime** by te voeg aan 'n bekende duidelike teks data en dan daardie data te hash. As jy weet:
 
-Hul primêre doel van WhiteIntel is om rekening oorname en ransomware-aanvalle te bekamp wat voortspruit uit inligting-steel malware.
-
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-## Samevatting van die aanval
-
-Stel jou 'n bediener voor wat **onderteken** sekere **data** deur 'n **geheime** by 'n bekende duidelike teksdata te voeg en dan daardie data te hash. As jy weet:
-
-* **Die lengte van die geheim** (dit kan ook gebruteforceer word vanaf 'n gegewe lengterange)
-* **Die duidelike teksdata**
+* **Die lengte van die geheim** (dit kan ook gebruteforced word vanaf 'n gegewe lengte reeks)
+* **Die duidelike teks data**
 * **Die algoritme (en dit is kwesbaar vir hierdie aanval)**
 * **Die padding is bekend**
 * Gewoonlik word 'n standaard een gebruik, so as die ander 3 vereistes nagekom word, is dit ook
@@ -42,37 +29,27 @@ Stel jou 'n bediener voor wat **onderteken** sekere **data** deur 'n **geheime**
 
 Dan is dit moontlik vir 'n **aanvaller** om **data** by te voeg en 'n geldige **handtekening** te genereer vir die **vorige data + bygevoegde data**.
 
-### Hoe?
+### How?
 
-Basies genereer die kwesbare algoritmes die hashes deur eerstens **'n blok data te hash**, en dan, **uit** die **voorheen** geskepte **hash** (toestand), voeg hulle **die volgende blok data** by en **hash dit**.
+Basies genereer die kwesbare algoritmes die hashes deur eerstens **'n blok data te hash**, en dan, **van** die **voorheen** geskepte **hash** (toestand), voeg hulle **die volgende blok data** by en **hash dit**.
 
 Stel jou voor dat die geheim "geheim" is en die data "data", die MD5 van "geheimdata" is 6036708eba0d11f6ef52ad44e8b74d5b.\
-As 'n aanvaller die string "voeg by" wil byvoeg, kan hy:
+As 'n aanvaller die string "byvoeg" wil byvoeg kan hy:
 
 * 'n MD5 van 64 "A"s genereer
 * Die toestand van die voorheen geïnitialiseerde hash verander na 6036708eba0d11f6ef52ad44e8b74d5b
-* Die string "voeg by" byvoeg
-* Die hash voltooi en die resultaat sal 'n **geldige een wees vir "geheim" + "data" + "padding" + "voeg by"**
+* Die string "byvoeg" byvoeg
+* Die hash voltooi en die resulterende hash sal 'n **geldige een wees vir "geheim" + "data" + "padding" + "byvoeg"**
 
-### **Gereedskap**
+### **Tool**
 
 {% embed url="https://github.com/iagox86/hash_extender" %}
 
-### Verwysings
+### References
 
 Jy kan hierdie aanval goed verduidelik vind in [https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks](https://blog.skullsecurity.org/2012/everything-you-need-to-know-about-hash-length-extension-attacks)
 
-#### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) is 'n **dark-web** aangedrewe soekenjin wat **gratis** funksies bied om te kyk of 'n maatskappy of sy kliënte **gekompromitteer** is deur **stealer malwares**.
-
-Hul primêre doel van WhiteIntel is om rekening oorname en ransomware-aanvalle te bekamp wat voortspruit uit inligting-steel malware.
-
-Jy kan hul webwerf besoek en hul enjin **gratis** probeer by:
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Leer & oefen AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
