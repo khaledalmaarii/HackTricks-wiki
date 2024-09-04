@@ -9,25 +9,11 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
-
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Leur objectif principal avec WhiteIntel est de lutter contre les prises de contrôle de comptes et les attaques par ransomware résultant de malwares de vol d'informations.
-
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à :
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Niveaux d'intégrité
 
@@ -52,7 +38,7 @@ Vous pouvez également obtenir votre **niveau d'intégrité actuel** en utilisan
 
 ### Niveaux d'intégrité dans le système de fichiers
 
-Un objet à l'intérieur du système de fichiers peut nécessiter une **exigence de niveau d'intégrité minimum** et si un processus n'a pas ce niveau d'intégrité, il ne pourra pas interagir avec lui.\
+Un objet dans le système de fichiers peut nécessiter une **exigence de niveau d'intégrité minimum** et si un processus n'a pas ce niveau d'intégrité, il ne pourra pas interagir avec lui.\
 Par exemple, créons **un fichier régulier à partir d'une console d'utilisateur régulier et vérifions les autorisations** :
 ```
 echo asd >asd.txt
@@ -79,7 +65,7 @@ NT AUTHORITY\SERVICE:(I)(M,DC)
 NT AUTHORITY\BATCH:(I)(M,DC)
 Mandatory Label\High Mandatory Level:(NW)
 ```
-C'est ici que les choses deviennent intéressantes. Vous pouvez voir que l'utilisateur `DESKTOP-IDJHTKP\user` a **tous les privilèges** sur le fichier (en effet, c'était l'utilisateur qui a créé le fichier), cependant, en raison du niveau d'intégrité minimum mis en œuvre, il ne pourra plus modifier le fichier à moins qu'il ne fonctionne dans un niveau d'intégrité élevé (notez qu'il pourra le lire) :
+C'est ici que les choses deviennent intéressantes. Vous pouvez voir que l'utilisateur `DESKTOP-IDJHTKP\user` a **tous les privilèges** sur le fichier (en effet, c'était l'utilisateur qui a créé le fichier), cependant, en raison du niveau d'intégrité minimum mis en œuvre, il ne pourra plus modifier le fichier à moins qu'il ne fonctionne à l'intérieur d'un niveau d'intégrité élevé (notez qu'il pourra le lire) :
 ```
 echo 1234 > asd.txt
 Access is denied.
@@ -89,12 +75,12 @@ C:\Users\Public\asd.txt
 Access is denied.
 ```
 {% hint style="info" %}
-**Par conséquent, lorsqu'un fichier a un niveau d'intégrité minimum, pour le modifier, vous devez être au moins à ce niveau d'intégrité.**
+**Par conséquent, lorsqu'un fichier a un niveau d'intégrité minimum, pour le modifier, vous devez être exécuté au moins à ce niveau d'intégrité.**
 {% endhint %}
 
 ### Niveaux d'intégrité dans les binaires
 
-J'ai fait une copie de `cmd.exe` dans `C:\Windows\System32\cmd-low.exe` et lui ai attribué un **niveau d'intégrité bas depuis une console d'administrateur :**
+J'ai fait une copie de `cmd.exe` dans `C:\Windows\System32\cmd-low.exe` et lui ai attribué un **niveau d'intégrité bas depuis une console administrateur :**
 ```
 icacls C:\Windows\System32\cmd-low.exe
 C:\Windows\System32\cmd-low.exe NT AUTHORITY\SYSTEM:(I)(F)
@@ -108,37 +94,10 @@ Maintenant, lorsque j'exécute `cmd-low.exe`, il **s'exécutera sous un niveau d
 
 ![](<../../.gitbook/assets/image (313).png>)
 
-Pour les curieux, si vous assignez un niveau d'intégrité élevé à un binaire (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), il ne s'exécutera pas automatiquement avec un niveau d'intégrité élevé (si vous l'invoquez depuis un niveau d'intégrité moyen -- par défaut -- il s'exécutera sous un niveau d'intégrité moyen).
+Pour les personnes curieuses, si vous assignez un niveau d'intégrité élevé à un binaire (`icacls C:\Windows\System32\cmd-high.exe /setintegritylevel high`), il ne s'exécutera pas automatiquement avec un niveau d'intégrité élevé (si vous l'invoquez depuis un niveau d'intégrité moyen --par défaut-- il s'exécutera sous un niveau d'intégrité moyen).
 
 ### Niveaux d'intégrité dans les processus
 
 Tous les fichiers et dossiers n'ont pas un niveau d'intégrité minimum, **mais tous les processus s'exécutent sous un niveau d'intégrité**. Et similaire à ce qui s'est passé avec le système de fichiers, **si un processus veut écrire à l'intérieur d'un autre processus, il doit avoir au moins le même niveau d'intégrité**. Cela signifie qu'un processus avec un niveau d'intégrité faible ne peut pas ouvrir un handle avec un accès complet à un processus avec un niveau d'intégrité moyen.
 
 En raison des restrictions commentées dans cette section et la précédente, d'un point de vue sécurité, il est toujours **recommandé d'exécuter un processus au niveau d'intégrité le plus bas possible**.
-
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Leur objectif principal avec WhiteIntel est de lutter contre les prises de contrôle de comptes et les attaques par ransomware résultant de malwares de vol d'informations.
-
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à :
-
-{% embed url="https://whiteintel.io" %}
-
-{% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
-
-<details>
-
-<summary>Soutenir HackTricks</summary>
-
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux dépôts github de** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
-
-</details>
-{% endhint %}

@@ -15,30 +15,17 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Leur objectif principal avec WhiteIntel est de lutter contre les prises de contrôle de comptes et les attaques par ransomware résultant de malwares de vol d'informations.
-
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à l'adresse suivante :
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## **Informations de base**
 
-**System Integrity Protection (SIP)** dans macOS est un mécanisme conçu pour empêcher même les utilisateurs les plus privilégiés d'apporter des modifications non autorisées aux dossiers système clés. Cette fonctionnalité joue un rôle crucial dans le maintien de l'intégrité du système en restreignant des actions telles que l'ajout, la modification ou la suppression de fichiers dans des zones protégées. Les principaux dossiers protégés par SIP incluent :
+**La Protection de l'Intégrité du Système (SIP)** dans macOS est un mécanisme conçu pour empêcher même les utilisateurs les plus privilégiés de faire des modifications non autorisées dans des dossiers système clés. Cette fonctionnalité joue un rôle crucial dans le maintien de l'intégrité du système en restreignant des actions telles que l'ajout, la modification ou la suppression de fichiers dans des zones protégées. Les principaux dossiers protégés par le SIP incluent :
 
 * **/System**
 * **/bin**
 * **/sbin**
 * **/usr**
 
-Les règles qui régissent le comportement de SIP sont définies dans le fichier de configuration situé à **`/System/Library/Sandbox/rootless.conf`**. Dans ce fichier, les chemins qui sont précédés d'un astérisque (\*) sont désignés comme des exceptions aux restrictions SIP autrement strictes.
+Les règles qui régissent le comportement du SIP sont définies dans le fichier de configuration situé à **`/System/Library/Sandbox/rootless.conf`**. Dans ce fichier, les chemins qui sont précédés d'un astérisque (\*) sont désignés comme des exceptions aux restrictions SIP autrement strictes.
 
 Considérez l'exemple ci-dessous :
 ```javascript
@@ -63,7 +50,7 @@ drwxr-xr-x  338 root  wheel  restricted 10816 May 13 00:29 /usr/libexec
 ```
 Ici, le drapeau **`restricted`** indique que le répertoire `/usr/libexec` est protégé par SIP. Dans un répertoire protégé par SIP, les fichiers ne peuvent pas être créés, modifiés ou supprimés.
 
-De plus, si un fichier contient l'attribut **`com.apple.rootless`** d'attribut étendu, ce fichier sera également **protégé par SIP**.
+De plus, si un fichier contient l'attribut **`com.apple.rootless`** en tant qu'**attribut étendu**, ce fichier sera également **protégé par SIP**.
 
 **SIP limite également d'autres actions root** telles que :
 
@@ -72,11 +59,11 @@ De plus, si un fichier contient l'attribut **`com.apple.rootless`** d'attribut �
 * Modifier les variables NVRAM
 * Autoriser le débogage du noyau
 
-Les options sont maintenues dans la variable nvram en tant que bitflag (`csr-active-config` sur Intel et `lp-sip0` est lu à partir de l'arbre de périphériques démarré pour ARM). Vous pouvez trouver les drapeaux dans le code source XNU dans `csr.sh` :
+Les options sont maintenues dans la variable nvram en tant que bitflag (`csr-active-config` sur Intel et `lp-sip0` est lu à partir de l'arbre de périphériques démarré pour ARM). Vous pouvez trouver les drapeaux dans le code source de XNU dans `csr.sh` :
 
 <figure><img src="../../../.gitbook/assets/image (1192).png" alt=""><figcaption></figcaption></figure>
 
-### Statut SIP
+### Statut de SIP
 
 Vous pouvez vérifier si SIP est activé sur votre système avec la commande suivante :
 ```bash
@@ -105,7 +92,7 @@ Contourner SIP permet à un attaquant de :
 * **Accéder aux données utilisateur** : Lire des données sensibles de l'utilisateur comme les mails, les messages et l'historique de Safari de tous les comptes utilisateurs.
 * **Contournement de TCC** : Manipuler directement la base de données TCC (Transparence, Consentement et Contrôle) pour accorder un accès non autorisé à la webcam, au microphone et à d'autres ressources.
 * **Établir une persistance** : Placer des logiciels malveillants dans des emplacements protégés par SIP, les rendant résistants à la suppression, même par des privilèges root. Cela inclut également la possibilité de falsifier l'outil de suppression de logiciels malveillants (MRT).
-* **Charger des extensions de noyau** : Bien qu'il existe des protections supplémentaires, contourner SIP simplifie le processus de chargement des extensions de noyau non signées.
+* **Charger des extensions de noyau** : Bien qu'il existe des protections supplémentaires, contourner SIP simplifie le processus de chargement d'extensions de noyau non signées.
 
 ### Paquets d'Installation
 
@@ -154,7 +141,7 @@ fsck_cs /dev/diskX 1>&-
 touch /Library/Extensions/
 reboot
 ```
-L'exploitation de cette vulnérabilité a de graves implications. Le fichier `Info.plist`, normalement responsable de la gestion des autorisations pour les extensions du noyau, devient inefficace. Cela inclut l'incapacité de mettre sur liste noire certaines extensions, telles que `AppleHWAccess.kext`. Par conséquent, avec le mécanisme de contrôle de SIP hors service, cette extension peut être chargée, accordant un accès en lecture et écriture non autorisé à la RAM du système.
+L'exploitation de cette vulnérabilité a de graves implications. Le fichier `Info.plist`, normalement responsable de la gestion des autorisations pour les extensions du noyau, devient inefficace. Cela inclut l'incapacité de mettre sur liste noire certaines extensions, telles que `AppleHWAccess.kext`. Par conséquent, avec le mécanisme de contrôle de SIP hors service, cette extension peut être chargée, accordant un accès en lecture et en écriture non autorisé à la RAM du système.
 
 #### [Monter sur des dossiers protégés par SIP](https://www.slideshare.net/i0n1c/syscan360-stefan-esser-os-x-el-capitan-sinking-the-ship)
 
@@ -183,7 +170,7 @@ Dans cette présentation de [**DEF CON 31**](https://www.youtube.com/watch?v=zxZ
 
 #### CVE-2023-42860 <a href="#cve-a-detailed-look" id="cve-a-detailed-look"></a>
 
-Comme [**détaillé dans cet article de blog**](https://blog.kandji.io/apple-mitigates-vulnerabilities-installer-scripts), un script `postinstall` provenant des paquets `InstallAssistant.pkg` permettait d'exécuter :
+Comme [**détaillé dans cet article de blog**](https://blog.kandji.io/apple-mitigates-vulnerabilities-installer-scripts), un script `postinstall` provenant de `InstallAssistant.pkg` permettait d'exécuter :
 ```bash
 /usr/bin/chflags -h norestricted "${SHARED_SUPPORT_PATH}/SharedSupport.dmg"
 ```
@@ -266,27 +253,16 @@ De plus, le disque instantané est également monté en tant que **lecture seule
 mount
 /dev/disk3s1s1 on / (apfs, sealed, local, read-only, journaled)
 ```
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Leur objectif principal avec WhiteIntel est de lutter contre les prises de contrôle de comptes et les attaques par ransomware résultant de malwares volants d'informations.
-
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à :
-
-{% embed url="https://whiteintel.io" %}
 {% hint style="success" %}
-Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team AWS (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Formation Expert Red Team GCP (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

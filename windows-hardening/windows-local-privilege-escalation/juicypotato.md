@@ -15,22 +15,8 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Leur objectif principal avec WhiteIntel est de lutter contre les prises de contrôle de comptes et les attaques par ransomware résultant de malwares de vol d'informations.
-
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à :
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
 {% hint style="warning" %}
-**JuicyPotato ne fonctionne pas** sur Windows Server 2019 et Windows 10 build 1809 et suivants. Cependant, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) peuvent être utilisés pour **exploiter les mêmes privilèges et obtenir un accès de niveau `NT AUTHORITY\SYSTEM`**. _**Vérifiez :**_
+**JuicyPotato ne fonctionne pas** sur Windows Server 2019 et Windows 10 build 1809 et versions ultérieures. Cependant, [**PrintSpoofer**](https://github.com/itm4n/PrintSpoofer)**,** [**RoguePotato**](https://github.com/antonioCoco/RoguePotato)**,** [**SharpEfsPotato**](https://github.com/bugch3ck/SharpEfsPotato) peuvent être utilisés pour **exploiter les mêmes privilèges et obtenir un accès de niveau `NT AUTHORITY\SYSTEM`**. _**Vérifiez :**_
 {% endhint %}
 
 {% content-ref url="roguepotato-and-printspoofer.md" %}
@@ -39,7 +25,7 @@ Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à :
 
 ## Juicy Potato (abus des privilèges dorés) <a href="#juicy-potato-abusing-the-golden-privileges" id="juicy-potato-abusing-the-golden-privileges"></a>
 
-_Une version sucrée de_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, avec un peu de jus, c'est-à-dire **un autre outil d'élévation de privilèges locaux, d'un compte de service Windows à NT AUTHORITY\SYSTEM**_
+_Une version sucrée de_ [_RottenPotatoNG_](https://github.com/breenmachine/RottenPotatoNG)_, avec un peu de jus, c'est-à-dire **un autre outil d'escalade de privilèges locaux, d'un compte de service Windows à NT AUTHORITY\SYSTEM**_
 
 #### Vous pouvez télécharger juicypotato depuis [https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts](https://ci.appveyor.com/project/ohpe/juicy-potato/build/artifacts)
 
@@ -47,11 +33,11 @@ _Une version sucrée de_ [_RottenPotatoNG_](https://github.com/breenmachine/Rott
 
 [**Depuis le Readme de juicy-potato**](https://github.com/ohpe/juicy-potato/blob/master/README.md)**:**
 
-[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) et ses [variantes](https://github.com/decoder-it/lonelypotato) exploitent la chaîne d'élévation de privilèges basée sur le service [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [service](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) ayant l'écouteur MiTM sur `127.0.0.1:6666` et lorsque vous avez les privilèges `SeImpersonate` ou `SeAssignPrimaryToken`. Lors d'un examen de build Windows, nous avons trouvé une configuration où `BITS` était intentionnellement désactivé et le port `6666` était pris.
+[RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) et ses [variantes](https://github.com/decoder-it/lonelypotato) exploitent la chaîne d'escalade de privilèges basée sur le service [`BITS`](https://msdn.microsoft.com/en-us/library/windows/desktop/bb968799\(v=vs.85\).aspx) [service](https://github.com/breenmachine/RottenPotatoNG/blob/4eefb0dd89decb9763f2bf52c7a067440a9ec1f0/RottenPotatoEXE/MSFRottenPotato/MSFRottenPotato.cpp#L126) ayant l'écouteur MiTM sur `127.0.0.1:6666` et lorsque vous avez les privilèges `SeImpersonate` ou `SeAssignPrimaryToken`. Lors d'un examen de build Windows, nous avons trouvé une configuration où `BITS` était intentionnellement désactivé et le port `6666` était pris.
 
 Nous avons décidé d'armement [RottenPotatoNG](https://github.com/breenmachine/RottenPotatoNG) : **Dites bonjour à Juicy Potato**.
 
-> Pour la théorie, voir [Rotten Potato - Élévation de privilèges des comptes de service à SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) et suivez la chaîne de liens et de références.
+> Pour la théorie, voir [Rotten Potato - Escalade de privilèges des comptes de service à SYSTEM](https://foxglovesecurity.com/2016/09/26/rotten-potato-privilege-escalation-from-service-accounts-to-system/) et suivez la chaîne de liens et de références.
 
 Nous avons découvert que, en plus de `BITS`, il existe plusieurs serveurs COM que nous pouvons exploiter. Ils doivent simplement :
 
@@ -68,7 +54,7 @@ JuicyPotato vous permet de :
 * **CLSID cible** _choisissez n'importe quel CLSID que vous voulez._ [_Ici_](http://ohpe.it/juicy-potato/CLSID/) _vous pouvez trouver la liste organisée par OS._
 * **Port d'écoute COM** _définissez le port d'écoute COM que vous préférez (au lieu du 6666 codé en dur)_
 * **Adresse IP d'écoute COM** _lier le serveur à n'importe quelle IP_
-* **Mode de création de processus** _selon les privilèges de l'utilisateur imité, vous pouvez choisir parmi :_
+* **Mode de création de processus** _en fonction des privilèges de l'utilisateur imité, vous pouvez choisir parmi :_
 * `CreateProcessWithToken` (nécessite `SeImpersonate`)
 * `CreateProcessAsUser` (nécessite `SeAssignPrimaryToken`)
 * `les deux`
@@ -103,7 +89,7 @@ Si l'utilisateur a les privilèges `SeImpersonate` ou `SeAssignPrimaryToken`, al
 
 Il est presque impossible d'empêcher l'abus de tous ces serveurs COM. Vous pourriez penser à modifier les permissions de ces objets via `DCOMCNFG`, mais bonne chance, cela va être difficile.
 
-La solution réelle est de protéger les comptes et applications sensibles qui s'exécutent sous les comptes `* SERVICE`. Arrêter `DCOM` inhiberait certainement cette exploitation, mais pourrait avoir un impact sérieux sur le système d'exploitation sous-jacent.
+La véritable solution est de protéger les comptes et applications sensibles qui s'exécutent sous les comptes `* SERVICE`. Arrêter `DCOM` inhiberait certainement cette exploitation, mais pourrait avoir un impact sérieux sur le système d'exploitation sous-jacent.
 
 De: [http://ohpe.it/juicy-potato/](http://ohpe.it/juicy-potato/)
 
@@ -152,17 +138,6 @@ Ensuite, téléchargez [test\_clsid.bat ](https://github.com/ohpe/juicy-potato/b
 
 * [https://github.com/ohpe/juicy-potato/blob/master/README.md](https://github.com/ohpe/juicy-potato/blob/master/README.md)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Leur objectif principal avec WhiteIntel est de lutter contre les prises de contrôle de comptes et les attaques par ransomware résultant de malwares de vol d'informations.
-
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à :
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -174,7 +149,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux dépôts github de** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud).
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

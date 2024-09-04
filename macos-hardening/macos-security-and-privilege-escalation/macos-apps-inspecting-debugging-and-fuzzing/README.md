@@ -1,4 +1,4 @@
-# macOS Apps - Inspecter, déboguer et Fuzzing
+# macOS Apps - Inspection, débogage et Fuzzing
 
 {% hint style="success" %}
 Apprenez et pratiquez le Hacking AWS :<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -8,28 +8,15 @@ Apprenez et pratiquez le Hacking GCP : <img src="../../../.gitbook/assets/grte.p
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
 
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Leur objectif principal avec WhiteIntel est de lutter contre les prises de contrôle de comptes et les attaques par ransomware résultant de malwares de vol d'informations.
-
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à :
-
-{% embed url="https://whiteintel.io" %}
-
-***
-
-## Analyse Statique
+## Analyse statique
 
 ### otool & objdump & nm
 ```bash
@@ -200,7 +187,7 @@ Il est ancien et non maintenu, donc il ne fonctionnera probablement pas correcte
 
 #### ICDump
 
-[**iCDump**](https://github.com/romainthomas/iCDump) est un dump de classe Objective-C moderne et multiplateforme. Par rapport aux outils existants, iCDump peut fonctionner indépendamment de l'écosystème Apple et expose des liaisons Python.
+[**iCDump**](https://github.com/romainthomas/iCDump) est un dump de classe Objective-C moderne et multiplateforme. Comparé aux outils existants, iCDump peut fonctionner indépendamment de l'écosystème Apple et expose des liaisons Python.
 ```python
 import icdump
 metadata = icdump.objc.parse("/path/to/bin")
@@ -209,7 +196,7 @@ print(metadata.to_decl())
 ```
 ## Analyse statique de Swift
 
-Avec les binaires Swift, étant donné qu'il y a une compatibilité avec Objective-C, il est parfois possible d'extraire des déclarations en utilisant [class-dump](https://github.com/nygard/class-dump/) mais pas toujours.
+Avec les binaires Swift, étant donné qu'il y a une compatibilité avec Objective-C, il est parfois possible d'extraire des déclarations en utilisant [class-dump](https://github.com/nygard/class-dump/) mais ce n'est pas toujours le cas.
 
 Avec les commandes **`jtool -l`** ou **`otool -l`**, il est possible de trouver plusieurs sections qui commencent par le préfixe **`__swift5`** :
 ```bash
@@ -264,7 +251,7 @@ Son plist est situé dans `/System/Library/LaunchDaemons/com.apple.sysdiagnose.p
 
 * `com.apple.sysdiagnose.CacheDelete` : Supprime les anciennes archives dans /var/rmp
 * `com.apple.sysdiagnose.kernel.ipc` : Port spécial 23 (noyau)
-* `com.apple.sysdiagnose.service.xpc` : Interface en mode utilisateur via la classe Obj-C `Libsysdiagnose`. Trois arguments dans un dict peuvent être passés (`compress`, `display`, `run`)
+* `com.apple.sysdiagnose.service.xpc` : Interface en mode utilisateur via la classe Obj-C `Libsysdiagnose`. Trois arguments dans un dictionnaire peuvent être passés (`compress`, `display`, `run`)
 
 ### Journaux Unifiés
 
@@ -511,17 +498,17 @@ Les dumps de core sont créés si :
 * Si le processus n'était pas suid/sgid ou `kern.sugid_coredump` est 1 (par défaut 0)
 * La limite `AS_CORE` permet l'opération. Il est possible de supprimer la création de dumps de code en appelant `ulimit -c 0` et de les réactiver avec `ulimit -c unlimited`.
 
-Dans ces cas, le dump de core est généré selon le sysctl `kern.corefile` et stocké généralement dans `/cores/core/.%P`.
+Dans ces cas, le dump de core est généré selon `kern.corefile` sysctl et stocké généralement dans `/cores/core/.%P`.
 
 ## Fuzzing
 
 ### [ReportCrash](https://ss64.com/osx/reportcrash.html)
 
-ReportCrash **analyse les processus en panne et enregistre un rapport de crash sur le disque**. Un rapport de crash contient des informations qui peuvent **aider un développeur à diagnostiquer** la cause d'un crash.\
-Pour les applications et autres processus **s'exécutant dans le contexte de lancement par utilisateur**, ReportCrash s'exécute en tant que LaunchAgent et enregistre les rapports de crash dans `~/Library/Logs/DiagnosticReports/` de l'utilisateur.\
-Pour les démons, autres processus **s'exécutant dans le contexte de lancement système** et autres processus privilégiés, ReportCrash s'exécute en tant que LaunchDaemon et enregistre les rapports de crash dans `/Library/Logs/DiagnosticReports` du système.
+ReportCrash **analyse les processus en panne et enregistre un rapport de panne sur le disque**. Un rapport de panne contient des informations qui peuvent **aider un développeur à diagnostiquer** la cause d'un crash.\
+Pour les applications et autres processus **s'exécutant dans le contexte de lancement par utilisateur**, ReportCrash s'exécute en tant que LaunchAgent et enregistre les rapports de panne dans `~/Library/Logs/DiagnosticReports/` de l'utilisateur.\
+Pour les démons, autres processus **s'exécutant dans le contexte de lancement système** et autres processus privilégiés, ReportCrash s'exécute en tant que LaunchDaemon et enregistre les rapports de panne dans `/Library/Logs/DiagnosticReports` du système.
 
-Si vous êtes inquiet au sujet des rapports de crash **envoyés à Apple**, vous pouvez les désactiver. Sinon, les rapports de crash peuvent être utiles pour **comprendre comment un serveur a planté**.
+Si vous êtes inquiet au sujet des rapports de panne **envoyés à Apple**, vous pouvez les désactiver. Sinon, les rapports de panne peuvent être utiles pour **comprendre comment un serveur a planté**.
 ```bash
 #To disable crash reporting:
 launchctl unload -w /System/Library/LaunchAgents/com.apple.ReportCrash.plist
@@ -587,7 +574,7 @@ Fonctionne pour les outils CLI
 
 #### [Litefuzz](https://github.com/sec-tools/litefuzz)
 
-Il "**fonctionne simplement"** avec les outils GUI macOS. Notez que certaines applications macOS ont des exigences spécifiques comme des noms de fichiers uniques, la bonne extension, doivent lire les fichiers depuis le sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
+Il "**fonctionne tout simplement"** avec les outils GUI macOS. Notez que certaines applications macOS ont des exigences spécifiques comme des noms de fichiers uniques, la bonne extension, et doivent lire les fichiers depuis le sandbox (`~/Library/Containers/com.apple.Safari/Data`)...
 
 Quelques exemples :
 
@@ -631,18 +618,6 @@ litefuzz -s -a tcp://localhost:5900 -i input/screenshared-session --reportcrash 
 * [**https://taomm.org/vol1/analysis.html**](https://taomm.org/vol1/analysis.html)
 * [**The Art of Mac Malware: The Guide to Analyzing Malicious Software**](https://taomm.org/)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Leur objectif principal avec WhiteIntel est de lutter contre les prises de contrôle de comptes et les attaques par ransomware résultant de malwares de vol d'informations.
-
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à :
-
-{% embed url="https://whiteintel.io" %}
-
 {% hint style="success" %}
 Apprenez et pratiquez le hacking AWS :<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../../.gitbook/assets/arte.png" alt="" data-size="line">\
 Apprenez et pratiquez le hacking GCP : <img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -651,7 +626,7 @@ Apprenez et pratiquez le hacking GCP : <img src="../../../.gitbook/assets/grte.p
 
 <summary>Soutenir HackTricks</summary>
 
-* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 

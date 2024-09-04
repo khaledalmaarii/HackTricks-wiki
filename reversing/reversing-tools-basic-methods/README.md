@@ -1,27 +1,19 @@
 # Outils de Reversing & Méthodes de Base
 
 {% hint style="success" %}
-Apprenez & pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez & pratiquez le Hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez & pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez & pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
 <summary>Soutenir HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
-
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Outils de Reversing Basés sur ImGui
 
@@ -35,7 +27,7 @@ En ligne :
 
 * Utilisez [https://webassembly.github.io/wabt/demo/wasm2wat/index.html](https://webassembly.github.io/wabt/demo/wasm2wat/index.html) pour **décompiler** de wasm (binaire) à wat (texte clair)
 * Utilisez [https://webassembly.github.io/wabt/demo/wat2wasm/](https://webassembly.github.io/wabt/demo/wat2wasm/) pour **compiler** de wat à wasm
-* vous pouvez également essayer d'utiliser [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) pour décompiler
+* Vous pouvez également essayer d'utiliser [https://wwwg.github.io/web-wasmdec/](https://wwwg.github.io/web-wasmdec/) pour décompiler
 
 Logiciel :
 
@@ -101,7 +93,7 @@ Ensuite, enregistrez le nouveau fichier via _**Fichier >> Enregistrer le module.
 
 C'est nécessaire car si vous ne le faites pas, à **l'exécution**, plusieurs **optimisations** seront appliquées au code et il pourrait être possible que lors du débogage un **point d'arrêt ne soit jamais atteint** ou que certaines **variables n'existent pas**.
 
-Ensuite, si votre application .NET est **exécutée** par **IIS**, vous pouvez la **redémarrer** avec :
+Ensuite, si votre application .NET est **exécutée** par **IIS**, vous pouvez **la redémarrer** avec :
 ```
 iisreset /noforce
 ```
@@ -155,13 +147,13 @@ Mais, comment pouvez-vous accéder au code de la DLL qui a été chargée ? En u
 * **Charger rundll32** (64 bits dans C:\Windows\System32\rundll32.exe et 32 bits dans C:\Windows\SysWOW64\rundll32.exe)
 * **Changer la ligne de commande** (_Fichier --> Changer la ligne de commande_) et définir le chemin de la dll et la fonction que vous souhaitez appeler, par exemple : "C:\Windows\SysWOW64\rundll32.exe" "Z:\shared\Cybercamp\rev2\\\14.ridii\_2.dll",DLLMain
 * Changez _Options --> Paramètres_ et sélectionnez "**Entrée DLL**".
-* Ensuite, **démarrez l'exécution**, le débogueur s'arrêtera à chaque entrée principale de dll, à un moment donné vous **vous arrêterez dans l'entrée de votre dll**. À partir de là, il suffit de rechercher les points où vous souhaitez mettre un point d'arrêt.
+* Ensuite, **démarrez l'exécution**, le débogueur s'arrêtera à chaque entrée principale de DLL, à un moment donné, vous **vous arrêterez dans l'entrée DLL de votre DLL**. À partir de là, il suffit de rechercher les points où vous souhaitez mettre un point d'arrêt.
 
-Remarquez que lorsque l'exécution est arrêtée pour une raison quelconque dans win64dbg, vous pouvez voir **dans quel code vous êtes** en regardant **en haut de la fenêtre win64dbg** :
+Remarquez que lorsque l'exécution est arrêtée pour une raison quelconque dans win64dbg, vous pouvez voir **dans quel code vous êtes** en regardant en **haut de la fenêtre win64dbg** :
 
 ![](<../../.gitbook/assets/image (842).png>)
 
-Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêtée dans la dll que vous souhaitez déboguer.
+Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêtée dans la DLL que vous souhaitez déboguer.
 
 ## Applications GUI / Jeux vidéo
 
@@ -171,9 +163,9 @@ Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêté
 [cheat-engine.md](cheat-engine.md)
 {% endcontent-ref %}
 
-[**PiNCE**](https://github.com/korcankaraokcu/PINCE) est un outil de rétro-ingénierie/front-end pour le débogueur du projet GNU (GDB), axé sur les jeux. Cependant, il peut être utilisé pour toute tâche liée à la rétro-ingénierie.
+[**PiNCE**](https://github.com/korcankaraokcu/PINCE) est un outil de front-end/reverse engineering pour le débogueur du projet GNU (GDB), axé sur les jeux. Cependant, il peut être utilisé pour toute tâche liée à l'ingénierie inverse.
 
-[**Decompiler Explorer**](https://dogbolt.org/) est une interface web pour plusieurs décompilateurs. Ce service web vous permet de comparer la sortie de différents décompilateurs sur de petits exécutables.
+[**Decompiler Explorer**](https://dogbolt.org/) est un front-end web pour un certain nombre de décompilateurs. Ce service web vous permet de comparer la sortie de différents décompilateurs sur de petits exécutables.
 
 ## ARM & MIPS
 
@@ -184,7 +176,7 @@ Ensuite, en regardant cela, vous pouvez voir quand l'exécution a été arrêté
 ### Débogage d'un shellcode avec blobrunner
 
 [**Blobrunner**](https://github.com/OALabs/BlobRunner) va **allouer** le **shellcode** dans un espace de mémoire, vous **indiquer** l'**adresse mémoire** où le shellcode a été alloué et va **arrêter** l'exécution.\
-Ensuite, vous devez **attacher un débogueur** (Ida ou x64dbg) au processus et mettre un **point d'arrêt à l'adresse mémoire indiquée** et **reprendre** l'exécution. De cette façon, vous déboguerez le shellcode.
+Ensuite, vous devez **attacher un débogueur** (Ida ou x64dbg) au processus et mettre un **point d'arrêt à l'adresse mémoire indiquée** et **reprendre** l'exécution. De cette manière, vous déboguerez le shellcode.
 
 La page des versions github contient des zips contenant les versions compilées : [https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5](https://github.com/OALabs/BlobRunner/releases/tag/v0.0.5)\
 Vous pouvez trouver une version légèrement modifiée de Blobrunner dans le lien suivant. Pour le compiler, il suffit de **créer un projet C/C++ dans Visual Studio Code, de copier et coller le code et de le construire**.
@@ -195,7 +187,7 @@ Vous pouvez trouver une version légèrement modifiée de Blobrunner dans le lie
 
 ### Débogage d'un shellcode avec jmp2it
 
-[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) est très similaire à blobrunner. Il va **allouer** le **shellcode** dans un espace de mémoire et démarrer une **boucle éternelle**. Vous devez ensuite **attacher le débogueur** au processus, **jouer démarrer attendre 2-5 secondes et appuyer sur arrêter** et vous vous retrouverez dans la **boucle éternelle**. Sautez à l'instruction suivante de la boucle éternelle car ce sera un appel au shellcode, et enfin vous vous retrouverez à exécuter le shellcode.
+[**jmp2it** ](https://github.com/adamkramer/jmp2it/releases/tag/v1.4) est très similaire à blobrunner. Il va **allouer** le **shellcode** dans un espace de mémoire et démarrer une **boucle éternelle**. Vous devez ensuite **attacher le débogueur** au processus, **jouer démarrer attendre 2-5 secondes et appuyer sur arrêter** et vous vous retrouverez dans la **boucle éternelle**. Sautez à l'instruction suivante de la boucle éternelle car ce sera un appel au shellcode, et enfin, vous vous retrouverez à exécuter le shellcode.
 
 ![](<../../.gitbook/assets/image (509).png>)
 
@@ -205,7 +197,7 @@ Vous pouvez télécharger une version compilée de [jmp2it sur la page des versi
 
 [**Cutter**](https://github.com/rizinorg/cutter/releases/tag/v1.12.0) est l'interface graphique de radare. En utilisant Cutter, vous pouvez émuler le shellcode et l'inspecter dynamiquement.
 
-Notez que Cutter vous permet d'"Ouvrir un fichier" et "Ouvrir un shellcode". Dans mon cas, lorsque j'ai ouvert le shellcode en tant que fichier, il l'a décompilé correctement, mais quand je l'ai ouvert en tant que shellcode, il ne l'a pas fait :
+Notez que Cutter vous permet d'"Ouvrir un fichier" et "Ouvrir un shellcode". Dans mon cas, lorsque j'ai ouvert le shellcode en tant que fichier, il l'a décompilé correctement, mais quand je l'ai ouvert en tant que shellcode, ce n'était pas le cas :
 
 ![](<../../.gitbook/assets/image (562).png>)
 
@@ -239,7 +231,7 @@ L'option **Create Dump** va dumper le shellcode final si des modifications sont 
 
 ### Désassemblage avec CyberChef
 
-Téléchargez votre fichier shellcode comme entrée et utilisez la recette suivante pour le décompiler : [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
+Téléchargez votre fichier shellcode en tant qu'entrée et utilisez la recette suivante pour le décompiler : [https://gchq.github.io/CyberChef/#recipe=To\_Hex('Space',0)Disassemble\_x86('32','Full%20x86%20architecture',16,0,true,true)](https://gchq.github.io/CyberChef/#recipe=To\_Hex\('Space',0\)Disassemble\_x86\('32','Full%20x86%20architecture',16,0,true,true\))
 
 ## [Movfuscator](https://github.com/xoreaxeaxeax/movfuscator)
 
@@ -393,7 +385,7 @@ Dans le code précédent, vous pouvez voir que nous comparons **uVar1** (l'endro
 * Ensuite, il est comparé avec la **valeur 8** (bouton **START**) : Dans le défi, cela vérifie si le code est valide pour obtenir le drapeau.
 * Dans ce cas, la var **`DAT_030000d8`** est comparée avec 0xf3 et si la valeur est la même, un certain code est exécuté.
 * Dans tous les autres cas, un cont (`DAT_030000d4`) est vérifié. C'est un cont car il ajoute 1 juste après être entré dans le code.\
-**S**i moins de 8, quelque chose qui implique **d'ajouter** des valeurs à \*\*`DAT_030000d8` \*\* est fait (en gros, cela ajoute les valeurs des touches pressées dans cette variable tant que le cont est inférieur à 8).
+**Si** moins de 8, quelque chose qui implique **d'ajouter** des valeurs à \*\*`DAT_030000d8` \*\* est fait (en gros, il ajoute les valeurs des touches pressées dans cette variable tant que le cont est inférieur à 8).
 
 Donc, dans ce défi, en connaissant les valeurs des boutons, vous deviez **appuyer sur une combinaison d'une longueur inférieure à 8 dont l'addition résultante est 0xf3.**
 
@@ -408,23 +400,17 @@ Donc, dans ce défi, en connaissant les valeurs des boutons, vous deviez **appuy
 * [https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering](https://github.com/0xZ0F/Z0FCourse\_ReverseEngineering)
 * [https://github.com/malrev/ABD](https://github.com/malrev/ABD) (Déobfuscation binaire)
 
-**Try Hard Security Group**
-
-<figure><img src="../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Support HackTricks</summary>
+<summary>Soutenir HackTricks</summary>
 
-* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous** sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}

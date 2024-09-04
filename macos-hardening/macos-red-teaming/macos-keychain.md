@@ -15,24 +15,11 @@ Learn & practice GCP Hacking: <img src="../../.gitbook/assets/grte.png" alt="" d
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Le principal objectif de WhiteIntel est de lutter contre les détournements de compte et les attaques par ransomware résultant de malwares de vol d'informations.
-
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à :
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Main Keychains
 
-* Le **User Keychain** (`~/Library/Keychains/login.keycahin-db`), qui est utilisé pour stocker des **identifiants spécifiques à l'utilisateur** tels que des mots de passe d'application, des mots de passe Internet, des certificats générés par l'utilisateur, des mots de passe réseau et des clés publiques/privées générées par l'utilisateur.
-* Le **System Keychain** (`/Library/Keychains/System.keychain`), qui stocke des **identifiants à l'échelle du système** tels que des mots de passe WiFi, des certificats racine du système, des clés privées du système et des mots de passe d'application du système.
+* Le **trousseau d'accès utilisateur** (`~/Library/Keychains/login.keycahin-db`), qui est utilisé pour stocker les **identifiants spécifiques à l'utilisateur** tels que les mots de passe d'application, les mots de passe Internet, les certificats générés par l'utilisateur, les mots de passe réseau et les clés publiques/privées générées par l'utilisateur.
+* Le **trousseau d'accès système** (`/Library/Keychains/System.keychain`), qui stocke les **identifiants à l'échelle du système** tels que les mots de passe WiFi, les certificats racine du système, les clés privées du système et les mots de passe d'application du système.
 
 ### Password Keychain Access
 
@@ -56,13 +43,13 @@ Les ACLs sont également accompagnées d'une **liste d'applications de confiance
 
 De plus, l'entrée peut contenir la clé **`ACLAuthorizationPartitionID`,** qui est utilisée pour identifier le **teamid, apple,** et **cdhash.**
 
-* Si le **teamid** est spécifié, alors pour **accéder à la valeur de l'entrée** **sans** une **demande**, l'application utilisée doit avoir le **même teamid**.
+* Si le **teamid** est spécifié, alors pour **accéder à la valeur de l'entrée** **sans** **demande**, l'application utilisée doit avoir le **même teamid**.
 * Si le **apple** est spécifié, alors l'application doit être **signée** par **Apple**.
 * Si le **cdhash** est indiqué, alors l'**application** doit avoir le **cdhash** spécifique.
 
 ### Creating a Keychain Entry
 
-Lorsque une **nouvelle** **entrée** est créée en utilisant **`Keychain Access.app`**, les règles suivantes s'appliquent :
+Lorsque **une nouvelle** **entrée** est créée à l'aide de **`Keychain Access.app`**, les règles suivantes s'appliquent :
 
 * Toutes les applications peuvent chiffrer.
 * **Aucune application** ne peut exporter/déchiffrer (sans demander à l'utilisateur).
@@ -70,7 +57,7 @@ Lorsque une **nouvelle** **entrée** est créée en utilisant **`Keychain Access
 * Aucune application ne peut changer les ACLs.
 * Le **partitionID** est défini sur **`apple`**.
 
-Lorsque une **application crée une entrée dans le trousseau**, les règles sont légèrement différentes :
+Lorsque **une application crée une entrée dans le trousseau**, les règles sont légèrement différentes :
 
 * Toutes les applications peuvent chiffrer.
 * Seule l'**application créatrice** (ou toute autre application explicitement ajoutée) peut exporter/déchiffrer (sans demander à l'utilisateur).
@@ -107,12 +94,12 @@ Liste et obtention d'**informations** sur chaque entrée de trousseau :
 
 * L'API **`SecItemCopyMatching`** fournit des informations sur chaque entrée et il y a certains attributs que vous pouvez définir lors de son utilisation :
 * **`kSecReturnData`** : Si vrai, il essaiera de déchiffrer les données (définir sur faux pour éviter les pop-ups potentiels)
-* **`kSecReturnRef`** : Obtenir également une référence à l'élément de trousseau (définir sur vrai si vous voyez plus tard que vous pouvez déchiffrer sans pop-up)
-* **`kSecReturnAttributes`** : Obtenir des métadonnées sur les entrées
+* **`kSecReturnRef`** : Obtenez également une référence à l'élément de trousseau (définir sur vrai si vous voyez plus tard que vous pouvez déchiffrer sans pop-up)
+* **`kSecReturnAttributes`** : Obtenez des métadonnées sur les entrées
 * **`kSecMatchLimit`** : Combien de résultats retourner
 * **`kSecClass`** : Quel type d'entrée de trousseau
 
-Obtenir les **ACL** de chaque entrée :
+Obtenez les **ACL** de chaque entrée :
 
 * Avec l'API **`SecAccessCopyACLList`**, vous pouvez obtenir l'**ACL pour l'élément de trousseau**, et cela renverra une liste d'ACL (comme `ACLAuhtorizationExportClear` et les autres mentionnés précédemment) où chaque liste a :
 * Description
@@ -121,7 +108,7 @@ Obtenir les **ACL** de chaque entrée :
 * Un binaire : /usr/libexec/airportd
 * Un groupe : group://AirPort
 
-Exporter les données :
+Exportez les données :
 
 * L'API **`SecKeychainItemCopyContent`** obtient le texte en clair
 * L'API **`SecItemExport`** exporte les clés et certificats mais peut nécessiter de définir des mots de passe pour exporter le contenu chiffré
@@ -153,21 +140,10 @@ Si **apple** est indiqué dans le **partitionID**, vous pourriez y accéder avec
 
 * [**#OBTS v5.0 : "Lock Picking the macOS Keychain" - Cody Thomas**](https://www.youtube.com/watch?v=jKE1ZW33JpY)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Leur objectif principal avec WhiteIntel est de lutter contre les détournements de compte et les attaques par ransomware résultant de malwares de vol d'informations.
-
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à :
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
-Apprenez et pratiquez le Hacking AWS :<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
-Apprenez et pratiquez le Hacking GCP : <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Apprenez et pratiquez le hacking AWS :<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="../../.gitbook/assets/arte.png" alt="" data-size="line">\
+Apprenez et pratiquez le hacking GCP : <img src="../../.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="../../.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 

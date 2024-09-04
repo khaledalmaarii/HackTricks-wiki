@@ -9,23 +9,16 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Support HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>
 {% endhint %}
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
-***
 
 ## Intro <a href="#kfpn7" id="kfpn7"></a>
 
-Flipper Zero peut **recevoir et transmettre des fréquences radio dans la plage de 300-928 MHz** avec son module intégré, qui peut lire, enregistrer et émuler des télécommandes. Ces télécommandes sont utilisées pour interagir avec des portails, des barrières, des serrures radio, des interrupteurs télécommandés, des sonnettes sans fil, des lumières intelligentes, et plus encore. Flipper Zero peut vous aider à apprendre si votre sécurité est compromise.
+Flipper Zero peut **recevoir et transmettre des fréquences radio dans la plage de 300-928 MHz** avec son module intégré, qui peut lire, enregistrer et émuler des télécommandes. Ces télécommandes sont utilisées pour interagir avec des portails, des barrières, des serrures radio, des interrupteurs à distance, des sonnettes sans fil, des lumières intelligentes, et plus encore. Flipper Zero peut vous aider à apprendre si votre sécurité est compromise.
 
 <figure><img src="../../../.gitbook/assets/image (714).png" alt=""><figcaption></figcaption></figure>
 
@@ -58,17 +51,17 @@ Pour déterminer la fréquence de la télécommande, procédez comme suit :
 Trouvez des informations sur la fréquence utilisée (aussi une autre façon de trouver quelle fréquence est utilisée)
 {% endhint %}
 
-L'option **Lire** **écoute la fréquence configurée** sur la modulation indiquée : 433.92 AM par défaut. Si **quelque chose est trouvé** lors de la lecture, **des informations sont données** à l'écran. Ces informations pourraient être utilisées pour reproduire le signal à l'avenir.
+L'option **Lire** **écoute sur la fréquence configurée** sur la modulation indiquée : 433.92 AM par défaut. Si **quelque chose est trouvé** lors de la lecture, **des informations sont données** à l'écran. Ces informations peuvent être utilisées pour reproduire le signal à l'avenir.
 
 Pendant que Lire est en cours d'utilisation, il est possible d'appuyer sur le **bouton gauche** et **de le configurer**.\
 À ce moment, il a **4 modulations** (AM270, AM650, FM328 et FM476), et **plusieurs fréquences pertinentes** stockées :
 
 <figure><img src="../../../.gitbook/assets/image (947).png" alt=""><figcaption></figcaption></figure>
 
-Vous pouvez définir **n'importe quelle qui vous intéresse**, cependant, si vous **n'êtes pas sûr de la fréquence** qui pourrait être celle utilisée par la télécommande que vous avez, **activez le Hopping** (désactivé par défaut), et appuyez sur le bouton plusieurs fois jusqu'à ce que Flipper la capture et vous donne les informations dont vous avez besoin pour définir la fréquence.
+Vous pouvez définir **n'importe laquelle qui vous intéresse**, cependant, si vous **n'êtes pas sûr de la fréquence** qui pourrait être celle utilisée par la télécommande que vous avez, **activez le Hopping** (désactivé par défaut), et appuyez sur le bouton plusieurs fois jusqu'à ce que Flipper la capture et vous donne les informations dont vous avez besoin pour définir la fréquence.
 
 {% hint style="danger" %}
-Le changement entre les fréquences prend un certain temps, donc les signaux transmis au moment du changement peuvent être manqués. Pour une meilleure réception du signal, définissez une fréquence fixe déterminée par l'Analyseur de Fréquence.
+Le changement entre les fréquences prend du temps, donc les signaux transmis au moment du changement peuvent être manqués. Pour une meilleure réception du signal, définissez une fréquence fixe déterminée par l'Analyseur de Fréquence.
 {% endhint %}
 
 ### **Lire Brut**
@@ -88,7 +81,7 @@ Si vous connaissez le protocole utilisé par exemple par la porte de garage, il 
 ### Ajouter Manuellement
 
 {% hint style="info" %}
-Ajouter des signaux à partir d'une liste configurée de protocoles
+Ajouter des signaux à partir d'une liste de protocoles configurés
 {% endhint %}
 
 #### Liste des [protocoles pris en charge](https://docs.flipperzero.one/sub-ghz/add-new-remote) <a href="#id-3iglu" id="id-3iglu"></a>
@@ -128,12 +121,6 @@ Obtenez des dBms des fréquences enregistrées
 
 * [https://docs.flipperzero.one/sub-ghz](https://docs.flipperzero.one/sub-ghz)
 
-**Try Hard Security Group**
-
-<figure><img src="../../../.gitbook/assets/telegram-cloud-document-1-5159108904864449420.jpg" alt=""><figcaption></figcaption></figure>
-
-{% embed url="https://discord.gg/tryhardsecurity" %}
-
 {% hint style="success" %}
 Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
 Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
@@ -143,7 +130,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 <summary>Support HackTricks</summary>
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
-* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez** nous sur **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
 * **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts GitHub.
 
 </details>

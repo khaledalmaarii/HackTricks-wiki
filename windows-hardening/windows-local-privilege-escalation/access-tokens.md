@@ -15,23 +15,10 @@ Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-s
 </details>
 {% endhint %}
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Leur objectif principal avec WhiteIntel est de lutter contre les prises de contrôle de comptes et les attaques par ransomware résultant de malwares de vol d'informations.
-
-Vous pouvez consulter leur site web et essayer leur moteur **gratuitement** à l'adresse suivante :
-
-{% embed url="https://whiteintel.io" %}
-
-***
 
 ## Access Tokens
 
-Chaque **utilisateur connecté** au système **détient un jeton d'accès avec des informations de sécurité** pour cette session de connexion. Le système crée un jeton d'accès lorsque l'utilisateur se connecte. **Chaque processus exécuté** au nom de l'utilisateur **a une copie du jeton d'accès**. Le jeton identifie l'utilisateur, les groupes de l'utilisateur et les privilèges de l'utilisateur. Un jeton contient également un SID de connexion (Identifiant de sécurité) qui identifie la session de connexion actuelle.
+Chaque **utilisateur connecté** au système **possède un jeton d'accès avec des informations de sécurité** pour cette session de connexion. Le système crée un jeton d'accès lorsque l'utilisateur se connecte. **Chaque processus exécuté** au nom de l'utilisateur **a une copie du jeton d'accès**. Le jeton identifie l'utilisateur, les groupes de l'utilisateur et les privilèges de l'utilisateur. Un jeton contient également un SID de connexion (Identifiant de sécurité) qui identifie la session de connexion actuelle.
 
 Vous pouvez voir ces informations en exécutant `whoami /all`
 ```
@@ -83,12 +70,12 @@ or using _Process Explorer_ from Sysinternals (select process and access"Securit
 
 ### Administrateur local
 
-Lorsque un administrateur local se connecte, **deux jetons d'accès sont créés** : Un avec des droits d'administrateur et un autre avec des droits normaux. **Par défaut**, lorsque cet utilisateur exécute un processus, celui avec des **droits réguliers** (non-administrateur) **est utilisé**. Lorsque cet utilisateur essaie d'**exécuter** quoi que ce soit **en tant qu'administrateur** ("Exécuter en tant qu'administrateur" par exemple), le **UAC** sera utilisé pour demander la permission.\
+Lorsque un administrateur local se connecte, **deux jetons d'accès sont créés** : Un avec des droits d'administrateur et l'autre avec des droits normaux. **Par défaut**, lorsque cet utilisateur exécute un processus, celui avec des **droits réguliers** (non-administrateur) **est utilisé**. Lorsque cet utilisateur essaie d'**exécuter** quoi que ce soit **en tant qu'administrateur** ("Exécuter en tant qu'administrateur" par exemple), le **UAC** sera utilisé pour demander la permission.\
 Si vous voulez [**en savoir plus sur le UAC, lisez cette page**](../authentication-credentials-uac-and-efs/#uac)**.**
 
-### Usurpation d'identité des informations d'identification
+### Usurpation d'identité des utilisateurs avec des identifiants
 
-Si vous avez **des informations d'identification valides d'un autre utilisateur**, vous pouvez **créer** une **nouvelle session de connexion** avec ces informations d'identification :
+Si vous avez **des identifiants valides d'un autre utilisateur**, vous pouvez **créer** une **nouvelle session de connexion** avec ces identifiants :
 ```
 runas /user:domain\username cmd.exe
 ```
@@ -105,7 +92,7 @@ Il existe deux types de jetons disponibles :
 
 * **Jeton principal** : Il sert de représentation des identifiants de sécurité d'un processus. La création et l'association de jetons principaux avec des processus sont des actions qui nécessitent des privilèges élevés, soulignant le principe de séparation des privilèges. En général, un service d'authentification est responsable de la création de jetons, tandis qu'un service de connexion gère son association avec le shell du système d'exploitation de l'utilisateur. Il convient de noter que les processus héritent du jeton principal de leur processus parent lors de leur création.
 * **Jeton d'imitation** : Permet à une application serveur d'adopter temporairement l'identité du client pour accéder à des objets sécurisés. Ce mécanisme est stratifié en quatre niveaux de fonctionnement :
-* **Anonyme** : Accorde l'accès au serveur similaire à celui d'un utilisateur non identifié.
+* **Anonyme** : Accorde un accès serveur similaire à celui d'un utilisateur non identifié.
 * **Identification** : Permet au serveur de vérifier l'identité du client sans l'utiliser pour l'accès aux objets.
 * **Imitation** : Permet au serveur d'opérer sous l'identité du client.
 * **Délégation** : Semblable à l'imitation, mais inclut la capacité d'étendre cette hypothèse d'identité aux systèmes distants avec lesquels le serveur interagit, garantissant la préservation des identifiants.
@@ -128,17 +115,6 @@ Jetez un œil à [**tous les privilèges de jeton possibles et quelques définit
 
 En savoir plus sur les jetons dans ces tutoriels : [https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa](https://medium.com/@seemant.bisht24/understanding-and-abusing-process-tokens-part-i-ee51671f2cfa) et [https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962](https://medium.com/@seemant.bisht24/understanding-and-abusing-access-tokens-part-ii-b9069f432962)
 
-### [WhiteIntel](https://whiteintel.io)
-
-<figure><img src="../../.gitbook/assets/image (1227).png" alt=""><figcaption></figcaption></figure>
-
-[**WhiteIntel**](https://whiteintel.io) est un moteur de recherche alimenté par le **dark-web** qui offre des fonctionnalités **gratuites** pour vérifier si une entreprise ou ses clients ont été **compromis** par des **malwares voleurs**.
-
-Leur objectif principal est de lutter contre les prises de contrôle de comptes et les attaques par ransomware résultant de malwares de vol d'informations.
-
-Vous pouvez consulter leur site Web et essayer leur moteur **gratuitement** à :
-
-{% embed url="https://whiteintel.io" %}
 
 {% hint style="success" %}
 Apprenez et pratiquez le hacking AWS :<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
@@ -150,7 +126,7 @@ Apprenez et pratiquez le hacking GCP : <img src="/.gitbook/assets/grte.png" alt=
 
 * Consultez les [**plans d'abonnement**](https://github.com/sponsors/carlospolop) !
 * **Rejoignez le** 💬 [**groupe Discord**](https://discord.gg/hRep4RUj7f) ou le [**groupe telegram**](https://t.me/peass) ou **suivez-nous sur** **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Partagez des astuces de hacking en soumettant des PRs aux** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
+* **Partagez des astuces de hacking en soumettant des PR au** [**HackTricks**](https://github.com/carlospolop/hacktricks) et [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) dépôts github.
 
 </details>
 {% endhint %}
