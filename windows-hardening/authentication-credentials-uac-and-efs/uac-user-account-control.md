@@ -17,7 +17,7 @@ Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" d
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir y **automatizar flujos de trabajo** fácilmente con las **herramientas comunitarias más avanzadas** del mundo.\
+Usa [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) para construir y **automatizar flujos de trabajo** fácilmente impulsados por las **herramientas comunitarias más avanzadas** del mundo.\
 Obtén acceso hoy:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -32,9 +32,9 @@ Para más información sobre los niveles de integridad:
 [niveles-de-integridad.md](../windows-local-privilege-escalation/integrity-levels.md)
 {% endcontent-ref %}
 
-Cuando UAC está en su lugar, a un usuario administrador se le otorgan 2 tokens: una clave de usuario estándar, para realizar acciones regulares a nivel regular, y una con privilegios de administrador.
+Cuando UAC está en su lugar, a un usuario administrador se le otorgan 2 tokens: una clave de usuario estándar, para realizar acciones regulares como nivel regular, y una con privilegios de administrador.
 
-Esta [página](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) discute cómo funciona UAC en gran profundidad e incluye el proceso de inicio de sesión, la experiencia del usuario y la arquitectura de UAC. Los administradores pueden usar políticas de seguridad para configurar cómo funciona UAC específico para su organización a nivel local (usando secpol.msc), o configurado y distribuido a través de Objetos de Política de Grupo (GPO) en un entorno de dominio de Active Directory. Los diversos ajustes se discuten en detalle [aquí](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Hay 10 configuraciones de Política de Grupo que se pueden establecer para UAC. La siguiente tabla proporciona detalles adicionales:
+Esta [página](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) discute cómo funciona UAC en gran profundidad e incluye el proceso de inicio de sesión, la experiencia del usuario y la arquitectura de UAC. Los administradores pueden usar políticas de seguridad para configurar cómo funciona UAC específico para su organización a nivel local (usando secpol.msc), o configurado y distribuido a través de Objetos de Política de Grupo (GPO) en un entorno de dominio de Active Directory. Los varios ajustes se discuten en detalle [aquí](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings). Hay 10 configuraciones de Política de Grupo que se pueden establecer para UAC. La siguiente tabla proporciona detalles adicionales:
 
 | Configuración de Política de Grupo                                                                                                                                                                                                                                                                                                                                                           | Clave del Registro          | Configuración Predeterminada                                   |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------------------- | -------------------------------------------------------------- |
@@ -75,7 +75,7 @@ REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 ```
-* Si **`0`** entonces, UAC no pedirá (como **deshabilitado**)
+* Si **`0`** entonces, UAC no pedirá confirmación (como **deshabilitado**)
 * Si **`1`** se le **pide al administrador el nombre de usuario y la contraseña** para ejecutar el binario con altos derechos (en Escritorio Seguro)
 * Si **`2`** (**Siempre notifícame**) UAC siempre pedirá confirmación al administrador cuando intente ejecutar algo con altos privilegios (en Escritorio Seguro)
 * Si **`3`** como `1` pero no necesariamente en Escritorio Seguro
@@ -102,19 +102,19 @@ También puedes verificar los grupos de tu usuario y obtener el nivel de integri
 net user %username%
 whoami /groups | findstr Level
 ```
-## Bypass de UAC
+## UAC bypass
 
 {% hint style="info" %}
-Ten en cuenta que si tienes acceso gráfico a la víctima, el bypass de UAC es directo ya que simplemente puedes hacer clic en "Sí" cuando aparece el aviso de UAC.
+Tenga en cuenta que si tiene acceso gráfico a la víctima, el bypass de UAC es directo, ya que simplemente puede hacer clic en "Sí" cuando aparezca el aviso de UAC.
 {% endhint %}
 
-El bypass de UAC es necesario en la siguiente situación: **el UAC está activado, tu proceso se está ejecutando en un contexto de integridad media y tu usuario pertenece al grupo de administradores**.
+El bypass de UAC es necesario en la siguiente situación: **el UAC está activado, su proceso se está ejecutando en un contexto de integridad media y su usuario pertenece al grupo de administradores**.
 
 Es importante mencionar que es **mucho más difícil eludir el UAC si está en el nivel de seguridad más alto (Siempre) que si está en cualquiera de los otros niveles (Predeterminado).**
 
 ### UAC desactivado
 
-Si el UAC ya está desactivado (`ConsentPromptBehaviorAdmin` es **`0`**) puedes **ejecutar un shell inverso con privilegios de administrador** (nivel de integridad alto) utilizando algo como:
+Si el UAC ya está desactivado (`ConsentPromptBehaviorAdmin` es **`0`**), puede **ejecutar un shell inverso con privilegios de administrador** (nivel de integridad alto) utilizando algo como:
 ```bash
 #Put your reverse shell instead of "calc.exe"
 Start-Process powershell -Verb runAs "calc.exe"
@@ -162,7 +162,7 @@ Documentación y herramienta en [https://github.com/wh0amitz/KRBUACBypass](https
 ### Explotaciones de elusión de UAC
 
 [**UACME**](https://github.com/hfiref0x/UACME) que es una **compilación** de varias explotaciones de elusión de UAC. Ten en cuenta que necesitarás **compilar UACME usando visual studio o msbuild**. La compilación creará varios ejecutables (como `Source\Akagi\outout\x64\Debug\Akagi.exe`), necesitarás saber **cuál necesitas.**\
-Debes **tener cuidado** porque algunas elusiones **solicitarán otros programas** que **alertarán** al **usuario** que algo está sucediendo.
+Debes **tener cuidado** porque algunas elusiones **solicitarán algunos otros programas** que **alertarán** al **usuario** que algo está sucediendo.
 
 UACME tiene la **versión de compilación desde la cual cada técnica comenzó a funcionar**. Puedes buscar una técnica que afecte tus versiones:
 ```
@@ -172,13 +172,13 @@ Major  Minor  Build  Revision
 -----  -----  -----  --------
 10     0      14393  0
 ```
-Also, using [this](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) page you get the Windows release `1607` from the build versions.
+También, usando [esta](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) página obtienes la versión de Windows `1607` de las versiones de compilación.
 
 #### Más bypass de UAC
 
 **Todas** las técnicas utilizadas aquí para eludir AUC **requieren** un **shell interactivo completo** con la víctima (un shell común de nc.exe no es suficiente).
 
-Puedes obtenerlo usando una **sesión de meterpreter**. Migra a un **proceso** que tenga el valor de **Sesión** igual a **1**:
+Puedes obtenerlo usando una sesión de **meterpreter**. Migra a un **proceso** que tenga el valor de **Sesión** igual a **1**:
 
 ![](<../../.gitbook/assets/image (863).png>)
 
@@ -196,10 +196,10 @@ Si no te importa ser ruidoso, siempre podrías **ejecutar algo como** [**https:/
 
 ### Tu propio bypass - Metodología básica de bypass de UAC
 
-Si echas un vistazo a **UACME**, notarás que **la mayoría de los bypass de UAC abusan de una vulnerabilidad de Dll Hijacking** (principalmente escribiendo el dll malicioso en _C:\Windows\System32_). [Lee esto para aprender cómo encontrar una vulnerabilidad de Dll Hijacking](../windows-local-privilege-escalation/dll-hijacking/).
+Si echas un vistazo a **UACME** notarás que **la mayoría de los bypass de UAC abusan de una vulnerabilidad de Dll Hijacking** (principalmente escribiendo el dll malicioso en _C:\Windows\System32_). [Lee esto para aprender cómo encontrar una vulnerabilidad de Dll Hijacking](../windows-local-privilege-escalation/dll-hijacking/).
 
-1. Encuentra un binario que **autoelevate** (verifica que cuando se ejecute, se ejecute en un nivel de integridad alto).
-2. Con procmon, encuentra eventos "**NOMBRE NO ENCONTRADO**" que puedan ser vulnerables a **DLL Hijacking**.
+1. Encuentra un binario que **autoelevate** (verifica que cuando se ejecuta, se ejecute en un nivel de integridad alto).
+2. Con procmon encuentra eventos "**NOMBRE NO ENCONTRADO**" que puedan ser vulnerables a **DLL Hijacking**.
 3. Probablemente necesitarás **escribir** el DLL dentro de algunas **rutas protegidas** (como C:\Windows\System32) donde no tienes permisos de escritura. Puedes eludir esto usando:
    1. **wusa.exe**: Windows 7, 8 y 8.1. Permite extraer el contenido de un archivo CAB dentro de rutas protegidas (porque esta herramienta se ejecuta desde un nivel de integridad alto).
    2. **IFileOperation**: Windows 10.
@@ -217,8 +217,8 @@ Obtén acceso hoy:
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
 
 {% hint style="success" %}
-Aprende y practica Hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
-Aprende y practica Hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
+Aprende y practica hacking en AWS:<img src="/.gitbook/assets/arte.png" alt="" data-size="line">[**HackTricks Training AWS Red Team Expert (ARTE)**](https://training.hacktricks.xyz/courses/arte)<img src="/.gitbook/assets/arte.png" alt="" data-size="line">\
+Aprende y practica hacking en GCP: <img src="/.gitbook/assets/grte.png" alt="" data-size="line">[**HackTricks Training GCP Red Team Expert (GRTE)**<img src="/.gitbook/assets/grte.png" alt="" data-size="line">](https://training.hacktricks.xyz/courses/grte)
 
 <details>
 
