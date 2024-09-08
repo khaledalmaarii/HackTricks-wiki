@@ -24,7 +24,7 @@ Bugün Erişim Alın:
 
 ## UAC
 
-[Kullanıcı Hesabı Kontrolü (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works), **yükseltilmiş aktiviteler için onay istemi** sağlayan bir özelliktir. Uygulamalar farklı `bütünlük` seviyelerine sahiptir ve **yüksek seviyeye** sahip bir program, **sistemi potansiyel olarak tehlikeye atabilecek** görevleri yerine getirebilir. UAC etkinleştirildiğinde, uygulamalar ve görevler her zaman **bir yönetici hesabının güvenlik bağlamında çalışır**; yönetici, bu uygulamaların/görevlerin sisteme yönetici düzeyinde erişim izni almasını açıkça yetkilendirmedikçe. Bu, yöneticileri istenmeyen değişikliklerden koruyan bir kolaylık özelliğidir, ancak bir güvenlik sınırı olarak kabul edilmez.
+[Kullanıcı Hesabı Kontrolü (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works), **yükseltilmiş aktiviteler için onay istemi** sağlayan bir özelliktir. Uygulamalar farklı `bütünlük` seviyelerine sahiptir ve **yüksek seviyeye** sahip bir program, **sistemi potansiyel olarak tehlikeye atabilecek** görevleri yerine getirebilir. UAC etkinleştirildiğinde, uygulamalar ve görevler her zaman **bir yönetici hesabının güvenlik bağlamında çalışır**; yönetici bu uygulama/görevlerin sisteme yönetici düzeyinde erişim almasına açıkça yetki vermedikçe. Bu, yöneticileri istenmeyen değişikliklerden koruyan bir kolaylık özelliğidir, ancak bir güvenlik sınırı olarak kabul edilmez.
 
 Bütünlük seviyeleri hakkında daha fazla bilgi için:
 
@@ -32,7 +32,7 @@ Bütünlük seviyeleri hakkında daha fazla bilgi için:
 [bütünlük-seviyeleri.md](../windows-local-privilege-escalation/integrity-levels.md)
 {% endcontent-ref %}
 
-UAC uygulandığında, bir yönetici kullanıcıya 2 jeton verilir: standart bir kullanıcı anahtarı, normal seviyede düzenli işlemler yapmak için ve yönetici ayrıcalıkları olan bir jeton.
+UAC uygulandığında, bir yönetici kullanıcıya 2 jeton verilir: standart bir kullanıcı anahtarı, normal seviyede düzenli işlemler yapmak için ve yönetici ayrıcalıkları olan bir anahtar.
 
 Bu [sayfa](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works), UAC'nin nasıl çalıştığını derinlemesine tartışmakta ve oturum açma süreci, kullanıcı deneyimi ve UAC mimarisini içermektedir. Yöneticiler, UAC'nin kendi organizasyonlarına özgü nasıl çalıştığını yerel düzeyde (secpol.msc kullanarak) veya bir Active Directory alan ortamında Grup Politika Nesneleri (GPO) aracılığıyla yapılandırıp dağıtmak için güvenlik politikalarını kullanabilirler. Çeşitli ayarlar detaylı olarak [burada](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/user-account-control-security-policy-settings) tartışılmaktadır. UAC için ayarlanabilecek 10 Grup Politika ayarı vardır. Aşağıdaki tablo ek detaylar sağlamaktadır:
 
@@ -51,11 +51,11 @@ Bu [sayfa](https://docs.microsoft.com/en-us/windows/security/identity-protection
 
 ### UAC Atlatma Teorisi
 
-Bazı programlar, **kullanıcı yönetici grubuna ait** ise **otomatik olarak yükseltilir**. Bu ikili dosyaların içinde _**Manifests**_ kısmında _**autoElevate**_ seçeneği _**True**_ değeri ile bulunur. İkili dosya ayrıca **Microsoft tarafından imzalanmış** olmalıdır.
+Bazı programlar, **kullanıcı yönetici grubuna ait** olduğunda **otomatik olarak yükseltilir**. Bu ikili dosyalar, içlerinde _**Manifests**_ _**autoElevate**_ seçeneği ile _**True**_ değerine sahiptir. İkili dosya ayrıca **Microsoft tarafından imzalanmış** olmalıdır.
 
-Sonra, **UAC'yi atlatmak** ( **orta** bütünlük seviyesinden **yüksek** seviyeye yükseltmek) için bazı saldırganlar bu tür ikili dosyaları **rastgele kod çalıştırmak** için kullanır çünkü bu, **Yüksek seviye bütünlük sürecinden** çalıştırılacaktır.
+Sonra, **UAC'yi atlatmak** (bütünlük seviyesini **orta** seviyeden **yüksek** seviyeye yükseltmek) için bazı saldırganlar bu tür ikili dosyaları **rastgele kod çalıştırmak** için kullanır çünkü bu, **Yüksek seviye bütünlük sürecinden** çalıştırılacaktır.
 
-Bir ikilinin _**Manifest**_ dosyasını _**sigcheck.exe**_ aracını kullanarak kontrol edebilirsiniz. Ve süreçlerin **bütünlük seviyesini** _Process Explorer_ veya _Process Monitor_ (Sysinternals) kullanarak **görebilirsiniz**.
+Bir ikilinin _**Manifest**_ dosyasını, Sysinternals'tan _**sigcheck.exe**_ aracını kullanarak **kontrol edebilirsiniz**. Ve süreçlerin **bütünlük seviyesini** _Process Explorer_ veya _Process Monitor_ (Sysinternals) kullanarak **görebilirsiniz**.
 
 ### UAC'yi Kontrol Et
 
@@ -66,9 +66,9 @@ REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 EnableLUA    REG_DWORD    0x1
 ```
-Eğer **`1`** ise UAC **etkin**, eğer **`0`** ise veya **mevcut değilse**, UAC **etkisiz**dir.
+Eğer **`1`** ise UAC **etkin**, eğer **`0`** ise veya **mevcut değilse**, UAC **etkin değil**.
 
-Sonra, **hangi seviye** yapılandırıldığını kontrol edin:
+Sonra, **hangi seviyenin** yapılandırıldığını kontrol edin:
 ```
 REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ /v ConsentPromptBehaviorAdmin
 
@@ -105,12 +105,12 @@ whoami /groups | findstr Level
 ## UAC atlatma
 
 {% hint style="info" %}
-Kurbanın grafik erişimine sahipseniz, UAC atlatma oldukça basittir çünkü UAC istemi göründüğünde "Evet"e tıklamanız yeterlidir.
+Kurbanın grafik erişimine sahipseniz, UAC atlatması oldukça basittir çünkü UAC istemi göründüğünde "Evet"e tıklamanız yeterlidir.
 {% endhint %}
 
-UAC atlatma, aşağıdaki durumda gereklidir: **UAC etkin, işleminiz orta bütünlük bağlamında çalışıyor ve kullanıcınız yöneticiler grubuna ait.**
+UAC atlatması aşağıdaki durumda gereklidir: **UAC etkin, işleminiz orta bütünlük bağlamında çalışıyor ve kullanıcınız yöneticiler grubuna ait.**
 
-UAC'nın **en yüksek güvenlik seviyesinde (Her Zaman) atlatmanın, diğer seviyelerden (Varsayılan) çok daha zor olduğunu** belirtmek önemlidir.
+UAC'nın **en yüksek güvenlik seviyesinde (Her Zaman) atlatılmasının, diğer seviyelerden (Varsayılan) çok daha zor olduğunu** belirtmek önemlidir.
 
 ### UAC devre dışı
 
@@ -139,7 +139,7 @@ cd C$
 #Or you could just access it:
 dir \\127.0.0.1\c$\Users\Administrator\Desktop
 ```
-### UAC atlatma ile cobalt strike
+### UAC atlatma cobalt strike ile
 
 Cobalt Strike teknikleri, UAC maksimum güvenlik seviyesinde ayarlanmamışsa yalnızca çalışacaktır.
 ```bash
@@ -161,8 +161,8 @@ Dokümantasyon ve araç [https://github.com/wh0amitz/KRBUACBypass](https://githu
 
 ### UAC bypass exploitleri
 
-[**UACME**](https://github.com/hfiref0x/UACME), birkaç UAC bypass exploitinin **derlemesi**dir. **UACME'yi visual studio veya msbuild kullanarak derlemeniz gerektiğini** unutmayın. Derleme, birkaç çalıştırılabilir dosya (örneğin `Source\Akagi\outout\x64\Debug\Akagi.exe`) oluşturacaktır, **hangi dosyaya ihtiyacınız olduğunu bilmeniz gerekecek.**\
-**Dikkatli olmalısınız** çünkü bazı bypasslar, **kullanıcıya** bir şeylerin olduğunu **bildiren** bazı diğer programları **uyarabilir**.
+[**UACME**](https://github.com/hfiref0x/UACME), birkaç UAC bypass exploitinin **derlemesi**dir. **UACME'yi visual studio veya msbuild kullanarak derlemeniz gerektiğini** unutmayın. Derleme, birkaç çalıştırılabilir dosya oluşturacaktır (örneğin `Source\Akagi\outout\x64\Debug\Akagi.exe`), **hangi dosyaya ihtiyacınız olduğunu bilmeniz gerekecek.**\
+**Dikkatli olmalısınız** çünkü bazı bypass'lar, **kullanıcıya** bir şeylerin olduğunu **bildiren** **diğer programları** **uyarabilir**.
 
 UACME, her tekniğin çalışmaya başladığı **derleme sürümünü** içerir. Sürümlerinizi etkileyen bir tekniği arayabilirsiniz:
 ```
@@ -176,7 +176,7 @@ Ayrıca, [bu](https://en.wikipedia.org/wiki/Windows\_10\_version\_history) sayfa
 
 #### Daha Fazla UAC Bypass
 
-**Burada** AUC'yi atlatmak için kullanılan **tüm** teknikler, kurbanla **tam etkileşimli bir kabuk** gerektirir (yaygın bir nc.exe kabuğu yeterli değildir).
+**Burada AUC'yi atlamak için kullanılan tüm teknikler, kurbanla birlikte **tam etkileşimli bir kabuk** gerektirir (yaygın bir nc.exe kabuğu yeterli değildir).
 
 Bir **meterpreter** oturumu kullanarak elde edebilirsiniz. **Session** değeri **1** olan bir **işleme** geçin:
 
@@ -186,13 +186,13 @@ Bir **meterpreter** oturumu kullanarak elde edebilirsiniz. **Session** değeri *
 
 ### GUI ile UAC Bypass
 
-Eğer bir **GUI'ye erişiminiz varsa, UAC istemini aldığınızda sadece kabul edebilirsiniz**, gerçekten bir bypass'a ihtiyacınız yok. Bu nedenle, bir GUI'ye erişim sağlamak UAC'yi atlatmanıza olanak tanır.
+Eğer bir **GUI'ye erişiminiz varsa, UAC istemini aldığınızda sadece kabul edebilirsiniz**, gerçekten bir bypass'a ihtiyacınız yok. Bu nedenle, bir GUI'ye erişim sağlamak UAC'yi atlamanızı sağlar.
 
-Ayrıca, birinin (potansiyel olarak RDP aracılığıyla) kullandığı bir GUI oturumu alırsanız, **yönetici olarak çalışan bazı araçlar** olacaktır; buradan örneğin **admin** olarak doğrudan bir **cmd** çalıştırabilirsiniz, böylece UAC tarafından tekrar istemde bulunulmaz, [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Bu biraz daha **gizli** olabilir.
+Ayrıca, birinin kullandığı (potansiyel olarak RDP aracılığıyla) bir GUI oturumu alırsanız, **yönetici olarak çalışan bazı araçlar** olacaktır; buradan örneğin **admin** olarak doğrudan bir **cmd** çalıştırabilirsiniz, böylece UAC tarafından tekrar istemde bulunulmaz, [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif) gibi. Bu biraz daha **gizli** olabilir.
 
 ### Gürültülü brute-force UAC bypass
 
-Eğer gürültü yapmaktan rahatsız değilseniz, her zaman **şunu çalıştırabilirsiniz**: [**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin) bu **kullanıcı kabul edene kadar izinleri yükseltmek için istek yapar**.
+Eğer gürültü yapmaktan endişe etmiyorsanız, her zaman **şunu çalıştırabilirsiniz**: [**https://github.com/Chainski/ForceAdmin**](https://github.com/Chainski/ForceAdmin) bu **kullanıcı kabul edene kadar izinleri yükseltmek için istek yapar**.
 
 ### Kendi bypass'ınız - Temel UAC bypass metodolojisi
 
@@ -200,18 +200,18 @@ Eğer gürültü yapmaktan rahatsız değilseniz, her zaman **şunu çalıştır
 
 1. **Otomatik yükseltme** yapacak bir ikili dosya bulun (çalıştırıldığında yüksek bütünlük seviyesinde çalıştığını kontrol edin).
 2. Procmon ile **DLL Hijacking**'e karşı savunmasız olabilecek "**NAME NOT FOUND**" olaylarını bulun.
-3. Muhtemelen bazı **korumalı yollar** (C:\Windows\System32 gibi) içinde yazma izinlerinizin olmadığı **DLL'yi** yazmanız gerekecek. Bunu aşmak için:
-   1. **wusa.exe**: Windows 7, 8 ve 8.1. Korumalı yollar içinde bir CAB dosyasının içeriğini çıkarmaya olanak tanır (çünkü bu araç yüksek bütünlük seviyesinden çalıştırılır).
+3. Muhtemelen bazı **korumalı yollar** (C:\Windows\System32 gibi) içinde DLL'yi **yazmanız** gerekecek, burada yazma izinleriniz yok. Bunu aşmak için:
+   1. **wusa.exe**: Windows 7, 8 ve 8.1. Korumalı yollar içinde bir CAB dosyasının içeriğini çıkarmanıza olanak tanır (çünkü bu araç yüksek bütünlük seviyesinden çalıştırılır).
    2. **IFileOperation**: Windows 10.
 4. Korumalı yola DLL'nizi kopyalamak ve savunmasız ve otomatik yükseltilmiş ikili dosyayı çalıştırmak için bir **script** hazırlayın.
 
 ### Başka bir UAC bypass tekniği
 
-Bir **autoElevated ikili dosyanın** **kayıttan** **okumaya** çalışıp çalışmadığını izlemeyi içerir; bu, **çalıştırılacak** bir **ikili dosyanın** veya **komutun** **adını/yolunu** arıyorsa daha ilginçtir (bu bilgi **HKCU** içinde aranıyorsa).
+Bir **autoElevated ikili dosyanın** **kayıttan** **okumaya** çalışıp çalışmadığını izlemeyi içerir; **çalıştırılacak** bir **ikili dosyanın** veya **komutun** **adı/yolu** (bu bilgi **HKCU** içinde aranıyorsa daha ilginçtir).
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
-[**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanarak dünyanın **en gelişmiş** topluluk araçlarıyla **iş akışlarını** kolayca oluşturun ve **otomatikleştirin**.\
+Dünyanın **en gelişmiş** topluluk araçlarıyla desteklenen **iş akışlarını** kolayca oluşturmak ve **otomatikleştirmek** için [**Trickest**](https://trickest.com/?utm\_campaign=hacktrics\&utm\_medium=banner\&utm\_source=hacktricks) kullanın.\
 Bugün Erişim Alın:
 
 {% embed url="https://trickest.com/?utm_campaign=hacktrics&utm_medium=banner&utm_source=hacktricks" %}
@@ -226,7 +226,7 @@ GCP Hacking'i öğrenin ve pratik yapın: <img src="/.gitbook/assets/grte.png" a
 
 * [**abonelik planlarını**](https://github.com/sponsors/carlospolop) kontrol edin!
 * **💬 [**Discord grubuna**](https://discord.gg/hRep4RUj7f) veya [**telegram grubuna**](https://t.me/peass) katılın ya da **Twitter**'da **bizi takip edin** 🐦 [**@hacktricks\_live**](https://twitter.com/hacktricks\_live)**.**
-* **HackTricks** ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR göndererek hacking ipuçlarını paylaşın.
+* **Hacking ipuçlarını paylaşmak için** [**HackTricks**](https://github.com/carlospolop/hacktricks) ve [**HackTricks Cloud**](https://github.com/carlospolop/hacktricks-cloud) github reposuna PR gönderin.
 
 </details>
 {% endhint %}
